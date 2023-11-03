@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', 'HomeController@index')->name('home');
+
+
 
 Route::get('/migr', function () {
 	//	Artisan::call('make:migration create_users_table');
