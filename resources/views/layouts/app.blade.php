@@ -1,19 +1,324 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-	<title>@yield('title')</title>
-	<base href="{{route('home')}}" />
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<link href="{{ asset("favicon.ico") }}" rel="shortcut icon" type="image/x-icon" />
-	<link rel="stylesheet" href="{{ asset("css/jcomments/style.css?v=12") }}" type="text/css" />
-	<script type="text/javascript" src="{{ asset("js/system/mootools.js") }}"></script>
-	<script type="text/javascript" src="{{ asset("js/system/caption.js") }}"></script>
-	<script type="text/javascript" src="{{ asset("js/jcomments/jcomments-v2.1.js?t=5") }}"></script>
-	<script type="text/javascript" src="{{ asset("js/jcomments/ajax.js?v=1") }}"></script>
-	@stack('scripts')
-	<link rel="stylesheet" href="{{ asset("css/style.css?t=4") }}" type="text/css" />
+<title>@yield('title')</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name='yandex-verification' content='4b22b31a32d44adc' />
+<link rel="Stylesheet"  href="{{ asset("css/reset.css?1") }}" type="text/css" />
+<link rel="Stylesheet"  href="{{ asset("css/style.css?5") }}" type="text/css" />
+<script type="text/javascript" src="{{ asset("js/jquery-1.9.0.min.js?1") }}"></script>
+<script async type="text/javascript" src="{{ asset("js/frame_script.js?2") }}"></script>
+{{--$pageMeta--}}
+@stack('scripts')
 </head>
 <body>
-wrewrrwrrer
+<div id="ovHtm">
+	<div id="head">
+		<a id="chuvaki" href="{$smarty.const.SITE_URL}"></a>
+		<a class="logo-face-mob" href="{$smarty.const.SITE_URL}"></a>
+		<a id="logo" href="{$smarty.const.SITE_URL}"></a>
+		<a class="logo-mob" href="{$smarty.const.SITE_URL}"><span><img class="b-lazy" data-src="{{ asset("image/logo_mob2.png") }}" src="{{ asset("image/zero.gif") }}" alt="" /></span></a>
+		<h1 class="for-pc">Сайт знакомств</h1>
+		<div class="mob-menu-icon"></div>
+		<div class="mob-menu">
+			<div class="close-menu"></div>
+			{if $userdata.session_user_id > 0 && $userdata.user_name}
+			<h3>Рабочее меню</h3>
+			<div class="mob-menu-first-block">
+				<h4>{$userdata.user_name}!</h4>
+				<ul>
+					<li class="first-item-menu"><a href="{$smarty.const.SITE_URL}index.php?mod=privmsg"><span>Мои сообщения</span> <span class="first-item-menu-num{if $userdata.user_new_message > 0} red_mark{else} green_mark{/if}">({$userdata.user_new_message})</span></a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit">Мой профиль</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=ank&id={$userdata.user_id}">Моя анкета</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit&subop=foto">Мои фото</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit&subop=dnevnik">Мой дневник</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit&subop=settings">Мои настройки</a></li>
+					<li><a class="inTop" href="{$smarty.const.SITE_URL}index.php?mod=registration&op=top100">{if $userdata.user_fotos > 0  &&  $userdata.user_top100 > 0}Поднять анкету{else}попасть в топ{/if}</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=login&op=logout&sid={$userdata.session_id}">Выход</a></li>
+				</ul>
+			</div>
+			{else}
+			<h3>Вход</h3>
+			<div class="mob-menu-first-block">
+				<form name="login" action="{$smarty.const.SITE_URL}index.php?mod=login&op=logincheck" method="post">
+					<dl>
+						<dt>Ваш логин:</dt>
+						<dd><input type="text" name="username_template" /></dd>
+					</dl>
+					<dl>
+						<dt>Пароль:</dt>
+						<dd><input type="password" name="pass_template" /></dd>
+					</dl>					
+					<p class="pad1 mob-menu-subm"><input class="bgBut2" class="submit" type="submit" value="" /></p>
+				</form>
+				<p class="mob-menu-p-name"><a class="name" href="{$smarty.const.SITE_URL}index.php?mod=forget_pass">Забыли пароль?</a></p>
+				<p class="mob-menu-p-name"><a class="name" href="{$smarty.const.SITE_URL}registration.html">Зарегистрироваться</a></p>				
+			</div>
+			{/if}
+			<div class="mob-menu-second-block">
+				<ul>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=goroskop">Гороскопы</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=names">Значение имени</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=population_search">Популярные анкеты</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=birthday_search">Дни рождения</a></li>
+					<li><a href="{$smarty.const.SITE_URL}screensavers.html">Скринсейверы</a></li>
+					<li><a href="{$smarty.const.SITE_URL}sonnik.html">Сонник</a></li>
+					{if $main_body_tpl == 'otziv.html' || $main_body_tpl == 'banner.html'}
+					 <li><a href="{$smarty.const.SITE_URL}index.php?mod=otziv">Оставить отзыв</a></li>
+					{/if}
+				</ul>
+			</div>
+		</div>
+		<div id="hBaner">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-6379140164632940";
+/* 728x90 шапка (В) */
+google_ad_slot = "8276880722";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script async type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+		</div>
+	</div>
+	<div id="center">
+		<div id="cent_cont">
+			<div id="content">
+				<div class="fLine mrg1"></div>
+				<table id="hMenu">
+					<tr>
+						<td class="fFirst"></td>
+						<td class="top-menu-main"><a href="{$smarty.const.SITE_URL}">Главная</a></td>
+						<td><a href="{$smarty.const.SITE_URL}index.php?mod=search">Поиск</a></td>
+						<td><a href="{$smarty.const.SITE_URL}index.php?mod=ankets">Анкеты</a></td>
+						<td><a href="{$smarty.const.SITE_URL}dnevniki.html">Дневники</a></td>
+						<td><a href="{$smarty.const.SITE_URL}forum/">Форум</a></td>
+						<td class="fLast"></td>
+					</tr>
+				</table>
+				<div id="cPad">
+					{include file=$main_body_tpl}
+				</div>	
+			</div>
+		</div>
+		<div id="leftcol">
+			<h2>Знакомства</h2>
+			<div class="bl">
+				<ul>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=goroskop">Гороскопы</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=names">Значение имени</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=population_search">Популярные анкеты</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=birthday_search">Дни рождения</a></li>
+					<li><a href="{$smarty.const.SITE_URL}screensavers.html">Скринсейверы</a></li>
+					<li><a href="{$smarty.const.SITE_URL}sonnik.html">Сонник</a></li>
+					{if $main_body_tpl == 'otziv.html' || $main_body_tpl == 'banner.html'}
+					 <li><a href="{$smarty.const.SITE_URL}index.php?mod=otziv">Оставить отзыв</a></li>
+					{/if}
+				</ul>	
+			</div>
+			<div class="blFoot"></div>
+			<h2>Анкеты</h2>
+			<div class="bl">
+				<table class="t_l2">
+					<tr>
+						<td>
+							<ul>
+								<li><a class="tit1" href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=men">Мужчины</a></li>
+								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=men&subop=20">до 20 лет</a></li>
+								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=men&subop=2025">20 - 25 лет</a></li>
+								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=men&subop=2535">25 - 35 лет</a></li>
+								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=men&subop=3550">35 - 50 лет</a></li>
+								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=men&subop=50">от 50 лет</a></li>
+							</ul>
+						</td>
+						<td>
+							<ul>
+								<li><a class="tit1" href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=women">Женщины</a></li>
+								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=women&subop=20">до 20 лет</a></li>
+								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=women&subop=2025">20 - 25 лет</a></li>
+								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=women&subop=2535">25 - 35 лет</a></li>
+								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=women&subop=3550">35 - 50 лет</a></li>
+								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=women&subop=50">от 50 лет</a></li>
+							</ul>
+						</td>
+					</tr>
+				</table>					
+			</div>
+			<div class="blFoot"></div>
+			<h2>Последние темы форума</h2>
+			<div class="bl">
+				<!--noindex-->
+					<ul>
+						{section name=i loop=$forumTopic}
+						<li><a href="{$smarty.const.SITE_URL}forum/topic_{$forumTopic[i].forum_id}_{$forumTopic[i].topic_id}.html" rel="nofollow">{$forumTopic[i].topic_title|truncate:28:'...':true}</a></li>
+						{/section}
+					</ul>
+				<!--/noindex-->
+			</div>
+			<div class="blFoot"></div>
+			<h3>Статистика</h3>
+			<div id="static">
+				<p>Всего женщин:<a href="{$smarty.const.SITE_URL}index.php?mod=search&op=search&find_sex=2">{$stat_anket.total_woman}</a>({$stat_anket.total_woman_percent})</p>
+				<p>Всего мужчин:<a href="{$smarty.const.SITE_URL}index.php?mod=search&op=search&find_sex=1">{$stat_anket.total_man}</a>({$stat_anket.total_man_percent})</p>
+				<p>Всего фотографий:<a href="{$smarty.const.SITE_URL}index.php?mod=search&op=search&foto=1">{$stat_anket.total_fotos}</a></p>
+			</div>
+			<div class="counter">
+<!--noindex-->
+<!--Rating@Mail.ru COUNTEr--><script language="JavaScript" type="text/javascript"><!--
+d=document;var a='';a+=';r='+escape(d.referrer)
+js=10//--></script><script language="JavaScript1.1" type="text/javascript"><!--
+a+=';j='+navigator.javaEnabled()
+js=11//--></script><script language="JavaScript1.2" type="text/javascript"><!--
+s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+js=12//--></script><script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script><script language="JavaScript" type="text/javascript"><!--
+d.write('<a href="http://top.mail.ru/jump?from=1298829"'+
+' target=_top rel=nofollow><img src="http://d1.cd.b3.a1.top.list.ru/counter'+
+'?id=1298829;t=133;js='+js+a+';rand='+Math.random()+
+'" alt="Рейтинг@Mail.ru"'+' border=0 height=40 width=88/><\/a>')
+if(11<js)d.write('<'+'!-- ')//--></script><noscript><a
+target=_top href="http://top.mail.ru/jump?from=1298829" rel="nofollow"><img
+src="http://d1.cd.b3.a1.top.list.ru/counter?js=na;id=1298829;t=133"
+border=0 height=40 width=88
+alt="Рейтинг@Mail.ru"/></a></noscript><script language="JavaScript" type="text/javascript"><!--
+if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br />
+
+{if $s_link1}
+{$s_link1}
+{/if}<br /><br />
+<script type="text/javascript"><!--
+google_ad_client = "pub-6379140164632940";
+/* Морда слева сквозняк */
+google_ad_slot = "0076736043";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+			</div>
+		</div>
+		<div id="rightcol">
+			{if $userdata.session_user_id > 0 && $userdata.user_name}
+			<h2>Рабочее меню</h2>			
+			<div class="bl AccMenu">
+				<h3>{$userdata.user_name}!</h3>
+				<ul>
+					<li><a class="name_my_mess" href="{$smarty.const.SITE_URL}index.php?mod=privmsg">Мои сообщения</a> <span {if $userdata.user_new_message > 0}class="red_mark"{else}class="green_mark"{/if}>({$userdata.user_new_message})</span></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit">Мой профиль</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=ank&id={$userdata.user_id}">Моя анкета</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit&subop=foto">Мои фото</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit&subop=dnevnik">Мой дневник</a></li>
+					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit&subop=settings">Мои настройки</a></li>
+					<li><a class="inTop" href="{$smarty.const.SITE_URL}index.php?mod=registration&op=top100">{if $userdata.user_fotos > 0  &&  $userdata.user_top100 > 0}Поднять анкету{else}попасть в топ{/if}</a></li>
+				</ul>
+				<p>Последний визит: {$userdata.user_lastvisit_format}</p>
+				<p>Просмотров за месяц: {if $userdata.user_prosm_month > 0}<a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=views" class="views_l">{$userdata.user_prosm_month}</a>{else}{$userdata.user_prosm_month}{/if}{if isset($userdata.user_prosm_month_news) && $userdata.user_prosm_month_news > 0} <span class="views_l_new"> + <a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=views">{$userdata.user_prosm_month_news}</a></span>{/if}</p>
+				<p class="logOutBut"><a href="{$smarty.const.SITE_URL}index.php?mod=login&op=logout&sid={$userdata.session_id}">Выход</a></p>
+			</div>
+			{else}
+			<h2>Вход для пользователей</h2>			
+			<div class="bl logForm">
+				<form name="login" action="{$smarty.const.SITE_URL}index.php?mod=login&op=logincheck" method="post">
+					<dl>
+						<dt>Ваш логин:</dt>
+						<dd><input type="text" name="username_template" /></dd>
+					</dl>
+					<dl>
+						<dt>Пароль:</dt>
+						<dd><input type="password" name="pass_template" /></dd>
+					</dl>					
+					<p class="pad1"><input class="bgBut2" class="submit" type="submit" value="" /></p>
+				</form>
+				<p><a class="name" style="padding-right: 20px;" href="{$smarty.const.SITE_URL}index.php?mod=forget_pass">Забыли пароль?</a></p>
+				<p><a class="name" style="padding-right: 20px;" href="{$smarty.const.SITE_URL}registration.html">Зарегистрироваться</a></p>				
+			</div>
+			{/if}
+			<div class="blFoot"></div>
+				<h2>Лучшая девушка</h2>
+				<div class="bl">
+					<h3>{$topSto.vip_ank_women_name}, {$topSto.vip_ank_women_age}</h3>
+					<!--noindex-->
+						<div class="foto">
+							<a href="{$smarty.const.SITE_URL}index.php?mod=ank&id={$topSto.women_user_id}" rel="nofollow">
+								<img alt="{$topSto.vip_ank_women_name},{$topSto.vip_ank_women_age},{$topSto.vip_ank_women_city}" class="b-lazy" data-src="{$smarty.const.SITE_URL}index.php?mod=out_image&id={$topSto.vip_ank_women_foto}&regim=1" src="{{ asset("image/zero.gif") }}" />
+							</a>
+						</div>
+						<p class="links1"><a href="{$smarty.const.SITE_URL}index.php?mod=ank&id={$topSto.women_user_id}" rel="nofollow">смотреть анкету</a></p>
+						<p class="links1"><a href="{$smarty.const.SITE_URL}index.php?mod=bestankets&op=women">лучшие девушки</a></p>
+					<!--/noindex-->
+				</div>
+				<div class="blFoot"></div>
+				<h2>Лучший парень</h2>
+				<div class="bl">
+					<h3>{$topSto.vip_ank_men_name}, {$topSto.vip_ank_men_age}</h3>
+					<!--noindex-->
+						<div class="foto">
+							<a href="{$smarty.const.SITE_URL}index.php?mod=ank&id={$topSto.men_user_id}" rel="nofollow">
+								<img alt="{$topSto.vip_ank_men_name},{$topSto.vip_ank_men_age},{$topSto.vip_ank_men_city}" class="b-lazy" data-src="{$smarty.const.SITE_URL}index.php?mod=out_image&id={$topSto.vip_ank_men_foto}&regim=1" src="{{ asset("image/zero.gif") }}" />
+							</a>
+						</div>
+						<p class="links1"><a href="{$smarty.const.SITE_URL}index.php?mod=ank&id={$topSto.men_user_id}" rel="nofollow">смотреть анкету</a></p>
+						<p class="links1"><a href="{$smarty.const.SITE_URL}index.php?mod=bestankets&op=men">лучшие парни</a></p>
+					<!--/noindex-->
+				</div>
+				<div class="blFoot"></div>
+				<div class="counter">
+{if $s_link2}
+{$s_link2}
+{/if}<br />
+{if $s_link3}
+{$s_link3}
+{/if}<br /><br />
+<!--noindex-->
+<br />
+<!--LiveInternet counter--><script type="text/javascript"><!--
+document.write("<a href='http://www.liveinternet.ru/click' "+
+"target=_blank rel=nofollow><img src='http://counter.yadro.ru/hit?t11.6;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' alt='' title='LiveInternet: показано число просмотров за 24 часа, посетителей за 24 часа и за сегодн\я' "+
+"border=0 width=88 height=31><\/a>")//--></script><!--/LiveInternet-->
+<br />
+<!--begin of Rambler's Top100 code -->
+<a href="http://top100.rambler.ru/top100/" rel="nofollow">
+
+<img src="http://counter.rambler.ru/top100.cnt?1220117" alt="" width=1 height=1 border=0></a><!--end of Top100 code--><!--begin of Top100 logo--><a href="http://top100.rambler.ru/top100/" rel="nofollow"><img src="http://top100-images.rambler.ru/top100/w9.gif" alt="Rambler's Top100" width=88 height=31 border=0></a><!--end of Top100 logo -->
+<!--/noindex--><br /><br /></div>
+		</div>
+	</div>
+	<div class="fLine"></div>
+	<div id="footer">
+		<table>
+			<tr>
+				<td class="fFirst"></td>
+				<td class="for-pc"><a href="{$smarty.const.SITE_URL}">Главная</a></td>
+				<td><a href="{$smarty.const.SITE_URL}index.php?mod=search">Поиск</a></td>
+				<td><a href="{$smarty.const.SITE_URL}index.php?mod=ankets">Анкеты</a></td>
+				<td><a href="{$smarty.const.SITE_URL}forum/">Форум</a></td>
+				<td><a href="{$smarty.const.SITE_URL}index.php?mod=map_site">Карта&nbsp;сайта</a></td>
+				<td class="map-site-link"><a href="{$smarty.const.SITE_URL}index.php?mod=banner">Контакты</a></td>
+				<td class="wth2 for-pc">{$copyright}</td>
+				<td class="fLast"></td>
+			</tr>
+		</table>
+	</div>
+	<div class="mob-copyrights">{$copyright}</div>
+{if $s_link4}
+<div class="drugi">	
+{$s_link4}
+</div>
+{/if}
+</div>
+<div id="mask"></div>
+<div id="prodblock"><div id="prodblockIn"><div class="bgFame1Cnt2"></div></div></div>
+<script defer src="{{ asset("js/metrika.js?1") }}" type="text/javascript"></script>
+<link rel="icon" type="image/x-icon" href="{{ asset("icon1.ico") }}" />
+<link rel="shortcut icon" type="image/x-icon" href="{{ asset("icon1.ico") }}" />
+<script async src="{{ asset("js/lazyload.min.js?t=3") }}" type="text/javascript"></script>
 </body>
 </html>
