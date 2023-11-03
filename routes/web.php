@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+if (!function_exists('pr')) {
+	function pr (...$ar)
+	{
+		foreach ($ar as $_ar)
+		{
+			echo '<pre>'; print_r ($_ar); echo '</pre>';
+		}
+	}
+}
