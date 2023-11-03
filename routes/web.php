@@ -14,6 +14,29 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::get('/migr', function () {
+	//	Artisan::call('make:migration create_users_table');
+	//    return "Миграция выполнена!";
+});
+	
+Route::get('/artis', function () {
+	//		Artisan::call('make:provider SapeServiceProvider');
+			//Artisan::call('make:model Hotel');
+			//return "Артисан выполнен!";
+});
+	
+Route::get('/clear', function () {
+	/*
+			Artisan::call('cache:clear');
+			Artisan::call('config:cache');
+			Artisan::call('view:clear');
+			Artisan::call('route:clear');
+			*/
+	//		return "Сброс кэша выполнен!";
+	
+});
+
+
 if (!function_exists('pr')) {
 	function pr (...$ar)
 	{
