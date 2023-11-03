@@ -14,10 +14,10 @@
 <body>
 <div id="ovHtm">
 	<div id="head">
-		<a id="chuvaki" href="{$smarty.const.SITE_URL}"></a>
-		<a class="logo-face-mob" href="{$smarty.const.SITE_URL}"></a>
-		<a id="logo" href="{$smarty.const.SITE_URL}"></a>
-		<a class="logo-mob" href="{$smarty.const.SITE_URL}"><span><img class="b-lazy" data-src="{{ asset("image/logo_mob2.png") }}" src="{{ asset("image/zero.gif") }}" alt="" /></span></a>
+		<a id="chuvaki" href="{{route('home')}}"></a>
+		<a class="logo-face-mob" href="{{route('home')}}"></a>
+		<a id="logo" href="{{route('home')}}"></a>
+		<a class="logo-mob" href="{{route('home')}}"><span><img class="b-lazy" data-src="{{ asset("image/logo_mob2.png") }}" src="{{ asset("image/zero.gif") }}" alt="" /></span></a>
 		<h1 class="for-pc">Сайт знакомств</h1>
 		<div class="mob-menu-icon"></div>
 		<div class="mob-menu">
@@ -27,14 +27,14 @@
 			<div class="mob-menu-first-block">
 				<h4>{$userdata.user_name}!</h4>
 				<ul>
-					<li class="first-item-menu"><a href="{$smarty.const.SITE_URL}index.php?mod=privmsg"><span>Мои сообщения</span> <span class="first-item-menu-num{if $userdata.user_new_message > 0} red_mark{else} green_mark{/if}">({$userdata.user_new_message})</span></a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit">Мой профиль</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=ank&id={$userdata.user_id}">Моя анкета</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit&subop=foto">Мои фото</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit&subop=dnevnik">Мой дневник</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit&subop=settings">Мои настройки</a></li>
-					<li><a class="inTop" href="{$smarty.const.SITE_URL}index.php?mod=registration&op=top100">{if $userdata.user_fotos > 0  &&  $userdata.user_top100 > 0}Поднять анкету{else}попасть в топ{/if}</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=login&op=logout&sid={$userdata.session_id}">Выход</a></li>
+					<li class="first-item-menu"><a href="{{route('privmsg')}}"><span>Мои сообщения</span> <span class="first-item-menu-num{if $userdata.user_new_message > 0} red_mark{else} green_mark{/if}">({$userdata.user_new_message})</span></a></li>
+					<li><a href="{{route('registration.edit')}}">Мой профиль</a></li>
+					<li><a href="{{route('ank.id', '11111111111')}}">Моя анкета</a></li>
+					<li><a href="{{route('registration.edit.photo')}}">Мои фото</a></li>
+					<li><a href="{{route('registration.edit.diary')}}">Мой дневник</a></li>
+					<li><a href="{{route('registration.edit.settings')}}">Мои настройки</a></li>
+					<li><a class="inTop" href="{{route('registration.top100')}}">{if $userdata.user_fotos > 0  &&  $userdata.user_top100 > 0}Поднять анкету{else}попасть в топ{/if}</a></li>
+					<li><a href="{{route('logout')}}">Выход</a></li>
 				</ul>
 			</div>
 			{else}
@@ -206,17 +206,17 @@ google_ad_height = 600;
 			<div class="bl AccMenu">
 				<h3>{$userdata.user_name}!</h3>
 				<ul>
-					<li><a class="name_my_mess" href="{$smarty.const.SITE_URL}index.php?mod=privmsg">Мои сообщения</a> <span {if $userdata.user_new_message > 0}class="red_mark"{else}class="green_mark"{/if}>({$userdata.user_new_message})</span></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit">Мой профиль</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=ank&id={$userdata.user_id}">Моя анкета</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit&subop=foto">Мои фото</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit&subop=dnevnik">Мой дневник</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=edit&subop=settings">Мои настройки</a></li>
-					<li><a class="inTop" href="{$smarty.const.SITE_URL}index.php?mod=registration&op=top100">{if $userdata.user_fotos > 0  &&  $userdata.user_top100 > 0}Поднять анкету{else}попасть в топ{/if}</a></li>
+					<li><a class="name_my_mess" href="{{route('privmsg')}}">Мои сообщения</a> <span {if $userdata.user_new_message > 0}class="red_mark"{else}class="green_mark"{/if}>({$userdata.user_new_message})</span></li>
+					<li><a href="{{route('registration.edit')}}">Мой профиль</a></li>
+					<li><a href="{{route('ank.id', '11111111111')}}">Моя анкета</a></li>
+					<li><a href="{{route('registration.edit.photo')}}">Мои фото</a></li>
+					<li><a href="{{route('registration.edit.diary')}}">Мой дневник</a></li>
+					<li><a href="{{route('registration.edit.settings')}}">Мои настройки</a></li>
+					<li><a class="inTop" href="{{route('registration.top100')}}">{if $userdata.user_fotos > 0  &&  $userdata.user_top100 > 0}Поднять анкету{else}попасть в топ{/if}</a></li>
 				</ul>
 				<p>Последний визит: {$userdata.user_lastvisit_format}</p>
-				<p>Просмотров за месяц: {if $userdata.user_prosm_month > 0}<a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=views" class="views_l">{$userdata.user_prosm_month}</a>{else}{$userdata.user_prosm_month}{/if}{if isset($userdata.user_prosm_month_news) && $userdata.user_prosm_month_news > 0} <span class="views_l_new"> + <a href="{$smarty.const.SITE_URL}index.php?mod=registration&op=views">{$userdata.user_prosm_month_news}</a></span>{/if}</p>
-				<p class="logOutBut"><a href="{$smarty.const.SITE_URL}index.php?mod=login&op=logout&sid={$userdata.session_id}">Выход</a></p>
+				<p>Просмотров за месяц: {if $userdata.user_prosm_month > 0}<a href="{{route('registration.views')}}" class="views_l">{$userdata.user_prosm_month}</a>{else}{$userdata.user_prosm_month}{/if}{if isset($userdata.user_prosm_month_news) && $userdata.user_prosm_month_news > 0} <span class="views_l_new"> + <a href="{{route('registration.views')}}">{$userdata.user_prosm_month_news}</a></span>{/if}</p>
+				<p class="logOutBut"><a href="{{route('logout')}}">Выход</a></p>
 			</div>
 			{else}
 			<h2>Вход для пользователей</h2>			

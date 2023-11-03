@@ -13,6 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('privmsg', 'NoContoller@index')->name('privmsg');
+
+Route::get('registration/edit/photo', 'NoContoller@index')->name('registration.edit.photo');
+Route::get('registration/edit/diary', 'NoContoller@index')->name('registration.edit.diary');
+Route::get('registration/edit/settings', 'NoContoller@index')->name('registration.edit.settings');
+Route::get('registration/top100', 'NoContoller@index')->name('registration.top100');
+Route::get('registration/edit', 'NoContoller@index')->name('registration.edit');
+Route::get('registration/views', 'NoContoller@index')->name('registration.views');
+
+Route::get('ank/{id}', 'NoContoller@index')->whereNumber('id')->name('ank.id');
+
+Route::get('logout', 'NoContoller@index')->name('logout');
+
 Route::get('/', 'HomeController@index')->name('home');
 
 
