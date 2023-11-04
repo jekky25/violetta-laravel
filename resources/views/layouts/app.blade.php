@@ -40,7 +40,7 @@
 			{else}
 			<h3>Вход</h3>
 			<div class="mob-menu-first-block">
-				<form name="login" action="{$smarty.const.SITE_URL}index.php?mod=login&op=logincheck" method="post">
+				<form name="login" action="{{route('login')}}" method="post">
 					<dl>
 						<dt>Ваш логин:</dt>
 						<dd><input type="text" name="username_template" /></dd>
@@ -51,20 +51,20 @@
 					</dl>					
 					<p class="pad1 mob-menu-subm"><input class="bgBut2" class="submit" type="submit" value="" /></p>
 				</form>
-				<p class="mob-menu-p-name"><a class="name" href="{$smarty.const.SITE_URL}index.php?mod=forget_pass">Забыли пароль?</a></p>
-				<p class="mob-menu-p-name"><a class="name" href="{$smarty.const.SITE_URL}registration.html">Зарегистрироваться</a></p>				
+				<p class="mob-menu-p-name"><a class="name" href="{{route('forget_pass')}}">Забыли пароль?</a></p>
+				<p class="mob-menu-p-name"><a class="name" href="{{route('registration')}}">Зарегистрироваться</a></p>				
 			</div>
 			{/if}
 			<div class="mob-menu-second-block">
 				<ul>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=goroskop">Гороскопы</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=names">Значение имени</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=population_search">Популярные анкеты</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=birthday_search">Дни рождения</a></li>
-					<li><a href="{$smarty.const.SITE_URL}screensavers.html">Скринсейверы</a></li>
-					<li><a href="{$smarty.const.SITE_URL}sonnik.html">Сонник</a></li>
+					<li><a href="{{route('goroskop')}}">Гороскопы</a></li>
+					<li><a href="{{route('names')}}">Значение имени</a></li>
+					<li><a href="{{route('population_search')}}">Популярные анкеты</a></li>
+					<li><a href="{{route('birthday_search')}}">Дни рождения</a></li>
+					<li><a href="{{route('screensavers')}}">Скринсейверы</a></li>
+					<li><a href="{{route('dreambook')}}">Сонник</a></li>
 					{if $main_body_tpl == 'otziv.html' || $main_body_tpl == 'banner.html'}
-					 <li><a href="{$smarty.const.SITE_URL}index.php?mod=otziv">Оставить отзыв</a></li>
+					 <li><a href="{{route('review')}}">Оставить отзыв</a></li>
 					{/if}
 				</ul>
 			</div>
@@ -106,14 +106,14 @@ google_ad_height = 90;
 			<h2>Знакомства</h2>
 			<div class="bl">
 				<ul>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=goroskop">Гороскопы</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=names">Значение имени</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=population_search">Популярные анкеты</a></li>
-					<li><a href="{$smarty.const.SITE_URL}index.php?mod=birthday_search">Дни рождения</a></li>
-					<li><a href="{$smarty.const.SITE_URL}screensavers.html">Скринсейверы</a></li>
-					<li><a href="{$smarty.const.SITE_URL}sonnik.html">Сонник</a></li>
+					<li><a href="{{route('goroskop')}}">Гороскопы</a></li>
+					<li><a href="{{route('names')}}">Значение имени</a></li>
+					<li><a href="{{route('population_search')}}">Популярные анкеты</a></li>
+					<li><a href="{{route('birthday_search')}}">Дни рождения</a></li>
+					<li><a href="{{route('screensavers')}}">Скринсейверы</a></li>
+					<li><a href="{{route('dreambook')}}">Сонник</a></li>
 					{if $main_body_tpl == 'otziv.html' || $main_body_tpl == 'banner.html'}
-					 <li><a href="{$smarty.const.SITE_URL}index.php?mod=otziv">Оставить отзыв</a></li>
+					 <li><a href="{{route('review')}}">Оставить отзыв</a></li>
 					{/if}
 				</ul>	
 			</div>
@@ -221,7 +221,7 @@ google_ad_height = 600;
 			{else}
 			<h2>Вход для пользователей</h2>			
 			<div class="bl logForm">
-				<form name="login" action="{$smarty.const.SITE_URL}index.php?mod=login&op=logincheck" method="post">
+				<form name="login" action="{{route('login')}}" method="post">
 					<dl>
 						<dt>Ваш логин:</dt>
 						<dd><input type="text" name="username_template" /></dd>
@@ -232,8 +232,8 @@ google_ad_height = 600;
 					</dl>					
 					<p class="pad1"><input class="bgBut2" class="submit" type="submit" value="" /></p>
 				</form>
-				<p><a class="name" style="padding-right: 20px;" href="{$smarty.const.SITE_URL}index.php?mod=forget_pass">Забыли пароль?</a></p>
-				<p><a class="name" style="padding-right: 20px;" href="{$smarty.const.SITE_URL}registration.html">Зарегистрироваться</a></p>				
+				<p><a class="name" style="padding-right: 20px;" href="{{route('forget_pass')}}">Забыли пароль?</a></p>
+				<p><a class="name" style="padding-right: 20px;" href="{{route('registration')}}">Зарегистрироваться</a></p>				
 			</div>
 			{/if}
 			<div class="blFoot"></div>

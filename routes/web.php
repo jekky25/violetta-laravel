@@ -21,10 +21,25 @@ Route::get('registration/edit/settings', 'NoContoller@index')->name('registratio
 Route::get('registration/top100', 'NoContoller@index')->name('registration.top100');
 Route::get('registration/edit', 'NoContoller@index')->name('registration.edit');
 Route::get('registration/views', 'NoContoller@index')->name('registration.views');
+Route::get('registration', 'NoContoller@index')->name('registration');
 
 Route::get('ank/{id}', 'NoContoller@index')->whereNumber('id')->name('ank.id');
 
+Route::get('goroskop', 'NoContoller@index')->name('goroskop');
+Route::get('names', 'NoContoller@index')->name('names');
+
+Route::get('population_search', 'NoContoller@index')->name('population_search');
+Route::get('birthday_search', 'NoContoller@index')->name('birthday_search');
+
+Route::get('screensavers.html', 'NoContoller@index')->name('screensavers');
+Route::get('dreambook.html', 'NoContoller@index')->name('dreambook');
+Route::get('review', 'NoContoller@index')->name('review');
+
+
+
 Route::get('logout', 'NoContoller@index')->name('logout');
+Route::get('login', 'NoContoller@index')->name('login');
+Route::get('forget_pass', 'NoContoller@index')->name('forget_pass');
 
 Route::get('/', 'HomeController@index')->name('home');
 
