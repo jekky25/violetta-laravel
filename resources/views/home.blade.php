@@ -10,7 +10,7 @@
 				Мы не являемся клоном другого сайта знакомств, мы уникальны!<br /><br />
 				На нашем сайте Вы можете за 5 минут зарегистрировать свою анкету абсолютно бесплатно и общаться,
 				общаться и еще раз общаться, находить новых друзей и заводить самые интригующие в Вашей жизни знакомства.
-				Или (если конечно Вы захотите) посетите наш <a href="{$smarty.const.SITE_URL}forum/">форум</a> и получите на нем ответы на интересующие Вас вопросы.</p>
+				Или (если конечно Вы захотите) посетите наш <a href="{{ asset('forum/') }}">форум</a> и получите на нем ответы на интересующие Вас вопросы.</p>
 			</td>
 			<td>
 				<h3>Быстрый поиск</h3>
@@ -30,15 +30,19 @@
 						<div>в возрасте от&nbsp; 
 							<select name="age_min">
 								<option value="15">не важно&nbsp;</option>
-								{section loop=$find_age name=i}
-								<option value="{$find_age[i]}">{$find_age[i]}</option>
-								{/section}
+								@if (!empty($ages))
+								@foreach ($ages as $item)
+								<option value="{{ $item }}">{{ $item }}</option>
+								@endforeach
+								@endif
 							</select> до 
 							<select name="age_max">
 								<option value="15">не важно&nbsp;</option>
-								{section loop=$find_age name=i}
-								<option value="{$find_age[i]}">{$find_age[i]}</option>
-								{/section}
+								@if (!empty($ages))
+								@foreach ($ages as $item)
+								<option value="{{ $item }}">{{ $item }}</option>
+								@endforeach
+								@endif
 							</select>
 						</div>
 						<div>страна</div>
@@ -46,9 +50,11 @@
 							<select name="country" id="country" onchange="updateSelect('region', this.value, 'reg');">
 								<option value="0">не важно&nbsp;</option>
 								<option value="141">Россия</option>
-								{section loop=$countries name=i}
-								<option value="{$countries[i].id}">{$countries[i].name}</option>
-								{/section}
+								@if (!empty($countries))
+								@foreach ($countries as $item)
+								<option value="{{ $item->id }}">{{ $item->name }}</option>
+								@endforeach
+								@endif
 							</select>
 						</div>
 						<div>регион</div>
@@ -67,7 +73,9 @@
 							<input type="submit" name="sent" id="otsil" class="bgBut3" value="" />
 						</div>
 					</form>
-					<script async type="text/javascript" src="{$smarty.const.SITE_URL}js/functions_search.js"></script>
+@push('scripts')
+<script type="text/javascript" src="{{ asset('js/functions_search.js') }}"></script>
+@endpush
 				</td>
 			</tr>
 		</table>

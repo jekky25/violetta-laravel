@@ -4,10 +4,10 @@
 <title>@yield('title')</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name='yandex-verification' content='4b22b31a32d44adc' />
-<link rel="Stylesheet"  href="{{ asset("css/reset.css?1") }}" type="text/css" />
-<link rel="Stylesheet"  href="{{ asset("css/style.css?5") }}" type="text/css" />
-<script type="text/javascript" src="{{ asset("js/jquery-1.9.0.min.js?1") }}"></script>
-<script async type="text/javascript" src="{{ asset("js/frame_script.js?2") }}"></script>
+<link rel="Stylesheet"  href="{{ asset('css/reset.css?1') }}" type="text/css" />
+<link rel="Stylesheet"  href="{{ asset('css/style.css?5') }}" type="text/css" />
+<script type="text/javascript" src="{{ asset('js/jquery-1.9.0.min.js?1') }}"></script>
+<script async type="text/javascript" src="{{ asset('js/frame_script.js?2') }}"></script>
 {{--$pageMeta--}}
 @stack('scripts')
 </head>
@@ -17,7 +17,7 @@
 		<a id="chuvaki" href="{{route('home')}}"></a>
 		<a class="logo-face-mob" href="{{route('home')}}"></a>
 		<a id="logo" href="{{route('home')}}"></a>
-		<a class="logo-mob" href="{{route('home')}}"><span><img class="b-lazy" data-src="{{ asset("image/logo_mob2.png") }}" src="{{ asset("image/zero.gif") }}" alt="" /></span></a>
+		<a class="logo-mob" href="{{route('home')}}"><span><img class="b-lazy" data-src="{{ asset('image/logo_mob2.png') }}" src="{{ asset('image/zero.gif') }}" alt="" /></span></a>
 		<h1 class="for-pc">Сайт знакомств</h1>
 		<div class="mob-menu-icon"></div>
 		<div class="mob-menu">
@@ -93,7 +93,7 @@ google_ad_height = 90;
 						<td><a href="{{route('search')}}">Поиск</a></td>
 						<td><a href="{{route('ankets')}}">Анкеты</a></td>
 						<td><a href="{{route('diaries')}}">Дневники</a></td>
-						<td><a href="{{ asset("forum/") }}">Форум</a></td>
+						<td><a href="{{ asset('forum/') }}">Форум</a></td>
 						<td class="fLast"></td>
 					</tr>
 				</table>
