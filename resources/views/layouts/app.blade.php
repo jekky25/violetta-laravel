@@ -98,7 +98,7 @@ google_ad_height = 90;
 					</tr>
 				</table>
 				<div id="cPad">
-					{include file=$main_body_tpl}
+					@yield('main_body')
 				</div>	
 			</div>
 		</div>

@@ -1,7 +1,143 @@
 @extends('layouts.app')
 @section('title', '$title')
 @section('main_body')
+<h1 class="mTit">Бесплатные знакомства с девушками и парнями на сайте знакомств Виолетта</h1>
+	<table id="mDescr">
+		<tr>
+			<td>
+				<p>Добро пожаловать на наш <strong>сайт бесплатных знакомств</strong>.
+				<br /><br />Это молодой, но динамично развивающийся ресурс интернета. Каждый день мы работаем над тем, чтобы Вам было удобнее <strong>общаться и находить новых друзей</strong>.<br /><br />
+				Мы не являемся клоном другого сайта знакомств, мы уникальны!<br /><br />
+				На нашем сайте Вы можете за 5 минут зарегистрировать свою анкету абсолютно бесплатно и общаться,
+				общаться и еще раз общаться, находить новых друзей и заводить самые интригующие в Вашей жизни знакомства.
+				Или (если конечно Вы захотите) посетите наш <a href="{$smarty.const.SITE_URL}forum/">форум</a> и получите на нем ответы на интересующие Вас вопросы.</p>
+			</td>
+			<td>
+				<h3>Быстрый поиск</h3>
+					<form name="anketa" action="{{route('search')}}" method="get" class="formSearch">
+						<input type="hidden" name="mod" value="search" />
+						<input type="hidden" name="op" value="search" />
+						<div>Я ищу&nbsp; 
+							<select name="find_sex">
+								<option value="0" selected="selected">не важно&nbsp;</option>
+								<option value="1">мужчину</option>
+								<option value="2">женщину</option>
+							</select>
+						</div>
+						<div>
+							<input type="checkbox" name="foto" />&nbsp;&nbsp;только с фото
+						</div>
+						<div>в возрасте от&nbsp; 
+							<select name="age_min">
+								<option value="15">не важно&nbsp;</option>
+								{section loop=$find_age name=i}
+								<option value="{$find_age[i]}">{$find_age[i]}</option>
+								{/section}
+							</select> до 
+							<select name="age_max">
+								<option value="15">не важно&nbsp;</option>
+								{section loop=$find_age name=i}
+								<option value="{$find_age[i]}">{$find_age[i]}</option>
+								{/section}
+							</select>
+						</div>
+						<div>страна</div>
+						<div>
+							<select name="country" id="country" onchange="updateSelect('region', this.value, 'reg');">
+								<option value="0">не важно&nbsp;</option>
+								<option value="141">Россия</option>
+								{section loop=$countries name=i}
+								<option value="{$countries[i].id}">{$countries[i].name}</option>
+								{/section}
+							</select>
+						</div>
+						<div>регион</div>
+						<div>
+							<select name="region" id="region" onchange="updateSelect('city', this.value, 'cities');" >
+								<option value="0">не важно</option>
+							</select>
+						</div>
+						<div>город</div>
+						<div>
+							<select id="city" name="city">
+								<option value="0">не важно</option>
+							</select>
+						</div>
+						<div>
+							<input type="submit" name="sent" id="otsil" class="bgBut3" value="" />
+						</div>
+					</form>
+					<script async type="text/javascript" src="{$smarty.const.SITE_URL}js/functions_search.js"></script>
+				</td>
+			</tr>
+		</table>
+		<div id="mDnev">
+			<div class="mDnevTr">
+				<div class="wth1 mDnevTd">
+					<h3 class="for-pc">Новые лица на сайте знакомств</h3>		
+					{if $new_faces}
+						{section loop=$new_faces name=j}
+						<dl{if $smarty.section.j.index >= 4} class="for-pc"{/if}>
+							<dt>
+								<!--noindex-->
+								<a href="{{route('ank.id', '11111111111')}}" rel="nofollow">
+{*
+									<img alt="{$new_faces[j].user_name},{$new_faces[j].user_age}{$new_faces[j].user_age_type},{$new_faces[j].city}"  data-src="{$smarty.const.SITE_URL}index.php?mod=out_image&amp;id={$new_faces[j].fotos_id}&amp;regim=0" src="{$smarty.const.SITE_URL}templates/image/zero.gif" />
+*}
+									<img class="b-lazy" alt="{$new_faces[j].user_name},{$new_faces[j].user_age}{$new_faces[j].user_age_type},{$new_faces[j].city}"  data-src="{$smarty.const.SITE_URL}index.php?mod=out_image&amp;id={$new_faces[j].fotos_id}&amp;regim=0" src="{$smarty.const.SITE_TEMPL_BASE}templates/image/zero.gif" />
 
-fdgggfddggg
+
+
+								</a>
+								<!--/noindex-->
+							</dt>
+							<dd>
+							<p><!--noindex-->{if $new_faces[j].user_reg_is}<img title="на сайте" class="online" alt="на сайте" src="{$smarty.const.SITE_URL}templates/image/on_line.gif" />{/if}<a href="{$smarty.const.SITE_URL}index.php?mod=ank&amp;id={$new_faces[j].user_id}" {if $new_faces[j].user_sex == $smarty.const.MEN}class="name_man"{else}class="name_woman"{/if} rel="nofollow">{$new_faces[j].user_name}</a><!--/noindex-->
+							{if $new_faces[j].user_sex == $smarty.const.MEN}<img class="b-lazy" alt="Мужчина" data-src="{$smarty.const.SITE_URL}templates/image/sex_men.jpg" src="{$smarty.const.SITE_TEMPL_BASE}templates/image/zero.gif" />{else}<img class="b-lazy" alt="Женщина" data-src="{$smarty.const.SITE_URL}templates/image/sex_women.jpg" src="{$smarty.const.SITE_TEMPL_BASE}templates/image/zero.gif" />{/if}
+							<span>({$new_faces[j].user_fotos} фото)</span></p>
+								<p><span class="st1">{$new_faces[j].user_age} {$new_faces[j].user_age_type}</span>, {$new_faces[j].city}</p>
+								<p><span class="st1">Ищу:</span> {$new_faces[j].find_sex_orient}</p>
+							</dd>
+						</dl>
+						{/section}
+								{/if}
+							</div>
+
+							<div class="wth1 mDnevTd">
+								<div class="counter3 for-pc">
+									<script type="text/javascript"><!--
+google_ad_client = "pub-6379140164632940";
+/* 200x200, создано 26.12.08 */
+google_ad_slot = "0480668500";
+google_ad_width = 200;
+google_ad_height = 200;
+//-->
+</script>
+<script async type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+								</div>
+								<h3>Последние записи в дневниках</h3>
+								{section loop=$dnevniki name=j}
+								<div class="dnevnik">
+									<h4 class="{$dnevniki[j].name_class}">
+										<a href="{$smarty.const.SITE_URL}index.php?mod=ank&amp;id={$dnevniki[j].user_id}">{$dnevniki[j].user_name}</a>
+										<p>{$dnevniki[j].dnevniki_time}</p>
+									</h4>
+									<h3>
+										<a href="{$smarty.const.SITE_URL}ank/dnevnik_{$dnevniki[j].user_id}.html" class="{$dnevniki[j].name_class}">{$dnevniki[j].dnevniki_title}</a>
+									</h3>
+									{if $dnevniki[j].dnevnik_foto}
+									<div class="dnevPict">
+										<a href="{$smarty.const.SITE_URL}ank/dnevnik_{$dnevniki[j].user_id}.html"><img class="b-lazy" data-src="{$smarty.const.SITE_URL}index.php?mod=out_image_dnevnik&amp;id={$dnevniki[j].dnevnik_foto}&amp;regim=0" src="{$smarty.const.SITE_TEMPL_BASE}templates/image/zero.gif" alt="" /></a>
+									</div>
+									{/if}
+									<p class="dnevText">{$dnevniki[j].dnevniki_text|truncate:300:'...':true}</p>
+								</div>
+								<a class="comLink" href="{$smarty.const.SITE_URL}ank/dnev_komment_{$dnevniki[j].dnevniki_id}.html">комментарии ({$dnevniki[j].count_comments})</a>
+								{/section}
+								<a class="comLink left1 all-dnev-link" href="{$smarty.const.SITE_URL}dnevniki.html">все дневники >></a>
+							</div>
+						</div>
+					</div>
 
 @overwrite
