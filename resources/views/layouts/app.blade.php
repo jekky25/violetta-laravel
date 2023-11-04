@@ -159,9 +159,9 @@ google_ad_height = 90;
 			<div class="blFoot"></div>
 			<h3>Статистика</h3>
 			<div id="static">
-				<p>Всего женщин:<a href="{$smarty.const.SITE_URL}index.php?mod=search&op=search&find_sex=2">{$stat_anket.total_woman}</a>({$stat_anket.total_woman_percent})</p>
-				<p>Всего мужчин:<a href="{$smarty.const.SITE_URL}index.php?mod=search&op=search&find_sex=1">{$stat_anket.total_man}</a>({$stat_anket.total_man_percent})</p>
-				<p>Всего фотографий:<a href="{$smarty.const.SITE_URL}index.php?mod=search&op=search&foto=1">{$stat_anket.total_fotos}</a></p>
+				<p>Всего женщин:<a href="{{route('search', ['find_sex' => 2])}}">{$stat_anket.total_woman}</a>({$stat_anket.total_woman_percent})</p>
+				<p>Всего мужчин:<a href="{{route('search', ['find_sex' => 1])}}">{$stat_anket.total_man}</a>({$stat_anket.total_man_percent})</p>
+				<p>Всего фотографий:<a href="{{route('search', ['photo' => 1])}}">{$stat_anket.total_fotos}</a></p>
 			</div>
 			<div class="counter">
 <!--noindex-->
@@ -242,12 +242,12 @@ google_ad_height = 600;
 					<h3>{$topSto.vip_ank_women_name}, {$topSto.vip_ank_women_age}</h3>
 					<!--noindex-->
 						<div class="foto">
-							<a href="{$smarty.const.SITE_URL}index.php?mod=ank&id={$topSto.women_user_id}" rel="nofollow">
+							<a href="{{route('ank.id', '11111111111')}}" rel="nofollow">
 								<img alt="{$topSto.vip_ank_women_name},{$topSto.vip_ank_women_age},{$topSto.vip_ank_women_city}" class="b-lazy" data-src="{$smarty.const.SITE_URL}index.php?mod=out_image&id={$topSto.vip_ank_women_foto}&regim=1" src="{{ asset("image/zero.gif") }}" />
 							</a>
 						</div>
-						<p class="links1"><a href="{$smarty.const.SITE_URL}index.php?mod=ank&id={$topSto.women_user_id}" rel="nofollow">смотреть анкету</a></p>
-						<p class="links1"><a href="{$smarty.const.SITE_URL}index.php?mod=bestankets&op=women">лучшие девушки</a></p>
+						<p class="links1"><a href="{{route('ank.id', '11111111111')}}" rel="nofollow">смотреть анкету</a></p>
+						<p class="links1"><a href="{{route('bestankets.sex', 'women')}}">лучшие девушки</a></p>
 					<!--/noindex-->
 				</div>
 				<div class="blFoot"></div>
@@ -256,12 +256,12 @@ google_ad_height = 600;
 					<h3>{$topSto.vip_ank_men_name}, {$topSto.vip_ank_men_age}</h3>
 					<!--noindex-->
 						<div class="foto">
-							<a href="{$smarty.const.SITE_URL}index.php?mod=ank&id={$topSto.men_user_id}" rel="nofollow">
+							<a href="{{route('ank.id', '11111111111')}}" rel="nofollow">
 								<img alt="{$topSto.vip_ank_men_name},{$topSto.vip_ank_men_age},{$topSto.vip_ank_men_city}" class="b-lazy" data-src="{$smarty.const.SITE_URL}index.php?mod=out_image&id={$topSto.vip_ank_men_foto}&regim=1" src="{{ asset("image/zero.gif") }}" />
 							</a>
 						</div>
-						<p class="links1"><a href="{$smarty.const.SITE_URL}index.php?mod=ank&id={$topSto.men_user_id}" rel="nofollow">смотреть анкету</a></p>
-						<p class="links1"><a href="{$smarty.const.SITE_URL}index.php?mod=bestankets&op=men">лучшие парни</a></p>
+						<p class="links1"><a href="{{route('ank.id', '11111111111')}}" rel="nofollow">смотреть анкету</a></p>
+						<p class="links1"><a href="{{route('bestankets.sex', 'men')}}">лучшие парни</a></p>
 					<!--/noindex-->
 				</div>
 				<div class="blFoot"></div>
@@ -282,12 +282,12 @@ escape(document.referrer)+((typeof(screen)=="undefined")?"":
 screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 ";"+Math.random()+
 "' alt='' title='LiveInternet: показано число просмотров за 24 часа, посетителей за 24 часа и за сегодн\я' "+
-"border=0 width=88 height=31><\/a>")//--></script><!--/LiveInternet-->
+"border='0' width='88' height='31'><\/a>")//--></script><!--/LiveInternet-->
 <br />
 <!--begin of Rambler's Top100 code -->
 <a href="http://top100.rambler.ru/top100/" rel="nofollow">
 
-<img src="http://counter.rambler.ru/top100.cnt?1220117" alt="" width=1 height=1 border=0></a><!--end of Top100 code--><!--begin of Top100 logo--><a href="http://top100.rambler.ru/top100/" rel="nofollow"><img src="http://top100-images.rambler.ru/top100/w9.gif" alt="Rambler's Top100" width=88 height=31 border=0></a><!--end of Top100 logo -->
+<img src="http://counter.rambler.ru/top100.cnt?1220117" alt="" width="1" height="1" border="0"></a><!--end of Top100 code--><!--begin of Top100 logo--><a href="http://top100.rambler.ru/top100/" rel="nofollow"><img src="http://top100-images.rambler.ru/top100/w9.gif" alt="Rambler's Top100" width=88 height=31 border=0></a><!--end of Top100 logo -->
 <!--/noindex--><br /><br /></div>
 		</div>
 	</div>
@@ -296,12 +296,12 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 		<table>
 			<tr>
 				<td class="fFirst"></td>
-				<td class="for-pc"><a href="{$smarty.const.SITE_URL}">Главная</a></td>
-				<td><a href="{$smarty.const.SITE_URL}index.php?mod=search">Поиск</a></td>
-				<td><a href="{$smarty.const.SITE_URL}index.php?mod=ankets">Анкеты</a></td>
-				<td><a href="{$smarty.const.SITE_URL}forum/">Форум</a></td>
-				<td><a href="{$smarty.const.SITE_URL}index.php?mod=map_site">Карта&nbsp;сайта</a></td>
-				<td class="map-site-link"><a href="{$smarty.const.SITE_URL}index.php?mod=banner">Контакты</a></td>
+				<td class="for-pc"><a href="{{route('home')}}">Главная</a></td>
+				<td><a href="{{route('search')}}">Поиск</a></td>
+				<td><a href="{{route('ankets')}}">Анкеты</a></td>
+				<td><a href="{{ asset('forum/') }}">Форум</a></td>
+				<td><a href="{{route('sitemap')}}">Карта&nbsp;сайта</a></td>
+				<td class="map-site-link"><a href="{{route('contacts')}}">Контакты</a></td>
 				<td class="wth2 for-pc">{$copyright}</td>
 				<td class="fLast"></td>
 			</tr>

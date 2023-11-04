@@ -30,6 +30,8 @@ Route::get('ankets/{sex}/{age}', 'NoContoller@index')->where('sex', '(men|women)
 Route::get('ankets/{sex}', 'NoContoller@index')->where('sex', '(men|women)')->name('ankets.sex');
 Route::get('ankets', 'NoContoller@index')->name('ankets');
 
+Route::get('bestankets/{sex}', 'NoContoller@index')->where('sex', '(men|women)')->name('bestankets.sex');
+
 Route::get('goroskop', 'NoContoller@index')->name('goroskop');
 Route::get('names', 'NoContoller@index')->name('names');
 
@@ -48,6 +50,8 @@ Route::get('search', 'NoContoller@index')->name('search');
 Route::get('logout', 'NoContoller@index')->name('logout');
 Route::get('login', 'NoContoller@index')->name('login');
 Route::get('forget_pass', 'NoContoller@index')->name('forget_pass');
+Route::get('sitemap', 'NoContoller@index')->name('sitemap');
+Route::get('contacts', 'NoContoller@index')->name('contacts');
 
 Route::get('/', 'HomeController@index')->name('home');
 
