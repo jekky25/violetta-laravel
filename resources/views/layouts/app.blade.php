@@ -89,11 +89,11 @@ google_ad_height = 90;
 				<table id="hMenu">
 					<tr>
 						<td class="fFirst"></td>
-						<td class="top-menu-main"><a href="{$smarty.const.SITE_URL}">Главная</a></td>
-						<td><a href="{$smarty.const.SITE_URL}index.php?mod=search">Поиск</a></td>
-						<td><a href="{$smarty.const.SITE_URL}index.php?mod=ankets">Анкеты</a></td>
-						<td><a href="{$smarty.const.SITE_URL}dnevniki.html">Дневники</a></td>
-						<td><a href="{$smarty.const.SITE_URL}forum/">Форум</a></td>
+						<td class="top-menu-main"><a href="{{route('home')}}">Главная</a></td>
+						<td><a href="{{route('search')}}">Поиск</a></td>
+						<td><a href="{{route('ankets')}}">Анкеты</a></td>
+						<td><a href="{{route('diaries')}}">Дневники</a></td>
+						<td><a href="{{ asset("forum/") }}">Форум</a></td>
 						<td class="fLast"></td>
 					</tr>
 				</table>
@@ -124,22 +124,22 @@ google_ad_height = 90;
 					<tr>
 						<td>
 							<ul>
-								<li><a class="tit1" href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=men">Мужчины</a></li>
-								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=men&subop=20">до 20 лет</a></li>
-								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=men&subop=2025">20 - 25 лет</a></li>
-								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=men&subop=2535">25 - 35 лет</a></li>
-								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=men&subop=3550">35 - 50 лет</a></li>
-								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=men&subop=50">от 50 лет</a></li>
+								<li><a class="tit1" href="{{route('ankets.sex', 'men')}}">Мужчины</a></li>
+								<li><a href="{{route('ankets.sex.age', ['men',20])}}">до 20 лет</a></li>
+								<li><a href="{{route('ankets.sex.age', ['men',2025])}}">20 - 25 лет</a></li>
+								<li><a href="{{route('ankets.sex.age', ['men',2535])}}">25 - 35 лет</a></li>
+								<li><a href="{{route('ankets.sex.age', ['men',3550])}}">35 - 50 лет</a></li>
+								<li><a href="{{route('ankets.sex.age', ['men',50])}}">от 50 лет</a></li>
 							</ul>
 						</td>
 						<td>
 							<ul>
-								<li><a class="tit1" href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=women">Женщины</a></li>
-								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=women&subop=20">до 20 лет</a></li>
-								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=women&subop=2025">20 - 25 лет</a></li>
-								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=women&subop=2535">25 - 35 лет</a></li>
-								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=women&subop=3550">35 - 50 лет</a></li>
-								<li><a href="{$smarty.const.SITE_URL}index.php?mod=ankets&op=women&subop=50">от 50 лет</a></li>
+								<li><a class="tit1" href="{{route('ankets.sex', 'women')}}">Женщины</a></li>
+								<li><a href="{{route('ankets.sex.age', ['women',20])}}">до 20 лет</a></li>
+								<li><a href="{{route('ankets.sex.age', ['women',2025])}}">20 - 25 лет</a></li>
+								<li><a href="{{route('ankets.sex.age', ['women',2535])}}">25 - 35 лет</a></li>
+								<li><a href="{{route('ankets.sex.age', ['women',3550])}}">35 - 50 лет</a></li>
+								<li><a href="{{route('ankets.sex.age', ['women',50])}}">от 50 лет</a></li>
 							</ul>
 						</td>
 					</tr>

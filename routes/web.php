@@ -24,6 +24,11 @@ Route::get('registration/views', 'NoContoller@index')->name('registration.views'
 Route::get('registration', 'NoContoller@index')->name('registration');
 
 Route::get('ank/{id}', 'NoContoller@index')->whereNumber('id')->name('ank.id');
+Route::get('ankets/{sex}/{age}', 'NoContoller@index')->where('sex', '(men|women)')
+                                                     ->where('age', '(20|2025|2535|3550|50)')
+                                                     ->name('ankets.sex.age');
+Route::get('ankets/{sex}', 'NoContoller@index')->where('sex', '(men|women)')->name('ankets.sex');
+Route::get('ankets', 'NoContoller@index')->name('ankets');
 
 Route::get('goroskop', 'NoContoller@index')->name('goroskop');
 Route::get('names', 'NoContoller@index')->name('names');
@@ -33,7 +38,10 @@ Route::get('birthday_search', 'NoContoller@index')->name('birthday_search');
 
 Route::get('screensavers.html', 'NoContoller@index')->name('screensavers');
 Route::get('dreambook.html', 'NoContoller@index')->name('dreambook');
+Route::get('diaries.html', 'NoContoller@index')->name('diaries');
 Route::get('review', 'NoContoller@index')->name('review');
+
+Route::get('search', 'NoContoller@index')->name('search');
 
 
 
