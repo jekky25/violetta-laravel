@@ -16,6 +16,8 @@ use App\Models\User;
 
 class HomeController extends Controller
 {
+	public 	$countNewFaces 	= 5;
+
     /**
      * Create a new controller instance.
      *
@@ -36,7 +38,7 @@ class HomeController extends Controller
 
 		$ages 		= Helper::getAges();
 		$countries 	= Country::getAll();
-		$newFaces 	= User::newFaces();
+		$newFaces 	= User::newFaces($this->countNewFaces);
 
 		return response()->view ('home', 
 		[
