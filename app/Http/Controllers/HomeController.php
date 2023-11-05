@@ -43,8 +43,8 @@ class HomeController extends Controller
 		return response()->view ('home', 
 		[
 			'ages'		=> $ages,
-			'countries' => $countries
-
+			'countries' => $countries,
+			'newFaces' 	=> $newFaces,
 		]);
 	}
 }

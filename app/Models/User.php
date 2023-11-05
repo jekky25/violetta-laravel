@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 
+use App\Helpers\Helper;
 use App\Models\Photo;
 
 class User extends Authenticatable
@@ -63,7 +64,45 @@ class User extends Authenticatable
         ->orderBy('user_make_date_t', 'desc')
         ->get();
 
-		return $items; 
+		foreach ($items as &$_item)
+		{
+			$_item->user_age 		= Helper::age($_item->user_birth_date);
+			$_item->user_age_type 	= Helper::ageType($_item->user_age);
+			$_item->photo = $_item->photo[0];
+
+			$findSexOrient = '';
+
+			switch ($_item->user_sex_orient) 
+			{
+				case GOMOSEXUAL:
+					$findSexOrient .= $_item->user_sex == MEN 	? 'парня' 				: 'девушку';
+					break;
+				case BISEXUAL:
+					$findSexOrient .= $_item->user_sex == MEN 	? 'девушку или парня' 	: 'парня или девушку';
+					break;
+				default:
+					$findSexOrient .= $_item->user_sex == MEN 	? 'девушку' 			: 'парня';
+					break;
+			}
+
+			if ($_item->user_partner_age_min > PARTNER_AGE_MIN && $_item->user_partner_age_max > PARTNER_AGE_MAX)
+			{
+				$findSexOrient .= ' ' . $_item->user_partner_age_min . '-' . $_item->user_partner_age_max;
+				$findSexOrient .= ' ' . Helper::ageType($_item->user_partner_age_max);
+			} else if ($_item->user_partner_age_min > PARTNER_AGE_MIN && $_item->user_partner_age_max <= PARTNER_AGE_MAX)
+			{
+				$findSexOrient .= ' от ' . $_item->user_partner_age_min;
+				$findSexOrient .= ' ' . Helper::ageType2($_item->user_partner_age_min);
+			} else if ($_item->user_partner_age_min <= PARTNER_AGE_MIN && $_item->user_partner_age_max > PARTNER_AGE_MAX)
+			{
+				$findSexOrient .= ' до ' . $_item->user_partner_age_max;
+				$findSexOrient .= ' ' . Helper::ageType2($_item->user_partner_age_max);
+			}
+			$_item->find_sex_orient = $findSexOrient;
+
+		}
+
+		return $items;
     }
 
 	public function city()

@@ -18,4 +18,77 @@ class Helper {
 			$items[] = $i;
 		return $items;
 	}
+
+	/**
+	 * count age
+	 * @param $birth_date
+	 *
+	 * @return integer
+	 */
+    public static function age($birth_date)
+	{
+		preg_match("/^ *(([0-9]+)-([0-9]+)-([0-9]+)) *$/",$birth_date,$pockets_old);
+		$now_date 	= date("Y-m-d");
+		preg_match("/^ *(([0-9]+)-([0-9]+)-([0-9]+)) *$/",$now_date,$pockets_new);
+		$old 		= $pockets_old[2].$pockets_old[3].$pockets_old[4];
+		$new 		= $pockets_new[2].$pockets_new[3].$pockets_new[4];
+  		$age 		= $new - $old;
+  		$lenght 	= strlen($age);
+  		$age_fin 	= substr($age,0,($lenght-4));
+  		return $age_fin;
+	}
+
+	/**
+	 * out age type
+	 * @param $age
+	 *
+	 * @return string
+	 */
+	function ageType($age)
+	{
+  		$age = (int) $age;
+
+  		if ($age >10 && $age <20)
+    		$type = "лет";
+  		else
+  		{
+			$age_fin = substr($age,-1,1);
+			if ($age_fin <=0 )
+    			$type = "лет";
+			elseif ($age_fin ==1 )
+				$type = "год";
+			elseif ($age_fin >=2 && $age_fin<=4)
+				$type = "года";
+			else
+				$type = "лет";
+		}
+  		return $type;
+	}
+
+	/**
+	 * Type age from to
+	 * @param $age
+	 *
+	 * @return string
+	 */
+	function ageType2($age)
+	{
+		$age = intval($age);
+		if ($age >10 && $age <20)
+			$type = "лет";
+		else
+		{
+			$age_fin = substr($age,-1,1);
+			if ($age_fin <=0 )
+				$type = "лет";
+			elseif ($age_fin ==1 )
+				$type = "года";
+			elseif ($age_fin >=2 && $age_fin<=4)
+				$type = "лет";
+			else
+				$type = "лет";
+		}
+		return $type;
+	}
+
 }

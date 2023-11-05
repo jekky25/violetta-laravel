@@ -83,32 +83,26 @@
 			<div class="mDnevTr">
 				<div class="wth1 mDnevTd">
 					<h3 class="for-pc">Новые лица на сайте знакомств</h3>		
-					{if $new_faces}
-						{section loop=$new_faces name=j}
-						<dl{if $smarty.section.j.index >= 4} class="for-pc"{/if}>
+					@if (!empty($newFaces))
+						@foreach ($newFaces as $item)
+						<dl @if ($loop->index >= 4) class="for-pc"@endif>
 							<dt>
 								<!--noindex-->
-								<a href="{{route('ank.id', '11111111111')}}" rel="nofollow">
-{*
-									<img alt="{$new_faces[j].user_name},{$new_faces[j].user_age}{$new_faces[j].user_age_type},{$new_faces[j].city}"  data-src="{$smarty.const.SITE_URL}index.php?mod=out_image&amp;id={$new_faces[j].fotos_id}&amp;regim=0" src="{$smarty.const.SITE_URL}templates/image/zero.gif" />
-*}
-									<img class="b-lazy" alt="{$new_faces[j].user_name},{$new_faces[j].user_age}{$new_faces[j].user_age_type},{$new_faces[j].city}"  data-src="{$smarty.const.SITE_URL}index.php?mod=out_image&amp;id={$new_faces[j].fotos_id}&amp;regim=0" src="{$smarty.const.SITE_TEMPL_BASE}templates/image/zero.gif" />
-
-
-
+								<a href="{{route('ank.id', $item->user_id)}}" rel="nofollow">
+									<img class="b-lazy" alt="{{ $item->user_name }},{{ $item->user_age }}{{ $item->user_age_type }},{{ $item->city->name }}"  data-src="{{ asset('fotos_new/' . $item->photo->fotos_id) . '.jpg' }}" src="{{ asset('image/zero.gif') }}" />
 								</a>
 								<!--/noindex-->
 							</dt>
 							<dd>
-							<p><!--noindex-->{if $new_faces[j].user_reg_is}<img title="на сайте" class="online" alt="на сайте" src="{$smarty.const.SITE_URL}templates/image/on_line.gif" />{/if}<a href="{$smarty.const.SITE_URL}index.php?mod=ank&amp;id={$new_faces[j].user_id}" {if $new_faces[j].user_sex == $smarty.const.MEN}class="name_man"{else}class="name_woman"{/if} rel="nofollow">{$new_faces[j].user_name}</a><!--/noindex-->
-							{if $new_faces[j].user_sex == $smarty.const.MEN}<img class="b-lazy" alt="Мужчина" data-src="{$smarty.const.SITE_URL}templates/image/sex_men.jpg" src="{$smarty.const.SITE_TEMPL_BASE}templates/image/zero.gif" />{else}<img class="b-lazy" alt="Женщина" data-src="{$smarty.const.SITE_URL}templates/image/sex_women.jpg" src="{$smarty.const.SITE_TEMPL_BASE}templates/image/zero.gif" />{/if}
-							<span>({$new_faces[j].user_fotos} фото)</span></p>
-								<p><span class="st1">{$new_faces[j].user_age} {$new_faces[j].user_age_type}</span>, {$new_faces[j].city}</p>
-								<p><span class="st1">Ищу:</span> {$new_faces[j].find_sex_orient}</p>
+							<p><!--noindex-->@if (!empty($item->user_reg_is))<img title="на сайте" class="online" alt="на сайте" src="{{ asset('image/on_line.gif') }}" />@endif<a href="{{route('ank.id', $item->user_id)}}" @if ($item->user_sex == MEN)class="name_man" @else class="name_woman" @endif rel="nofollow">{{ $item->user_name }}</a><!--/noindex-->
+							@if ($item->user_sex == MEN)<img class="b-lazy" alt="Мужчина" data-src="{{ asset('image/sex_men.jpg') }}" src="{{ asset('image/zero.gif') }}" />@else<img class="b-lazy" alt="Женщина" data-src="{{ asset('image/sex_women.jpg') }}" src="{{ asset('image/zero.gif') }}" />@endif
+							<span>({{ $item->user_fotos }} фото)</span></p>
+								<p><span class="st1">{{ $item->user_age }} {{ $item->user_age_type }}</span>, {{ $item->city->name }}</p>
+								<p><span class="st1">Ищу:</span> {{ $item->find_sex_orient }}</p>
 							</dd>
 						</dl>
-						{/section}
-								{/if}
+						@endforeach
+					@endif
 							</div>
 
 							<div class="wth1 mDnevTd">
