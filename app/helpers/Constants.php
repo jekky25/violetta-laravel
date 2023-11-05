@@ -1,0 +1,46 @@
+<?php
+//Пол
+define('WOMEN', 2);
+define('MEN', 1);
+
+//Режимы
+define('BIG', 2);
+define('VIP', 1);
+define('NOT_VIP', 0);
+
+//Ориентация
+define('GOMOSEXUAL', 1);
+define('GETEROSEXUAL', 2);
+define('BISEXUAL', 3);
+
+// Коды ошибок
+define('GENERAL_MESSAGE', 200);
+define('CONFIRM_MESSAGE', 201);
+define('GENERAL_ERROR', 202);
+define('CRITICAL_MESSAGE', 203);
+define('CRITICAL_ERROR', 204);
+
+
+//возраст, рост, вес
+define('AGE_MIN', 15);
+define('AGE_MAX', 15);
+define('PARTNER_AGE_MIN', 15);
+define('PARTNER_AGE_MAX', 15);
+define('HEIGHT_MIN', 149);
+define('HEIGHT_MAX', 149);
+define('PARTNER_HEIGHT_MIN', 149);
+define('PARTNER_HEIGHT_MAX', 149);
+define('WEIGHT_MIN', 29);
+define('WEIGHT_MAX', 29);
+define('PARTNER_WEIGHT_MIN', 29);
+define('PARTNER_WEIGHT_MAX', 29);
+
+//Сообщения
+define('PRIV_NEW_MESSAGE', 1);
+define('PRIV_NOT_NEW_MESSAGE', 0);
+
+
+define ('SITE_URL', $pathrelative);
+
+define('DIR_ROOT', str_replace("\\","/",realpath(dirname(__FILE__))));
+
