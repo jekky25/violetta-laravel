@@ -44,7 +44,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	function ageType($age)
+	public static function ageType($age)
 	{
   		$age = (int) $age;
 
@@ -71,7 +71,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	function ageType2($age)
+	public static function ageType2($age)
 	{
 		$age = intval($age);
 		if ($age >10 && $age <20)
@@ -91,4 +91,20 @@ class Helper {
 		return $type;
 	}
 
+	/**
+	 * Out to xml
+	 * @param $obj
+	 *
+	 * @return void
+	 */
+	public static function outToXml ($obj)
+	{
+		$startStr = '<?xml version="1.0" encoding="utf-8" standalone="yes"?>';
+		return response()
+		->view ('xml.location', [
+			'obj'		=> $obj,
+			'startStr'		=> $startStr,
+		])
+		->header('Content-Type', 'text/xml')->send();
+	}
 }

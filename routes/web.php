@@ -55,6 +55,10 @@ Route::get('forget_pass', 'NoContoller@index')->name('forget_pass');
 Route::get('sitemap', 'NoContoller@index')->name('sitemap');
 Route::get('contacts', 'NoContoller@index')->name('contacts');
 
+/*ajax */
+Route::get('ajax/geo.php', 'ajaxController@getGeo');
+
+
 Route::get('/', 'HomeController@index')->name('home');
 
 

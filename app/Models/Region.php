@@ -5,20 +5,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-use App\Models\CategoryHome;
-
-class City extends Model
+class Region extends Model
 {
 	use HasFactory;
 
-	protected $table = 'city';
+	protected $table = 'regions';
 
-	public function getByRegionId($id)
+	public function getByCountryId($id)
 	{
 		$items = self::select('*')
-		->where ('regions_id', $id)
+		->where ('country_id', $id)
 		->orderBy('name', 'asc')
 		->get();
 		return $items;
 	}
+
 }
