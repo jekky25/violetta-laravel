@@ -47,7 +47,6 @@ class User extends Authenticatable
     ];
 
     protected $table 		= 'users_news';
-	public $count 			= 5;
 
     public function newFaces($count)
     {

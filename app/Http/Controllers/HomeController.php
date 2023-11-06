@@ -13,10 +13,12 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use App\Helpers\Helper;
 use App\Models\Country;
 use App\Models\User;
+use App\Models\Diary;
 
 class HomeController extends Controller
 {
 	public 	$countNewFaces 	= 5;
+	public 	$countDiaries 	= 5;
 
     /**
      * Create a new controller instance.
@@ -39,12 +41,14 @@ class HomeController extends Controller
 		$ages 		= Helper::getAges();
 		$countries 	= Country::getAll();
 		$newFaces 	= User::newFaces($this->countNewFaces);
+		$diaries 	= Diary::get($this->countDiaries);
 
 		return response()->view ('home', 
 		[
 			'ages'		=> $ages,
 			'countries' => $countries,
 			'newFaces' 	=> $newFaces,
+			'diaries' 	=> $diaries,
 		]);
 	}
 }

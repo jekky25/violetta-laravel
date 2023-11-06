@@ -104,7 +104,6 @@
 						@endforeach
 					@endif
 							</div>
-
 							<div class="wth1 mDnevTd">
 								<div class="counter3 for-pc">
 									<script type="text/javascript"><!--
@@ -115,29 +114,32 @@ google_ad_width = 200;
 google_ad_height = 200;
 //-->
 </script>
-<script async type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
+@push('scripts')
+<script async type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+@endpush
 								</div>
 								<h3>Последние записи в дневниках</h3>
-								{section loop=$dnevniki name=j}
+								@if (!empty($diaries))
+								@foreach ($diaries as $item)
 								<div class="dnevnik">
-									<h4 class="{$dnevniki[j].name_class}">
-										<a href="{$smarty.const.SITE_URL}index.php?mod=ank&amp;id={$dnevniki[j].user_id}">{$dnevniki[j].user_name}</a>
-										<p>{$dnevniki[j].dnevniki_time}</p>
+									<h4 class="{{ $item->name_class }}">
+										<a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>
+										<p>{{ $item->dnevniki_time }}</p>
 									</h4>
 									<h3>
-										<a href="{$smarty.const.SITE_URL}ank/dnevnik_{$dnevniki[j].user_id}.html" class="{$dnevniki[j].name_class}">{$dnevniki[j].dnevniki_title}</a>
+										<a href="{{route('ank.diary.id', $item->user->user_id)}}" class="{{ $item->name_class }}">{!! $item->dnevniki_title !!}</a>
 									</h3>
-									{if $dnevniki[j].dnevnik_foto}
+									@if (!empty($item->dnevnik_foto))
 									<div class="dnevPict">
-										<a href="{$smarty.const.SITE_URL}ank/dnevnik_{$dnevniki[j].user_id}.html"><img class="b-lazy" data-src="{$smarty.const.SITE_URL}index.php?mod=out_image_dnevnik&amp;id={$dnevniki[j].dnevnik_foto}&amp;regim=0" src="{$smarty.const.SITE_TEMPL_BASE}templates/image/zero.gif" alt="" /></a>
+										<a href="{{route('ank.diary.id', $item->user->user_id)}}"><img class="b-lazy" data-src="{{ $item->diaryImg }}" src="{{ asset('image/zero.gif') }}" alt="" /></a>
 									</div>
-									{/if}
-									<p class="dnevText">{$dnevniki[j].dnevniki_text|truncate:300:'...':true}</p>
+									@endif
+									<p class="dnevText">{!! \Illuminate\Support\Str::limit($item->dnevniki_text, 300, $end='...') !!}</p>
 								</div>
-								<a class="comLink" href="{$smarty.const.SITE_URL}ank/dnev_komment_{$dnevniki[j].dnevniki_id}.html">комментарии ({$dnevniki[j].count_comments})</a>
-								{/section}
-								<a class="comLink left1 all-dnev-link" href="{$smarty.const.SITE_URL}dnevniki.html">все дневники >></a>
+								<a class="comLink" href="{{route('ank.diary.comments', $item->dnevniki_id)}}">комментарии ({{count ($item->comments)}})</a>
+								@endforeach
+								<a class="comLink left1 all-dnev-link" href="{{route('diaries')}}">все дневники >></a>
+								@endif
 							</div>
 						</div>
 					</div>
