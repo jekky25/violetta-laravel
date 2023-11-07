@@ -63,9 +63,9 @@
 					<li><a href="{{route('birthday_search')}}">Дни рождения</a></li>
 					<li><a href="{{route('screensavers')}}">Скринсейверы</a></li>
 					<li><a href="{{route('dreambook')}}">Сонник</a></li>
-					{if $main_body_tpl == 'otziv.html' || $main_body_tpl == 'banner.html'}
-					 <li><a href="{{route('review')}}">Оставить отзыв</a></li>
-					{/if}
+					@if (Route::is('contacts') || Route::is('review'))
+					<li><a href="{{route('review')}}">Оставить отзыв</a></li>
+					@endif
 				</ul>
 			</div>
 		</div>
@@ -112,9 +112,9 @@ google_ad_height = 90;
 					<li><a href="{{route('birthday_search')}}">Дни рождения</a></li>
 					<li><a href="{{route('screensavers')}}">Скринсейверы</a></li>
 					<li><a href="{{route('dreambook')}}">Сонник</a></li>
-					{if $main_body_tpl == 'otziv.html' || $main_body_tpl == 'banner.html'}
+					@if (Route::is('contacts') || Route::is('review'))
 					 <li><a href="{{route('review')}}">Оставить отзыв</a></li>
-					{/if}
+					@endif
 				</ul>	
 			</div>
 			<div class="blFoot"></div>
