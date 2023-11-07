@@ -146,4 +146,12 @@ class User extends Authenticatable
     	return $this->hasMany(AnketVisit::class, 'user_id_prosm', 'user_id')->where('ank_time', '>', $t);
 	}
 
+	public function getCountAnkets ($sex)
+	{
+		$count = self::select('user_id')
+		->where('user_sex', $sex)
+		->where('user_active', 1)
+        ->count();
+		return $count > 0 ? $count : 0;
+	}
 }

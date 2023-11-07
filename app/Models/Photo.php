@@ -13,4 +13,9 @@ class Photo extends Model
 
 	protected $table = 'fotos';
 
+	public function getCountPhotos ()
+	{
+		$count = self::select('fotos_id')->count();
+		return $count > 0 ? $count : 0;
+	}
 }
