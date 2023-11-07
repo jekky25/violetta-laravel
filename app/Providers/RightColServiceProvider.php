@@ -1,8 +1,16 @@
 <?php
 namespace App\Providers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\AnketVisit;
+use Illuminate\Support\Facades\Session;
+use App\Helpers\Helper;
 
 class RightColServiceProvider extends ServiceProvider
 {
@@ -23,6 +31,19 @@ class RightColServiceProvider extends ServiceProvider
 	*/
 	public function boot()
 	{
+		View::composer('*', function($view) {
+			$user = Auth::user()->load(['visits']);
+			if (!empty ($user))
+			{
+				$user->user_lastvisit_format	= Helper::getDate($user->user_lastvisit);
+				$user->monthVisits				= count ($user->visits);
+				$user->monthVisitsNew			= count (AnketVisit::visitsNew($user));
+			}
+
+            $view->with(['user' => $user]);
+        });
+
+	
 		$wItem = User::getTop100(WOMEN, 1);
 		$mItem = User::getTop100(MEN, 1);
 
@@ -31,6 +52,8 @@ class RightColServiceProvider extends ServiceProvider
 			'men' 	=> $mItem,
 		];
 
-		view()->share(['top100' => $top100]);
+		view()->share([
+			'top100' 	=> $top100,
+		]);
     }
 }

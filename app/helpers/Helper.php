@@ -107,4 +107,17 @@ class Helper {
 		])
 		->header('Content-Type', 'text/xml')->send();
 	}
+
+	/**
+	 * formate date from timestamp to date
+	 * @param integer $timestamp
+	 *
+	 * @return string
+	 */
+	function getDate($timestamp = 0)
+	{
+		if ($timestamp == 0) $timestamp = time();
+  		$date = date("d.m.y.",$timestamp);
+		return $date;
+	}
 }

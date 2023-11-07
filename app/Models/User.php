@@ -47,6 +47,7 @@ class User extends Authenticatable
     ];
 
     protected $table 		= 'users_news';
+	protected $primaryKey 	= 'user_id';
 
     public function newFaces($count)
     {
@@ -137,6 +138,12 @@ class User extends Authenticatable
 	public function photo()
 	{
     	return $this->hasMany(Photo::class, 'user_id', 'user_id');
+	}
+
+	public function visits()
+	{
+		$t = time() - 60*60*24*30;
+    	return $this->hasMany(AnketVisit::class, 'user_id_prosm', 'user_id')->where('ank_time', '>', $t);
 	}
 
 }
