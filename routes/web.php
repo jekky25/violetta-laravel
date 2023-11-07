@@ -86,6 +86,15 @@ Route::get('/clear', function () {
 });
 
 
+Route::get('/test', function () {
+
+	//Session::put('key', 'value32444');
+	//Auth::loginUsingId(68420, true);
+	//Auth::loginUsingId(1, true);
+	//Auth::logout();
+	return "Тест!";
+});	
+
 if (!function_exists('pr')) {
 	function pr (...$ar)
 	{
