@@ -239,28 +239,30 @@ google_ad_height = 600;
 			<div class="blFoot"></div>
 				<h2>Лучшая девушка</h2>
 				<div class="bl">
-					<h3>{$topSto.vip_ank_women_name}, {$topSto.vip_ank_women_age}</h3>
+					@php($item = $top100['women'])
+					<h3>{{ $item->user_name }}, {{ $item->user_age }} {{ $item->user_age_type }}</h3>
 					<!--noindex-->
 						<div class="foto">
-							<a href="{{route('ank.id', '11111111111')}}" rel="nofollow">
-								<img alt="{$topSto.vip_ank_women_name},{$topSto.vip_ank_women_age},{$topSto.vip_ank_women_city}" class="b-lazy" data-src="{$smarty.const.SITE_URL}index.php?mod=out_image&id={$topSto.vip_ank_women_foto}&regim=1" src="{{ asset("image/zero.gif") }}" />
+							<a href="{{route('ank.id', $item->user_id )}}" rel="nofollow">
+								<img alt="{{ $item->user_name }},{{ $item->user_age }},{{ $item->city->name }}" class="b-lazy" data-src="{{ asset('fotos_new/' . $item->photo->fotos_id) . '.jpg' }}" src="{{ asset("image/zero.gif") }}" />
 							</a>
 						</div>
-						<p class="links1"><a href="{{route('ank.id', '11111111111')}}" rel="nofollow">смотреть анкету</a></p>
+						<p class="links1"><a href="{{route('ank.id', $item->user_id )}}" rel="nofollow">смотреть анкету</a></p>
 						<p class="links1"><a href="{{route('bestankets.sex', 'women')}}">лучшие девушки</a></p>
 					<!--/noindex-->
 				</div>
 				<div class="blFoot"></div>
 				<h2>Лучший парень</h2>
 				<div class="bl">
-					<h3>{$topSto.vip_ank_men_name}, {$topSto.vip_ank_men_age}</h3>
+					@php($item = $top100['men'])
+					<h3>{{ $item->user_name }}, {{ $item->user_age }} {{ $item->user_age_type }}</h3>
 					<!--noindex-->
 						<div class="foto">
-							<a href="{{route('ank.id', '11111111111')}}" rel="nofollow">
-								<img alt="{$topSto.vip_ank_men_name},{$topSto.vip_ank_men_age},{$topSto.vip_ank_men_city}" class="b-lazy" data-src="{$smarty.const.SITE_URL}index.php?mod=out_image&id={$topSto.vip_ank_men_foto}&regim=1" src="{{ asset("image/zero.gif") }}" />
+							<a href="{{route('ank.id', $item->user_id )}}" rel="nofollow">
+							<img alt="{{ $item->user_name }},{{ $item->user_age }},{{ $item->city->name }}" class="b-lazy" data-src="{{ asset('fotos_new/' . $item->photo->fotos_id) . '.jpg' }}" src="{{ asset("image/zero.gif") }}" />
 							</a>
 						</div>
-						<p class="links1"><a href="{{route('ank.id', '11111111111')}}" rel="nofollow">смотреть анкету</a></p>
+						<p class="links1"><a href="{{route('ank.id', $item->user_id )}}" rel="nofollow">смотреть анкету</a></p>
 						<p class="links1"><a href="{{route('bestankets.sex', 'men')}}">лучшие парни</a></p>
 					<!--/noindex-->
 				</div>

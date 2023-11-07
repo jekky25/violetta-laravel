@@ -104,6 +104,31 @@ class User extends Authenticatable
 		return $items;
     }
 
+	public function getTop100($sex, $count)
+    {
+		$items = self::select(['user_id', 'user_reiting', 'user_name', 'user_birth_date', 'user_city'])
+		->where('user_sex', $sex)
+		->where('user_active', 1)
+		->where('user_fotos', '>', 0)
+		->where('user_confirm_email', 1)
+		->with('city') 
+		->with('photo')
+		->limit ($count)
+        ->orderBy('user_top100', 'desc')
+        ->get();
+		
+		foreach ($items as &$_item)
+		{
+			$_item->user_age 		= Helper::age($_item->user_birth_date);
+			$_item->user_age_type 	= Helper::ageType($_item->user_age);
+			$_item->photo = $_item->photo[0];
+		}
+		$items = count ($items) > 1 ? $items : $items[0];
+
+		return ($items);
+	}
+
+
 	public function city()
 	{
     	return $this->hasOne(City::class, 'id', 'user_city');
