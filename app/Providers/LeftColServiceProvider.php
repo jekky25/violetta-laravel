@@ -40,8 +40,16 @@ class LeftColServiceProvider extends ServiceProvider
 		$statAnkets['total_men_percent'] 	= $statAnkets['men_ank_percent_l'];
 		$statAnkets['total_women_percent'] 	= $statAnkets['women_ank_percent_l'];
 	
+		$sql = 'SELECT t.topic_title, t.topic_id, t.forum_id, p.topic_id
+		FROM phpbb3_topics t, phpbb3_posts p  
+		WHERE t.topic_id = p.topic_id && t.forum_id <> 7 
+		GROUP BY t.topic_id, t.topic_title, t.forum_id, p.topic_id ORDER BY p.post_id DESC LIMIT 0 , 5;';
+	
+		$forums = DB::connection('mysql_for')->select($sql);
+
 		view()->share([
 			'statAnkets' 	=> $statAnkets,
+			'forums'		=> $forums
 		]);
     }
 }

@@ -145,17 +145,19 @@ google_ad_height = 90;
 					</tr>
 				</table>					
 			</div>
+			@if ( !empty($forums))
 			<div class="blFoot"></div>
 			<h2>Последние темы форума</h2>
 			<div class="bl">
 				<!--noindex-->
 					<ul>
-						{section name=i loop=$forumTopic}
-						<li><a href="{$smarty.const.SITE_URL}forum/topic_{$forumTopic[i].forum_id}_{$forumTopic[i].topic_id}.html" rel="nofollow">{$forumTopic[i].topic_title|truncate:28:'...':true}</a></li>
-						{/section}
+						@foreach ($forums as $item)
+						<li><a href="forum/topic_{{ $item->forum_id }}_{{ $item->topic_id }}.html" rel="nofollow">{!! \Illuminate\Support\Str::limit($item->topic_title, 28, $end='...') !!}</a></li>
+						@endforeach
 					</ul>
 				<!--/noindex-->
 			</div>
+			@endif
 			<div class="blFoot"></div>
 			<h3>Статистика</h3>
 			<div id="static">
