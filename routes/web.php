@@ -34,7 +34,9 @@ Route::get('ankets', 'NoContoller@index')->name('ankets');
 
 Route::get('bestankets/{sex}', 'NoContoller@index')->where('sex', '(men|women)')->name('bestankets.sex');
 
-Route::get('goroskop', 'NoContoller@index')->name('goroskop');
+Route::get('goroskop/op{id}.html', 'NoContoller@getGoroskopOption')->whereNumber('id')->name ('goroskop.op');
+Route::get('goroskop/{id}.html', 'NoContoller@index')->whereNumber('id')->name('goroskop.id');
+Route::get('goroskop.html', 'GoroskopController@index')->name('goroskop');
 Route::get('names', 'NoContoller@index')->name('names');
 
 Route::get('population_search', 'NoContoller@index')->name('population_search');

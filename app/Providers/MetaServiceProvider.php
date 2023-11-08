@@ -2,6 +2,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 
 class MetaServiceProvider extends ServiceProvider
 {
@@ -22,11 +24,28 @@ class MetaServiceProvider extends ServiceProvider
 	*/
 	public function boot()
 	{
-		$PageTitle 	= !empty ($PageTitle)  	? $PageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
-		$MetaTags 	= !empty ($MetaTags) 	? $MetaTags 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
-		<meta name="Description" content="Сайт знакомств на любой вкус. Найди свою любовь. Тысячи анкет с фото, бесплатная регистрация.">
-		<meta name="Keywords" content="сайт знакомств, бесплатные знакомства, знакомства в Москве, поиск анкет, найти любовь, знакомства бесплатно, служба знакомств, клуб знакомств, чат знакомств, знакомства с девушками, знакомства с мужчинами, интернет знакомства и общение">';
-
-		view()->share(['title' => $PageTitle, 'pageMeta' => $MetaTags]);
+		View::composer('*', function($view) {
+			$routeName = Route::currentRouteName();
+			switch ($routeName) {
+				case 'goroskop':
+					$titleId = 'Зодиак';
+					$pageTitle = $titleId . ', Гороскопы, бесплатные знакомства, Бесплатный сайт знакомств Виолетта';
+					$pageMeta = '<meta name="Description" content="' . $titleId . '. Узнай свой гороскоп на сайте знакомств Виолетта.">
+						<meta name="Keywords" content="' . $titleId . ', гороскопы, бесплатные знакомства, знакомства в Москве, поиск анкет, найти любовь">';
+					break;
+				case 1:
+					echo "i equals 1";
+					break;
+				case 2:
+					echo "i equals 2";
+					break;
+				default:
+				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
+				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
+			<meta name="Description" content="Сайт знакомств на любой вкус. Найди свою любовь. Тысячи анкет с фото, бесплатная регистрация.">
+			<meta name="Keywords" content="сайт знакомств, бесплатные знакомства, знакомства в Москве, поиск анкет, найти любовь, знакомства бесплатно, служба знакомств, клуб знакомств, чат знакомств, знакомства с девушками, знакомства с мужчинами, интернет знакомства и общение">';
+			}
+            $view->with(['title' => $pageTitle, 'pageMeta' => $pageMeta]);
+        });
     }
 }
