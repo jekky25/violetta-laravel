@@ -22,22 +22,22 @@
 		<div class="mob-menu-icon"></div>
 		<div class="mob-menu">
 			<div class="close-menu"></div>
-			{if $userdata.session_user_id > 0 && $userdata.user_name}
+			@auth
 			<h3>Рабочее меню</h3>
 			<div class="mob-menu-first-block">
-				<h4>{$userdata.user_name}!</h4>
+				<h4>{{ $user->user_name }}!</h4>
 				<ul>
-					<li class="first-item-menu"><a href="{{route('privmsg')}}"><span>Мои сообщения</span> <span class="first-item-menu-num{if $userdata.user_new_message > 0} red_mark{else} green_mark{/if}">({$userdata.user_new_message})</span></a></li>
+					<li class="first-item-menu"><a href="{{route('privmsg')}}"><span>Мои сообщения</span> <span @if ($user->user_new_message > 0) class="first-item-menu-num red_mark" @else class="first-item-menu-num green_mark" @endif>({{ $user->user_new_message }})</span></a></li>
 					<li><a href="{{route('registration.edit')}}">Мой профиль</a></li>
-					<li><a href="{{route('ank.id', '11111111111')}}">Моя анкета</a></li>
+					<li><a href="{{route('ank.id', $user->user_id)}}">Моя анкета</a></li>
 					<li><a href="{{route('registration.edit.photo')}}">Мои фото</a></li>
 					<li><a href="{{route('registration.edit.diary')}}">Мой дневник</a></li>
 					<li><a href="{{route('registration.edit.settings')}}">Мои настройки</a></li>
-					<li><a class="inTop" href="{{route('registration.top100')}}">{if $userdata.user_fotos > 0  &&  $userdata.user_top100 > 0}Поднять анкету{else}попасть в топ{/if}</a></li>
+					<li><a class="inTop" href="{{route('registration.top100')}}">@if ($user->user_fotos > 0  &&  $user->user_top100 > 0)Поднять анкету @else попасть в топ @endif</a></li>
 					<li><a href="{{route('logout')}}">Выход</a></li>
 				</ul>
 			</div>
-			{else}
+			@else
 			<h3>Вход</h3>
 			<div class="mob-menu-first-block">
 				<form name="login" action="{{route('login')}}" method="post">
@@ -54,7 +54,7 @@
 				<p class="mob-menu-p-name"><a class="name" href="{{route('forget_pass')}}">Забыли пароль?</a></p>
 				<p class="mob-menu-p-name"><a class="name" href="{{route('registration')}}">Зарегистрироваться</a></p>				
 			</div>
-			{/if}
+			@endauth
 			<div class="mob-menu-second-block">
 				<ul>
 					<li><a href="{{route('goroskop')}}">Гороскопы</a></li>
