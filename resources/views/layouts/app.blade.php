@@ -8,7 +8,7 @@
 <link rel="Stylesheet"  href="{{ asset('css/style.css?5') }}" type="text/css" />
 <script type="text/javascript" src="{{ asset('js/jquery-1.9.0.min.js?1') }}"></script>
 <script async type="text/javascript" src="{{ asset('js/frame_script.js?2') }}"></script>
-{{--$pageMeta--}}
+{!! $pageMeta !!}
 @stack('scripts')
 </head>
 <body>

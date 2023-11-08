@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', '$title')
+@section('title', $title)
 @section('main_body')
 <h1 class="mTit">Бесплатные знакомства с девушками и парнями на сайте знакомств Виолетта</h1>
 	<table id="mDescr">
