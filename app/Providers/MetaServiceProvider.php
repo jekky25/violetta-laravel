@@ -33,11 +33,11 @@ class MetaServiceProvider extends ServiceProvider
 					$pageMeta = '<meta name="Description" content="' . $titleId . '. Узнай свой гороскоп на сайте знакомств Виолетта.">
 						<meta name="Keywords" content="' . $titleId . ', гороскопы, бесплатные знакомства, знакомства в Москве, поиск анкет, найти любовь">';
 					break;
-				case 1:
-					echo "i equals 1";
-					break;
-				case 2:
-					echo "i equals 2";
+				case 'goroskop.id':
+					$goroskop 		= $view->goroskop;
+					$pageTitle 		= $goroskop->gor_name . ', Гороскопы, бесплатные знакомства, Бесплатный сайт знакомств Виолетта';
+					$pageMeta 		= '<meta name="Description" content="' . $goroskop->gor_name . '. Узнай свой гороскоп на сайте знакомств Виолетта.">
+							<meta name="Keywords" content="' . $goroskop->gor_name . ', гороскопы, бесплатные знакомства, знакомства в Москве, поиск анкет, найти любовь">';
 					break;
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';

@@ -20,4 +20,13 @@ class Goroskop extends Model
 
 		return $items;
 	}
+
+	public function getById($id)
+	{
+		$item = self::select('*')
+		->where('gor_id', $id)
+		->first();
+
+		return $item;
+	}
 }
