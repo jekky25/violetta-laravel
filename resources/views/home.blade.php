@@ -104,14 +104,14 @@
 							</div>
 							<div class="wth1 mDnevTd">
 								<div class="counter3 for-pc">
-									<script type="text/javascript"><!--
+									{{--<script type="text/javascript"><!--
 google_ad_client = "pub-6379140164632940";
 /* 200x200, создано 26.12.08 */
 google_ad_slot = "0480668500";
 google_ad_width = 200;
 google_ad_height = 200;
 //-->
-</script>
+</script>--}}
 @push('scripts')
 <script async type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 @endpush

@@ -70,14 +70,14 @@
 			</div>
 		</div>
 		<div id="hBaner">
-<script type="text/javascript"><!--
+{{--<script type="text/javascript"><!--
 google_ad_client = "ca-pub-6379140164632940";
 /* 728x90 шапка (В) */
 google_ad_slot = "8276880722";
 google_ad_width = 728;
 google_ad_height = 90;
 //-->
-</script>
+</script>--}}
 <script async type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
 		</div>
@@ -190,14 +190,14 @@ if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br 
 {if $s_link1}
 {$s_link1}
 {/if}<br /><br />
-<script type="text/javascript"><!--
+{{--<script type="text/javascript"><!--
 google_ad_client = "pub-6379140164632940";
 /* Морда слева сквозняк */
 google_ad_slot = "0076736043";
 google_ad_width = 160;
 google_ad_height = 600;
 //-->
-</script>
+</script>--}}
 <script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
 			</div>
