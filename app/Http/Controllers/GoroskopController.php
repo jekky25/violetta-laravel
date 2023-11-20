@@ -76,7 +76,8 @@ class GoroskopController extends Controller
 	{
 		$goroskop = Goroskop::getById($id);
 		if (empty ($goroskop)) abort(404);
-
+		
+		$this->typeGor 	= $goroskop->gor_type;
 		$goroskops 		= Goroskop::getByType($this->typeGor);
 		$goroskopsType 	= GoroskopType::getNotByType($this->typeGor);
 		
@@ -118,6 +119,56 @@ class GoroskopController extends Controller
 		[
 			'goroskops'			=> $goroskops,
 			'goroskop'			=> $goroskop,
+			'zodiak_text' 		=> $zodiakText,
+			'goroskopsTitle' 	=> $goroskopsTitle,
+			'goroskops_type' 	=> $goroskopsType
+		]);
+
+	}
+
+	/**
+     * show goroskop by id
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function getType(Request $request, $id = 0)
+	{
+		$id = (int) $id;
+		if ($id == 0 && $id > 5) abort(404);
+		$goroskopsType = $id;
+		switch ($id) {
+			case 2:
+				include('../app/includes/goroskop/vost_goroskop_text.php');
+				$goroskopsTitle = 'Гороскопы - Восточный гороскоп';
+				$title_id = 'Восточный гороскоп';
+				break;
+			case 2:
+				include('../app/includes/goroskop/gall_goroskop_text.php');
+				$goroskopsTitle = 'Гороскопы - Галлийский гороскоп';
+				$title_id = 'Галлийский гороскоп';
+				break;
+			case 4:
+				include('../app/includes/goroskop/cvet_goroskop_text.php');
+				$goroskopsTitle = 'Гороскопы - Гороскоп цветов';
+				$title_id = 'Гороскоп цветов';
+				break;
+			case 5:
+				include('../app/includes/goroskop/talisman_text.php');
+				$goroskopsTitle = 'Гороскопы - Талисманы';
+				$title_id = 'Талисманы';
+				break;
+			default:		
+				include('../app/includes/goroskop/zodiak_text.php');
+				$goroskopsTitle = 'Гороскопы - Зодиак';
+				$title_id = 'Зодиак';
+		}
+
+		$goroskops 		= Goroskop::getByType($goroskopsType);
+		$goroskopsType 	= GoroskopType::getNotByType($goroskopsType);
+
+		return response()->view ('goroskop', 
+		[
+			'goroskops'			=> $goroskops,
 			'zodiak_text' 		=> $zodiakText,
 			'goroskopsTitle' 	=> $goroskopsTitle,
 			'goroskops_type' 	=> $goroskopsType
