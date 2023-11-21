@@ -52,7 +52,13 @@ class MetaServiceProvider extends ServiceProvider
 													<meta name="Keywords" content="значение мужского имени, что мужское означает имя, знакомства в Москве, поиск анкет, найти любовь">' :
 													'<meta name="Description" content="Значение женского имени.  что означает женское имя. А также знакомства и многое другое.">
 													<meta name="Keywords" content="значение женского имени, что женское означает имя, знакомства в Москве, поиск анкет, найти любовь">';
-					break;	
+					break;
+				case 'names.id':
+					$name = $view->name;
+					$pageTitle = 'Значение имени ' . $name->name . ', Что означает имя ' . $name->name . ', Бесплатный сайт знакомств Виолетта';
+					$pageMeta = '<meta name="Description" content="Значение имени ' . $name->name . '.  что означает имя ' . $name->name . '. А также знакомства и многое другое.">
+					<meta name="Keywords" content="значение имени ' . $name->name . ', что означает имя ' . $name->name . ', знакомства в Москве, поиск анкет, найти любовь">';
+					break;
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
 				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->

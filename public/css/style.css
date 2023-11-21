@@ -173,7 +173,7 @@ a:hover.lColor2 {color:#5954b0; text-decoration:none;}
 	
 	
 	h1.mTit {font-family:Arial, Tahoma, Verdana, sans-serif; font-size: 12px; text-align:center; padding-top:10px; padding-bottom:20px;}
-	h2.mTit {font-family:Arial, Tahoma, Verdana, sans-serif; font-size: 12px; text-align:center; padding-top:10px; padding-bottom:10px;}
+	h2.mTit {font-family:Arial, Tahoma, Verdana, sans-serif; font-size: 12px; text-align:center; padding-top:10px; padding-bottom:10px; clear: both;}
 	table#hMenu {width:100%;}
 		#hMenu td {height:24px; background: #d23530 url(../image/vert_line3.jpg) 0 0 no-repeat; text-align:center; vertical-align:middle; color:#fff; font-size:12px; padding: 0 10px;}
 		#hMenu a, #hMenu a:visited {font-size:12px; color:#fff; text-decoration: none;}

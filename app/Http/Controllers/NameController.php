@@ -127,5 +127,58 @@ class NameController extends Controller
 		]);
 	}
 
+	/**
+     * Show Name by id
+     *
+    */
+	public function getName($id)
+    {
+		$name = Name::getById($id);
+		if (empty ($name)) abort(404);
 
+		$alphabet 			= $this->alphabet;
+		$nameTitle 			= 'Значение имени ' . $name->name;
+		$nameText 			= str_replace("\n","<br /><br />\n",$name->description);
+		$sex 				= $name->gender == 'm' ? 'men' 							: 'women';
+		$nameTitleGender 	= $name->gender == 'm' ? 'Мужские имена по алфавиту' 	: 'Женские имена по алфавиту';
+		$namesGender = '';
+		for ($i = 1; $i <= count($alphabet); $i++)
+		{
+			if ($i == 7 && $sex == 'men') continue;
+			if ($sex == 'women') 
+			{
+				if ($i == 21)
+					$namesGender .= '<a href="' . route('names.subop', [$sex, ($i + 1)]) . '/">' . $alphabet[($i + 1)] . '</a>';
+				elseif ($i == 22)
+					$namesGender .= '<a href="' . route('names.subop', [$sex, ($i - 1)]) . '/">' . $alphabet[($i - 1)] . '</a>';
+				else
+					$namesGender .= '<a href="' . route('names.subop', [$sex, $i]) . '">' . $alphabet[$i] . '</a>';
+			} else
+				$namesGender .= '<a href="' . route('names.subop', [$sex, $i]) . '">' . $alphabet[$i] . '</a>';
+		}
+
+		switch ($id) {
+			case '8':
+				$bannerNames = '<a href="http://www.russiamore.ru" class="name">Знакомства с иностранцами</a> - Хотите завязать романтические отношения, выйти замуж за иностранца, жить в другой
+				стране? Тогда добро пожаловать на международный сайт знакомств Russiamore.';
+				break;
+			case '9':
+				$bannerNames = '<a href="http://www.lovevolna.ru" style="padding:0px;" class="name">Служба знакомств на сайте</a>. Приглашаем мужчин и женщин на наши популярные знакомства, ведь именно у нас вы можете общаться и
+				знакомиться быстро и бесплатно!';	
+				break;
+			default:
+			$bannerNames = '';
+		}
+		
+		return response()->view ('names.id', 
+		[
+			'name'				=> $name,
+			'nameTitle'			=> $nameTitle,
+			'alphabet'			=> $alphabet,
+			'nameText'			=> $nameText,
+			'namesGender'		=> $namesGender,
+			'nameTitleGender'	=> $nameTitleGender,
+			'bannerNames'		=> $bannerNames
+		]);
+	}
 }
