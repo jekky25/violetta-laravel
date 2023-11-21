@@ -40,8 +40,8 @@ Route::get('goroskop.html', 'GoroskopController@index')->name('goroskop');
 
 Route::get('names/{sex}.html', 'NameController@getGender')->where('sex', '(men|women)')->name('names.sex');
 Route::get('names/{id}.html', 'NoContoller@index')->whereNumber('id')->name('names.id');
-Route::get('names/{sex}/{id}.html', 'NoContoller@index')->whereNumber('id')
-														->where('sex', '(men|women)')->name('names.subop');
+Route::get('names/{sex}/{id}.html', 'NameController@getGender')->whereNumber('id')
+															   ->where('sex', '(men|women)')->name('names.subop');
 Route::get('names.html', 'NameController@index')->name('names');
 
 Route::get('population_search', 'NoContoller@index')->name('population_search');
