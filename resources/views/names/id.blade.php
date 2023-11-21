@@ -27,12 +27,9 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <a title="Поделиться ВКонтакте" onclick="window.open('http://vkontakte.ru/share.php?url='+encodeURIComponent(location.href));return false;" rel="nofollow" href="http://vkontakte.ru/"><img title="Поделиться ВКонтакте" src="/image/vkontakte2.png" border="0" alt="" /></a>
 <a title="Опубликовать в своем блоге livejournal.com" onclick="window.open('http://www.livejournal.com/update.bml?event='+encodeURIComponent(location.href)+'&amp;subject='+encodeURIComponent(document.title));return false;" rel="nofollow" href="http://www.livejournal.com/"><img title="Опубликовать в своем блоге livejournal.com" src="/image/livejournal2.png" border="0" alt="" /></a>
 <a title="Поделиться В Моем Мире" onclick="window.open('http://connect.mail.ru/share?share_url='+encodeURIComponent(location.href));return false;" rel="nofollow" href="http://connect.mail.ru/"><img title="Поделиться В Моем Мире" src="/image/mail2.png" border="0" alt="" /></a>
-<a title="Опубликовать в Twitter" onclick="window.open('http://twitter.com/home?status=RT @www.webnotes.com.ua '+encodeURIComponent(document.title)+': '+encodeURIComponent(location.href));return false;" rel="nofollow" href="http://twitter.com/"><img title="Опубликовать в Twitter" src="/image/twitter2.png" border="0" alt="" /></a>
-<a title="Поделиться в Facebook" onclick="window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(location.href));return false;" rel="nofollow" href="http://www.facebook.com/"><img title="Поделиться в Facebook" src="/image/fbook2.png" border="0" alt="" /></a>
 <a onclick="window.open('http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl='+encodeURIComponent(location.href), 'odkl', 'width=626, height=436'); return false;" rel="nofollow" href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl=+encodeURIComponent(location.href)"><img src="/image/odnoklassniki2.png" title="Поделиться с друзьями в Одноклассниках"></a>
 </p></td>
 <td>
-
 <!-- Place this tag where you want the +1 button to render. -->
 <div class="g-plusone" data-size="medium"></div>
 
