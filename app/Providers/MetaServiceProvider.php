@@ -39,6 +39,11 @@ class MetaServiceProvider extends ServiceProvider
 					$pageMeta 		= '<meta name="Description" content="' . $goroskop->gor_name . '. Узнай свой гороскоп на сайте знакомств Виолетта.">
 							<meta name="Keywords" content="' . $goroskop->gor_name . ', гороскопы, бесплатные знакомства, знакомства в Москве, поиск анкет, найти любовь">';
 					break;
+				case 'names':
+					$pageTitle 		= 'Значение имени, Что означает ваше имя, Бесплатный сайт знакомств Виолетта';
+					$pageMeta 		= '<meta name="Description" content="Значение имени. Узнайте, что означает ваше имя. А также знакомства и многое другое.">
+								<meta name="Keywords" content="значение имени, что означает имя, знакомства в Москве, поиск анкет, найти любовь">';
+					break;
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
 				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->

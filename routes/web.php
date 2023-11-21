@@ -34,10 +34,15 @@ Route::get('ankets', 'NoContoller@index')->name('ankets');
 
 Route::get('bestankets/{sex}', 'NoContoller@index')->where('sex', '(men|women)')->name('bestankets.sex');
 
-Route::get('goroskop/op{id}.html', 'GoroskopController@getType')->whereNumber('id')->name ('goroskop.op');
+Route::get('goroskop/op{id}.html', 'GoroskopController@getType')->whereNumber('id')->name('goroskop.op');
 Route::get('goroskop/{id}.html', 'GoroskopController@getItem')->whereNumber('id')->name('goroskop.id');
 Route::get('goroskop.html', 'GoroskopController@index')->name('goroskop');
-Route::get('names', 'NoContoller@index')->name('names');
+
+Route::get('names/{sex}.html', 'NoContoller@index')->where('sex', '(men|women)')->name('names.sex');
+Route::get('names/{id}.html', 'NoContoller@index')->whereNumber('id')->name('names.id');
+Route::get('names/{sex}/{id}.html', 'NoContoller@index')->whereNumber('id')
+														->where('sex', '(men|women)')->name('names.subop');
+Route::get('names.html', 'NameController@index')->name('names');
 
 Route::get('population_search', 'NoContoller@index')->name('population_search');
 Route::get('birthday_search', 'NoContoller@index')->name('birthday_search');
