@@ -38,7 +38,7 @@ Route::get('goroskop/op{id}.html', 'GoroskopController@getType')->whereNumber('i
 Route::get('goroskop/{id}.html', 'GoroskopController@getItem')->whereNumber('id')->name('goroskop.id');
 Route::get('goroskop.html', 'GoroskopController@index')->name('goroskop');
 
-Route::get('names/{sex}.html', 'NoContoller@index')->where('sex', '(men|women)')->name('names.sex');
+Route::get('names/{sex}.html', 'NameController@getGender')->where('sex', '(men|women)')->name('names.sex');
 Route::get('names/{id}.html', 'NoContoller@index')->whereNumber('id')->name('names.id');
 Route::get('names/{sex}/{id}.html', 'NoContoller@index')->whereNumber('id')
 														->where('sex', '(men|women)')->name('names.subop');

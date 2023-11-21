@@ -24,5 +24,16 @@ class Name extends Model
 		return $items;
 	}
 
+	public function getAllbySex($sex, $id)
+	{
+		$items = self::select('*')
+		->where('gender', '=', $sex)
+		->where('name_id', '=', $id)
+		->get();
+
+		if (empty ($items)) return null;
+		return $items;
+	}
+
 
 }

@@ -86,5 +86,46 @@ class NameController extends Controller
 			'names'				=> $names
 		]);
     }
-}
 
+	/**
+     * Show genderType
+     *
+	 *  @return \Illuminate\Http\Response
+    */
+    public function getGender(Request $request, $sex, $id = 1)
+    {
+
+
+		$alphabet 	= $this->alphabet;
+		$nameTitle 	= $sex == 'men' ? 'Значение мужского имени' : 'Значение женского имени';
+		$s 			= $sex == 'men' ? 'm' 						: 'f';
+		$names 		= Name::getAllbySex($s, $id);
+
+		$namesGender = '';
+		for ($i = 1; $i <= count($alphabet); $i++)
+		{
+			if ($i == 7 && $sex == 'men') continue;
+			if ($sex == 'women') 
+			{
+				if ($i == 21)
+					$namesGender .= '<a href="' . route('names.subop', [$sex, ($i + 1)]) . '/">' . $alphabet[($i + 1)] . '</a>';
+				elseif ($i == 22)
+					$namesGender .= '<a href="' . route('names.subop', [$sex, ($i - 1)]) . '/">' . $alphabet[($i - 1)] . '</a>';
+				else
+					$namesGender .= '<a href="' . route('names.subop', [$sex, $i]) . '">' . $alphabet[$i] . '</a>';
+			} else
+				$namesGender .= '<a href="' . route('names.subop', [$sex, $i]) . '">' . $alphabet[$i] . '</a>';
+		}
+
+		return response()->view ('names.gender', 
+		[
+			'sex'				=> $sex,
+			'alphabet'			=> $alphabet,
+			'names'				=> $names,
+			'nameTitle'			=> $nameTitle,
+			'namesGender'		=> $namesGender
+		]);
+	}
+
+
+}

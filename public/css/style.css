@@ -343,7 +343,7 @@ ul.namesMW2 {display:block; float:left; width:290px;}
 .namesMW2 li a:hover {color:#5954b0;}
 .namesMW2B {padding-top:10px;}
 p.namesMW3 {text-align:center; padding-top:10px; padding-bottom:10px;}
-	.namesMW3 a {font-size:11px; color:#211b92; text-decoration:underline; margin-right:1px; margin-left:1px;}
+	.namesMW3 a {font-size:11px; color:#211b92; text-decoration:underline; margin-right:5px; margin-left:5px;}
 	.namesMW3 a:hover {color:#5954b0;}
 
 .namesMW4 li {padding-bottom:5px;}
@@ -362,7 +362,7 @@ ul#ankFotos {margin-top:7px;}
 #ankFotos .ankFotosPics img {width:85px; height:113px; top:-3px; left:-3px; position:relative;}
 #ankFotos li p {padding-bottom:1px;}
 p.unit-rating2 {width:70px;}
-.unit-rating {list-style:none; margin:0px !important; padding:0px !important; height:14px; position:relative; background:url('../image/starvote.png') top left no-repeat; *margin-top:-15px !important;}
+.unit-rating {list-style:none; margin:0px !important; padding:0px !important; height:14px; position:relative; background:url('../image/starvote.png') top left no-repeat; margin-top:-15px !important;}
 .unit-rating li{text-indent:-90000px; padding:0px !important; margin:0px !important; float:left;}
 .unit-rating li a {outline: none; display:block; width:14px; height: 14px; text-decoration: none; text-indent: -9000px; z-index:20; position:absolute; padding:0px;	}
 .unit-rating li a:hover {background: url('../image/star1.png') left center; z-index: 2; left: 0px;}
