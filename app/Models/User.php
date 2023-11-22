@@ -174,6 +174,29 @@ class User extends Authenticatable
 			$_item->user_age_type 	= Helper::ageType($_item->user_age);
 			if (count ($_item->photo) > 0)
 				$_item->photo 		= $_item->photo[0];
+
+			$findSOrient = '';
+			if ($_item->user_sex_orient == GOMOSEXUAL) 
+				$findSOrient .= $_item->user_sex == MEN ? 'парня' : 'девушку';
+			elseif ($_item->user_sex_orient == BISEXUAL) 
+				$findSOrient .= $_item->user_sex == MEN ? 'девушку или парня' : 'парня или девушку';
+			else
+				$findSOrient .= $_item->user_sex == MEN ? 'девушку' : 'парня';
+		
+			if ($_item->user_partner_age_min > PARTNER_AGE_MIN && $_item->user_partner_age_max > PARTNER_AGE_MAX) 
+			{
+				$findSOrient .= ' ' . $_item->user_partner_age_min . '-' . $_item->user_partner_age_max;
+				$findSOrient .= ' ' . Helper::ageType($_item->user_partner_age_max);
+			} elseif ($_item->user_partner_age_min > PARTNER_AGE_MIN && $_item->user_partner_age_max <= PARTNER_AGE_MAX) 
+			{
+				$findSOrient .= ' от ' . $_item->user_partner_age_min;
+				$findSOrient .= ' ' . Helper::ageType2($_item->user_partner_age_min);
+			} elseif ($_item->user_partner_age_min <= PARTNER_AGE_MIN && $_item->user_partner_age_max > PARTNER_AGE_MAX) 
+			{
+				$findSOrient .= ' до ' . $_item->user_partner_age_max;
+				$findSOrient .= ' ' . Helper::ageType2($_item->user_partner_age_max);
+			}
+			$_item->find_sex_orient = $findSOrient;
 		}
 
 		return $items;
@@ -199,6 +222,29 @@ class User extends Authenticatable
 			$_item->user_age_type 	= Helper::ageType($_item->user_age);
 			if (count ($_item->photo) > 0)
 				$_item->photo 		= $_item->photo[0];
+
+			$findSOrient = '';
+			if ($_item->user_sex_orient == GOMOSEXUAL) 
+				$findSOrient .= $_item->user_sex == MEN ? 'парня' : 'девушку';
+			elseif ($_item->user_sex_orient == BISEXUAL) 
+				$findSOrient .= $_item->user_sex == MEN ? 'девушку или парня' : 'парня или девушку';
+			else
+				$findSOrient .= $_item->user_sex == MEN ? 'девушку' : 'парня';
+		
+			if ($_item->user_partner_age_min > PARTNER_AGE_MIN && $_item->user_partner_age_max > PARTNER_AGE_MAX) 
+			{
+				$findSOrient .= ' ' . $_item->user_partner_age_min . '-' . $_item->user_partner_age_max;
+				$findSOrient .= ' ' . Helper::ageType($_item->user_partner_age_max);
+			} elseif ($_item->user_partner_age_min > PARTNER_AGE_MIN && $_item->user_partner_age_max <= PARTNER_AGE_MAX) 
+			{
+				$findSOrient .= ' от ' . $_item->user_partner_age_min;
+				$findSOrient .= ' ' . Helper::ageType2($_item->user_partner_age_min);
+			} elseif ($_item->user_partner_age_min <= PARTNER_AGE_MIN && $_item->user_partner_age_max > PARTNER_AGE_MAX) 
+			{
+				$findSOrient .= ' до ' . $_item->user_partner_age_max;
+				$findSOrient .= ' ' . Helper::ageType2($_item->user_partner_age_max);
+			}
+			$_item->find_sex_orient = $findSOrient;	
 		}
 
 		return $items;
