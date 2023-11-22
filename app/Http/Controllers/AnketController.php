@@ -30,12 +30,7 @@ class AnketController extends Controller
 		$popSex 			= $sex == 'men' ? 'мужчины' : 'женщины';
 		$ankets 			= User::getPopul($this->countPerPage, $s);
 		$page 				= $ankets->currentPage();
-		$pagination 		= $ankets->toArray()['links'];
-		$pagination[0] 		= str_replace (' Previous','', $pagination[0]);
-		$pagination[0] 		= str_replace ('&laquo;','&lt;', $pagination[0]);
-		$ind 				= count ($pagination) - 1;
-		$pagination[$ind] 	= str_replace ('Next ','', $pagination[$ind]);
-		$pagination[$ind] 	= str_replace ('&raquo;','&gt;', $pagination[$ind]);
+		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
 
 		foreach ($ankets as &$item)
 		{
@@ -80,12 +75,7 @@ class AnketController extends Controller
 		$ankets 	= User::getBirthday($this->countPerPage);
 
 		$page 				= $ankets->currentPage();
-		$pagination 		= $ankets->toArray()['links'];
-		$pagination[0] 		= str_replace (' Previous','', $pagination[0]);
-		$pagination[0] 		= str_replace ('&laquo;','&lt;', $pagination[0]);
-		$ind 				= count ($pagination) - 1;
-		$pagination[$ind] 	= str_replace ('Next ','', $pagination[$ind]);
-		$pagination[$ind] 	= str_replace ('&raquo;','&gt;', $pagination[$ind]);
+		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
 
 		foreach ($ankets as &$item)
 		{
