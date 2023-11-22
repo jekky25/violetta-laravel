@@ -59,6 +59,16 @@ class MetaServiceProvider extends ServiceProvider
 					$pageMeta = '<meta name="Description" content="Значение имени ' . $name->name . '.  что означает имя ' . $name->name . '. А также знакомства и многое другое.">
 					<meta name="Keywords" content="значение имени ' . $name->name . ', что означает имя ' . $name->name . ', знакомства в Москве, поиск анкет, найти любовь">';
 					break;
+				case 'population_search':
+				case 'population_search.sex':
+					$sex = $view->sex;
+					$page = $view->page;
+					$str 		= $sex == 'men' ? 'Самые популярные мужчины' : 'Самые популярные женщины';
+					$pageOut 	= $page > 1 	? ' страница ' . $page : '';
+					$pageTitle 	= $str . ', Самые популярные участники, Сайт знакомств Виолетта' . $pageOut;
+					$pageMeta 	= '<meta name="Description" content="' . $str . '. Самые популярные пользователи на сайте знакомств.">
+									<meta name="Keywords" content="' . $str . ', самые популярные пользователи на сайте знакомств, сайт знакомств, бесплатные знакомства">';
+					break;
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
 				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->

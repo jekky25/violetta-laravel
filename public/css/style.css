@@ -253,12 +253,12 @@ table#mScreen {width:100%;}
 	.scrPic2 {position:relative; width:400px; background-color:#878672; top:3px; left:3px; margin:0 auto;}
 	.scrPic2 img {width:400px; top:-3px; left:-3px; position:relative;}	
 	#mScreen .comLink {text-align:center; padding:10px 0 0 0;}
-	
-table.paginaion	{margin:0 auto;}
-	.paginaion td {padding:10px;}
-	.paginaion a {margin-left:7px; margin-right:7px; font-size:12px; color:#211b92; font-weight: bold; text-decoration:none;}
-	.paginaion a:hover {color:#5954b0;}
-	.paginaion a.active {color:#f72d4e;}
+
+table.pagination {margin:0 auto;}
+.pagination td {padding:10px;}
+.pagination a {margin-left:7px; margin-right:7px; font-size:12px; color:#211b92; font-weight: bold; text-decoration:none;}
+.pagination a:hover {color:#5954b0;}
+.pagination a.active {color:#f72d4e;}
 
 table.scrDown {margin:0 auto; margin-bottom:10px;}
 	.scrDown td {padding: 0 10px 5px 0;}
