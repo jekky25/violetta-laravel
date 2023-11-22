@@ -120,4 +120,21 @@ class Helper {
   		$date = date("d.m.y.",$timestamp);
 		return $date;
 	}
+
+	/**
+	 * out picture to template
+	 * @param integer $picture
+	 * @param string $sex
+	 *
+	 * @return string
+	 */
+	function outPicture($picture = 0, $sex)
+	{
+		$picture = (int) $picture;
+		if ($picture > 0) return asset('fotos_new/' . $picture . '.jpg');
+
+		$fotoUrl = $sex == MEN ? 'image/no_foto_m_vip.jpg' : 'image/no_foto_w_vip.jpg';
+		return asset ($fotoUrl);
+	}
+
 }

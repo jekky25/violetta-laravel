@@ -12,11 +12,12 @@
 								</ul>
 								<div class="clear"></div>
 @if (!empty($ankets))
-    @foreach ($ankets as $item) 
+    @foreach ($ankets as $item)
+		@if (!isset ($item->user->photo->fotos_id)) @php $item->user->photo->fotos_id = 0 @endphp @endif
 		<dl>
 			<dt>
 				<a href="{{route('ank.id', $item->user->user_id)}}">
-				<img alt="{{$item->user->user_name}},{{$item->user->user_age}}{{$item->user->user_age_type}},{{$item->user->city->name}}" data-src="{{ asset('fotos_new/' . $item->user->photo->fotos_id) . '.jpg' }}" src="{{ asset('image/zero.gif') }}" /></a>
+				<img alt="{{$item->user->user_name}},{{$item->user->user_age}}{{$item->user->user_age_type}},{{$item->user->city->name}}" data-src="{{ App\Helpers\Helper::outPicture($item->user->photo->fotos_id, $item->user->user_sex) }}" src="{{ asset('image/zero.gif') }}" /></a>
 			</dt>
 			<dd>
 				<p>{{--if $ankets[j].user_reg_is}<img title="на сайте" class="online" alt="на сайте" src="../../image/on_line.gif" />{/if--}}

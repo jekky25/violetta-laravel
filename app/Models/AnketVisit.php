@@ -33,12 +33,12 @@ class AnketVisit extends Model
 		->groupBy(['user_id_prosm','id', 'ank_user_id', 'ank_time'])
 		->orderBy('user_id_prosm', 'desc')
 		->paginate($count);
-
 		foreach ($items as &$_item)
 		{
 			$_item->user->user_age 			= Helper::age($_item->user->user_birth_date);
 			$_item->user->user_age_type 	= Helper::ageType($_item->user->user_age);
-			$_item->user->photo 			= $_item->user->photo[0];
+			if (count ($_item->user->photo) > 0)
+				$_item->user->photo 		= $_item->user->photo[0];
 		}
 
 		return $items;
