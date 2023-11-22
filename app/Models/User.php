@@ -64,43 +64,7 @@ class User extends Authenticatable
         ->orderBy('user_make_date_t', 'desc')
         ->get();
 
-		foreach ($items as &$_item)
-		{
-			$_item->user_age 		= Helper::age($_item->user_birth_date);
-			$_item->user_age_type 	= Helper::ageType($_item->user_age);
-			$_item->photo = $_item->photo[0];
-
-			$findSexOrient = '';
-
-			switch ($_item->user_sex_orient) 
-			{
-				case GOMOSEXUAL:
-					$findSexOrient .= $_item->user_sex == MEN 	? 'парня' 				: 'девушку';
-					break;
-				case BISEXUAL:
-					$findSexOrient .= $_item->user_sex == MEN 	? 'девушку или парня' 	: 'парня или девушку';
-					break;
-				default:
-					$findSexOrient .= $_item->user_sex == MEN 	? 'девушку' 			: 'парня';
-					break;
-			}
-
-			if ($_item->user_partner_age_min > PARTNER_AGE_MIN && $_item->user_partner_age_max > PARTNER_AGE_MAX)
-			{
-				$findSexOrient .= ' ' . $_item->user_partner_age_min . '-' . $_item->user_partner_age_max;
-				$findSexOrient .= ' ' . Helper::ageType($_item->user_partner_age_max);
-			} else if ($_item->user_partner_age_min > PARTNER_AGE_MIN && $_item->user_partner_age_max <= PARTNER_AGE_MAX)
-			{
-				$findSexOrient .= ' от ' . $_item->user_partner_age_min;
-				$findSexOrient .= ' ' . Helper::ageType2($_item->user_partner_age_min);
-			} else if ($_item->user_partner_age_min <= PARTNER_AGE_MIN && $_item->user_partner_age_max > PARTNER_AGE_MAX)
-			{
-				$findSexOrient .= ' до ' . $_item->user_partner_age_max;
-				$findSexOrient .= ' ' . Helper::ageType2($_item->user_partner_age_max);
-			}
-			$_item->find_sex_orient = $findSexOrient;
-
-		}
+		$items = self::addProps($items);
 
 		return $items;
     }
@@ -167,37 +131,8 @@ class User extends Authenticatable
 		->with('city')
 		->with('photo')
 		->paginate($count);
-
-		foreach ($items as &$_item)
-		{
-			$_item->user_age 		= Helper::age($_item->user_birth_date);
-			$_item->user_age_type 	= Helper::ageType($_item->user_age);
-			if (count ($_item->photo) > 0)
-				$_item->photo 		= $_item->photo[0];
-
-			$findSOrient = '';
-			if ($_item->user_sex_orient == GOMOSEXUAL) 
-				$findSOrient .= $_item->user_sex == MEN ? 'парня' : 'девушку';
-			elseif ($_item->user_sex_orient == BISEXUAL) 
-				$findSOrient .= $_item->user_sex == MEN ? 'девушку или парня' : 'парня или девушку';
-			else
-				$findSOrient .= $_item->user_sex == MEN ? 'девушку' : 'парня';
 		
-			if ($_item->user_partner_age_min > PARTNER_AGE_MIN && $_item->user_partner_age_max > PARTNER_AGE_MAX) 
-			{
-				$findSOrient .= ' ' . $_item->user_partner_age_min . '-' . $_item->user_partner_age_max;
-				$findSOrient .= ' ' . Helper::ageType($_item->user_partner_age_max);
-			} elseif ($_item->user_partner_age_min > PARTNER_AGE_MIN && $_item->user_partner_age_max <= PARTNER_AGE_MAX) 
-			{
-				$findSOrient .= ' от ' . $_item->user_partner_age_min;
-				$findSOrient .= ' ' . Helper::ageType2($_item->user_partner_age_min);
-			} elseif ($_item->user_partner_age_min <= PARTNER_AGE_MIN && $_item->user_partner_age_max > PARTNER_AGE_MAX) 
-			{
-				$findSOrient .= ' до ' . $_item->user_partner_age_max;
-				$findSOrient .= ' ' . Helper::ageType2($_item->user_partner_age_max);
-			}
-			$_item->find_sex_orient = $findSOrient;
-		}
+		$items = self::addProps($items);
 
 		return $items;
 	}
@@ -216,6 +151,14 @@ class User extends Authenticatable
 		})
 		->orderBy('user_id', 'desc')
 		->paginate($count);
+
+		$items = self::addProps($items);
+
+		return $items;
+	}
+
+	public function addProps($items)
+	{
 		foreach ($items as &$_item)
 		{
 			$_item->user_age 		= Helper::age($_item->user_birth_date);
@@ -254,6 +197,4 @@ class User extends Authenticatable
 	{
     	return $this->hasOne(AnketVisit::class, 'user_id_prosm', 'user_id');
 	}
-
-
 }
