@@ -178,4 +178,36 @@ class User extends Authenticatable
 
 		return $items;
 	}
+
+	public function getPopul($count = 0, $sex)
+	{
+		$items = self::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
+		->where('user_sex', $sex)
+		->with('city')
+		->with('photo')
+		->with('anketVisit')
+		->whereExists(function ($query) {
+			$query->select(DB::raw(1))
+				  ->from('anket_visit')
+				  ->whereRaw('users_news.user_id = anket_visit.user_id_prosm');
+		})
+		->orderBy('user_id', 'desc')
+		->paginate($count);
+		foreach ($items as &$_item)
+		{
+			$_item->user_age 		= Helper::age($_item->user_birth_date);
+			$_item->user_age_type 	= Helper::ageType($_item->user_age);
+			if (count ($_item->photo) > 0)
+				$_item->photo 		= $_item->photo[0];
+		}
+
+		return $items;
+	}
+
+	public function anketVisit()
+	{
+    	return $this->hasOne(AnketVisit::class, 'user_id_prosm', 'user_id');
+	}
+
+
 }

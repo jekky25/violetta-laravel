@@ -28,7 +28,7 @@ class AnketController extends Controller
 	{
 		$s 					= $sex == 'men' ? MEN 		: WOMEN;
 		$popSex 			= $sex == 'men' ? 'мужчины' : 'женщины';
-		$ankets 			= AnketVisit::getPopul($this->countPerPage, $s);
+		$ankets 			= User::getPopul($this->countPerPage, $s);
 		$page 				= $ankets->currentPage();
 		$pagination 		= $ankets->toArray()['links'];
 		$pagination[0] 		= str_replace (' Previous','', $pagination[0]);
@@ -40,27 +40,27 @@ class AnketController extends Controller
 		foreach ($ankets as &$item)
 		{
 			$findSOrient = '';
-			if ($item->user->user_sex_orient == GOMOSEXUAL) 
-				$findSOrient .= $item->user->user_sex == MEN ? 'парня' : 'девушку';
-			elseif ($item->user->user_sex_orient == BISEXUAL) 
-				$findSOrient .= $item->user->user_sex == MEN ? 'девушку или парня' : 'парня или девушку';
+			if ($item->user_sex_orient == GOMOSEXUAL) 
+				$findSOrient .= $item->user_sex == MEN ? 'парня' : 'девушку';
+			elseif ($item->user_sex_orient == BISEXUAL) 
+				$findSOrient .= $item->user_sex == MEN ? 'девушку или парня' : 'парня или девушку';
 			else
-				$findSOrient .= $item->user->user_sex == MEN ? 'девушку' : 'парня';
+				$findSOrient .= $item->user_sex == MEN ? 'девушку' : 'парня';
 
-			if ($item->user->user_partner_age_min > PARTNER_AGE_MIN && $item->user->user_partner_age_max > PARTNER_AGE_MAX) 
+			if ($item->user_partner_age_min > PARTNER_AGE_MIN && $item->user_partner_age_max > PARTNER_AGE_MAX) 
 			{
-				$findSOrient .= ' ' . $item->user->user_partner_age_min . '-' . $item->user->user_partner_age_max;
-				$findSOrient .= ' ' . Helper::ageType($item->user->user_partner_age_max);
-			} elseif ($item->user->user_partner_age_min > PARTNER_AGE_MIN && $item->user->user_partner_age_max <= PARTNER_AGE_MAX) 
+				$findSOrient .= ' ' . $item->user_partner_age_min . '-' . $item->user_partner_age_max;
+				$findSOrient .= ' ' . Helper::ageType($item->user_partner_age_max);
+			} elseif ($item->user_partner_age_min > PARTNER_AGE_MIN && $item->user_partner_age_max <= PARTNER_AGE_MAX) 
 			{
-				$findSOrient .= ' от ' . $item->user->user_partner_age_min;
-				$findSOrient .= ' ' . Helper::ageType2($item->user->user_partner_age_min);
-			} elseif ($item->user->user_partner_age_min <= PARTNER_AGE_MIN && $item->user->user_partner_age_max > PARTNER_AGE_MAX) 
+				$findSOrient .= ' от ' . $item->user_partner_age_min;
+				$findSOrient .= ' ' . Helper::ageType2($item->user_partner_age_min);
+			} elseif ($item->user_partner_age_min <= PARTNER_AGE_MIN && $item->user_partner_age_max > PARTNER_AGE_MAX) 
 			{
-				$findSOrient .= ' до ' . $item->user->user_partner_age_max;
-				$findSOrient .= ' ' . Helper::ageType2($item->user->user_partner_age_max);
+				$findSOrient .= ' до ' . $item->user_partner_age_max;
+				$findSOrient .= ' ' . Helper::ageType2($item->user_partner_age_max);
 			}
-			$item->user->find_sex_orient = $findSOrient;
+			$item->find_sex_orient = $findSOrient;
 
 		}
 		
