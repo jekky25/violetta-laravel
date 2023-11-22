@@ -46,7 +46,7 @@ Route::get('names.html', 'NameController@index')->name('names');
 
 Route::get('population_search/{sex}/', 'AnketController@getPopularAnkets')->where('sex', '(men|women)')->name('population_search.sex');
 Route::get('population_search', 'AnketController@getPopularAnkets')->name('population_search');
-Route::get('birthday_search', 'NoContoller@index')->name('birthday_search');
+Route::get('birthday_search', 'AnketController@getBirthdayAnkets')->name('birthday_search');
 
 Route::get('screensavers.html', 'NoContoller@index')->name('screensavers');
 Route::get('dreambook.html', 'NoContoller@index')->name('dreambook');

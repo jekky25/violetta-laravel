@@ -154,4 +154,28 @@ class User extends Authenticatable
         ->count();
 		return $count > 0 ? $count : 0;
 	}
+
+	public function getBirthday($count = 0)
+	{
+		$tDay 	= \Carbon\Carbon::now()->format('d');
+		$tMonth = \Carbon\Carbon::now()->format('m');
+		$tDate	= '____-'. $tMonth . '-' .$tDay;
+
+		$items = self::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
+		->where('user_active', 1)
+		->where('user_birth_date', 'LIKE', $tDate)
+		->with('city')
+		->with('photo')
+		->paginate($count);
+
+		foreach ($items as &$_item)
+		{
+			$_item->user_age 		= Helper::age($_item->user_birth_date);
+			$_item->user_age_type 	= Helper::ageType($_item->user_age);
+			if (count ($_item->photo) > 0)
+				$_item->photo 		= $_item->photo[0];
+		}
+
+		return $items;
+	}
 }
