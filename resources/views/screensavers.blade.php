@@ -5,9 +5,9 @@
 <p class="pad2">В этом разделе собрана коллекция экранных заставок на водную тему. Которые порой радуют глаз и слух. Коллекция постоянно пополняется новыми скринсейверами.</p>
 <p class="pad3">Приятного вам просмотра!</p>
 <p class="pad3">Найдено заставок: <strong>{{$numScreens}}</strong></p>
-@if (!empty ($screen))
+@if (!empty ($screens))
 <table id="mScreen">
-@foreach ($screen as $item)
+@foreach ($screens as $item)
 @if ($loop->index % 2 == 0)<tr>@endif
 	<td>
 		<h2>{{ $item->name }}</h2>
@@ -21,5 +21,5 @@
 @endforeach
 </table>
 @endif
-@include('pagination', ['items' => $screen])
+@include('pagination', ['items' => $screens])
 @overwrite
