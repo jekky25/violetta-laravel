@@ -262,6 +262,8 @@ table.pagination {margin:0 auto;}
 
 table.scrDown {margin:0 auto; margin-bottom:10px;}
 	.scrDown td {padding: 0 10px 5px 0;}
+
+.scrDown label {cursor:pointer;}
 	
 table.scrComments {width:100%;}
 .scrComments h4 {text-align:center; padding-bottom:20px; font-size:11px;}
