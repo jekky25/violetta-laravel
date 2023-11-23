@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 use App\Models\Screen;
+use App\Models\CommentScreen;
 use App\Helpers\Helper;
 
 class ScreenController extends Controller
@@ -32,16 +33,35 @@ class ScreenController extends Controller
      */
     public function index(Request $request)
     {
-		$screen = Screen::get($this->countPerPage);
-		$page 				= $screen->currentPage();
-		$pagination 		= Helper::preparePagination ($screen->toArray()['links']);
-
+		$screens 			= Screen::get($this->countPerPage);
+		$page 				= $screens->currentPage();
+		$pagination 		= Helper::preparePagination ($screens->toArray()['links']);
 		return response()->view ('screensavers', 
 		[
-			'screen'			=> $screen,
+			'page'				=> $page,
+			'screens'			=> $screens,
 			'pagination'		=> $pagination,
-			'numScreens'		=> $screen->total()
+			'numScreens'		=> $screens->total()
 		]);
     }
+
+	public function getItem(Request $request, $id)
+	{
+		$screen 			= Screen::getById($id);
+		if (empty ($screen)) abort(404);
+
+		$screen->size_scr 	= Helper::formatFileSize($screen->size_scr);
+		$screen->size_rar 	= Helper::formatFileSize($screen->size_rar);
+
+		$comments 			= CommentScreen::getByScrId($id);
+
+
+		return response()->view ('screensavers_id', 
+		[
+			'screen'			=> $screen,
+			'comments'			=> $comments
+		]);
+
+	}
 }
 
