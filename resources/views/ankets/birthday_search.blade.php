@@ -29,5 +29,5 @@ google_ad_height = 600;
 		</td>
 	</tr>
 </table>
-@include('pagination')
+@include('pagination', ['items' => $ankets])
 @overwrite
