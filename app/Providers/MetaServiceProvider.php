@@ -69,6 +69,13 @@ class MetaServiceProvider extends ServiceProvider
 					$pageMeta 	= '<meta name="Description" content="' . $str . '. Самые популярные пользователи на сайте знакомств.">
 									<meta name="Keywords" content="' . $str . ', самые популярные пользователи на сайте знакомств, сайт знакомств, бесплатные знакомства">';
 					break;
+				case 'birthday_search':
+					$page = $view->page;
+					$pageOut 	= $page > 1 	? ' страница ' . $page : '';
+					$pageTitle = 'Участники отмечающие день рождения, Сайт знакомств Виолетта' . $pageOut;
+					$pageMeta = '<meta name="Description" content="Участники отмечающие день рождения на сайт знакомств. ПОЗДРАВЛЯЕМ. ">
+								<meta name="Keywords" content="Участники отмечающие день рождения на сайт знакомств, ПОЗДРАВЛЯЕМ, сайт знакомств, бесплатные знакомства">';
+					break;
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
 				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
