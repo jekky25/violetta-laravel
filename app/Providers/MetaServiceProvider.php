@@ -76,6 +76,22 @@ class MetaServiceProvider extends ServiceProvider
 					$pageMeta = '<meta name="Description" content="Участники отмечающие день рождения на сайт знакомств. ПОЗДРАВЛЯЕМ. ">
 								<meta name="Keywords" content="Участники отмечающие день рождения на сайт знакомств, ПОЗДРАВЛЯЕМ, сайт знакомств, бесплатные знакомства">';
 					break;
+
+				case 'screensavers':	
+					$page = $view->page;
+					$pageOut 	= $page > 1 ? ' страница ' . $page : '';
+					$pageTitle = 'Хранители экрана, Скринсейверы, Screensaver, Скачать заставку, Сайт знакомств Виолетта' . $pageOut;
+					$pageMeta = '<meta name="Description" content="Хранители экрана. Большая коллекция экранных заставок на водную тему. Можно скачать прямо сейчас.">
+							<meta name="Keywords" content="Хранители экрана, Скринсейверы, Screensaver, Скачать заставку, Сайт знакомств Виолетта">';
+					break;
+				case 'screensavers.id':	
+					$page = $view->page;
+					$screen = $view->screen;
+					$pageOut 	= $page > 1 ? ' страница ' . $page : '';
+					$pageTitle 	= $screen->name . ', Хранитель экрана, Скринсейвер, Screensaver, Скачать заставку с сайта знакомств Виолетта';
+					$pageMeta = '<meta name="Description" content="' . $screen->name . ' - скачай хранитель экрана прямо сейчас. Большая коллекция экранных заставок на водную тему.">
+					<meta name="Keywords" content="' . $screen->name . ', Хранители экрана, Скринсейверы, Screensaver, Скачать заставку, Сайт знакомств Виолетта">';
+					break;
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
 				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
