@@ -170,7 +170,7 @@ class Helper {
     		$l1 	= substr($str,0,($l-6));
     		$l_len1 = strlen ($l1);
     		$l2 	= substr($str,$l_len1,($l-$l_len1-5));
-			$lenght = $l1.",".$l2." мБ";
+			$l		= $l1.",".$l2." мБ";
 		}
 		else
 		{
