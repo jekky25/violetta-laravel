@@ -26,9 +26,9 @@
 <p class="pad3">Приятного вам просмотра</p>
 <form name="anketa" class="form-block" action="{{route('screensavers.id',$screen->id)}}" method="post">
 {{ csrf_field() }}
-@if (!empty ($errors->all()))
+@if (!empty ($errors->download->all()))
 <div class="error">
-@foreach ($errors->all() as $message)
+@foreach ($errors->download->all() as $message)
 <p>{{ $message }}</p>
 @endforeach
 	</div>
@@ -58,11 +58,23 @@
 <p class="pad3">Здесь вы можете оставить свои комментарии</p>			
 @endif
 </td>
-<td>
+<td class="valign1">
 <h4>Оставить комментарий</h4>
-<form name="anketa2" action="screensaver_id{$screensaver.id}.html" method="post">
+<form name="anketa2" action="{{route('screensavers.id',$screen->id)}}" method="post">
+{{ csrf_field() }}
+@if(session('success'))
+  <div class="success">{{session('success')}}</div>
+@else
+@if (!empty ($errors->comment->all()))
+<div class="error">
+@foreach ($errors->comment->all() as $message)
+<p>{{ $message }}</p>
+@endforeach
+	</div>
+@endif
 <div class="pad2"><textarea name="description" wrap="virtual" class="textarea1" ></textarea></div>
 <p><input class="input2" type="submit" name="send" value="Отправить" /></p>
+@endif
 </form>
 </td>
 <tr>

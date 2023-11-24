@@ -6,10 +6,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Screen;
 use App\Models\CommentScreen;
 use App\Helpers\Helper;
+use Validator;
 
 class ScreenController extends Controller
 {
@@ -82,7 +84,7 @@ class ScreenController extends Controller
 					$strError = 'Капча не пройдена';
 
 					return redirect()->back()
-								->withErrors($strError)
+								->withErrors($strError, 'download')
 								->withInput();
 
 				}
@@ -111,6 +113,54 @@ class ScreenController extends Controller
 				redirect(route('screensavers.id',$screen->id));
 				
 
+			} elseif ($request->has('send'))
+			{
+				$arParams = $request->post();
+				$rules = [
+					'description'	=> ['required', 'max:1000']
+				];
+				$errMessages = [
+						'description.required' 	=> 'Комментарий не заполнен',
+						'description.max'	 	=> 'Ваш комментарий слишком длинный',
+				];
+
+				$validator = Validator::make($arParams, $rules, $errMessages);
+
+				if ($validator->fails()) {
+					$messages = $validator->messages();
+					$strError = $messages;
+
+
+					return redirect()->back()
+								->withErrors($strError, 'comment')
+								->withInput();
+
+				}
+
+				$description =  str_replace("\'", "''", $arParams['description']);
+        
+				$user = Auth::user()->load(['visits']);
+				if (empty ($user))
+				{
+				}
+
+				
+				$aFields = [
+					'scr_id'		=> $screen->id,
+					'name'			=> $user->user_name,
+					'email' 		=> $user->user_mail,
+					'description'	=> $description,
+					'time'			=> time()
+				];
+		
+		
+				$oComment = new CommentScreen ($aFields);
+				$oComment->save();
+
+				return redirect()->back()
+								->with('success','Сообщение успешно отправлено')
+								->withInput();
+
 			}
 
 		}
@@ -120,25 +170,6 @@ class ScreenController extends Controller
 		$screen->size_rar 	= Helper::formatFileSize($screen->size_rar);
 
 		$comments 			= CommentScreen::getByScrId($id);
-
-		$arParams = $request->post();
-		$rules = [
-			'name' 		=> ['required', 'string', 'max:30'],
-			'email' 	=> ['required', 'email'],
-			'subject'	=> ['required', 'max:300'],
-			'text'	 	=> ['required', 'max:1000']
-		];
-		$errMessages = ['name.required' 	=> 'Поле Имя не заполнено',
-						'name.max' 			=> 'Поле Имя должно быть не более :max символов',
-						'email.required' 	=> 'Поле Емайл не заполнено',
-						'email.email' 		=> 'Поле Емайл заполнено не корректно',
-						'subject.required' 	=> 'Тема не заполнена',
-						'subject.max'	 	=> 'Поле Тема должно быть не более :max символов',
-						'text.required' 	=> 'Комментарий не заполнен',
-						'text.max'	 	=> 'Ваш комментарий слишком длинный',
-		];
-
-		
 
 		return response()->view ('screensavers_id', 
 		[

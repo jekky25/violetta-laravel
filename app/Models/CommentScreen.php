@@ -9,7 +9,16 @@ class CommentScreen extends Model
 {
 	use HasFactory;
 
-	protected $table = 'comments_screen_servers';
+	protected $table 	= 'comments_screen_servers';
+	public $timestamps 	= false;
+	protected $fillable = [
+		'scr_id',
+		'user_id',
+		'time',
+		'name',
+		'description',
+		'email',
+	  ];
 
 	public function getByScrId($id)
 	{
