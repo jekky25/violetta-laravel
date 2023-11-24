@@ -142,8 +142,8 @@ class ScreenController extends Controller
 				$user = Auth::user()->load(['visits']);
 				if (empty ($user))
 				{
+					return redirect()->route('login');
 				}
-
 				
 				$aFields = [
 					'scr_id'		=> $screen->id,
