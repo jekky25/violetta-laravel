@@ -332,8 +332,10 @@ ul.sonnikMenu {margin:0 auto; margin-bottom:30px; width:320px;}
 .sonnik a:hover {color:#5954b0;}
 a.strelki {font-size:12px; font-weight:bold; text-decoration: none;}
 
-p.error {color:#f00; text-align:center;}
+.error {color:#f00; text-align:center;}
 p.mess {color:#2d8cf7; text-align:center;}
+
+.form-block {padding-bottom: 20px;}
 
 ul.namesMW {display:block; margin:0 auto; width:300px;}
 .namesMW li {float:left; width:150px; text-align:center;}
