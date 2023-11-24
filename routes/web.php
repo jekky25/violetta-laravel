@@ -50,7 +50,10 @@ Route::get('birthday_search', 'AnketController@getBirthdayAnkets')->name('birthd
 
 Route::match(['get', 'post'], 'screensaver/{id}.html', 'ScreenController@getItem')->whereNumber('id')->name('screensavers.id');
 Route::get('screensavers.html', 'ScreenController@index')->name('screensavers');
-Route::get('dreambook.html', 'NoContoller@index')->name('dreambook');
+
+Route::get('dreambook/op{id}.html', 'NameController@index')->whereNumber('id')->name('dreambook.literal');
+Route::get('dreambook/{id}.html', 'NameController@index')->whereNumber('id')->name('dreambook.id');
+Route::get('dreambook.html', 'DreamBookController@index')->name('dreambook');
 Route::get('ank/diaries.html', 'NoContoller@index')->name('diaries');
 Route::get('review', 'NoContoller@index')->name('review');
 

@@ -92,6 +92,12 @@ class MetaServiceProvider extends ServiceProvider
 					$pageMeta = '<meta name="Description" content="' . $screen->name . ' - скачай хранитель экрана прямо сейчас. Большая коллекция экранных заставок на водную тему.">
 					<meta name="Keywords" content="' . $screen->name . ', Хранители экрана, Скринсейверы, Screensaver, Скачать заставку, Сайт знакомств Виолетта">';
 					break;
+
+				case 'dreambook':	
+					$pageTitle = 'Сонник, Что тебе снится, Толкование Снов, Бесплатный сайт знакомств Виолетта';
+					$pageMeta = '<meta name="Description" content="Сонник. Толкователь снов.">
+					<meta name="Keywords" content="сонник толкователь снов сновидения">';
+					break;
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
 				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
