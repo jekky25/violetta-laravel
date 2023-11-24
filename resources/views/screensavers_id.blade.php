@@ -1,6 +1,17 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
+@push('scripts')
+<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render={{ RE_SITE_KEY }}"></script>
+@endpush
+<script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('{{ RE_SITE_KEY }}', { action: 'contact' }).then(function (token) {
+                var recaptchaResponse = document.getElementById('recaptchaResponse');
+                recaptchaResponse.value = token;
+            });
+        });
+</script>
 <h1 class="mTit">{{ $screen->name }}</h1>
 <p class="pad3"><strong>Скачано раз: {{ $screen->zakachka }}</strong></p>
 <div class="scrPic2"><img alt="{{ $screen->name }}, хранитель экрана (скринсейвер)" src="{{ asset('screensavers/big_foto/' . $screen->path_jpg) }}" /></div>
@@ -13,7 +24,15 @@
 Вы можете отрегулировать в подменю "параметры" меню установки заставки. Там же регулируется и скорость
 проигрывания самой заставки.</p>
 <p class="pad3">Приятного вам просмотра</p>
-<form name="anketa" action="screensaver_id{$screensaver.id}.html" method="post">
+<form name="anketa" class="form-block" action="{{route('screensavers.id',$screen->id)}}" method="post">
+{{ csrf_field() }}
+@if (!empty ($errors->all()))
+<div class="error">
+@foreach ($errors->all() as $message)
+<p>{{ $message }}</p>
+@endforeach
+	</div>
+@endif
 <table class="scrDown">
 <tr>
 <td><input type="radio" name="f_download" value="1" id="scr" /></td>
@@ -24,14 +43,12 @@
 <td><label for="scr_arch">скачать в rar архиве {{ $screen->size_rar }}</label></td>
 </tr>
 </table>
-<p>Подтвердите, что вы не являетесь <strong>роботом</strong>. Для этого вам необходимо всего лишь ввести сегодняшнее число (2 знака).</p>
-{if isset($err_antirobot)}{$err_antirobot}{/if}
-<div class="pad2"><input type="text" class="input1" name="nerob" value="" /></div>
+<input type="hidden" name="recaptcha_response" id="recaptchaResponse">
 <p><input class="input2" type="submit" name="download" value="Скачать" /></p>
 </form>
 <table class="scrComments">
 <tr>
-<td {if !empty($comments)}class="valign1"{/if}>
+<td @if (!empty($comments))class="valign1"@endif>
 @if (!empty($comments))
 @foreach ($comments as $item)
 <h3>{{ $item->name}}<p class="commTime">{{ $item->time }}</p></h3>

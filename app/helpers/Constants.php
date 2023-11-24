@@ -44,3 +44,6 @@ define ('SITE_URL', $pathrelative);
 
 define('DIR_ROOT', str_replace("\\","/",realpath(dirname(__FILE__))));
 
+//google re-capcha keys
+define("RE_SITE_KEY","6LdlLG4kAAAAAA0-93MpsTTjLwjX4ExEMT-ShXtW");
+define("RE_SEC_KEY","6LdlLG4kAAAAAGLB87ixCoNC7BABLbdAwWZHw_-n");

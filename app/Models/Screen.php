@@ -9,7 +9,8 @@ class Screen extends Model
 {
 	use HasFactory;
 
-	protected $table = 'screensavers';
+	protected $table 	= 'screensavers';
+	public $timestamps 	= false;
 
 	public function get($count = 0)
 	{
