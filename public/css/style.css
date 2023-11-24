@@ -333,6 +333,7 @@ ul.sonnikMenu {margin:0 auto; margin-bottom:30px; width:320px;}
 a.strelki {font-size:12px; font-weight:bold; text-decoration: none;}
 
 .error {color:#f00; text-align:center;}
+.success {color:#0e951a; text-align:center; font-weight: bold; font-size:11px;}
 p.mess {color:#2d8cf7; text-align:center;}
 
 .form-block {padding-bottom: 20px;}
