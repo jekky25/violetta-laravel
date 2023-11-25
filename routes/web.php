@@ -29,7 +29,7 @@ Route::get('ank/{id}', 'NoContoller@index')->whereNumber('id')->name('ank.id');
 Route::get('ankets/{sex}/{age}', 'NoContoller@index')->where('sex', '(men|women)')
                                                      ->where('age', '(20|2025|2535|3550|50)')
                                                      ->name('ankets.sex.age');
-Route::get('ankets/{sex}', 'NoContoller@index')->where('sex', '(men|women)')->name('ankets.sex');
+Route::get('ankets/{sex}', 'AnketController@getAnkets')->where('sex', '(men|women)')->name('ankets.sex');
 Route::get('ankets', 'NoContoller@index')->name('ankets');
 
 Route::get('bestankets/{sex}', 'NoContoller@index')->where('sex', '(men|women)')->name('bestankets.sex');

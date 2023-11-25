@@ -58,4 +58,29 @@ class AnketController extends Controller
 		]);
 	}
 
+	public function getAnkets ($sex = '', $op = '')
+	{
+		$s					= $sex == 'men' ? MEN 		: WOMEN;
+		$popSex 			= $sex == 'men' ? 'мужчины' : 'женщины';
+		$ankets 			= User::getOp($this->countPerPage, $s);
+		$page 				= $ankets->currentPage();
+		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
+
+		$startShowAnk 		= (($ankets->currentPage() - 1) * $this->countPerPage) + 1;
+		$endShowAnk			= $ankets->currentPage() * $this->countPerPage;
+
+		$countSearchAnkStr = 'Найдено анкет: (' . $startShowAnk . '-' . $endShowAnk . ') из ' . $ankets->total();
+
+		return response()->view ('ankets.id', 
+		[
+			'popSex'			=> $popSex,
+			'sex'				=> $sex,
+			'page'				=> $page,
+			'ankets'			=> $ankets,
+			'countSearchAnkStr' => $countSearchAnkStr,
+			'pagination'		=> $pagination
+		]);
+	}
+	
+
 }

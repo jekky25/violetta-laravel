@@ -193,6 +193,20 @@ class User extends Authenticatable
 		return $items;
 	}
 
+	public function getOp($count = 0, $sex)
+	{
+		$items = self::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
+		->where('user_sex', $sex)
+		->with('city')
+		->with('photo')
+		->orderBy('user_id', 'desc')
+		->paginate($count);
+
+		$items = self::addProps($items);
+
+		return $items;
+	}
+
 	public function anketVisit()
 	{
     	return $this->hasOne(AnketVisit::class, 'user_id_prosm', 'user_id');
