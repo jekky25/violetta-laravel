@@ -52,7 +52,7 @@ Route::match(['get', 'post'], 'screensaver/{id}.html', 'ScreenController@getItem
 Route::get('screensavers.html', 'ScreenController@index')->name('screensavers');
 
 Route::get('dreambook/op{id}.html', 'DreamBookController@index')->whereNumber('id')->name('dreambook.literal');
-Route::get('dreambook/{id}.html', 'NoContoller@index')->whereNumber('id')->name('dreambook.id');
+Route::get('dreambook/{id}.html', 'DreamBookController@getItem')->whereNumber('id')->name('dreambook.id');
 Route::get('dreambook.html', 'DreamBookController@index')->name('dreambook');
 Route::get('ank/diaries.html', 'NoContoller@index')->name('diaries');
 Route::get('review', 'NoContoller@index')->name('review');

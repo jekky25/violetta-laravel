@@ -45,5 +45,20 @@ class DreamBookController extends Controller
 			'pagination'			=> $pagination,
 		]);
     }
+
+	public function getItem(Request $request, $id)
+	{
+		$dreamBookLiterals		= DreamBook::getLiter();		
+		$dreambook 				= DreamBook::getById($id);
+		if (empty ($dreambook)) abort(404);
+
+
+		return response()->view ('dreambooks_id', 
+		[
+			'dreamBookLiterals'		=> $dreamBookLiterals,
+			'dreambook'			=> $dreambook
+		]);
+
+	}
 }
 

@@ -98,6 +98,13 @@ class MetaServiceProvider extends ServiceProvider
 					$pageMeta = '<meta name="Description" content="Сонник. Толкователь снов.">
 					<meta name="Keywords" content="сонник толкователь снов сновидения">';
 					break;
+
+				case 'dreambook.id':
+					$dreambook = $view->dreambook;
+					$pageTitle = 'Толкование снов: ' . $dreambook->name . ', Сонник, Сновидения, Сайт знакомств Виолетта';
+					$pageMeta = '<meta name="Description" content="Толкование снов: ' . $dreambook->name . ', сонник  ' . $dreambook->name . '. Сновидения.">
+						<meta name="Keywords" content="сонник ' . $dreambook->name . ' толкование снов сновидения">';
+					break;
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
 				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
