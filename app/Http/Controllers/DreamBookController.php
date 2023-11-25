@@ -29,13 +29,13 @@ class DreamBookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $id = 1)
     {
-		$dreamBookLiterals 		= DreamBook::getLiter();
-		$op = $this->op;
+		$dreamBookLiterals		= DreamBook::getLiter();
+		$op						= !empty ($id) ? $id : $this->op;
 		$words					= DreamBook::get($this->countPerPage, $op);
-		$page 					= $words->currentPage();
-		$pagination 			= Helper::preparePagination ($words->toArray()['links']);
+		$page					= $words->currentPage();
+		$pagination				= Helper::preparePagination ($words->toArray()['links']);
 
 		return response()->view ('dreambooks', 
 		[

@@ -94,8 +94,6 @@ class NameController extends Controller
     */
     public function getGender(Request $request, $sex, $id = 1)
     {
-
-
 		$alphabet 	= $this->alphabet;
 		$nameTitle 	= $sex == 'men' ? 'Значение мужского имени' : 'Значение женского имени';
 		$s 			= $sex == 'men' ? 'm' 						: 'f';
@@ -139,6 +137,7 @@ class NameController extends Controller
 		$alphabet 			= $this->alphabet;
 		$nameTitle 			= 'Значение имени ' . $name->name;
 		$nameText 			= str_replace("\n","<br /><br />\n",$name->description);
+
 		$sex 				= $name->gender == 'm' ? 'men' 							: 'women';
 		$nameTitleGender 	= $name->gender == 'm' ? 'Мужские имена по алфавиту' 	: 'Женские имена по алфавиту';
 		$namesGender = '';
