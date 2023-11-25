@@ -61,8 +61,47 @@ class AnketController extends Controller
 	public function getAnkets ($sex = '', $op = '')
 	{
 		$s					= $sex == 'men' ? MEN 		: WOMEN;
-		$popSex 			= $sex == 'men' ? 'мужчины' : 'женщины';
-		$ankets 			= User::getOp($this->countPerPage, $s);
+		$ankTitle 			= $sex == 'men' ? 'Анкеты: мужчины' : 'Анкеты: женщины';
+		$ankTitleId 		= $sex == 'men' ? 'Анкеты мужчин' : 'Анкеты женщин';
+		$birthDate			= NULL;
+		$birthDate2			= NULL;
+		switch ($op) {
+			case '20':
+				$birthDate 		= Helper::birthAround(20);
+				$ankTitle 		.= ', до 20 лет';
+				$ankTitleId 	.= ' до 20 лет';
+				break;
+		
+			case '2025':
+				$birthDate 		= Helper::birthAround(25);
+				$birthDate2		= Helper::birthAround(19);
+				$ankTitle 		.= ', 20 - 25 лет';
+				$ankTitleId 	.= ' 20 - 25 лет';
+				break;
+			case '2535':
+				$birthDate 		= Helper::birthAround(35);
+				$birthDate2		= Helper::birthAround(24);
+				$ankTitle 		.= ', 25 - 35 лет';
+				$ankTitleId 	.= ' 25 - 35 лет';
+				break;
+			case "3550":
+				$birthDate 		= Helper::birthAround(50);
+				$birthDate2 	= Helper::birthAround(34);
+				$ankTitle 		.= ', 35 - 50 лет';
+				$ankTitleId 	.= ' 35 - 50 лет';
+				break;
+			case "50":
+				$birthDate2	 	= Helper::birthAround(50);
+				$ankTitle 		.= ', от 50 лет';
+				$ankTitleId 	.= ' от 50 лет';
+				break;
+		}
+		$opt = [
+				'birthDate' => $birthDate,
+				'birthDate2' => $birthDate2,
+			];
+
+		$ankets 			= User::getOp($this->countPerPage, $s, $opt);
 		$page 				= $ankets->currentPage();
 		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
 
@@ -73,7 +112,8 @@ class AnketController extends Controller
 
 		return response()->view ('ankets.id', 
 		[
-			'popSex'			=> $popSex,
+			'popSex'			=> $ankTitle,
+			'ankTitleId'		=> $ankTitleId,
 			'sex'				=> $sex,
 			'page'				=> $page,
 			'ankets'			=> $ankets,

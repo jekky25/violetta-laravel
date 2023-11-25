@@ -1,5 +1,6 @@
 <?php
 namespace App\Helpers;
+use Carbon;
 
 class Helper {
 
@@ -182,4 +183,12 @@ class Helper {
 		}
 		return $l;
 	}
+
+	//Возвращает дату по возрасту
+	function birthAround($age)
+	{
+		$time = Carbon\Carbon::now()->add(-$age, 'year')->format('Y-m-d');
+		return $time;
+	}
+
 }

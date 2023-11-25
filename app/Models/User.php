@@ -193,14 +193,17 @@ class User extends Authenticatable
 		return $items;
 	}
 
-	public function getOp($count = 0, $sex)
+	public function getOp($count = 0, $sex, $op)
 	{
 		$items = self::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
 		->where('user_sex', $sex)
 		->with('city')
-		->with('photo')
-		->orderBy('user_id', 'desc')
-		->paginate($count);
+		->with('photo');
+		if (!empty ($op['birthDate']))
+			$items = $items->where('user_birth_date', '>', $op['birthDate']);
+		if (!empty ($op['birthDate2']))
+			$items = $items->where('user_birth_date', '<', $op['birthDate2']);
+		$items = $items->orderBy('user_id', 'desc')->paginate($count);
 
 		$items = self::addProps($items);
 

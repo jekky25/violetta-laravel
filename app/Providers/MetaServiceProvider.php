@@ -105,6 +105,14 @@ class MetaServiceProvider extends ServiceProvider
 					$pageMeta = '<meta name="Description" content="Толкование снов: ' . $dreambook->name . ', сонник  ' . $dreambook->name . '. Сновидения.">
 						<meta name="Keywords" content="сонник ' . $dreambook->name . ' толкование снов сновидения">';
 					break;
+
+				case 'ankets.sex.age':
+				case 'ankets.sex':
+					$ankTitleId = $view->ankTitleId;
+					$pageTitle = $ankTitleId . ' на сайте знакомств, сайт знакомств, Бесплатный сайт знакомств Виолетта';
+					$pageMeta = '<meta name="Description" content="' . $ankTitleId . ' на сайте знакомств. Тысячи анкет с фото, бесплатная регистрация.">
+								<meta name="Keywords" content="' . $ankTitleId . ' на сайте знакомств, бесплатные знакомства, знакомства в Москве, найти любовь">';
+					break;
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
 				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
