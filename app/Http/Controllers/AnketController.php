@@ -320,7 +320,7 @@ class AnketController extends Controller
 			}
 
 			$ankets = $ankets->orderBy('user_refresh_date_t', 'desc')->paginate($anketPerPage);
-
+			$ankets->appends(request()->query());
 			$ankets = User::addProps($ankets);
 
 			$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
