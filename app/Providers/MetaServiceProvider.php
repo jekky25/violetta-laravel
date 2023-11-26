@@ -113,6 +113,21 @@ class MetaServiceProvider extends ServiceProvider
 					$pageMeta = '<meta name="Description" content="' . $ankTitleId . ' на сайте знакомств. Тысячи анкет с фото, бесплатная регистрация.">
 								<meta name="Keywords" content="' . $ankTitleId . ' на сайте знакомств, бесплатные знакомства, знакомства в Москве, найти любовь">';
 					break;
+
+				case 'search':
+					$photo = $view->photo;
+
+					$pageTitle = 'Поиск анкет, Сайт знакомств, Бесплатный сайт знакомств Виолетта';
+					$pageMeta = '<meta name="Description" content="Поиск анкет на сайте знакомств. Найди свою любовь. Тысячи анкет с фото, бесплатная регистрация.">
+						<meta name="Keywords" content="поиск анкет, сайт знакомств, бесплатные знакомства, знакомства в Москве, найти любовь">';
+
+					if (!empty($photo))
+					{
+						$pageTitle = 'Поиск анкет с фото, Сайт знакомств, Бесплатный сайт знакомств Виолетта';
+						$pageMeta = '<meta name="Description" content="Поиск анкет с фотографиями. Тысячи анкет с фото, бесплатная регистрация.">
+		    				<meta name="Keywords" content="поиск анкет с фото, анкеты с фотографиями, сайт знакомств, бесплатные знакомства, знакомства в Москве">';
+					}
+
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
 				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
