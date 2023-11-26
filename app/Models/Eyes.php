@@ -10,5 +10,13 @@ class Eyes extends Model
 	use HasFactory;
 
 	protected $table = 'hair_type';
+
+	public function getById($id)
+	{
+		$item = self::select('*')
+		->where ('id', $id)
+		->first();
+		return $item;
+	}
 	
 }

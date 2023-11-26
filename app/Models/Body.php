@@ -11,4 +11,12 @@ class Body extends Model
 
 	protected $table = 'body';
 	
+	public function getById($id)
+	{
+		$item = self::select('*')
+		->where ('id', $id)
+		->first();
+		return $item;
+	}
+
 }

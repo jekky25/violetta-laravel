@@ -1,17 +1,50 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
+@if ($isSend == 'Y')
+<h1 class="mTit">Результаты поиска</h1>
+					<p>{{ $searchCrit }}</p>
+					<p><a class="lColor1" href="{$smarty.const.SITE_URL}index.php?mod=search">изменить критерии поиска</a></p>
+					<h3 class="titleSAnkets">{$find_num_search_anket}</h3>
+					<table id="mScreen">
+						<tr>
+							<td class="wth1">
+								<div class="ankets">
+@if (!empty($ankets))
+    @foreach ($ankets as $item)
+		@include('ankets.brief')
+    @endforeach
+@else
+<p class="pad5"><strong>по вашему запросу ничего не найдено</strong></p>
+@endif
+									</div>
+							</td>
+							<td>
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-6379140164632940";
+/* 160x600 добавлен на списки анкет */
+google_ad_slot = "3632942762";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+							</td>
+						</tr>
+					</table>
+@include('pagination', ['items' => $ankets])
+@else
 <h1 class="mTit">Поиск</h1>
 <form name="anketa" action="{{route('search')}}" method="get" class="formSearch">
 <input type="hidden" name="mod" value="search" />
-<input type="hidden" name="op" value="search" />
+<input type="hidden" name="send" value="1" />
 <table class="searchTable">
 	<tr>
 		<td class="right1">я</td>
 		<td>
 			<select name="sex"><option value="0" selected>не важно</option>
-				<option value="{$smarty.const.MEN}">мужчина</option>
-				<option value="{$smarty.const.WOMEN}">женщина</option>
+				<option value="{{ MEN }}">мужчина</option>
+				<option value="{{ WOMEN }}">женщина</option>
 			</select>
 		</td>
 	</tr>
@@ -19,8 +52,8 @@
 		<td class="right1">ищу</td>
 		<td>
 			<select name="find_sex"><option value="0" selected>не важно</option>
-				<option value="{$smarty.const.MEN}">мужчину</option>
-				<option value="{$smarty.const.WOMEN}">женщину</option>
+				<option value="{{ MEN }}">мужчину</option>
+				<option value="{{ WOMEN }}">женщину</option>
 			</select>
 		</td>
 	</tr>
@@ -171,4 +204,5 @@ google_ad_height = 60;
 </script>
 <script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 </div>
+@endif
 @overwrite
