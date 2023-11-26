@@ -4,8 +4,8 @@
 @if ($isSend == 'Y')
 <h1 class="mTit">Результаты поиска</h1>
 					<p>{{ $searchCrit }}</p>
-					<p><a class="lColor1" href="{$smarty.const.SITE_URL}index.php?mod=search">изменить критерии поиска</a></p>
-					<h3 class="titleSAnkets">{$find_num_search_anket}</h3>
+					<p><a class="lColor1" href="{{route('search')}}">изменить критерии поиска</a></p>
+					<h3 class="titleSAnkets">{{ $countSearchAnkStr }}</h3>
 					<table id="mScreen">
 						<tr>
 							<td class="wth1">

@@ -154,7 +154,7 @@ class AnketController extends Controller
 			$hairType 			= isset ($request->hair_type)		? (int)$request->hair_type 		: 0;
 			$hairColor			= isset ($request->hair_color)		? (int)$request->hair_color 	: 0;
 			$eyes 				= isset ($request->eyes)			? (int)$request->eyes 			: 0;
-			$anketPerPage		= isset ($request->anket_per_page)	? (int)$request->anket_per_page : 10;
+			$anketPerPage		= isset ($request->anket_per_page)	? (int)$request->anket_per_page : $this->countPerPage;
 
 			$critSex 			= false;
 			$critAgeMin 		= false;
@@ -321,6 +321,10 @@ class AnketController extends Controller
 
 			$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
 
+			$startShowAnk 		= (($ankets->currentPage() - 1) * $anketPerPage) + 1;
+			$endShowAnk			= $ankets->currentPage() * $anketPerPage;
+	
+			$countSearchAnkStr = 'Найдено анкет: (' . $startShowAnk . '-' . $endShowAnk . ') из ' . $ankets->total();
 		}
 
 		$ages 		= Helper::getAges();
@@ -335,18 +339,19 @@ class AnketController extends Controller
 		
 		return response()->view ('ankets.search', 
 		[
-			'ages'			=> $ages,
-			'countries' 	=> $countries,
-			'heights'		=> $heights,
-			'weights'		=> $weights,
-			'body'			=> $body,
-			'hairType'		=> $hairType,
-			'eyes'			=> $eyes,
-			'isSend'		=> $isSend,
-			'searchCrit' 	=> $searchCrit,
-			'ankets'		=> !empty ($ankets) ? $ankets : [],
-			'pagination'	=> !empty ($pagination) ? $pagination : [],
-			'photo'			=> !empty ($photo) ? $photo : 0
+			'ages'				=> $ages,
+			'countries' 		=> $countries,
+			'heights'			=> $heights,
+			'weights'			=> $weights,
+			'body'				=> $body,
+			'hairType'			=> $hairType,
+			'eyes'				=> $eyes,
+			'isSend'			=> $isSend,
+			'searchCrit' 		=> $searchCrit,
+			'ankets'			=> !empty ($ankets) ? $ankets : [],
+			'pagination'		=> !empty ($pagination) ? $pagination : [],
+			'photo'				=> !empty ($photo) ? $photo : 0,
+			'countSearchAnkStr' => $countSearchAnkStr
 		]);
 	}
 
