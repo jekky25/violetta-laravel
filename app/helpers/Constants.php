@@ -39,6 +39,10 @@ define('PARTNER_WEIGHT_MAX', 29);
 define('PRIV_NEW_MESSAGE', 1);
 define('PRIV_NOT_NEW_MESSAGE', 0);
 
+//имена классов
+define('BODY_CLASS', 'Body');
+define('HAIR_TYPE_CLASS', 'HairType');
+define('EYES_CLASS', 'Eyes');
 
 define ('SITE_URL', $pathrelative);
 

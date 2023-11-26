@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\AnketVisit;
 use App\Models\User;
+use App\Models\Country;
 use App\Helpers\Helper;
 
 class AnketController extends Controller
@@ -122,5 +123,27 @@ class AnketController extends Controller
 		]);
 	}
 	
+
+	public function getBySearch(Request $request)
+	{
+		$ages 		= Helper::getAges();
+		$countries 	= Country::getAll();
+		$heights 	= Helper::getHeights();
+		$weights 	= Helper::getWeights();
+		$body 		= Helper::BlockSelect('body',BODY_CLASS,0,0);
+		$hairType	= Helper::BlockSelect('hair_type',HAIR_TYPE_CLASS,0,0);
+		$eyes		= Helper::BlockSelect('eyes',EYES_CLASS,0,0);
+		
+		return response()->view ('ankets.search', 
+		[
+			'ages'		=> $ages,
+			'countries' => $countries,
+			'heights'	=> $heights,
+			'weights'	=> $weights,
+			'body'		=> $body,
+			'hairType'	=> $hairType,
+			'eyes'		=> $eyes,
+		]);
+	}
 
 }

@@ -57,7 +57,7 @@ Route::get('dreambook.html', 'DreamBookController@index')->name('dreambook');
 Route::get('ank/diaries.html', 'NoContoller@index')->name('diaries');
 Route::get('review', 'NoContoller@index')->name('review');
 
-Route::get('search', 'NoContoller@index')->name('search');
+Route::get('search', 'AnketController@getBySearch')->name('search');
 
 
 
