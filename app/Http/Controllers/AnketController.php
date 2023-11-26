@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AnketVisit;
 use App\Models\User;
 use App\Models\Country;
+use App\Models\City;
 use App\Models\Body;
 use App\Models\HairType;
 use App\Models\Eyes;
@@ -315,7 +316,7 @@ class AnketController extends Controller
 				$crits		= true;
 			}
 
-			$ankets = $ankets->orderBy('user_id', 'desc')->paginate($anketPerPage);
+			$ankets = $ankets->orderBy('user_refresh_date_t', 'desc')->paginate($anketPerPage);
 
 			$ankets = User::addProps($ankets);
 
@@ -325,6 +326,58 @@ class AnketController extends Controller
 			$endShowAnk			= $ankets->currentPage() * $anketPerPage;
 	
 			$countSearchAnkStr = 'Найдено анкет: (' . $startShowAnk . '-' . $endShowAnk . ') из ' . $ankets->total();
+
+			if ($crits === true) 
+			{
+				$critsSearch = 'Вы ищете: ';
+				$critsSearch .= !empty ($critSex) ? $critSex : '<strong>мужчину</strong> или <strong>женщину</strong>';
+				$critsSearch .= !empty ($critAgeMin) ? $critAgeMin : '';
+				$critsSearch .= !empty ($critAgeMax) ? $critAgeMax : '';
+				if (($ageMin > AGE_MIN) || ($ageMax > AGE_MAX)) 
+				{
+					$critsSearch .= $ageMax > AGE_MAX ? ' ' . Helper::ageType2($ageMax) : ' ' . Helper::ageType2($ageMin);
+				}
+
+				if (!empty($critHeightMin) || !empty($critHeightMax)) 
+					$critsSearch .= '<br /> рост ';
+
+				$critsSearch .= !empty($critHeightMin) 	? $critHeightMin . ' см' 	: '';
+				$critsSearch .= !empty($critHeightMax) 	? $critHeightMax . ' см' 	: '';
+
+				if ($critWeightMin || $critWeightMax)
+					$critsSearch .= '<br />вес ';
+
+				$critsSearch .= !empty($critWeightMin) 	? $critWeightMin . ' кг' 	: '';
+				$critsSearch .= !empty($critWeightMax)	? $critWeightMax . ' кг' 	: '';
+				$critsSearch .= !empty($critBody)		? $critBody 				: '';
+				$critsSearch .= !empty($critHairType)	? $critHairType 			: '';
+				$critsSearch .= !empty($critEyes) 		? $critEyes 				: '';
+
+				if ($city > 0) 
+				{
+					$oCity = City::getById ($city);
+					$critsSearch .= '<br /> из г. <strong>' . $oCity->name . '</strong>';
+				} else if ($region > 0) 
+				{
+					$oRegion = Region::getById ($region);
+					$critsSearch .= '<br /> из <strong>' . $oRegion->name . '</strong>';
+				}
+
+				if ($country > 0) 
+				{
+					$oCountry = Country::getById ($country);
+					if ($city > 0 || $region > 0)
+						$critsSearch .= ' (<strong>' . $oCountry->name . ')</strong>';
+					else
+						$critsSearch .= '<br /> из <strong>' . $oCountry->name . '</strong>';
+				}
+
+				if (!empty($foto))
+					$critsSearch .= '<br />только <strong>с фото</strong>';
+
+				if (!empty($online))
+					$critsSearch .= '<br />сейчас <strong>на сайте</strong>';
+			}
 		}
 
 		$ages 		= Helper::getAges();
@@ -351,7 +404,7 @@ class AnketController extends Controller
 			'ankets'			=> !empty ($ankets) ? $ankets : [],
 			'pagination'		=> !empty ($pagination) ? $pagination : [],
 			'photo'				=> !empty ($photo) ? $photo : 0,
-			'countSearchAnkStr' => $countSearchAnkStr
+			'countSearchAnkStr' => !empty($countSearchAnkStr) ? $countSearchAnkStr : ''
 		]);
 	}
 

@@ -21,4 +21,12 @@ class City extends Model
 		->get();
 		return $items;
 	}
+
+	public function getById($id)
+	{
+		$item = self::select('*')
+		->where ('id', $id)
+		->first();
+		return $item;
+	}
 }
