@@ -172,7 +172,7 @@ google_ad_height = 600;
 	</tr>
 	<tr>
 		<td class="right1">только с фото</td>
-		<td><input type="checkbox" name="foto" /></td>
+		<td><input type="checkbox" name="photo" /></td>
 	</tr>
 	<tr>
 		<td class="right1">на сайте</td>

@@ -161,9 +161,9 @@ google_ad_height = 90;
 			<div class="blFoot"></div>
 			<h3>Статистика</h3>
 			<div id="static">
-				<p>Всего женщин:<a href="{{route('search', ['find_sex' => 2])}}">{{ $statAnkets['total_women'] }}</a>({{ $statAnkets['total_women_percent'] }})</p>
-				<p>Всего мужчин:<a href="{{route('search', ['find_sex' => 1])}}">{{ $statAnkets['total_men'] }}</a>({{ $statAnkets['total_men_percent'] }})</p>
-				<p>Всего фотографий:<a href="{{route('search', ['photo' => 1])}}">{{ $statAnkets['total_fotos'] }}</a></p>
+				<p>Всего женщин:<a href="{{route('search', ['find_sex' => 2, 'send' => '1'])}}">{{ $statAnkets['total_women'] }}</a>({{ $statAnkets['total_women_percent'] }})</p>
+				<p>Всего мужчин:<a href="{{route('search', ['find_sex' => 1, 'send' => '1'])}}">{{ $statAnkets['total_men'] }}</a>({{ $statAnkets['total_men_percent'] }})</p>
+				<p>Всего фотографий:<a href="{{route('search', ['photo' => 1, 'send' => '1'])}}">{{ $statAnkets['total_fotos'] }}</a></p>
 			</div>
 			<div class="counter">
 <!--noindex-->

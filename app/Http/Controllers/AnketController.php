@@ -140,7 +140,7 @@ class AnketController extends Controller
 
 			$sex 				= isset ($request->sex) 			? (int)$request->sex 			: 0;
 			$findSex 			= isset ($request->find_sex) 		? (int)$request->find_sex 		: 0;
-			$photo 				= isset ($request->foto) 			? $request->foto 				: 0;
+			$photo 				= isset ($request->photo) 			? $request->photo 				: 0;
 			$online 			= isset ($request->online)			? $request->online 				: '';
 			$online				= $online == 1 || $online == 'on' 	? 1 							: $online;
 
@@ -159,6 +159,7 @@ class AnketController extends Controller
 			$eyes 				= isset ($request->eyes)			? (int)$request->eyes 			: 0;
 			$anketPerPage		= isset ($request->anket_per_page)	? (int)$request->anket_per_page : $this->countPerPage;
 
+			$crits				= false;
 			$critSex 			= false;
 			$critAgeMin 		= false;
 			$critAgeMax 		= false;
@@ -375,7 +376,7 @@ class AnketController extends Controller
 						$critsSearch .= '<br /> из <strong>' . $oCountry->name . '</strong>';
 				}
 
-				if (!empty($foto))
+				if (!empty($photo))
 					$critsSearch .= '<br />только <strong>с фото</strong>';
 
 				if (!empty($online))
