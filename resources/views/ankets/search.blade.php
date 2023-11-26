@@ -3,7 +3,7 @@
 @section('main_body')
 @if ($isSend == 'Y')
 <h1 class="mTit">Результаты поиска</h1>
-					<p>{{ $searchCrit }}</p>
+					<p>{!! $critsSearch !!}</p>
 					<p><a class="lColor1" href="{{route('search')}}">изменить критерии поиска</a></p>
 					<h3 class="titleSAnkets">{{ $countSearchAnkStr }}</h3>
 					<table id="mScreen">

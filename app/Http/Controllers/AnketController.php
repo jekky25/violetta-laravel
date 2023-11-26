@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AnketVisit;
 use App\Models\User;
 use App\Models\Country;
+use App\Models\Region;
 use App\Models\City;
 use App\Models\Body;
 use App\Models\HairType;
@@ -112,6 +113,7 @@ class AnketController extends Controller
 
 		$startShowAnk 		= (($ankets->currentPage() - 1) * $this->countPerPage) + 1;
 		$endShowAnk			= $ankets->currentPage() * $this->countPerPage;
+		$endShowAnk			= $endShowAnk < $ankets->total() ? $endShowAnk : $ankets->total();
 
 		$countSearchAnkStr = 'Найдено анкет: (' . $startShowAnk . '-' . $endShowAnk . ') из ' . $ankets->total();
 
@@ -131,7 +133,7 @@ class AnketController extends Controller
 	public function getBySearch(Request $request)
 	{
 		$isSend 	= 'N';
-		$searchCrit = '';
+		$critsSearch = '';
 		if (isset ($request->send))
 		{
 			$isSend = 'Y';
@@ -324,7 +326,8 @@ class AnketController extends Controller
 
 			$startShowAnk 		= (($ankets->currentPage() - 1) * $anketPerPage) + 1;
 			$endShowAnk			= $ankets->currentPage() * $anketPerPage;
-	
+			$endShowAnk			= $endShowAnk < $ankets->total() ? $endShowAnk : $ankets->total();
+				
 			$countSearchAnkStr = 'Найдено анкет: (' . $startShowAnk . '-' . $endShowAnk . ') из ' . $ankets->total();
 
 			if ($crits === true) 
@@ -388,8 +391,6 @@ class AnketController extends Controller
 		$hairType	= Helper::BlockSelect('hair_type',HAIR_TYPE_CLASS,0,0);
 		$eyes		= Helper::BlockSelect('eyes',EYES_CLASS,0,0);
 
-
-		
 		return response()->view ('ankets.search', 
 		[
 			'ages'				=> $ages,
@@ -400,7 +401,7 @@ class AnketController extends Controller
 			'hairType'			=> $hairType,
 			'eyes'				=> $eyes,
 			'isSend'			=> $isSend,
-			'searchCrit' 		=> $searchCrit,
+			'critsSearch' 		=> $critsSearch,
 			'ankets'			=> !empty ($ankets) ? $ankets : [],
 			'pagination'		=> !empty ($pagination) ? $pagination : [],
 			'photo'				=> !empty ($photo) ? $photo : 0,
