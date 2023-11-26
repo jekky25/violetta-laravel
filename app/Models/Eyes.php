@@ -9,7 +9,7 @@ class Eyes extends Model
 {
 	use HasFactory;
 
-	protected $table = 'hair_type';
+	protected $table = 'eyes';
 
 	public function getById($id)
 	{
