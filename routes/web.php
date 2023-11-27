@@ -32,7 +32,7 @@ Route::get('ankets/{sex}/{age}', 'AnketController@getAnkets')->where('sex', '(me
 Route::get('ankets/{sex}', 'AnketController@getAnkets')->where('sex', '(men|women)')->name('ankets.sex');
 Route::get('ankets', 'NoContoller@index')->name('ankets');
 
-Route::get('bestankets/{sex}', 'NoContoller@index')->where('sex', '(men|women)')->name('bestankets.sex');
+Route::get('bestankets/{sex}', 'AnketController@getBestAnkets')->where('sex', '(men|women)')->name('bestankets.sex');
 
 Route::get('goroskop/op{id}.html', 'GoroskopController@getType')->whereNumber('id')->name('goroskop.op');
 Route::get('goroskop/{id}.html', 'GoroskopController@getItem')->whereNumber('id')->name('goroskop.id');

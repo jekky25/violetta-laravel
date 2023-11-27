@@ -137,6 +137,24 @@ class User extends Authenticatable
 		return $items;
 	}
 
+	public function getBest($count = 0, $sex)
+	{
+
+		$items = self::select(['*'])
+		->where('user_active', 1)
+		->where('user_sex', $sex)
+		->where('user_fotos', '>', 0)
+		->where('user_confirm_email', 1)
+		->where('user_top100', '>', 0)
+		->with('city')
+		->with('photo')
+		->orderBy('user_top100', 'desc')
+		->paginate($count);
+		$items = self::addProps($items);
+
+		return $items;
+	}
+
 	public function getPopul($count = 0, $sex)
 	{
 		$items = self::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])

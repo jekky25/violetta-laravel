@@ -64,6 +64,31 @@ class AnketController extends Controller
 		]);
 	}
 
+	public function getBestAnkets ($sex)
+	{
+		$s 					= $sex == 'men' ? MEN 		: WOMEN;
+		$ankets 			= User::getBest($this->countPerPage, $s);
+		$page 				= $ankets->currentPage();
+		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
+
+		$titleId = $sex == 'men' ? 'Лучшие парни' : 'Лучшие девушки';
+
+		$startShowAnk 		= (($ankets->currentPage() - 1) * $this->countPerPage) + 1;
+		$endShowAnk			= $ankets->currentPage() * $this->countPerPage;
+		$endShowAnk			= $endShowAnk < $ankets->total() ? $endShowAnk : $ankets->total();
+				
+		$countSearchAnkStr = 'Найдено анкет: (' . $startShowAnk . '-' . $endShowAnk . ') из ' . $ankets->total();
+
+		return response()->view ('ankets.best', 
+		[
+			'page'				=> $page,
+			'ankets'			=> $ankets,
+			'pagination'		=> $pagination,
+			'titleId'			=> $titleId,
+			'countSearchAnkStr' => $countSearchAnkStr
+		]);
+	}
+
 	public function getAnkets ($sex = '', $op = '')
 	{
 		$s					= $sex == 'men' ? MEN 		: WOMEN;
