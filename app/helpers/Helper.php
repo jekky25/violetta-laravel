@@ -287,4 +287,21 @@ class Helper {
 			});
 		});
 	}
+
+	/**
+	 * make found string
+	 * @param object $ankets
+	 * @param integer $count
+	 *
+	 * @return string
+	 */
+	public function getFoundStr($ankets, $count = 0)
+	{
+		$startShow 		= (($ankets->currentPage() - 1) * $count) + 1;
+		$endShow		= $ankets->currentPage() * $count;
+		$endShow		= $endShow < $ankets->total() ? $endShow : $ankets->total();
+				
+		$str = 'Найдено анкет: (' . $startShow . '-' . $endShow . ') из ' . $ankets->total();
+		return $str;
+	}
 }

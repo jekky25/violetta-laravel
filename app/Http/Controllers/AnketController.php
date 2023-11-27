@@ -73,11 +73,7 @@ class AnketController extends Controller
 
 		$titleId = $sex == 'men' ? 'Лучшие парни' : 'Лучшие девушки';
 
-		$startShowAnk 		= (($ankets->currentPage() - 1) * $this->countPerPage) + 1;
-		$endShowAnk			= $ankets->currentPage() * $this->countPerPage;
-		$endShowAnk			= $endShowAnk < $ankets->total() ? $endShowAnk : $ankets->total();
-				
-		$countSearchAnkStr = 'Найдено анкет: (' . $startShowAnk . '-' . $endShowAnk . ') из ' . $ankets->total();
+		$countSearchAnkStr	= Helper::getFoundStr ($ankets, $this->countPerPage);
 
 		return response()->view ('ankets.best', 
 		[
@@ -136,11 +132,7 @@ class AnketController extends Controller
 		$page 				= $ankets->currentPage();
 		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
 
-		$startShowAnk 		= (($ankets->currentPage() - 1) * $this->countPerPage) + 1;
-		$endShowAnk			= $ankets->currentPage() * $this->countPerPage;
-		$endShowAnk			= $endShowAnk < $ankets->total() ? $endShowAnk : $ankets->total();
-
-		$countSearchAnkStr = 'Найдено анкет: (' . $startShowAnk . '-' . $endShowAnk . ') из ' . $ankets->total();
+		$countSearchAnkStr	= Helper::getFoundStr ($ankets, $this->countPerPage);
 
 		return response()->view ('ankets.id', 
 		[
@@ -350,11 +342,7 @@ class AnketController extends Controller
 
 			$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
 
-			$startShowAnk 		= (($ankets->currentPage() - 1) * $anketPerPage) + 1;
-			$endShowAnk			= $ankets->currentPage() * $anketPerPage;
-			$endShowAnk			= $endShowAnk < $ankets->total() ? $endShowAnk : $ankets->total();
-				
-			$countSearchAnkStr = 'Найдено анкет: (' . $startShowAnk . '-' . $endShowAnk . ') из ' . $ankets->total();
+			$countSearchAnkStr	= Helper::getFoundStr ($ankets, $anketPerPage);
 
 			if ($crits === true) 
 			{
