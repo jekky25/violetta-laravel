@@ -304,4 +304,22 @@ class Helper {
 		$str = 'Найдено анкет: (' . $startShow . '-' . $endShow . ') из ' . $ankets->total();
 		return $str;
 	}
+
+	function lastVisit($time)
+	{
+		$timestamp = time();
+  		$dateCheck = date("d-m-y",$time);
+  		$timeCheck = date("d-m-y",$timestamp);
+  		$timeCheckIs = date("d-m-y",$timestamp- (60*60*24));
+  		if ($dateCheck == $timeCheck)
+  		{
+    		$date = date("Сегодня",$time);
+  		} else if ($dateCheck == $timeCheckIs)
+  		{
+    		$date = date("Вчера",$time);
+  		}
+   		else
+    		$date = date("d.m.y.",$time);
+  		return $date;
+	}
 }
