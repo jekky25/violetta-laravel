@@ -10,6 +10,28 @@
 		@if ($item->user_sex == MEN)<img alt="Мужчина" src="{{ asset('image/sex_men.jpg') }}" />@else<img alt="Женщина" src="{{ asset('image/sex_women.jpg') }}" />@endif
 		<span>({{$item->user_fotos}} фото)</span></p>
 		<p><strong>{{$item->user_age}} {{$item->user_age_type}}</strong>, {{$item->city->name}}</p>
+		@if (!empty ($best))
+		@if (isset($item->user_reiting_str))
+		<table class="topReit">
+		<tr>
+			<td>
+				<p>Рейтинг:</p>
+			</td>
+			<td>
+				<div class="divUn1">
+					<div>
+						<ul>
+							<li class="current-rating2" style="width:{{$item->user_reiting_str}}px;">&nbsp;</li>
+						</ul>
+					</div>
+				</div>
+			</td>
+		</tr>
+		</table>
+		@endif
+		<p><i>{!! $item->onTop !!}</i></p>
+		@else
 		<p><strong>Ищу:</strong> {{$item->find_sex_orient}}</p>
+		@endif
 	</dd>
 </dl>

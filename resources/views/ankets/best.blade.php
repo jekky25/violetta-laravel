@@ -3,58 +3,30 @@
 @section('main_body')
 <h1 class="mTit">{{ $titleId }} сайта знакомств "Виолетта"</h1>
 <h3 class="titleSAnkets mrg4">{{ $countSearchAnkStr }}</h3>
-{if $userdata.user_id > 0}
-	{if $userdata.user_top100 > 0 && $userdata.user_fotos > 0}
-	{elseif $userdata.user_top100 == 0 && $userdata.user_fotos > 0}
+@auth
+	@if ($user->user_top100 > 0 && $user->user_fotos > 0)
+	@elseif ($user->user_top100 == 0 && $user->user_fotos > 0)
 	<p align="center" class="blue inTop">Стань участником ТОПа</p>
-	{else}
+	@else
 		<p align="center" class="blue inTop">Стань участником ТОПа</p>
 		<p align="center" class="blue">тебе нужно всего лишь разместить фотографию</p>
-	{/if}
-{else}
+	@endif
+@else
 	<p align="center" class="blue inTop">Стань участником ТОПа</p>
 	<p align="center" class="blue">тебе нужно всего лишь заполнить анкету и разместить фотографию</p>
-{/if}
+@endauth
 <br />
 <table id="mScreen">
 	<tr>
 		<td class="wth6">
 			<div class="ankets2">
-{if $ankets}
-{section loop=$ankets name=j}
-<dl>
-<dt>
-<a href="{$smarty.const.SITE_URL}index.php?mod=ank&amp;id={$ankets[j].user_id}">
-<img alt="{$ankets[j].user_name},{$ankets[j].user_age}{$ankets[j].user_age_type},{$ankets[j].city}" src="{$smarty.const.SITE_URL}{$ankets[j].foto_url}" /></a>
-</dt>
-<dd>
-<p>{if $ankets[j].user_reg_is}<img title="на сайте" class="online" alt="на сайте" src="{$smarty.const.SITE_URL}templates/image/on_line.gif" />{/if}<a href="{$smarty.const.SITE_URL}index.php?mod=ank&amp;id={$ankets[j].user_id}" {if $ankets[j].user_sex == $smarty.const.MEN}class="name_man"{else}class="name_woman"{/if}>{$ankets[j].user_name}</a>
-{if $ankets[j].user_sex == $smarty.const.MEN}<img alt="Мужчина" src="{$smarty.const.SITE_URL}templates/image/sex_men.jpg" />{else}<img alt="Женщина" src="{$smarty.const.SITE_URL}templates/image/sex_women.jpg" />{/if}
-<span>({$ankets[j].user_fotos} фото)</span></p>
-<p><strong>{$ankets[j].user_age} {$ankets[j].user_age_type}</strong>, {$ankets[j].city}</p>
-<table class="topReit">
-<tr>
-	<td>
-		<p>Рейтинг:</p>
-	</td>
-	<td>
-		<div class="divUn1">
-		<div>
-			<ul>
-				<li class="current-rating2" style="width:{$ankets[j].user_reiting_str}px;">&nbsp;</li>
-			</ul>
-		</div>
-		</div>
-	</td>
-</tr>
-</table>			
-<p><i>{$ankets[j].onTop}</p>
-</dd>
-</dl>
-{/section}
-{else}
-<p class="pad5"><strong>по вашему запросу ничего не найдено</strong></p>
-{/if}
+@if (!empty($ankets))
+    @foreach ($ankets as $item)
+		@include('ankets.brief', ['best' => 1])
+    @endforeach
+@else
+<p class="pad5"><strong>анкет не найдено</strong></p>
+@endif
 				</div>
 		</td>
 		<td>
@@ -71,5 +43,5 @@ google_ad_height = 600;
 		</td>
 	</tr>
 </table>
-{$pagination}
+@include('pagination', ['items' => $ankets])
 @overwrite

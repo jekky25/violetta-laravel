@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\AnketVisit;
 use App\Models\User;
@@ -18,6 +19,7 @@ use App\Helpers\Helper;
 class AnketController extends Controller
 {
 	public $countPerPage 	= 10;
+	public $countNewFaces 	= 5;
 
     /**
      * Create a new controller instance.
@@ -68,12 +70,34 @@ class AnketController extends Controller
 	{
 		$s 					= $sex == 'men' ? MEN 		: WOMEN;
 		$ankets 			= User::getBest($this->countPerPage, $s);
+		$maxReit 			= User::getMaxReiting($s);
 		$page 				= $ankets->currentPage();
 		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
+
+		foreach ($ankets as &$item)
+		{
+			$reiting = round(($item->user_reiting / $maxReit ) * 1000);
+			$reitingStr = $reiting / 100;
+			if ($reitingStr > 7) 
+				$item->user_reiting_str = 70;
+			elseif ($reitingStr > 5) 
+				$item->user_reiting_str = 56;
+			elseif ($reitingStr > 3) 
+				$item->user_reiting_str = 42;
+			elseif ($reitingStr > 2) 
+				$item->user_reiting_str = 28;
+			elseif ($reitingStr > 1) 
+				$item->user_reiting_str = 14;
+			else 
+				$item->user_reiting_str = 7;
+
+			$item->onTop = '<strong>' . ($item->user_sex == 2 ? 'поднялась' : 'поднялся') . '</strong>: ' . Helper::lastVisit($item->user_top100);
+		}
 
 		$titleId = $sex == 'men' ? 'Лучшие парни' : 'Лучшие девушки';
 
 		$countSearchAnkStr	= Helper::getFoundStr ($ankets, $this->countPerPage);
+		$user = Auth::user()->load(['visits']);
 
 		return response()->view ('ankets.best', 
 		[
@@ -81,7 +105,8 @@ class AnketController extends Controller
 			'ankets'			=> $ankets,
 			'pagination'		=> $pagination,
 			'titleId'			=> $titleId,
-			'countSearchAnkStr' => $countSearchAnkStr
+			'countSearchAnkStr' => $countSearchAnkStr,
+			'user'				=> $user
 		]);
 	}
 
@@ -92,6 +117,7 @@ class AnketController extends Controller
 		$ankTitleId 		= $sex == 'men' ? 'Анкеты мужчин' : 'Анкеты женщин';
 		$birthDate			= NULL;
 		$birthDate2			= NULL;
+
 		switch ($op) {
 			case '20':
 				$birthDate 		= Helper::birthAround(20);
@@ -128,21 +154,27 @@ class AnketController extends Controller
 				'birthDate2' => $birthDate2,
 			];
 
-		$ankets 			= User::getOp($this->countPerPage, $s, $opt);
-		$page 				= $ankets->currentPage();
-		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
+		if (empty($sex) && empty($op))
+		{
+			$ankets = User::newFaces($this->countNewFaces);
+		} else
+		{
+			$ankets 			= User::getOp($this->countPerPage, $s, $opt);
+			$page 				= $ankets->currentPage();
+			$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
 
-		$countSearchAnkStr	= Helper::getFoundStr ($ankets, $this->countPerPage);
+			$countSearchAnkStr	= Helper::getFoundStr ($ankets, $this->countPerPage);
+		}
 
 		return response()->view ('ankets.id', 
 		[
 			'popSex'			=> $ankTitle,
 			'ankTitleId'		=> $ankTitleId,
 			'sex'				=> $sex,
-			'page'				=> $page,
+			'page'				=> !empty($page) ? $page : 1,
 			'ankets'			=> $ankets,
-			'countSearchAnkStr' => $countSearchAnkStr,
-			'pagination'		=> $pagination
+			'countSearchAnkStr' => !empty ($countSearchAnkStr) ? $countSearchAnkStr : '',
+			'pagination'		=> !empty ($pagination) ? $pagination : ''
 		]);
 	}
 	

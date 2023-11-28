@@ -155,6 +155,15 @@ class User extends Authenticatable
 		return $items;
 	}
 
+	public function getMaxReiting($sex)
+	{
+		$item = self::select(['*'])
+		->where('user_active', 1)
+		->where('user_sex', $sex)
+		->max('user_reiting');
+		return $item;
+	}
+
 	public function getPopul($count = 0, $sex)
 	{
 		$items = self::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
