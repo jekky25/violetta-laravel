@@ -170,6 +170,21 @@ class Helper {
 	}
 
 	/**
+	 * out picture in diaries to template
+	 * @param integer $picture
+	 * @param string $sex
+	 *
+	 * @return string
+	 */
+	function outDiaryPicture($picture = 0, $sex)
+	{
+		if ($picture > 0) return asset('img/dnevnik/' . $picture . '.jpg');
+
+		$fotoUrl = $sex == MEN ? 'image/no_foto_m_vip.jpg' : 'image/no_foto_w_vip.jpg';
+		return asset ($fotoUrl);
+	}
+
+	/**
 	 * preparation pagination to out to the template
 	 * @param array $paginagion
 	 *
