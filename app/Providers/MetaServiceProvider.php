@@ -130,9 +130,16 @@ class MetaServiceProvider extends ServiceProvider
 					break;
 
 				case 'ankets':
-						$pageTitle = 'Поиск анкет на сайте знакомств, сайт знакомств, Бесплатный сайт знакомств Виолетта';
-						$pageMeta = '<meta name="Description" content="Поиск анкет на сайте знакомств. Тысячи анкет с фото, бесплатная регистрация.">
+					$pageTitle = 'Поиск анкет на сайте знакомств, сайт знакомств, Бесплатный сайт знакомств Виолетта';
+					$pageMeta = '<meta name="Description" content="Поиск анкет на сайте знакомств. Тысячи анкет с фото, бесплатная регистрация.">
 						<meta name="Keywords" content="поиск анкет на сайте знакомств, бесплатные знакомства, знакомства в Москве, найти любовь">';
+					break;
+
+				case 'diaries':
+					$pageTitle = 'Дневники, скачать дневник на сайте знакомств, бесплатные знакомства';
+					$pageTitle .= ', Сайт знакомств Виолетта';	
+					$pageMeta = '<meta name="Description" content="Дневник, скачать дневник на сайте знакомств, бесплатные знакомства">
+						<meta name="Keywords" content="Дневник, сайт знакомств">';					
 					break;
 
 				default:
