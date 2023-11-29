@@ -36,6 +36,7 @@ class Diary extends Model
 		})
 		->with('user')
 		->with('comments')
+		->with('user_photo')
         ->orderBy('dnevniki_time', 'desc')
         ->paginate($count);
 
@@ -68,6 +69,9 @@ class Diary extends Model
 					$_item->diaryImg 		= $img;
 				}
 			}
+
+			if (!empty($_item->user_photo->fotos_id))
+				$_item->foto_user_id = $_item->user_photo->fotos_id;
 		}
 	}
 
@@ -79,5 +83,11 @@ class Diary extends Model
 	public function comments ()
 	{
 		return $this->hasMany(Comment::class, 'comment_dnevnik_id', 'dnevniki_id');
+	}
+
+	public function user_photo ()
+	{
+		return $this->hasOne(Photo::class, 'user_id', 'dnevniki_user_id')->where('fotos_portret', 1);
+
 	}
 }

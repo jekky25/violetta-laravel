@@ -11,17 +11,18 @@
 					<h4 class="{{ $item->name_class }}"><a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>
 					<div class="titDnev"><a href="{{route('ank.id', $item->user->user_id)}}">{!! \Illuminate\Support\Str::limit($item->dnevniki_title, 40, $end='...') !!}</a></div>
 						<p>
-						@if (!empty($user) && $user->user_id == $item->user_id)
+					@if (!empty($user) && $user->user_id == $item->user_id)
 					<a class="editBut" title="редактировать" href="{{route('registration.edit.diary.id', $item->dnevniki_id)}}"></a>
 					<a class="delBut" title="удалить" href="{{route('registration.delete.diary.id', $item->dnevniki_id)}}"></a>
 						@endif
 					{{ $item->add_time }}</p>
 					</h4>
 						<div class="dnevBody clear">
-					@if (!empty($item->dnevniki_picture))
+			@if (!empty($item->dnevniki_picture))
 			<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ App\Helpers\Helper::outDiaryPicture($item->dnevniki_picture, $item->user->user_sex) }}" /></a>
-			@elseif (!empty($item->foto_url))
-			<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->user_id)}}"><img src="{$smarty.const.SITE_URL}{$dnevniki[f].foto_url}" /></a>
+			@elseif (!empty($item->foto_user_id))
+			{{ $item->foto_user_id }}
+			<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ App\Helpers\Helper::outPicture($item->foto_user_id, $item->user->user_sex) }}" /></a>
 			@endif
 			@if (!empty($item->dnevniki_picture))
 			<div class="mrg2">
