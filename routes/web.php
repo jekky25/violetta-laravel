@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('privmsg', 'NoContoller@index')->name('privmsg');
 
 Route::get('registration/edit/photo', 'NoContoller@index')->name('registration.edit.photo');
+Route::get('registration/edit/diary/{id}.html', 'NoContoller@index')->whereNumber('id')->name('registration.edit.diary.id');
+Route::get('registration/delete/diary/{id}.html', 'NoContoller@index')->whereNumber('id')->name('registration.delete.diary.id');
 Route::get('registration/edit/diary', 'NoContoller@index')->name('registration.edit.diary');
 Route::get('registration/edit/settings', 'NoContoller@index')->name('registration.edit.settings');
 Route::get('registration/top100', 'NoContoller@index')->name('registration.top100');
@@ -54,7 +56,7 @@ Route::get('screensavers.html', 'ScreenController@index')->name('screensavers');
 Route::get('dreambook/op{id}.html', 'DreamBookController@index')->whereNumber('id')->name('dreambook.literal');
 Route::get('dreambook/{id}.html', 'DreamBookController@getItem')->whereNumber('id')->name('dreambook.id');
 Route::get('dreambook.html', 'DreamBookController@index')->name('dreambook');
-Route::get('ank/diaries.html', 'NoContoller@index')->name('diaries');
+Route::get('ank/diaries.html', 'DiaryController@index')->name('diaries');
 Route::get('review', 'NoContoller@index')->name('review');
 
 Route::get('search', 'AnketController@getBySearch')->name('search');
