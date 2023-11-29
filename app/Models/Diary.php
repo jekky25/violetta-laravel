@@ -23,8 +23,34 @@ class Diary extends Model
         ->orderBy('dnevniki_time', 'desc')
         ->get();
 
+		Diary::changeParams($items);
+
+		return $items;
+	}
+
+	public function getAll($count)
+    {
+		$items = self::select('*')
+		->whereHas('user', function ($query) {
+			$query->where('user_active', 1);
+		})
+		->with('user')
+		->with('comments')
+        ->orderBy('dnevniki_time', 'desc')
+        ->paginate($count);
+
+		Diary::changeParams($items);
+
+		return $items;
+	}
+
+	public static function changeParams(&$items)
+	{
 		foreach ($items as &$_item)
 		{
+			if (!empty($_item->user) && isset($_item->user->user_sex))
+				$_item->user_sex = $_item->user->user_sex;
+
 			$_item->name_class 		= $_item->user_sex == MEN ? 'name_man' : 'name_woman';
 			$_item->dnevniki_time 	= date("d.m.y H:i", $_item->dnevniki_time);
 			$_item->dnevniki_title 	= stripslashes($_item->dnevniki_title);
@@ -43,8 +69,6 @@ class Diary extends Model
 				}
 			}
 		}
-
-		return $items;
 	}
 
 	public function user()
