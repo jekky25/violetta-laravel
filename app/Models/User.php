@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 use App\Helpers\Helper;
 use App\Models\Photo;
@@ -93,22 +94,6 @@ class User extends Authenticatable
 		return ($items);
 	}
 
-
-	public function city()
-	{
-    	return $this->hasOne(City::class, 'id', 'user_city');
-	}
-
-	public function photo()
-	{
-    	return $this->hasMany(Photo::class, 'user_id', 'user_id');
-	}
-
-	public function visits()
-	{
-		$t = time() - 60*60*24*30;
-    	return $this->hasMany(AnketVisit::class, 'user_id_prosm', 'user_id')->where('ank_time', '>', $t);
-	}
 
 	public function getCountAnkets ($sex)
 	{
@@ -235,6 +220,44 @@ class User extends Authenticatable
 		$items = self::addProps($items);
 
 		return $items;
+	}
+
+	public function getById($id)
+	{
+		$user = Auth::user()->load(['visits']);
+
+		$item = self::select('*')
+		->where ('user_id', $id)
+		->where ('user_active', 1);
+		if (empty ($user))
+		{
+			$item->where ('user_confirm_email', 1);
+		}
+		$item->with('diary')
+			 ->with('photo');
+		$item = $item->first();
+		return $item;
+	}
+
+	public function city()
+	{
+    	return $this->hasOne(City::class, 'id', 'user_city');
+	}
+
+	public function photo()
+	{
+    	return $this->hasMany(Photo::class, 'user_id', 'user_id');
+	}
+
+	public function visits()
+	{
+		$t = time() - 60*60*24*30;
+    	return $this->hasMany(AnketVisit::class, 'user_id_prosm', 'user_id')->where('ank_time', '>', $t);
+	}
+
+	public function diary()
+	{
+    	return $this->hasMany(Diary::class, 'dnevniki_user_id', 'user_id')->orderBy('dnevniki_time', 'desc');
 	}
 
 	public function anketVisit()
