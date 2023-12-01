@@ -28,4 +28,14 @@ class AnketVisit extends Model
 					->with('city')
 					->with('photo');
 	}
+
+	public function getVisitsByUserId($id, $days)
+	{
+		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
+		$items = self::select('*')
+		->where('user_id_prosm', $id)
+		->where('ank_time', '>', $time['timestamp'])
+        ->get();
+    	return $items;
+	}
 }
