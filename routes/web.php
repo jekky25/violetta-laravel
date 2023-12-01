@@ -25,9 +25,9 @@ Route::get('registration/edit', 'NoContoller@index')->name('registration.edit');
 Route::get('registration/views', 'NoContoller@index')->name('registration.views');
 Route::get('registration', 'NoContoller@index')->name('registration');
 
-Route::get('ank/diary/comments/{id}.html', 'NoContoller@index')->whereNumber('id')->name('ank.diary.comments');
+Route::get('ank/diary/comments/{id}.html', 'CommentController@index')->whereNumber('id')->name('ank.diary.comments');
 Route::get('ank/diary/{id}.html', 'NoContoller@index')->whereNumber('id')->name('ank.diary.id');
-Route::get('ank/{id}', 'NoContoller@index')->whereNumber('id')->name('ank.id');
+Route::get('ank/{id}', 'AnkController@getAnk')->whereNumber('id')->name('ank.id');
 Route::get('ankets/{sex}/{age}', 'AnketController@getAnkets')->where('sex', '(men|women)')
                                                      ->where('age', '(20|2025|2535|3550|50)')
                                                      ->name('ankets.sex.age');
