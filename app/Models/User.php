@@ -236,6 +236,46 @@ class User extends Authenticatable
 		$item->with('diary')
 			 ->with('photo');
 		$item = $item->first();
+
+		if (empty ($item)) abort (404);
+
+		$item->zodiac = Helper::zodiac($item->user_birth_date);
+
+		$item->user_age 			= Helper::age($item->user_birth_date);
+		$item->user_age_type 		= Helper::ageType($item->user_age);
+		$item->user_age_str			= $item->user_age .' ' . $item->user_age_type;
+		$item->number_diary 		= count($item->diary);
+		$item->number_diary_str 	= $item->number_diary . ' ' . Helper::caseDiaryType ($item->number_diary);
+
+		$maxReit 			= User::getMaxReiting($item->user_sex);
+
+		$reiting = round(($item->user_reiting / $maxReit ) * 1000);
+		$reitingStr = $reiting / 100;
+		if ($reitingStr > 7) 
+			$item->user_reiting_str = 70;
+		elseif ($reitingStr > 5) 
+			$item->user_reiting_str = 56;
+		elseif ($reitingStr > 3) 
+			$item->user_reiting_str = 42;
+		elseif ($reitingStr > 2) 
+			$item->user_reiting_str = 28;
+		elseif ($reitingStr > 1) 
+			$item->user_reiting_str = 14;
+		else 
+			$item->user_reiting_str = 7;
+
+		
+		$item->user_description 			= stripslashes($item->user_description);
+		$item->user_description 			= str_replace("\n", "\n<br />\n", $item->user_description);
+		$item->user_sex_str 				= $item->user_sex == MEN ? 'Мужской' : 'Женский';
+		$item->date_make 					=  Helper::dateFormat($item->user_make_date);
+
+		if ($item->user_make_date !== $item->user_refresh_date) 
+			$item->date_refresh 			= Helper::dateFormat($item->user_refresh_date);
+		
+		$item->user_partner_description 	= stripslashes(trim($item->user_partner_description));
+		$item->user_partner_description 	= str_replace("\n", "\n<br />\n", $item->user_partner_description);
+
 		return $item;
 	}
 
