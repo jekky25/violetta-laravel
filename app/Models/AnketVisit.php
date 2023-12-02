@@ -11,7 +11,13 @@ class AnketVisit extends Model
 {
 	use HasFactory;
 
+	public $timestamps 	= false;
 	protected $table = 'anket_visit';
+	protected $fillable = [
+		'ank_user_id',
+		'user_id_prosm',
+		'ank_time'
+	  ];
 
 	public function visitsNew($user)
 	{
@@ -29,13 +35,32 @@ class AnketVisit extends Model
 					->with('photo');
 	}
 
-	public function getVisitsByUserId($id, $days)
+	public function getVisitsByUserId($id, $days, $userId = 0)
 	{
 		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
 		$items = self::select('*')
 		->where('user_id_prosm', $id)
-		->where('ank_time', '>', $time['timestamp'])
-        ->get();
+		->where('ank_time', '>', $time['timestamp']);
+
+		if ($userId > 0)
+			$items->where('ank_user_id', $userId);
+
+        $items = $items->get();
     	return $items;
+	}
+
+	public function getByFields ($fields = [])
+	{
+		if (empty($fields)) return null;
+		$items = self::select('*');
+		foreach ($fields as $k => $v)
+		{
+			$items->where ($k, $v);
+		}
+		$items = $items->get();
+
+		if (count($items) == 1)
+			$items = $items[0];
+		return $items;
 	}
 }
