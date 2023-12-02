@@ -479,4 +479,18 @@ class Helper {
 		}
 		return $arZodiac;
 	}
+
+	/**
+	 * move date to the format dd.mm.yyyy
+	 * ex date_format ($date)
+	 * @param string $date
+	 *
+	 * @return string
+	*/
+	function dateFormat($date)
+	{
+		preg_match("/^ *(([0-9]+)-([0-9]+)-([0-9]+)) *$/",$date,$pockets);
+		$date_out = $pockets[4].".".$pockets[3].".".$pockets[2];
+		return $date_out;
+	}
 }
