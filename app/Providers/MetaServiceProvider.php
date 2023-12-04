@@ -142,6 +142,13 @@ class MetaServiceProvider extends ServiceProvider
 						<meta name="Keywords" content="Дневник, сайт знакомств">';					
 					break;
 
+				case 'ank.id':
+					$userData = $view->userData;
+					$pageTitle = 'Бесплатные знакомства ' . $userData->city_name . ', ' . $userData->user_name . ' ' . $userData->user_age_str . ', ' . $userData->city->name;
+					$pageTitle .= ', Сайт знакомств Виолетта';
+					$pageMeta = '<meta name="Description" content="Бесплатные знакомства ' . $userData->user_name . ' ' . $userData->user_age_str . ', ' . $userData->city->name . '">
+					<meta name="Keywords" content="' . $userData->user_name . ' ' . $userData->user_age_str . ', ' . $userData->city->name . ', сайт знакомств">';
+					break;
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
 				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
