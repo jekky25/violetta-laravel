@@ -15,11 +15,6 @@ a:hover	{text-decoration:underline;}
 .clear {display: inline-block;}
 .clear {display: block;}
 
-/*
-img {opacity: 1; transition: opacity 0.3s;}
-img[data-src] {opacity: 0;}
-*/
-
 .wth1 {width:50%;}
 .wth2 {width:350px;}
 .wth3 {width:100% !important;}
@@ -365,24 +360,25 @@ ul#ankFotos {margin-top:7px;}
 #ankFotos li {float:left; padding-right:9px;}
 #ankFotos a.ankFotosPics, #ankFotos p.ankFotosPics {display:block; position:relative; width:85px; height:113px; background-color:#878672; top:3px; left:3px;}
 #ankFotos .ankFotosPics img {width:85px; height:113px; top:-3px; left:-3px; position:relative;}
-#ankFotos li p {padding-bottom:1px;}
-p.unit-rating2 {width:70px;}
-.unit-rating {list-style:none; margin:0px !important; padding:0px !important; height:14px; position:relative; background:url('../image/starvote.png') top left no-repeat; margin-top:-15px !important;}
-.unit-rating li{text-indent:-90000px; padding:0px !important; margin:0px !important; float:left;}
-.unit-rating li a {outline: none; display:block; width:14px; height: 14px; text-decoration: none; text-indent: -9000px; z-index:20; position:absolute; padding:0px;	}
-.unit-rating li a:hover {background: url('../image/star1.png') left center; z-index: 2; left: 0px;}
 
-.unit-rating a.r1-unit{left: 0px;}
-.unit-rating a.r1-unit:hover{width:14px;}
-.unit-rating a.r2-unit{left:14px;}
-.unit-rating a.r2-unit:hover{width: 28px;}
-.unit-rating a.r3-unit{left: 28px;}
-.unit-rating a.r3-unit:hover{width: 42px;}
-.unit-rating a.r4-unit{left: 42px;}	
-.unit-rating a.r4-unit:hover{width: 56px;}
-.unit-rating a.r5-unit{left: 56px;}
-.unit-rating a.r5-unit:hover{width: 70px;}
-.unit-rating li.current-rating {background: url('../image/starvote2.png') left bottom; position: absolute; height: 14px; display: block; text-indent: -9000px; z-index: 1;}
+#ankFotos li p {padding-bottom:1px;}
+
+.div-rating {list-style:none; padding:0px !important; height:14px; position:relative; background:url('../image/starvote.png') top left no-repeat; margin-top: -2px;}
+.div-rating li{text-indent:-90000px; padding:0px !important; margin:0px !important; float:left;}
+.div-rating li a {outline: none; display:block; width:14px; height: 14px; text-decoration: none; text-indent: -9000px; z-index:20; position:absolute; padding:0px;	}
+.div-rating li a:hover {background: url('../image/star1.png') left center; z-index: 2; left: 0px;}
+
+.div-rating a.r1-unit{left: 0px;}
+.div-rating a.r1-unit:hover{width:14px;}
+.div-rating a.r2-unit{left:14px;}
+.div-rating a.r2-unit:hover{width: 28px;}
+.div-rating a.r3-unit{left: 28px;}
+.div-rating a.r3-unit:hover{width: 42px;}
+.div-rating a.r4-unit{left: 42px;}	
+.div-rating a.r4-unit:hover{width: 56px;}
+.div-rating a.r5-unit{left: 56px;}
+.div-rating a.r5-unit:hover{width: 70px;}
+.div-rating li.current-rating {background: url('../image/starvote2.png') left bottom; position: absolute; height: 14px; display: block; text-indent: -9000px; z-index: 1;}
 
 div.divUn1 {position:relative;}
 
@@ -514,7 +510,7 @@ h4.menu_registration div {background-color:#ee514e; line-height:20px; height:20p
 .picturEditCont .dnevBodyPic2 img {width:85px; height:113px; top:-3px; left:-3px; position:relative;}
 
 table.dnevBodyPic3 {margin:0 auto;}
-.dnevBodyPic3 td {paddind-bottom:5px;}
+.dnevBodyPic3 td {padding-bottom:5px;}
 .dnevBodyPic3 div {display:block; position:relative; background-color:#878672; top:3px; left:3px;}
 .dnevBodyPic3 img {top:-3px; left:-3px; position:relative;}
 
@@ -609,8 +605,7 @@ table.voprTabl {margin:0 auto;}
 	.mDnevTr {display:block;}
 	.mDnevTd {display:block; width:100%;}
 	#mDnev .mDnevTd dl {width:50%; float:left; clear:none;}
-	#mDnev .mDnevTd dd {}
-	
+
 	div#cPad {padding-left: 0; padding-right:0;}
 	
 	div.dnevnik {margin-left:-10px; margin-right:-10px;}
