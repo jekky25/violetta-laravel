@@ -76,21 +76,7 @@ class AnketController extends Controller
 
 		foreach ($ankets as &$item)
 		{
-			$reiting = round(($item->user_reiting / $maxReit ) * 1000);
-			$reitingStr = $reiting / 100;
-			if ($reitingStr > 7) 
-				$item->user_reiting_str = 70;
-			elseif ($reitingStr > 5) 
-				$item->user_reiting_str = 56;
-			elseif ($reitingStr > 3) 
-				$item->user_reiting_str = 42;
-			elseif ($reitingStr > 2) 
-				$item->user_reiting_str = 28;
-			elseif ($reitingStr > 1) 
-				$item->user_reiting_str = 14;
-			else 
-				$item->user_reiting_str = 7;
-
+			$item->user_reiting_str 	= Helper::reiting ($item->user_reiting,$maxReit);
 			$item->onTop = '<strong>' . ($item->user_sex == 2 ? 'поднялась' : 'поднялся') . '</strong>: ' . Helper::lastVisit($item->user_top100);
 		}
 
