@@ -25,6 +25,9 @@ Route::get('registration/edit', 'NoContoller@index')->name('registration.edit');
 Route::get('registration/views', 'NoContoller@index')->name('registration.views');
 Route::get('registration', 'NoContoller@index')->name('registration');
 
+Route::get('privmsg/post/{id}.html', 'NoContoller@index')->whereNumber('id')->name('privmsg.post.id');
+
+
 Route::get('ank/diary/comments/{id}.html', 'CommentController@index')->whereNumber('id')->name('ank.diary.comments');
 Route::get('ank/diary/{id}.html', 'NoContoller@index')->whereNumber('id')->name('ank.diary.id');
 Route::get('ank/photo/f/{id}.html', 'NoContoller@index')->whereNumber('id')->name('ank.photo.f.id');

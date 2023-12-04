@@ -38,7 +38,7 @@ function vote(score)
 				<tr>
 					<td class="pad11">
 						<p class="pad1">
-							<a href="index.php?mod=privmsg&mode=post&id={$anketUserData.user_id}" title="Написать сообщение"><img alt="Написать сообщение" src="{{ asset('image/mail.png') }}" /></a>
+							<a href="{{route('privmsg.post.id', $userData->user_id)}}" title="Написать сообщение"><img alt="Написать сообщение" src="{{ asset('image/mail.png') }}" /></a>
 							<a title="Поделиться ВКонтакте" onclick="window.open('http://vkontakte.ru/share.php?url='+encodeURIComponent(location.href));return false;" rel="nofollow" href="http://vkontakte.ru/"><img title="Поделиться ВКонтакте" src="{{ asset('image/vkontakte2.png') }}" border="0" alt="" /></a>
 							<a title="Опубликовать в своем блоге livejournal.com" onclick="window.open('http://www.livejournal.com/update.bml?event='+encodeURIComponent(location.href)+'&amp;subject='+encodeURIComponent(document.title));return false;" rel="nofollow" href="http://www.livejournal.com/"><img title="Опубликовать в своем блоге livejournal.com" src="{{ asset('image/livejournal2.png') }}" border="0" alt="" /></a>
 							<a title="Поделиться В Моем Мире" onclick="window.open('http://connect.mail.ru/share?share_url='+encodeURIComponent(location.href));return false;" rel="nofollow" href="http://connect.mail.ru/"><img title="Поделиться В Моем Мире" src="{{ asset('image/mail2.png') }}" border="0" alt="" /></a>
