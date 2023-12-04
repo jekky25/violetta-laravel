@@ -234,7 +234,9 @@ class User extends Authenticatable
 			$item->where ('user_confirm_email', 1);
 		}
 		$item->with('diary')
-			 ->with('photo');
+			 ->with('photo')
+			 ->with('city')
+			 ->with('country');
 		$item = $item->first();
 
 		if (empty ($item)) abort (404);
@@ -277,6 +279,11 @@ class User extends Authenticatable
 		$item->user_partner_description 	= str_replace("\n", "\n<br />\n", $item->user_partner_description);
 
 		return $item;
+	}
+
+	public function country()
+	{
+    	return $this->hasOne(Country::class, 'id', 'user_country');
 	}
 
 	public function city()
