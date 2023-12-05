@@ -32,7 +32,7 @@ Route::get('ank/diary/comments/{id}.html', 'CommentController@index')->whereNumb
 Route::get('ank/diary/{id}.html', 'NoContoller@index')->whereNumber('id')->name('ank.diary.id');
 Route::get('ank/photo/f/{id}.html', 'NoContoller@index')->whereNumber('id')->name('ank.photo.f.id');
 Route::get('ank/photo/{id}.html', 'NoContoller@index')->whereNumber('id')->name('ank.photo.id');
-Route::get('ank/f/{id}', 'NoContoller@index')->whereNumber('id')->name('ank.full.id');
+Route::get('ank/f/{id}', 'AnkController@getAnk')->whereNumber('id')->name('ank.full.id');
 Route::get('ank/{id}', 'AnkController@getAnk')->whereNumber('id')->name('ank.id');
 Route::get('ankets/{sex}/{age}', 'AnketController@getAnkets')->where('sex', '(men|women)')
                                                      ->where('age', '(20|2025|2535|3550|50)')
