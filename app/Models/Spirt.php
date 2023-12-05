@@ -18,5 +18,12 @@ class Spirt extends Model
 		->first();
 		return $item;
 	}
-	
+
+	public function getAll()
+	{
+		$items = self::select('*')
+		->orderBy('name', 'asc')
+		->get();
+		return $items;
+	}
 }

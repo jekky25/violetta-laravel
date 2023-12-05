@@ -19,4 +19,11 @@ class Education extends Model
 		return $item;
 	}
 	
+	public function getAll()
+	{
+		$items = self::select('*')
+		->orderBy('name', 'asc')
+		->get();
+		return $items;
+	}
 }
