@@ -23,12 +23,8 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <table>
 <tr>
 <td class="pad11">
-							<p class="pad1">
-<a title="Поделиться ВКонтакте" onclick="window.open('http://vkontakte.ru/share.php?url='+encodeURIComponent(location.href));return false;" rel="nofollow" href="http://vkontakte.ru/"><img title="Поделиться ВКонтакте" src="/image/vkontakte2.png" border="0" alt="" /></a>
-<a title="Опубликовать в своем блоге livejournal.com" onclick="window.open('http://www.livejournal.com/update.bml?event='+encodeURIComponent(location.href)+'&amp;subject='+encodeURIComponent(document.title));return false;" rel="nofollow" href="http://www.livejournal.com/"><img title="Опубликовать в своем блоге livejournal.com" src="/image/livejournal2.png" border="0" alt="" /></a>
-<a title="Поделиться В Моем Мире" onclick="window.open('http://connect.mail.ru/share?share_url='+encodeURIComponent(location.href));return false;" rel="nofollow" href="http://connect.mail.ru/"><img title="Поделиться В Моем Мире" src="/image/mail2.png" border="0" alt="" /></a>
-<a onclick="window.open('http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl='+encodeURIComponent(location.href), 'odkl', 'width=626, height=436'); return false;" rel="nofollow" href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl=+encodeURIComponent(location.href)"><img src="/image/odnoklassniki2.png" title="Поделиться с друзьями в Одноклассниках"></a>
-</p></td>
+<p class="pad1">@include('social')</p>
+</td>
 <td>
 <!-- Place this tag where you want the +1 button to render. -->
 <div class="g-plusone" data-size="medium"></div>
