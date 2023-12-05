@@ -236,7 +236,9 @@ class User extends Authenticatable
 		$item->with('diary')
 			 ->with('photo')
 			 ->with('city')
+			 ->with('region')
 			 ->with('country');
+
 		$item = $item->first();
 
 		if (empty ($item)) abort (404);
@@ -266,9 +268,53 @@ class User extends Authenticatable
 		return $item;
 	}
 
+	public function getProperty($item, $k)
+	{
+		$s =  $item['prop'];
+		$t =  $item['ank_prop'];
+		if ((int)$this->$s > 0)
+		{
+			$oItem 		= $k::getById ($this->$s);
+			$this->$t 	= $oItem->name;
+		}
+	}
+
+	public function getPropertyFew($class, $prop,$propOut)
+	{
+		$unserProp = unserialize($prop);
+		if ($prop != "N;" && !empty($unserProp[0]))
+		{
+			$obj = $class::getAll();
+
+			$i = 0;
+			$this->$propOut = '';
+			$ar = [];
+			foreach ($unserProp as $k=>$v)
+			{
+				$i++;
+				foreach ($obj as $mT)
+				{
+					if ($v == $mT->id)
+					{
+						$ar[] = $mT->name;
+						break;
+					}
+				}
+			}
+
+			$this->$propOut = implode (', ', $ar);
+		}
+	}
+
+
 	public function country()
 	{
     	return $this->hasOne(Country::class, 'id', 'user_country');
+	}
+
+	public function region()
+	{
+    	return $this->hasOne(Region::class, 'id', 'user_region');
 	}
 
 	public function city()
