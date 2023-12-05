@@ -69,15 +69,15 @@ function vote(score)
 						<div class="div-rating2">
 							<ul class="div-rating">
 								<li class="current-rating" style="width:{{ $userData->user_reiting_str }}px;">&nbsp;</li>
-								@if ($user->session_user_id > 0)
-									@if ($user->session_user_id != $userData->user_id && !$ankEvaluationed)
+								@auth
+									@if ($user->user_id != $userData->user_id && !$ankEvaluationed)
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("1");' title='Очень плохо' class="r1-unit rater">Очень плохо</a></li>
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("2");' title='Плохо' class="r2-unit rater">Плохо</a></li>
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("3");' title='Средне' class="r3-unit rater">Средне</a></li>
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("4");' title='Хорошо' class="r4-unit rater">Хорошо</a></li>
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("5");' title='Отлично' class="r5-unit rater">Отлично</a></li>
 									@endif
-								@endif
+								@endauth
 							</ul>
 						</div>
 					</td>
