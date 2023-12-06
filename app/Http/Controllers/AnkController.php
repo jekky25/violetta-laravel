@@ -95,9 +95,7 @@ class AnkController extends Controller
 			if ($anket->ankVisits == 0 && $user->user_id != $id && $user->user_id > 1) 
 			{
 				AnketVisit::insertVisit($id);
-				$time = \Carbon\Carbon::now()->subDays(30)->toArray();
-				$affectedRows = AnketVisit::where('ank_time', '<', ($time['timestamp']))->delete();
-
+				AnketVisit::removeOld(self::$visitDays);
 			} elseif ($anket->ankVisits > 0 && $user->user_id != $id) 
 				AnketVisit::updateVisit($id);
 

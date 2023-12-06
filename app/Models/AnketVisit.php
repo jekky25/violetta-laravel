@@ -96,4 +96,10 @@ class AnketVisit extends Model
 		$oAnketVisit = new AnketVisit ($aFields);
 		$oAnketVisit->save();
 	}
+
+	public function removeOld ($days)
+	{
+		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
+		AnketVisit::where('ank_time', '<', ($time['timestamp']))->delete();
+	}
 }
