@@ -49,6 +49,7 @@ class User extends Authenticatable
 
     protected $table 		= 'users_news';
 	protected $primaryKey 	= 'user_id';
+	public $timestamps 		= false;
 
 	protected $feildsAboutPartner = 
 	[
@@ -283,14 +284,20 @@ class User extends Authenticatable
 		return $item;
 	}
 
+	public function getJustById($id)
+	{
+		$item = self::select('*')
+		->where ('user_id', $id)->first();
+		if (empty ($item)) abort (404);
+		return $item;
+
+	}
 	public function getProperty($item, $k)
 	{
-		$s =  $item['prop'];
-		$t =  $item['ank_prop'];
-		if ((int)$this->$s > 0)
+		if ((int)$this->{$item['prop']} > 0)
 		{
-			$oItem 		= $k::getById ($this->$s);
-			$this->$t 	= $oItem->name;
+			$oItem 		= $k::getById ($this->{$item['prop']});
+			$this->{$item['ank_prop']} 	= $oItem->name;
 		}
 	}
 

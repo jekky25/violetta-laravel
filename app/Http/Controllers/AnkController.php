@@ -47,11 +47,12 @@ class AnkController extends Controller
 
 	public function getAnk (Request $request, $id)
 	{
-		$user = Auth::user()->load(['visits']);
+		$user 	= Auth::user()->load(['visits']);
+		$mode 	= Route::currentRouteName() == 'ank.full.id' ? 'full' : '';
+		$anket 	= User::getById ($id, $mode);
 
-		$mode = Route::currentRouteName() == 'ank.full.id' ? 'full' : '';
-
-		$anket = User::getById ($id, $mode);
+		$vote 	= isset ($request->golos) ? (int)$request->golos : 0;
+		$vote 	= $vote > 5 ? 5 : $vote;
 
 		if (empty ($anket)) abort(404);
 
@@ -120,42 +121,38 @@ class AnkController extends Controller
 
 			if (count ($affectedRows) == 0) 
 			{
-				/*
-				if ($send_golos && $golos) {
-				  $golos = intval ($golos);
-				  if ($golos > 5)
-					$golos = 5;
-				  if ($golos == 0)
-					$golos = 1;
-		  
-				if ($userdata['user_id'] != $id) {
-					$sql = 'INSERT ' . OCENKA_ANKET_TABLE . '
-						SET user_id = ' . $userdata['user_id'] . ', user_id_ocenka = ' . $id . ', ball = ' . $golos . ', time= ' . time();
-					if(!($db->query($sql)) )
-						message_die_sql($sql, 'ank\index.php; 393');
-					$AnkOcenena = true;
-				}
-				$sql = 'SELECT SUM(ball) as sum_ank FROM ' . OCENKA_ANKET_TABLE . '
-						WHERE user_id_ocenka = ' . $id;
-				if(!($result_ocenka = $db->query($sql)) )
-					message_die_sql($sql, 'ank\index.php; 398');
+				if ($request->has('send_golos') && $vote > 0) 
+				{
+					if ($user->user_id != $id) 
+					{
+						$aFields = [
+							'user_id'			=> $user->user_id,
+							'user_id_ocenka'	=> $id,
+							'ball'				=> $vote,
+							'time'				=> time()
+						];
+			
+						$oAnketEvaluation = new AnketEvaluation ($aFields);
+						$oAnketEvaluation->save();
 
-				$row_ocenka = mysqli_fetch_array($result_ocenka);
+						$ankEvaluationed = true;
+					}
 
-				$sql = 'UPDATE ' . USERS_TABLE . ' SET
-					user_reiting = "' . $row_ocenka['sum_ank'] . '"
-					WHERE user_id = ' . $id;
-				if(!($db->query($sql)) )
-					message_die_sql($sql, 'ank\index.php; 406');
-					redirect('index.php?mod=ank' . $op_out . '&id='. $id . '&succgolos=1', true);	
+					$voteSum = AnketEvaluation::getSum ($id);
+					if ($voteSum > 0)
+					{
+						$anket = User::getJustById($id);
+						$anket->user_reiting = $voteSum;
+						$anket->update();
+					}
+					return redirect()->route(Route::currentRouteName(), $id);
 				}
-				*/
+				
 			} else 
 			{
 				$ankEvaluationed = true;
 			}
 		}
-
 		
 		//making a full anket
 		if ($mode == 'full') {

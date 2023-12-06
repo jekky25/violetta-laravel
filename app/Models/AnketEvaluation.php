@@ -10,6 +10,14 @@ class AnketEvaluation extends Model
 	use HasFactory;
 
 	protected $table = 'ocenka_anket';
+	public $timestamps 	= false;
+
+	protected $fillable = [
+		'user_id',
+		'user_id_ocenka',
+		'ball',
+		'time'
+	  ];
 
 	public function getEvauletions($userIdAct, $uderId)
 	{
@@ -20,4 +28,11 @@ class AnketEvaluation extends Model
     	return $items;
 	}
 
+	public function getSum($id)
+	{
+		$item = self::select(['*'])
+		->where('user_id_ocenka', $id)
+		->sum('ball','sum_ank');
+		return (int)$item;
+	}
 }

@@ -4,8 +4,8 @@
 <script language="JavaScript" type="text/javascript">
 function vote(score)
 {
-	var url = window.location.href;
-	url += '&send_golos=1&golos='+score;
+	var url = '{{route(Route:: currentRouteName(), [$userData->user_id, 'send_golos' => 1 ])}}';
+	url += '&golos='+score;
 	window.location = url;
 	return false;
 }
