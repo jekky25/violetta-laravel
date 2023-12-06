@@ -245,7 +245,7 @@ class AnkController extends Controller
 }
 
 
-		return response()->view ('ankets.short',
+		return response()->view ('ankets.page',
 		[
 			'userData'			=> $anket,
 			'ankEvaluationed' 	=> isset($ankEvaluationed) ? $ankEvaluationed : false,
