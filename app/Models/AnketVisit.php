@@ -4,6 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 use App\Helpers\Helper;
 
@@ -62,5 +63,37 @@ class AnketVisit extends Model
 		if (count($items) == 1)
 			$items = $items[0];
 		return $items;
+	}
+
+	public function updateVisit ($id)
+	{
+		$user 	= Auth::user();
+		if (empty ($user)) abort (404);
+
+		$aFields = [
+			'user_id_prosm' => $id,
+			'ank_user_id' 	=> $user->user_id
+		];
+		$ankVisits = self::getByFields ($aFields);
+		if (!empty($ankVisits))
+		{
+			$ankVisits->ank_time = time();
+			$ankVisits->save();
+		}
+	}
+
+	public function insertVisit ($id)
+	{
+		$user 	= Auth::user();
+		if (empty ($user)) abort (404);
+
+		$aFields = [
+			'user_id_prosm'		=> $id,
+			'ank_user_id'		=> $user->user_id,
+			'ank_time'			=> time()
+		];
+
+		$oAnketVisit = new AnketVisit ($aFields);
+		$oAnketVisit->save();
 	}
 }

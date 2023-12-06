@@ -34,6 +34,9 @@ class AnkController extends Controller
 		'\\App\\Models\\City'			=> ['prop' =>'user_partner_city',		'ank_prop' =>'partner_city']
 	  ];
 
+
+	public static $visitDays = 30;
+
     /**
      * Create a new controller instance.
      *
@@ -74,7 +77,7 @@ class AnkController extends Controller
 		$row ['user_last_visit'] .= last_visit($row['user_lastvisit']);
 	}*/
 
-		$visits = AnketVisit::getVisitsByUserId ($id, 30);
+		$visits = AnketVisit::getVisitsByUserId ($id, self::$visitDays);
 		
 		$anket->userank_visits_month = !empty ($visits) ? count ($visits) : 0 ;
 
@@ -87,35 +90,16 @@ class AnkController extends Controller
 		//making an ankets review and a count of views
 		if (!empty ($user))
 		{
-			$ankVisits = AnketVisit::getVisitsByUserId ($id, 30, $user->user_id);
+			$ankVisits = AnketVisit::getVisitsByUserId ($id, self::$visitDays, $user->user_id);
 			$anket->ankVisits = count($ankVisits);
 			if ($anket->ankVisits == 0 && $user->user_id != $id && $user->user_id > 1) 
 			{
-				$aFields = [
-					'user_id_prosm'		=> $anket->user_id,
-					'ank_user_id'		=> $user->user_id,
-					'ank_time'			=> time()
-				];
-		
-				$oAnketVisit = new AnketVisit ($aFields);
-				$oAnketVisit->save();
+				AnketVisit::insertVisit($id);
 				$time = \Carbon\Carbon::now()->subDays(30)->toArray();
-
 				$affectedRows = AnketVisit::where('ank_time', '<', ($time['timestamp']))->delete();
 
 			} elseif ($anket->ankVisits > 0 && $user->user_id != $id) 
-			{
-				$aFields = [
-					'user_id_prosm' => $id,
-					'ank_user_id' 	=> $user->user_id
-				];
-				$ankVisits = AnketVisit::getByFields ($aFields);
-				if (!empty($ankVisits))
-				{
-					$ankVisits->ank_time = time();
-					$ankVisits->save();
-				}
-			}
+				AnketVisit::updateVisit($id);
 
 			$affectedRows = AnketEvaluation::getEvauletions($user->user_id, $id);
 
@@ -239,7 +223,7 @@ class AnkController extends Controller
 			$anket->getPropertyFew('App\Models\Spirt',	$anket->user_partner_spirt, 'partner_spirt');
 
 			$isAboutPartner = $anket->isAboutPartner();
-}
+		}
 
 
 		return response()->view ('ankets.page',
