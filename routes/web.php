@@ -31,7 +31,7 @@ Route::get('privmsg/post/{id}.html', 'NoContoller@index')->whereNumber('id')->na
 Route::get('ank/diary/comments/{id}.html', 'CommentController@index')->whereNumber('id')->name('ank.diary.comments');
 Route::get('ank/diary/{id}.html', 'NoContoller@index')->whereNumber('id')->name('ank.diary.id');
 Route::get('ank/photo/f/{id}.html', 'NoContoller@index')->whereNumber('id')->name('ank.photo.f.id');
-Route::get('ank/photo/{id}.html', 'NoContoller@index')->whereNumber('id')->name('ank.photo.id');
+Route::get('ank/photo/{id}.html', 'AnkController@getPhoto')->whereNumber('id')->name('ank.photo.id')->middleWare('auth');
 Route::get('ank/f/{id}', 'AnkController@getAnk')->whereNumber('id')->name('ank.full.id');
 Route::get('ank/{id}', 'AnkController@getAnk')->whereNumber('id')->name('ank.id');
 Route::get('ankets/{sex}/{age}', 'AnketController@getAnkets')->where('sex', '(men|women)')
