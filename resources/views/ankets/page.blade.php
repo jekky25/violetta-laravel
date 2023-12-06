@@ -11,7 +11,9 @@ function vote(score)
 }
 </script>
 <h1 class="mTit">{{ $userData->user_name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
-						{{--if !empty($smarty.get.succgolos)}<p class="mess">Спасибо. Ваш голос учтен.</p>{/if--}}
+@if(session('success'))
+<p class="mess">{{session('success')}}</p>
+@endif
 <ul id="menuReg" class="clear">
 	@if (Route:: currentRouteName() == 'ank.id')
 	<li class="menuRegAct">Основное</li>

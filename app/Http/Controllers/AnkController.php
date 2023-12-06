@@ -145,7 +145,7 @@ class AnkController extends Controller
 						$anket->user_reiting = $voteSum;
 						$anket->update();
 					}
-					return redirect()->route(Route::currentRouteName(), $id);
+					return redirect()->route(Route::currentRouteName(), $id)->with('success','Спасибо. Ваш голос учтен.');
 				}
 				
 			} else 
