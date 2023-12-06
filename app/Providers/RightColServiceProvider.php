@@ -32,9 +32,10 @@ class RightColServiceProvider extends ServiceProvider
 	public function boot()
 	{
 		View::composer('*', function($view) {
-			$user = Auth::user()->load(['visits']);
+			$user = Auth::user();
 			if (!empty ($user))
 			{
+				$user = $user->load(['visits']);
 				$user->user_lastvisit_format	= Helper::getDate($user->user_lastvisit);
 				$user->monthVisits				= count ($user->visits);
 				$user->monthVisitsNew			= count (AnketVisit::visitsNew($user));
