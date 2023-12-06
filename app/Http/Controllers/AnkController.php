@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -11,10 +12,28 @@ use App\Models\AnketVisit;
 use App\Models\MeetTarget;
 use App\Models\Interest;
 use App\Models\AnketEvaluation;
+use App\Models\Body;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
 {
+	public static $getProps = [
+		'\\App\\Models\\Body' 			=> ['prop' =>'user_body', 				'ank_prop' =>'body'],
+		'\\App\\Models\\HairColor' 		=> ['prop' =>'user_hair_color', 		'ank_prop' =>'hair_color'],
+		'\\App\\Models\\HairType' 		=> ['prop' =>'user_hair_type', 			'ank_prop' =>'hair_type'],
+		'\\App\\Models\\Eyes' 			=> ['prop' =>'user_eyes',	 			'ank_prop' =>'eyes'],
+		'\\App\\Models\\FamilyStatus' 	=> ['prop' =>'user_sem_polozh',			'ank_prop' =>'family_status'],
+		'\\App\\Models\\Children' 		=> ['prop' =>'user_children',			'ank_prop' =>'children'],
+		'\\App\\Models\\Education' 		=> ['prop' =>'user_education',			'ank_prop' =>'education'],
+		'\\App\\Models\\Smoke' 			=> ['prop' =>'user_smoke',				'ank_prop' =>'smoke'],
+		'\\App\\Models\\Spirt' 			=> ['prop' =>'user_spirt',				'ank_prop' =>'spirt'],
+		'\\App\\Models\\HelpMoney' 		=> ['prop' =>'user_help_money',			'ank_prop' =>'help_money'],
+		'\\App\\Models\\SexOrient' 		=> ['prop' =>'user_sex_oriebt',			'ank_prop' =>'sex_orient'],
+		'\\App\\Models\\Country'		=> ['prop' =>'user_partner_country',	'ank_prop' =>'partner_country'],
+		'\\App\\Models\\Region'			=> ['prop' =>'user_partner_region',		'ank_prop' =>'partner_region'],
+		'\\App\\Models\\City'			=> ['prop' =>'user_partner_city',		'ank_prop' =>'partner_city']
+	  ];
+
     /**
      * Create a new controller instance.
      *
@@ -30,7 +49,9 @@ class AnkController extends Controller
 	{
 		$user = Auth::user()->load(['visits']);
 
-		$anket = User::getById ($id);
+		$mode = Route::currentRouteName() == 'ank.full.id' ? 'full' : '';
+
+		$anket = User::getById ($id, $mode);
 
 		if (empty ($anket)) abort(404);
 
@@ -56,57 +77,11 @@ class AnkController extends Controller
 		
 		$anket->userank_visits_month = !empty ($visits) ? count ($visits) : 0 ;
 
-		$meetTarget = unserialize($anket->user_target_meet);
-
 		//making meet targets
-		if ($anket->user_target_meet != "N;" && !empty($meetTarget[0]))
-		{
-			$oMeetTarget = MeetTarget::getAll();
-
-			$i = 0;
-			$anket->target_meet_out = '';
-			$arTargetMeet = [];
-			foreach ($meetTarget as $k=>$v)
-			{
-				$i++;
-				foreach ($oMeetTarget as $mT)
-				{
-					if ($v == $mT->id)
-					{
-						$arTargetMeet[] = $mT->name;
-						break;
-					}
-				}
-			}
-
-			$anket->target_meet_out = implode (', ', $arTargetMeet);
-		}
+		$anket->getPropertyFew('App\Models\MeetTarget',	$anket->user_target_meet, 'target_meet');
 
 		//making interests
-		$interests = unserialize($anket->user_interests);
-
-		if ($anket->user_interests != "N;" && !empty ($interests[0]))
-		{
-			$oInterest = Interest::getAll();
-
-			$i = 0;
-			$anket->interest_out = '';
-			$arInterest = [];
-			foreach ($interests as $k=>$v)
-			{
-				$i++;
-				foreach ($oInterest as $mT)
-				{
-					if ($v == $mT->id)
-					{
-						$arInterest[] = $mT->name;
-						break;
-					}
-				}
-			}
-
-			$anket->interests_out = implode (', ', $arInterest);
-		}
+		$anket->getPropertyFew('App\Models\Interest',	$anket->user_interests, 'interests');
 
 		//making an ankets review and a count of views
 		if (!empty ($user))
@@ -181,11 +156,100 @@ class AnkController extends Controller
 			}
 		}
 
+		
+		//making a full anket
+		if ($mode == 'full') {
+			foreach (self::$getProps as $k => $item)
+			{
+				$anket->getProperty($item, $k);
+			}
+
+			if ($anket->user_sex_orient == "1" || $anket->user_sex_orient == "4") 
+			{
+				$partnerSex = 'Мужской, Женский';
+			} elseif ($anket->user_sex_orient == "2") 
+			{
+				$partnerSex = $anket->user_sex == MEN ? 'Женский' : 'Мужской';
+			} else 
+			{
+				$partnerSex = $anket->user_sex == WOMEN ? 'Женский' : 'Мужской';
+			}
+			$anket->user_partner_sex = $partnerSex;
+	
+			//making languages
+			$anket->getPropertyFew('App\Models\MeetTarget',	$anket->user_speak_lang, 'speak_lang');
+
+			//making a partner age
+			if ($anket->user_partner_age_min > PARTNER_AGE_MIN || $anket->user_partner_age_max > PARTNER_AGE_MAX) 
+			{
+				if ($anket->user_partner_age_min > PARTNER_AGE_MIN && $anket->user_partner_age_max > PARTNER_AGE_MAX) 
+				{
+					$user_partner_age = ' ' . $anket->user_partner_age_min . '-' . $anket->user_partner_age_max;
+					$user_partner_age .= ' ' . Helper::ageType($anket->user_partner_age_max);
+				} else if ($anket->user_partner_age_min > PARTNER_AGE_MIN && $anket->user_partner_age_max <= PARTNER_AGE_MAX) 
+				{
+					$user_partner_age = ' от ' . $anket->user_partner_age_min;
+					$user_partner_age .= ' ' . Helper::ageType2($anket->user_partner_age_min);
+				} else 
+				{
+					$user_partner_age = ' до ' . $anket->user_partner_age_max;
+					$user_partner_age .= ' ' . Helper::ageType2($anket->user_partner_age_max);
+				}
+				$anket->partner_age = $user_partner_age;
+			}
+
+			//making a partner height
+			if ($anket->user_partner_height_min > PARTNER_HEIGHT_MIN || $anket->user_partner_height_max > PARTNER_HEIGHT_MAX) 
+			{
+				if ($anket->user_partner_height_min > PARTNER_HEIGHT_MIN && $anket->user_partner_height_max > PARTNER_HEIGHT_MAX) 
+				{
+					$user_partner_height = ' ' . $anket->user_partner_height_min . '-' . $anket->user_partner_height_max . ' см';
+				} else if ($anket->user_partner_height_min > PARTNER_HEIGHT_MIN && $anket->user_partner_height_max <= PARTNER_HEIGHT_MAX) 
+				{
+					$user_partner_height = ' от ' . $anket->user_partner_height_min . ' см';
+				} else 
+				{
+					$user_partner_height = ' до ' . $anket->user_partner_height_max . 'см';
+				}
+				$anket->partner_height = $user_partner_height;
+			}
+
+			//making a partner weight
+			if ($anket->user_partner_weight_min > PARTNER_WEIGHT_MIN || $anket->user_partner_weight_max > PARTNER_WEIGHT_MAX) 
+			{
+				if ($anket->user_partner_weight_min > PARTNER_WEIGHT_MIN && $anket->user_partner_weight_max > PARTNER_WEIGHT_MAX) 
+				{
+					$user_partner_weight = ' ' . $anket->user_partner_weight_min . '-' . $anket->user_partner_weight_max . ' кг'; 
+				} else if ($anket->user_partner_weight_min > PARTNER_WEIGHT_MIN && $anket->user_partner_weight_max <= PARTNER_WEIGHT_MAX) 
+				{
+					$user_partner_weight = ' от ' . $anket->user_partner_weight_min . ' кг';
+				} else 
+				{
+					$user_partner_weight = ' до ' . $anket->user_partner_weight_max . 'кг';
+				}
+				$anket->partner_weight = $user_partner_weight;
+			}
+
+			//making partner body
+			$anket->getPropertyFew('App\Models\Body',	$anket->user_partner_body, 'partner_body');
+			//making partner languages
+			$anket->getPropertyFew('App\Models\SpeakLang',	$anket->user_partner_speak_lang, 'partner_speak_lang');
+			//making partner education
+			$anket->getPropertyFew('App\Models\Education',	$anket->user_partner_education, 'partner_education');
+			//making partner smoke
+			$anket->getPropertyFew('App\Models\Smoke',	$anket->user_partner_smoke, 'partner_smoke');
+			//making partner spirt
+			$anket->getPropertyFew('App\Models\Spirt',	$anket->user_partner_spirt, 'partner_spirt');
+
+			$isAboutPartner = $anket->isAboutPartner();
+}
+
 
 		return response()->view ('ankets.short',
 		[
-			'userData'	=> $anket,
-			'ankEvaluationed' => isset($ankEvaluationed) ? $ankEvaluationed : false
+			'userData'			=> $anket,
+			'ankEvaluationed' 	=> isset($ankEvaluationed) ? $ankEvaluationed : false,
+			'isAboutPartner' 	=> isset ($isAboutPartner) ? $isAboutPartner : false
 		]);
 	}
 }

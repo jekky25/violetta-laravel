@@ -50,6 +50,21 @@ class User extends Authenticatable
     protected $table 		= 'users_news';
 	protected $primaryKey 	= 'user_id';
 
+	protected $feildsAboutPartner = 
+	[
+		'user_partner_sex',
+		'partner_age',
+		'partner_height',
+		'partner_weight',
+		'partner_country',
+		'partner_region',
+		'partner_city',
+		'partner_speak_lang',
+		'partner_education',
+		'partner_smoke',
+		'partner_spirt'
+	];
+
     public function newFaces($count)
     {
 		$items = self::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
@@ -306,6 +321,14 @@ class User extends Authenticatable
 		}
 	}
 
+	public function isAboutPartner()
+	{
+		foreach ($this->feildsAboutPartner as $prop)
+		{
+			if (!empty ($this->$prop)) return true;
+		}
+		return false;
+	}
 
 	public function country()
 	{

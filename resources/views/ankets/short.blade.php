@@ -9,12 +9,20 @@ function vote(score)
 	window.location = url;
 	return false;
 }
-</script>				
+</script>
 <h1 class="mTit">{{ $userData->user_name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
 						{{--if !empty($smarty.get.succgolos)}<p class="mess">Спасибо. Ваш голос учтен.</p>{/if--}}
 <ul id="menuReg" class="clear">
+	@if (Route:: currentRouteName() == 'ank.id')
 	<li class="menuRegAct">Основное</li>
+	@else
+	<li><a href="{{route('ank.id', $userData->user_id)}}">Основное</a></li>
+	@endif
+	@if (Route:: currentRouteName() == 'ank.full.id')
+	<li class="menuRegAct">Подробно</li>
+	@else
 	<li><a href="{{route('ank.full.id', $userData->user_id)}}">Подробно</a></li>
+	@endif
 	@if ($userData->user_fotos > 0)
 		<li><a href="{{route('ank.photo.id', $userData->user_id)}}">Фотоальбом ({{ $userData->user_fotos }} фото)</a></li>
 	@endif
@@ -92,6 +100,43 @@ function vote(score)
 			</dl>
 		</fieldset>
 	@endif
+	@if (Route:: currentRouteName() == 'ank.full.id')
+		<fieldset>
+			<dl><dt>Страна:</dt><dd>{{ $userData->country->name }}</dd></dl>
+			<dl><dt>Регион:</dt><dd>{{ $userData->region->name }}</dd></dl>
+			<dl><dt>Город:</dt><dd>{{ $userData->city->name }}</dd></dl>
+			@if (!empty($userData->body))
+				<dl><dt>Телосложение:</dt><dd>{{ $userData->body }}</dd></dl>
+			@endif
+			@if (!empty($userData->hair_color))
+				<dl><dt>Цвет волос:</dt><dd>{{ $userData->hair_color }}</dd></dl>
+			@endif
+			@if (!empty($userData->hair_type))
+				<dl><dt>Тип волос:</dt><dd>{{ $userData->hair_type }}</dd></dl>
+			@endif
+			@if (!empty($userData->eyes))
+				<dl><dt>Глаза:</dt><dd>{{ $userData->eyes }}</dd></dl>
+			@endif
+			@if (!empty($userData->family_status))
+				<dl><dt>Семейное положение:</dt><dd>{{ $userData->family_status }}</dd></dl>
+			@endif
+			@if (!empty($userData->children))
+				<dl><dt>Дети:</dt><dd>{{ $userData->children }}</dd></dl>
+			@endif
+			@if (!empty($userData->education))
+				<dl><dt>Образование:</dt><dd>{{ $userData->education }}</dd></dl>
+			@endif
+			@if (!empty($userData->smoke))
+				<dl><dt>Отношение к сигаретам:</dt><dd>{{ $userData->smoke }}</dd></dl>
+			@endif
+			@if (!empty($userData->spirt))
+				<dl><dt>Отношение к спиртному:</dt><dd>{{ $userData->spirt }}</dd></dl>
+			@endif
+			@if (!empty($userData->help_money))
+				<dl><dt>Материальная поддержка:</dt><dd>{{ $userData->help_money }}</dd></dl>
+			@endif
+		</fieldset>
+	@endif
 	<fieldset>
 		<dl>
 			<dt>Пол:</dt>
@@ -109,7 +154,26 @@ function vote(score)
 			<dd>{{ $userData->user_weight }} кг</dd>
 		</dl>
 		@endif
+		@if (Route:: currentRouteName() == 'ank.full.id')
+			@if (!empty($userData->sex_orient))
+				<dl><dt>Ориентация:</dt><dd>{{ $userData->sex_orient }}</dd></dl>
+			@endif
+			@if (!empty($userData->speak_lang))
+				<dl><dt>Говорю на языках:</dt><dd>{{ $userData->speak_lang }}</dd></dl>
+			@endif
+			<dl>
+				<dt>Дата создания:</dt>
+				<dd>{{$userData->date_make }}</dd>
+			</dl>
+			@if (!empty($userData->date_refresh))
+				<dl>
+					<dt>Дата обновления:</dt>
+					<dd>{{ $userData->date_refresh }}</dd>
+				</dl>
+			@endif
+		@endif
 	</fieldset>
+	@if (Route:: currentRouteName() == 'ank.id')
 	<fieldset>
 		<dl>
 			<dt>Дата создания:</dt>
@@ -122,6 +186,7 @@ function vote(score)
 		</dl>
 		@endif
 	</fieldset>
+	@endif
 	<div class="clear"></div>
 	@if (!empty($userData->target_meet_out))
 	<fieldset class="mono mar1"><dl><dt>Цели знакомства:</dt><dd>{{ $userData->target_meet_out }}</dd></dl></fieldset>
@@ -133,6 +198,50 @@ function vote(score)
 	<fieldset class="mono"><dl><dt>Хочу найти:</dt><dd>{{ $userData->user_partner_description }}</dd></dl></fieldset>
 	@endif
 	<div class="clear"></div>
+	@if ($isAboutPartner === true)
+		<fieldset class="mono txt1"><dl><dt>О партнере:</dt></dl></fieldset>
+		<fieldset>
+			@if (!empty($userData->user_partner_sex))
+				<dl><dt>Пол:</dt><dd>{{ $userData->user_partner_sex }}</dd></dl>
+			@endif
+			@if (!empty($userData->partner_age))
+				<dl><dt>Возраст:</dt><dd>{{ $userData->partner_age }}</dd></dl>
+			@endif
+			@if (!empty($userData->partner_height))
+				<dl><dt>Рост:</dt><dd>{{ $userData->partner_height }}</dd></dl>
+			@endif
+			@if (!empty($userData->partner_weight))
+				<dl><dt>Вес:</dt><dd>{{ $userData->partner_weight }}</dd></dl>
+			@endif
+			@if (!empty($userData->partner_country))
+				<dl><dt>Из страны:</dt><dd>{{ $userData->partner_country }}</dd></dl>
+			@endif
+			@if (!empty($userData->partner_region))
+				<dl><dt>Из региона:</dt><dd>{{ $userData->partner_region }}</dd></dl>
+			@endif
+			@if (!empty($userData->partner_city))
+				<dl><dt>Из города:</dt><dd>{{ $userData->partner_city }}</dd></dl>
+			@endif
+			@if (!empty($userData->partner_body))
+				<dl><dt>Телосложение:</dt><dd>{{ $userData->partner_body }}</dd></dl>
+			@endif
+		</fieldset>
+		<fieldset>
+			@if (!empty($userData->partner_speak_lang))
+				<dl><dt>Говорит на языках:</dt><dd>{{ $userData->partner_speak_lang }}</dd></dl>
+			@endif
+			@if (!empty($userData->partner_education))
+				<dl><dt>Образование:</dt><dd>{{ $userData->partner_education }}</dd></dl>
+			@endif
+			@if (!empty($userData->partner_smoke))
+				<dl><dt>Отношение к сигаретам:</dt><dd>{{ $userData->partner_smoke }}</dd></dl>
+			@endif
+			@if (!empty($userData->partner_spirt))
+				<dl><dt>Отношение к спиртному:</dt><dd>{{ $userData->partner_spirt }}</dd></dl>
+			@endif
+		</fieldset>
+		<div class="clear pad2"></div>
+	@endif
 	@if (!empty($userData->user_icq) || !empty($userData->user_phone) || !empty($userData->user_url))
 	<fieldset>
 		@if (!empty($userData->user_icq))<dl><dt>Моя Аська:</dt><dd>@auth {{ $userData->user_icq }}@else вы не зарегистрированы@endauth</dd></dl>@endif
