@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\CategoryHome;
+use App\Models\CommentPhoto;
 
 class Photo extends Model
 {
@@ -17,5 +18,10 @@ class Photo extends Model
 	{
 		$count = self::select('fotos_id')->count();
 		return $count > 0 ? $count : 0;
+	}
+
+	public function comment()
+	{
+		return $this->hasMany(CommentPhoto::class, 'foto_id', 'fotos_id')->with('user');
 	}
 }
