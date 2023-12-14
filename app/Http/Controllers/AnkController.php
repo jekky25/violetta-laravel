@@ -13,6 +13,8 @@ use App\Models\MeetTarget;
 use App\Models\Interest;
 use App\Models\AnketEvaluation;
 use App\Models\Body;
+use App\Models\Vars;
+use App\Models\CommentPhoto;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -35,7 +37,8 @@ class AnkController extends Controller
 	  ];
 
 
-	public static $visitDays = 30;
+	public static $visitDays 		= 30;
+	public $commentCountPerPage 	= 10;
 
     /**
      * Create a new controller instance.
@@ -229,6 +232,84 @@ class AnkController extends Controller
 			'userData'			=> $anket,
 			'ankEvaluationed' 	=> isset($ankEvaluationed) ? $ankEvaluationed : false,
 			'isAboutPartner' 	=> isset ($isAboutPartner) ? $isAboutPartner : false
+		]);
+	}
+
+	public function getPhoto (Request $request, $id)
+	{
+		$anket 	= User::getById ($id);
+		if (empty ($anket->photo)) abort (404);
+		$user 	= Auth::user()->load(['visits']);
+		$visits = AnketVisit::getVisitsByUserId ($id, self::$visitDays);
+		$vars 	= Vars::getAll();
+
+		$ankVisits = AnketVisit::getVisitsByUserId ($id, self::$visitDays, $user->user_id);
+		$anket->ankVisits = count($ankVisits);
+
+		if ($anket->ankVisits == 0 && $user->user_id != $id && $user->user_id > 1) 
+		{
+			AnketVisit::insertVisit($id);
+			AnketVisit::removeOld(self::$visitDays);
+		} elseif ($anket->ankVisits > 0 && $user->user_id != $id)
+			AnketVisit::updateVisit($id);
+
+		$affectedRows 		= AnketEvaluation::getEvauletions($user->user_id, $id);
+
+		foreach ($anket->photo as &$item)
+		{
+			$item->comment	= $item->comment->slice(0, $this->commentCountPerPage);
+		}
+
+		$anket->mainPhoto 	= $anket->photo[0];
+		$photoId 			= $anket->mainPhoto->fotos_id;
+		$imgWidth 			= $vars['max_foto_width_big'];
+		$img 				= "./fotos_new/".$photoId.".jpg";
+
+		if (is_file($img)) 
+		{
+			$size = getimagesize($img);
+			$anket->mainPhoto->width	= $size [0] > $imgWidth ? $imgWidth : $size [0];
+			$anket->mainPhoto->url		= $img;
+		}
+
+
+		if (!empty ($anket->mainPhoto->comment))
+		{
+			foreach ($anket->mainPhoto->comment as $k => $_item)
+			{
+				if (!empty($_item->user))
+				{
+					$_item->user->user_age 			= Helper::age($_item->user->user_birth_date);
+					$_item->user->user_age_type 	= Helper::ageType($_item->user->user_age);
+					$_item->user->user_name_class 	= $_item->user->user_sex == MEN ? 'name_man' : 'name_woman';
+				}
+				$_item->add_time = date("d.m.y H:i",$_item->time);
+				$_item->comments_description = str_replace("\n", "\n<br />\n", $_item->comments_description);
+			}
+		}
+
+		/*
+				//risuem otpravit comment
+				$description = $conf -> post ('description');
+				if ($send) {
+					if ($description != '') {
+						$description =  str_replace("\'", "''", $description);
+						$sql = 'INSERT ' . COMMENTS_FOTOS_TABLE . '
+								SET foto_id = ' . $foto_id . ', user_id = ' . $userdata['user_id'] . ', comments_description = "' . $description . '",
+								time = ' . time();
+		
+						if(!($db->query($sql)) )
+							message_die_sql($sql, 'ank\foto.php; 195');
+						redirect('index.php?mod=ank&foto=' . $foto_id);
+					} else {
+						$error = 'не введено сообщение';
+					}
+				}
+		*/
+
+		return response()->view ('ankets.photo',
+		[
+			'userData'			=> $anket,
 		]);
 	}
 }

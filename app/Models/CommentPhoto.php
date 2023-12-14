@@ -11,4 +11,18 @@ class CommentPhoto extends Model
 
 	protected $table = 'comments_fotos';
 
+	public function user()
+	{
+    	return $this->belongsTo(User::class, 'user_id', 'user_id')->with('city');
+	}
+
+	public function getPaginate($foto_id, $count)
+    {
+		$items = self::select('*')
+		->where ('foto_id', $foto_id)
+        ->orderBy('time', 'desc')
+		->paginate($count);
+
+		return $items;
+	}
 }
