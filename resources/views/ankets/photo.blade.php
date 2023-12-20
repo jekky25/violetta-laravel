@@ -66,7 +66,7 @@ $secondBaner = 1;
 	@endif
 	<tr>
 		<td class="fotoCommPics"><a href="{{route('ank.id', $item->user_id)}}">
-			<img alt="{{ $item->user->user_name }},{{ $item->user->user_age }} {{ $item->user->user_age_type }},{{ $item->user->city->name }}" src="{{ App\Helpers\Helper::outPicture($item->foto_id, $item->user->user_sex) }}" /></a></td>
+			<img alt="{{ $item->user->user_name }},{{ $item->user->user_age }} {{ $item->user->user_age_type }},{{ $item->user->city->name }}" src="{{ App\Helpers\Helper::outPicture($item->user_photo_id, $item->user->user_sex) }}" /></a></td>
 		<td>
 			<h4>
 			<a href="{{route('ank.id', $item->user_id)}}" class="{{ $item->user->user_name_class }}">{{ $item->user->user_name }}</a> <strong>{{ $item->user->user_age }} {{ $item->user->user_age_type }}</strong><span class="postData">{{ $item->add_time }}</span></h4>
@@ -78,15 +78,23 @@ $secondBaner = 1;
 @endif
 @if (!empty ($userData->mainPhoto))
 <h2 class="mTit">Оставить комментарий</h2>
-@if (!empty ($errors->all()))
-<p class="pad3 error">Ошибка: {{$errors->all()}}</p>
+<form name="anketa" action="{{route('ank.photo.id', $userData->mainPhoto->fotos_id)}}" method="post">
+@if(session('success'))
+  <div class="success">{{session('success')}}</div>
+@else
+@if (!empty ($errors->comment->all()))
+<div class="error">
+@foreach ($errors->comment->all() as $message)
+<p>{{ $message }}</p>
+@endforeach
+	</div>
 @endif
-<form name="anketa" action="{{route('ank.photo.id', $userData->user_id)}}" method="post">
 {{ csrf_field() }}
 	<div>
 		<textarea class="textarea2" name="description" wrap="virtual"></textarea>
 	</div>
 	<p class="pad7"><input class="input2" type="submit" name="otsil" value="Отправить" /></p>
+@endif
 </form>
 @endif
 @if (isset($secondBaner) && $secondBaner == 1)

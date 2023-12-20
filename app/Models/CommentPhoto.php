@@ -9,7 +9,15 @@ class CommentPhoto extends Model
 {
 	use HasFactory;
 
-	protected $table = 'comments_fotos';
+	protected $table 	= 'comments_fotos';
+	public $timestamps 	= false;
+
+	protected $fillable = [
+		'foto_id',
+		'user_id',
+		'time',
+		'comments_description',
+	  ];
 
 	public function user()
 	{

@@ -250,7 +250,7 @@ class User extends Authenticatable
 			$item->where ('user_confirm_email', 1);
 		}
 		$item->with('diary')
-			 ->with('photo')
+			 ->with('photo.comment.user.photo')
 			 ->with('city')
 			 ->with('region')
 			 ->with('country');

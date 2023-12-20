@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
+use Validator;
 use App\Models\User;
 use App\Models\AnketVisit;
 use App\Models\MeetTarget;
@@ -38,7 +39,7 @@ class AnkController extends Controller
 
 
 	public static $visitDays 		= 30;
-	public $commentCountPerPage 	= 10;
+	public $commentCountPerPage 	= 100;
 
     /**
      * Create a new controller instance.
@@ -254,7 +255,6 @@ class AnkController extends Controller
 			AnketVisit::updateVisit($id);
 
 		$affectedRows 		= AnketEvaluation::getEvauletions($user->user_id, $id);
-
 		foreach ($anket->photo as &$item)
 		{
 			$item->comment	= $item->comment->slice(0, $this->commentCountPerPage);
@@ -272,7 +272,6 @@ class AnkController extends Controller
 			$anket->mainPhoto->url		= $img;
 		}
 
-
 		if (!empty ($anket->mainPhoto->comment))
 		{
 			foreach ($anket->mainPhoto->comment as $k => $_item)
@@ -282,34 +281,59 @@ class AnkController extends Controller
 					$_item->user->user_age 			= Helper::age($_item->user->user_birth_date);
 					$_item->user->user_age_type 	= Helper::ageType($_item->user->user_age);
 					$_item->user->user_name_class 	= $_item->user->user_sex == MEN ? 'name_man' : 'name_woman';
+					$_item->user_photo_id 			= !empty($_item->user->photo[0]) ? $_item->user->photo[0]->fotos_id : 0;
 				}
 				$_item->add_time = date("d.m.y H:i",$_item->time);
 				$_item->comments_description = str_replace("\n", "\n<br />\n", $_item->comments_description);
 			}
 		}
-
-		/*
-				//risuem otpravit comment
-				$description = $conf -> post ('description');
-				if ($send) {
-					if ($description != '') {
-						$description =  str_replace("\'", "''", $description);
-						$sql = 'INSERT ' . COMMENTS_FOTOS_TABLE . '
-								SET foto_id = ' . $foto_id . ', user_id = ' . $userdata['user_id'] . ', comments_description = "' . $description . '",
-								time = ' . time();
-		
-						if(!($db->query($sql)) )
-							message_die_sql($sql, 'ank\foto.php; 195');
-						redirect('index.php?mod=ank&foto=' . $foto_id);
-					} else {
-						$error = 'не введено сообщение';
-					}
-				}
-		*/
-
 		return response()->view ('ankets.photo',
 		[
 			'userData'			=> $anket,
 		]);
 	}
+
+	public function postComment (Request $request, $id)
+	{
+		//making sending comment
+		$user 	= Auth::user();
+		$arParams 		= $request->post();
+		$description 	= $request->has('description') ? $request->description : '';
+		
+		$rules = [
+			'description'	=> ['required', 'max:1000', 'min:2']
+		];
+		$errMessages = [
+				'description.required' 	=> 'Комментарий не заполнен',
+				'description.max'	 	=> 'Ваш комментарий слишком длинный',
+				'description.min'	 	=> 'Ваш комментарий слишком короткий',
+		];
+
+		$validator = Validator::make($arParams, $rules, $errMessages);
+
+		if ($validator->fails()) {
+			$messages = $validator->messages();
+			$strError = $messages;
+
+			return redirect()->back()
+						->withErrors($strError, 'comment')
+						->withInput();
+		}
+
+		$aFields = [
+			'foto_id'					=> $id,
+			'user_id'					=> $user->user_id,
+			'comments_description' 		=> str_replace("\'", "''", $description),
+			'time'						=> time()
+		];
+
+		$oComment = new CommentPhoto ($aFields);
+		$oComment->save();
+
+		return redirect()->back()
+		->with('success','Сообщение успешно отправлено')
+		->withInput();
+	}
+	
+
 }
