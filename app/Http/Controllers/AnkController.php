@@ -254,7 +254,7 @@ class AnkController extends Controller
 		} elseif ($anket->ankVisits > 0 && $user->user_id != $id)
 			AnketVisit::updateVisit($id);
 
-		$affectedRows 		= AnketEvaluation::getEvauletions($user->user_id, $id);
+		$affectedRows 		= AnketEvaluation::getEvaluetions($user->user_id, $id);
 		foreach ($anket->photo as &$item)
 		{
 			$item->comment	= $item->comment->slice(0, $this->commentCountPerPage);

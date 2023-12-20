@@ -19,7 +19,7 @@ class AnketEvaluation extends Model
 		'time'
 	  ];
 
-	public function getEvauletions($userIdAct, $uderId)
+	public function getEvaluetions($userIdAct, $uderId)
 	{
 		$items = self::select('*')
 		->where('user_id', $userIdAct)
