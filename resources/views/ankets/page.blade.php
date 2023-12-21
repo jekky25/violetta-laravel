@@ -14,24 +14,7 @@ function vote(score)
 @if(session('success'))
 <p class="mess">{{session('success')}}</p>
 @endif
-<ul id="menuReg" class="clear">
-	@if (Route:: currentRouteName() == 'ank.id')
-	<li class="menuRegAct">Основное</li>
-	@else
-	<li><a href="{{route('ank.id', $userData->user_id)}}">Основное</a></li>
-	@endif
-	@if (Route:: currentRouteName() == 'ank.full.id')
-	<li class="menuRegAct">Подробно</li>
-	@else
-	<li><a href="{{route('ank.full.id', $userData->user_id)}}">Подробно</a></li>
-	@endif
-	@if ($userData->user_fotos > 0)
-		<li><a href="{{route('ank.photo.id', $userData->user_id)}}">Фотоальбом ({{ $userData->user_fotos }} фото)</a></li>
-	@endif
-	@if ($userData->number_diary > 0)
-		<li><a href="{{route('ank.diary.id', $userData->user_id)}}">Дневник ({{ $userData->number_diary_str }})</a></li>
-    @endif
-</ul>
+@include('ankets.menu', ['userData' => $userData])
 <ul id="ankFotos" class="clear">
     @if ($userData->user_fotos > 0)
         @foreach ($userData->photo as $item)

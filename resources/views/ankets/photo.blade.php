@@ -2,28 +2,7 @@
 @section('title', $title)
 @section('main_body')
 <h1 class="mTit">{{ $userData->user_name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
-<ul id="menuReg" class="clear">
-	@if (Route:: currentRouteName() == 'ank.id')
-	<li class="menuRegAct">Основное</li>
-	@else
-	<li><a href="{{route('ank.id', $userData->user_id)}}">Основное</a></li>
-	@endif
-	@if (Route:: currentRouteName() == 'ank.full.id')
-	<li class="menuRegAct">Подробно</li>
-	@else
-	<li><a href="{{route('ank.full.id', $userData->user_id)}}">Подробно</a></li>
-	@endif
-	@if ($userData->user_fotos > 0)
-		@if (Route:: currentRouteName() == 'ank.photo.id')
-		<li class="menuRegAct">Фотоальбом ({{ $userData->user_fotos }} фото)</li>
-		@else
-		<li><a href="{{route('ank.photo.id', $userData->user_id)}}">Фотоальбом ({{ $userData->user_fotos }} фото)</a></li>
-		@endif		
-	@endif
-	@if ($userData->number_diary > 0)
-		<li><a href="{{route('ank.diary.id', $userData->user_id)}}">Дневник ({{ $userData->number_diary_str }})</a></li>
-    @endif
-</ul>
+@include('ankets.menu', ['userData' => $userData])
 @if (!empty($userData->mainPhoto->fotos_id))
 <div id="mainAnkFoto">
 	<div style="width:{{ $userData->mainPhoto->width }}px;"><img width="{{ $userData->mainPhoto->width }}px" src="{{ App\Helpers\Helper::outPicture($userData->mainPhoto->fotos_id, $userData->user_sex) }}" /></div>
