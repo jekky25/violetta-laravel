@@ -15,25 +15,25 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('privmsg', 'NoContoller@index')->name('privmsg');
 
-Route::get('registration/edit/photo', 'NoContoller@index')->name('registration.edit.photo');
-Route::get('registration/edit/diary/{id}.html', 'NoContoller@index')->whereNumber('id')->name('registration.edit.diary.id');
-Route::get('registration/delete/diary/{id}.html', 'NoContoller@index')->whereNumber('id')->name('registration.delete.diary.id');
-Route::get('registration/edit/diary', 'NoContoller@index')->name('registration.edit.diary');
-Route::get('registration/edit/settings', 'NoContoller@index')->name('registration.edit.settings');
-Route::get('registration/top100', 'NoContoller@index')->name('registration.top100');
-Route::get('registration/edit', 'NoContoller@index')->name('registration.edit');
-Route::get('registration/views', 'NoContoller@index')->name('registration.views');
-Route::get('registration', 'NoContoller@index')->name('registration');
+Route::get('registration/edit/photo', 'NoContoller1@index')->name('registration.edit.photo');
+Route::get('registration/edit/diary/{id}.html', 'NoContoller2@index')->whereNumber('id')->name('registration.edit.diary.id');
+Route::get('registration/delete/diary/{id}.html', 'NoContoller3@index')->whereNumber('id')->name('registration.delete.diary.id');
+Route::get('registration/edit/diary', 'NoContoller4@index')->name('registration.edit.diary');
+Route::get('registration/edit/settings', 'NoContoller5@index')->name('registration.edit.settings');
+Route::get('registration/top100', 'NoContoller6@index')->name('registration.top100');
+Route::get('registration/edit', 'NoContoller7@index')->name('registration.edit');
+Route::get('registration/views', 'NoContoller8@index')->name('registration.views');
+Route::get('registration', 'NoContoller9@index')->name('registration');
 
-Route::get('privmsg/post/{id}.html', 'NoContoller@index')->whereNumber('id')->name('privmsg.post.id');
+Route::get('privmsg/post/{id}.html', 'NoContoller10@index')->whereNumber('id')->name('privmsg.post.id');
 
 
 Route::get('ank/diary/comments/{id}.html', 'CommentController@index')->whereNumber('id')->name('ank.diary.comments');
-Route::get('ank/diary/{id}.html', 'NoContoller@index')->whereNumber('id')->name('ank.diary.id');
-Route::get('ank/photo/f/{id}.html', 'NoContoller@index')->whereNumber('id')->name('ank.photo.f.id');
+Route::get('ank/diary/{id}.html', 'NoContoller11@index')->whereNumber('id')->name('ank.diary.id');
+Route::get('ank/photo/f/{id}.html', 'NoContoller12@index')->whereNumber('id')->name('ank.photo.f.id');
 Route::get('ank/photo/{id}.html', 'AnkController@getPhoto')->whereNumber('id')->name('ank.photo.id')->middleWare('auth');
 Route::post('ank/photo/{id}.html', 'AnkController@postComment')->whereNumber('id')->name('ank.photo.id.post.comment')->middleWare('auth');
-Route::get('ank/f/photo_{id}', 'NoContoller@index')->whereNumber('id')->name('ank.photo.photo_id');
+Route::get('ank/f/photo_{id}', 'AnkController@getPhoto')->whereNumber('id')->name('ank.photo.photo_id');
 Route::get('ank/f/{id}', 'AnkController@getAnk')->whereNumber('id')->name('ank.full.id');
 Route::get('ank/{id}', 'AnkController@getAnk')->whereNumber('id')->name('ank.id');
 Route::get('ankets/{sex}/{age}', 'AnketController@getAnkets')->where('sex', '(men|women)')

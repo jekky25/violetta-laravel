@@ -20,6 +20,14 @@ class Photo extends Model
 		return $count > 0 ? $count : 0;
 	}
 
+	public function getById($id)
+	{
+		$item = self::select('*')
+		->where ('fotos_id', $id)
+		->first();
+		return $item;
+	}
+
 	public function comment()
 	{
 		return $this->hasMany(CommentPhoto::class, 'foto_id', 'fotos_id')->with('user');

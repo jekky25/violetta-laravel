@@ -16,6 +16,7 @@ use App\Models\AnketEvaluation;
 use App\Models\Body;
 use App\Models\Vars;
 use App\Models\CommentPhoto;
+use App\Models\Photo;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -238,6 +239,14 @@ class AnkController extends Controller
 
 	public function getPhoto (Request $request, $id)
 	{
+		$mode 	= Route::currentRouteName() == 'ank.photo.photo_id' ? 'photo.id' : 'ank.photo';
+
+		if ($mode == 'photo.id')
+		{
+			$photo = Photo::getById ($id);
+			if (empty ($photo)) abort (404);
+			$id = $photo->user_id;
+		}
 		$anket 	= User::getById ($id);
 		if (empty ($anket->photo)) abort (404);
 		$user 	= Auth::user()->load(['visits']);
@@ -258,9 +267,10 @@ class AnkController extends Controller
 		foreach ($anket->photo as &$item)
 		{
 			$item->comment	= $item->comment->slice(0, $this->commentCountPerPage);
+			if ($mode == 'photo.id' && $item->fotos_id == $photo->fotos_id)
+			$anket->mainPhoto = $item;
 		}
-
-		$anket->mainPhoto 	= $anket->photo[0];
+		$anket->mainPhoto 	= !empty ($anket->mainPhoto) ? $anket->mainPhoto : $anket->photo[0];
 		$photoId 			= $anket->mainPhoto->fotos_id;
 		$imgWidth 			= $vars['max_foto_width_big'];
 		$img 				= "./fotos_new/".$photoId.".jpg";
