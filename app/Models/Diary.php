@@ -92,6 +92,11 @@ class Diary extends Model
 		}
 	}
 
+	public function getAddTimeAttribute ()
+	{
+		return $this->dnevniki_time;
+	}
+
 	public function user()
     {
         return $this->belongsTo(User::class, 'dnevniki_user_id', 'user_id');
