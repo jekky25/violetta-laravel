@@ -21,7 +21,6 @@
 			@if (!empty($item->dnevniki_picture))
 			<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ App\Helpers\Helper::outDiaryPicture($item->dnevniki_picture, $item->user->user_sex) }}" /></a>
 			@elseif (!empty($item->foto_user_id))
-			{{ $item->foto_user_id }}
 			<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ App\Helpers\Helper::outPicture($item->foto_user_id, $item->user->user_sex) }}" /></a>
 			@endif
 			@if (!empty($item->dnevniki_picture))
