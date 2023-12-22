@@ -17,6 +17,7 @@ use App\Models\Body;
 use App\Models\Vars;
 use App\Models\CommentPhoto;
 use App\Models\Photo;
+use App\Models\Diary;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -39,8 +40,9 @@ class AnkController extends Controller
 	  ];
 
 
-	public static $visitDays 		= 30;
-	public $commentCountPerPage 	= 100;
+	public static $visitDays 			= 30;
+	public static $commentCountPerPage 	= 100;
+	public static $diaryPerPage 		= 10;
 
     /**
      * Create a new controller instance.
@@ -306,7 +308,7 @@ class AnkController extends Controller
 	public function postComment (Request $request, $id)
 	{
 		//making sending comment
-		$user 	= Auth::user();
+		$user 			= Auth::user();
 		$arParams 		= $request->post();
 		$description 	= $request->has('description') ? $request->description : '';
 		
