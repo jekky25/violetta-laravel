@@ -23,8 +23,6 @@ class Diary extends Model
         ->orderBy('dnevniki_time', 'desc')
         ->get();
 
-		Diary::changeParams($items);
-
 		return $items;
 	}
 
@@ -40,8 +38,6 @@ class Diary extends Model
         ->orderBy('dnevniki_time', 'desc')
         ->paginate($count);
 
-		Diary::changeParams($items);
-
 		return $items;
 	}
 
@@ -55,46 +51,62 @@ class Diary extends Model
         ->orderBy('dnevniki_time', 'desc')
         ->paginate($count);
 
-		Diary::changeParams($items);
-
 		return $items;
 	}
 
-
-
-	public static function changeParams(&$items)
+	public function getImg ()
 	{
-		foreach ($items as &$_item)
-		{
-			if (!empty($_item->user) && isset($_item->user->user_sex))
-				$_item->user_sex = $_item->user->user_sex;
+		return $this->dnevniki_picture !== "0" ? './img/dnevnik/' . $this->dnevniki_picture . '.jpg' : '';
+	}
 
-			$_item->name_class 		= $_item->user_sex == MEN ? 'name_man' : 'name_woman';
-			$_item->dnevniki_time 	= date("d.m.y H:i", $_item->dnevniki_time);
-			$_item->dnevniki_title 	= stripslashes($_item->dnevniki_title);
-			$_item->dnevniki_title 	= $_item->dnevniki_title == '' ? 'Тема без названия' : $_item->dnevniki_title;
-			$_item->dnevniki_text 	= stripslashes($_item->dnevniki_text);
-			$_item->dnevniki_text 	= str_replace("\n", "\n<br />\n", $_item->dnevniki_text);
+	public function getDnevnikFotoAttribute ()
+	{
+		$img = $this-> getImg();
+		return is_file($img) ? $this->dnevniki_id : null;
+	}
 
-			if ($_item->dnevniki_picture !== "0")
-			{
-				$img = './img/dnevnik/' . $_item->dnevniki_picture . '.jpg';
-			
-				if (is_file($img))
-				{
-					$_item->dnevnik_foto 	= $_item->dnevniki_id;
-					$_item->diaryImg 		= $img;
-				}
-			}
-
-			if (!empty($_item->user_photo->fotos_id))
-				$_item->foto_user_id = $_item->user_photo->fotos_id;
-		}
+	public function getDiaryImgAttribute ()
+	{
+		$img = $this-> getImg();
+		return is_file($img) ? $img : '';
+	}
+	
+	public function getUserSexAttribute ()
+	{
+		return !empty($this->user) && isset($this->user->user_sex) ? $this->user->user_sex : null;
 	}
 
 	public function getAddTimeAttribute ()
 	{
 		return $this->dnevniki_time;
+	}
+
+	public function getFotoUserIdAttribute ()
+	{
+		return !empty($this->user_photo->fotos_id) ? $this->user_photo->fotos_id : null;
+	}
+
+	public function getNameClassAttribute ()
+	{
+		return  $this->user_sex == MEN ? 'name_man' : 'name_woman';
+		
+	}
+
+	public function getDnevnikiTimeAttribute ($val)
+	{
+		return date("d.m.y H:i", $val);
+	}
+
+	public function getDnevnikiTitleAttribute ($val)
+	{
+		$val = stripslashes($val);
+		return $val == '' ? 'Тема без названия' : $val;
+	}
+
+	public function getDnevnikiTextAttribute ($val)
+	{
+		$val = stripslashes($val);
+		return str_replace("\n", "\n<br />\n", $val);
 	}
 
 	public function user()
