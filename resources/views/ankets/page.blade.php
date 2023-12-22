@@ -18,8 +18,8 @@ function vote(score)
 <ul id="ankFotos" class="clear">
     @if ($userData->user_fotos > 0)
         @foreach ($userData->photo as $item)
-		<li><a class="ankFotosPics" href="{{route('ank.photo.f.id', $item->fotos_id)}}"><img src="{{ App\Helpers\Helper::outPicture($item->fotos_id, $userData->user_sex) }}" /></a></li>
-        @endforeach                    
+		<li><a class="ankFotosPics" href="{{route('ank.photo.photo_id', $item->fotos_id)}}"><img src="{{ App\Helpers\Helper::outPicture($item->fotos_id, $userData->user_sex) }}" /></a></li>
+        @endforeach
 	@else
 		<li><p class="ankFotosPics">@if ($userData->user_sex == MEN)<img src="{{ asset('image/no_foto_m_vip.jpg') }}" />@else<img src="{{ asset('image/no_foto_w_vip.jpg') }}" /></a></li>@endif
 	@endif
