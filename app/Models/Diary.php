@@ -45,6 +45,23 @@ class Diary extends Model
 		return $items;
 	}
 
+	public function getByUser($count, $userId)
+    {
+		$items = self::select('*')
+		->where ('dnevniki_user_id', $userId)
+		->with('user')
+		->with('comments')
+		->with('user_photo')
+        ->orderBy('dnevniki_time', 'desc')
+        ->paginate($count);
+
+		Diary::changeParams($items);
+
+		return $items;
+	}
+
+
+
 	public static function changeParams(&$items)
 	{
 		foreach ($items as &$_item)
