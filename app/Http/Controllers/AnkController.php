@@ -41,7 +41,7 @@ class AnkController extends Controller
 
 
 	public static $visitDays 			= 30;
-	public static $commentCountPerPage 	= 100;
+	public $commentCountPerPage 		= 100;
 	public static $diaryPerPage 		= 10;
 
     /**
@@ -346,6 +346,26 @@ class AnkController extends Controller
 		->with('success','Сообщение успешно отправлено')
 		->withInput();
 	}
+
 	
+	public function getDiary (Request $request, $id)
+	{
+		$anket 	= User::getById ($id);
+		if (empty ($anket->photo)) abort (404);
+
+		$diaries = Diary::getByUser (self::$diaryPerPage, $id);
+		if (count ($diaries) == 0) abort (404);
+
+		$page 				= $diaries->currentPage();
+		$pagination 		= Helper::preparePagination ($diaries->toArray()['links']);
+
+		return response()->view ('ankets.diary',
+		[
+			'userData'		=> $anket,
+			'diaries'		=> $diaries,
+			'page'			=> $page,
+			'pagination'	=> $pagination
+		]);
+	}
 
 }
