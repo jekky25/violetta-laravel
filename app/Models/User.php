@@ -229,29 +229,6 @@ class User extends Authenticatable
 		$item = $item->first();
 
 		if (empty ($item)) abort (404);
-
-		$item->zodiac 						= Helper::zodiac($item->user_birth_date);
-
-		$item->user_age 					= Helper::age($item->user_birth_date);
-		$item->user_age_type 				= Helper::ageType($item->user_age);
-		$item->user_age_str					= $item->user_age .' ' . $item->user_age_type;
-		$item->number_diary 				= count($item->diary);
-		$item->number_diary_str 			= $item->number_diary . ' ' . Helper::caseDiaryType ($item->number_diary);
-
-		$maxReit 							= User::getMaxReiting($item->user_sex);
-		$item->user_reiting_str 			= Helper::reiting ($item->user_reiting,$maxReit);
-		
-		$item->user_description 			= stripslashes($item->user_description);
-		$item->user_description 			= str_replace("\n", "\n<br />\n", $item->user_description);
-		$item->user_sex_str 				= $item->user_sex == MEN ? 'Мужской' : 'Женский';
-		$item->date_make 					=  Helper::dateFormat($item->user_make_date);
-
-		if ($item->user_make_date !== $item->user_refresh_date) 
-			$item->date_refresh 			= Helper::dateFormat($item->user_refresh_date);
-		
-		$item->user_partner_description 	= stripslashes(trim($item->user_partner_description));
-		$item->user_partner_description 	= str_replace("\n", "\n<br />\n", $item->user_partner_description);
-
 		return $item;
 	}
 
@@ -309,6 +286,11 @@ class User extends Authenticatable
 		return Helper::ageType($this->user_age);
 	}
 
+	public function getUserAgeStrAttribute ()
+	{
+		return $this->user_age .' ' . $this->user_age_type;
+	}
+
 	public function getFindSexOrientAttribute ()
 	{
 		$findSOrient = '';
@@ -334,7 +316,56 @@ class User extends Authenticatable
 		}
 		return $findSOrient;
 	}
-	
+
+	public function getZodiacAttribute ()
+	{
+		return Helper::zodiac($this->user_birth_date);
+	}
+
+	public function getNumberDiaryAttribute ()
+	{
+		return count($this->diary);
+	}
+
+	public function getNumberDiaryStrAttribute ()
+	{
+		return $this->number_diary . ' ' . Helper::caseDiaryType ($this->number_diary);
+	}
+
+	public function getUserReitingStrAttribute ()
+	{
+		$maxReit = self::getMaxReiting($this->user_sex);
+		return Helper::reiting ($this->user_reiting,$maxReit);
+	}
+
+	public function getUserDescriptionAttribute ($val)
+	{
+		$val = stripslashes($val);
+		return str_replace("\n", "\n<br />\n", $val);
+	}
+
+	public function getUserSexStrAttribute ()
+	{
+		return $this->user_sex == MEN ? 'Мужской' : 'Женский';
+	}
+
+	public function getDateMakeStrAttribute ()
+	{
+		return Helper::dateFormat($this->user_make_date);
+	}
+
+
+	public function getDateRefreshAttribute ($val)
+	{
+		return $this->user_make_date !== $this->user_refresh_date ? Helper::dateFormat($this->user_refresh_date) : $val;
+	}
+
+	public function getUserPartnerDescriptionAttribute ($val)
+	{
+		$val = stripslashes(trim($val));
+		return str_replace("\n", "\n<br />\n", $val);
+	}
+
 	public function isAboutPartner()
 	{
 		foreach ($this->feildsAboutPartner as $prop)
