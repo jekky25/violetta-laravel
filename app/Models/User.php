@@ -186,35 +186,9 @@ class User extends Authenticatable
 	{
 		foreach ($items as &$_item)
 		{
-			$_item->user_age 		= Helper::age($_item->user_birth_date);
-			$_item->user_age_type 	= Helper::ageType($_item->user_age);
 			if (count ($_item->photo) > 0)
 				$_item->photo 		= $_item->photo[0];
-
-			$findSOrient = '';
-			if ($_item->user_sex_orient == GOMOSEXUAL) 
-				$findSOrient .= $_item->user_sex == MEN ? 'парня' : 'девушку';
-			elseif ($_item->user_sex_orient == BISEXUAL) 
-				$findSOrient .= $_item->user_sex == MEN ? 'девушку или парня' : 'парня или девушку';
-			else
-				$findSOrient .= $_item->user_sex == MEN ? 'девушку' : 'парня';
-		
-			if ($_item->user_partner_age_min > PARTNER_AGE_MIN && $_item->user_partner_age_max > PARTNER_AGE_MAX) 
-			{
-				$findSOrient .= ' ' . $_item->user_partner_age_min . '-' . $_item->user_partner_age_max;
-				$findSOrient .= ' ' . Helper::ageType($_item->user_partner_age_max);
-			} elseif ($_item->user_partner_age_min > PARTNER_AGE_MIN && $_item->user_partner_age_max <= PARTNER_AGE_MAX) 
-			{
-				$findSOrient .= ' от ' . $_item->user_partner_age_min;
-				$findSOrient .= ' ' . Helper::ageType2($_item->user_partner_age_min);
-			} elseif ($_item->user_partner_age_min <= PARTNER_AGE_MIN && $_item->user_partner_age_max > PARTNER_AGE_MAX) 
-			{
-				$findSOrient .= ' до ' . $_item->user_partner_age_max;
-				$findSOrient .= ' ' . Helper::ageType2($_item->user_partner_age_max);
-			}
-			$_item->find_sex_orient = $findSOrient;	
 		}
-
 		return $items;
 	}
 
@@ -335,6 +309,32 @@ class User extends Authenticatable
 		return Helper::ageType($this->user_age);
 	}
 
+	public function getFindSexOrientAttribute ()
+	{
+		$findSOrient = '';
+		if ($this->user_sex_orient == GOMOSEXUAL) 
+			$findSOrient .= $this->user_sex == MEN ? 'парня' : 'девушку';
+		elseif ($this->user_sex_orient == BISEXUAL) 
+			$findSOrient .= $this->user_sex == MEN ? 'девушку или парня' : 'парня или девушку';
+		else
+			$findSOrient .= $this->user_sex == MEN ? 'девушку' : 'парня';
+	
+		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX) 
+		{
+			$findSOrient .= ' ' . $this->user_partner_age_min . '-' . $this->user_partner_age_max;
+			$findSOrient .= ' ' . Helper::ageType($this->user_partner_age_max);
+		} elseif ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max <= PARTNER_AGE_MAX) 
+		{
+			$findSOrient .= ' от ' . $this->user_partner_age_min;
+			$findSOrient .= ' ' . Helper::ageType2($this->user_partner_age_min);
+		} elseif ($this->user_partner_age_min <= PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX)
+		{
+			$findSOrient .= ' до ' . $this->user_partner_age_max;
+			$findSOrient .= ' ' . Helper::ageType2($this->user_partner_age_max);
+		}
+		return $findSOrient;
+	}
+	
 	public function isAboutPartner()
 	{
 		foreach ($this->feildsAboutPartner as $prop)
