@@ -99,7 +99,7 @@ class AnkController extends Controller
 		{
 			$ankVisits = AnketVisit::getVisitsByUserId ($id, self::$visitDays, $user->user_id);
 			$anket->ankVisits = count($ankVisits);
-			if ($anket->ankVisits == 0 && $user->user_id != $id && $user->user_id > 1) 
+			if ($anket->ankVisits == 0 && $user->user_id != $id && $user->user_id > 1)
 			{
 				AnketVisit::insertVisit($id);
 				AnketVisit::removeOld(self::$visitDays);

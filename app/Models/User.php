@@ -101,12 +101,9 @@ class User extends Authenticatable
 		
 		foreach ($items as &$_item)
 		{
-			$_item->user_age 		= Helper::age($_item->user_birth_date);
-			$_item->user_age_type 	= Helper::ageType($_item->user_age);
 			$_item->photo = $_item->photo[0];
 		}
 		$items = count ($items) > 1 ? $items : $items[0];
-
 		return ($items);
 	}
 
@@ -326,6 +323,16 @@ class User extends Authenticatable
 
 			$this->$propOut = implode (', ', $ar);
 		}
+	}
+
+	public function getUserAgeAttribute ()
+	{
+		return Helper::age($this->user_birth_date);
+	}
+
+	public function getUserAgeTypeAttribute ()
+	{
+		return Helper::ageType($this->user_age);
 	}
 
 	public function isAboutPartner()
