@@ -27,14 +27,6 @@ class CommentScreen extends Model
 		->with ('user')
 		->orderBy('time', 'desc')
 		->get();
-		
-		foreach ($items as &$_item)
-		{
-			if (!empty($_item->user) )
-				$_item->name = $_item->user->user_name;
-			$_item->time = date("d-m-Y",$_item->time);
-		}
-
 		return $items;
 	}
 
@@ -42,4 +34,15 @@ class CommentScreen extends Model
 	{
     	return $this->belongsTo(User::class, 'user_id', 'user_id');
 	}
+	
+    public function getNameAttribute ($val)
+    {
+		$val = !empty ($val) ? $val : 'none';
+		return !empty($this->user) ? $this->user->user_name : $val;
+    }
+
+	public function getTimeAttribute ($val)
+    {
+		return date("d-m-Y",$val);
+    }
 }
