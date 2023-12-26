@@ -368,4 +368,54 @@ class AnkController extends Controller
 		]);
 	}
 
+	public function addDiary (Request $request)
+	{
+		$user 			= Auth::user();
+		if (empty ($user)) abort (404);
+		$arParams 		= $request->post();
+		$description 	= $request->has('description') ? $request->description : '';
+
+		$rules = [
+			'description'	=> ['required', 'max:3000', 'min:2'],
+			'title'			=> ['required', 'max:255', 'min:2'],
+			'file' 			=> ['file', 'image', 'max:2048'],
+		];
+		$errMessages = [
+				'description.required' 	=> 'Дневник не заполнен',
+				'description.max'	 	=> 'Дневник слишком длинный',
+				'description.min'	 	=> 'Дневник слишком короткий',
+				'title.required'	 	=> 'Заголовок не заполнен',
+				'title.max'	 			=> 'Заголовок слишком длинный',
+				'title.min'	 			=> 'Заголовок слишком короткий',
+		];
+
+		$validator = Validator::make($arParams, $rules, $errMessages);
+
+		if ($validator->fails()) {
+			$messages = $validator->messages();
+			$strError = $messages;
+
+			return redirect()->back()
+						->withErrors($strError, 'comment')
+						->withInput();
+		}
+
+		$title			= strip_tags($arParams['title'],"<b><strong><i>");
+		$description	= strip_tags($arParams['description'],"<b><strong><i>");
+
+		$aFields = [
+			'dnevniki_user_id'			=> $user->user_id,
+			'dnevniki_title'			=> $title,
+			'dnevniki_text'				=> $description,
+			'dnevniki_picture'			=> "0",
+			'dnevniki_time'				=> time()
+		];
+
+		$oComment = new Diary ($aFields);
+		$oComment->save();
+
+		return redirect()->back()
+		->with('success','Сообщение успешно отправлено')
+		->withInput();
+	}
 }

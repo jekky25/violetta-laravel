@@ -32,6 +32,7 @@ Route::get('ank/diary/comments/{id}.html', 'CommentController@index')->whereNumb
 Route::get('ank/diary/edit/{id}.html', 'NoContoller14@index')->whereNumber('id')->name('ank.diary.edit.id')->middleWare('auth');
 Route::get('ank/diary/delete/{id}.html', 'NoContoller14@index')->whereNumber('id')->name('ank.diary.delete.id')->middleWare('auth');
 Route::get('ank/diary/{id}.html', 'AnkController@getDiary')->whereNumber('id')->name('ank.diary.id');
+Route::post('ank/diary/add.html', 'AnkController@addDiary')->whereNumber('id')->name('ank.diary.add')->middleWare('auth');
 Route::get('ank/photo/f/{id}.html', 'NoContoller12@index')->whereNumber('id')->name('ank.photo.f.id');
 Route::get('ank/photo/{id}.html', 'AnkController@getPhoto')->whereNumber('id')->name('ank.photo.id')->middleWare('auth');
 Route::post('ank/photo/{id}.html', 'AnkController@postComment')->whereNumber('id')->name('ank.photo.id.post.comment')->middleWare('auth');

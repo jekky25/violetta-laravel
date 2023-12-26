@@ -11,6 +11,15 @@ class Diary extends Model
 
 	protected $table = 'dnevniki';
 
+	protected $fillable = [
+        'dnevniki_user_id',
+		'dnevniki_title',
+		'dnevniki_time',
+		'dnevniki_text',
+    ];
+
+	public $timestamps 		= false;
+
 	public function get($count)
     {
 		$items = self::select('*')

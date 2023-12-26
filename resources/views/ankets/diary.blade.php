@@ -57,34 +57,42 @@ google_ad_height = 60;
 @auth
 @if ($user->user_id == $userData->user_id)
 <script language=JavaScript>
-{literal}
 function find_otsil()
 {
-document.anketa.send.value = 'Подождите, идет отправка данных...';
-document.anketa.send.disabled = true;
-document.anketa.submit();
+	document.anketa.send.value = 'Подождите, идет отправка данных...';
+	document.anketa.send.disabled = true;
+	document.anketa.submit();
 }
 function addfile(id)
 {
-if (document.getElementById(id).style.display == 'block') {
-document.getElementById(id).style.display = 'none';
-} else {
-document.getElementById(id).style.display = 'block';
+	if (document.getElementById(id).style.display == 'block') {
+		document.getElementById(id).style.display = 'none';
+	} else {
+		document.getElementById(id).style.display = 'block';
+	}
 }
-}
-{/literal}
 </script>
 <h2 class="mTit">Добавить новую запись</h2>
-{if !empty($error)}<p class="pad3 error">Ошибка: {$error}{/if}
-<form name="anketa" class="addFile" action="{$smarty.const.SITE_URL}ank/dnevnik_{$anketUserData.user_id}.html" method="post" enctype="multipart/form-data">
+@if(session('success'))
+<p class="mess">{{session('success')}}</p>
+@endif
+@if (!empty ($errors->comment->all()))
+<div class="error">
+@foreach ($errors->comment->all() as $message)
+<p>{{ $message }}</p>
+@endforeach
+	</div>
+@endif
+<form name="anketa" class="addFile" action="{{route('ank.diary.add')}}" method="post" enctype="multipart/form-data">
+{{ csrf_field() }}
 	<table>
 		<tr>
 			<td width="50%" align="right">Тема:</td>
-			<td width="50%"><input type="text" class="input3" name="title" value="{if !empty($smarty.post.title)}{$smarty.post.title}{/if}" /></td>
+			<td width="50%"><input type="text" class="input3" name="title" value="{{ old('title') }}" /></td>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<textarea class="textarea2" name="description" wrap="virtual">{if !empty($smarty.post.description)}{$smarty.post.description}{/if}</textarea>
+				<textarea class="textarea2" name="description" wrap="virtual">{{ old('description') }}</textarea>
 			</td>
 		</tr>
 		<tr>
