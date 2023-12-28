@@ -16,6 +16,7 @@ class Diary extends Model
 		'dnevniki_title',
 		'dnevniki_time',
 		'dnevniki_text',
+		'dnevniki_picture'
     ];
 
 	public $timestamps 		= false;

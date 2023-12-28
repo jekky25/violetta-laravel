@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 use Validator;
+use Illuminate\Validation\Rules\File;
 use App\Models\User;
 use App\Models\AnketVisit;
 use App\Models\MeetTarget;
@@ -374,11 +375,14 @@ class AnkController extends Controller
 		if (empty ($user)) abort (404);
 		$arParams 		= $request->post();
 		$description 	= $request->has('description') ? $request->description : '';
+		$files 			= $request->file();
+
+		$arParams		= array_merge($arParams, $files);
 
 		$rules = [
 			'description'	=> ['required', 'max:3000', 'min:2'],
 			'title'			=> ['required', 'max:255', 'min:2'],
-			'file' 			=> ['file', 'image', 'max:2048'],
+			'photo_link'	=> ['file', 'image', 'max:4048'],
 		];
 		$errMessages = [
 				'description.required' 	=> 'Дневник не заполнен',
@@ -387,6 +391,8 @@ class AnkController extends Controller
 				'title.required'	 	=> 'Заголовок не заполнен',
 				'title.max'	 			=> 'Заголовок слишком длинный',
 				'title.min'	 			=> 'Заголовок слишком короткий',
+				'photo_link.image'		=> 'Файл не является изображением',
+				'photo_link.max'		=> 'Файл слишком большой',
 		];
 
 		$validator = Validator::make($arParams, $rules, $errMessages);
@@ -403,11 +409,16 @@ class AnkController extends Controller
 		$title			= strip_tags($arParams['title'],"<b><strong><i>");
 		$description	= strip_tags($arParams['description'],"<b><strong><i>");
 
+		if (!empty($arParams['photo_link']))
+		{
+			$picture = Helper::fotoUpload($arParams['photo_link'], 0, 'img/dnevnik/');
+		}
+
 		$aFields = [
 			'dnevniki_user_id'			=> $user->user_id,
 			'dnevniki_title'			=> $title,
 			'dnevniki_text'				=> $description,
-			'dnevniki_picture'			=> "0",
+			'dnevniki_picture'			=> !empty ($picture) ? $picture : "0",
 			'dnevniki_time'				=> time()
 		];
 

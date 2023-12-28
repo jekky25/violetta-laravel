@@ -1,6 +1,8 @@
 <?php
 namespace App\Helpers;
+use Illuminate\Http\Request;
 use Carbon;
+use Illuminate\Support\Str;
 
 class Helper {
 
@@ -190,9 +192,9 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	function outDiaryPicture($picture = 0, $sex)
+	function outDiaryPicture($picture = '', $sex)
 	{
-		if ($picture > 0) return asset('img/dnevnik/' . $picture . '.jpg');
+		if (!empty($picture)) return asset('img/dnevnik/' . $picture);
 
 		$fotoUrl = $sex == MEN ? 'image/no_foto_m_vip.jpg' : 'image/no_foto_w_vip.jpg';
 		return asset ($fotoUrl);
@@ -519,4 +521,127 @@ class Helper {
 
 		return $str;
 	}
+
+	//adding pictures 
+	function fotoUpload($picture, $foto = 0, $path_foto = '') 
+	{
+		$photo['link']		= !empty($picture->getPathName())					? $picture->getPathName() 								: false;
+		$photo['name']		= !empty($picture->getClientOriginalName())			? $picture->getClientOriginalName()						: '';
+		$photo['size']		= !empty($picture->getSize())						? $picture->getSize()									: 0;
+		$photo['filetype']	= !empty($picture->getMimeType())					? $picture->getMimeType()								: '';
+		$photo['extension']	= !empty($picture->getClientOriginalExtension())	? strtolower($picture->getClientOriginalExtension()) 	: 'jpg';
+		$photo['unic_name']	= Str::random(20) . '.' . $photo['extension'];
+		$photoLink			= $path_foto . $photo['unic_name'];
+		$photoLinkTmp		= 'img_temp/' . $photo['unic_name'];
+		$res = Helper::moveUploadedFile($photo['link'], $photoLinkTmp);
+		$res = Helper::resize($photoLinkTmp, 200, $photoLink);
+
+		unlink($photoLinkTmp);
+		return isset($res ['success']) ? $photo['unic_name'] : false;
+	}
+
+	function moveUploadedFile($link, $name)
+	{
+		return move_uploaded_file($link, $name);
+	}
+
+
+	function resize	($file, $width = 0, $destination_file = null)
+	{
+		$width = (int) $width;
+
+		$srcImg = Helper::read($file);
+		if(!$srcImg) return ['error' => 'Файл не является изображением'];
+
+		$srcWidth 	= imagesx($srcImg);
+		$srcHeight 	= imagesy($srcImg);
+		if(!$width) $width = $srcWidth;
+		$ratio 		= $srcWidth/$srcHeight;
+		$width 		= $srcWidth > $width ? $width :$srcWidth;
+		$height 	= round($width / $ratio, 0);
+		if($width == $srcWidth){//skip image resize
+			if(!copy($file, $destination_file))
+			{
+				return array ('error' => 'Ошибка записи файла');
+			}
+			return null;
+		}
+		$dstImg = imagecreatetruecolor( $width, $height );
+		if ( empty($dstImg) ) {
+			@imagedestroy( $srcImg );
+			return 'Error creating true color image {$width}&times;{$height}';
+		}
+
+		if ( function_exists('imagecopyresampled') ) 
+			$res = @imagecopyresampled ( $dstImg, $srcImg, 0, 0, 0, 0, $width, $height, $srcWidth, $srcHeight );
+		else
+			$res = @imagecopyresized ( $dstImg, $srcImg, 0, 0, 0, 0, $width, $height, $srcWidth, $srcHeight );
+
+		$quality = 80;
+
+		$res = @imagejpeg( $dstImg, !is_null($destination_file) ? $destination_file : $file, $quality);
+
+		if (empty($res)) 
+		{
+			@imagedestroy( $srcIm );
+			@imagedestroy( $destImg );
+	
+			return 'Error copy resized image';
+		} else
+		{
+			@imagedestroy( $destImg );
+			@imagedestroy( $srcIm );
+			return ['success' => 1];
+		}
+	}
+
+
+	function read($fileName)
+	{
+		if(!file_exists($fileName))
+		{
+			return 'Error upload file';
+		}
+		$info = @getimagesize($fileName);
+		switch ($info[2]) 
+		{
+			case 1:
+				// Create recource from gif image
+				$srcIm = @imagecreatefromgif( $fileName );
+				break;
+			case 2:
+				// Create recource from jpg image
+				$srcIm = @imagecreatefromjpeg( $fileName );
+				break;
+			case 3:
+				// Create resource from png image
+				$srcIm = @imagecreatefrompng( $fileName );
+				break;
+			case 5:
+				// Create resource from psd image
+				break;
+			case 6:
+				// Create recource from bmp image imagecreatefromwbmp
+				$srcIm = @imagecreatefromwbmp( $fileName );
+				break;
+			case 7:
+				// Create resource from tiff image
+				break;
+			case 8:
+				// Create resource from tiff image
+				break;
+			case 9:
+				// Create resource from jpc image
+				break;
+			case 10:
+				// Create resource from jp2 image
+				break;
+			default:
+				break;
+		}
+	
+		return !empty ($srcIm) ? $srcIm : false;
+	}
+	
+
 }
