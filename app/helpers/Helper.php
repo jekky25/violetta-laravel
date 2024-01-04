@@ -522,7 +522,14 @@ class Helper {
 		return $str;
 	}
 
-	//adding pictures 
+	/**
+	 * adding pictures
+	 * @param object $picture
+	 * @param integer $foto
+	 * @param string $path_foto
+	 *
+	 * @return mixed
+	*/
 	function fotoUpload($picture, $foto = 0, $path_foto = '') 
 	{
 		$photo['link']		= !empty($picture->getPathName())					? $picture->getPathName() 								: false;
@@ -540,6 +547,13 @@ class Helper {
 		return isset($res ['success']) ? $photo['unic_name'] : false;
 	}
 
+	/**
+	 * moving uploaded file
+	 * @param string $link
+	 * @param string $name
+	 *
+	 * @return bool
+	*/
 	function moveUploadedFile($link, $name)
 	{
 		return move_uploaded_file($link, $name);
@@ -642,6 +656,16 @@ class Helper {
 	
 		return !empty ($srcIm) ? $srcIm : false;
 	}
-	
+
+	//Выводит сообщения ошибок и информации новая
+	function outMessageInfo($title, $text, $confirmAction)
+	{
+		return response()->view ('mess_die.confirm',
+		[
+			'msgTitle' 		=> $title,
+			'msgText'		=> $text,
+			'confirmAction' => $confirmAction
+		])->send();
+	}
 
 }

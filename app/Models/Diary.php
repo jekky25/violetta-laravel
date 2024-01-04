@@ -64,6 +64,16 @@ class Diary extends Model
 		return $items;
 	}
 
+	public function getByUserAndId($id, $userId)
+	{
+		$item = self::select('*')
+		->where('dnevniki_id', $id)
+		->where('dnevniki_user_id', $userId)
+		->first();
+
+		return $item;
+	}
+
 	public function getImg ()
 	{
 		return $this->dnevniki_picture !== "0" ? './img/dnevnik/' . $this->dnevniki_picture . '.jpg' : '';

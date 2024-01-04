@@ -429,4 +429,24 @@ class AnkController extends Controller
 		->with('success','Сообщение успешно отправлено')
 		->withInput();
 	}
+
+	public function delDiary (Request $request, $id)
+	{
+		$user 			= Auth::user();
+		if (empty ($user) ||  $id == 0) abort (404);
+		$diary 			= Diary::getByUserAndId($id, $user->user_id);
+		if (empty ($diary)) abort (404);
+
+		$arParams 		= $request->post();
+
+		if ( !empty($arParams['cancel']) ) {
+			return redirect()->route ('ank.diary.id', $user->user_id);
+		}
+
+		$title 			= 'Информация';
+		$text 			= 'Вы уверены, что хотите удалить эту запись<br /><br />';
+		$confirmAction 	= route ('ank.diary.delete.id', $id);
+		Helper::outMessageInfo($title, $text, $confirmAction);
+		
+	}
 }
