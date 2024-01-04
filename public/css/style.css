@@ -573,6 +573,11 @@ table.voprTabl {margin:0 auto;}
 .mob-menu-subm {width:167px;}
 .mob-menu-first-block .name {font-size: 12px; font-weight: normal; line-height: 16px;}
 
+h1.main_title, H1.main_t_up {
+	font-family: Arial, Tahoma, Verdana, sans-serif;
+	font-size: 12px;
+}
+
 /*mobile*/
 @media screen and (max-width: 980px) {
 	.for-mob {display:block;}
