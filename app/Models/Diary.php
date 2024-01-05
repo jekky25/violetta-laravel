@@ -20,6 +20,7 @@ class Diary extends Model
     ];
 
 	public $timestamps 		= false;
+	protected $primaryKey 	= 'dnevniki_id';
 
 	public function get($count)
     {
@@ -69,6 +70,7 @@ class Diary extends Model
 		$item = self::select('*')
 		->where('dnevniki_id', $id)
 		->where('dnevniki_user_id', $userId)
+		->with('comments')
 		->first();
 
 		return $item;
@@ -110,6 +112,11 @@ class Diary extends Model
 	{
 		return  $this->user_sex == MEN ? 'name_man' : 'name_woman';
 		
+	}
+	
+	public function getDnevnikiPictureUrlAttribute ($val)
+	{	
+		return $this->dnevniki_picture !== "0" ? 'img/dnevnik/' . $this->dnevniki_picture : null;
 	}
 
 	public function getDnevnikiTimeAttribute ($val)

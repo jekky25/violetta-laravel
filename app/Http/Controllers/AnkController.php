@@ -443,6 +443,16 @@ class AnkController extends Controller
 			return redirect()->route ('ank.diary.id', $user->user_id);
 		}
 
+		if ( !empty($arParams['confirm']) ) {
+			if (!empty($diary->dnevniki_picture_url) && file_exists($diary->dnevniki_picture_url))
+			{
+				unlink($diary->dnevniki_picture_url);
+			}
+			$diary->comments()->delete();
+			$diary->delete();
+			return redirect()->route ('ank.diary.id', $user->user_id);
+		}
+
 		$title 			= 'Информация';
 		$text 			= 'Вы уверены, что хотите удалить эту запись<br /><br />';
 		$confirmAction 	= route ('ank.diary.delete.id', $id);
