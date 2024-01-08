@@ -459,4 +459,22 @@ class AnkController extends Controller
 		Helper::outMessageInfo($title, $text, $confirmAction);
 		
 	}
+
+	public function editDiary (Request $request, $id)
+	{
+		$user 			= Auth::user();
+		if (empty ($user) ||  $id == 0) abort (404);
+		$diary 			= Diary::getByUserAndId($id, $user->user_id);
+		if (empty ($diary)) abort (404);
+
+		$arParams					= $request->post();
+		$diary->user_dnevnik_title	= !empty ($title) 		? $title 		: stripslashes ($diary->dnevniki_title);
+		$diary->user_dnevnik_text	= !empty ($description) ? $description 	: $diary->dnevniki_text;
+
+		return response()->view ('ankets.diary_edit',
+		[
+			'userData'		=> $user,
+			'diary'			=> $diary,
+		]);
+	}
 }

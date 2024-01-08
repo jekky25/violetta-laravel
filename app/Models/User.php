@@ -231,14 +231,12 @@ class User extends Authenticatable
 		if (empty ($item)) abort (404);
 		return $item;
 	}
-
 	public function getJustById($id)
 	{
 		$item = self::select('*')
 		->where ('user_id', $id)->first();
 		if (empty ($item)) abort (404);
 		return $item;
-
 	}
 	public function getProperty($item, $k)
 	{
