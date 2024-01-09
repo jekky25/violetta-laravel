@@ -426,7 +426,7 @@ class AnkController extends Controller
 		$oComment->save();
 
 		return redirect()->back()
-		->with('success','Сообщение успешно отправлено')
+		->with('success','Дневник успешно добавлен')
 		->withInput();
 	}
 
@@ -457,7 +457,6 @@ class AnkController extends Controller
 		$text 			= 'Вы уверены, что хотите удалить эту запись<br /><br />';
 		$confirmAction 	= route ('ank.diary.delete.id', $id);
 		Helper::outMessageInfo($title, $text, $confirmAction);
-		
 	}
 
 	public function editDiary (Request $request, $id)
@@ -468,8 +467,45 @@ class AnkController extends Controller
 		if (empty ($diary)) abort (404);
 
 		$arParams					= $request->post();
-		$diary->user_dnevnik_title	= !empty ($title) 		? $title 		: stripslashes ($diary->dnevniki_title);
-		$diary->user_dnevnik_text	= !empty ($description) ? $description 	: $diary->dnevniki_text;
+		$files 						= $request->file();
+
+		if (!empty($arParams['otsil']))
+		{
+			$arParams			= array_merge($arParams, $files);
+			$validator 			= Validator::make($arParams, self::$rulesDiary, self::$errMessagesDiary);
+
+			if ($validator->fails()) {
+				$messages 		= $validator->messages();
+				$strError 		= $messages;
+
+				return redirect()->back()
+						->withErrors($strError, 'comment')
+						->withInput();
+			}
+
+			$title				= strip_tags($arParams['title'],"<b><strong><i>");
+			$description		= strip_tags($arParams['description'],"<b><strong><i>");
+	
+			if (!empty($arParams['photo_link']))
+			{
+				$picture = Helper::fotoUpload($arParams['photo_link'], 0, 'img/dnevnik/');
+			}
+	
+	
+			$diary->dnevniki_title		= $title;
+			$diary->dnevniki_text		= $description;
+			$diary->dnevniki_picture	= !empty ($picture) ? $picture : $diary->dnevniki_picture;
+
+			$diary->update();
+
+			return redirect()->route('ank.diary.id', $user->user_id)
+				->with('success','Дневник был обновлен')
+				->withInput();
+
+		}
+
+		$diary->user_dnevnik_title	= old('title')	 		? old('title') 			: stripslashes ($diary->dnevniki_title);
+		$diary->user_dnevnik_text	= old('description') 	? old('description') 	: $diary->dnevniki_text;
 
 		return response()->view ('ankets.diary_edit',
 		[
