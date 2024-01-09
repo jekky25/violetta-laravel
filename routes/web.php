@@ -28,7 +28,7 @@ Route::get('registration', 'NoContoller9@index')->name('registration');
 Route::get('privmsg/post/{id}.html', 'NoContoller10@index')->whereNumber('id')->name('privmsg.post.id');
 
 
-Route::get('ank/diary/comments/{id}.html', 'CommentController@index')->whereNumber('id')->name('ank.diary.comments');
+Route::get('ank/diary/comments/{id}.html', 'AnkController@getDiaryComments')->whereNumber('id')->name('ank.diary.comments');
 Route::match(['get', 'post'], 'ank/diary/edit/{id}.html', 'AnkController@editDiary')->whereNumber('id')->name('ank.diary.edit.id')->middleWare('auth');
 Route::match(['get', 'post'], 'ank/diary/delete/photo/{id}.html', 'AnkController@delDiaryPhoto')->whereNumber('id')->name('ank.diary.delete.photo.id')->middleWare('auth');
 Route::match(['get', 'post'], 'ank/diary/delete/{id}.html', 'AnkController@delDiary')->whereNumber('id')->name('ank.diary.delete.id')->middleWare('auth');
