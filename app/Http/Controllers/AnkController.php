@@ -40,6 +40,23 @@ class AnkController extends Controller
 		'\\App\\Models\\City'			=> ['prop' =>'user_partner_city',		'ank_prop' =>'partner_city']
 	  ];
 
+	public static $rulesDiary = [
+		'description'	=> ['required', 'max:3000', 'min:2'],
+		'title'			=> ['required', 'max:255', 'min:2'],
+		'photo_link'	=> ['file', 'image', 'max:4048'],
+	];
+
+	public static $errMessagesDiary = [
+		'description.required' 	=> 'Дневник не заполнен',
+		'description.max'	 	=> 'Дневник слишком длинный',
+		'description.min'	 	=> 'Дневник слишком короткий',
+		'title.required'	 	=> 'Заголовок не заполнен',
+		'title.max'	 			=> 'Заголовок слишком длинный',
+		'title.min'	 			=> 'Заголовок слишком короткий',
+		'photo_link.image'		=> 'Файл не является изображением',
+		'photo_link.max'		=> 'Файл слишком большой',
+	];
+
 
 	public static $visitDays 			= 30;
 	public $commentCountPerPage 		= 100;
@@ -378,24 +395,7 @@ class AnkController extends Controller
 		$files 			= $request->file();
 
 		$arParams		= array_merge($arParams, $files);
-
-		$rules = [
-			'description'	=> ['required', 'max:3000', 'min:2'],
-			'title'			=> ['required', 'max:255', 'min:2'],
-			'photo_link'	=> ['file', 'image', 'max:4048'],
-		];
-		$errMessages = [
-				'description.required' 	=> 'Дневник не заполнен',
-				'description.max'	 	=> 'Дневник слишком длинный',
-				'description.min'	 	=> 'Дневник слишком короткий',
-				'title.required'	 	=> 'Заголовок не заполнен',
-				'title.max'	 			=> 'Заголовок слишком длинный',
-				'title.min'	 			=> 'Заголовок слишком короткий',
-				'photo_link.image'		=> 'Файл не является изображением',
-				'photo_link.max'		=> 'Файл слишком большой',
-		];
-
-		$validator = Validator::make($arParams, $rules, $errMessages);
+		$validator = Validator::make($arParams, self::$rulesDiary, self::$errMessagesDiary);
 
 		if ($validator->fails()) {
 			$messages = $validator->messages();
