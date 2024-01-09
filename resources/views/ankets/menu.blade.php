@@ -17,7 +17,9 @@
 		@endif		
 	@endif
 	@if ($userData->number_diary > 0)
-	@if (Route:: currentRouteName() == 'ank.diary.id' || Route:: currentRouteName() == 'ank.diary.edit.id')
+	@if (Route:: currentRouteName() 	== 'ank.diary.id'
+		 || Route:: currentRouteName() 	== 'ank.diary.edit.id'
+		 || Route:: currentRouteName() 	== 'ank.diary.comments')
 		<li class="menuRegAct">Дневник ({{ $userData->number_diary_str }})</li>
 		@else
 		<li><a href="{{route('ank.diary.id', $userData->user_id)}}">Дневник ({{ $userData->number_diary_str }})</a></li>
