@@ -364,6 +364,11 @@ class User extends Authenticatable
 		return str_replace("\n", "\n<br />\n", $val);
 	}
 
+	public function getUserClassAAttribute ()
+	{
+		return $this->user_sex == MEN ? 'name_man' : 'name_woman';
+	}
+
 	public function isAboutPartner()
 	{
 		foreach ($this->feildsAboutPartner as $prop)

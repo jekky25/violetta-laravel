@@ -19,6 +19,7 @@ use App\Models\Vars;
 use App\Models\CommentPhoto;
 use App\Models\Photo;
 use App\Models\Diary;
+use App\Models\DiaryComment;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -61,6 +62,7 @@ class AnkController extends Controller
 	public static $visitDays 			= 30;
 	public $commentCountPerPage 		= 100;
 	public static $diaryPerPage 		= 10;
+	public static $diaryCommentsPerPage	= 20;
 
     /**
      * Create a new controller instance.
@@ -540,6 +542,23 @@ class AnkController extends Controller
 		[
 			'userData'		=> $user,
 			'diary'			=> $diary,
+		]);
+	}
+
+	public function getDiaryComments (Request $request, $id)
+	{
+		$comments 	= DiaryComment::getByDiary (self::$diaryCommentsPerPage, $id);
+		$diary 		= Diary::getById ($id);
+		if (empty ($diary) || empty ($diary->user)) abort (404);
+
+		$page 				= $comments->currentPage();
+		$pagination 		= Helper::preparePagination ($comments->toArray()['links']);
+		return response()->view ('ankets.comments',
+		[
+			'userData'		=> $diary->user,
+			'diary'			=> $diary,
+			'comments'		=> $comments,
+			'pagination'	=> $pagination
 		]);
 	}
 }
