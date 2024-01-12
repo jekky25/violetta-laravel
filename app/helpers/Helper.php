@@ -179,10 +179,7 @@ class Helper {
 	function outPicture($picture = 0, $sex)
 	{
 		$picture = (int) $picture;
-		if ($picture > 0) return asset('fotos_new/' . $picture . '.jpg');
-
-		$fotoUrl = $sex == MEN ? 'image/no_foto_m_vip.jpg' : 'image/no_foto_w_vip.jpg';
-		return asset ($fotoUrl);
+		return self::getPicture ($picture, $sex, 'fotos_new/', '.jpg');
 	}
 
 	/**
@@ -194,8 +191,33 @@ class Helper {
 	 */
 	function outDiaryPicture($picture = '', $sex)
 	{
-		if (!empty($picture)) return asset('img/dnevnik/' . $picture);
+		return self::getPicture ($picture, $sex, 'img/dnevnik/');
+	}
 
+	/**
+	 * out picture in comments of diaries to template
+	 * @param integer $picture
+	 * @param string $sex
+	 *
+	 * @return string
+	 */
+	function outDiaryCommentPicture($picture = '', $sex)
+	{
+		return self::getPicture ($picture, $sex, 'img/dnev_comment/');
+	}
+
+	/**
+	 * out picture with storage path
+	 * @param integer $picture
+	 * @param string $sex
+	 * @param string $path
+	 * @param string $ext
+	 *
+	 * @return string
+	 */
+	function getPicture ($picture = '', $sex, $path, $ext = '')
+	{
+		if (!empty($picture) && !empty($path)) return asset($path . $picture . $ext);
 		$fotoUrl = $sex == MEN ? 'image/no_foto_m_vip.jpg' : 'image/no_foto_w_vip.jpg';
 		return asset ($fotoUrl);
 	}
@@ -559,7 +581,14 @@ class Helper {
 		return move_uploaded_file($link, $name);
 	}
 
-
+	/**
+	 * resizes uploaded files
+	 * @param string $file
+	 * @param integer $width
+	 * @param string $destination_file
+	 *
+	 * @return array
+	*/
 	function resize	($file, $width = 0, $destination_file = null)
 	{
 		$width = (int) $width;
