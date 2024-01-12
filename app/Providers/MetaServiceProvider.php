@@ -158,6 +158,15 @@ class MetaServiceProvider extends ServiceProvider
 <meta name="Keywords" content="' . $userData->user_name . ' ' . $userData->user_age_str . ', ' . $userData->city->name . ', сайт знакомств">';
 					break;
 
+				case 'ank.diary.comments':
+					$userData = $view->diary->user;
+					$pageTitle = 'Комментарии к дневнику, бесплатные знакомства, ' . $userData->city->name . ', ' . $userData->user_name . ' ' . $userData->user_age_str;
+					$pageTitle .= ', Сайт знакомств Виолетта';
+
+					$pageMeta = '<meta name="Description" content="Дневник, бесплатные знакомства ' . $userData->city->name . ', ' . $userData->user_name . ' ' . $userData->user_age_str . '">
+						<meta name="Keywords" content="' . $userData->city->name . ', ' . $userData->user_age_str . ', ' . $userData->user_name . ', сайт знакомств">';
+					break;
+
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
 				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
