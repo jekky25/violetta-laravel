@@ -559,6 +559,7 @@ class AnkController extends Controller
 
 		$page 				= $comments->currentPage();
 		$pagination 		= Helper::preparePagination ($comments->toArray()['links']);
+
 		return response()->view ('ankets.comments',
 		[
 			'userData'		=> $diary->user,
@@ -611,5 +612,25 @@ class AnkController extends Controller
 		return redirect()->back()
 		->with('success','Комментарий успешно добавлен')
 		->withInput();
+	}
+
+	public function delDiaryComment (Request $request, $id)
+	{
+		$user			= Auth::user();
+		if (empty ($user) ||  $id == 0) abort (404);
+		$comment 			= DiaryComment::getByUserAndId($id, $user->user_id);
+
+		if (empty ($comment)) abort (404);
+
+		$arParams 		= $request->post();
+
+		if ( !empty($arParams['cancel']) ) {
+			return redirect()->route ('ank.diary.comments', $comment->comment_dnevnik_id);
+		}
+
+		$title 			= 'Информация';
+		$text 			= 'Вы уверены, что хотите удалить эту запись<br /><br />';
+		$confirmAction 	= route ('ank.diary.comment.delete.id', $id);
+		Helper::outMessageInfo($title, $text, $confirmAction);
 	}
 }

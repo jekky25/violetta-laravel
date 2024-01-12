@@ -35,6 +35,16 @@ class DiaryComment extends Model
 		return $items;
 	}
 
+	public function getByUserAndId($id, $userId)
+	{
+		$item = self::select('*')
+		->where('comment_id', $id)
+		->where('comment_dnevnik_user_id', $userId)
+		->first();
+
+		return $item;
+	}
+
 	public function getAddTimeAttribute ($val)
 	{
 		return date("d.m.y H:i", $this->comment_time);
