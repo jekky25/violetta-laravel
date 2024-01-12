@@ -628,6 +628,16 @@ class AnkController extends Controller
 			return redirect()->route ('ank.diary.comments', $comment->comment_dnevnik_id);
 		}
 
+		if ( !empty($arParams['confirm']) ) {
+			if (!empty($comment->picture_url) && file_exists($comment->picture_url))
+			{
+				unlink($comment->picture_url);
+			}
+
+			$comment->delete();
+			return redirect()->route ('ank.diary.comments', $comment->comment_dnevnik_id);
+		}
+
 		$title 			= 'Информация';
 		$text 			= 'Вы уверены, что хотите удалить эту запись<br /><br />';
 		$confirmAction 	= route ('ank.diary.comment.delete.id', $id);

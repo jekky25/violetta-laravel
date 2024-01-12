@@ -50,6 +50,11 @@ class DiaryComment extends Model
 		return date("d.m.y H:i", $this->comment_time);
 	}
 
+	public function getPictureUrlAttribute ($val)
+	{	
+		return $this->comment_picture !== "0" ? 'img/dnev_comment/' . $this->comment_picture : null;
+	}
+
 	public function diary()
     {
         return $this->belongsTo(Diary::class, 'dnevniki_id', 'comment_dnevnik_id');
