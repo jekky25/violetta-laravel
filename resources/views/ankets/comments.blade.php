@@ -66,7 +66,7 @@ google_ad_height = 60;
 			</h4>
 			<div class="dnevBody clear">
 			@if (!empty($item->comment_picture))
-				<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ App\Helpers\Helper::outDiaryPicture($item->comment_picture, $item->user->user_sex) }}" /></a>
+				<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ App\Helpers\Helper::outDiaryCommentPicture($item->comment_picture, $item->user->user_sex) }}" /></a>
 			@elseif (!empty($item->foto_url))
 				<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ App\Helpers\Helper::outPicture($item->foto_url, $item->user->user_sex) }}" /></a>
 			@endif

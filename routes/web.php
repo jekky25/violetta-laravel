@@ -36,7 +36,7 @@ Route::match(['get', 'post'], 'ank/diary/comment/edit/{id}.html', 'NoContoller16
 Route::match(['get', 'post'], 'ank/diary/comment/delete/{id}.html', 'NoContoller17@index')->whereNumber('id')->name('ank.diary.comment.delete.id')->middleWare('auth');
 Route::get('ank/diary/{id}.html', 'AnkController@getDiary')->whereNumber('id')->name('ank.diary.id');
 Route::post('ank/diary/add.html', 'AnkController@addDiary')->name('ank.diary.add')->middleWare('auth');
-Route::post('ank/diary/comment/{id}/add.html', 'NoContoller18@index')->whereNumber('id')->name('ank.diary.comment.add')->middleWare('auth');
+Route::post('ank/diary/comment/{id}/add.html', 'AnkController@addDiaryComment')->whereNumber('id')->name('ank.diary.comment.add')->middleWare('auth');
 Route::get('ank/photo/f/{id}.html', 'NoContoller12@index')->whereNumber('id')->name('ank.photo.f.id');
 Route::get('ank/photo/{id}.html', 'AnkController@getPhoto')->whereNumber('id')->name('ank.photo.id')->middleWare('auth');
 Route::post('ank/photo/{id}.html', 'AnkController@postComment')->whereNumber('id')->name('ank.photo.id.post.comment')->middleWare('auth');

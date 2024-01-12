@@ -47,10 +47,16 @@ class AnkController extends Controller
 		'photo_link'	=> ['file', 'image', 'max:4048'],
 	];
 
+	public static $rulesCommentDiary = [
+		'description'	=> ['required', 'max:3000', 'min:2'],
+		'title'			=> ['max:255'],
+		'photo_link'	=> ['file', 'image', 'max:4048'],
+	];
+
 	public static $errMessagesDiary = [
-		'description.required' 	=> 'Дневник не заполнен',
-		'description.max'	 	=> 'Дневник слишком длинный',
-		'description.min'	 	=> 'Дневник слишком короткий',
+		'description.required' 	=> 'Описание не заполнено',
+		'description.max'	 	=> 'Описание слишком длинное',
+		'description.min'	 	=> 'Описание слишком короткое',
 		'title.required'	 	=> 'Заголовок не заполнен',
 		'title.max'	 			=> 'Заголовок слишком длинный',
 		'title.min'	 			=> 'Заголовок слишком короткий',
@@ -560,5 +566,50 @@ class AnkController extends Controller
 			'comments'		=> $comments,
 			'pagination'	=> $pagination
 		]);
+	}
+
+	public function addDiaryComment (Request $request, $id)
+	{
+		$user 			= Auth::user();
+		if (empty ($user)) abort (404);
+		$arParams 		= $request->post();
+		$description 	= $request->has('description') ? $request->description : '';
+		$files 			= $request->file();
+
+		$arParams		= array_merge($arParams, $files);
+		$validator = Validator::make($arParams, self::$rulesCommentDiary, self::$errMessagesDiary);
+
+		if ($validator->fails()) {
+			$messages = $validator->messages();
+			$strError = $messages;
+
+			return redirect()->back()
+						->withErrors($strError, 'comment')
+						->withInput();
+		}
+
+		$title			= strip_tags($arParams['title'],"<b><strong><i>");
+		$description	= strip_tags($arParams['description'],"<b><strong><i>");
+
+		if (!empty($arParams['photo_link']))
+		{
+			$picture = Helper::fotoUpload($arParams['photo_link'], 0, 'img/dnev_comment/');
+		}
+
+		$aFields = [
+			'comment_dnevnik_id'		=> $id,
+			'comment_dnevnik_user_id'	=> $user->user_id,
+			'comment_title'				=> $title,
+			'comment_text'				=> $description,
+			'comment_picture'			=> !empty ($picture) ? $picture : "0",
+			'comment_time'				=> time()
+		];
+
+		$oComment = new DiaryComment ($aFields);
+		$oComment->save();
+
+		return redirect()->back()
+		->with('success','Комментарий успешно добавлен')
+		->withInput();
 	}
 }

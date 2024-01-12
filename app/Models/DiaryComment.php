@@ -11,6 +11,16 @@ class DiaryComment extends Model
 
 	protected $table = 'dnevniki_comments';
 
+	protected $fillable = [
+		'comment_id',
+		'comment_dnevnik_id',
+		'comment_dnevnik_user_id',
+		'comment_title',
+		'comment_text',
+		'comment_picture',
+		'comment_time'
+    ];
+
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'comment_id';
 
