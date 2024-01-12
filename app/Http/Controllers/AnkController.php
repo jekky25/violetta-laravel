@@ -643,4 +643,62 @@ class AnkController extends Controller
 		$confirmAction 	= route ('ank.diary.comment.delete.id', $id);
 		Helper::outMessageInfo($title, $text, $confirmAction);
 	}
+
+	public function editDiaryComment (Request $request, $id)
+	{
+		$user 			= Auth::user();
+		if (empty ($user) ||  $id == 0) abort (404);
+		$comment 			= DiaryComment::getByUserAndId($id, $user->user_id);
+		if (empty ($comment)) abort (404);
+		/*
+		$arParams					= $request->post();
+		$files 						= $request->file();
+
+		if (!empty($arParams['otsil']))
+		{
+			$arParams			= array_merge($arParams, $files);
+			$validator 			= Validator::make($arParams, self::$rulesDiary, self::$errMessagesDiary);
+
+			if ($validator->fails()) {
+				$messages 		= $validator->messages();
+				$strError 		= $messages;
+
+				return redirect()->back()
+						->withErrors($strError, 'comment')
+						->withInput();
+			}
+
+			$title				= strip_tags($arParams['title'],"<b><strong><i>");
+			$description		= strip_tags($arParams['description'],"<b><strong><i>");
+	
+			if (!empty($arParams['photo_link']))
+			{
+				$picture = Helper::fotoUpload($arParams['photo_link'], 0, 'img/dnevnik/');
+			}
+	
+	
+			$diary->dnevniki_title		= $title;
+			$diary->dnevniki_text		= $description;
+			$diary->dnevniki_picture	= !empty ($picture) ? $picture : $diary->dnevniki_picture;
+
+			$diary->update();
+
+			return redirect()->route('ank.diary.id', $user->user_id)
+				->with('success','Дневник был обновлен')
+				->withInput();
+
+		}
+
+		*/
+
+		$comment->title	= old('title')	 		? old('title') 			: stripslashes ($comment->comment_title);
+		$comment->text	= old('description') 	? old('description') 	: $comment->comment_text;
+
+		return response()->view ('ankets.diary_comment_edit',
+		[
+			'userData'		=> $user,
+			'comment'		=> $comment,
+		]);
+
+	}
 }

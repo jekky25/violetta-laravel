@@ -32,8 +32,9 @@ Route::get('ank/diary/comments/{id}.html', 'AnkController@getDiaryComments')->wh
 Route::match(['get', 'post'], 'ank/diary/edit/{id}.html', 'AnkController@editDiary')->whereNumber('id')->name('ank.diary.edit.id')->middleWare('auth');
 Route::match(['get', 'post'], 'ank/diary/delete/photo/{id}.html', 'AnkController@delDiaryPhoto')->whereNumber('id')->name('ank.diary.delete.photo.id')->middleWare('auth');
 Route::match(['get', 'post'], 'ank/diary/delete/{id}.html', 'AnkController@delDiary')->whereNumber('id')->name('ank.diary.delete.id')->middleWare('auth');
-Route::match(['get', 'post'], 'ank/diary/comment/edit/{id}.html', 'NoContoller16@index')->whereNumber('id')->name('ank.diary.comment.edit.id')->middleWare('auth');
+Route::match(['get', 'post'], 'ank/diary/comment/edit/{id}.html', 'AnkController@editDiaryComment')->whereNumber('id')->name('ank.diary.comment.edit.id')->middleWare('auth');
 Route::match(['get', 'post'], 'ank/diary/comment/delete/{id}.html', 'AnkController@delDiaryComment')->whereNumber('id')->name('ank.diary.comment.delete.id')->middleWare('auth');
+Route::match(['get', 'post'], 'ank/diary/comment/delete/photo/{id}.html', 'AnkController@delDiaryPhoto')->whereNumber('id')->name('ank.diary.comment.delete.photo.id')->middleWare('auth');
 Route::get('ank/diary/{id}.html', 'AnkController@getDiary')->whereNumber('id')->name('ank.diary.id');
 Route::post('ank/diary/add.html', 'AnkController@addDiary')->name('ank.diary.add')->middleWare('auth');
 Route::post('ank/diary/comment/{id}/add.html', 'AnkController@addDiaryComment')->whereNumber('id')->name('ank.diary.comment.add')->middleWare('auth');
