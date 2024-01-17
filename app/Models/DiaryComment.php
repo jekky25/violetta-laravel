@@ -47,7 +47,7 @@ class DiaryComment extends Model
 
 	public function getAddTimeAttribute ($val)
 	{
-		return date("d.m.y H:i", $this->comment_time);
+		return is_numeric($this->comment_time) ? date("d.m.y H:i", $this->comment_time) : $this->comment_time;
 	}
 
 	public function getPictureUrlAttribute ($val)

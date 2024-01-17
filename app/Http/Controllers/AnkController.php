@@ -559,7 +559,6 @@ class AnkController extends Controller
 
 		$page 				= $comments->currentPage();
 		$pagination 		= Helper::preparePagination ($comments->toArray()['links']);
-
 		return response()->view ('ankets.comments',
 		[
 			'userData'		=> $diary->user,
@@ -650,7 +649,7 @@ class AnkController extends Controller
 		if (empty ($user) ||  $id == 0) abort (404);
 		$comment 			= DiaryComment::getByUserAndId($id, $user->user_id);
 		if (empty ($comment)) abort (404);
-		/*
+
 		$arParams					= $request->post();
 		$files 						= $request->file();
 
@@ -673,23 +672,19 @@ class AnkController extends Controller
 	
 			if (!empty($arParams['photo_link']))
 			{
-				$picture = Helper::fotoUpload($arParams['photo_link'], 0, 'img/dnevnik/');
+				$picture = Helper::fotoUpload($arParams['photo_link'], 0, 'img/dnev_comment/');
 			}
 	
-	
-			$diary->dnevniki_title		= $title;
-			$diary->dnevniki_text		= $description;
-			$diary->dnevniki_picture	= !empty ($picture) ? $picture : $diary->dnevniki_picture;
+			$comment->comment_title		= $title;
+			$comment->comment_text		= $description;
+			$comment->comment_picture	= !empty ($picture) ? $picture : $comment->comment_picture;
 
-			$diary->update();
+			$comment->update();
 
-			return redirect()->route('ank.diary.id', $user->user_id)
-				->with('success','Дневник был обновлен')
+			return redirect()->route('ank.diary.comments', $comment->comment_dnevnik_id)
+				->with('success','Комментарий был обновлен')
 				->withInput();
-
 		}
-
-		*/
 
 		$comment->title	= old('title')	 		? old('title') 			: stripslashes ($comment->comment_title);
 		$comment->text	= old('description') 	? old('description') 	: $comment->comment_text;
