@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('privmsg', 'NoContoller@index')->name('privmsg');
-
 Route::get('registration/edit/photo', 'NoContoller1@index')->name('registration.edit.photo');
 Route::get('registration/edit/diary/{id}.html', 'NoContoller2@index')->whereNumber('id')->name('registration.edit.diary.id');
 Route::get('registration/delete/diary/{id}.html', 'NoContoller3@index')->whereNumber('id')->name('registration.delete.diary.id');
@@ -25,6 +23,7 @@ Route::get('registration/edit', 'NoContoller7@index')->name('registration.edit')
 Route::get('registration/views', 'NoContoller8@index')->name('registration.views');
 Route::get('registration', 'NoContoller9@index')->name('registration');
 
+Route::get('privmsg', 'PrivmsgContoller@index')->name('privmsg')->middleWare('auth');
 Route::get('privmsg/post/{id}.html', 'NoContoller10@index')->whereNumber('id')->name('privmsg.post.id');
 
 
