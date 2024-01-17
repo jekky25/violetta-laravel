@@ -643,6 +643,35 @@ class AnkController extends Controller
 		Helper::outMessageInfo($title, $text, $confirmAction);
 	}
 
+	public function delDiaryCommentPhoto (Request $request, $id)
+	{
+		$user 			= Auth::user();
+		if (empty ($user) ||  $id == 0) abort (404);
+		$comment 			= DiaryComment::getByUserAndId($id, $user->user_id);
+		if (empty ($comment)) abort (404);
+
+		$arParams 		= $request->post();
+
+		if ( !empty($arParams['cancel']) ) {
+			return redirect()->route ('ank.diary.comment.edit.id', $id);
+		}
+
+		if ( !empty($arParams['confirm']) ) {
+			if (!empty($comment->picture_url) && file_exists($comment->picture_url))
+			{
+				unlink($comment->picture_url);
+			}
+			$comment->comment_picture = 0;
+			$comment->update();
+			return redirect()->route ('ank.diary.comment.edit.id', $id);
+		}
+
+		$title 			= 'Информация';
+		$text 			= 'Вы уверены, что хотите удалить это фото<br /><br />';
+		$confirmAction 	= route ('ank.diary.comment.delete.photo.id', $id);
+		Helper::outMessageInfo($title, $text, $confirmAction);
+	}
+
 	public function editDiaryComment (Request $request, $id)
 	{
 		$user 			= Auth::user();
