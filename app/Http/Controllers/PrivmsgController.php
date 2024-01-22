@@ -47,5 +47,26 @@ class PrivmsgController extends Controller
 			'pagination'	=> $pagination
 		]);
     }
+
+	public function delete(Request $request)
+    {
+		$arParams 		= $request->post();
+
+		if (empty($arParams['mark'])) return redirect()->back()->withInput();
+		$markList		= $arParams['mark'];
+
+		$title 			= 'Информация';
+		$text 			= 'Вы уверены, что хотите удалить сообщения этих пользователей?<br /><br />';
+		$confirmAction 	= route ('privmsg');
+		$hidden			= '';
+
+		foreach ($markList as $item) 
+		{
+			$hidden .= '<input type="hidden" name="mark[]" value="' . intval($item) . '" />';
+		}
+
+		Helper::outMessageInfo($title, $text, $confirmAction, $hidden);
+	}
+
 }
 

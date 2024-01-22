@@ -24,7 +24,7 @@ Route::get('registration/views', 'NoContoller8@index')->name('registration.views
 Route::get('registration', 'NoContoller9@index')->name('registration');
 
 Route::get('privmsg', 'PrivmsgController@index')->name('privmsg')->middleWare('auth');
-Route::get('privmsg/delete.html', 'NoContoller20@index')->name('privmsg.delete')->middleWare('auth');
+Route::post('privmsg/delete.html', 'PrivmsgController@delete')->name('privmsg.delete')->middleWare('auth');
 Route::get('privmsg/post/{id}.html', 'NoContoller10@index')->whereNumber('id')->name('privmsg.post.id');
 
 

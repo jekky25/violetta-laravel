@@ -15,6 +15,7 @@
 					<td align="center" bgcolor="#fcfbd6" style="border: #fe5804 1px solid;">
 						<form name="anket" action="{{ $confirmAction }}" method="POST">
 							{{ csrf_field() }}
+							@if (!empty($hidden)){!!$hidden!!}@endif
 							<span class="name">{!! $msgText !!}
 								<input type="submit" name="confirm" value="Да" style="width:50px">&nbsp;&nbsp;&nbsp;
 								<input type="submit" name="cancel" value="Нет" style="width:50px">
