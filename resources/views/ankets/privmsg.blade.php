@@ -4,6 +4,7 @@
 <h1 class="mTit">Мои сообщения</h1>
 @if (!empty ($messages))
 <form name="anketa" action="{{route('privmsg.delete')}}" method="post">
+	{{ csrf_field() }}
 	<table class="Usermess">
 		<thead>
 			<td class="UsermessCol1"><input type="checkbox" onclick="selectCheckBoxs(this, 'mark');" name="selectall" /></td>
