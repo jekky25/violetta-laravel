@@ -687,13 +687,14 @@ class Helper {
 	}
 
 	//Выводит сообщения ошибок и информации новая
-	function outMessageInfo($title, $text, $confirmAction)
+	function outMessageInfo($title, $text, $confirmAction, $hidden = '')
 	{
 		return response()->view ('mess_die.confirm',
 		[
 			'msgTitle' 		=> $title,
 			'msgText'		=> $text,
-			'confirmAction' => $confirmAction
+			'confirmAction' => $confirmAction,
+			'hidden'		=> $hidden
 		])->send();
 	}
 
