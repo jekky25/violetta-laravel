@@ -167,6 +167,12 @@ class MetaServiceProvider extends ServiceProvider
 						<meta name="Keywords" content="' . $userData->city->name . ', ' . $userData->user_age_str . ', ' . $userData->user_name . ', сайт знакомств">';
 					break;
 
+				case 'privmsg':
+					$pageTitle = 'Мои сообщения, бесплатные знакомства, Сайт знакомств Виолетта';
+					$pageMeta = '<meta name="Description" content="Мои сообщения, бесплатные знакомства">
+								<meta name="Keywords" content="сайт знакомств">';
+					break;
+
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
 				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
