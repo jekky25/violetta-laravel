@@ -231,10 +231,18 @@ class User extends Authenticatable
 		if (empty ($item)) abort (404);
 		return $item;
 	}
-	public function getJustById($id)
+	public function getJustById($id, $width = [])
 	{
 		$item = self::select('*')
-		->where ('user_id', $id)->first();
+		->where ('user_id', $id);
+		if (!empty ($width))
+		{
+			foreach ($width as $w)
+			{
+				$item->with($w);
+			}
+		}
+		$item = $item->first();
 		if (empty ($item)) abort (404);
 		return $item;
 	}
@@ -364,9 +372,21 @@ class User extends Authenticatable
 		return str_replace("\n", "\n<br />\n", $val);
 	}
 
+	public function getPhotoIdAttribute ($val)
+	{
+		if (empty ($this->photo)) return null;
+		return !empty($this->photo->fotos_id) ? $this->photo->fotos_id : null;
+	}
+
 	public function getUserClassAAttribute ()
 	{
 		return $this->user_sex == MEN ? 'name_man' : 'name_woman';
+	}
+
+	public function getNameClassAttribute ()
+	{
+		return  $this->user_sex == MEN ? 'name_man' : 'name_woman';
+		
 	}
 
 	public function isAboutPartner()
