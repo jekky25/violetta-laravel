@@ -24,13 +24,6 @@ class Message extends Model
 
 	public function getAll($id, $count)
 	{
-		$case = 'CASE
-					WHEN user_otprav = 1
-						THEN user_poluchil
-					WHEN user_poluchil = 1
-						THEN user_otprav
-				END as user_id';
-
 		$items = self::selectRaw(
 				'*,
 				CASE
@@ -52,6 +45,35 @@ class Message extends Model
 		})
 		->groupBy ('user_id')
 		->orderBy('time', 'desc')
+		->paginate($count);
+
+		if (empty ($items)) return null;
+		return $items;
+	}
+
+	public function getAllByUser($userId, $userAuthId, $count)
+	{
+		$items = self::selectRaw(
+				'*,
+				CASE
+						WHEN user_otprav = ' . $userAuthId . ' 
+							THEN user_poluchil
+						WHEN user_poluchil = ' . $userAuthId . ' 
+							THEN user_otprav 
+					END as user_id')
+		->where(function ($query) use ($userAuthId, $userId)
+		{
+			$query->where('user_otprav', $userAuthId);
+			$query->where('user_poluchil', $userId);
+			$query->where('user_otprav_del', 0);
+		})
+		->Orwhere (function ($query) use ($userAuthId, $userId) 
+		{
+			$query->where('user_poluchil', $userAuthId);
+			$query->where('user_otprav', $userId);
+			$query->where('user_poluchil_del', 0);
+		})
+		->orderBy('time', 'asc')
 		->paginate($count);
 
 		if (empty ($items)) return null;
