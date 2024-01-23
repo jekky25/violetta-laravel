@@ -55,9 +55,13 @@ class PrivmsgController extends Controller
 		if (empty($arParams['mark'])) return redirect()->back()->withInput();
 		$markList		= $arParams['mark'];
 
+		if ( !empty($arParams['cancel']) ) {
+			return redirect()->route ('privmsg');
+		}
+
 		$title 			= 'Информация';
 		$text 			= 'Вы уверены, что хотите удалить сообщения этих пользователей?<br /><br />';
-		$confirmAction 	= route ('privmsg');
+		$confirmAction 	= route ('privmsg.delete');
 		$hidden			= '';
 
 		foreach ($markList as $item) 
