@@ -243,7 +243,7 @@ class User extends Authenticatable
 			}
 		}
 		$item = $item->first();
-		if (empty ($item)) abort (404);
+		if (empty ($item)) return null;
 		return $item;
 	}
 	public function getProperty($item, $k)

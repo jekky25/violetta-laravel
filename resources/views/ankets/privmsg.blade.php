@@ -14,6 +14,7 @@
 			<td class="UsermessCol5">Последнее сообщение</td>
 		</thead>
 		@foreach ($messages as $item)
+		@if (!empty ($item->user_mes))
 		<tr @if ($loop->index % 2 == 0)class="pinkRow"@endif>
 			<td class="UsermessCol1"><input type="checkbox" name="mark[]" value="{{ $item->user_id }}" /></td>
 			<td class="UsermessCol2"><a class="ankFotosPics" href="{{route('ank.id', $item->user_id)}}"><img alt="{{ $item->user_mes->user_name }},{{ $item->user_mes->user_age_str }},{{ $item->user_mes->city->name }}" src="{{ App\Helpers\Helper::outPicture($item->photo_main, $item->user_mes->user_sex) }}" /></a></td>
@@ -21,6 +22,7 @@
 			<td class="UsermessCol4"><img alt="Написать сообщение" src="{{ asset('image/mail.png') }}" /><a @if ($item->mess_new > 0) class="newMessage"@endif href="{{route('privmsg.post.id', $item->user_id)}}">сообщений: {{ $item->count_messages }}</a></td>
 			<td class="UsermessCol5"><span>{{ $item->last_date }}</span></td>
 		</tr>
+		@endif
 		@endforeach
 	</table>
 	@include('pagination', ['items' => $messages])
