@@ -10,8 +10,11 @@ class Message extends Model
 {
 	use HasFactory;
 
-	protected $table = 'user_messages';
+	protected $table 		= 'user_messages';
 	protected $user;
+
+	public $timestamps 		= false;
+	protected $primaryKey 	= 'message_id';
 
 	public function __construct()
     {
@@ -42,7 +45,8 @@ class Message extends Model
 			$query->where('user_otprav', $id);
 			$query->where('user_otprav_del', 0);
 		})
-		->Orwhere (function ($query) use ($id) {
+		->Orwhere (function ($query) use ($id) 
+		{
 			$query->where('user_poluchil', $id);
 			$query->where('user_poluchil_del', 0);
 		})
@@ -51,6 +55,23 @@ class Message extends Model
 		->paginate($count);
 
 		if (empty ($items)) return null;
+		return $items;
+	}
+
+	public function getForUser($userId, $userAuthId)
+	{
+		$items = self::select('*')
+		->where(function ($query) use ($userId, $userAuthId)
+		{
+			$query->where('user_otprav', $userId);
+			$query->where('user_poluchil', $userAuthId);
+		})
+		->Orwhere (function ($query) use ($userId, $userAuthId) 
+		{
+			$query->where('user_poluchil', $userId);
+			$query->where('user_otprav', $userAuthId);
+		})
+		->get();
 		return $items;
 	}
 

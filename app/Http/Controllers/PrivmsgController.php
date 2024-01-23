@@ -36,7 +36,7 @@ class PrivmsgController extends Controller
 		$user 			= Auth::user();
 		if (empty ($user)) abort (404);
 
-		$messages 		= Message::getAll($user->user_id, self::$messagePerPage)/*->toArray()*/;
+		$messages 			= Message::getAll($user->user_id, self::$messagePerPage);
 
 		$page 				= $messages->currentPage();
 		$pagination 		= Helper::preparePagination ($messages->toArray()['links']);
@@ -50,12 +50,39 @@ class PrivmsgController extends Controller
 
 	public function delete(Request $request)
     {
+		$user 			= Auth::user();
+		if (empty ($user)) abort (404);
 		$arParams 		= $request->post();
 
 		if (empty($arParams['mark'])) return redirect()->back()->withInput();
 		$markList		= $arParams['mark'];
 
 		if ( !empty($arParams['cancel']) ) {
+			return redirect()->route ('privmsg');
+		}
+
+		if ( !empty($arParams['confirm']) ) {
+			foreach ($markList as $userId) 
+			{
+				$messages = Message::getForUser($userId, $user->user_id);
+
+				if (count ($messages) > 0)
+				{
+					foreach ($messages as $item)
+					{
+						if ($item->user_poluchil == $user->user_id)
+						{
+							$item->user_poluchil_del 	= 1;
+						}
+
+						if ($item->user_otprav == $user->user_id)
+						{
+							$item->user_otprav_del 		= 1;
+						}
+						$item->update();
+					}
+				}
+			}
 			return redirect()->route ('privmsg');
 		}
 
