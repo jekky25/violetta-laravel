@@ -22,7 +22,7 @@ function vote(score)
 		<li><a class="ankFotosPics" href="{{route('ank.photo.photo_id', $item->fotos_id)}}"><img src="{{ App\Helpers\Helper::outPicture($item->fotos_id, $userData->user_sex) }}" /></a></li>
         @endforeach
 	@else
-		<li><p class="ankFotosPics">@if ($userData->user_sex == MEN)<img src="{{ asset('image/no_foto_m_vip.jpg') }}" />@else<img src="{{ asset('image/no_foto_w_vip.jpg') }}" /></p></li>@endif
+		<li><p class="ankFotosPics">@if ($userData->user_sex == MEN)<img src="{{ asset('image/no_foto_m_vip.jpg') }}" />@else<img src="{{ asset('image/no_foto_w_vip.jpg') }}" />@endif</p></li>
 	@endif
 		<li>
 			<p><strong>Город:</strong> {{ $userData->city->name }} ({{ $userData->country->name }})</p>
