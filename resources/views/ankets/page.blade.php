@@ -18,6 +18,7 @@ function vote(score)
 <ul id="ankFotos" class="clear">
     @if ($userData->user_fotos > 0)
         @foreach ($userData->photo as $item)
+		@if ($loop->iteration > 3) @continue @endif
 		<li><a class="ankFotosPics" href="{{route('ank.photo.photo_id', $item->fotos_id)}}"><img src="{{ App\Helpers\Helper::outPicture($item->fotos_id, $userData->user_sex) }}" /></a></li>
         @endforeach
 	@else
@@ -80,7 +81,7 @@ function vote(score)
 		<fieldset class="mono">
 			<dl>
 				<dt>Обо мне:</dt>
-				<dd>{{ $userData->user_description }}
+				<dd>{!! $userData->user_description !!}
 				</dd>
 			</dl>
 		</fieldset>
@@ -180,7 +181,7 @@ function vote(score)
 	<fieldset class="mono"><dl><dt>Интересы:</dt><dd>{{ $userData->interests_out }}</dd></dl></fieldset>
 	@endif
 	@if (!empty($userData->user_partner_description))
-	<fieldset class="mono"><dl><dt>Хочу найти:</dt><dd>{{ $userData->user_partner_description }}</dd></dl></fieldset>
+	<fieldset class="mono"><dl><dt>Хочу найти:</dt><dd>{!! $userData->user_partner_description !!}</dd></dl></fieldset>
 	@endif
 	<div class="clear"></div>
 	@if ($isAboutPartner === true)
@@ -230,8 +231,8 @@ function vote(score)
 	@if (!empty($userData->user_icq) || !empty($userData->user_phone) || !empty($userData->user_url))
 	<fieldset>
 		@if (!empty($userData->user_icq))<dl><dt>Моя Аська:</dt><dd>@auth {{ $userData->user_icq }}@else вы не зарегистрированы@endauth</dd></dl>@endif
-		@if (!empty($userData->user_phone))<dl><dt>Моя телефон:</dt><dd>@auth {{$userData->user_phone }}@else вы не зарегистрированы@endauth</dd></dl>@endif
-		@if (!empty($userData->user_url))<dl><dt>Моя сайт:</dt><dd>@auth {{ $userData->user_url }}@else вы не зарегистрированы@endauth</dd></dl>@endif
+		@if (!empty($userData->user_phone))<dl><dt>Мой телефон:</dt><dd>@auth {{$userData->user_phone }}@else вы не зарегистрированы@endauth</dd></dl>@endif
+		@if (!empty($userData->user_url))<dl><dt>Мой сайт:</dt><dd>@auth {{ $userData->user_url }}@else вы не зарегистрированы@endauth</dd></dl>@endif
 	</fieldset>
 	<div class="clear"></div>
 	@endif
