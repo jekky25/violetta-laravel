@@ -106,8 +106,15 @@ class PrivmsgController extends Controller
 	public function deletePost(Request $request, $id)
 	{
 		$user 			= Auth::user();
-		if (empty ($user)) abort (404);
+		$message 		= Message::getById($id);
+
+		if (empty ($user) or empty($message)) abort (404);
 		$arParams 		= $request->post();
+		$user_id 		= $message->user_otprav == $user->user_id ? $message->user_poluchil : $message->user_otprav;
+
+		if ( !empty($arParams['cancel']) ) {
+			return redirect()->route ('privmsg.post', $user_id);
+		}
 
 		$title 			= 'Информация';
 		$text 			= 'Вы уверены, что хотите удалить это сообщение?<br /><br />';

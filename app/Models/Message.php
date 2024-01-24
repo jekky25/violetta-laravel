@@ -97,6 +97,15 @@ class Message extends Model
 		return $items;
 	}
 
+	public function getById($id)
+	{
+		$item = self::select('*')
+		->where('message_id', $id)
+		->first();
+
+		return $item;
+	}
+
 	public function getUserIdAttribute ($val)
 	{
 		if (!empty ($val) or empty($this->user)) return $val;
