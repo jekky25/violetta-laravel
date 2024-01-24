@@ -168,6 +168,7 @@ class MetaServiceProvider extends ServiceProvider
 					break;
 
 				case 'privmsg':
+				case 'privmsg.post':
 					$pageTitle = 'Мои сообщения, бесплатные знакомства, Сайт знакомств Виолетта';
 					$pageMeta = '<meta name="Description" content="Мои сообщения, бесплатные знакомства">
 								<meta name="Keywords" content="сайт знакомств">';
