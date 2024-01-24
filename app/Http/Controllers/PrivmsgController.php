@@ -103,6 +103,18 @@ class PrivmsgController extends Controller
 		Helper::outMessageInfo($title, $text, $confirmAction, $hidden);
 	}
 
+	public function deletePost(Request $request, $id)
+	{
+		$user 			= Auth::user();
+		if (empty ($user)) abort (404);
+		$arParams 		= $request->post();
+
+		$title 			= 'Информация';
+		$text 			= 'Вы уверены, что хотите удалить это сообщение?<br /><br />';
+		$confirmAction 	= route ('privmsg.post.delete', $id);
+		Helper::outMessageInfo($title, $text, $confirmAction);
+	}
+
 	public function getAnkMess(Request $request, $id)
     {
 		$user 			= Auth::user()->load(['visits']);

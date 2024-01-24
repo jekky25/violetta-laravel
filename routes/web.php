@@ -25,8 +25,8 @@ Route::get('registration', 'NoContoller9@index')->name('registration');
 
 Route::get('privmsg', 'PrivmsgController@index')->name('privmsg')->middleWare('auth');
 Route::post('privmsg/delete.html', 'PrivmsgController@delete')->name('privmsg.delete')->middleWare('auth');
-Route::get('privmsg/post/{id}.html', 'PrivmsgController@getAnkMess')->whereNumber('id')->name('privmsg.post');
-Route::get('privmsg/post/delete/{id}.html', 'NoContoller9@index')->whereNumber('id')->name('privmsg.post.delete');
+Route::get('privmsg/post/{id}.html', 'PrivmsgController@getAnkMess')->whereNumber('id')->name('privmsg.post')->middleWare('auth');;
+Route::match(['get', 'post'], 'privmsg/post/delete/{id}.html', 'PrivmsgController@deletePost')->whereNumber('id')->name('privmsg.post.delete')->middleWare('auth');
 Route::post('privmsg/post/add/{id}.html', 'NoContoller9@index')->whereNumber('id')->name('privmsg.post.add');
 
 
