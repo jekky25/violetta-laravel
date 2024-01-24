@@ -4,17 +4,22 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Helper;
 
 use App\Models\Message;
+use App\Models\User;
+use App\Models\AnketEvaluation;
+use App\Models\Smile;
 
 class PrivmsgController extends Controller
 {
 
-	public static $messagePerPage 	= 10;
+	public static $messagePerPage 		= 10;
+	public static $messageAnkPerPage 	= 30;
 
     /**
      * Create a new controller instance.
@@ -40,7 +45,6 @@ class PrivmsgController extends Controller
 
 		$page 				= $messages->currentPage();
 		$pagination 		= Helper::preparePagination ($messages->toArray()['links']);
-
 		return response()->view ('ankets.privmsg',
 		[
 			'messages' 		=> $messages,
@@ -97,6 +101,65 @@ class PrivmsgController extends Controller
 		}
 
 		Helper::outMessageInfo($title, $text, $confirmAction, $hidden);
+	}
+
+	public function getAnkMess(Request $request, $id)
+    {
+		$user 			= Auth::user()->load(['visits']);
+		$anket 			= User::getById ($id);
+		$messages 		= Message::getAllByUser($id, $user->user_id, self::$messageAnkPerPage);
+		$vote 			= isset ($request->golos) ? (int)$request->golos : 0;
+		$vote 			= $vote > 5 ? 5 : $vote;
+
+		$page 			= $messages->currentPage();
+		$pagination 	= Helper::preparePagination ($messages->toArray()['links']);
+		$smiles			= Smile::getAll();
+
+		$affectedRows	= AnketEvaluation::getEvaluations($user->user_id, $id);
+
+		if (count ($affectedRows) == 0) 
+		{
+			if ($request->has('send_golos') && $vote > 0) 
+			{
+				if ($user->user_id != $id)
+				{
+					$aFields = [
+						'user_id'			=> $user->user_id,
+						'user_id_ocenka'	=> $id,
+						'ball'				=> $vote,
+						'time'				=> time()
+					];
+		
+					$oAnketEvaluation = new AnketEvaluation ($aFields);
+					$oAnketEvaluation->save();
+
+					$ankEvaluationed = true;
+				}
+
+				$voteSum = AnketEvaluation::getSum ($id);
+				if ($voteSum > 0)
+				{
+					$anket = User::getJustById($id);
+					$anket->user_reiting = $voteSum;
+					$anket->update();
+				}
+				return redirect()->route(Route::currentRouteName(), $id)->with('success','Спасибо. Ваш голос учтен.');
+			}
+			
+		} else 
+		{
+			$ankEvaluationed = true;
+		}
+
+		return response()->view ('ankets.privmsg_id',
+		[
+			'userData'			=> $user,
+			'anketUserData'		=> $anket,
+			'ankEvaluationed' 	=> isset($ankEvaluationed) ? $ankEvaluationed : false,
+			'messages'			=> $messages,
+			'pagination'		=> $pagination,
+			'smiles'			=> $smiles
+		]);
 	}
 
 }
