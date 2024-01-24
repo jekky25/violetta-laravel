@@ -32,7 +32,7 @@ function vote(score)
 				<tr>
 					<td class="pad11">
 						<p class="pad1">
-							<a href="{{route('privmsg.post.id', $userData->user_id)}}" title="Написать сообщение"><img alt="Написать сообщение" src="{{ asset('image/mail.png') }}" /></a>
+							<a href="{{route('privmsg.post', $userData->user_id)}}" title="Написать сообщение"><img alt="Написать сообщение" src="{{ asset('image/mail.png') }}" /></a>
 							@include('social')
 						</p>
 					</td>
