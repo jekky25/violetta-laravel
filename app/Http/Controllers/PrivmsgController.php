@@ -116,6 +116,18 @@ class PrivmsgController extends Controller
 			return redirect()->route ('privmsg.post', $user_id);
 		}
 
+		if ( !empty($arParams['confirm']) ) {
+			if ($message->user_otprav == $user->user_id) 
+			{
+				$message->user_otprav_del = 1;
+			} else 
+			{
+				$message->user_poluchil_del = 1;
+			}
+			$message->update();
+			return redirect()->route ('privmsg.post', $user_id);
+		}
+
 		$title 			= 'Информация';
 		$text 			= 'Вы уверены, что хотите удалить это сообщение?<br /><br />';
 		$confirmAction 	= route ('privmsg.post.delete', $id);
