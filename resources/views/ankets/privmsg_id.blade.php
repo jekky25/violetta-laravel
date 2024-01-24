@@ -2,40 +2,40 @@
 @section('title', $title)
 @section('main_body')
 <h1 class="mTit">Мои сообщения</h1>
-@if (!empty($userData))
+@if (!empty($anketUserData))
 <script language="JavaScript" type="text/javascript">
 function vote(score)
 {
-	var url = '{{route(Route:: currentRouteName(), [$userData->user_id, 'send_golos' => 1 ])}}';
+	var url = '{{route(Route:: currentRouteName(), [$anketUserData->user_id, 'send_golos' => 1 ])}}';
 	url += '&golos='+score;
 	window.location = url;
 	return false;
 }
-</script>			
+</script>
 <ul id="ankFotos" class="clear">
-    @if ($userData->user_fotos > 0)
-        @foreach ($userData->photo as $item)
+    @if ($anketUserData->user_fotos > 0)
+        @foreach ($anketUserData->photo as $item)
 		@if ($loop->iteration > 1) @continue @endif
-		<li><a class="ankFotosPics" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ App\Helpers\Helper::outPicture($item->fotos_id, $userData->user_sex) }}" /></a></li>
+		<li><a class="ankFotosPics" href="{{route('ank.id', $anketUserData->user_id)}}"><img src="{{ App\Helpers\Helper::outPicture($item->fotos_id, $anketUserData->user_sex) }}" /></a></li>
         @endforeach
 	@else
-		<li><a class="ankFotosPics" href="{{route('ank.id', $userData->user_id)}}">@if ($userData->user_sex == MEN)<img src="{{ asset('image/no_foto_m_vip.jpg') }}" />@else<img src="{{ asset('image/no_foto_w_vip.jpg') }}" />@endif</a></li>
+		<li><a class="ankFotosPics" href="{{route('ank.id', $anketUserData->user_id)}}">@if ($anketUserData->user_sex == MEN)<img src="{{ asset('image/no_foto_m_vip.jpg') }}" />@else<img src="{{ asset('image/no_foto_w_vip.jpg') }}" />@endif</a></li>
 	@endif
 		<li>
-			<p><strong>Город:</strong> {{ $userData->city->name }} ({{ $userData->country->name }})</p>
-			<p><strong>Возраст:</strong> {{ $userData->user_age_str }}</p>
-			<p><strong>Знак зодиака:</strong> <a href="{{route('goroskop.id', $userData->zodiac['zodiac_id'])}}" title="Узнайте свой Зодиак">{{$userData->zodiac['zodiac_text']}}</a></p>
-			<p>{{ $userData->user_last_visit }}</p>
-			<p>Просмотров за месяц: {{ $userData->ankVisits }}</p>
+			<p><strong>Город:</strong> {{ $anketUserData->city->name }} ({{ $anketUserData->country->name }})</p>
+			<p><strong>Возраст:</strong> {{ $anketUserData->user_age_str }}</p>
+			<p><strong>Знак зодиака:</strong> <a href="{{route('goroskop.id', $anketUserData->zodiac['zodiac_id'])}}" title="Узнайте свой Зодиак">{{$anketUserData->zodiac['zodiac_text']}}</a></p>
+			<p>{{ $anketUserData->user_last_visit }}</p>
+			<p>Просмотров за месяц: {{ $anketUserData->ankVisits }}</p>
 			<table>
 				<tr>
 					<td><p>Рейтинг:</p></td>
 					<td class="wth4">
 						<div class="div-rating2">
 							<ul class="div-rating">
-								<li class="current-rating" style="width:{{ $userData->user_reiting_str }}px;">&nbsp;</li>
+								<li class="current-rating" style="width:{{ $anketUserData->user_reiting_str }}px;">&nbsp;</li>
 								@auth
-									@if ($user->user_id != $userData->user_id && !$ankEvaluationed)
+									@if ($userData->user_id != $anketUserData->user_id && !$ankEvaluationed)
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("1");' title='Очень плохо' class="r1-unit rater">Очень плохо</a></li>
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("2");' title='Плохо' class="r2-unit rater">Плохо</a></li>
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("3");' title='Средне' class="r3-unit rater">Средне</a></li>
