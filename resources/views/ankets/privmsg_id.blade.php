@@ -89,7 +89,7 @@ function vote(score)
 @if (!empty ($errors->comment->all()))
 	<div class="error">
 @foreach ($errors->comment->all() as $message)
-		<p>{{ $message }}</p>
+		<p>{!! $message !!}</p>
 @endforeach
 	</div>
 @endif

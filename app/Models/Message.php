@@ -138,6 +138,15 @@ class Message extends Model
 		return $messages;
 	}
 
+	public function getbyTimeByUser($id)
+	{
+		$items = self::select('*')
+		->where('user_otprav', $id)
+		->where('time', '>', (time() - 5*60))
+		->get();
+		return $items;
+	}
+
 	public function getUserIdAttribute ($val)
 	{
 		if (!empty ($val) or empty($this->user)) return $val;
