@@ -184,13 +184,14 @@ class PrivmsgController extends Controller
 
 		if (count($messages) > 0)
 		{
-			foreach ($messages as $item)
+			foreach ($messages as &$item)
 			{
 				if ($item->mess_new == 1 && $item->user_poluchil == $user->user_id)
 				{
 					$item->mess_new = 0;
 					$item->update();
 				}
+				$item->privmess_text = Helper::transformSmiles ($item->privmess_text, $smiles);
 			}
 		}
 

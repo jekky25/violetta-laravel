@@ -710,4 +710,13 @@ class Helper {
 			'hidden'		=> $hidden
 		])->send();
 	}
+
+	function transformSmiles ($str, $smiles)
+	{
+		if (empty ($smiles)) return $str;
+		foreach ($smiles as $_smile) {
+			$str = str_replace ($_smile->smile_code, '<img class="messBSmile" src="' . asset('image/smiles/' . $_smile->smile_img) . '" alt="" />', $str);
+		}
+		return $str;
+	}
 }
