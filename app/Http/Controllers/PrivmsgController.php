@@ -42,7 +42,7 @@ class PrivmsgController extends Controller
 		if (empty ($user)) abort (404);
 
 		$messages 			= Message::getAll($user->user_id, self::$messagePerPage);
-
+		$messages			= Message::getNewsByUsers($messages, $user);
 		$page 				= $messages->currentPage();
 		$pagination 		= Helper::preparePagination ($messages->toArray()['links']);
 		return response()->view ('ankets.privmsg',
@@ -180,6 +180,18 @@ class PrivmsgController extends Controller
 		} else 
 		{
 			$ankEvaluationed = true;
+		}
+
+		if (count($messages) > 0)
+		{
+			foreach ($messages as $item)
+			{
+				if ($item->mess_new == 1 && $item->user_poluchil == $user->user_id)
+				{
+					$item->mess_new = 0;
+					$item->update();
+				}
+			}
 		}
 
 		return response()->view ('ankets.privmsg_id',

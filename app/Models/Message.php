@@ -106,6 +106,38 @@ class Message extends Model
 		return $item;
 	}
 
+	function getNewsByUsers ($messages, $user)
+	{
+		if (count ($messages) == 0) return $messages;
+		$users = [];
+		foreach ($messages as $item)
+		{
+			$users[] = $item->user_id;
+		}
+
+		if (!empty($users))
+		{
+			$items = self::select('*')
+			->where('user_poluchil', $user->user_id)
+			->whereIn('user_otprav', $users)
+			->where('mess_new', 1)
+			->get();
+		}
+		foreach ($messages as &$_message)
+		{
+			$_message->mess_new = 0;
+			foreach ($items as $item)
+			{
+				if ($_message->user_id == $item->user_otprav)
+				{
+					$_message->mess_new = $item->mess_new;
+					break;
+				}
+			}
+		}
+		return $messages;
+	}
+
 	public function getUserIdAttribute ($val)
 	{
 		if (!empty ($val) or empty($this->user)) return $val;
