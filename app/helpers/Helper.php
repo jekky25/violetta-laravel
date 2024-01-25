@@ -638,7 +638,12 @@ class Helper {
 		}
 	}
 
-
+	/**
+	 * creates image from the file
+	 * @param string $fileName
+	 *
+	 * @return resource|bool
+	*/
 	function read($fileName)
 	{
 		if(!file_exists($fileName))
@@ -686,7 +691,15 @@ class Helper {
 		return !empty ($srcIm) ? $srcIm : false;
 	}
 
-	//Выводит сообщения ошибок и информации новая
+	/**
+	 * print information page with confir or cancel
+	 * @param string $title
+	 * @param string $text
+	 * @param string $confirmAction 
+	 * @param string $hidden
+	 *
+	 * @return object
+	*/
 	function outMessageInfo($title, $text, $confirmAction, $hidden = '')
 	{
 		return response()->view ('mess_die.confirm',
@@ -697,5 +710,4 @@ class Helper {
 			'hidden'		=> $hidden
 		])->send();
 	}
-
 }
