@@ -243,6 +243,23 @@ class PrivmsgController extends Controller
 						->withInput();
 		}
 
+		$message = $arParams['message_text'];
+		$aFields = [
+			'user_otprav'				=> $user->user_id,
+			'user_poluchil'				=> $id,
+			'user_otprav_del'			=> 0,
+			'user_poluchil_del'			=> 0,
+			'time'						=> time(),
+			'mess_new'					=> 1,
+			'privmess_text'				=> str_replace("\'", "''", $message)
+		];
+
+		$oMessage = new Message($aFields);
+		$oMessage->save();
+
+		return redirect()->back()
+		->with('success','Сообщение успешно отправлено')
+		->withInput();
 	}
 
 }

@@ -16,11 +16,21 @@ class Message extends Model
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'message_id';
 
-	public function __construct()
-    {
-        if (empty($this->user)) 
-			$this->user	= Auth::user();
-    }
+	protected $fillable = [
+		'user_otprav',
+		'user_poluchil',
+		'user_otprav_del',
+		'user_poluchil_del',
+		'time',
+		'mess_new',
+		'privmess_text'
+    ];
+
+	public function __construct(array $attributes = []) {
+		parent::__construct($attributes);
+		if (empty($this->user)) 
+		$this->user	= Auth::user();
+	}
 
 	public function getAll($id, $count)
 	{
