@@ -1,5 +1,4 @@
 <?php
-
 return [
 
     /*
@@ -13,8 +12,13 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
+    //'default' => env('MAIL_MAILER', 'smtp'),
+    //'default' => env('MAIL_MAILER', 'sendmail'),
+    'default' => env('MAIL_MAILER', 'log'),
+    //'default' => env('MAIL_MAILER', 'mail'),
+    'mail_mode' => env('MAIL_MAILER', 'log'),
 
+    'email_main' => env('EMAIL_MAIN', 'support@avioletta.ru'),
     /*
     |--------------------------------------------------------------------------
     | Mailer Configurations
@@ -57,10 +61,17 @@ return [
             'transport' => 'postmark',
         ],
 
-        'sendmail' => [
+        'sendmail25' => [
             'transport' => 'sendmail',
-            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -t -i'),
+//            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -t -i'),
+            //'path' => env('MAIL_SENDMAIL', 'e:/ospanel_543/modules/sendmail/sendmail.exe -t -i'),
+            'path' => env('MAIL_SENDMAIL', '/usr/sbin/sendmail -bs'),
+            
         ],
+
+        //'sendmail' => env('MAIL_SENDMAIL', '/usr/sbin/sendmail -bs'),
+        //'sendmail' => env('MAIL_SENDMAIL', 'e:\ospanel_543\modules\sendmail\sendmail.exe -local'),
+        //MAIL_SENDMAIL='/usr/sbin/sendmail -t -i'
 
         'log' => [
             'transport' => 'log',

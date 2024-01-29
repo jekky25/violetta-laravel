@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Validator;
 use App\Helpers\Helper;
 
@@ -15,6 +16,7 @@ use App\Models\Message;
 use App\Models\User;
 use App\Models\AnketEvaluation;
 use App\Models\Smile;
+use App\Mail\Email;
 
 class PrivmsgController extends Controller
 {
@@ -22,6 +24,8 @@ class PrivmsgController extends Controller
 	public static $messagePerPage 		= 10;
 	public static $messageAnkPerPage 	= 30;
 	public static $messageSendLimit		= 10;
+	public static $siteUrl				= 'www.avioletta.ru';
+	public static $siteUrlWithProtocol	= 'http://www.avioletta.ru';
 
 
 	public static $rulesPost = [
@@ -223,7 +227,8 @@ class PrivmsgController extends Controller
 	public function addPost(Request $request, $id)
     {
 		$user 			= Auth::user();
-		if (empty ($user)) abort (404);
+		$anket 			= User::getJustById($id);
+		if (empty ($user) or empty ($anket)) abort (404);
 		$arParams 		= $request->post();
 
 
@@ -256,6 +261,22 @@ class PrivmsgController extends Controller
 
 		$oMessage = new Message($aFields);
 		$oMessage->save();
+
+		if ($user->dont_send_email != 1) {
+			$oMail = new \stdClass();
+			$oMail->emailTo 		= $anket->user_mail;
+			$oMail->emailFrom 		= config('mail.email_main');
+			$oMail->template 		= 'mails.notify';
+			$oMail->templateText 	= 'mails.txt.notify';
+			$oMail->name 			= $anket->user_name;
+			$oMail->sitename 		= '<a href="' . self::$siteUrlWithProtocol . '">' . self::$siteUrl . '</a>';
+			$oMail->sitenameNoTags	= self::$siteUrl;
+
+			Mail::mailer(config('mail.mail_mode'))
+        	->to($oMail->emailTo)
+        	->send(new Email($oMail));
+	
+		}
 
 		return redirect()->back()
 		->with('success','Сообщение успешно отправлено')
