@@ -28,8 +28,10 @@ class Email extends Mailable
 	 */
 	public function build()
 	{	$data = $this->data;
+		$subject = !empty($data->subject) ? $data->subject : '';
 		return $this->from(config('mail.email_main'))
 		->view($data->template)
+		->subject($subject)
 		->text($data->templateText)
 		->with(
 			[

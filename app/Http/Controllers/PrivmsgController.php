@@ -271,6 +271,7 @@ class PrivmsgController extends Controller
 			$oMail->name 			= $anket->user_name;
 			$oMail->sitename 		= '<a href="' . self::$siteUrlWithProtocol . '">' . self::$siteUrl . '</a>';
 			$oMail->sitenameNoTags	= self::$siteUrl;
+			$oMail->subject			= "Вам пришло новое сообщение на www.avioletta.ru";
 
 			Mail::mailer(config('mail.mail_mode'))
         	->to($oMail->emailTo)
