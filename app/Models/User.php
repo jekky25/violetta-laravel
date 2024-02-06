@@ -292,6 +292,21 @@ class User extends Authenticatable
 		return Helper::ageType($this->user_age);
 	}
 
+	public function getBirthDayAttribute ()
+	{
+		return Helper::selectFromDate($this->user_birth_date, DATE_DAY);
+	}
+
+	public function getBirthMonthAttribute ()
+	{
+		return Helper::selectFromDate($this->user_birth_date, DATE_MONTH);
+	}
+
+	public function getBirthYearAttribute ()
+	{
+		return Helper::selectFromDate($this->user_birth_date, DATE_YEAR);
+	}
+
 	public function getUserAgeStrAttribute ()
 	{
 		return $this->user_age .' ' . $this->user_age_type;
