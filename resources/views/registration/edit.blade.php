@@ -11,17 +11,21 @@
 @if (!empty ($errors->comment->all()))
 <h4 class="reg_title2">данные не сохранены, т. к. не все поля правильно заполнены</h4>
 @endif
-{if !empty($error.err_session)}
-<p class="blue2 pad1">{$error.err_session}</p>
-{/if}
 <p class="pad1"></p>					
 <form name="anketa" action="{{route('registration.edit')}}" method="post">
 {{ csrf_field() }}
 	<h4 class="menu_registration"><div>Имя</div></h4>
 		<p class="pad1 pad2">Укажите Ваше <strong>настоящее имя</strong>. Если вы его не помните, то придумайте псевдоним. Именно по нему (а не по Логину) вас будут узнавать на сайте.</p>
-{if !empty($error.err_name)}
-	<p class="blue2">{$error.err_name}</p>
-{/if}
+@if ($errors->comment->has('name'))
+	@foreach ($errors->comment->get('name') as $item)
+	<p class="blue2">{{ $item }}</p>
+	@endforeach
+@endif
+@if ($errors->comment->has('sex'))
+	@foreach ($errors->comment->get('sex') as $item)
+	<p class="blue2">{{ $item }}</p>
+	@endforeach
+@endif
 		<table class="sexRegForm">
 			<tr>
 				<td rowspan="2"><input class="input3" type="text" name="name" value="{{ old('name', $userData->user_name) }}" /></td>
@@ -62,9 +66,11 @@
 		<p class="pad2"></p>
 		<h4 class="menu_registration"><div>Место жительства</div></h4>
 		<p class="pad1 pad2">Укажите <strong>город, регион и страну</strong>, в которой вы живете. Это поможет другим пользователям сайта, которые тоже живут рядом с вами, быстрее вас найти.</p>
-		{if !empty($error.err_place)}
-			<p class="blue2">{$error.err_place}</p>
-		{/if}
+		@if ($errors->comment->has('city'))
+		@foreach ($errors->comment->get('city') as $item)
+		<p class="blue2">{{ $item }}</p>
+		@endforeach
+		@endif
 		<table class="cityRegForm">
 			<tr>
 				<td width="150">страна</td>
