@@ -796,4 +796,12 @@ class Helper {
   		preg_match("/^ *(([0-9]+)-([0-9]+)-([0-9]+)) *$/",$date,$pockets_old);
   		return $pockets_old[$mode];
 	}
+
+	//Вывод нужного формата даты
+	function getDateStr($day,$month,$year)
+	{
+		$day 	= $day < 10 	? "0$day" 	: $day;
+		$month 	= $month < 10 	? "0$month" : $month;
+		return "$year-$month-$day";
+	}
 }
