@@ -51,6 +51,47 @@ class Helper {
 	}
 
 	/**
+	 * make months of the year
+	 *
+	 * @return array
+	 */
+	public static function getMonths()
+	{
+		return [
+			0 	=> '-выберите-',
+			1 	=> 'Января',
+			2 	=> 'Февраля',
+			3 	=> 'Марта',
+			4 	=> 'Апреля',
+			5 	=> 'Мая',
+			6 	=> 'Июня',
+			7 	=> 'Июля',
+			8 	=> 'Августа',
+			9 	=> 'Сентября',
+			10	=> 'Октября',
+			11 	=> 'Ноября',
+			12 	=> 'Декабря'
+		];
+	}
+
+	/**
+	 * make a list of years
+	 *
+	 * @return array
+	 */
+	public static function getYears()
+	{
+		$years 		= [];
+		$today 		= getdate();
+		$todayYear 	= $today['year'];
+		
+		for ($i=1900; $i < ($todayYear - 17);$i++) {
+			$years [] = $i;
+		}
+		return $years;
+	}
+
+	/**
 	 * make range of heights
 	 *
 	 * @return array
@@ -740,5 +781,19 @@ class Helper {
 			$str = str_replace ($_smile->smile_code, '<img class="messBSmile" src="' . asset('image/smiles/' . $_smile->smile_img) . '" alt="" />', $str);
 		}
 		return $str;
+	}
+
+	/**
+	 * select a separate year, month or day from the date
+	 * 
+	 * @param string $date
+	 * @param integer $mode
+	 *
+	 * @return array
+	 */
+	function selectFromDate($date,$mode)
+	{
+  		preg_match("/^ *(([0-9]+)-([0-9]+)-([0-9]+)) *$/",$date,$pockets_old);
+  		return $pockets_old[$mode];
 	}
 }
