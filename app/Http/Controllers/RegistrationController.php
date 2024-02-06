@@ -70,6 +70,7 @@ class RegistrationController extends Controller
 
 	public function editPost (Request $request)
 	{
+		$user 			= Auth::user();
 		$arParams 		= $request->post();
 
 		Validator::extend('birth_data',
@@ -107,12 +108,18 @@ class RegistrationController extends Controller
 				->withInput();
 		}
 
+		$user->user_sex 			= $arParams['sex'];
+		$user->user_name 			= str_replace("\'", "''", $arParams['name']);
+		$user->user_birth_date 		= Helper::getDateStr($arParams['birth_day'],$arParams['birth_month'],$arParams['birth_year']);
+		$user->user_country 		= (int)$arParams['country'];
+		$user->user_region 			= (int)$arParams['region'];
+		$user->user_city 			= (int)$arParams['city'];
+		$user->user_refresh_date 	= date("Y-m-d");
+		$user->user_refresh_date_t 	= time();
+		$user->user_session_time 	= time();
+		$user->user_lastvisit 		= time();
+		$user->update();
 
-
-
-		return redirect()->back()
-		->withInput();
-
-
+		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 }
