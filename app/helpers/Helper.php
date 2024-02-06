@@ -37,6 +37,20 @@ class Helper {
 	}
 
 	/**
+	 * make days in the month
+	 *
+	 * @return array
+	 */
+	public static function getDays()
+	{
+		$items = [];
+		for ($i=0; $i < 32;$i++) {
+			$items [] = $i;
+		}
+		return $items;
+	}
+
+	/**
 	 * make range of heights
 	 *
 	 * @return array
