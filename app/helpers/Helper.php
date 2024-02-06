@@ -725,6 +725,14 @@ class Helper {
 		])->send();
 	}
 
+	/**
+	 * translate smiles from codes to html tages
+	 * 
+	 * @param string $str
+	 * @param array $smiles
+	 *
+	 * @return string
+	 */
 	function transformSmiles ($str, $smiles)
 	{
 		if (empty ($smiles)) return $str;
