@@ -19,7 +19,12 @@ Route::get('registration/delete/diary/{id}.html', 'NoContoller3@index')->whereNu
 Route::get('registration/edit/diary', 'NoContoller4@index')->name('registration.edit.diary');
 Route::get('registration/edit/settings', 'NoContoller5@index')->name('registration.edit.settings');
 Route::get('registration/top100', 'NoContoller6@index')->name('registration.top100');
-Route::get('registration/edit', 'NoContoller7@index')->name('registration.edit');
+Route::get('registration/edit', 'RegistrationController@edit')->name('registration.edit')->middleWare('auth');
+Route::get('registration/edit/second', 'NoContoller4@index')->name('registration.edit.second')->middleWare('auth');
+Route::get('registration/edit/partner', 'NoContoller4@index')->name('registration.edit.partner')->middleWare('auth');
+Route::get('registration/edit/photo', 'NoContoller4@index')->name('registration.edit.photo')->middleWare('auth');
+Route::get('registration/edit/pass', 'NoContoller4@index')->name('registration.edit.password')->middleWare('auth');
+Route::get('registration/delete', 'NoContoller4@index')->name('registration.delete')->middleWare('auth');
 Route::get('registration/views', 'NoContoller8@index')->name('registration.views');
 Route::get('registration', 'NoContoller9@index')->name('registration');
 
