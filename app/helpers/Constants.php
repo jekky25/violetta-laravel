@@ -51,3 +51,10 @@ define('DIR_ROOT', str_replace("\\","/",realpath(dirname(__FILE__))));
 //google re-capcha keys
 define("RE_SITE_KEY","6LdlLG4kAAAAAA0-93MpsTTjLwjX4ExEMT-ShXtW");
 define("RE_SEC_KEY","6LdlLG4kAAAAAGLB87ixCoNC7BABLbdAwWZHw_-n");
+
+
+define('DATE_DAY',      '4');
+define('DATE_MONTH',    '3');
+define('DATE_YEAR',     '2');
+
+define('COUNTRY_ID_RUSSIA',     '141');
