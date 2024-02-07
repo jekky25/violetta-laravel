@@ -24,5 +24,7 @@
 	@else
 	<li><a href="{{route('registration.edit.password')}}">Смена пароля</a></li>
 	@endif
+	@if (Route:: currentRouteName() == 'registration.edit')
 	<li><a href="javascript://" onclick="openFadeIFrame({url : '{{route('registration.delete')}}', winWidth : '491', winHeight : '201', width : '460', height : '170' }); return false;">Удалить анкету</a></li>
+	@endif
 </ul>
