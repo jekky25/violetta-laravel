@@ -381,6 +381,16 @@ class User extends Authenticatable
 		return $this->user_make_date !== $this->user_refresh_date ? Helper::dateFormat($this->user_refresh_date) : $val;
 	}
 
+	public function getMeetTargetAttribute ()
+	{
+		return unserialize($this->user_target_meet);
+	}
+
+	public function getSpeakLangAttribute ()
+	{
+		return unserialize($this->user_speak_lang);
+	}
+
 	public function getUserPartnerDescriptionAttribute ($val)
 	{
 		$val = stripslashes(trim($val));
