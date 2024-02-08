@@ -190,4 +190,41 @@ class RegistrationController extends Controller
 
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
+
+
+	public function secondPost (Request $request)
+	{
+		$user 			= Auth::user();
+		$arParams 		= $request->post();
+
+		$user->user_sex_orient 		= $arParams['sex_orient'];
+		$user->user_sex_orient 		= $user->user_sex_orient < 1 || $user->user_sex_orient > 4 ? 2 : $user->user_sex_orient;
+		$user->user_target_meet 	= Helper::serializeInput($arParams['target_meet']);
+		$user->user_speak_lang 		= Helper::serializeInput($arParams['speak_lang']);
+		$user->user_body 			= (int)$arParams['body'];
+		$user->user_height 			= (int)$arParams['height'] < 150 	? 149 	: (int)$arParams['height'];
+		$user->user_weight 			= (int)$arParams['weight'] < 30 	? 29 	: (int)$arParams['weight'];
+		$user->user_hair_color		= (int)$arParams['hair_color'];
+		$user->user_hair_type		= (int)$arParams['hair_type'];
+		$user->user_eyes			= (int)$arParams['eyes'];
+		$user->user_education		= (int)$arParams['education'];
+		$user->user_smoke			= (int)$arParams['smoke'];
+		$user->user_spirt			= (int)$arParams['spirt'];
+		$user->user_sem_polozh		= (int)$arParams['family_status'];
+		$user->user_children		= (int)$arParams['children'];
+		$user->user_help_money		= (int)$arParams['help_money'];
+		$user->user_interests		= Helper::serializeInput($arParams['interest']);
+		$user->user_icq				= (int)$arParams['icq'];
+		$user->user_url				= addslashes($arParams['url']);
+		$user->user_phone			= addslashes($arParams['phone']);
+		$user->user_description		= addslashes($arParams['description']);
+		$user->user_refresh_date	= date("Y-m-d");
+		$user->user_refresh_date_t 	= time();
+		$user->user_session_time 	= time();
+		$user->user_lastvisit 		= time();
+		$user->user_odobreno		= !empty($user->user_description) ? 0 : $user->user_odobreno;
+		
+		$user->update();
+		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
+	}
 }
