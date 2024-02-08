@@ -16,12 +16,7 @@
 чтобы узнать для чего вы, собственно говоря, здесь. Ну и про <strong>языки</strong> не забудьте. А то вдруг окажется, что ваш спутник или спутница говорит на совершенно непонятном для вас языке.</p>
 	<p class="pad3"><strong>Сексуальная ориентация</strong></p>
 	<p class="pad3">
-		<select name="sex_orient">
-			<option value="0">-выберите-</option>
-			@foreach ($sexOrient as $item)
-			<option value="{{ $item->id }}"@if (!empty($item->selected)) selected="selected"@endif>{{ $item->name }}</option>
-			@endforeach
-		</select>
+		@include('blocks.select', ['name' => 'sex_orient', 'obj' => $sexOrient])
 	</p>
 	<table width="100%">
 		<tr>
@@ -87,69 +82,27 @@
 	<table class="mrg6" width="100%">
 		<tr>
 			<td align="right" width="50%">Телосложение:</td>
-			<td width="50%">
-				<select class="select1" name="body" autocomplete="off">
-					<option value="0">-не важно-</option>
-					@foreach ($body as $item)
-					<option value="{{ $item->id }}"@if (!empty($item->selected)) selected="selected"@endif>{{ $item->name }}</option>
-					@endforeach
-				</select>
-			</td>
+			<td width="50%">@include('blocks.select', ['name' => 'body', 'obj' => $body])</td>
 		</tr>
 		<tr>
 			<td align="right">Рост:</td>
-			<td>
-				<select class="select1" name="height" autocomplete="off">
-					<option value="150">-не важно-</option>
-					@foreach ($heights as $item)
-					<option value="{{ $item }}" @if ($item == $userData->user_height) selected="selected"@endif>{{ $item }}</option>
-					@endforeach
-				</select>
-			</td>
+			<td>@include('blocks.select', ['name' => 'height', 'obj' => $heights, 'type' => 'I', 'UserProp' => $userData->user_height])</td>
 		</tr>
 		<tr>
 			<td align="right">Вес:</td>
-			<td>
-				<select class="select1" name="weight" autocomplete="off">
-					<option value="30" >-не важно-</option>
-					@foreach ($weights as $item)
-					<option value="{{ $item }}"@if ($item == $userData->user_weight) selected="selected"@endif>{{ $item }}</option>
-					@endforeach
-				</select>
-			</td>
+			<td>@include('blocks.select', ['name' => 'weight', 'obj' => $weights, 'type' => 'I', 'UserProp' => $userData->user_weight])</td>
 		</tr>
 		<tr>
 			<td align="right">Цвет волос:</td>
-			<td>
-				<select class="select1" name="hair_color" autocomplete="off">
-					<option value="0">-не важно-</option>
-					@foreach ($hairColor as $item)
-					<option value="{{ $item->id }}"@if (!empty($item->selected)) selected="selected"@endif>{{ $item->name }}</option>
-					@endforeach
-				</select>
-			</td>
+			<td>@include('blocks.select', ['name' => 'hair_color', 'obj' => $hairColor])</td>
 		</tr>
 		<tr>
 			<td	align="right">Тип волос:</td>
-			<td>
-				<select class="select1" name="hair_type" autocomplete="off">
-					<option value="0">-не важно-</option>
-					@foreach ($hairType as $item)
-					<option value="{{ $item->id }}"@if (!empty($item->selected)) selected="selected"@endif>{{ $item->name }}</option>
-					@endforeach
-				</select>
-			</td>
+			<td>@include('blocks.select', ['name' => 'hair_type', 'obj' => $hairType])</td>
 		</tr>
 		<tr>
 			<td align="right">Глаза:</td>
-			<td>
-				<select class="select1" name="eyes" autocomplete="off">
-					<option value="0">-не важно-</option>
-					@foreach ($eyes as $item)
-					<option value="{{ $item->id }}"@if (!empty($item->selected)) selected="selected"@endif>{{ $item->name }}</option>
-					@endforeach
-				</select>
-			</td>
+			<td>@include('blocks.select', ['name' => 'eyes', 'obj' => $eyes])</td>
 		</tr>
 	</table>
 	<p class="pad2"></p>
@@ -158,82 +111,31 @@
 	<table class="mrg6" width="100%">
 		<tr>
 			<td align="right" width="50%">Образование:</td>
-			<td width="50%">
-				<select class="select1" name="education" autocomplete="off">
-					<option value="0">-не важно-</option>
-					@foreach ($education as $item)
-					<option value="{{ $item->id }}"@if (!empty($item->selected)) selected="selected"@endif>{{ $item->name }}</option>
-					@endforeach
-				</select>
-			</td>
+			<td>@include('blocks.select', ['name' => 'education', 'obj' => $education])</td>
 		</tr>
 		<tr>
 			<td align="right">Отношение к сигаретам:</td>
-			<td>
-				<select class="select1" name="smoke" autocomplete="off">
-					<option value="0">-не важно-</option>
-					@foreach ($smoke as $item)
-					<option value="{{ $item->id }}"@if (!empty($item->selected)) selected="selected"@endif>{{ $item->name }}</option>
-					@endforeach
-				</select>
-			</td>
+			<td>@include('blocks.select', ['name' => 'smoke', 'obj' => $smoke])</td>
 		</tr>
 		<tr>
 			<td align="right">Отношение к спиртному:</td>
-			<td>
-				<select class="select1" name="spirt" autocomplete="off">
-					<option value="0">-не важно-</option>
-					@foreach ($spirt as $item)
-					<option value="{{ $item->id }}"@if (!empty($item->selected)) selected="selected"@endif>{{ $item->name }}</option>
-					@endforeach
-				</select>
-			</td>
+			<td>@include('blocks.select', ['name' => 'spirt', 'obj' => $spirt])</td>
 		</tr>
 		<tr>
 			<td align="right">Семейное положение:</td>
-			<td>
-				<select class="select1" name="family_status" autocomplete="off">
-				<option value="0">-не важно-</option>
-					@foreach ($familyStatus as $item)
-					<option value="{{ $item->id }}"@if (!empty($item->selected)) selected="selected"@endif>{{ $item->name }}</option>
-					@endforeach
-				</select>
-			</td>
+			<td>@include('blocks.select', ['name' => 'family_status', 'obj' => $familyStatus])</td>
 		</tr>
 		<tr>
 			<td align="right">Дети:</td>
-			<td>
-				<select class="select1" name="children" autocomplete="off">
-					<option value="0" selected>-не важно-</option>
-					@foreach ($children as $item)
-					<option value="{{ $item->id }}"@if (!empty($item->selected)) selected="selected"@endif>{{ $item->name }}</option>
-					@endforeach
-				</select>
-			</td>
+			<td>@include('blocks.select', ['name' => 'children', 'obj' => $children])</td>
 		</tr>
 		<tr>
 			<td align="right">Материальная поддержка:</td>
-			<td>
-				<select class="select1" name="help_money" autocomplete="off">
-					<option value="0" selected>-не важно-</option>
-					@foreach ($helpMoney as $item)
-					<option value="{{ $item->id }}"@if (!empty($item->selected)) selected="selected"@endif>{{ $item->name }}</option>
-					@endforeach
-				</select>
-			</td>
+			<td>@include('blocks.select', ['name' => 'help_money', 'obj' => $helpMoney])</td>
 		</tr>
 		<tr>
 			<td align="right">Интересы:</td>
-			<td>
-				<select class="select1" name="interest[]" multiple size="10" autocomplete="off">
-					<option value="0" >-не важно-</option>
-					@foreach ($interest as $item)
-						<option value="{{ $item->id }}"@if (!empty($item->selected)) selected="selected"@endif>{{ $item->name }}</option>
-					@endforeach
-				</select>
-				<br />
-				<p class="txt1">В Windows используйте клавишу <strong>ctrl</strong>,<br /> чтобы выделить несколько элементов списка.</p>
-			</td>
+			<td>@include('blocks.select', ['name' => 'interest[]', 'obj' => $interest, 'multiple' => true, 'size' => 10])</td>
 		</tr>
 	</table>
 	<p class="pad2"></p>
