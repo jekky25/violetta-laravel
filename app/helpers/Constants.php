@@ -41,8 +41,19 @@ define('PRIV_NOT_NEW_MESSAGE', 0);
 
 //имена классов
 define('BODY_CLASS', 'Body');
+define('HAIR_COLOR_CLASS', 'HairColor');
 define('HAIR_TYPE_CLASS', 'HairType');
 define('EYES_CLASS', 'Eyes');
+define('SEX_ORIENT_CLASS', 'SexOrient');
+define('MEET_TARGET_CLASS', 'MeetTarget');
+define('EDUCATION_CLASS', 'Education');
+define('SMOKE_CLASS', 'Smoke');
+define('SPIRT_CLASS', 'Spirt');
+define('FAMILY_STATUS_CLASS', 'FamilyStatus');
+define('CHILDREN_CLASS', 'Children');
+define('HELP_MONEY_CLASS', 'HelpMoney');
+define('INTEREST_CLASS', 'Interest');
+
 
 define ('SITE_URL', $pathrelative);
 

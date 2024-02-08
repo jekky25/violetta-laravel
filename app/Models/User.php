@@ -391,6 +391,16 @@ class User extends Authenticatable
 		return unserialize($this->user_speak_lang);
 	}
 
+	public function getInterestsAttribute ()
+	{
+		return unserialize($this->user_interests);
+	}
+
+	public function getUserICQAttribute ($val)
+	{
+		return (int)$val > 0 ? $val : '';
+	}
+
 	public function getUserPartnerDescriptionAttribute ($val)
 	{
 		$val = stripslashes(trim($val));

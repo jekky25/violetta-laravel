@@ -21,7 +21,7 @@ Route::get('registration/edit/settings', 'NoContoller5@index')->name('registrati
 Route::get('registration/top100', 'NoContoller6@index')->name('registration.top100');
 Route::get('registration/edit', 'RegistrationController@edit')->name('registration.edit')->middleWare('auth');
 Route::post('registration/edit', 'RegistrationController@editPost')->name('registration.edit')->middleWare('auth');
-Route::get('registration/edit/second', 'NoContoller4@index')->name('registration.edit.second')->middleWare('auth');
+Route::get('registration/edit/second', 'RegistrationController@second')->name('registration.edit.second')->middleWare('auth');
 Route::get('registration/edit/partner', 'NoContoller4@index')->name('registration.edit.partner')->middleWare('auth');
 Route::get('registration/edit/photo', 'NoContoller4@index')->name('registration.edit.photo')->middleWare('auth');
 Route::get('registration/edit/pass', 'NoContoller4@index')->name('registration.edit.password')->middleWare('auth');
