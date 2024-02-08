@@ -347,6 +347,26 @@ class Helper {
 		$str 	.= '<option value="0"';
 		$str	.= $value == '0' 	? ' selected' 		: '';
 		$str	.= $mode == 1 		? '>-выберите-' 	: '>-не важно-';
+
+		if ($mode == 2)
+		{
+			$out = [];
+			foreach ($items as $_item)
+			{
+				if (is_array($value))
+				{
+					$_item->checked = in_array($_item->id, $value) ? 1 : 0;
+				}
+				else 
+				{
+					$_item->selected = $value == $_item->id ? ' selected' : '';
+				}
+				$out [] = $_item;
+			}
+			return $out;
+		}
+
+
 		if (!empty ($items))
 		{
 			foreach ($items as $_item)
