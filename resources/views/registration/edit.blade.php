@@ -74,7 +74,7 @@
 		<table class="cityRegForm">
 			<tr>
 				<td width="150">страна</td>
-				<td><select name="country" id="country" onchange="updateSelect('region', this.value, 'reg');">
+				<td><select name="country" id="country" onchange="updateSelect('region', this.value, 'reg');" autocomplete="off">
 					<option value="0" @if (old('country', $userData->user_country) == 0) selected="selected"@endif>выберите&nbsp;</option>
 					<option value="141" @if (old('country', $userData->user_country) == COUNTRY_ID_RUSSIA) selected="selected"@endif>Россия</option>
 					@foreach ($countries as $item)
@@ -85,7 +85,7 @@
 		</tr>
 		<tr>
 			<td width="150">регион</td>
-			<td><select name="region" id="region" onchange="updateSelect('city', this.value, 'cities');">
+			<td><select name="region" id="region" onchange="updateSelect('city', this.value, 'cities');" autocomplete="off">
 					<option value="0">не важно</option>
 					@if (!empty($regions))
 					@foreach ($regions as $item)
@@ -96,7 +96,7 @@
 		</tr>
 		<tr>
 			<td width="150">город</td>
-			<td><select id="city" name="city">
+			<td><select id="city" name="city" autocomplete="off">
 					<option value="0">не важно</option>
 					@if (!empty($cities))
 					@foreach ($cities as $item)
