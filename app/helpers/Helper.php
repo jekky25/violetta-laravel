@@ -341,6 +341,12 @@ class Helper {
 	 */
 	function BlockSelect($name,$className,$value = 0,$mode)
 	{
+		try {
+			$unserValue = unserialize($value);
+		} catch (\Exception $e) {}
+
+
+		$value		= isset ($unserValue) && is_array ($unserValue) ? $unserValue : $value;
 		$className = 'App\\Models\\' . $className;
 		$items = $className::select('*')->orderBy('name','asc')->get();
 		$str 	= '<select style="width: 150px" name="' . $name . '">';
