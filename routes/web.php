@@ -23,7 +23,7 @@ Route::get('registration/edit', 'RegistrationController@edit')->name('registrati
 Route::post('registration/edit', 'RegistrationController@editPost')->name('registration.edit.post')->middleWare('auth');
 Route::get('registration/edit/second', 'RegistrationController@second')->name('registration.edit.second')->middleWare('auth');
 Route::post('registration/edit/second', 'RegistrationController@secondPost')->name('registration.edit.second.post')->middleWare('auth');
-Route::get('registration/edit/partner', 'NoContoller4@index')->name('registration.edit.partner')->middleWare('auth');
+Route::get('registration/edit/partner', 'RegistrationController@partner')->name('registration.edit.partner')->middleWare('auth');
 Route::get('registration/edit/photo', 'NoContoller4@index')->name('registration.edit.photo')->middleWare('auth');
 Route::get('registration/edit/pass', 'NoContoller4@index')->name('registration.edit.password')->middleWare('auth');
 Route::get('registration/delete', 'NoContoller4@index')->name('registration.delete')->middleWare('auth');

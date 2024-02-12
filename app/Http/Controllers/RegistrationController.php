@@ -136,6 +136,41 @@ class RegistrationController extends Controller
 		]);
 	}
 
+	public function partner (Request $request)
+	{
+		$user 				= Auth::user();
+		$age 				= Helper::getAges();
+		$heights 			= Helper::getHeights();
+		$weights 			= Helper::getWeights();
+		$partnerBody		= Helper::BlockSelect("body",BODY_CLASS,$user->user_partner_body,2);
+		$partnerSpeakLang	= Helper::BlockSelect("partner_speak_lang[]",SPEAK_LANG_CLASS,$user->user_partner_speak_lang,2);
+		$partnerSpirt		= Helper::BlockSelect("partner_spirt[]",SPIRT_CLASS,$user->user_partner_spirt,2);
+		$partnerSmoke		= Helper::BlockSelect("partner_smoke[]",SMOKE_CLASS,$user->user_partner_smoke,2);
+		$partnerEducation	= Helper::BlockSelect("partner_education[]",EDUCATION_CLASS,$user->user_partner_education,2);
+
+		$countries	= Country::getAll();
+		$countryId	= (int) old ('country', $user->user_partner_country);
+		$regionId	= (int) old ('region', $user->user_partner_region);
+		$regions 	= $countryId > 0 	? Region::getByCountryId($countryId) 	: [];
+		$cities 	= $regionId	> 0 	? City::getByRegionId($regionId) 		: [];
+
+		return response()->view ('registration.partner',
+		[
+			'userData'			=> $user,
+			'age'				=> $age,
+			'heights' 			=> $heights,
+			'weights' 			=> $weights,
+			'partnerBody'		=> $partnerBody,
+			'partnerSpeakLang'	=> $partnerSpeakLang,
+			'partnerSpirt'		=> $partnerSpirt,
+			'partnerSmoke'		=> $partnerSmoke,
+			'partnerEducation'	=> $partnerEducation,
+			'countries'			=> $countries,
+			'regions'			=> $regions,
+			'cities'			=> $cities,
+		]);
+	}
+
 	public function editPost (Request $request)
 	{
 		$user 			= Auth::user();

@@ -53,6 +53,7 @@ define('FAMILY_STATUS_CLASS', 'FamilyStatus');
 define('CHILDREN_CLASS', 'Children');
 define('HELP_MONEY_CLASS', 'HelpMoney');
 define('INTEREST_CLASS', 'Interest');
+define('SPEAK_LANG_CLASS', 'SpeakLang');
 
 
 define ('SITE_URL', $pathrelative);
