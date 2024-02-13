@@ -22,6 +22,12 @@ class RegistrationController extends Controller
 		'city'	=> ['place_empty', 'place_correct'],
 	];
 
+	public static $rulesPartnerEdit = [
+		'partner_age_min' 		=> ['age_valid'],
+		'partner_weight_min' 	=> ['weight_valid'],
+		'partner_height_min' 	=> ['height_valid'],
+	];
+
 	public static $errMessagesEdit = [
 		'name.required'		 	=> 'Имя не заполнено',
 		'name.max'		 		=> 'Имя слишком длинное',
@@ -31,6 +37,12 @@ class RegistrationController extends Controller
 		'birth_data_correct'	=> 'Некорректная дата рождения',
 		'place_empty'			=> 'Не указано место жительства',
 		'place_correct'			=> 'Неверно указано место жительства'
+	];
+
+	public static $errMessagesPartnerEdit = [
+		'age_valid' 	=> 'Не верно указан возраст партнера',
+		'weight_valid' 	=> 'Не верно указан вес партнера',
+		'height_valid' 	=> 'Не верно указан рост партнера'
 	];
 
 	public static $languageCodes = [
@@ -261,5 +273,43 @@ class RegistrationController extends Controller
 		
 		$user->update();
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
+	}
+
+	public function partnerPost (Request $request)
+	{
+		$user 			= Auth::user();
+		$arParams 		= $request->post();
+
+		Validator::extend('age_valid',
+		function () use ($arParams) {
+			return (int)$arParams['partner_age_min'] > 15 && (int)$arParams['partner_age_max'] > 15 && (int)$arParams['partner_age_min'] <= (int)$arParams['partner_age_max'] ? true : false;
+		});
+
+		Validator::extend('height_valid',
+		function () use ($arParams) {
+			return (int)$arParams['partner_height_min'] > 149 && (int)$arParams['partner_height_max'] > 149 && (int)$arParams['partner_height_min'] <= (int)$arParams['partner_height_max'] ? true : false;
+		});
+
+		Validator::extend('weight_valid',
+		function () use ($arParams) {
+			return (int)$arParams['partner_weight_min'] > 29 && (int)$arParams['partner_weight_max'] > 29 && (int)$arParams['partner_weight_min'] <= (int)$arParams['partner_weight_max'] ? true : false;
+		});
+
+		$validator 		= Validator::make($arParams, self::$rulesPartnerEdit, self::$errMessagesPartnerEdit);
+
+		if ($validator->fails()) {
+
+			$messages = $validator->messages();
+			$messages->has('partner_age_min') 		? $messages->add('age', $messages->get('partner_age_min')[0]) 		: '';
+			$messages->has('partner_weight_min') 	? $messages->add('age', $messages->get('partner_weight_min')[0]) 	: '';
+			$messages->has('partner_height_min') 	? $messages->add('age', $messages->get('partner_height_min')[0]) 	: '';
+
+			$strError = $messages;
+
+			return redirect()->back()
+				->withErrors($strError, 'comment')
+				->withInput();
+		}
+
 	}
 }
