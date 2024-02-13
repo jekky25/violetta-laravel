@@ -154,11 +154,11 @@ class RegistrationController extends Controller
 		$age 				= Helper::getAges();
 		$heights 			= Helper::getHeights();
 		$weights 			= Helper::getWeights();
-		$partnerBody		= Helper::BlockSelect("body",BODY_CLASS,$user->user_partner_body,2);
-		$partnerSpeakLang	= Helper::BlockSelect("partner_speak_lang[]",SPEAK_LANG_CLASS,$user->user_partner_speak_lang,2);
-		$partnerSpirt		= Helper::BlockSelect("partner_spirt[]",SPIRT_CLASS,$user->user_partner_spirt,2);
-		$partnerSmoke		= Helper::BlockSelect("partner_smoke[]",SMOKE_CLASS,$user->user_partner_smoke,2);
-		$partnerEducation	= Helper::BlockSelect("partner_education[]",EDUCATION_CLASS,$user->user_partner_education,2);
+		$partnerBody		= Helper::BlockSelect("partner_body[]",BODY_CLASS, old ('partner_body', $user->user_partner_body),2);
+		$partnerSpeakLang	= Helper::BlockSelect("partner_speak_lang[]",SPEAK_LANG_CLASS, old ('partner_speak_lang', $user->user_partner_speak_lang),2);
+		$partnerSpirt		= Helper::BlockSelect("partner_spirt[]",SPIRT_CLASS, old ('partner_spirt', $user->user_partner_spirt),2);
+		$partnerSmoke		= Helper::BlockSelect("partner_smoke[]",SMOKE_CLASS, old ('partner_smoke', $user->user_partner_smoke),2);
+		$partnerEducation	= Helper::BlockSelect("partner_education[]",EDUCATION_CLASS, old ('partner_education', $user->user_partner_education),2);
 
 		$countries	= Country::getAll();
 		$countryId	= (int) old ('country', $user->user_partner_country);
