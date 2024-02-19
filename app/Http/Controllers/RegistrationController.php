@@ -311,5 +311,28 @@ class RegistrationController extends Controller
 				->withInput();
 		}
 
+		$user->user_partner_age_min 			= (int)$arParams['partner_age_min'];
+		$user->user_partner_age_max 			= (int)$arParams['partner_age_max'];
+		$user->user_partner_height_min 			= (int)$arParams['partner_height_min'];
+		$user->user_partner_height_max 			= (int)$arParams['partner_height_max'];
+		$user->user_partner_weight_min 			= (int)$arParams['partner_weight_min'];
+		$user->user_partner_weight_max 			= (int)$arParams['partner_weight_max'];
+		$user->user_partner_body				= Helper::serializeInput($arParams['partner_body']);
+		$user->user_partner_speak_lang			= Helper::serializeInput($arParams['partner_speak_lang']);
+		$user->user_partner_spirt				= Helper::serializeInput($arParams['partner_spirt']);
+		$user->user_partner_smoke				= Helper::serializeInput($arParams['partner_smoke']);
+		$user->user_partner_education			= Helper::serializeInput($arParams['partner_education']);
+		$user->user_partner_country 			= (int)$arParams['country'];
+		$user->user_partner_region	 			= (int)$arParams['region'];
+		$user->user_partner_city	 			= (int)$arParams['city'];
+		$user->user_partner_description			= addslashes($arParams['description']);
+		$user->user_refresh_date 				= date("Y-m-d");
+		$user->user_refresh_date_t 				= time();
+		$user->user_session_time 				= time();
+		$user->user_lastvisit 					= time();
+		$user->user_odobreno					= !empty($user->user_partner_description) ? 0 : $user->user_odobreno;
+		$user->update();
+
+		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 }
