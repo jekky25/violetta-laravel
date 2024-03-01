@@ -12,6 +12,7 @@ use App\Helpers\Helper;
 use App\Models\Country;
 use App\Models\Region;
 use App\Models\City;
+use App\Models\User;
 
 class RegistrationController extends Controller
 {
@@ -180,6 +181,15 @@ class RegistrationController extends Controller
 			'countries'			=> $countries,
 			'regions'			=> $regions,
 			'cities'			=> $cities,
+		]);
+	}
+
+	public function photo (Request $request)
+	{
+		$user = User::with('photo')->find(Auth::id());
+		return response()->view ('registration.photo',
+		[
+			'photos' => $user->photo
 		]);
 	}
 

@@ -25,7 +25,9 @@ Route::get('registration/edit/second', 'RegistrationController@second')->name('r
 Route::post('registration/edit/second', 'RegistrationController@secondPost')->name('registration.edit.second.post')->middleWare('auth');
 Route::get('registration/edit/partner', 'RegistrationController@partner')->name('registration.edit.partner')->middleWare('auth');
 Route::post('registration/edit/partner', 'RegistrationController@partnerPost')->name('registration.edit.partner.post')->middleWare('auth');
-Route::get('registration/edit/photo', 'NoContoller4@index')->name('registration.edit.photo')->middleWare('auth');
+Route::get('registration/edit/photo', 'RegistrationController@photo')->name('registration.edit.photo')->middleWare('auth');
+Route::get('registration/edit/photo/edit/{id}.html', 'RegistrationController@editPhoto')->whereNumber('id')->name('registration.edit.photo.edit')->middleWare('auth');
+Route::get('registration/edit/photo/delete/{id}.html', 'RegistrationController@deletePhoto')->whereNumber('id')->name('registration.edit.photo.delete')->middleWare('auth');
 Route::get('registration/edit/pass', 'NoContoller4@index')->name('registration.edit.password')->middleWare('auth');
 Route::get('registration/delete', 'NoContoller4@index')->name('registration.delete')->middleWare('auth');
 Route::get('registration/views', 'NoContoller8@index')->name('registration.views');
