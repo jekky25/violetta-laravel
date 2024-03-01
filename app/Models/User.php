@@ -450,7 +450,7 @@ class User extends Authenticatable
 
 	public function photo()
 	{
-    	return $this->hasMany(Photo::class, 'user_id', 'user_id')->with('comment');
+    	return $this->hasMany(Photo::class, 'user_id', 'user_id')->with('comment')->orderBy('fotos_portret', 'desc');
 	}
 
 	public function visits()
