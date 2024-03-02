@@ -345,4 +345,19 @@ class RegistrationController extends Controller
 
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
+
+	public function deletePhoto(Request $request, $id)
+    {
+		$user 			= Auth::user();
+		$arParams 		= $request->post();
+
+		if ( !empty($arParams['cancel']) ) {
+			return redirect()->route ('registration.edit.photo');
+		}
+
+		$title 			= 'Информация';
+		$text 			= 'Вы уверены, что хотите удалить это фото<br /><br />';
+		$confirmAction 	= route ('registration.edit.photo.delete', $id);
+		Helper::outMessageInfo($title, $text, $confirmAction);
+	}
 }
