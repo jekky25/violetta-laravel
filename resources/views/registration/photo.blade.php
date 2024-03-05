@@ -37,6 +37,9 @@
 	<div class="bord1"></div>
 	<p class="pad1 pad2">Мы принимаем фотографии только <strong>jpg</strong>, <strong>gif</strong> и <strong>png</strong> форматов размером не более <strong>500 кб</strong>. 
 	Убедительная просьба <strong>размещать только свои фотографии</strong>, а также <strong>не размещать порно фото (половые органы крупным планом)</strong>. Все фотографии модерируются и нарушители безжалостно удаляются.</p>
+	@foreach ($errors->comment->get('photo_link') as $item)
+	<p class="blue2">{{ $item }}</p>
+	@endforeach
 	<p class="pad3"><input type="file" size="25" name="photo_link"></p>
 	<input type="hidden" name="otsil" value="1" />
 	<p class="pad2"></p>
