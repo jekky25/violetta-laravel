@@ -13,6 +13,7 @@ use App\Models\Country;
 use App\Models\Region;
 use App\Models\City;
 use App\Models\User;
+use App\Models\Photo;
 
 class RegistrationController extends Controller
 {
@@ -351,8 +352,50 @@ class RegistrationController extends Controller
 		$user 			= Auth::user();
 		$arParams 		= $request->post();
 
-		if ( !empty($arParams['cancel']) ) {
+		if ( !empty($arParams['cancel']) ) 
+		{
 			return redirect()->route ('registration.edit.photo');
+		}
+
+		if ( !empty($arParams['confirm']) ) 
+		{
+			$photo = Photo::getById($id);
+			if (empty ($photo) || $photo->user_id != $user->user_id)
+			{
+				$title 			= 'Информация';
+				$text			= 'Вы можете удалять только свои фотографии<br /><br />';
+				$text			.= '<a class="name" href="' . route ('registration.edit') . '">Перейти в Мой профиль</a><br /><br />';
+				$text			.= '<a class="name" href="' . route ('ank.id', $user->user_id) . '">Перейти в Мою анкету</a>';
+				Helper::outMessageDie($title, $text);
+			}
+
+			if (file_exists("fotos_new/".$id.".jpg")) {
+				if(unlink("fotos_new/".$id.".jpg")) {}
+			}
+
+			$isPortret = $photo->fotos_portret == 1 ? 1 : 0;
+
+			$photo->delete();
+
+			if ($isPortret)
+			{
+				$photo = Photo::getFirstByUserId($user->user_id);
+
+				if (!empty($photo))
+				{
+					$photo->fotos_portret = 1;
+					$photo->update();
+				}
+			}
+
+			$user->user_refresh_date 	= date("Y-m-d");
+			$user->user_refresh_date_t 	= time();
+			$user->user_session_time 	= time();
+			$user->user_lastvisit 		= time();
+			$user->user_fotos 			= count (Photo::getAllByUserId($user->user_id));
+			$user->update();
+
+			return redirect()->route('registration.edit.photo')->with('success','Информация сохранена.');
 		}
 
 		$title 			= 'Информация';

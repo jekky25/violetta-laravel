@@ -767,7 +767,7 @@ class Helper {
 	}
 
 	/**
-	 * print information page with confir or cancel
+	 * print information page with confirm or cancel
 	 * @param string $title
 	 * @param string $text
 	 * @param string $confirmAction 
@@ -782,6 +782,25 @@ class Helper {
 			'msgTitle' 		=> $title,
 			'msgText'		=> $text,
 			'confirmAction' => $confirmAction,
+			'hidden'		=> $hidden
+		])->send();
+	}
+
+	/**
+	 * print information page with confirm or cancel
+	 * @param string $title
+	 * @param string $text
+	 * @param string $confirmAction 
+	 * @param string $hidden
+	 *
+	 * @return object
+	*/
+	function outMessageDie($title, $text, $hidden = '')
+	{
+		return response()->view ('mess_die.info',
+		[
+			'msgTitle' 		=> $title,
+			'msgText'		=> $text,
 			'hidden'		=> $hidden
 		])->send();
 	}

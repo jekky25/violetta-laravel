@@ -12,7 +12,9 @@ class Photo extends Model
 {
 	use HasFactory;
 
-	protected $table = 'fotos';
+	protected $table 		= 'fotos';
+	protected $primaryKey 	= 'fotos_id';
+	public $timestamps 		= false;
 
 	public function getCountPhotos ()
 	{
@@ -25,6 +27,22 @@ class Photo extends Model
 		$item = self::select('*')
 		->where ('fotos_id', $id)
 		->first();
+		return $item;
+	}
+
+	public function getFirstByUserId($id)
+	{
+		$item = self::select('*')
+		->where ('user_id', $id)
+		->first();
+		return $item;
+	}
+
+	public function getAllByUserId($id)
+	{
+		$item = self::select('*')
+		->where ('user_id', $id)
+		->get();
 		return $item;
 	}
 
