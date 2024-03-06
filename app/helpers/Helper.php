@@ -635,11 +635,10 @@ class Helper {
 		$photo['filetype']	= !empty($picture->getMimeType())					? $picture->getMimeType()								: '';
 		$photo['extension']	= !empty($picture->getClientOriginalExtension())	? strtolower($picture->getClientOriginalExtension()) 	: 'jpg';
 		$photo['unic_name']	= Str::random(20) . '.' . $photo['extension'];
-		$photoLink			= $path_foto . $photo['unic_name'];
+		$photoLink			= $path_foto . (!empty($picture->nameForInsert) ? $picture->nameForInsert : $photo['unic_name']);
 		$photoLinkTmp		= 'img_temp/' . $photo['unic_name'];
 		$res = Helper::moveUploadedFile($photo['link'], $photoLinkTmp);
 		$res = Helper::resize($photoLinkTmp, 200, $photoLink);
-
 		unlink($photoLinkTmp);
 		return isset($res ['success']) ? $photo['unic_name'] : false;
 	}

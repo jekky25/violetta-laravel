@@ -220,6 +220,38 @@ class RegistrationController extends Controller
 						->withErrors($strError, 'comment')
 						->withInput();
 		}
+
+		if (!empty($arParams['photo_link']))
+		{
+			$user->user_refresh_date 	= date("Y-m-d");
+			$countPhoto 				= count($user->photo);
+			$photoPortret 				= $countPhoto > 0 ? 0 : 1;
+			$aFields = [
+				'fotos_portret'				=> $photoPortret,
+				'fotos_t'					=> 0,
+				'user_id'					=> $user->user_id
+			];
+	
+			$oPhoto 								= new Photo ($aFields);
+			$oPhoto->save();
+			$photoId								= $oPhoto->getKey();
+			$extension 								= $arParams['photo_link']->extension();
+			$arParams['photo_link']->nameForInsert 	= $photoId . '.' . $extension;
+			
+			$picture = Helper::fotoUpload($arParams['photo_link'], 0, 'fotos_new/');
+			$countPhoto++;
+			$countPhoto = $countPhoto > 5 ? 5 : $countPhoto;
+			
+			$user->user_fotos 			= $countPhoto;
+			$user->user_refresh_date 	= date("Y-m-d");
+			$user->user_refresh_date_t 	= time();
+			$user->user_session_time 	= time();
+			$user->user_lastvisit 		= time();
+			$user->update();
+			return redirect()->back()
+			->with('success','Фото успешно добавлено')
+			->withInput();
+		}
 	}
 
 	public function editPost (Request $request)

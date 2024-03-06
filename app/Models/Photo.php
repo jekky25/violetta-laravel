@@ -16,6 +16,11 @@ class Photo extends Model
 	protected $primaryKey 	= 'fotos_id';
 	public $timestamps 		= false;
 
+	protected $fillable = [
+		'fotos_portret',
+		'user_id'
+	];
+
 	public function getCountPhotos ()
 	{
 		$count = self::select('fotos_id')->count();
