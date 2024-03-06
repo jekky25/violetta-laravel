@@ -189,7 +189,7 @@ class AnkController extends Controller
 			$anket->user_partner_sex = $partnerSex;
 	
 			//making languages
-			$anket->getPropertyFew('App\Models\MeetTarget',	$anket->user_speak_lang, 'speak_lang');
+			$anket->getPropertyFew('App\Models\MeetTarget',	$anket->user_speak_lang, 'speak_lang_str');
 
 			//making a partner age
 			if ($anket->user_partner_age_min > PARTNER_AGE_MIN || $anket->user_partner_age_max > PARTNER_AGE_MAX) 
@@ -255,7 +255,6 @@ class AnkController extends Controller
 
 			$isAboutPartner = $anket->isAboutPartner();
 		}
-
 
 		return response()->view ('ankets.page',
 		[

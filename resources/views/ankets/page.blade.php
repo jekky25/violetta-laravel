@@ -144,8 +144,8 @@ function vote(score)
 			@if (!empty($userData->sex_orient))
 				<dl><dt>Ориентация:</dt><dd>{{ $userData->sex_orient }}</dd></dl>
 			@endif
-			@if (!empty($userData->speak_lang))
-				<dl><dt>Говорю на языках:</dt><dd>{{ $userData->speak_lang }}</dd></dl>
+			@if (!empty($userData->speak_lang_str))
+				<dl><dt>Говорю на языках:</dt><dd>{{ $userData->speak_lang_str }}</dd></dl>
 			@endif
 			<dl>
 				<dt>Дата создания:</dt>
