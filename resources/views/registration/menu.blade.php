@@ -14,7 +14,7 @@
 	@else
 	<li><a href="{{route('registration.edit.partner')}}">О партнере</a></li>
 	@endif
-	@if (Route:: currentRouteName() == 'registration.edit.photo')
+	@if (Route:: currentRouteName() == 'registration.edit.photo' || Route:: currentRouteName() == 'registration.edit.photo.edit')
 	<li class="menuRegAct">Фотографии</li>
 	@else
 	<li><a href="{{route('registration.edit.photo')}}">Фотографии</a></li>
