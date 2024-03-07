@@ -627,18 +627,19 @@ class Helper {
 	 *
 	 * @return mixed
 	*/
-	function fotoUpload($picture, $foto = 0, $path_foto = '') 
+	function fotoUpload($picture, $width = 0, $path_foto = '') 
 	{
 		$photo['link']		= !empty($picture->getPathName())					? $picture->getPathName() 								: false;
 		$photo['name']		= !empty($picture->getClientOriginalName())			? $picture->getClientOriginalName()						: '';
 		$photo['size']		= !empty($picture->getSize())						? $picture->getSize()									: 0;
 		$photo['filetype']	= !empty($picture->getMimeType())					? $picture->getMimeType()								: '';
 		$photo['extension']	= !empty($picture->getClientOriginalExtension())	? strtolower($picture->getClientOriginalExtension()) 	: 'jpg';
+		$width 				= $width > 0 ? $width : 200;
 		$photo['unic_name']	= Str::random(20) . '.' . $photo['extension'];
 		$photoLink			= $path_foto . (!empty($picture->nameForInsert) ? $picture->nameForInsert : $photo['unic_name']);
 		$photoLinkTmp		= 'img_temp/' . $photo['unic_name'];
 		$res = Helper::moveUploadedFile($photo['link'], $photoLinkTmp);
-		$res = Helper::resize($photoLinkTmp, 200, $photoLink);
+		$res = Helper::resize($photoLinkTmp, $width, $photoLink);
 		unlink($photoLinkTmp);
 		return isset($res ['success']) ? $photo['unic_name'] : false;
 	}
