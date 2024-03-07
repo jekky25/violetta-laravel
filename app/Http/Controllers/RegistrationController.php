@@ -238,7 +238,7 @@ class RegistrationController extends Controller
 			$extension 								= $arParams['photo_link']->extension();
 			$arParams['photo_link']->nameForInsert 	= $photoId . '.' . $extension;
 			
-			$picture = Helper::fotoUpload($arParams['photo_link'], 0, 'fotos_new/');
+			$picture = Helper::fotoUpload($arParams['photo_link'], 1000, 'fotos_new/');
 			$countPhoto++;
 			$countPhoto = $countPhoto > 5 ? 5 : $countPhoto;
 			
