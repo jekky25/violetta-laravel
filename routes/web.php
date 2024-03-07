@@ -27,6 +27,7 @@ Route::post('registration/edit/partner', 'RegistrationController@partnerPost')->
 Route::get('registration/edit/photo', 'RegistrationController@photo')->name('registration.edit.photo')->middleWare('auth');
 Route::post('registration/edit/photo', 'RegistrationController@photoPost')->name('registration.edit.photo.post')->middleWare('auth');
 Route::get('registration/edit/photo/edit/{id}.html', 'RegistrationController@editPhoto')->whereNumber('id')->name('registration.edit.photo.edit')->middleWare('auth');
+Route::post('registration/edit/photo/edit/{id}.html', 'RegistrationController@editPhotoPost')->whereNumber('id')->name('registration.edit.photo.edit.post')->middleWare('auth');
 Route::match(['get', 'post'], 'registration/edit/photo/delete/{id}.html', 'RegistrationController@deletePhoto')->whereNumber('id')->name('registration.edit.photo.delete')->middleWare('auth');
 Route::get('registration/edit/pass', 'NoContoller4@index')->name('registration.edit.password')->middleWare('auth');
 Route::get('registration/delete', 'NoContoller4@index')->name('registration.delete')->middleWare('auth');

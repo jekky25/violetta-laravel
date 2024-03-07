@@ -22,10 +22,13 @@
 </table>
 @endif
 <p class="pad2"></p>
+@foreach ($errors->comment->get('photo_link') as $item)
+	<p class="blue2">{{ $item }}</p>
+@endforeach
 <table class="wth3">
 	<tr>
 		<td class="pad3">
-			<form name="anketa" onsubmit="return (find_otsil())" action="{{ route('registration.edit.photo.edit', $photo->fotos_id) }}" enctype="multipart/form-data" method="post">
+			<form name="anketa" onsubmit="return (find_otsil())" action="{{ route('registration.edit.photo.edit.post', $photo->fotos_id) }}" enctype="multipart/form-data" method="post">
 				{{ csrf_field() }}
 				<p><input type="file" size="25" name="photo_link" /></p>
 				<p>

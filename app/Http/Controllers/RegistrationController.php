@@ -225,7 +225,25 @@ class RegistrationController extends Controller
 			'photo' => $photo
 		]);
 	}
-	
+
+	public function editPhotoPost (Request $request, $id)
+	{
+		$user 	= User::with('photo')->find(Auth::id());
+
+		$arParams 		= $request->post();
+		$files 			= $request->file();
+		$arParams		= array_merge($arParams, $files);
+
+		$validator = Validator::make($arParams, self::$rulesPhoto, self::$errMessagesPhoto);
+
+		if ($validator->fails()) {
+			$messages = $validator->messages();
+			$strError = $messages;
+			return redirect()->back()
+						->withErrors($strError, 'comment')
+						->withInput();
+		}
+	}
 
 	public function photoPost (Request $request)
 	{
