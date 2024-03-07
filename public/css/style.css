@@ -578,6 +578,15 @@ h1.main_title, H1.main_t_up {
 	font-size: 12px;
 }
 
+.photo-block {
+	max-width: 500px;
+}
+.photo-block-img {
+	width:100%; 
+	max-width:100%;
+}
+
+
 /*mobile*/
 @media screen and (max-width: 980px) {
 	.for-mob {display:block;}
@@ -650,3 +659,4 @@ h1.main_title, H1.main_t_up {
 .b-lazy.loaded {
 	opacity: 1;
 }
+

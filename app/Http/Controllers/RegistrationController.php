@@ -204,6 +204,29 @@ class RegistrationController extends Controller
 		]);
 	}
 
+	public function editPhoto (Request $request, $id)
+	{
+		$user 	= User::with('photo')->find(Auth::id());
+		$photo 	= [];
+		if (count($user->photo))
+		{
+			foreach ($user->photo as $item)
+			{
+				if ($item->fotos_id == $id && $item->user_id == $user->user_id)
+				{
+					$photo = $item;
+					break;
+				}
+			}
+		}
+
+		return response()->view ('registration.photo_edit',
+		[
+			'photo' => $photo
+		]);
+	}
+	
+
 	public function photoPost (Request $request)
 	{
 		$user 			= Auth::user();
