@@ -272,7 +272,10 @@ class Helper {
 	 */
 	function getPicture ($picture = '', $sex, $path, $ext = '')
 	{
-		if (!empty($picture) && !empty($path)) return asset($path . $picture . $ext);
+		$file 			= $_SERVER['DOCUMENT_ROOT'] . '/public/' . $path . $picture . $ext;
+		$fileTime 		= file_exists($file) 	? filemtime($file)		: '';
+		$fileTimeStr 	= !empty($fileTime) 	? $fileTime . '/'		: '';
+		if (!empty($picture) && !empty($path)) return asset($path . $fileTimeStr . $picture . $ext);
 		$fotoUrl = $sex == MEN ? 'image/no_foto_m_vip.jpg' : 'image/no_foto_w_vip.jpg';
 		return asset ($fotoUrl);
 	}
