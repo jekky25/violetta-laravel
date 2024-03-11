@@ -273,11 +273,21 @@ class Helper {
 	function getPicture ($picture = '', $sex, $path, $ext = '')
 	{
 		$file 			= $_SERVER['DOCUMENT_ROOT'] . '/public/' . $path . $picture . $ext;
-		$fileTime 		= file_exists($file) 	? filemtime($file)		: '';
-		$fileTimeStr 	= !empty($fileTime) 	? $fileTime . '/'		: '';
+		$fileTimeStr 	= !empty(self::getFileChangeTime($file)) 	? self::getFileChangeTime($file) . '/'		: '';
 		if (!empty($picture) && !empty($path)) return asset($path . $fileTimeStr . $picture . $ext);
 		$fotoUrl = $sex == MEN ? 'image/no_foto_m_vip.jpg' : 'image/no_foto_w_vip.jpg';
 		return asset ($fotoUrl);
+	}
+
+	/**
+	 * getting file changins time
+	 * @param string $file
+	 *
+	 * @return string
+	 */
+	function getFileChangeTime ($file = '')
+	{
+		return file_exists($file) 	? filemtime($file)		: '';
 	}
 
 	/**
