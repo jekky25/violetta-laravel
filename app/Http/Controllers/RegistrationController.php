@@ -204,6 +204,13 @@ class RegistrationController extends Controller
 		]);
 	}
 
+	public function pass (Request $request)
+	{
+		return response()->view ('registration.pass',
+		[
+		]);
+	}
+
 	public function editPhoto (Request $request, $id)
 	{
 		$user 	= User::with('photo')->find(Auth::id());
