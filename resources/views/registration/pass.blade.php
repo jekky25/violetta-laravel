@@ -18,6 +18,12 @@
 @endif
 <p class="pad1"></p>
 <form name="anketa" action="{{ route('registration.edit.password') }}" method="post">
+{{ csrf_field() }}
+@if ($errors->comment->all())
+	@foreach ($errors->comment->all() as $item)
+	<p class="blue2">{{ $item }}</p>
+	@endforeach
+@endif
 	<h4 class="menu_registration"><div>Пароль</div></h4>
 	<p class="pad1 pad2">Для того, чтобы поменять <strong>пароль</strong> вам необходимо ввести старый, а затем два раза ввести новый пароль. Это необходимо для того, чтобы вы не ошиблись случайно при вводе пароля. <strong>Напоминаем</strong>, придумайте сложный пароль, чтобы его невозможно было бы подобрать и не используйте русские буквы.</p>
 	<table class="mrg6" width="100%">
