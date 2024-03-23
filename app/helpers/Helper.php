@@ -3,6 +3,8 @@ namespace App\Helpers;
 use Illuminate\Http\Request;
 use Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Photo;
 
 class Helper {
 
@@ -875,5 +877,39 @@ class Helper {
 	function serializeInput($data)
 	{
 		return !is_array($data) ? '' : serialize ($data);
+	}
+
+
+	function delPhoto ($photo)
+	{
+		$user 			= Auth::user();
+		$id = $photo->fotos_id;
+
+		if (file_exists("fotos_new/".$id.".jpg")) {
+			if(unlink("fotos_new/".$id.".jpg")) {}
+		}
+
+		$isPortret = $photo->fotos_portret == 1 ? 1 : 0;
+		$photo->delete();
+
+		if ($isPortret)
+		{
+			$photo = Photo::getFirstByUserId($user->user_id);
+
+			if (!empty($photo))
+			{
+				$photo->fotos_portret = 1;
+				$photo->update();
+			}
+		}
+
+		$user->user_refresh_date 	= date("Y-m-d");
+		$user->user_refresh_date_t 	= time();
+		$user->user_session_time 	= time();
+		$user->user_lastvisit 		= time();
+		$user->user_fotos 			= count (Photo::getAllByUserId($user->user_id));
+		$user->update();
+
+		return true;
 	}
 }

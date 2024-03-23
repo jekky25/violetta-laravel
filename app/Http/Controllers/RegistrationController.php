@@ -14,6 +14,7 @@ use App\Models\Region;
 use App\Models\City;
 use App\Models\User;
 use App\Models\Photo;
+use App\Models\AnketVisit;
 
 class RegistrationController extends Controller
 {
@@ -226,6 +227,26 @@ class RegistrationController extends Controller
 	public function delete (Request $request)
 	{
 		return response()->view ('registration.delete');
+	}
+
+	public function deleteConfirm (Request $request)
+	{
+		$user = Auth::user();
+		if (count ($user->photo) > 0)
+		{
+			foreach ($user->photo as $item) {
+				helper::delPhoto ($item);
+			}
+		}
+
+		$visits = AnketVisit::select('*')->where ('ank_user_id', $user->user_id)->get();
+		foreach ($visits as $item)
+		{
+			$item->delete();
+		}
+		$user->delete();
+
+		return redirect()->route('registration.delete')->with('success','Ваша анкета удалена. Но мы надеемся, что Вы еще вернетесь.');
 	}
 
 	public function passPost (Request $request)
