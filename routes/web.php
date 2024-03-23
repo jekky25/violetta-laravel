@@ -31,7 +31,7 @@ Route::post('registration/edit/photo/edit/{id}.html', 'RegistrationController@ed
 Route::match(['get', 'post'], 'registration/edit/photo/delete/{id}.html', 'RegistrationController@deletePhoto')->whereNumber('id')->name('registration.edit.photo.delete')->middleWare('auth');
 Route::get('registration/edit/pass', 'RegistrationController@pass')->name('registration.edit.password')->middleWare('auth');
 Route::post('registration/edit/pass', 'RegistrationController@passPost')->name('registration.edit.password.post')->middleWare('auth');
-Route::get('registration/delete', 'NoContoller4@index')->name('registration.delete')->middleWare('auth');
+Route::get('registration/delete', 'RegistrationController@delete')->name('registration.delete')->middleWare('auth');
 Route::get('registration/views', 'NoContoller8@index')->name('registration.views');
 Route::get('registration', 'NoContoller9@index')->name('registration');
 

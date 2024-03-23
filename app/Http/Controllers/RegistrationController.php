@@ -223,6 +223,11 @@ class RegistrationController extends Controller
 		return response()->view ('registration.pass');
 	}
 
+	public function delete (Request $request)
+	{
+		return response()->view ('registration.delete');
+	}
+
 	public function passPost (Request $request)
 	{
 		$user 			= Auth::user();
