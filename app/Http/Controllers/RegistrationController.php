@@ -15,6 +15,7 @@ use App\Models\City;
 use App\Models\User;
 use App\Models\Photo;
 use App\Models\AnketVisit;
+use App\Models\Diary;
 
 class RegistrationController extends Controller
 {
@@ -86,6 +87,9 @@ class RegistrationController extends Controller
 		'11' => 'jap',
 		'12' => 'arm'
 	];
+
+	public static $countPerPage 	= 10;
+	
 
     /**
      * Create a new controller instance.
@@ -610,5 +614,20 @@ class RegistrationController extends Controller
 		$text 			= 'Вы уверены, что хотите удалить это фото<br /><br />';
 		$confirmAction 	= route ('registration.edit.photo.delete', $id);
 		Helper::outMessageInfo($title, $text, $confirmAction);
+	}
+
+	public function diary (Request $request)
+	{
+		$user 			= Auth::user();
+		$userId			= $user->user_id;
+		$diaries = Diary::getByUser (self::$countPerPage, $userId);
+		$page			= $diaries->currentPage();
+		$pagination		= Helper::preparePagination ($diaries->toArray()['links']);
+
+		return response()->view ('registration.diary',
+		[
+			'diaries' 		=> $diaries,
+			'pagination'	=> $pagination,
+		]);
 	}
 }
