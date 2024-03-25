@@ -177,6 +177,7 @@ return [
         App\Providers\RightColServiceProvider::class,
         App\Providers\LeftColServiceProvider::class,
         App\Providers\MetaServiceProvider::class,
+        \App\Providers\RoutingServiceProvider::class,
         
     ],
 
