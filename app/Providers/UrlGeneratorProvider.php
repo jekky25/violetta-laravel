@@ -18,7 +18,7 @@ class UrlGeneratorProvider extends BaseUrlGenerator
      */
     public function format($root, $path, $route = null): string
     {
-        $trailingSlash = (Str::contains($path, ['#', '.html']) ? '' : '/');
+        $trailingSlash = (Str::contains($path, ['#', '.html', '/?']) ? '' : '/');
         return rtrim(parent::format($root, $path, $route), '/').$trailingSlash;
     }
 }

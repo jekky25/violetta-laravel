@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Helpers\Helper;
 use App\Models\Photo;
+use App\Services\LengthPager;
 
 class User extends Authenticatable
 {
@@ -203,7 +204,7 @@ class User extends Authenticatable
 		if (!empty ($op['birthDate2']))
 			$items = $items->where('user_birth_date', '<', $op['birthDate2']);
 		$items = $items->orderBy('user_id', 'desc')->paginate($count);
-
+		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
 		$items = self::addProps($items);
 
 		return $items;
