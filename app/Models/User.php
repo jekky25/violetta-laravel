@@ -149,6 +149,7 @@ class User extends Authenticatable
 		->with('photo')
 		->orderBy('user_top100', 'desc')
 		->paginate($count);
+		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
 		$items = self::addProps($items);
 
 		return $items;
