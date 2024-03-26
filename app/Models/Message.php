@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Services\LengthPager;
 
 class Message extends Model
 {
@@ -56,6 +57,8 @@ class Message extends Model
 		->groupBy ('user_id')
 		->orderBy('time', 'desc')
 		->paginate($count);
+
+		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
 
 		if (empty ($items)) return null;
 		return $items;
