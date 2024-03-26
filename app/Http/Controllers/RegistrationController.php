@@ -633,8 +633,20 @@ class RegistrationController extends Controller
 
 	public function settings (Request $request)
 	{
-		return response()->view ('registration.settings',
-		[
-		]);
+		return response()->view ('registration.settings',);
+	}
+
+	public function settingsPost (Request $request)
+	{
+		$user 			= Auth::user();
+		$arParams 		= $request->post();
+
+		$user->dont_send_email		= !empty ($arParams['dont_send_email']) ? (int) $arParams['dont_send_email'] : 0;
+		$user->user_refresh_date	= date("Y-m-d");
+		$user->user_refresh_date_t	= time();
+		$user->user_session_time	= time();
+		$user->user_lastvisit		= time();		
+		$user->update();
+		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 }

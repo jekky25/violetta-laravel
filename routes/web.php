@@ -20,6 +20,7 @@ Route::middleware('slashes')->group(function () {
 	Route::get('registration/delete/diary/{id}.html', 'NoContoller3@index')												->whereNumber('id')		->name('registration.delete.diary.id');
 	Route::get('registration/edit/diary/', 'RegistrationController@diary')																		->name('registration.edit.diary')			->middleWare('auth');
 	Route::get('registration/edit/settings/', 'RegistrationController@settings')																->name('registration.edit.settings')		->middleWare('auth');
+	Route::post('registration/edit/settings/', 'RegistrationController@settingsPost')															->name('registration.edit.settings.post')	->middleWare('auth');
 	Route::get('registration/top100/', 'NoContoller6@index')																					->name('registration.top100');
 	Route::get('registration/edit/', 'RegistrationController@edit')																				->name('registration.edit')					->middleWare('auth');
 	Route::post('registration/edit/', 'RegistrationController@editPost')																		->name('registration.edit.post')			->middleWare('auth');
