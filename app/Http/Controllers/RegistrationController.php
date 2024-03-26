@@ -630,4 +630,11 @@ class RegistrationController extends Controller
 			'pagination'	=> $pagination,
 		]);
 	}
+
+	public function settings (Request $request)
+	{
+		return response()->view ('registration.settings',
+		[
+		]);
+	}
 }
