@@ -15,6 +15,7 @@ use App\Models\Body;
 use App\Models\HairType;
 use App\Models\Eyes;
 use App\Helpers\Helper;
+use App\Services\LengthPager;
 
 class AnketController extends Controller
 {
@@ -355,6 +356,7 @@ class AnketController extends Controller
 			}
 
 			$ankets = $ankets->orderBy('user_refresh_date_t', 'desc')->paginate($anketPerPage);
+			$ankets = LengthPager::makeLengthAware($ankets, $ankets->total(), $anketPerPage);
 			$ankets->appends(request()->query());
 			$ankets = User::addProps($ankets);
 
