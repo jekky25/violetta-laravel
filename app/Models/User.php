@@ -130,7 +130,7 @@ class User extends Authenticatable
 		->with('city')
 		->with('photo')
 		->paginate($count);
-		
+		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
 		$items = self::addProps($items);
 
 		return $items;
