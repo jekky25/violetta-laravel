@@ -2,11 +2,15 @@
 @section('title', $title)
 @section('main_body')
 <h1 class="mTit">Поднять анкету</h1>
+@if(session('success'))
+<h4 class="reg_title2">{{ session('success') }}</h4>
+@else
 @if (!empty($textTop100))
 {!! $textTop100 !!}
 @endif
-@if (!empty($formTotop))
-{!! $formTotop !!}
+@if (!empty($formToTop))
+{!! $formToTop !!}
+@endif
 @endif
 <div class="pad5">					
 <script type="text/javascript"><!--
