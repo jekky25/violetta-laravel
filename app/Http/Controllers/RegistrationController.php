@@ -633,7 +633,7 @@ class RegistrationController extends Controller
 
 	public function settings (Request $request)
 	{
-		return response()->view ('registration.settings',);
+		return response()->view ('registration.settings');
 	}
 
 	public function settingsPost (Request $request)
