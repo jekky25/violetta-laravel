@@ -31,6 +31,7 @@
 			<h3>Вход</h3>
 			<div class="mob-menu-first-block">
 				<form name="login" action="{{route('login')}}" method="post">
+					{{ csrf_field() }}
 					<dl>
 						<dt>Ваш логин:</dt>
 						<dd><input type="text" name="username_template" /></dd>
@@ -214,6 +215,7 @@ google_ad_height = 600;
 			<h2>Вход для пользователей</h2>			
 			<div class="bl logForm">
 				<form name="login" action="{{route('login')}}" method="post">
+					{{ csrf_field() }}
 					<dl>
 						<dt>Ваш логин:</dt>
 						<dd><input type="text" name="username_template" /></dd>
@@ -221,7 +223,7 @@ google_ad_height = 600;
 					<dl>
 						<dt>Пароль:</dt>
 						<dd><input type="password" name="pass_template" /></dd>
-					</dl>					
+					</dl>
 					<p class="pad1"><input class="bgBut2" class="submit" type="submit" value="" /></p>
 				</form>
 				<p><a class="name" style="padding-right: 20px;" href="{{route('forget_pass')}}">Забыли пароль?</a></p>

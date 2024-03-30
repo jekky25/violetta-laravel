@@ -155,6 +155,15 @@ class User extends Authenticatable
 		return $items;
 	}
 
+	public function getByLoginAndPass($login, $pass)
+	{
+		if (empty($login) or empty($pass)) return false;
+		return self::select(['user_id'])
+				->where('user_login', $login)
+				->where('user_hash', md5($pass))
+				->first();
+	}
+
 	public function getMaxReiting($sex)
 	{
 		$item = self::select(['*'])

@@ -715,4 +715,23 @@ class RegistrationController extends Controller
 		Auth::logout();
 		return redirect()->route('home');
 	}
+
+	public function login (Request $request)
+	{
+		$arParams 		= $request->post();
+		$username 		= !empty($arParams['username_template'])	? trim($arParams['username_template']) 	: '';
+		$password 		= !empty($arParams['pass_template']) 		? $arParams['pass_template'] 			: '';
+		$remember 		= true;
+
+		$user 			= User::getByLoginAndPass($username, $password);
+		if (empty($user)) 
+		{
+			$title 			= 'Информация';
+			$text			= 'Неверно указаны имя пользователя или пароль!';
+			Helper::outMessageDie($title, $text);
+		}
+
+		Auth::login($user);
+		return redirect()->route('home');
+	}
 }

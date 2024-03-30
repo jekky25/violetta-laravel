@@ -102,13 +102,11 @@ Route::middleware('slashes')->group(function () {
 
 	Route::get('search/', 'AnketController@getBySearch')																						->name('search');
 	
-	Route::get('logout/', 'NoContoller@index')																									->name('logout');
-	Route::get('login/', 'NoContoller@index')																									->name('login');
+	Route::get('logout/', 'RegistrationController@logout')																						->name('logout')->middleWare('auth');
+	Route::post('login/', 'RegistrationController@login')																						->name('login');
 	Route::get('forget_pass/', 'NoContoller@index')																								->name('forget_pass');
 	Route::get('sitemap/', 'NoContoller@index')																									->name('sitemap');
 	Route::get('contacts/', 'NoContoller@index')																								->name('contacts');
-	
-	Route::match(['get', 'post'], 'login.html', 'NoContoller@index')																			->name('login');
 });
 
 /*ajax */
