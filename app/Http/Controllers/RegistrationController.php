@@ -708,4 +708,11 @@ class RegistrationController extends Controller
 
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
+
+	public function logout ()
+	{
+		$user 			= Auth::user();
+		Auth::logout();
+		return redirect()->route('home');
+	}
 }
