@@ -104,6 +104,9 @@ Route::middleware('slashes')->group(function () {
 	
 	Route::get('logout/', 'RegistrationController@logout')																						->name('logout')->middleWare('auth');
 	Route::post('login/', 'RegistrationController@login')																						->name('login');
+	Route::get('login/', function () {
+		return redirect()->route('home');
+	});
 	Route::get('forget_pass/', 'NoContoller@index')																								->name('forget_pass');
 	Route::get('sitemap/', 'NoContoller@index')																									->name('sitemap');
 	Route::get('contacts/', 'NoContoller@index')																								->name('contacts');
