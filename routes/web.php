@@ -107,7 +107,8 @@ Route::middleware('slashes')->group(function () {
 	Route::get('login/', function () {
 		return redirect()->route('home');
 	});
-	Route::get('forget_pass/', 'NoContoller@index')																								->name('forget_pass');
+	Route::post('forget_pass/', 'RegistrationController@forgetPassPost')																		->name('forget_pass.post');
+	Route::get('forget_pass/', 'RegistrationController@forgetPass')																				->name('forget_pass');
 	Route::get('sitemap/', 'NoContoller@index')																									->name('sitemap');
 	Route::get('contacts/', 'NoContoller@index')																								->name('contacts');
 });

@@ -734,4 +734,9 @@ class RegistrationController extends Controller
 		Auth::login($user);
 		return redirect()->route('home');
 	}
+
+	public function forgetPass (Request $request)
+	{
+		return response()->view ('registration.forget_pass');
+	}
 }
