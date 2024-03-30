@@ -174,6 +174,11 @@ class MetaServiceProvider extends ServiceProvider
 								<meta name="Keywords" content="сайт знакомств">';
 					break;
 
+				case 'forget_pass':
+					$pageTitle 	= 'Забыли пароль на сайте знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта';
+					$pageMeta 	= '<meta name="Description" content="Сайт знакомств на любой вкус. Найди свою любовь. Тысячи анкет с фото, бесплатная регистрация.">
+						<meta name="Keywords" content="сайт знакомств, бесплатные знакомства, знакомства в Москве, поиск анкет, найти любовь">';
+					break;
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
 				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
