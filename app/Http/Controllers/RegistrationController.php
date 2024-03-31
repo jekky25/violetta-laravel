@@ -41,6 +41,15 @@ class RegistrationController extends Controller
 		'pass'		=> ['required', 'max:15', 'min:5'],
 	];
 
+	public static $rulesForgetPass = [
+		'mail'		=> ['required', 'email']
+	];
+
+	public static $errMessagesForgetPass= [
+		'mail.required'			=> 'не указан Е-майл',
+		'mail.email'			=> 'указан некорректный Е-майл'
+	];
+
 	public static $errMessagesEdit = [
 		'name.required'		 	=> 'Имя не заполнено',
 		'name.max'		 		=> 'Имя слишком длинное',
@@ -738,5 +747,21 @@ class RegistrationController extends Controller
 	public function forgetPass (Request $request)
 	{
 		return response()->view ('registration.forget_pass');
+	}
+
+	public function forgetPassPost (Request $request)
+	{
+		$arParams 		= $request->post();
+		$validator 		= Validator::make($arParams, self::$rulesForgetPass, self::$errMessagesForgetPass);
+
+		if ($validator->fails()) {
+			$messages = $validator->messages();
+			$strError = $messages;
+
+			return redirect()->back()
+				->withErrors($strError, 'comment')
+				->withInput();
+		}
+
 	}
 }
