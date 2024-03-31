@@ -242,6 +242,15 @@ class User extends Authenticatable
 		if (empty ($item)) abort (404);
 		return $item;
 	}
+
+	public function getByEmail($email)
+	{
+		$item = self::select('*')
+		->where ('user_mail', $email)
+		->first();
+		return $item;
+	}
+
 	public function getJustById($id, $width = [])
 	{
 		$item = self::select('*')

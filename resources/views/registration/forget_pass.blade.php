@@ -5,8 +5,8 @@
 <table id="mScreen">
 	<tr>
 		<td class="wth4 left1">
-		@if(session('success') && !empty ($email))
-		<p>На адрес <strong>{{ $email }}</strong> было выслано письмо с вашим паролем!
+		@if(session('success'))
+		{!! session('success') !!}
 		@else
 			<p>Вы <strong>не помните свой пароль</strong>? Введите пожалуйста Е-майл, который вы оставили при регистрации. Если он в нашей базе, мы пришлем вам письмо с вашими данными для входа.</p>
 			@if (!empty ($errors->comment->all()))

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 use Validator;
 use App\Helpers\Helper;
@@ -16,9 +17,12 @@ use App\Models\User;
 use App\Models\Photo;
 use App\Models\AnketVisit;
 use App\Models\Diary;
+use App\Mail\Email;
 
 class RegistrationController extends Controller
 {
+	public static $siteUrl				= 'www.avioletta.ru';
+	public static $siteUrlWithProtocol	= 'http://www.avioletta.ru';
 
 	public static $rulesEdit = [
 		'name'	=> ['required', 'max:30', 'min:2', 'birth_data', 'birth_data_correct'],
@@ -762,6 +766,26 @@ class RegistrationController extends Controller
 				->withErrors($strError, 'comment')
 				->withInput();
 		}
+		$email 	= $arParams['mail'];
+		$user 	= User::getByEmail($email);
+
+		if (!empty($user))
+		{
+			$oMail 					= new \stdClass();
+			$oMail->emailTo 		= $email;
+			$oMail->emailFrom 		= config('mail.email_main');
+			$oMail->template 		= 'mails.pass';
+			$oMail->templateText 	= 'mails.txt.pass';
+			$oMail->login 			= $user->user_login;
+			$oMail->password		= $user->user_password;
+			$oMail->sitename 		= '<a href="' . self::$siteUrlWithProtocol . '">' . self::$siteUrl . '</a>';
+			$oMail->sitenameNoTags	= self::$siteUrl;
+			$oMail->subject			= "Запрос пароля на www.avioletta.ru";
+			Mail::mailer(config('mail.mail_mode'))
+        	->to($oMail->emailTo)
+        	->send(new Email($oMail));
+		}
+		return redirect()->route(Route::currentRouteName())->with('success','<p>На адрес <strong>' . $email . '</strong> было выслано письмо с вашим паролем!');
 
 	}
 }
