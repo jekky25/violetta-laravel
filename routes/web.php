@@ -39,7 +39,8 @@ Route::middleware('slashes')->group(function () {
 	Route::get('registration/delete/', 'RegistrationController@delete')																			->name('registration.delete')				->middleWare('auth');
 	Route::get('registration/delete/confirm/', 'RegistrationController@deleteConfirm')															->name('registration.delete.confirm')		->middleWare('auth');
 	Route::get('registration/views/', 'NoContoller8@index')																						->name('registration.views');
-	Route::get('registration/', 'NoContoller9@index')																							->name('registration');
+	Route::get('registration/', 'RegistrationController@registration')																			->name('registration');
+	Route::post('registration/', 'RegistrationController@registrationPost')																		->name('registration.post');
 
 	Route::get('privmsg/', 'PrivmsgController@index')																							->name('privmsg')							->middleWare('auth');
 	Route::post('privmsg/delete.html', 'PrivmsgController@delete')																				->name('privmsg.delete')					->middleWare('auth');
@@ -111,6 +112,7 @@ Route::middleware('slashes')->group(function () {
 	Route::get('forget_pass/', 'RegistrationController@forgetPass')																				->name('forget_pass');
 	Route::get('sitemap/', 'NoContoller@index')																									->name('sitemap');
 	Route::get('contacts/', 'NoContoller@index')																								->name('contacts');
+	Route::get('conditions/', 'NoContoller@index')																								->name('conditions');
 });
 
 /*ajax */

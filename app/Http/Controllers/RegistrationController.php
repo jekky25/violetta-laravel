@@ -788,4 +788,20 @@ class RegistrationController extends Controller
 		return redirect()->route(Route::currentRouteName())->with('success','<p>На адрес <strong>' . $email . '</strong> было выслано письмо с вашим паролем!');
 
 	}
+
+	public function registration (Request $request)
+	{
+		$days 		= Helper::getDays();
+		$months 	= Helper::getMonths();
+		$years 		= Helper::getYears();
+		$countries	= Country::getAll();
+
+		return response()->view ('registration.registration',
+		[
+			'days'			=> $days,
+			'months'		=> $months,
+			'years'			=> $years,
+			'countries'		=> $countries,
+		]);
+	}
 }
