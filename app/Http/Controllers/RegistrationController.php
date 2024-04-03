@@ -938,7 +938,34 @@ class RegistrationController extends Controller
 						->withInput();
 		}
 
-		dd ('ok');
 
+		$aFields = [
+			'user_active' 				=> 1,
+			'user_odobreno' 			=> 1,
+			'user_login' 				=> $arParams['login'],
+			'user_password' 			=> $arParams['password'],
+			'user_hash'	 				=> md5($arParams['password']),
+			'user_mail' 				=> $arParams['mail'],
+			'user_sex' 					=> $arParams['sex'],
+			'user_name' 				=> $arParams['name'],
+			'user_birth_date'	 		=> Helper::getDateStr($arParams['birth_day'],$arParams['birth_month'],$arParams['birth_year']),
+			'user_country' 				=> $country,
+			'user_region' 				=> $region,
+			'user_city'					=> $city,
+			'user_make_date'	 		=> date("Y-m-d"),
+			'user_make_date_t' 			=> time(),
+			'user_refresh_date' 		=> date("Y-m-d"),
+			'user_refresh_date_t'	 	=> time(),
+			'user_session_time' 		=> time(),
+			'user_lastvisit'	 		=> time(),
+			'user_ip' 					=> $ip,
+			'user_submit_code' 			=> md5 (time() . $arParams['login'] . rand(0, 1000)),
+			'user_description' 			=> "", 
+			'user_partner_description' 	=> "",
+			'user_confirm_email' 		=> 0
+		];
+		$oUser = new User($aFields);
+		$oUser->save();
+		dd ('ok');
 	}
 }
