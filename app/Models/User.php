@@ -251,6 +251,14 @@ class User extends Authenticatable
 		return $item;
 	}
 
+	public function getByLogin($login)
+	{
+		$item = self::select('*')
+		->where ('user_login', $login)
+		->first();
+		return $item;
+	}
+
 	public function getJustById($id, $width = [])
 	{
 		$item = self::select('*')
