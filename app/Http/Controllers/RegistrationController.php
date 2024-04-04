@@ -830,6 +830,8 @@ class RegistrationController extends Controller
 
 	public function registration (Request $request)
 	{
+		if (session('success')) return response()->view ('registration.finish');
+
 		$days 		= Helper::getDays();
 		$months 	= Helper::getMonths();
 		$years 		= Helper::getYears();
@@ -855,6 +857,9 @@ class RegistrationController extends Controller
 		$arParams 				= $request->post();
 		$ip 					= $request->ip();
 		$ban 					= BanList::getByIP($ip);
+		$login 					= !empty ($arParams ['login']) 				? $arParams['login'] 				: '';
+		$password 				= !empty ($arParams ['password'])			? $arParams['password'] 			: '';
+		$password_second 		= !empty ($arParams ['password_second'])	? $arParams['password_second']		: '';
 		$city 					= !empty ($arParams ['city']) 				? $arParams['city'] 				: 0;
 		$region 				= !empty ($arParams ['region']) 			? $arParams['region'] 				: 0;
 		$country 				= !empty ($arParams ['country']) 			? $arParams['country'] 				: 0;
@@ -866,13 +871,13 @@ class RegistrationController extends Controller
 		});
 
 		Validator::extend('check_login',
-		function () use ($arParams) {
-			return empty(User::getByLogin($arParams['login'])) ? true : false;
+		function () use ($login) {
+			return empty(User::getByLogin($login)) ? true : false;
 		});
 
 		Validator::extend('check_password',
-		function () use ($arParams) {
-			return $arParams['password'] == $arParams['password_second'] ? true : false;
+		function () use ($password, $password_second) {
+			return $password == $password_second ? true : false;
 		});
 
 		Validator::extend('birth_data',
@@ -938,13 +943,14 @@ class RegistrationController extends Controller
 						->withInput();
 		}
 
+		$code = md5 (time() . $login . rand(0, 1000));
 
 		$aFields = [
 			'user_active' 				=> 1,
 			'user_odobreno' 			=> 1,
-			'user_login' 				=> $arParams['login'],
-			'user_password' 			=> $arParams['password'],
-			'user_hash'	 				=> md5($arParams['password']),
+			'user_login' 				=> $login,
+			'user_password' 			=> $password,
+			'user_hash'	 				=> md5($password),
 			'user_mail' 				=> $arParams['mail'],
 			'user_sex' 					=> $arParams['sex'],
 			'user_name' 				=> $arParams['name'],
@@ -959,13 +965,34 @@ class RegistrationController extends Controller
 			'user_session_time' 		=> time(),
 			'user_lastvisit'	 		=> time(),
 			'user_ip' 					=> $ip,
-			'user_submit_code' 			=> md5 (time() . $arParams['login'] . rand(0, 1000)),
+			'user_submit_code' 			=> $code,
 			'user_description' 			=> "", 
 			'user_partner_description' 	=> "",
 			'user_confirm_email' 		=> 0
 		];
 		$oUser = new User($aFields);
 		$oUser->save();
-		dd ('ok');
+		$userId	= $oUser->getKey();
+
+		$oMail 					= new \stdClass();
+		$oMail->emailTo 		= $arParams['mail'];
+		$oMail->emailFrom 		= config('mail.email_main');
+		$oMail->template 		= 'mails.register';
+		$oMail->templateText 	= 'mails.txt.register';
+		$oMail->login 			= $login;
+		$oMail->password		= $password;
+		$oMail->id				= $userId;
+		$oMail->code			= $code;
+		$oMail->sitename 		= '<a href="' . self::$siteUrlWithProtocol . '">' . self::$siteUrl . '</a>';
+		$oMail->sitenameNoTags	= self::$siteUrl;
+		$oMail->subject			= "Регистрация на www.avioletta.ru";
+		Mail::mailer(config('mail.mail_mode'))
+		->to($oMail->emailTo)
+		->send(new Email($oMail));
+
+		$user 			= User::getByLoginAndPass($login, $password);
+		Auth::login($user);
+
+		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 }
