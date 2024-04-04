@@ -22,9 +22,7 @@
 </table>
 @endif
 <p class="pad2"></p>
-@foreach ($errors->comment->get('photo_link') as $item)
-	<p class="blue2">{{ $item }}</p>
-@endforeach
+@include('blocks.error', ['errName' => 'photo_link'])
 <table class="wth3">
 	<tr>
 		<td class="pad3">

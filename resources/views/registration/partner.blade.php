@@ -16,11 +16,7 @@
 {{ csrf_field() }}
 	<h4 class="menu_registration"><div>Внешние данные</div></h4>
 	<p class="pad1 pad2">Если у вас есть конкретные пожелания к внешности вашего партнера - укажите их здесь.</p>
-	@if ($errors->comment->has('age'))
-	@foreach ($errors->comment->get('age') as $item)
-	<p class="blue2">{{ $item }}</p>
-	@endforeach
-	@endif
+	@include('blocks.error', ['errName' => 'age'])
 	<table class="mrg6" width="100%">
 		<tr>
 			<td align="right" width="50%">Возраст:</td>
