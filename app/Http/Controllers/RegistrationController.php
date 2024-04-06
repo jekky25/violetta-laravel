@@ -991,7 +991,7 @@ class RegistrationController extends Controller
 		->send(new Email($oMail));
 
 		$user 			= User::getByLoginAndPass($login, $password);
-		Auth::login($user);
+		Auth::login($user, true);
 
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
