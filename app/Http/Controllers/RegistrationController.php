@@ -831,6 +831,8 @@ class RegistrationController extends Controller
 	public function registration (Request $request)
 	{
 		if (session('success')) return response()->view ('registration.finish');
+		$user 			= Auth::user();
+		if (!empty ($user)) return redirect()->route('home');
 
 		$days 		= Helper::getDays();
 		$months 	= Helper::getMonths();
