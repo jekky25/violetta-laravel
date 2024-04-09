@@ -112,7 +112,10 @@ Route::middleware('slashes')->group(function () {
 	Route::get('forget_pass/', 'RegistrationController@forgetPass')																				->name('forget_pass');
 	Route::get('sitemap/', 'NoContoller@index')																									->name('sitemap');
 	Route::get('contacts/', 'NoContoller@index')																								->name('contacts');
-	Route::get('conditions/', 'NoContoller@index')																								->name('conditions');
+	Route::get('conditions/', function () 
+	{	
+		return response()->view ('conditions'); 
+	})																																			->name('conditions');
 });
 
 /*ajax */
