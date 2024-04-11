@@ -998,8 +998,21 @@ class RegistrationController extends Controller
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
-	public function confirm (Request $request, $id, $confirm)
+	public function confirm ($id, $code)
 	{
+		if (empty ($code)) abort(404);
+		$user 			= User::getByIdAndConfirmCode($id, $code);
+		$isConfirmed 	= false;
+		if (!empty ($user))
+		{
+			$user->user_confirm_email 	= 1;
+			$user->user_submit_code 	= '';
+			$user->update();
+			$isConfirmed = true;
+		}
+		return response()->view ('registration.confirm',
+		[
+			'isConfirmed'			=> $isConfirmed,
+		]);
 	}
-
 }
