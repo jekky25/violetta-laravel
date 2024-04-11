@@ -41,6 +41,7 @@ Route::middleware('slashes')->group(function () {
 	Route::get('registration/views/', 'NoContoller8@index')																						->name('registration.views');
 	Route::get('registration/', 'RegistrationController@registration')																			->name('registration');
 	Route::post('registration/', 'RegistrationController@registrationPost')																		->name('registration.post');
+	Route::post('registration/confirm/{id}/{confirm}/', 'RegistrationController@confirm')														->name('registration.confirm');
 
 	Route::get('privmsg/', 'PrivmsgController@index')																							->name('privmsg')							->middleWare('auth');
 	Route::post('privmsg/delete.html', 'PrivmsgController@delete')																				->name('privmsg.delete')					->middleWare('auth');
