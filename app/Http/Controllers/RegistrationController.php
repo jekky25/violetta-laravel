@@ -997,4 +997,9 @@ class RegistrationController extends Controller
 
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
+
+	public function confirm (Request $request, $id, $confirm)
+	{
+	}
+
 }
