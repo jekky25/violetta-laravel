@@ -111,7 +111,7 @@ Route::middleware('slashes')->group(function () {
 	});
 	Route::post('forget_pass/', 'RegistrationController@forgetPassPost')																		->name('forget_pass.post');
 	Route::get('forget_pass/', 'RegistrationController@forgetPass')																				->name('forget_pass');
-	Route::get('sitemap/', 'NoContoller@index')																									->name('sitemap');
+	Route::get('sitemap/', 'SiteController@index')																									->name('sitemap');
 	Route::get('contacts/', 'NoContoller@index')																								->name('contacts');
 	Route::get('conditions/', function () 
 	{	
