@@ -100,7 +100,7 @@ Route::middleware('slashes')->group(function () {
 	Route::get('dreambook/{id}.html', 'DreamBookController@getItem')													->whereNumber('id')		->name('dreambook.id');
 	Route::get('dreambook.html', 'DreamBookController@index')																					->name('dreambook');
 	Route::get('ank/diaries.html', 'DiaryController@index')																						->name('diaries');
-	Route::get('review', 'NoContoller@index')																									->name('review');
+	Route::get('review/', 'NoContoller@index')																									->name('review');
 
 	Route::get('search/', 'AnketController@getBySearch')																						->name('search');
 	
