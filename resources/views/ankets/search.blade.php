@@ -36,7 +36,6 @@ google_ad_height = 600;
 @else
 <h1 class="mTit">Поиск</h1>
 <form name="anketa" action="{{route('search')}}" method="get" class="formSearch">
-<input type="hidden" name="mod" value="search" />
 <input type="hidden" name="send" value="1" />
 <table class="searchTable">
 	<tr>
