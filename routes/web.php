@@ -111,10 +111,11 @@ Route::middleware('slashes')->group(function () {
 	});
 	Route::post('forget_pass/', 'RegistrationController@forgetPassPost')																		->name('forget_pass.post');
 	Route::get('forget_pass/', 'RegistrationController@forgetPass')																				->name('forget_pass');
-	Route::get('sitemap/', 'SiteController@index')																									->name('sitemap');
-	Route::get('contacts/', 'NoContoller@index')																								->name('contacts');
+	Route::get('sitemap/', 'SiteController@index')																								->name('sitemap');
+	Route::get('contacts/', 'ContactsController@index')																							->name('contacts');
+	Route::post('contacts/', 'ContactsController@post')																							->name('contacts.post');
 	Route::get('conditions/', function () 
-	{	
+	{
 		return response()->view ('conditions'); 
 	})																																			->name('conditions');
 });
@@ -137,13 +138,12 @@ Route::get('/artis', function () {
 });
 	
 Route::get('/clear', function () {
-	/*
+
 			Artisan::call('cache:clear');
 			Artisan::call('config:cache');
 			Artisan::call('view:clear');
 			Artisan::call('route:clear');
-			*/
-	//		return "Сброс кэша выполнен!";
+			return "Сброс кэша выполнен!";
 	
 });
 
