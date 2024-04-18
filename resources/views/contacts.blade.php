@@ -15,6 +15,7 @@
 <h1 class="mTit">Контактная информация</h1>
 <p class="pad3">Для того, чтобы связаться с нами, заполните пожалуйста</p>
 <form name="anketa" action="{{ route ('contacts.post') }}" method="post" class="formSearch">
+{{ csrf_field() }}
 @if (!empty ($errors->comment->all()))
 	<div class="pad3 error">
 @foreach ($errors->comment->all() as $message)
