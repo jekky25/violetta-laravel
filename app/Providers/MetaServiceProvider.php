@@ -192,6 +192,12 @@ class MetaServiceProvider extends ServiceProvider
 							<meta name="Keywords" content="карта сайта, структура сайта, сайт знакомств, бесплатные знакомства">';
 					break;
 
+				case 'contacts':
+					$pageTitle 	= 'Контакты, Оставить сообщение, Сайт знакомств Виолетта';
+					$pageMeta 	= '<meta name="Description" content="Контакты, Оставить сообщение. На сайте знакомств ты встретишь свою судьбу.">
+						<meta name="Keywords" content="контакты, оставить сообщение, сайт знакомств, бесплатные знакомства">';	
+					break;
+					
 				default:
 				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
 				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
