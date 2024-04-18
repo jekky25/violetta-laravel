@@ -26,7 +26,7 @@
 	<table class="searchTable">
 		<tr>
 			<td class="right1">ваше имя</td>
-			<td><input class="login" type="text" name="fio" value="{{ old('fio') }}" /></td>
+			<td><input class="login" type="text" name="name" value="{{ old('name') }}" /></td>
 		</tr>
 		<tr>
 			<td class="right1">название организации (если есть)</td>
