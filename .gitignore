@@ -16,3 +16,10 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+/public/forum/config.php
+/public/forum/cache/
+/public/forum/files/
+/public/forum/images/avatars/upload/
+/public/forum/ANTQUAB.TTF
+/public/forum/arial.ttf
+/2985ac2e5fba128e432d8e4c54a11c6f
