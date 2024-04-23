@@ -177,10 +177,11 @@ src="http://d1.cd.b3.a1.top.list.ru/counter?js=na;id=1298829;t=133"
 border=0 height=40 width=88
 alt="Рейтинг@Mail.ru"/></a></noscript><script language="JavaScript" type="text/javascript"><!--
 if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br />
-
+{{--
 {if $s_link1}
 {$s_link1}
 {/if}<br /><br />
+--}}
 {{--<script type="text/javascript"><!--
 google_ad_client = "pub-6379140164632940";
 /* Морда слева сквозняк */
@@ -262,12 +263,14 @@ google_ad_height = 600;
 				</div>
 				<div class="blFoot"></div>
 				<div class="counter">
+{{--
 {if $s_link2}
 {$s_link2}
 {/if}<br />
 {if $s_link3}
 {$s_link3}
 {/if}<br /><br />
+--}}
 <!--noindex-->
 <br />
 <!--LiveInternet counter--><script type="text/javascript"><!--
@@ -304,11 +307,13 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 		</table>
 	</div>
 	<div class="mob-copyrights">{{ $copyright }}</div>
+{{--
 {if $s_link4}
 <div class="drugi">	
 {$s_link4}
 </div>
 {/if}
+--}}
 </div>
 <div id="mask"></div>
 <div id="prodblock"><div id="prodblockIn"><div class="bgFame1Cnt2"></div></div></div>
