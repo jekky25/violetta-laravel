@@ -6,6 +6,15 @@
     RewriteEngine On
     RewriteRule ^fotos_new/([0-9]+)/([0-9]+).jpg fotos_new/$2.jpg?t=$1 [L,QSA]
 
+    RewriteRule forum/forum_([0-9]+)\.html$ forum/viewforum.php?f=$1 [QSA]
+    RewriteRule forum/forum_([0-9]+)_([0-9]+)\.html$ forum/viewforum.php?f=$1&start=$2 [L]
+
+    RewriteRule forum/topic_([0-9]+).html$ forum/viewtopic.php?f=$1 [QSA]
+    RewriteRule forum/topic_([0-9]+)_([0-9]+)\.html$ forum/viewtopic.php?f=$1&t=$2 [QSA]
+    RewriteRule forum/topic_([0-9]+)_([0-9]+)_previous\.html$ forum/viewtopic.php?f=$1&t=$2&view=previous [QSA]
+    RewriteRule forum/topic_([0-9]+)_([0-9]+)_next\.html$ forum/viewtopic.php?f=$1&t=$2&view=next [QSA]
+    RewriteRule forum/topic_([0-9]+)_([0-9]+)_s([0-9]+)\.html$ forum/viewtopic.php?f=$1&t=$2&start=$3 [QSA]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
