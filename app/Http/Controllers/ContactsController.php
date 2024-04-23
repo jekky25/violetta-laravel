@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Email;
 use Validator;
 
 
@@ -83,6 +86,22 @@ class ContactsController extends Controller
 						->withErrors($strError, 'comment')
 						->withInput();
 		}
+
+		$oMail 					= new \stdClass();
+		$oMail->emailTo 		= config('mail.email_main');
+		$oMail->emailFrom 		= config('mail.email_main');
+		$oMail->template 		= 'mails.contacts';
+		$oMail->templateText 	= 'mails.txt.contacts';
+		$oMail->name 			= $arParams['name'];
+		$oMail->organization 	= $arParams['organization'];
+		$oMail->email 			= $arParams['mail'];
+		$oMail->description 	= $arParams['description'];
+		$oMail->subject			= "Контакты";
+		Mail::mailer(config('mail.mail_mode'))
+		->to($oMail->emailTo)
+		->send(new Email($oMail));
+
+		return redirect()->route(Route::currentRouteName())->with('success','Ваше сообщение было отослано в службу поддержки. Спасибо!');
 	}
 }
 

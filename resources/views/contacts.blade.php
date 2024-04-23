@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
+@if(session('success'))
+<p class="mess pad5">{{session('success')}}</p>
+@else
 @push('scripts')
 <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render={{ RE_SITE_KEY }}"></script>
 @endpush
@@ -52,4 +55,5 @@ function find_otsil()
 		<input type="submit" name="sent" onclick="find_otsil()" value="Отправить" />
 	</p>
 </form>
+@endif
 @overwrite
