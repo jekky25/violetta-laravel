@@ -143,7 +143,7 @@ google_ad_height = 90;
 				<!--noindex-->
 					<ul>
 						@foreach ($forums as $item)
-						<li><a href="forum/topic_{{ $item->forum_id }}_{{ $item->topic_id }}.html" rel="nofollow">{!! \Illuminate\Support\Str::limit($item->topic_title, 28, $end='...') !!}</a></li>
+						<li><a href="{{ route ('forum.topic', [$item->forum_id, $item->topic_id]) }}" rel="nofollow">{!! \Illuminate\Support\Str::limit($item->topic_title, 28, $end='...') !!}</a></li>
 						@endforeach
 					</ul>
 				<!--/noindex-->
