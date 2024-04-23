@@ -124,6 +124,7 @@ Route::middleware('slashes')->group(function () {
 Route::get('ajax/geo.php', 'ajaxController@getGeo');
 Route::get('/', 'HomeController@index')																											->name('home');
 
+Route::get('forum/topic_{$forum_id}_{$topic_id}.html', 'forumController@index')																	->name('forum.topic');
 
 
 Route::get('/migr', function () {
