@@ -1,0 +1,33 @@
+<!-- IF .draftrow -->
+<div class="panel">
+	<div class="inner"><span class="corners-top"><span></span></span>
+
+	<h3 class="n_team">{L_LOAD_DRAFT}</h3>
+	<p>{L_LOAD_DRAFT_EXPLAIN}</p>
+
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+
+<div class="forabg">
+<span class="corners-top"><span></span></span>
+<div style="width:100%">
+<table class="topiclist_t">
+<tr class="header">
+	<td>{L_LOAD_DRAFT}</td>
+	<td class="posted">{L_SAVE_DATE}</td>
+</tr>
+<!-- BEGIN draftrow --> 
+<tr class="topiclist forums">
+	<td>
+<dt style="padding-left: 5px;">
+<a href="{draftrow.U_INSERT}" title="{L_LOAD_DRAFT}" class="topictitle">{draftrow.DRAFT_SUBJECT}</a><br />
+<!-- IF not S_PRIVMSGS --><!-- IF draftrow.S_LINK_TOPIC -->{L_TOPIC}: <a href="{draftrow.U_VIEW}">{draftrow.TITLE}</a>
+<!-- ELSEIF draftrow.S_LINK_FORUM -->{L_FORUM}: <a href="{draftrow.U_VIEW}">{draftrow.TITLE}</a>
+<!-- ELSE -->{L_NO_TOPIC_FORUM}<!-- ENDIF --><!-- ENDIF --> </dt></td>
+<td class="posted"><div title="Сообщения">{draftrow.DATE}</div></td>
+</tr>
+<!-- END draftrow --> 
+</table>
+</div>
+<span class="corners-bottom"><span></span></span></div>
+<!-- ENDIF -->

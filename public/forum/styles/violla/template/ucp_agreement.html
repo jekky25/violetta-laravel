@@ -1,0 +1,61 @@
+<!-- INCLUDE overall_header.html -->
+<table id="id4">
+<tr><td>
+<!-- IF S_SHOW_COPPA or S_REGISTRATION -->
+
+	<form method="post" action="{S_UCP_ACTION}" id="agreement">
+
+	<div class="panel">
+		<div class="inner"><span class="corners-top"><span></span></span>
+		<div class="content">
+			<h2>{SITENAME} - {L_REGISTRATION}</h2>
+			<p class="fl_left"><!-- IF S_SHOW_COPPA -->{L_COPPA_BIRTHDAY}<!-- ELSE -->{L_TERMS_OF_USE}<!-- ENDIF --></p>
+		</div>
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<div class="panel">
+		<div class="inner"><span class="corners-top"><span></span></span>
+		<fieldset class="submit-buttons">
+			<!-- IF S_SHOW_COPPA -->
+			<strong><a href="{U_COPPA_NO}" class="button1">{L_COPPA_NO}</a></strong>&nbsp; <a href="{U_COPPA_YES}" class="button2">{L_COPPA_YES}</a>
+			<!-- ELSE -->
+			<input type="submit" name="agreed" id="agreed" value="{L_AGREE}" class="button1" />&nbsp;
+			<input type="submit" name="not_agreed" value="{L_NOT_AGREE}" class="button2" />
+			<!-- ENDIF -->
+			{S_HIDDEN_FIELDS}
+			{S_FORM_TOKEN}
+		</fieldset>
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+	</form>
+
+<!-- ELSEIF S_AGREEMENT -->
+
+	<div class="panel">
+		<div class="inner"><span class="corners-top"><span></span></span>
+		<div class="content">
+			<h2>{SITENAME} - {AGREEMENT_TITLE}</h2>
+			<p class="fl_left">{AGREEMENT_TEXT}</p>
+			<hr class="dashed" />
+			<p><a href="{U_BACK}" class="button2">{L_BACK}</a></p>
+		</div>
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+<!-- ENDIF -->
+</td></tr></table>
+<div class="menu3">
+<ul class="linklist">
+<li class="icon-home"><a href="{U_INDEX}" accesskey="h">{L_INDEX}</a></li>
+ <!-- IF not S_IS_BOT -->
+ <!-- IF S_WATCH_FORUM_LINK --><li <!-- IF S_WATCHING_FORUM -->class="icon-unsubscribe"<!-- ELSE -->class="icon-subscribe"<!-- ENDIF -->><a href="{S_WATCH_FORUM_LINK}" title="{S_WATCH_FORUM_TITLE}">{S_WATCH_FORUM_TITLE}</a></li><!-- ENDIF -->
+ <!-- IF U_WATCH_TOPIC --><li <!-- IF S_WATCHING_TOPIC -->class="icon-unsubscribe"<!-- ELSE -->class="icon-subscribe"<!-- ENDIF -->><a href="{U_WATCH_TOPIC}" title="{L_WATCH_TOPIC}">{L_WATCH_TOPIC}</a></li><!-- ENDIF -->
+ <!-- IF U_BOOKMARK_TOPIC --><li class="icon-bookmark"><a href="{U_BOOKMARK_TOPIC}" title="{L_BOOKMARK_TOPIC}">{L_BOOKMARK_TOPIC}</a></li><!-- ENDIF -->
+ <!-- IF U_BUMP_TOPIC --><li class="icon-bump"><a href="{U_BUMP_TOPIC}" title="{L_BUMP_TOPIC}">{L_BUMP_TOPIC}</a></li><!-- ENDIF -->
+<!-- ENDIF -->
+<li class="rightside"><!-- IF U_TEAM --><a href="{U_TEAM}">{L_THE_TEAM}</a> &bull; <!-- ENDIF -->
+<!-- IF not S_IS_BOT --> <a href="{U_DELETE_COOKIES}">{L_DELETE_COOKIES}</a> &bull;<!-- ENDIF --> {S_TIMEZONE}</li>
+</ul>
+</div>
+<!-- INCLUDE overall_footer.html -->

@@ -1,0 +1,6 @@
+
+.forabg {background: #cc3431 none repeat-x 0 0; background-image: url("images/bg_list.gif"); margin-bottom: 4px;
+padding: 0 5px; clear: both; text-align: right;}
+.forumbg {background: #cb3332 none repeat-x 0 0; margin-bottom: 4px; clear: both;
+background-image: url("images/bg_header.gif"); padding: 0 10px; color: #3f3f3f;}
+.forumbg table.table1 {margin: 0 -2px -1px -1px;}

@@ -1,0 +1,128 @@
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{S_CONTENT_DIRECTION}" lang="{S_USER_LANG}" xml:lang="{S_USER_LANG}">
+<head>
+<meta http-equiv="content-type" content="text/html; charset={S_CONTENT_ENCODING}" />
+<meta http-equiv="content-style-type" content="text/css" />
+<meta http-equiv="content-language" content="{S_USER_LANG}" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta name="resource-type" content="document" />
+<meta name="distribution" content="global" />
+<meta name="copyright" content="2000, 2002, 2005, 2007 phpBB Group" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+{META}
+<title>{SITENAME} &bull; <!-- IF S_IN_MCP -->{L_MCP} &bull; <!-- ELSEIF S_IN_UCP -->{L_UCP} &bull; <!-- ENDIF -->{PAGE_TITLE}</title>
+<script type="text/javascript">
+// <![CDATA[
+	var jump_page = '{LA_JUMP_PAGE}:';
+	var on_page = '{ON_PAGE}';
+	var per_page = '{PER_PAGE}';
+	var base_url = '{A_BASE_URL}';
+	var style_cookie = 'phpBBstyle';
+	var style_cookie_settings = '{A_COOKIE_SETTINGS}';
+	var onload_functions = new Array();
+	var onunload_functions = new Array();
+
+	<!-- IF S_USER_PM_POPUP -->
+		if ({S_NEW_PM})
+		{
+			var url = '{UA_POPUP_PM}';
+			window.open(url.replace(/&amp;/g, '&'), '_phpbbprivmsg', 'height=225,resizable=yes,scrollbars=yes, width=400');
+		}
+	<!-- ENDIF -->
+
+	/**
+	* Find a member
+	*/
+	function find_username(url)
+	{
+		popup(url, 760, 570, '_usersearch');
+		return false;
+	}
+
+	/**
+	* New function for handling multiple calls to window.onload and window.unload by pentapenguin
+	*/
+	window.onload = function()
+	{
+		for (var i = 0; i < onload_functions.length; i++)
+		{
+			eval(onload_functions[i]);
+		}
+	}
+
+	window.onunload = function()
+	{
+		for (var i = 0; i < onunload_functions.length; i++)
+		{
+			eval(onunload_functions[i]);
+		}
+	}
+
+// ]]>
+</script>
+<script type="text/javascript" src="{T_TEMPLATE_PATH}/styleswitcher.js"></script>
+<script type="text/javascript" src="{T_TEMPLATE_PATH}/forum_fn.js"></script>
+<link href="{T_THEME_PATH}/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div>
+<div class="head" id="wrap">
+<table><tr><td>
+<table><tr><td class="logo" colspan="3"><a href="http://www.avioletta.ru"><img alt="Сайт знакомств" src="./styles/violla/theme/images/logo.jpg"/></a></td></tr>
+<tr><td id="id1"><h1><i>Форум знакомств</i></h1></td></tr></table></td><td id="id2"></td>
+<td class="logo2"><a href="http://www.avioletta.ru"><img alt="Форум знакомств" src="./styles/violla/theme/images/chuvaki.jpg"/></a></td></tr></table></div>
+<div class="menu_line">
+<table><tr><td class="line_brown"><img alt="Зеро" src="./styles/violla/theme/images/zero.gif" /></td></tr></table>
+<table>
+<tr id="id3">
+<td width="30" class="vert_line2"></td>
+<td class="vert_line"></td>
+<td class="vert_line2"><a href="http://www.avioletta.ru">Главная</a></td>
+<td class="vert_line"></td>
+<td class="vert_line2"><a href="http://www.avioletta.ru/forum">Форум</a></td>
+<td class="vert_line"></td>
+<td class="vert_line2"><a href="http://www.avioletta.ru/index.php?mod=search">Поиск</a></td>
+<td class="vert_line"></td>
+<td class="vert_line2"><a href="http://www.avioletta.ru/index.php?mod=ankets">Анкеты</a></td>
+<td class="vert_line"></td>
+<td class="vert_line2"><a href="http://www.avioletta.ru/index.php?mod=names">Значение имени</a></td>
+<td class="vert_line"></td>
+<td class="vert_line2"><a href="http://www.avioletta.ru/index.php?mod=goroskop">Гороскопы</a></td>
+<td class="vert_line"></td>
+<td class="vert_line2"><a href="http://www.avioletta.ru/dnevniki.html">Дневники</a></td>
+<td class="vert_line"></td>
+<td width="30" class="vert_line2"></td></tr></table></div>
+<div class="menu2">
+<table>
+<tr><td>
+<ul class="linklist">
+<li class="icon-home"><a href="{U_INDEX}" accesskey="h">{L_INDEX}</a> <!-- BEGIN navlinks --> <strong>&#8249;</strong> <a href="{navlinks.U_VIEW_FORUM}">{navlinks.FORUM_NAME}</a><!-- END navlinks --></li></ul>
+<ul class="linklist">
+<li class="icon-faq"><a href="{U_FAQ}" title="{L_FAQ_EXPLAIN}">{L_FAQ}</a></li>
+<!-- IF not S_IS_BOT -->
+<!-- IF S_DISPLAY_MEMBERLIST --><li class="icon-members"><a href="{U_MEMBERLIST}" title="{L_MEMBERLIST_EXPLAIN}">{L_MEMBERLIST}</a></li><!-- ENDIF -->
+<!-- IF not S_USER_LOGGED_IN and S_REGISTER_ENABLED -->
+<li class="icon-register"><a href="{U_REGISTER}">{L_REGISTER}</a></li><!-- ENDIF -->
+<li class="icon-logout"><a href="{U_LOGIN_LOGOUT}" title="{L_LOGIN_LOGOUT}" accesskey="l">{L_LOGIN_LOGOUT}</a></li><!-- ENDIF --></ul>
+<!-- IF not S_IS_BOT and S_USER_LOGGED_IN -->
+<ul class="linklist padd1">
+<li class="icon-ucp"><a href="{U_PROFILE}" title="{L_PROFILE}" accesskey="u" class="marg1">{L_PROFILE}</a><!-- IF S_DISPLAY_PM --> (<a href="{U_PRIVATEMSGS}">{PRIVATE_MESSAGE_INFO}</a>)<!-- ENDIF --> &bull;
+<a href="{U_SEARCH_SELF}" class="marg1">{L_SEARCH_SELF}</a></li></ul>
+<!-- ENDIF --></td>
+<td align="right">
+<!-- IF S_DISPLAY_SEARCH and not S_IN_SEARCH -->
+<div class="navbar"><span class="corners-top"><span></span></span>
+<form action="{U_SEARCH}" method="post">
+<fieldset>
+<a class="search" href="{U_SEARCH}" title="{L_SEARCH_ADV_EXPLAIN}">{L_SEARCH_ADV}</a>
+<input name="keywords" id="keywords" type="text" maxlength="128" title="{L_SEARCH_KEYWORDS}" class="inputbox search" value="<!-- IF SEARCH_WORDS-->{SEARCH_WORDS}<!-- ELSE -->{L_SEARCH_MINI}<!-- ENDIF -->" onclick="if(this.value=='{LA_SEARCH_MINI}')this.value='';" onblur="if(this.value=='')this.value='{LA_SEARCH_MINI}';" />
+<input class="button2" value="{L_SEARCH}" type="submit" />
+{S_SEARCH_HIDDEN_FIELDS}</fieldset></form>
+<span class="corners-bottom"><span></span></span></div>
+<div class="time_r">
+<p>{CURRENT_TIME}</p>
+<!-- IF S_USER_LOGGED_IN --><p>{LAST_VISIT_DATE}</p><!-- ENDIF -->
+</div>
+<!-- ENDIF -->
+</td></tr></table>
+</div>
