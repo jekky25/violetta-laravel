@@ -298,12 +298,12 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 				<td><a href="{{ asset('forum/') }}">Форум</a></td>
 				<td><a href="{{route('sitemap')}}">Карта&nbsp;сайта</a></td>
 				<td class="map-site-link"><a href="{{route('contacts')}}">Контакты</a></td>
-				<td class="wth2 for-pc">{$copyright}</td>
+				<td class="wth2 for-pc">{{ $copyright }}</td>
 				<td class="fLast"></td>
 			</tr>
 		</table>
 	</div>
-	<div class="mob-copyrights">{$copyright}</div>
+	<div class="mob-copyrights">{{ $copyright }}</div>
 {if $s_link4}
 <div class="drugi">	
 {$s_link4}

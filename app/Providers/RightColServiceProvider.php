@@ -53,8 +53,11 @@ class RightColServiceProvider extends ServiceProvider
 			'men' 	=> $mItem,
 		];
 
+		$copyright = '© 2006-' . date("Y",time()) . ' Сайт знакомств Виолетта';
+
 		view()->share([
 			'top100' 	=> $top100,
+			'copyright'	=> $copyright,
 		]);
     }
 }
