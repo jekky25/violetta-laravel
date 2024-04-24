@@ -262,7 +262,7 @@ class User extends Authenticatable
 
 	public function getById($id)
 	{
-		$user = Auth::user()->load(['visits']);
+		$user = Auth::user();
 
 		$item = self::select('*')
 		->where ('user_id', $id)

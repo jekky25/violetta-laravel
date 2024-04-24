@@ -83,7 +83,7 @@ class AnkController extends Controller
 
 	public function getAnk (Request $request, $id)
 	{
-		$user 	= Auth::user()->load(['visits']);
+		$user 	= Auth::user();
 		$mode 	= Route::currentRouteName() == 'ank.full.id' ? 'full' : '';
 		$anket 	= User::getById ($id, $mode);
 
