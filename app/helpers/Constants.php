@@ -55,8 +55,7 @@ define('HELP_MONEY_CLASS', 'HelpMoney');
 define('INTEREST_CLASS', 'Interest');
 define('SPEAK_LANG_CLASS', 'SpeakLang');
 
-
-define ('SITE_URL', $pathrelative);
+define ('SITE_URL', 'http://www.avioletta.ru');
 
 define('DIR_ROOT', str_replace("\\","/",realpath(dirname(__FILE__))));
 
