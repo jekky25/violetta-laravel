@@ -97,6 +97,23 @@ class AnketController extends Controller
 		]);
 	}
 
+	public function getViews ()
+	{
+		$ankets 					= User::getViews($this->countPerPage);
+		$page 						= $ankets->currentPage();
+		$pagination 				= Helper::preparePagination ($ankets->toArray()['links']);
+		$user	 					= Auth::user();
+		$user->user_lastvisit_views = time();
+		$user->update();
+
+		return response()->view ('ankets.views', 
+		[
+			'page'			=> $page,
+			'ankets'		=> $ankets,
+			'pagination'	=> $pagination
+		]);
+	}
+
 	public function getAnkets ($sex = '', $op = '')
 	{
 		$s					= $sex == 'men' ? MEN 		: WOMEN;
