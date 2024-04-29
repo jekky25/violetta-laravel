@@ -38,7 +38,7 @@ class DreamBook extends Model
 		return $item;
 	}
 
-	public function getAll()
+	public static function getAll()
 	{
 		$items = self::select('*')
 		->orderBy('name', 'asc')

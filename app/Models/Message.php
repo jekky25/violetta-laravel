@@ -33,7 +33,7 @@ class Message extends Model
 		$this->user	= Auth::user();
 	}
 
-	public function getAll($id, $count)
+	public static function getAll($id, $count)
 	{
 		$items = self::selectRaw(
 				'*,
@@ -64,7 +64,7 @@ class Message extends Model
 		return $items;
 	}
 
-	public function getAllByUser($userId, $userAuthId, $count)
+	public static function getAllByUser($userId, $userAuthId, $count)
 	{
 		$items = self::selectRaw(
 				'*,
@@ -93,7 +93,7 @@ class Message extends Model
 		return $items;
 	}
 
-	public function getForUser($userId, $userAuthId)
+	public static function getForUser($userId, $userAuthId)
 	{
 		$items = self::select('*')
 		->where(function ($query) use ($userId, $userAuthId)
@@ -110,7 +110,7 @@ class Message extends Model
 		return $items;
 	}
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where('message_id', $id)
@@ -119,7 +119,7 @@ class Message extends Model
 		return $item;
 	}
 
-	function getNewsByUsers ($messages, $user)
+	public static function getNewsByUsers ($messages, $user)
 	{
 		if (count ($messages) == 0) return $messages;
 		$users = [];
@@ -151,7 +151,7 @@ class Message extends Model
 		return $messages;
 	}
 
-	public function getbyTimeByUser($id)
+	public static function getbyTimeByUser($id)
 	{
 		$items = self::select('*')
 		->where('user_otprav', $id)

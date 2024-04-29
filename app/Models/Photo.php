@@ -35,7 +35,7 @@ class Photo extends Model
 		return $item;
 	}
 
-	public function getFirstByUserId($id)
+	public static function getFirstByUserId($id)
 	{
 		$item = self::select('*')
 		->where ('user_id', $id)
@@ -43,7 +43,7 @@ class Photo extends Model
 		return $item;
 	}
 
-	public function getAllByUserId($id)
+	public static function getAllByUserId($id)
 	{
 		$item = self::select('*')
 		->where ('user_id', $id)

@@ -11,7 +11,7 @@ class Smile extends Model
 
 	protected $table = 'smiles';
 
-	public function getAll()
+	public static function getAll()
 	{
 		$items = self::select('*')
 		->orderBy('smile_sort', 'asc')

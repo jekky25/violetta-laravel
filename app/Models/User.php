@@ -166,7 +166,7 @@ class User extends Authenticatable
 		return $items;
 	}
 
-	public function getBest($count = 0, $sex)
+	public static function getBest($count = 0, $sex)
 	{
 
 		$items = self::select(['*'])
@@ -225,7 +225,7 @@ class User extends Authenticatable
 				->first();
 	}
 
-	public function getMaxReiting($sex)
+	public static function getMaxReiting($sex)
 	{
 		$item = self::select(['*'])
 		->where('user_active', 1)
@@ -320,7 +320,7 @@ class User extends Authenticatable
 		return $item;
 	}
 
-	public function getJustById($id, $width = [])
+	public static function getJustById($id, $width = [])
 	{
 		$item = self::select('*')
 		->where ('user_id', $id);

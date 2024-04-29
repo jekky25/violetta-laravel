@@ -456,7 +456,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	public function lastVisit($time)
+	public static function lastVisit($time)
 	{
 		$timestamp = time();
   		$dateCheck = date("d-m-y",$time);
@@ -812,7 +812,7 @@ class Helper {
 	 *
 	 * @return object
 	*/
-	function outMessageDie($title, $text, $hidden = '')
+	public static function outMessageDie($title, $text, $hidden = '')
 	{
 		return response()->view ('mess_die.info',
 		[
@@ -830,7 +830,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	function transformSmiles ($str, $smiles)
+	public static function transformSmiles ($str, $smiles)
 	{
 		if (empty ($smiles)) return $str;
 		foreach ($smiles as $_smile) {
@@ -847,7 +847,7 @@ class Helper {
 	 *
 	 * @return array
 	 */
-	function selectFromDate($date,$mode)
+	public static function selectFromDate($date,$mode)
 	{
   		preg_match("/^ *(([0-9]+)-([0-9]+)-([0-9]+)) *$/",$date,$pockets_old);
   		return $pockets_old[$mode];
@@ -862,7 +862,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	function getDateStr($day,$month,$year)
+	public static function getDateStr($day,$month,$year)
 	{
 		$day 	= $day < 10 	? "0$day" 	: $day;
 		$month 	= $month < 10 	? "0$month" : $month;
@@ -876,7 +876,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	function serializeInput($data)
+	public static function serializeInput($data)
 	{
 		return !is_array($data) ? '' : serialize ($data);
 	}
