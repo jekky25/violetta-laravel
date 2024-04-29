@@ -13,7 +13,7 @@ class City extends Model
 
 	protected $table = 'city';
 
-	public function getByRegionId($id)
+	public static function getByRegionId($id)
 	{
 		$items = self::select('*')
 		->where ('regions_id', $id)
@@ -22,7 +22,7 @@ class City extends Model
 		return $items;
 	}
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where ('id', $id)

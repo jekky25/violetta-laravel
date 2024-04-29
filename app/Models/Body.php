@@ -11,7 +11,7 @@ class Body extends Model
 
 	protected $table = 'body';
 	
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where ('id', $id)
@@ -19,7 +19,7 @@ class Body extends Model
 		return $item;
 	}
 
-	public function getAll()
+	public static function getAll()
 	{
 		$items = self::select('*')
 		->orderBy('name', 'asc')

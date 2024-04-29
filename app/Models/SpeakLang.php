@@ -11,7 +11,7 @@ class SpeakLang extends Model
 
 	protected $table = 'speak_lang';
 	
-	public function getAll()
+	public static function getAll()
 	{
 		$items = self::select('*')
 		->orderBy('name', 'asc')

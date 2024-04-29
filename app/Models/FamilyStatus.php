@@ -11,7 +11,7 @@ class FamilyStatus extends Model
 
 	protected $table = 'sem_polozh';
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where ('id', $id)

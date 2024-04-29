@@ -11,7 +11,7 @@ class Region extends Model
 
 	protected $table = 'regions';
 
-	public function getByCountryId($id)
+	public static function getByCountryId($id)
 	{
 		$items = self::select('*')
 		->where ('country_id', $id)
@@ -20,7 +20,7 @@ class Region extends Model
 		return $items;
 	}
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where ('id', $id)

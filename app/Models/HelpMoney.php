@@ -11,7 +11,7 @@ class HelpMoney extends Model
 
 	protected $table = 'help_money';
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where ('id', $id)

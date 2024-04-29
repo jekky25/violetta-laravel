@@ -11,7 +11,7 @@ class Children extends Model
 
 	protected $table = 'children';
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where ('id', $id)

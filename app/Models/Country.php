@@ -22,7 +22,7 @@ class Country extends Model
         return $items;
     }
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where ('id', $id)

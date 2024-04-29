@@ -11,7 +11,7 @@ class HairType extends Model
 
 	protected $table = 'hair_type';
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where ('id', $id)
