@@ -11,7 +11,7 @@ class DreamBook extends Model
 
 	protected $table 	= 'sonnik';
 
-	public function getLiter()
+	public static function getLiter()
 	{
 		$items = self::select('first_bukva', 'sonnik_id')
 		->groupBy('first_bukva', 'sonnik_id')
@@ -19,7 +19,7 @@ class DreamBook extends Model
 		return $items;
 	}
 
-	public function get($count = 0, $op = 1)
+	public static function get($count = 0, $op = 1)
 	{
 		$items = self::select('*')
 		->where('sonnik_id', $op)
@@ -29,7 +29,7 @@ class DreamBook extends Model
 		return $items;
 	}
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where('id', $id)

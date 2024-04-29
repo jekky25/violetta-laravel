@@ -11,7 +11,7 @@ class Name extends Model
 
 	protected $table = 'names';
 
-	public function getPart($id, $sex)
+	public static function getPart($id, $sex)
 	{
 		$items = self::select('*')
 		->where('gender', '=', $sex)
@@ -24,7 +24,7 @@ class Name extends Model
 		return $items;
 	}
 
-	public function getAllbySex($sex, $id)
+	public static function getAllbySex($sex, $id)
 	{
 		$items = self::select('*')
 		->where('gender', '=', $sex)
@@ -35,7 +35,7 @@ class Name extends Model
 		return $items;
 	}
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where('id', $id)

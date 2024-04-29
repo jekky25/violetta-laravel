@@ -20,7 +20,7 @@ class CommentScreen extends Model
 		'email',
 	  ];
 
-	public function getByScrId($id)
+	public static function getByScrId($id)
 	{
 		$items = self::select('*')
 		->where('scr_id', $id)

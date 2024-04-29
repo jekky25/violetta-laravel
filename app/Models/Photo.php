@@ -21,7 +21,7 @@ class Photo extends Model
 		'user_id'
 	];
 
-	public function getCountPhotos ()
+	public static function getCountPhotos ()
 	{
 		$count = self::select('fotos_id')->count();
 		return $count > 0 ? $count : 0;

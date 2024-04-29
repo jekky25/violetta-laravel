@@ -22,7 +22,7 @@ class Diary extends Model
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'dnevniki_id';
 
-	public function get($count)
+	public static function get($count)
     {
 		$items = self::select('*')
 		->whereHas('user', function ($query) {

@@ -11,7 +11,7 @@ class Goroskop extends Model
 
 	protected $table = 'goroskop';
 
-	public function getByType($type)
+	public static function getByType($type)
 	{
 		$items = self::select('*')
 		->where('gor_type', $type)
@@ -21,7 +21,7 @@ class Goroskop extends Model
 		return $items;
 	}
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where('gor_id', $id)

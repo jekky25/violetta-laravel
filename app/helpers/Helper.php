@@ -219,7 +219,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	function getDate($timestamp = 0)
+	public static function getDate($timestamp = 0)
 	{
 		if ($timestamp == 0) $timestamp = time();
   		$date = date("d.m.y.",$timestamp);
@@ -233,7 +233,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	function outPicture($picture = 0, $sex)
+	public static function outPicture($picture = 0, $sex)
 	{
 		$picture = (int) $picture;
 		return self::getPicture ($picture, $sex, 'fotos_new/', '.jpg');
@@ -272,7 +272,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	function getPicture ($picture = '', $sex, $path, $ext = '')
+	public static function getPicture ($picture = '', $sex, $path, $ext = '')
 	{
 		$file 			= $_SERVER['DOCUMENT_ROOT'] . '/public/' . $path . $picture . $ext;
 		$fileTimeStr 	= !empty(self::getFileChangeTime($file)) 	? self::getFileChangeTime($file) . '/'		: '';
@@ -287,7 +287,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	function getFileChangeTime ($file = '')
+	public static function getFileChangeTime ($file = '')
 	{
 		return file_exists($file) 	? filemtime($file)		: '';
 	}
@@ -298,7 +298,7 @@ class Helper {
 	 *
 	 * @return array
 	 */
-	function preparePagination($pagination = [])
+	public static function preparePagination($pagination = [])
 	{
 		if (empty ($pagination)) return [];
 
@@ -317,7 +317,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	function formatFileSize($str)
+	public static function formatFileSize($str)
 	{
   		$l = strlen($str);
   		if ($l > 6)
@@ -339,7 +339,7 @@ class Helper {
 	}
 
 	//Возвращает дату по возрасту
-	function birthAround($age)
+	public static function birthAround($age)
 	{
 		$time = Carbon\Carbon::now()->add(-$age, 'year')->format('Y-m-d');
 		return $time;
@@ -354,7 +354,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	function BlockSelect($name,$className,$value = 0,$mode)
+	public static function BlockSelect($name,$className,$value = 0,$mode)
 	{
 		try {
 			$unserValue = unserialize($value);
@@ -438,7 +438,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	public function getFoundStr($ankets, $count = 0)
+	public static function getFoundStr($ankets, $count = 0)
 	{
 		$startShow 		= (($ankets->currentPage() - 1) * $count) + 1;
 		$endShow		= $ankets->currentPage() * $count;

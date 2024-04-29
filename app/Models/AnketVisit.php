@@ -20,7 +20,7 @@ class AnketVisit extends Model
 		'ank_time'
 	  ];
 
-	public function visitsNew($user)
+	public static function visitsNew($user)
 	{
 		$items = self::select('*')
 		->where('user_id_prosm', $user->user_id)

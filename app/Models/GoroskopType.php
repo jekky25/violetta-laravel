@@ -11,7 +11,7 @@ class GoroskopType extends Model
 
 	protected $table = 'goroskop_type';
 
-	public function getNotByType($type)
+	public static function getNotByType($type)
 	{
 		$items = self::select('*')
 		->where('gor_type_id', '!=' ,$type)
