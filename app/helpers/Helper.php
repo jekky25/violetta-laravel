@@ -356,10 +356,12 @@ class Helper {
 	 */
 	public static function BlockSelect($name,$className,$value = 0,$mode)
 	{
-		try {
-			$unserValue = unserialize($value);
-		} catch (\Exception $e) {}
-
+		if (!is_array ($value))
+		{
+			try {
+				$unserValue = unserialize($value);
+			} catch (\Exception $e) {}
+		}
 
 		$value		= isset ($unserValue) && is_array ($unserValue) ? $unserValue : $value;
 		$className = 'App\\Models\\' . $className;
