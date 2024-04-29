@@ -716,14 +716,14 @@ class Helper {
 
 		if (empty($res)) 
 		{
-			@imagedestroy( $srcIm );
-			@imagedestroy( $destImg );
+			@imagedestroy( $srcImg );
+			@imagedestroy( $dstImg );
 	
 			return 'Error copy resized image';
 		} else
 		{
-			@imagedestroy( $destImg );
-			@imagedestroy( $srcIm );
+			@imagedestroy( $dstImg );
+			@imagedestroy( $srcImg );
 			return ['success' => 1];
 		}
 	}
