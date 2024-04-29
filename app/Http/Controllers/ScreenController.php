@@ -139,12 +139,13 @@ class ScreenController extends Controller
 
 				$description =  str_replace("\'", "''", $arParams['description']);
         
-				$user = Auth::user()->load(['visits']);
+				$user = Auth::user();
 				if (empty ($user))
 				{
 					return redirect()->route('login');
 				}
-				
+				$user = $user->load(['visits']);
+
 				$aFields = [
 					'scr_id'		=> $screen->id,
 					'name'			=> $user->user_name,
