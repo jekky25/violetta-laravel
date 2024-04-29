@@ -40,7 +40,7 @@
 						<dt>Пароль:</dt>
 						<dd><input type="password" name="pass_template" /></dd>
 					</dl>					
-					<p class="pad1 mob-menu-subm"><input class="bgBut2" class="submit" type="submit" value="" /></p>
+					<p class="pad1 mob-menu-subm"><input class="bgBut2 submit" type="submit" value="" /></p>
 				</form>
 				<p class="mob-menu-p-name"><a class="name" href="{{route('forget_pass')}}">Забыли пароль?</a></p>
 				<p class="mob-menu-p-name"><a class="name" href="{{route('registration')}}">Зарегистрироваться</a></p>				
