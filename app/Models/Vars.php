@@ -11,7 +11,7 @@ class Vars extends Model
 
 	protected $table = 'vars';
 
-	public function getAll()
+	public static function getAll()
 	{
 		$items = self::select('*')
 		->orderBy('name', 'asc')

@@ -24,7 +24,7 @@ class DiaryComment extends Model
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'comment_id';
 
-	public function getByDiary($count, $diaryId)
+	public static function getByDiary($count, $diaryId)
     {
 		$items = self::select('*')
 		->where ('comment_dnevnik_id', $diaryId)
@@ -35,7 +35,7 @@ class DiaryComment extends Model
 		return $items;
 	}
 
-	public function getByUserAndId($id, $userId)
+	public static function getByUserAndId($id, $userId)
 	{
 		$item = self::select('*')
 		->where('comment_id', $id)

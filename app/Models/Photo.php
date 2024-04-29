@@ -27,7 +27,7 @@ class Photo extends Model
 		return $count > 0 ? $count : 0;
 	}
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where ('fotos_id', $id)

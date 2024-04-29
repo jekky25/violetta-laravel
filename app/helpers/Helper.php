@@ -258,7 +258,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	function outDiaryCommentPicture($picture = '', $sex)
+	public static function outDiaryCommentPicture($picture = '', $sex)
 	{
 		return self::getPicture ($picture, $sex, 'img/dnev_comment/');
 	}
@@ -642,7 +642,7 @@ class Helper {
 	 *
 	 * @return mixed
 	*/
-	function fotoUpload($picture, $width = 0, $path_foto = '') 
+	public static function fotoUpload($picture, $width = 0, $path_foto = '') 
 	{
 		$photo['link']		= !empty($picture->getPathName())					? $picture->getPathName() 								: false;
 		$photo['name']		= !empty($picture->getClientOriginalName())			? $picture->getClientOriginalName()						: '';
@@ -666,7 +666,7 @@ class Helper {
 	 *
 	 * @return bool
 	*/
-	function moveUploadedFile($link, $name)
+	public static function moveUploadedFile($link, $name)
 	{
 		return move_uploaded_file($link, $name);
 	}
@@ -679,7 +679,7 @@ class Helper {
 	 *
 	 * @return array
 	*/
-	function resize	($file, $width = 0, $destination_file = null)
+	public static function resize ($file, $width = 0, $destination_file = null)
 	{
 		$width = (int) $width;
 
@@ -734,7 +734,7 @@ class Helper {
 	 *
 	 * @return resource|bool
 	*/
-	function read($fileName)
+	public static function read($fileName)
 	{
 		if(!file_exists($fileName))
 		{
@@ -790,7 +790,7 @@ class Helper {
 	 *
 	 * @return object
 	*/
-	function outMessageInfo($title, $text, $confirmAction, $hidden = '')
+	public static function outMessageInfo($title, $text, $confirmAction, $hidden = '')
 	{
 		return response()->view ('mess_die.confirm',
 		[

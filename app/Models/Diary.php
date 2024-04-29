@@ -52,7 +52,7 @@ class Diary extends Model
 		return $items;
 	}
 
-	public function getByUser($count, $userId)
+	public static function getByUser($count, $userId)
     {
 		$items = self::select('*')
 		->where ('dnevniki_user_id', $userId)
@@ -65,7 +65,7 @@ class Diary extends Model
 		return $items;
 	}
 
-	public function getByUserAndId($id, $userId)
+	public static function getByUserAndId($id, $userId)
 	{
 		$item = self::select('*')
 		->where('dnevniki_id', $id)
@@ -76,7 +76,7 @@ class Diary extends Model
 		return $item;
 	}
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where ('dnevniki_id', $id)

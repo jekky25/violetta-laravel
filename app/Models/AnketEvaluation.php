@@ -19,7 +19,7 @@ class AnketEvaluation extends Model
 		'time'
 	  ];
 
-	public function getEvaluations($userIdAct, $uderId)
+	public static function getEvaluations($userIdAct, $uderId)
 	{
 		$items = self::select('*')
 		->where('user_id', $userIdAct)
@@ -28,7 +28,7 @@ class AnketEvaluation extends Model
     	return $items;
 	}
 
-	public function getSum($id)
+	public static function getSum($id)
 	{
 		$item = self::select(['*'])
 		->where('user_id_ocenka', $id)
