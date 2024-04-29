@@ -374,8 +374,8 @@ class Helper {
 			$out = [];
 			foreach ($items as $_item)
 			{
-				$_item->selected = is_array($value) ? in_array($_item->id, $value) 	? 1 			: 0
-													: $value == $_item->id 			? ' selected' 	: '';
+				$_item->selected = is_array($value) ? (in_array($_item->id, $value) 	? 1 			: 0)
+													: ($value == $_item->id 			? ' selected' 	: '');
 				$out [] = $_item;
 			}
 			return $out;
