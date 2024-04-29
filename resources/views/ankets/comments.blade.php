@@ -3,7 +3,7 @@
 @section('main_body')
 <h1 class="mTit">{{ $userData->user_name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
 @include('ankets.menu', ['userData' => $userData])
-<h3 class="kommentTitle">{{ $diary->dnevniki_title }}@if ($comments->total() > 0) - комментарии ({{ $comments->total() }})@else - комментарии (нет)@endif</h2>
+<h3 class="kommentTitle">{{ $diary->dnevniki_title }}@if ($comments->total() > 0) - комментарии ({{ $comments->total() }})@else - комментарии (нет)@endif</h3>
 <table class="ankDnevnik">
 	<tr>
 		<td>
