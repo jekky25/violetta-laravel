@@ -478,7 +478,7 @@ class Helper {
 	 *
 	 * @return string
 	*/
-	public function caseDiaryType($number)
+	public static function caseDiaryType($number)
 	{
 		$number = intval($number);
 		if ($number >10 && $number <20)
@@ -504,7 +504,7 @@ class Helper {
 	 *
 	 * @return string
 	*/
-	public function zodiac($birthDate)
+	public static function zodiac($birthDate)
 	{
 	
 		$arZodiac = [];
@@ -601,7 +601,7 @@ class Helper {
 	 *
 	 * @return string
 	*/
-	function dateFormat($date)
+	public static function dateFormat($date)
 	{
 		preg_match("/^ *(([0-9]+)-([0-9]+)-([0-9]+)) *$/",$date,$pockets);
 		$date_out = $pockets[4].".".$pockets[3].".".$pockets[2];
@@ -614,7 +614,7 @@ class Helper {
 	 *
 	 * @return string
 	*/
-	public function reiting($reit, $maxReit)
+	public static function reiting($reit, $maxReit)
 	{
 		$reiting = round(($reit / $maxReit ) * 1000);
 		$reitStr = $reiting / 100;

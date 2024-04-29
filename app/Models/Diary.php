@@ -37,7 +37,7 @@ class Diary extends Model
 		return $items;
 	}
 
-	public function getAll($count)
+	public static function getAll($count)
     {
 		$items = self::select('*')
 		->whereHas('user', function ($query) {

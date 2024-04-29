@@ -12,7 +12,7 @@ class Screen extends Model
 	protected $table 	= 'screensavers';
 	public $timestamps 	= false;
 
-	public function get($count = 0)
+	public static function get($count = 0)
 	{
 		$items = self::select('*')
 		->orderBy('date', 'desc')
@@ -21,7 +21,7 @@ class Screen extends Model
 		return $items;
 	}
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where('id', $id)

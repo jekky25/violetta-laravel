@@ -11,7 +11,7 @@ class Interest extends Model
 
 	protected $table = 'interest';
 	
-	public function getAll()
+	public static function getAll()
 	{
 		$items = self::select('*')
 		->orderBy('name', 'asc')

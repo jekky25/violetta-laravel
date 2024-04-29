@@ -36,7 +36,7 @@ class AnketVisit extends Model
 					->with('photo');
 	}
 
-	public function getVisitsByUserId($id, $days, $userId = 0)
+	public static function getVisitsByUserId($id, $days, $userId = 0)
 	{
 		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
 		$items = self::select('*')

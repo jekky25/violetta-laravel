@@ -98,7 +98,7 @@ class User extends Authenticatable
 		'partner_spirt'
 	];
 
-    public function newFaces($count)
+    public static function newFaces($count)
     {
 		$items = self::select(['users_news.user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
 		->join('fotos', 'users_news.user_id', '=', 'fotos.user_id')
@@ -117,7 +117,7 @@ class User extends Authenticatable
 		return $items;
     }
 
-	public function getTop100($sex, $count)
+	public static function getTop100($sex, $count)
     {
 		$items = self::select(['user_id', 'user_reiting', 'user_name', 'user_birth_date', 'user_city'])
 		->where('user_sex', $sex)
@@ -139,7 +139,7 @@ class User extends Authenticatable
 	}
 
 
-	public function getCountAnkets ($sex)
+	public static function getCountAnkets ($sex)
 	{
 		$count = self::select('user_id')
 		->where('user_sex', $sex)
@@ -148,7 +148,7 @@ class User extends Authenticatable
 		return $count > 0 ? $count : 0;
 	}
 
-	public function getBirthday($count = 0)
+	public static function getBirthday($count = 0)
 	{
 		$tDay 	= \Carbon\Carbon::now()->format('d');
 		$tMonth = \Carbon\Carbon::now()->format('m');
@@ -207,7 +207,7 @@ class User extends Authenticatable
 		return $items;
 	}
 
-	public function getByLoginAndPass($login, $pass)
+	public static function getByLoginAndPass($login, $pass)
 	{
 		if (empty($login) or empty($pass)) return false;
 		return self::select(['user_id'])
@@ -234,7 +234,7 @@ class User extends Authenticatable
 		return $item;
 	}
 
-	public function getPopul($count = 0, $sex)
+	public static function getPopul($count = 0, $sex)
 	{
 		$items = self::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
 		->where('user_sex', $sex)
@@ -254,12 +254,7 @@ class User extends Authenticatable
 		return $items;
 	}
 
-
-
-
-
-
-	public function addProps($items)
+	public static function addProps($items)
 	{
 		foreach ($items as &$_item)
 		{
@@ -269,7 +264,7 @@ class User extends Authenticatable
 		return $items;
 	}
 
-	public function getOp($count = 0, $sex, $op)
+	public static function getOp($count = 0, $sex, $op)
 	{
 		$items = self::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
 		->where('user_sex', $sex)
@@ -286,7 +281,7 @@ class User extends Authenticatable
 		return $items;
 	}
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$user = Auth::user();
 

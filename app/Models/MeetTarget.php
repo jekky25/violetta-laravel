@@ -11,7 +11,7 @@ class MeetTarget extends Model
 
 	protected $table = 'target_meet';
 	
-	public function getAll()
+	public static function getAll()
 	{
 		$items = self::select('*')
 		->orderBy('name', 'asc')
