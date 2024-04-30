@@ -2,12 +2,11 @@
 /**
 *
 * @package phpBB3
-* @version $Id: session.php 9037 2008-10-26 10:52:43Z acydburn $
+* @version $Id$
 * @copyright (c) 2005 phpBB Group
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */
-
 /**
 * @ignore
 */
@@ -83,7 +82,7 @@ class session
 		$query_string = trim(implode('&', $use_args));
 
 		// basenamed page name (for example: index.php)
-		$page_name = basename($script_name);
+		$page_name = (substr($script_name, -1, 1) == '/') ? '' : basename($script_name);
 		$page_name = urlencode(htmlspecialchars($page_name));
 
 		// current directory within the phpBB root (for example: adm)
@@ -213,7 +212,7 @@ class session
 		$this->update_session_page	= $update_session_page;
 		$this->browser				= (!empty($_SERVER['HTTP_USER_AGENT'])) ? htmlspecialchars((string) $_SERVER['HTTP_USER_AGENT']) : '';
 		$this->referer				= (!empty($_SERVER['HTTP_REFERER'])) ? htmlspecialchars((string) $_SERVER['HTTP_REFERER']) : '';
-		$this->forwarded_for		= (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ? (string) $_SERVER['HTTP_X_FORWARDED_FOR'] : '';
+		$this->forwarded_for		= (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ? htmlspecialchars((string) $_SERVER['HTTP_X_FORWARDED_FOR']) : '';
 
 		$this->host					= $this->extract_current_hostname();
 		$this->page					= $this->extract_current_page($phpbb_root_path);
@@ -221,10 +220,10 @@ class session
 		// if the forwarded for header shall be checked we have to validate its contents
 		if ($config['forwarded_for_check'])
 		{
-			$this->forwarded_for = preg_replace('#, +#', ', ', $this->forwarded_for);
+			$this->forwarded_for = preg_replace('# {2,}#', ' ', str_replace(',', ' ', $this->forwarded_for));
 
 			// split the list of IPs
-			$ips = explode(', ', $this->forwarded_for);
+			$ips = explode(' ', $this->forwarded_for);
 			foreach ($ips as $ip)
 			{
 				// check IPv4 first, the IPv6 is hopefully only going to be used very seldomly
@@ -267,7 +266,44 @@ class session
 
 		// Why no forwarded_for et al? Well, too easily spoofed. With the results of my recent requests
 		// it's pretty clear that in the majority of cases you'll at least be left with a proxy/cache ip.
-		$this->ip = (!empty($_SERVER['REMOTE_ADDR'])) ? htmlspecialchars($_SERVER['REMOTE_ADDR']) : '';
+		$this->ip = (!empty($_SERVER['REMOTE_ADDR'])) ? (string) $_SERVER['REMOTE_ADDR'] : '';
+		$this->ip = preg_replace('# {2,}#', ' ', str_replace(',', ' ', $this->ip));
+
+		// split the list of IPs
+		$ips = explode(' ', trim($this->ip));
+
+		// Default IP if REMOTE_ADDR is invalid
+		$this->ip = '127.0.0.1';
+
+		foreach ($ips as $ip)
+		{
+			if (preg_match(get_preg_expression('ipv4'), $ip))
+			{
+				$this->ip = $ip;
+			}
+			else if (preg_match(get_preg_expression('ipv6'), $ip))
+			{
+				// Quick check for IPv4-mapped address in IPv6
+				if (stripos($ip, '::ffff:') === 0)
+				{
+					$ipv4 = substr($ip, 7);
+
+					if (preg_match(get_preg_expression('ipv4'), $ipv4))
+					{
+						$ip = $ipv4;
+					}
+				}
+
+				$this->ip = $ip;
+			}
+			else
+			{
+				// We want to use the last valid address in the chain
+				// Leave foreach loop when address is invalid
+				break;
+			}
+		}
+
 		$this->load = false;
 
 		// Load limit check (if applicable)

@@ -1362,7 +1362,7 @@ $template->assign_vars(array(
 	'S_BBCODE_URL'			=> $url_status,
 	'S_BBCODE_FLASH'		=> $flash_status,
 	'S_BBCODE_QUOTE'		=> $quote_status,
-	'CAPCHA_IMG'			=> $capcha_img,
+	'CAPCHA_IMG'            => !empty ($capcha_img) ? $capcha_img : '',
 	'CONFIRM_IMAGE'			=> '<img src="' . "{$phpbb_root_path}".'/imgval.php" />',
 	'S_POST_ACTION'			=> $s_action,
 	'S_HIDDEN_FIELDS'		=> $s_hidden_fields)

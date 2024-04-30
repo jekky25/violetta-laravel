@@ -412,6 +412,10 @@ $db->sql_freeresult($result);
 // Refreshing the page every 60 seconds...
 meta_refresh(60, append_sid("{$phpbb_root_path}viewonline.$phpEx", "sg=$show_guests&amp;sk=$sort_key&amp;sd=$sort_dir&amp;start=$start"));
 
+$l_r_user_s = !empty ($l_r_user_s) ? $l_r_user_s : '';
+$l_h_user_s = !empty ($l_h_user_s) ? $l_h_user_s : '';
+$l_g_user_s = !empty ($l_g_user_s) ? $l_g_user_s : '';
+
 // Send data to template
 $template->assign_vars(array(
 	'TOTAL_REGISTERED_USERS_ONLINE'	=> sprintf($l_r_user_s, $logged_visible_online) . sprintf($l_h_user_s, $logged_hidden_online),

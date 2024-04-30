@@ -485,7 +485,7 @@ class template_compile
 				// no break
 
 				default:
-					if (preg_match('#^((?:[a-z0-9\-_]+\.)+)?(\$)?(?=[A-Z])([A-Z0-9\-_]+)#s', $token, $varrefs))
+					if (preg_match('#^((?:[a-z0-9\-_]+\.)+)?(\$)?(?=[A-Z])([A-Z0-9\-_]+)#s', $token = '', $varrefs))
 					{
 						$token = (!empty($varrefs[1])) ? $this->generate_block_data_ref(substr($varrefs[1], 0, -1), true, $varrefs[2]) . '[\'' . $varrefs[3] . '\']' : (($varrefs[2]) ? '$this->_tpldata[\'DEFINE\'][\'.\'][\'' . $varrefs[3] . '\']' : '$this->_rootref[\'' . $varrefs[3] . '\']');
 					}
@@ -513,7 +513,7 @@ class template_compile
 							// Add the block reference for the last child.
 							$varref .= "['" . $blocks[0] . "']";
 						}
-						$token = "sizeof($varref)";
+						$token = "is_array($varref) && count($varref)";
 					}
 					else if (!empty($token))
 					{
@@ -528,6 +528,14 @@ class template_compile
 		if (!sizeof($tokens) || str_replace(array(' ', '=', '!', '<', '>', '&', '|', '%', '(', ')'), '', implode('', $tokens)) == '')
 		{
 			$tokens = array('false');
+		}
+		foreach ($tokens as &$token)
+		{
+			$sub = '$this->_rootref';
+			if (strpos($token, $sub) !== false)
+			{
+				$token = '!empty (' . $token . ')';
+			}
 		}
 		return (($elseif) ? '} else if (' : 'if (') . (implode(' ', $tokens) . ') { ');
 	}
@@ -565,7 +573,7 @@ class template_compile
 		{
 			preg_match('#true|false|\.#i', $match[4], $type);
 
-			switch (strtolower($type[0]))
+			switch (strtolower($type[0] ?? ''))
 			{
 				case 'true':
 				case 'false':

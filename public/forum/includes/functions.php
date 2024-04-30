@@ -83,7 +83,8 @@ function request_var($var_name, $default, $multibyte = false, $cookie = false)
 	}
 	else
 	{
-		list($key_type, $type) = each($default);
+		//list($key_type, $type) = each($default);
+		list($key_type, $type) = next($default);
 		$type = gettype($type);
 		$key_type = gettype($key_type);
 		if ($type == 'array')
@@ -3276,6 +3277,19 @@ function msg_handler($errno, $msg_text, $errfile, $errline)
 			$template->assign_vars(array(
 				'MESSAGE_TITLE'		=> $msg_title,
 				'MESSAGE_TEXT'		=> $msg_text,
+				'U_EMAIL_TOPIC'			=> '',
+				'U_EMAIL_PM'			=> '',
+				'U_PRINT_TOPIC'			=> '',
+				'U_PRINT_PM'			=> '',
+				'S_IN_SEARCH'			=> '',
+				'S_IN_MCP'				=> '',
+				'SEARCH_WORDS'			=> '',
+				'S_SHOW_COPPA'			=> '',
+				'S_REGISTRATION'		=> '',
+				'S_WATCH_FORUM_LINK'	=> '',
+				'U_WATCH_TOPIC'			=> '',
+				'U_BOOKMARK_TOPIC'		=> '',
+				'U_BUMP_TOPIC'			=> '',
 				'S_USER_WARNING'	=> ($errno == E_USER_WARNING) ? true : false,
 				'S_USER_NOTICE'		=> ($errno == E_USER_NOTICE) ? true : false)
 			);
