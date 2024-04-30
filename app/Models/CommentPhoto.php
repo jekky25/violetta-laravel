@@ -19,11 +19,6 @@ class CommentPhoto extends Model
 		'comments_description',
 	  ];
 
-	public function user()
-	{
-    	return $this->belongsTo(User::class, 'user_id', 'user_id')->with('city');
-	}
-
 	public function getPaginate($foto_id, $count)
     {
 		$items = self::select('*')
@@ -32,5 +27,10 @@ class CommentPhoto extends Model
 		->paginate($count);
 
 		return $items;
+	}
+
+	public function user()
+	{
+    	return $this->belongsTo(User::class, 'user_id', 'user_id')->with('city');
 	}
 }

@@ -11,7 +11,7 @@ class SexOrient extends Model
 
 	protected $table = 'sex_orient';
 
-	public function getById($id)
+	public static function getById($id)
 	{
 		$item = self::select('*')
 		->where ('id', $id)

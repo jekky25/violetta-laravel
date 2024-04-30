@@ -29,13 +29,6 @@ class AnketVisit extends Model
     	return $items;
 	}
 
-	public function user()
-	{
-    	return $this->hasOne(User::class, 'user_id', 'user_id_prosm')
-					->with('city')
-					->with('photo');
-	}
-
 	public static function getVisitsByUserId($id, $days, $userId = 0)
 	{
 		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
@@ -50,7 +43,7 @@ class AnketVisit extends Model
     	return $items;
 	}
 
-	public function getByFields ($fields = [])
+	public static function getByFields ($fields = [])
 	{
 		if (empty($fields)) return null;
 		$items = self::select('*');
@@ -65,7 +58,7 @@ class AnketVisit extends Model
 		return $items;
 	}
 
-	public function updateVisit ($id)
+	public static function updateVisit ($id)
 	{
 		$user 	= Auth::user();
 		if (empty ($user)) abort (404);
@@ -82,7 +75,7 @@ class AnketVisit extends Model
 		}
 	}
 
-	public function insertVisit ($id)
+	public static function insertVisit ($id)
 	{
 		$user 	= Auth::user();
 		if (empty ($user)) abort (404);
@@ -97,9 +90,16 @@ class AnketVisit extends Model
 		$oAnketVisit->save();
 	}
 
-	public function removeOld ($days)
+	public static function removeOld ($days)
 	{
 		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
 		AnketVisit::where('ank_time', '<', ($time['timestamp']))->delete();
+	}
+
+	public function user()
+	{
+    	return $this->hasOne(User::class, 'user_id', 'user_id_prosm')
+					->with('city')
+					->with('photo');
 	}
 }

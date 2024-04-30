@@ -404,7 +404,7 @@ class Helper {
 	 *
 	 * @return void
 	 */
-	function queryBlock($ar, &$items)
+	public static function queryBlock($ar, &$items)
 	{
 		$items->where (function ($query) use ($ar) {
 			$query->where('user_sex', $ar[0]);
@@ -422,7 +422,7 @@ class Helper {
 	 *
 	 * @return void
 	 */
-	function queryBlockOr($ar, &$items)
+	public static function queryBlockOr($ar, &$items)
 	{
 		$items->Orwhere (function ($query) use ($ar) {
 			$query->where('user_sex', $ar[0]);
@@ -882,7 +882,7 @@ class Helper {
 	}
 
 
-	function delPhoto ($photo)
+	public static function delPhoto ($photo)
 	{
 		$user 			= Auth::user();
 		$id = $photo->fotos_id;

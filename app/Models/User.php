@@ -185,7 +185,7 @@ class User extends Authenticatable
 		return $items;
 	}
 
-	public function getViews($count = 0)
+	public static function getViews($count = 0)
 	{
 		$time	= \Carbon\Carbon::now()->subDays(30)->timestamp;
 		$items 	= self::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
@@ -216,7 +216,7 @@ class User extends Authenticatable
 				->first();
 	}
 
-	public function getByIdAndConfirmCode($id, $code)
+	public static function getByIdAndConfirmCode($id, $code)
 	{
 		if ((int)($id) == 0 or empty($code)) return false;
 		return self::select(['*'])
@@ -304,7 +304,7 @@ class User extends Authenticatable
 		return $item;
 	}
 
-	public function getByEmail($email)
+	public static function getByEmail($email)
 	{
 		$item = self::select('*')
 		->where ('user_mail', $email)
@@ -312,7 +312,7 @@ class User extends Authenticatable
 		return $item;
 	}
 
-	public function getByLogin($login)
+	public static function getByLogin($login)
 	{
 		$item = self::select('*')
 		->where ('user_login', $login)

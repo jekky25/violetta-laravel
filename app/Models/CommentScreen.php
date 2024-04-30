@@ -30,11 +30,6 @@ class CommentScreen extends Model
 		return $items;
 	}
 
-	public function user()
-	{
-    	return $this->belongsTo(User::class, 'user_id', 'user_id');
-	}
-	
     public function getNameAttribute ($val)
     {
 		$val = !empty ($val) ? $val : 'none';
@@ -45,4 +40,9 @@ class CommentScreen extends Model
     {
 		return date("d-m-Y",$val);
     }
+
+	public function user()
+	{
+    	return $this->belongsTo(User::class, 'user_id', 'user_id');
+	}
 }

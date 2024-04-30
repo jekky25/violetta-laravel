@@ -11,7 +11,7 @@ class BanList extends Model
 
 	protected $table = 'ban_list';
 
-	public function getByIP($ip)
+	public static function getByIP($ip)
 	{
 		$item = self::select('*')
 		->where ('ban_ip', $ip)
