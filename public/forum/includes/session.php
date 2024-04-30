@@ -432,6 +432,11 @@ class session
 									WHERE session_id = '" . $db->sql_escape($this->session_id) . "'";
 								$db->sql_query($sql);
 							}
+
+							if ($this->data['user_id'] != ANONYMOUS && !empty($config['new_member_post_limit']) && $this->data['user_new'] && $config['new_member_post_limit'] <= $this->data['user_posts'])
+							{
+								$this->leave_newly_registered();
+							}
 						}
 
 						$this->data['is_registered'] = ($this->data['user_id'] != ANONYMOUS && ($this->data['user_type'] == USER_NORMAL || $this->data['user_type'] == USER_FOUNDER)) ? true : false;
@@ -516,6 +521,13 @@ class session
 
 				foreach (explode(',', $row['bot_ip']) as $bot_ip)
 				{
+					$bot_ip = trim($bot_ip);
+
+					if (!$bot_ip)
+					{
+						continue;
+					}
+
 					if (strpos($this->ip, $bot_ip) === 0)
 					{
 						$bot = (int) $row['user_id'];
@@ -575,12 +587,20 @@ class session
 			$bot = false;
 		}
 
+		// Bot user, if they have a SID in the Request URI we need to get rid of it
+		// otherwise they'll index this page with the SID, duplicate content oh my!
+		if ($bot && isset($_GET['sid']))
+		{
+			send_status_line(301, 'Moved Permanently');
+			redirect(build_url(array('sid')));
+		}
+
 		// If no data was returned one or more of the following occurred:
 		// Key didn't match one in the DB
 		// User does not exist
 		// User is inactive
 		// User is bot
-		if (!sizeof($this->data) || !is_array($this->data))
+		if ((is_array($this->data) && count($this->data) == 0) || !is_array($this->data))
 		{
 			$this->cookie_data['k'] = '';
 			$this->cookie_data['u'] = ($bot) ? $bot : ANONYMOUS;
@@ -630,7 +650,7 @@ class session
 			}
 			else
 			{
-				$ips = explode(', ', $this->forwarded_for);
+				$ips = explode(' ', $this->forwarded_for);
 				$ips[] = $this->ip;
 				$this->check_ban($this->data['user_id'], $ips);
 			}
@@ -745,7 +765,7 @@ class session
 
 				if ((int) $row['sessions'] > (int) $config['active_sessions'])
 				{
-					header('HTTP/1.1 503 Service Unavailable');
+					send_status_line(503, 'Service Unavailable');
 					trigger_error('BOARD_UNAVAILABLE');
 				}
 			}
@@ -755,11 +775,21 @@ class session
 		// Commented out because it will not allow forums to update correctly
 //		$db->sql_return_on_error(false);
 
+		// Something quite important: session_page always holds the *last* page visited, except for the *first* visit.
+		// We are not able to simply have an empty session_page btw, therefore we need to tell phpBB how to detect this special case.
+		// If the session id is empty, we have a completely new one and will set an "identifier" here. This identifier is able to be checked later.
+		if (empty($this->data['session_id']))
+		{
+			// This is a temporary variable, only set for the very first visit
+			$this->data['session_created'] = true;
+		}
+
 		$this->session_id = $this->data['session_id'] = md5(unique_id());
 
-		$sql_ary['session_id'] = (string) $this->session_id;
-		$sql_ary['session_page'] = (string) substr($this->page['page'], 0, 199);
-		$sql_ary['session_forum_id'] = $this->page['forum'];
+		$sql_ary['session_id'] 			= (string) $this->session_id;
+		$sql_ary['session_page'] 		= (string) substr($this->page['page'], 0, 199);
+		$sql_ary['session_forum_id'] 	= $this->page['forum'];
+		$sql_ary['session_url']			= (string)$_SERVER['REQUEST_URI'];
 
 		$sql = 'INSERT INTO ' . SESSIONS_TABLE . ' ' . $db->sql_build_array('INSERT', $sql_ary);
 		$db->sql_query($sql);
@@ -911,7 +941,7 @@ class session
 	*/
 	function session_gc()
 	{
-		global $db, $config;
+		global $db, $config, $phpbb_root_path, $phpEx;
 
 		$batch_size = 10;
 
@@ -969,42 +999,21 @@ class session
 					WHERE last_login < ' . (time() - (86400 * (int) $config['max_autologin_time']));
 				$db->sql_query($sql);
 			}
-			$this->confirm_gc();
+
+			// only called from CRON; should be a safe workaround until the infrastructure gets going
+			if (!class_exists('phpbb_captcha_factory'))
+			{
+				include($phpbb_root_path . "includes/captcha/captcha_factory." . $phpEx);
+			}
+			phpbb_captcha_factory::garbage_collect($config['captcha_plugin']);
+
+			$sql = 'DELETE FROM ' . LOGIN_ATTEMPT_TABLE . '
+				WHERE attempt_time < ' . (time() - (int) $config['ip_login_limit_time']);
+			$db->sql_query($sql);
 		}
 
 		return;
 	}
-
-	function confirm_gc($type = 0)
-	{
-		global $db, $config;
-
-		$sql = 'SELECT DISTINCT c.session_id
-				FROM ' . CONFIRM_TABLE . ' c
-				LEFT JOIN ' . SESSIONS_TABLE . ' s ON (c.session_id = s.session_id)
-				WHERE s.session_id IS NULL' .
-					((empty($type)) ? '' : ' AND c.confirm_type = ' . (int) $type);
-		$result = $db->sql_query($sql);
-
-		if ($row = $db->sql_fetchrow($result))
-		{
-			$sql_in = array();
-			do
-			{
-				$sql_in[] = (string) $row['session_id'];
-			}
-			while ($row = $db->sql_fetchrow($result));
-
-			if (sizeof($sql_in))
-			{
-				$sql = 'DELETE FROM ' . CONFIRM_TABLE . '
-					WHERE ' . $db->sql_in_set('session_id', $sql_in);
-				$db->sql_query($sql);
-			}
-		}
-		$db->sql_freeresult($result);
-	}
-
 
 	/**
 	* Sets a cookie
@@ -1239,8 +1248,14 @@ class session
 			$ip = $this->ip;
 		}
 
+		// Neither Spamhaus nor Spamcop supports IPv6 addresses.
+		if (strpos($ip, ':') !== false)
+		{
+			return false;
+		}
+
 		$dnsbl_check = array(
-			'sbl-xbl.spamhaus.org'	=> 'http://www.spamhaus.org/query/bl?ip=',
+			'sbl.spamhaus.org'	=> 'http://www.spamhaus.org/query/bl?ip=',
 		);
 
 		if ($mode == 'register')
@@ -1374,16 +1389,33 @@ class session
 	{
 		global $config, $db;
 
-		$user_id = ($user_id === false) ? $this->data['user_id'] : $user_id;
+		$user_id = ($user_id === false) ? (int) $this->data['user_id'] : (int) $user_id;
 
 		$sql = 'DELETE FROM ' . SESSIONS_KEYS_TABLE . '
 			WHERE user_id = ' . (int) $user_id;
 		$db->sql_query($sql);
 
+		// If the user is logged in, update last visit info first before deleting sessions
+		$sql = 'SELECT session_time, session_page
+			FROM ' . SESSIONS_TABLE . '
+			WHERE session_user_id = ' . (int) $user_id . '
+			ORDER BY session_time DESC';
+		$result = $db->sql_query_limit($sql, 1);
+		$row = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+
+		if ($row)
+		{
+			$sql = 'UPDATE ' . USERS_TABLE . '
+				SET user_lastvisit = ' . (int) $row['session_time'] . ", user_lastpage = '" . $db->sql_escape($row['session_page']) . "'
+				WHERE user_id = " . (int) $user_id;
+			$db->sql_query($sql);
+		}
+
 		// Let's also clear any current sessions for the specified user_id
 		// If it's the current user then we'll leave this session intact
 		$sql_where = 'session_user_id = ' . (int) $user_id;
-		$sql_where .= ($user_id === $this->data['user_id']) ? " AND session_id <> '" . $db->sql_escape($this->session_id) . "'" : '';
+		$sql_where .= ($user_id === (int) $this->data['user_id']) ? " AND session_id <> '" . $db->sql_escape($this->session_id) . "'" : '';
 
 		$sql = 'DELETE FROM ' . SESSIONS_TABLE . "
 			WHERE $sql_where";
@@ -1391,7 +1423,7 @@ class session
 
 		// We're changing the password of the current user and they have a key
 		// Lets regenerate it to be safe
-		if ($user_id === $this->data['user_id'] && $this->cookie_data['k'])
+		if ($user_id === (int) $this->data['user_id'] && $this->cookie_data['k'])
 		{
 			$this->set_login_key($user_id);
 		}
@@ -1404,6 +1436,8 @@ class session
 	*/
 	function validate_referer($check_script_path = false)
 	{
+		global $config;
+
 		// no referer - nothing to validate, user's fault for turning it off (we only check on POST; so meta can't be the reason)
 		if (empty($this->referer) || empty($this->host))
 		{
@@ -1413,7 +1447,7 @@ class session
 		$host = htmlspecialchars($this->host);
 		$ref = substr($this->referer, strpos($this->referer, '://') + 3);
 
-		if (!(stripos($ref, $host) === 0))
+		if (!(stripos($ref, $host) === 0) && (!$config['force_server_vars'] || !(stripos($ref, $config['server_name']) === 0)))
 		{
 			return false;
 		}
@@ -1471,8 +1505,8 @@ class user extends session
 	var $img_lang;
 	var $img_array = array();
 
-	// Able to add new option (id 7)
-	var $keyoptions = array('viewimg' => 0, 'viewflash' => 1, 'viewsmilies' => 2, 'viewsigs' => 3, 'viewavatars' => 4, 'viewcensors' => 5, 'attachsig' => 6, 'bbcode' => 8, 'smilies' => 9, 'popuppm' => 10);
+	// Able to add new options (up to id 31)
+	var $keyoptions = array('viewimg' => 0, 'viewflash' => 1, 'viewsmilies' => 2, 'viewsigs' => 3, 'viewavatars' => 4, 'viewcensors' => 5, 'attachsig' => 6, 'bbcode' => 8, 'smilies' => 9, 'popuppm' => 10, 'sig_bbcode' => 15, 'sig_smilies' => 16, 'sig_links' => 17);
 	var $keyvalues = array();
 
 	/**
@@ -1481,7 +1515,6 @@ class user extends session
 	function __construct()
 	{
 		global $phpbb_root_path;
-
 		$this->lang_path = $phpbb_root_path . 'language/';
 	}
 
@@ -1562,8 +1595,10 @@ class user extends session
 
 		// We include common language file here to not load it every time a custom language file is included
 		$lang = &$this->lang;
+		// Do not suppress error if in DEBUG_EXTRA mode
+		$include_result = (defined('DEBUG_EXTRA')) ? (include $this->lang_path . $this->lang_name . "/common.$phpEx") : (@include $this->lang_path . $this->lang_name . "/common.$phpEx");
 
-		if ((@include $this->lang_path . $this->lang_name . "/common.$phpEx") === false)
+		if ($include_result === false)
 		{
 			die('Language file ' . $this->lang_path . $this->lang_name . "/common.$phpEx" . " couldn't be opened.");
 		}
@@ -1571,7 +1606,7 @@ class user extends session
 		$this->add_lang($lang_set);
 		unset($lang_set);
 
-		if (!empty($_GET['style']) && $auth->acl_get('a_styles'))
+		if (!empty($_GET['style']) && $auth->acl_get('a_styles') && !defined('ADMIN_START'))
 		{
 			global $SID, $_EXTRA_URL;
 
@@ -1693,7 +1728,8 @@ class user extends session
 
 		$this->img_lang = (file_exists($phpbb_root_path . 'styles/' . $this->theme['imageset_path'] . '/imageset/' . $this->lang_name)) ? $this->lang_name : $config['default_lang'];
 
-		$sql = 'SELECT image_name, image_filename, image_lang, image_height, image_width
+		// Same query in style.php
+		$sql = 'SELECT *
 			FROM ' . STYLES_IMAGESET_DATA_TABLE . '
 			WHERE imageset_id = ' . $this->theme['imageset_id'] . "
 			AND image_filename <> ''
@@ -1792,7 +1828,7 @@ class user extends session
 
 		// Disable board if the install/ directory is still present
 		// For the brave development army we do not care about this, else we need to comment out this everytime we develop locally
-		if (!defined('DEBUG_EXTRA') && !defined('ADMIN_START') && !defined('IN_INSTALL') && !defined('IN_LOGIN') && file_exists($phpbb_root_path . 'install'))
+		if (!defined('DEBUG_EXTRA') && !defined('ADMIN_START') && !defined('IN_INSTALL') && !defined('IN_LOGIN') && file_exists($phpbb_root_path . 'install') && !is_file($phpbb_root_path . 'install'))
 		{
 			// Adjust the message slightly according to the permissions
 			if ($auth->acl_gets('a_', 'm_') || $auth->acl_getf_global('m_'))
@@ -1809,7 +1845,10 @@ class user extends session
 		// Is board disabled and user not an admin or moderator?
 		if ($config['board_disable'] && !defined('IN_LOGIN') && !$auth->acl_gets('a_', 'm_') && !$auth->acl_getf_global('m_'))
 		{
-			header('HTTP/1.1 503 Service Unavailable');
+			if ($this->data['is_bot'])
+			{
+				send_status_line(503, 'Service Unavailable');
+			}
 
 			$message = (!empty($config['board_disable_msg'])) ? $config['board_disable_msg'] : 'BOARD_DISABLE';
 			trigger_error($message);
@@ -1818,14 +1857,17 @@ class user extends session
 		// Is load exceeded?
 		if ($config['limit_load'] && $this->load !== false)
 		{
-			if ($this->load > floatval($config['limit_load']) && !defined('IN_LOGIN'))
+			if ($this->load > floatval($config['limit_load']) && !defined('IN_LOGIN') && !defined('IN_ADMIN'))
 			{
 				// Set board disabled to true to let the admins/mods get the proper notification
 				$config['board_disable'] = '1';
 
 				if (!$auth->acl_gets('a_', 'm_') && !$auth->acl_getf_global('m_'))
 				{
-					header('HTTP/1.1 503 Service Unavailable');
+					if ($this->data['is_bot'])
+					{
+						send_status_line(503, 'Service Unavailable');
+					}
 					trigger_error('BOARD_UNAVAILABLE');
 				}
 			}
@@ -1863,7 +1905,7 @@ class user extends session
 
 		// Does the user need to change their password? If so, redirect to the
 		// ucp profile reg_details page ... of course do not redirect if we're already in the ucp
-		if (!defined('IN_ADMIN') && !defined('ADMIN_START') && $config['chg_passforce'] && $this->data['is_registered'] && $auth->acl_get('u_chgpasswd') && $this->data['user_passchg'] < time() - ($config['chg_passforce'] * 86400))
+		if (!defined('IN_ADMIN') && !defined('ADMIN_START') && $config['chg_passforce'] && !empty($this->data['is_registered']) && $auth->acl_get('u_chgpasswd') && $this->data['user_passchg'] < time() - ($config['chg_passforce'] * 86400))
 		{
 			if (strpos($this->page['query_string'], 'mode=reg_details') === false && $this->page['page_name'] != "ucp.$phpEx")
 			{
@@ -1887,22 +1929,36 @@ class user extends session
 		$args = func_get_args();
 		$key = $args[0];
 
+		if (is_array($key))
+		{
+			$lang = &$this->lang[array_shift($key)];
+
+			foreach ($key as $_key)
+			{
+				$lang = &$lang[$_key];
+			}
+		}
+		else
+		{
+			$lang = &$this->lang[$key];
+		}
+
 		// Return if language string does not exist
-		if (!isset($this->lang[$key]) || (!is_string($this->lang[$key]) && !is_array($this->lang[$key])))
+		if (!isset($lang) || (!is_string($lang) && !is_array($lang)))
 		{
 			return $key;
 		}
 
 		// If the language entry is a string, we simply mimic sprintf() behaviour
-		if (is_string($this->lang[$key]))
+		if (is_string($lang))
 		{
 			if (sizeof($args) == 1)
 			{
-				return $this->lang[$key];
+				return $lang;
 			}
 
 			// Replace key with language entry and simply pass along...
-			$args[0] = $this->lang[$key];
+			$args[0] = $lang;
 			return call_user_func_array('sprintf', $args);
 		}
 
