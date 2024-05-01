@@ -245,7 +245,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	public static function outDiaryPicture($picture = '', $sex)
+	public static function outDiaryPicture(string $picture, $sex)
 	{
 		return self::getPicture ($picture, $sex, 'img/dnevnik/');
 	}
@@ -257,7 +257,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	public static function outDiaryCommentPicture($picture = '', $sex)
+	public static function outDiaryCommentPicture(string $picture, $sex)
 	{
 		return self::getPicture ($picture, $sex, 'img/dnev_comment/');
 	}
@@ -271,8 +271,9 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	public static function getPicture ($picture = '', $sex, $path, $ext = '')
+	public static function getPicture (string $picture, $sex, $path, $ext)
 	{
+		$ext			= !empty ($ext) ? $ext : '';
 		$file 			= $_SERVER['DOCUMENT_ROOT'] . '/public/' . $path . $picture . $ext;
 		$fileTimeStr 	= !empty(self::getFileChangeTime($file)) 	? self::getFileChangeTime($file) . '/'		: '';
 		if (!empty($picture) && !empty($path)) return asset($path . $fileTimeStr . $picture . $ext);
@@ -286,7 +287,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	public static function getFileChangeTime ($file = '')
+	public static function getFileChangeTime (string $file)
 	{
 		return file_exists($file) 	? filemtime($file)		: '';
 	}
@@ -297,7 +298,7 @@ class Helper {
 	 *
 	 * @return array
 	 */
-	public static function preparePagination($pagination = [])
+	public static function preparePagination($pagination)
 	{
 		if (empty ($pagination)) return [];
 
