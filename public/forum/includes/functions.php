@@ -1229,6 +1229,15 @@ function markread($mode, $forum_id = false, $topic_id = false, $post_time = 0, $
 		if ($config['load_db_track'] && $use_user_id != ANONYMOUS)
 		{
 			$db->sql_return_on_error(true);
+			$sql = 'SELECT topic_id 
+					FROM ' . TOPICS_POSTED_TABLE . '
+					WHERE user_id = ' . (int) $use_user_id . ' 
+					AND topic_id = ' . (int) $topic_id;
+			$result = $db->sql_query($sql);
+			$row = $db->sql_fetchrow($result);
+			$db->sql_freeresult($result);
+
+			if ($row) return;
 
 			$sql_ary = array(
 				'user_id'		=> (int) $use_user_id,
