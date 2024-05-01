@@ -233,9 +233,8 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	public static function outPicture($picture = 0, $sex)
+	public static function outPicture(int $picture, $sex)
 	{
-		$picture = (int) $picture;
 		return self::getPicture ($picture, $sex, 'fotos_new/', '.jpg');
 	}
 
