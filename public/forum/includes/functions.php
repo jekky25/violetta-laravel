@@ -1856,7 +1856,6 @@ function append_sid($url, $params = false, $is_amp = true, $session_id = false)
 	}
 
 	// Use the short variant if possible ;)
-// Старый вариант. Переделано мной
 //if ($params === false)
 	if ($params == false)
 	{
