@@ -548,7 +548,8 @@ class diff3 extends diff
 	/**
 	* @access private
 	*/
-	function _diff3(&$edits1, &$edits2)
+	function __construct(&$orig, &$final1, &$final2)
+	(&$edits1, &$edits2)
 	{
 		$edits = array();
 		$bb = new diff3_block_builder();
@@ -648,7 +649,7 @@ class diff3 extends diff
 */
 class diff3_op
 {
-	function diff3_op($orig = false, $final1 = false, $final2 = false)
+	function __construct($orig = false, $final1 = false, $final2 = false)
 	{
 		$this->orig = $orig ? $orig : array();
 		$this->final1 = $final1 ? $final1 : array();
@@ -694,7 +695,7 @@ class diff3_op
 */
 class diff3_op_copy extends diff3_op
 {
-	function diff3_op_copy($lines = false)
+	function __construct($lines = false)
 	{
 		$this->orig = $lines ? $lines : array();
 		$this->final1 = &$this->orig;
@@ -720,7 +721,7 @@ class diff3_op_copy extends diff3_op
 */
 class diff3_block_builder
 {
-	function diff3_block_builder()
+	function __construct()
 	{
 		$this->_init();
 	}
@@ -778,5 +779,3 @@ class diff3_block_builder
 		array_splice($array, sizeof($array), 0, $lines);
 	}
 }
-
-?>

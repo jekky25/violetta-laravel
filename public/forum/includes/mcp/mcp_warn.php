@@ -26,7 +26,7 @@ class mcp_warn
 	var $p_master;
 	var $u_action;
 
-	function mcp_warn(&$p_master)
+	function __construct(&$p_master)
 	{
 		$this->p_master = &$p_master;
 	}
@@ -504,5 +504,3 @@ function add_warning($user_row, $warning, $send_pm = true, $post_id = 0)
 
 	add_log('mod', $row['forum_id'], $row['topic_id'], 'LOG_USER_WARNING', $user_row['username']);
 }
-
-?>
