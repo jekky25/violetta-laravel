@@ -114,9 +114,11 @@ class dbal
 	*/
 	function sql_add_num_queries($cached = false)
 	{
-		$this->num_queries['cached'] += ($cached !== false) ? 1 : 0;
-		$this->num_queries['normal'] += ($cached !== false) ? 0 : 1;
-		$this->num_queries['total'] += 1;
+		$aCached                         = ($cached !== false) ? 1 : 0;
+        $aNormal                         = ($cached !== false) ? 0 : 1;
+        $this->num_queries['cached']     = !empty ($this->num_queries['cached']) ? $this->num_queries['cached'] + $aCached : $aCached;
+        $this->num_queries['normal']     = !empty ($this->num_queries['normal']) ? $this->num_queries['normal'] + $aNormal : $aNormal;
+        $this->num_queries['total']     = !empty ($this->num_queries['total']) ? $this->num_queries['total'] + 1 : 1;
 	}
 
 	/**
@@ -371,7 +373,7 @@ class dbal
 	*/
 	function sql_in_set($field, $array, $negate = false, $allow_empty_set = false)
 	{
-		if (!sizeof($array))
+		if (!is_array ($array) || count($array) == 0)
 		{
 			if (!$allow_empty_set)
 			{

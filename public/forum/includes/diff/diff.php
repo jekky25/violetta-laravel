@@ -46,7 +46,7 @@ class diff
 	* @param array $from_lines  An array of strings. Typically these are lines from a file.
 	* @param array $to_lines    An array of strings.
 	*/
-	function diff(&$from_content, &$to_content, $preserve_cr = true)
+	function __construct(&$from_content, &$to_content, $preserve_cr = true)
 	{
 		$diff_engine = new diff_engine();
 		$this->_edits = $diff_engine->diff($from_content, $to_content, $preserve_cr);
@@ -288,7 +288,7 @@ class diff_op
 	var $orig;
 	var $final;
 
-	function &reverse()
+	function reverse()
 	{
 		trigger_error('[diff] Abstract method', E_USER_ERROR);
 	}
@@ -312,7 +312,7 @@ class diff_op
 */
 class diff_op_copy extends diff_op
 {
-	function diff_op_copy($orig, $final = false)
+	function __construct($orig, $final = false)
 	{
 		if (!is_array($final))
 		{
@@ -322,7 +322,7 @@ class diff_op_copy extends diff_op
 		$this->final = $final;
 	}
 
-	function &reverse()
+	function reverse()
 	{
 		$reverse = new diff_op_copy($this->final, $this->orig);
 		return $reverse;
@@ -337,13 +337,13 @@ class diff_op_copy extends diff_op
 */
 class diff_op_delete extends diff_op
 {
-	function diff_op_delete($lines)
+	function __construct($lines)
 	{
 		$this->orig = $lines;
 		$this->final = false;
 	}
 
-	function &reverse()
+	function reverse()
 	{
 		$reverse = new diff_op_add($this->orig);
 		return $reverse;
@@ -358,13 +358,13 @@ class diff_op_delete extends diff_op
 */
 class diff_op_add extends diff_op
 {
-	function diff_op_add($lines)
+	function __construct($lines)
 	{
 		$this->final = $lines;
 		$this->orig = false;
 	}
 
-	function &reverse()
+	function reverse()
 	{
 		$reverse = new diff_op_delete($this->final);
 		return $reverse;
@@ -379,13 +379,13 @@ class diff_op_add extends diff_op
 */
 class diff_op_change extends diff_op
 {
-	function diff_op_change($orig, $final)
+	function __construct($orig, $final)
 	{
 		$this->orig = $orig;
 		$this->final = $final;
 	}
 
-	function &reverse()
+	function reverse()
 	{
 		$reverse = new diff_op_change($this->final, $this->orig);
 		return $reverse;
@@ -414,7 +414,7 @@ class diff3 extends diff
 	* @param array $final1  The first version to compare to.
 	* @param array $final2  The second version to compare to.
 	*/
-	function diff3(&$orig, &$final1, &$final2)
+	function __construct(&$orig, &$final1, &$final2)
 	{
 		$diff_engine = new diff_engine();
 

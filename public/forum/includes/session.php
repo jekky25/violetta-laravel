@@ -1970,7 +1970,7 @@ class user extends session
 		{
 			if (is_int($args[$i]))
 			{
-				$numbers = array_keys($this->lang[$key]);
+				$numbers = array_keys($lang);
 
 				foreach ($numbers as $num)
 				{
@@ -1981,18 +1981,19 @@ class user extends session
 
 					$key_found = $num;
 				}
+				break;
 			}
 		}
 
 		// Ok, let's check if the key was found, else use the last entry (because it is mostly the plural form)
 		if ($key_found === false)
 		{
-			$numbers = array_keys($this->lang[$key]);
+			$numbers = array_keys($lang);
 			$key_found = end($numbers);
 		}
 
 		// Use the language string we determined and pass it to sprintf()
-		$args[0] = $this->lang[$key][$key_found];
+		$args[0] = $lang[$key_found];
 		return call_user_func_array('sprintf', $args);
 	}
 
@@ -2078,7 +2079,38 @@ class user extends session
 				$language_filename = $this->lang_path . $this->lang_name . '/' . (($use_help) ? 'help_' : '') . $lang_file . '.' . $phpEx;
 			}
 
-			if ((@include $language_filename) === false)
+			if (!file_exists($language_filename))
+			{
+				global $config;
+
+				if ($this->lang_name == 'en')
+				{
+					// The user's selected language is missing the file, the board default's language is missing the file, and the file doesn't exist in /en.
+					$language_filename = str_replace($this->lang_path . 'en', $this->lang_path . $this->data['user_lang'], $language_filename);
+					trigger_error('Language file ' . $language_filename . ' couldn\'t be opened.', E_USER_ERROR);
+				}
+				else if ($this->lang_name == basename($config['default_lang']))
+				{
+					// Fall back to the English Language
+					$this->lang_name = 'en';
+					$this->set_lang($lang, $help, $lang_file, $use_db, $use_help);
+				}
+				else if ($this->lang_name == $this->data['user_lang'])
+				{
+					// Fall back to the board default language
+					$this->lang_name = basename($config['default_lang']);
+					$this->set_lang($lang, $help, $lang_file, $use_db, $use_help);
+				}
+
+				// Reset the lang name
+				$this->lang_name = (file_exists($this->lang_path . $this->data['user_lang'] . "/common.$phpEx")) ? $this->data['user_lang'] : basename($config['default_lang']);
+				return;
+			}
+
+			// Do not suppress error if in DEBUG_EXTRA mode
+			$include_result = (defined('DEBUG_EXTRA')) ? (include $language_filename) : (@include $language_filename);
+
+			if ($include_result === false)
 			{
 				trigger_error('Language file ' . $language_filename . ' couldn\'t be opened.', E_USER_ERROR);
 			}
@@ -2093,60 +2125,79 @@ class user extends session
 
 	/**
 	* Format user date
+	*
+	* @param int $gmepoch unix timestamp
+	* @param string $format date format in date() notation. | used to indicate relative dates, for example |d m Y|, h:i is translated to Today, h:i.
+	* @param bool $forcedate force non-relative date format.
+	*
+	* @return mixed translated date
 	*/
 	function format_date($gmepoch, $format = false, $forcedate = false)
 	{
 		static $midnight;
+		static $date_cache;
 
-		$lang_dates = $this->lang['datetime'];
 		$format = (!$format) ? $this->date_format : $format;
+		$now = time();
+		$delta = $now - $gmepoch;
 
-		// Short representation of month in format
-		if ((strpos($format, '\M') === false && strpos($format, 'M') !== false) || (strpos($format, '\r') === false && strpos($format, 'r') !== false))
+		if (!isset($date_cache[$format]))
 		{
-			$lang_dates['May'] = $lang_dates['May_short'];
+			// Is the user requesting a friendly date format (i.e. 'Today 12:42')?
+			$date_cache[$format] = array(
+				'is_short'		=> strpos($format, '|'),
+				'format_short'	=> substr($format, 0, strpos($format, '|')) . '||' . substr(strrchr($format, '|'), 1),
+				'format_long'	=> str_replace('|', '', $format),
+				'lang'			=> $this->lang['datetime'],
+			);
+
+			// Short representation of month in format? Some languages use different terms for the long and short format of May
+			if ((strpos($format, '\M') === false && strpos($format, 'M') !== false) || (strpos($format, '\r') === false && strpos($format, 'r') !== false))
+			{
+				$date_cache[$format]['lang']['May'] = $this->lang['datetime']['May_short'];
+			}
 		}
 
-		unset($lang_dates['May_short']);
+		// Zone offset
+		$zone_offset = $this->timezone + $this->dst;
+
+		// Show date <= 1 hour ago as 'xx min ago' but not greater than 60 seconds in the future
+		// A small tolerence is given for times in the future but in the same minute are displayed as '< than a minute ago'
+		if ($delta <= 3600 && $delta > -60 && ($delta >= -5 || (($now / 60) % 60) == (($gmepoch / 60) % 60)) && $date_cache[$format]['is_short'] !== false && !$forcedate && isset($this->lang['datetime']['AGO']))
+		{
+			return $this->lang(array('datetime', 'AGO'), max(0, (int) floor($delta / 60)));
+		}
 
 		if (!$midnight)
 		{
-			list($d, $m, $y) = explode(' ', gmdate('j n Y', time() + $this->timezone + $this->dst));
-			$midnight = gmmktime(0, 0, 0, $m, $d, $y) - $this->timezone - $this->dst;
+			list($d, $m, $y) = explode(' ', gmdate('j n Y', time() + $zone_offset));
+			$midnight = gmmktime(0, 0, 0, $m, $d, $y) - $zone_offset;
 		}
 
-		if (strpos($format, '|') === false || ($gmepoch < $midnight - 86400 && !$forcedate) || ($gmepoch > $midnight + 172800 && !$forcedate))
+		if ($date_cache[$format]['is_short'] !== false && !$forcedate && !($gmepoch < $midnight - 86400 || $gmepoch > $midnight + 172800))
 		{
-			$format1 		= str_replace('|', '', $format);
-			$x 				= $gmepoch + $this->timezone + $this->dst;
-			$y				= @gmdate($format1, $x);
-			$lang_dates1	= $lang_dates;
-			unset ($lang_dates1['AGO']);
-			$y1 		= strtr($y, $lang_dates1);
-			return strtr($y, $lang_dates1);
+			$day = false;
+
+			if ($gmepoch > $midnight + 86400)
+			{
+				$day = 'TOMORROW';
+			}
+			else if ($gmepoch > $midnight)
+			{
+				$day = 'TODAY';
+			}
+			else if ($gmepoch > $midnight - 86400)
+			{
+				$day = 'YESTERDAY';
+			}
+
+			if ($day !== false)
+			{
+				return str_replace('||', $this->lang['datetime'][$day], strtr(@gmdate($date_cache[$format]['format_short'], $gmepoch + $zone_offset), $date_cache[$format]['lang']));
+			}
 		}
 
-		$lang_dates1 = $lang_dates;
-		unset ($lang_dates1['AGO']);
-
-		if ($gmepoch > $midnight + 86400 && !$forcedate)
-		{
-			$format = substr($format, 0, strpos($format, '|')) . '||' . substr(strrchr($format, '|'), 1);
-			return str_replace('||', $this->lang['datetime']['TOMORROW'], strtr(@gmdate($format, $gmepoch + $this->timezone + $this->dst), $lang_dates1));
-		}
-		else if ($gmepoch > $midnight && !$forcedate)
-		{
-			$format = substr($format, 0, strpos($format, '|')) . '||' . substr(strrchr($format, '|'), 1);
-			return str_replace('||', $this->lang['datetime']['TODAY'], strtr(@gmdate($format, $gmepoch + $this->timezone + $this->dst), $lang_dates1));
-		}
-		else if ($gmepoch > $midnight - 86400 && !$forcedate)
-		{
-			$format = substr($format, 0, strpos($format, '|')) . '||' . substr(strrchr($format, '|'), 1);
-			return str_replace('||', $this->lang['datetime']['YESTERDAY'], strtr(@gmdate($format, $gmepoch + $this->timezone + $this->dst), $lang_dates1));
-		}
-
-
-		return strtr(@gmdate(str_replace('|', '', $format), $gmepoch + $this->timezone + $this->dst), $lang_dates1);
+		return strtr(@gmdate($date_cache[$format]['format_long'], $gmepoch + $zone_offset), $date_cache[$format]['lang']);
 	}
 
 	/**
@@ -2216,9 +2267,47 @@ class user extends session
 				return $img_data;
 			}
 
-			$img_data['src'] = $phpbb_root_path . 'styles/' . $this->theme['imageset_path'] . '/imageset/' . ($this->img_array[$img]['image_lang'] ? $this->img_array[$img]['image_lang'] .'/' : '') . $this->img_array[$img]['image_filename'];
+			// Use URL if told so
+			$root_path = (defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? generate_board_url() . '/' : $phpbb_root_path;
+
+			$path = 'styles/' . rawurlencode($this->theme['imageset_path']) . '/imageset/' . ($this->img_array[$img]['image_lang'] ? $this->img_array[$img]['image_lang'] .'/' : '') . $this->img_array[$img]['image_filename'];
+
+			$img_data['src'] = $root_path . $path;
 			$img_data['width'] = $this->img_array[$img]['image_width'];
 			$img_data['height'] = $this->img_array[$img]['image_height'];
+
+			// We overwrite the width and height to the phpbb logo's width
+			// and height here if the contents of the site_logo file are
+			// really equal to the phpbb_logo
+			// This allows us to change the dimensions of the phpbb_logo without
+			// modifying the imageset.cfg and causing a conflict for everyone
+			// who modified it for their custom logo on updating
+			if ($img == 'site_logo' && file_exists($phpbb_root_path . $path))
+			{
+				global $cache;
+
+				$img_file_hashes = $cache->get('imageset_site_logo_md5');
+
+				if ($img_file_hashes === false)
+				{
+					$img_file_hashes = array();
+				}
+
+				$key = $this->theme['imageset_path'] . '::' . $this->img_array[$img]['image_lang'];
+				if (!isset($img_file_hashes[$key]))
+				{
+					$img_file_hashes[$key] = md5(file_get_contents($phpbb_root_path . $path));
+					$cache->put('imageset_site_logo_md5', $img_file_hashes);
+				}
+
+				$phpbb_logo_hash = '0c461a32cd3621643105f0d02a772c10';
+
+				if ($phpbb_logo_hash == $img_file_hashes[$key])
+				{
+					$img_data['width'] = '149';
+					$img_data['height'] = '52';
+				}
+			}
 		}
 
 		$alt = (!empty($this->lang[$alt])) ? $this->lang[$alt] : $alt;
@@ -2289,6 +2378,34 @@ class user extends session
 			return $var;
 		}
 	}
-}
 
-?>
+	/**
+	* Funtion to make the user leave the NEWLY_REGISTERED system group.
+	* @access public
+	*/
+	function leave_newly_registered()
+	{
+		global $db;
+
+		if (empty($this->data['user_new']))
+		{
+			return false;
+		}
+
+		if (!function_exists('remove_newly_registered'))
+		{
+			global $phpbb_root_path, $phpEx;
+
+			include($phpbb_root_path . 'includes/functions_user.' . $phpEx);
+		}
+		if ($group = remove_newly_registered($this->data['user_id'], $this->data))
+		{
+			$this->data['group_id'] = $group;
+
+		}
+		$this->data['user_permissions'] = '';
+		$this->data['user_new'] = 0;
+
+		return true;
+	}
+}
