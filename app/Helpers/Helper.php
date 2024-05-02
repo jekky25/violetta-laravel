@@ -247,7 +247,7 @@ class Helper {
 	 */
 	public static function outDiaryPicture(string $picture, $sex)
 	{
-		return self::getPicture ($picture, $sex, 'img/dnevnik/');
+		return self::getPicture ($picture, $sex, 'img/dnevnik/', '');
 	}
 
 	/**
