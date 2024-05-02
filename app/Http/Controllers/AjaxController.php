@@ -23,7 +23,11 @@ class AjaxController extends Controller
         // $this->middleware('auth');
     }
 
-
+	/**
+	* get city or region
+	* @param  \Illuminate\Http\Request  $request
+	* @return bool
+	*/
 	public function getGeo (Request $request)
 	{
 
@@ -40,6 +44,11 @@ class AjaxController extends Controller
 		return false;
 	}
 
+	/**
+	* get region
+	* @param  \Illuminate\Http\Request  $request
+	* @return void
+	*/
 	public function getGeoRegion (Request $request)
 	{
 		$req = $request->post();
@@ -50,6 +59,11 @@ class AjaxController extends Controller
 		Helper::outToXml($regions);
 	}
 
+	/**
+	* get city
+	* @param  \Illuminate\Http\Request  $request
+	* @return void
+	*/
 	public function getGeoCity (Request $request)
 	{
 		$req = $request->post();

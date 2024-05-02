@@ -22,6 +22,11 @@ class Helper {
 				"11" => "Скорпион",
 				"12" => "Стрелец"];
 
+	/**
+     * Create a new controller instance.
+     *
+     * @return void
+     */			
     public function __construct(){
     }
 
@@ -338,7 +343,11 @@ class Helper {
 		return $l;
 	}
 
-	//Возвращает дату по возрасту
+	/**
+	 * returns the date by age
+	 *
+	 * @return Carbon\Carbon
+	 */
 	public static function birthAround($age)
 	{
 		$time = Carbon\Carbon::now()->add(-$age, 'year')->format('Y-m-d');
@@ -790,7 +799,7 @@ class Helper {
 	 * @param string $confirmAction 
 	 * @param string $hidden
 	 *
-	 * @return object
+	 * @return \Illuminate\Http\Response
 	*/
 	public static function outMessageInfo($title, $text, $confirmAction, $hidden = '')
 	{
@@ -810,7 +819,7 @@ class Helper {
 	 * @param string $confirmAction 
 	 * @param string $hidden
 	 *
-	 * @return object
+	 * @return \Illuminate\Http\Response
 	*/
 	public static function outMessageDie($title, $text, $hidden = '')
 	{
@@ -882,10 +891,17 @@ class Helper {
 	}
 
 
+	/**
+	 * remove the picture from the server and makes update about it in the DB
+	 * 
+	 * @param App\Models\Photo $photo
+	 *
+	 * @return bool
+	 */
 	public static function delPhoto ($photo)
 	{
 		$user 			= Auth::user();
-		$id = $photo->fotos_id;
+		$id 			= $photo->fotos_id;
 
 		if (file_exists("fotos_new/".$id.".jpg")) {
 			if(unlink("fotos_new/".$id.".jpg")) {}

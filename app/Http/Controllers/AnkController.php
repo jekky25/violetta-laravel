@@ -81,6 +81,12 @@ class AnkController extends Controller
         // $this->middleware('auth');
     }
 
+	/**
+	 * Show a profile page
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getAnk (Request $request, $id)
 	{
 		$user 	= Auth::user();
@@ -264,6 +270,12 @@ class AnkController extends Controller
 		]);
 	}
 
+	/**
+	 * Show a page with user pictures
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getPhoto (Request $request, $id)
 	{
 		$mode 	= Route::currentRouteName() == 'ank.photo.photo_id' ? 'photo.id' : 'ank.photo';
@@ -330,6 +342,12 @@ class AnkController extends Controller
 		]);
 	}
 
+	/**
+	 * post pictures comments
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */
 	public function postComment (Request $request, $id)
 	{
 		//making sending comment
@@ -373,6 +391,12 @@ class AnkController extends Controller
 	}
 
 	
+	/**
+	 * show an user diary page
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getDiary (Request $request, $id)
 	{
 		$anket 	= User::getById ($id);
@@ -393,6 +417,11 @@ class AnkController extends Controller
 		]);
 	}
 
+	/**
+	 * add an user diary
+     * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function addDiary (Request $request)
 	{
 		$user 			= Auth::user();
@@ -437,6 +466,12 @@ class AnkController extends Controller
 		->withInput();
 	}
 
+	/**
+	 * delete the user diary
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+	 * @return void
+	 */
 	public function delDiary (Request $request, $id)
 	{
 		$user 			= Auth::user();
@@ -466,6 +501,12 @@ class AnkController extends Controller
 		Helper::outMessageInfo($title, $text, $confirmAction);
 	}
 
+	/**
+	 * delete the picture of the diary
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+	 * @return void
+	 */
 	public function delDiaryPhoto (Request $request, $id)
 	{
 		$user 			= Auth::user();
@@ -495,6 +536,12 @@ class AnkController extends Controller
 		Helper::outMessageInfo($title, $text, $confirmAction);
 	}
 
+	/**
+	 * show edit diary page and update the diary
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */
 	public function editDiary (Request $request, $id)
 	{
 		$user 			= Auth::user();
@@ -550,6 +597,12 @@ class AnkController extends Controller
 		]);
 	}
 
+	/**
+	 * show a comments diary page
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */	
 	public function getDiaryComments (Request $request, $id)
 	{
 		$comments 	= DiaryComment::getByDiary (self::$diaryCommentsPerPage, $id);
@@ -567,6 +620,12 @@ class AnkController extends Controller
 		]);
 	}
 
+	/**
+	 * add a comment of the diary
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */	
 	public function addDiaryComment (Request $request, $id)
 	{
 		$user 			= Auth::user();
@@ -612,6 +671,12 @@ class AnkController extends Controller
 		->withInput();
 	}
 
+	/**
+	 * delete a comment of the diary
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+	 * @return void
+	 */	
 	public function delDiaryComment (Request $request, $id)
 	{
 		$user			= Auth::user();
