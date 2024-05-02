@@ -42,8 +42,8 @@ class GoroskopController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
+     * Show the page with goroskops
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -68,8 +68,9 @@ class GoroskopController extends Controller
     }
 
 	/**
-     * show goroskop by id
-     *
+     * show a goroskop page by id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
 	public function getItem(Request $request, $id)
@@ -127,8 +128,9 @@ class GoroskopController extends Controller
 	}
 
 	/**
-     * show goroskop by id
-     *
+     * show the page with gorokop types
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
 	public function getType(Request $request, $id = 0)

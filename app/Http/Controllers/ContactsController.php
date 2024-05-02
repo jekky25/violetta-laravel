@@ -41,12 +41,20 @@ class ContactsController extends Controller
         // $this->middleware('auth');
 	}
 
-
+	/**
+	 * show the feedback page
+	 * @return \Illuminate\Http\Response
+	 */
 	public function index()
 	{
 		return response()->view ('contacts');
 	}
 
+	/**
+	 * post a message from the feedback page
+     * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function post(Request $request)
 	{
 		$arParams 				= $request->post();

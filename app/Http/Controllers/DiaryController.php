@@ -23,6 +23,10 @@ class DiaryController extends Controller
         // $this->middleware('auth');
     }
 
+	/**
+	 * show the page with diaries
+	 * @return \Illuminate\Http\Response
+	 */
 	public function index(Request $request)
     {
 		$diaries		= Diary::getAll($this->countPerPage);

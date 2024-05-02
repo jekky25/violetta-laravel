@@ -33,6 +33,11 @@ class AnketController extends Controller
         // $this->middleware('auth');
     }
 
+	/**
+	 * show the page with the must populars profiles
+     * @param  string  $sex
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getPopularAnkets ($sex = 'women')
 	{
 		$s 					= $sex == 'men' ? MEN 		: WOMEN;
@@ -51,7 +56,10 @@ class AnketController extends Controller
 		]);
 	}
 
-
+	/**
+	 * show the page with profiles who celebrates a birthday today
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getBirthdayAnkets ()
 	{
 		$ankets 			= User::getBirthday($this->countPerPage);
@@ -67,6 +75,11 @@ class AnketController extends Controller
 		]);
 	}
 
+	/**
+	 * show the page with the best proprofiles
+	 * @param  string  $sex
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getBestAnkets ($sex)
 	{
 		$s 					= $sex == 'men' ? MEN 		: WOMEN;
@@ -97,6 +110,10 @@ class AnketController extends Controller
 		]);
 	}
 
+	/**
+	 * show the page with views
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getViews ()
 	{
 		$ankets 					= User::getViews($this->countPerPage);
@@ -114,6 +131,12 @@ class AnketController extends Controller
 		]);
 	}
 
+	/**
+	 * show the page with profiles
+	 * @param  string  $sex
+	 * @param  int  $op
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getAnkets ($sex = '', $op = '')
 	{
 		$s					= $sex == 'men' ? MEN 		: WOMEN;
@@ -182,7 +205,11 @@ class AnketController extends Controller
 		]);
 	}
 	
-
+	/**
+	 * show the page with profiles by filter
+	 * @param  \Illuminate\Http\Request  $request 
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getBySearch(Request $request)
 	{
 		$isSend 	= 'N';

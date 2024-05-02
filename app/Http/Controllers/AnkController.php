@@ -707,6 +707,12 @@ class AnkController extends Controller
 		Helper::outMessageInfo($title, $text, $confirmAction);
 	}
 
+	/**
+	 * delete thre picture of the diary comment
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+	 * @return void
+	 */	
 	public function delDiaryCommentPhoto (Request $request, $id)
 	{
 		$user 			= Auth::user();
@@ -736,6 +742,12 @@ class AnkController extends Controller
 		Helper::outMessageInfo($title, $text, $confirmAction);
 	}
 
+	/**
+	 * show an edit comment page and update the comment
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */	
 	public function editDiaryComment (Request $request, $id)
 	{
 		$user 			= Auth::user();

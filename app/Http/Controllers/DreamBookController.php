@@ -25,8 +25,9 @@ class DreamBookController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
+     * Show the page with dreambooks
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $id = 1)
@@ -46,6 +47,12 @@ class DreamBookController extends Controller
 		]);
     }
 
+	/**
+     * Show the page with a dreambook
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
 	public function getItem(Request $request, $id)
 	{
 		$dreamBookLiterals		= DreamBook::getLiter();		

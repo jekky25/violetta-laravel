@@ -47,9 +47,9 @@ class NameController extends Controller
         // $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
+	/**
+     * show the names page
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -88,9 +88,11 @@ class NameController extends Controller
     }
 
 	/**
-     * Show genderType
-     *
-	 *  @return \Illuminate\Http\Response
+     * Show genderType page
+     * @param  \Illuminate\Http\Request $request
+     * @param string $sex
+     * @param int $id
+	 * @return \Illuminate\Http\Response
     */
     public function getGender(Request $request, $sex, $id = 1)
     {
@@ -126,8 +128,9 @@ class NameController extends Controller
 	}
 
 	/**
-     * Show Name by id
-     *
+     * Show the name page by id
+     * @param int $id
+	 * @return \Illuminate\Http\Response
     */
 	public function getName($id)
     {
