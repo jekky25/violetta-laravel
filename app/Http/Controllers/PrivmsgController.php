@@ -52,6 +52,7 @@ class PrivmsgController extends Controller
     /**
      * Show the application dashboard.
      *
+	 * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -70,6 +71,11 @@ class PrivmsgController extends Controller
 		]);
     }
 
+	/**
+     * Delete user messages
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
 	public function delete(Request $request)
     {
 		$user 			= Auth::user();
@@ -121,6 +127,12 @@ class PrivmsgController extends Controller
 		Helper::outMessageInfo($title, $text, $confirmAction, $hidden);
 	}
 
+	/**
+     * Delete an user message
+     * @param  \Illuminate\Http\Request  $request
+	 * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 	public function deletePost(Request $request, $id)
 	{
 		$user 			= Auth::user();
@@ -152,6 +164,12 @@ class PrivmsgController extends Controller
 		Helper::outMessageInfo($title, $text, $confirmAction);
 	}
 
+	/**
+     * Show a page with the user messages
+     * @param  \Illuminate\Http\Request  $request
+	 * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
 	public function getAnkMess(Request $request, $id)
     {
 		$user 			= Auth::user()->load(['visits']);
@@ -224,6 +242,12 @@ class PrivmsgController extends Controller
 		]);
 	}
 
+	/**
+     * Add an user message
+     * @param  \Illuminate\Http\Request  $request
+	 * @param  int $id
+     * @return void
+     */
 	public function addPost(Request $request, $id)
     {
 		$user 			= Auth::user();
@@ -283,6 +307,4 @@ class PrivmsgController extends Controller
 		->with('success','Сообщение успешно отправлено')
 		->withInput();
 	}
-
 }
-

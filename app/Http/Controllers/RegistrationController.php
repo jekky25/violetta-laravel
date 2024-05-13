@@ -154,6 +154,11 @@ class RegistrationController extends Controller
         // $this->middleware('auth');
     }
 
+	/**
+	 * Show an edit short profile page
+     * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function edit (Request $request)
 	{
 		$user 		= Auth::user();
@@ -178,6 +183,11 @@ class RegistrationController extends Controller
 		]);
 	}
 
+	/**
+	 * Show an edit full profile page
+     * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function second (Request $request)
 	{
 		$user 			= Auth::user();
@@ -231,6 +241,11 @@ class RegistrationController extends Controller
 		]);
 	}
 
+	/**
+	 * Show an edit partner page
+     * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function partner (Request $request)
 	{
 		$user 				= Auth::user();
@@ -266,6 +281,11 @@ class RegistrationController extends Controller
 		]);
 	}
 
+	/**
+	 * Show an edit page with the user pictures
+     * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function photo (Request $request)
 	{
 		$user = User::with('photo')->find(Auth::id());
@@ -275,16 +295,31 @@ class RegistrationController extends Controller
 		]);
 	}
 
+	/**
+	 * Show a change password page
+     * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function pass (Request $request)
 	{
 		return response()->view ('registration.pass');
 	}
 
+	/**
+	 * Show a delete profile page
+     * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function delete (Request $request)
 	{
 		return response()->view ('registration.delete');
 	}
 
+	/**
+	 * Delete profile
+     * @param  \Illuminate\Http\Request  $request
+	 * @return void
+	 */
 	public function deleteConfirm (Request $request)
 	{
 		$user = Auth::user();
@@ -305,6 +340,11 @@ class RegistrationController extends Controller
 		return redirect()->route('registration.delete')->with('success','Ваша анкета удалена. Но мы надеемся, что Вы еще вернетесь.');
 	}
 
+	/**
+	 * Change user password
+     * @param  \Illuminate\Http\Request  $request
+	 * @return void
+	 */
 	public function passPost (Request $request)
 	{
 		$user 			= Auth::user();
@@ -338,6 +378,12 @@ class RegistrationController extends Controller
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
+	/**
+	 * Show an edit picture page
+     * @param  \Illuminate\Http\Request  $request
+	 * @param int $id
+	 * @return \Illuminate\Http\Response
+	 */
 	public function editPhoto (Request $request, $id)
 	{
 		$user 	= User::with('photo')->find(Auth::id());
@@ -360,6 +406,12 @@ class RegistrationController extends Controller
 		]);
 	}
 
+	/**
+	 * Reupload an user picture
+     * @param  \Illuminate\Http\Request  $request
+	 * @param int $id
+	 * @return void
+	 */
 	public function editPhotoPost (Request $request, $id)
 	{
 		$user 			= User::with('photo')->find(Auth::id());
@@ -408,6 +460,11 @@ class RegistrationController extends Controller
 		}
 	}
 
+	/**
+	 * Add an user picture
+     * @param  \Illuminate\Http\Request  $request
+	 * @return void
+	 */
 	public function photoPost (Request $request)
 	{
 		$user 			= Auth::user();
@@ -458,6 +515,11 @@ class RegistrationController extends Controller
 		}
 	}
 
+	/**
+	 * Edit a short user profile
+     * @param  \Illuminate\Http\Request  $request
+	 * @return void
+	 */
 	public function editPost (Request $request)
 	{
 		$user 			= Auth::user();
@@ -513,7 +575,11 @@ class RegistrationController extends Controller
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
-
+	/**
+	 * Edit a full user profile
+     * @param  \Illuminate\Http\Request  $request
+	 * @return void
+	 */
 	public function secondPost (Request $request)
 	{
 		$user 			= Auth::user();
@@ -550,6 +616,11 @@ class RegistrationController extends Controller
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
+	/**
+	 * Edit a partner profile
+     * @param  \Illuminate\Http\Request  $request
+	 * @return void
+	 */
 	public function partnerPost (Request $request)
 	{
 		$user 			= Auth::user();
@@ -611,6 +682,12 @@ class RegistrationController extends Controller
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
+	/**
+	 * Delete an user picture
+     * @param  \Illuminate\Http\Request  $request
+	 * @param int $id
+	 * @return void
+	 */
 	public function deletePhoto(Request $request, $id)
     {
 		$user 			= Auth::user();
