@@ -163,7 +163,7 @@ function vote(score)
 	<fieldset>
 		<dl>
 			<dt>Дата создания:</dt>
-			<dd>{{ $userData->date_make }}</dd>
+			<dd>{{ $userData->date_make_str }}</dd>
 		</dl>
 		@if (!empty($userData->date_refresh))
 		<dl>
