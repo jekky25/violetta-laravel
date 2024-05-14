@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('slashes')->group(function () {
-	Route::get('registration/edit/photo/', 'NoContoller1@index')																				->name('registration.edit.photo');
-	Route::get('registration/edit/diary/{id}.html', 'NoContoller2@index')												->whereNumber('id')		->name('registration.edit.diary.id');
-	Route::get('registration/delete/diary/{id}.html', 'NoContoller3@index')												->whereNumber('id')		->name('registration.delete.diary.id');
+	//Route::get('registration/edit/photo/', 'NoContoller1@index')																				->name('registration.edit.photo');
+	//Route::get('registration/edit/diary/{id}.html', 'NoContoller2@index')												->whereNumber('id')		->name('registration.edit.diary.id');
+	//Route::get('registration/delete/diary/{id}.html', 'NoContoller3@index')												->whereNumber('id')		->name('registration.delete.diary.id');
 	Route::get('registration/edit/diary/', 'RegistrationController@diary')																		->name('registration.edit.diary')			->middleWare('auth');
 	Route::get('registration/edit/settings/', 'RegistrationController@settings')																->name('registration.edit.settings')		->middleWare('auth');
 	Route::post('registration/edit/settings/', 'RegistrationController@settingsPost')															->name('registration.edit.settings.post')	->middleWare('auth');
@@ -59,7 +59,7 @@ Route::middleware('slashes')->group(function () {
 	Route::get('ank/diary/{id}.html', 'AnkController@getDiary')															->whereNumber('id')		->name('ank.diary.id');
 	Route::post('ank/diary/add.html', 'AnkController@addDiary')																					->name('ank.diary.add')						->middleWare('auth');
 	Route::post('ank/diary/comment/{id}/add.html', 'AnkController@addDiaryComment')										->whereNumber('id')		->name('ank.diary.comment.add')				->middleWare('auth');
-	Route::get('ank/photo/f/{id}.html', 'NoContoller12@index')															->whereNumber('id')		->name('ank.photo.f.id');
+	//Route::get('ank/photo/f/{id}.html', 'NoContoller12@index')															->whereNumber('id')		->name('ank.photo.f.id');
 	Route::get('ank/photo/{id}.html', 'AnkController@getPhoto')															->whereNumber('id')		->name('ank.photo.id')						->middleWare('auth');
 	Route::post('ank/photo/{id}.html', 'AnkController@postComment')														->whereNumber('id')		->name('ank.photo.id.post.comment')			->middleWare('auth');
 	Route::get('ank/f/photo_{id}/', 'AnkController@getPhoto')															->whereNumber('id')		->name('ank.photo.photo_id');
@@ -100,7 +100,7 @@ Route::middleware('slashes')->group(function () {
 	Route::get('dreambook/{id}.html', 'DreamBookController@getItem')													->whereNumber('id')		->name('dreambook.id');
 	Route::get('dreambook.html', 'DreamBookController@index')																					->name('dreambook');
 	Route::get('ank/diaries.html', 'DiaryController@index')																						->name('diaries');
-	Route::get('review/', 'NoContoller@index')																									->name('review');
+	//Route::get('review/', 'NoContoller@index')																									->name('review');
 
 	Route::get('search/', 'AnketController@getBySearch')																						->name('search');
 	
