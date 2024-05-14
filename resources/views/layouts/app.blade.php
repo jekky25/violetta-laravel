@@ -84,7 +84,7 @@ google_ad_height = 90;
 						<td><a href="{{route('search')}}">Поиск</a></td>
 						<td><a href="{{route('ankets')}}">Анкеты</a></td>
 						<td><a href="{{route('diaries')}}">Дневники</a></td>
-						<td><a href="{{ asset('forum/') }}">Форум</a></td>
+						<td><a href="{{route('forum')}}">Форум</a></td>
 						<td class="fLast"></td>
 					</tr>
 				</table>
@@ -298,7 +298,7 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 				<td class="for-pc"><a href="{{route('home')}}">Главная</a></td>
 				<td><a href="{{route('search')}}">Поиск</a></td>
 				<td><a href="{{route('ankets')}}">Анкеты</a></td>
-				<td><a href="{{ asset('forum/') }}">Форум</a></td>
+				<td><a href="{{route('forum')}}">Форум</a></td>
 				<td><a href="{{route('sitemap')}}">Карта&nbsp;сайта</a></td>
 				<td class="map-site-link"><a href="{{route('contacts')}}">Контакты</a></td>
 				<td class="wth2 for-pc">{{ $copyright }}</td>
