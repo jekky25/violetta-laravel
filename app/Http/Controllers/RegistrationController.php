@@ -745,11 +745,16 @@ class RegistrationController extends Controller
 		Helper::outMessageInfo($title, $text, $confirmAction);
 	}
 
+	/**
+	 * Show a user diary page
+     * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function diary (Request $request)
 	{
 		$user 			= Auth::user();
 		$userId			= $user->user_id;
-		$diaries = Diary::getByUser (self::$countPerPage, $userId);
+		$diaries 		= Diary::getByUser (self::$countPerPage, $userId);
 		$page			= $diaries->currentPage();
 		$pagination		= Helper::preparePagination ($diaries->toArray()['links']);
 
@@ -760,11 +765,21 @@ class RegistrationController extends Controller
 		]);
 	}
 
+	/**
+	 * Show a setting page
+     * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function settings (Request $request)
 	{
 		return response()->view ('registration.settings');
 	}
 
+	/**
+	 * Update user settings
+     * @param  \Illuminate\Http\Request  $request
+	 * @return void
+	 */
 	public function settingsPost (Request $request)
 	{
 		$user 			= Auth::user();
@@ -779,6 +794,11 @@ class RegistrationController extends Controller
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
+	/**
+	 * Show a top100 page
+     * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function top100 (Request $request)
 	{
 		$user 			= Auth::user();
@@ -807,6 +827,11 @@ class RegistrationController extends Controller
 		]);
 	}
 
+	/**
+	 * update top100
+     * @param  \Illuminate\Http\Request  $request
+	 * @return void
+	 */
 	public function top100Post (Request $request)
 	{
 		$user 			= Auth::user();
@@ -838,6 +863,10 @@ class RegistrationController extends Controller
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
+	/**
+	 * logout
+	 * @return void
+	 */
 	public function logout ()
 	{
 		$user 			= Auth::user();
@@ -845,6 +874,11 @@ class RegistrationController extends Controller
 		return redirect()->route('home');
 	}
 
+	/**
+	 * login
+     * @param  \Illuminate\Http\Request  $request
+	 * @return void
+	 */
 	public function login (Request $request)
 	{
 		$arParams 		= $request->post();
@@ -864,11 +898,21 @@ class RegistrationController extends Controller
 		return redirect()->route('home');
 	}
 
+	/**
+	 * show a forget password page
+     * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function forgetPass (Request $request)
 	{
 		return response()->view ('registration.forget_pass');
 	}
 
+	/**
+	 * send email from the forget password page
+     * @param  \Illuminate\Http\Request  $request
+	 * @return void
+	 */
 	public function forgetPassPost (Request $request)
 	{
 		$arParams 		= $request->post();
@@ -905,6 +949,11 @@ class RegistrationController extends Controller
 
 	}
 
+	/**
+	 * show a registration page
+     * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function registration (Request $request)
 	{
 		if (session('success')) return response()->view ('registration.finish');
