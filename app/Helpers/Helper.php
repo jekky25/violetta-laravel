@@ -238,7 +238,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	public static function outPicture(int $picture, $sex)
+	public static function outPicture($picture, $sex)
 	{
 		return self::getPicture ($picture, $sex, 'fotos_new/', '.jpg');
 	}
@@ -264,7 +264,7 @@ class Helper {
 	 */
 	public static function outDiaryCommentPicture(string $picture, $sex)
 	{
-		return self::getPicture ($picture, $sex, 'img/dnev_comment/');
+		return self::getPicture ($picture, $sex, 'img/dnev_comment/', '');
 	}
 
 	/**
@@ -276,7 +276,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	public static function getPicture (string $picture, $sex, $path, $ext)
+	public static function getPicture ($picture, $sex, $path, $ext)
 	{
 		$ext			= !empty ($ext) ? $ext : '';
 		$file 			= $_SERVER['DOCUMENT_ROOT'] . '/public/' . $path . $picture . $ext;
