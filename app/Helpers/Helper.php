@@ -363,7 +363,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	public static function BlockSelect($name,$className,$value = 0,$mode)
+	public static function BlockSelect($name,$className,$value,$mode)
 	{
 		if (!is_array ($value))
 		{
