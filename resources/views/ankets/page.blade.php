@@ -14,7 +14,7 @@ function vote(score)
 @if(session('success'))
 <p class="mess">{{session('success')}}</p>
 @endif
-@include('ankets.menu', ['userData' => $userData])
+<x-ank-menu :user-data="$userData" />
 <ul id="ankFotos" class="clear">
     @if ($userData->user_fotos > 0)
         @foreach ($userData->photo as $item)

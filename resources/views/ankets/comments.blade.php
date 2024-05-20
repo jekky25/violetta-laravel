@@ -2,7 +2,7 @@
 @section('title', $title)
 @section('main_body')
 <h1 class="mTit">{{ $userData->user_name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
-@include('ankets.menu', ['userData' => $userData])
+<x-ank-menu :user-data="$userData" />
 <h3 class="kommentTitle">{{ $diary->dnevniki_title }}@if ($comments->total() > 0) - комментарии ({{ $comments->total() }})@else - комментарии (нет)@endif</h3>
 <table class="ankDnevnik">
 	<tr>

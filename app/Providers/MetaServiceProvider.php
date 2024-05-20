@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 
 class MetaServiceProvider extends ServiceProvider
 {
+	private $userData, $diary;
 	/**
 	* Register services.
 	*
@@ -25,6 +26,8 @@ class MetaServiceProvider extends ServiceProvider
 	public function boot()
 	{
 		View::composer('*', function($view) {
+			$this->userData = $view->userData;
+			$this->diary 	= $view->diary;
 			$routeName = Route::currentRouteName();
 			switch ($routeName) {
 				case 'goroskop':
@@ -151,20 +154,19 @@ class MetaServiceProvider extends ServiceProvider
 					break;
 
 				case 'ank.diary.id':
-					$userData = $view->userData;
-					$pageTitle = 'Дневник, бесплатные знакомства, ' . $userData->user_name . ' ' . $userData->user_age_str . ', ' . $userData->city->name;
+					$pageTitle = 'Дневник, бесплатные знакомства, ' . $this->getUserName() . ' ' . $this->getUserAge() . ', ' . $this->getCityName();
 					$pageTitle .= ', Сайт знакомств Виолетта';
-					$pageMeta = '<meta name="Description" content="Дневник, бесплатные знакомства ' . $userData->city->name . ', ' . $userData->user_name . ' ' . $userData->user_age_str . ', ' . $userData->city->name . '">
-<meta name="Keywords" content="' . $userData->user_name . ' ' . $userData->user_age_str . ', ' . $userData->city->name . ', сайт знакомств">';
+					$pageMeta = '<meta name="Description" content="Дневник, бесплатные знакомства ' . $this->getCityName() . ', ' . $this->getUserName() . ' ' . $this->getUserAge() . ', ' . $this->getCityName() . '">
+								<meta name="Keywords" content="' . $this->getUserName() . ' ' . $this->getUserAge() . ', ' . $this->getCityName() . ', сайт знакомств">';
+
 					break;
 
 				case 'ank.diary.comments':
-					$userData = $view->diary->user;
-					$pageTitle = 'Комментарии к дневнику, бесплатные знакомства, ' . $userData->city->name . ', ' . $userData->user_name . ' ' . $userData->user_age_str;
+					$pageTitle = 'Комментарии к дневнику, бесплатные знакомства, ' . $this->getCityName() . ', ' . $this->getUserName() . ' ' . $this->getUserAge();
 					$pageTitle .= ', Сайт знакомств Виолетта';
 
-					$pageMeta = '<meta name="Description" content="Дневник, бесплатные знакомства ' . $userData->city->name . ', ' . $userData->user_name . ' ' . $userData->user_age_str . '">
-						<meta name="Keywords" content="' . $userData->city->name . ', ' . $userData->user_age_str . ', ' . $userData->user_name . ', сайт знакомств">';
+					$pageMeta = '<meta name="Description" content="Дневник, бесплатные знакомства ' . $this->getCityName() . ', ' . $this->getUserName() . ' ' . $this->getUserAge() . '">
+						<meta name="Keywords" content="' . $this->getCityName() . ', ' . $this->getUserAge() . ', ' . $this->getUserName() . ', сайт знакомств">';
 					break;
 
 				case 'privmsg':
@@ -207,4 +209,32 @@ class MetaServiceProvider extends ServiceProvider
             $view->with(['title' => $pageTitle, 'pageMeta' => $pageMeta]);
         });
     }
+
+	/**
+	* get User Name
+	* @return string
+	*/
+	private function getUserName()
+	{
+		return (!empty ($this->userData->user_name) ? $this->userData->user_name : '');
+	}
+
+	/**
+	* get User Age
+	* @return string
+	*/
+	private function getUserAge()
+	{
+		return (!empty ($this->userData->user_age_str) ? $this->userData->user_age_str : '');
+	}
+
+	/**
+	* get city name
+	* @return string
+	*/
+	private function getCityName()
+	{
+		return (!empty ($this->userData->city->name) ? $this->userData->city->name : '');
+	}
+
 }

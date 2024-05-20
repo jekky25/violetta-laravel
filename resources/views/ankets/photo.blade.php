@@ -2,7 +2,7 @@
 @section('title', $title)
 @section('main_body')
 <h1 class="mTit">{{ $userData->user_name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
-@include('ankets.menu', ['userData' => $userData])
+<x-ank-menu :user-data="$userData" />
 @if (!empty($userData->mainPhoto->fotos_id))
 <div id="mainAnkFoto">
 	<div style="width:{{ $userData->mainPhoto->width }}px;"><img width="{{ $userData->mainPhoto->width }}px" src="{{ App\Helpers\Helper::outPicture($userData->mainPhoto->fotos_id, $userData->user_sex) }}" /></div>

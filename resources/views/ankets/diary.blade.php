@@ -2,7 +2,7 @@
 @section('title', $title)
 @section('main_body')
 <h1 class="mTit">{{ $userData->user_name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
-@include('ankets.menu', ['userData' => $userData])
+<x-ank-menu :user-data="$userData" />
 @if (!empty($diaries))
 <table class="ankDnevnik">
 @foreach ($diaries as $item)
