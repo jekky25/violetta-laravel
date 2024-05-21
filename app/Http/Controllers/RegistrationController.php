@@ -980,6 +980,11 @@ class RegistrationController extends Controller
 		]);
 	}
 
+	/**
+	 * post data after registration and send e-mail with registration information
+     * @param  \Illuminate\Http\Request  $request
+	 * @return void
+	 */
 	public function registrationPost (Request $request)
 	{
 		$arParams 				= $request->post();
@@ -1124,6 +1129,12 @@ class RegistrationController extends Controller
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
+	/**
+	 * show confirm registration page and update data
+     * @param int $id
+     * @param string $code
+	 * @return \Illuminate\Http\Response
+	 */
 	public function confirm ($id, $code)
 	{
 		if (empty ($code)) abort(404);

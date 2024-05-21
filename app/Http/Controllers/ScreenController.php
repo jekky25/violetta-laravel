@@ -30,7 +30,7 @@ class ScreenController extends Controller
 
     /**
      * Show the application dashboard.
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -47,6 +47,12 @@ class ScreenController extends Controller
 		]);
     }
 
+	/**
+	 * show a screensaver page and make download screensaver
+	 * @param  \Illuminate\Http\Request  $request
+     * @param int $id
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getItem(Request $request, $id)
 	{
 		$screen 			= Screen::getById($id);

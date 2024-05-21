@@ -20,6 +20,11 @@ class AnketVisit extends Model
 		'ank_time'
 	  ];
 
+	/**
+    * get visits of the new users
+    * @param  \Illuminate\Database\Eloquent\Collection  $user
+    * @return \Illuminate\Database\Eloquent\Collection 
+    */
 	public static function visitsNew($user)
 	{
 		$items = self::select('*')
@@ -29,6 +34,13 @@ class AnketVisit extends Model
     	return $items;
 	}
 
+	/**
+    * get user visits over userId
+    * @param  int  $int
+	* @param  int  $days
+	* @param  int  $userId
+    * @return \Illuminate\Database\Eloquent\Collection 
+    */
 	public static function getVisitsByUserId($id, $days, $userId = 0)
 	{
 		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
@@ -43,6 +55,11 @@ class AnketVisit extends Model
     	return $items;
 	}
 
+	/**
+    * get user visits over user fields
+    * @param  array  $fields
+    * @return \Illuminate\Database\Eloquent\Collection 
+    */
 	public static function getByFields ($fields = [])
 	{
 		if (empty($fields)) return null;

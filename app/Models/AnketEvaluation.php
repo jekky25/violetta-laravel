@@ -19,15 +19,26 @@ class AnketEvaluation extends Model
 		'time'
 	  ];
 
-	public static function getEvaluations($userIdAct, $uderId)
+	/**
+     * get evaluation
+     * @param  int  $userIdAct
+	 * @param  int  $userId
+     * @return \Illuminate\Database\Eloquent\Collection 
+     */
+	public static function getEvaluations($userIdAct, $userId)
 	{
 		$items = self::select('*')
 		->where('user_id', $userIdAct)
-		->where('user_id_ocenka', $uderId)
+		->where('user_id_ocenka', $userId)
         ->get();
     	return $items;
 	}
 
+	/**
+     * get the summ of all evaluations
+     * @param  int  $id
+     * @return \Illuminate\Database\Eloquent\Collection 
+     */
 	public static function getSum($id)
 	{
 		$item = self::select(['*'])
