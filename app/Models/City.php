@@ -13,6 +13,11 @@ class City extends Model
 
 	protected $table = 'city';
 
+	/**
+    * get cities of the region by regionId
+    * @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getByRegionId($id)
 	{
 		$items = self::select('*')
@@ -22,6 +27,11 @@ class City extends Model
 		return $items;
 	}
 
+	/**
+    * get city by cityId
+    * @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')

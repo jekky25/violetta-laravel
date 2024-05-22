@@ -11,6 +11,11 @@ class Children extends Model
 
 	protected $table = 'children';
 
+	/**
+    * get children by id
+    * @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')
@@ -18,5 +23,4 @@ class Children extends Model
 		->first();
 		return $item;
 	}
-	
 }

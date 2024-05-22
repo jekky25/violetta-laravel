@@ -58,7 +58,7 @@ class AnketVisit extends Model
 	/**
     * get user visits over user fields
     * @param  array  $fields
-    * @return \Illuminate\Database\Eloquent\Collection 
+    * @return \Illuminate\Database\Eloquent\Collection
     */
 	public static function getByFields ($fields = [])
 	{
@@ -75,6 +75,11 @@ class AnketVisit extends Model
 		return $items;
 	}
 
+	/**
+    * update user visite
+    * @param  int  $id
+    * @return void 
+    */
 	public static function updateVisit ($id)
 	{
 		$user 	= Auth::user();
@@ -92,6 +97,11 @@ class AnketVisit extends Model
 		}
 	}
 
+	/**
+    * insert user visite
+    * @param  int  $id
+    * @return void 
+    */
 	public static function insertVisit ($id)
 	{
 		$user 	= Auth::user();
@@ -107,12 +117,20 @@ class AnketVisit extends Model
 		$oAnketVisit->save();
 	}
 
+	/**
+    * remove old visits
+    * @param  int  $days
+    * @return void 
+    */
 	public static function removeOld ($days)
 	{
 		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
 		AnketVisit::where('ank_time', '<', ($time['timestamp']))->delete();
 	}
 
+	/**
+    * get user
+    */
 	public function user()
 	{
     	return $this->hasOne(User::class, 'user_id', 'user_id_prosm')
