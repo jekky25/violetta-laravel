@@ -288,7 +288,8 @@ class AnkController extends Controller
 		}
 		$anket 	= User::getById ($id);
 		if (empty ($anket->photo)) abort (404);
-		$user 	= Auth::user()->load(['visits']);
+		$user = Auth::user();
+		$user = !empty($user) ? $user->load(['visits']) : null;
 		$visits = AnketVisit::getVisitsByUserId ($id, self::$visitDays);
 		$vars 	= Vars::getAll();
 

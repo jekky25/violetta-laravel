@@ -97,7 +97,8 @@ class AnketController extends Controller
 		$titleId = $sex == 'men' ? 'Лучшие парни' : 'Лучшие девушки';
 
 		$countSearchAnkStr	= Helper::getFoundStr ($ankets, $this->countPerPage);
-		$user = Auth::user()->load(['visits']);
+		$user = Auth::user();
+		$user = !empty($user) ? $user->load(['visits']) : null;
 
 		return response()->view ('ankets.best', 
 		[
