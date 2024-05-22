@@ -146,11 +146,10 @@ class MetaServiceProvider extends ServiceProvider
 					break;
 
 				case 'ank.id':
-					$userData = $view->userData;
-					$pageTitle = 'Бесплатные знакомства ' . $userData->city_name . ', ' . $userData->user_name . ' ' . $userData->user_age_str . ', ' . $userData->city->name;
+					$pageTitle = 'Бесплатные знакомства ' . $this->getCityName() . ', ' . $this->getUserName() . ' ' . $this->getUserAge() . ', ' . $this->getCityName();
 					$pageTitle .= ', Сайт знакомств Виолетта';
-					$pageMeta = '<meta name="Description" content="Бесплатные знакомства ' . $userData->user_name . ' ' . $userData->user_age_str . ', ' . $userData->city->name . '">
-					<meta name="Keywords" content="' . $userData->user_name . ' ' . $userData->user_age_str . ', ' . $userData->city->name . ', сайт знакомств">';
+					$pageMeta = '<meta name="Description" content="Бесплатные знакомства ' . $this->getUserName() . ' ' . $this->getUserAge() . ', ' . $this->getCityName() . '">
+					<meta name="Keywords" content="' . $this->getUserName() . ' ' . $this->getUserAge() . ', ' . $this->getCityName() . ', сайт знакомств">';
 					break;
 
 				case 'ank.diary.id':
