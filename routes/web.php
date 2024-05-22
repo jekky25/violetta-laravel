@@ -62,7 +62,7 @@ Route::middleware('slashes')->group(function () {
 	//Route::get('ank/photo/f/{id}.html', 'NoContoller12@index')															->whereNumber('id')		->name('ank.photo.f.id');
 	Route::get('ank/photo/{id}.html', 'AnkController@getPhoto')															->whereNumber('id')		->name('ank.photo.id')						->middleWare('auth');
 	Route::post('ank/photo/{id}.html', 'AnkController@postComment')														->whereNumber('id')		->name('ank.photo.id.post.comment')			->middleWare('auth');
-	Route::get('ank/f/photo_{id}/', 'AnkController@getPhoto')															->whereNumber('id')		->name('ank.photo.photo_id');
+	Route::get('ank/f/photo_{id}/', 'AnkController@getPhoto')															->whereNumber('id')		->name('ank.photo.photo_id')				->middleWare('auth');
 	Route::get('ank/f/{id}/', 'AnkController@getAnk')																	->whereNumber('id')		->name('ank.full.id');
 	Route::get('ank/{id}/', 'AnkController@getAnk')																		->whereNumber('id')		->name('ank.id');
 	Route::get('ankets/{sex}/{age}/', 'AnketController@getAnkets')														->where('sex', '(men|women)')
