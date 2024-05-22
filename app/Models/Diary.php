@@ -22,6 +22,11 @@ class Diary extends Model
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'dnevniki_id';
 
+	/**
+    * get diaries
+    * @param  int $count
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function get($count)
     {
 		$items = self::select('*')
@@ -37,6 +42,11 @@ class Diary extends Model
 		return $items;
 	}
 
+	/**
+    * get all diaries
+    * @param  int $count
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getAll($count)
     {
 		$items = self::select('*')

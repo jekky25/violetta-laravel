@@ -13,6 +13,10 @@ class Country extends Model
 
 	protected $table = 'country';
 
+	/**
+    * get all the countries
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getAll()
     {
 
@@ -22,6 +26,11 @@ class Country extends Model
         return $items;
     }
 
+	/**
+    * get a country by id
+    * @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')

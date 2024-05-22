@@ -19,6 +19,12 @@ class CommentPhoto extends Model
 		'comments_description',
 	  ];
 
+	/**
+    * get comments of the pictures with pagination
+    * @param  int $foto_id
+	* @param  int $count
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public function getPaginate($foto_id, $count)
     {
 		$items = self::select('*')
@@ -29,6 +35,9 @@ class CommentPhoto extends Model
 		return $items;
 	}
 
+	/**
+    * get user
+    */
 	public function user()
 	{
     	return $this->belongsTo(User::class, 'user_id', 'user_id')->with('city');
