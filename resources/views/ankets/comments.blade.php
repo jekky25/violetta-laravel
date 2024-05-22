@@ -83,7 +83,7 @@ google_ad_height = 60;
 @endforeach
 </table>
 @endif
-@include('pagination', ['items' => $comments])
+<x-pagination :items="$comments" :pagination="$pagination" />
 @auth
 <script language=JavaScript>
 	function find_otsil()

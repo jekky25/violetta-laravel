@@ -25,7 +25,7 @@
 		@endif
 		@endforeach
 	</table>
-	@include('pagination', ['items' => $messages])
+	<x-pagination :items="$messages" :pagination="$pagination" />
 	<div class="right1 clear"><input type="submit" name="delete" class="bgBut6" value="" /></div>
 	<div class="pad5">
 <script type="text/javascript"><!--

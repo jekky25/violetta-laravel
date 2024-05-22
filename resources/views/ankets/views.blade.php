@@ -28,5 +28,5 @@ google_ad_height = 600;
 		</td>
 	</tr>
 </table>
-@include('pagination', ['items' => $ankets])
+<x-pagination :items="$ankets" :pagination="$pagination" />
 @overwrite

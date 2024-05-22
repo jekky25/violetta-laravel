@@ -23,5 +23,5 @@ google_ad_height = 60;
 
 </script>
 </div>
-@include('pagination', ['items' => $diaries])
+<x-pagination :items="$diaries" :pagination="$pagination" />
 @overwrite

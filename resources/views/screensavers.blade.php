@@ -21,5 +21,5 @@
 @endforeach
 </table>
 @endif
-@include('pagination', ['items' => $screens])
+<x-pagination :items="$screens" :pagination="$pagination" />
 @overwrite

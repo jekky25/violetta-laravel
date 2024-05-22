@@ -31,5 +31,5 @@ google_ad_height = 250;
 @endforeach
 @endif
 </div>
-@include('pagination', ['items' => $words])
+<x-pagination :items="$words" :pagination="$pagination" />
 @overwrite
