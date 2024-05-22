@@ -8,7 +8,7 @@
 			<div class="ankets">
 	@if (!empty($ankets))
     @foreach ($ankets as $item)
-		@include('ankets.brief')
+		<x-profile-brief :item="$item" />
     @endforeach
 @else
 <p class="pad5"><strong>анкет не найдено</strong></p>

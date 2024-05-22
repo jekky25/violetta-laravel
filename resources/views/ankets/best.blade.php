@@ -22,7 +22,7 @@
 			<div class="ankets2">
 @if (!empty($ankets))
     @foreach ($ankets as $item)
-		@include('ankets.brief', ['best' => 1])
+		<x-profile-brief :item="$item" :best="1" />
     @endforeach
 @else
 <p class="pad5"><strong>анкет не найдено</strong></p>
