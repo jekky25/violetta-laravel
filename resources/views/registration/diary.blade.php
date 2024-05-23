@@ -11,7 +11,7 @@
 @if (!empty($diaries))
 <table class="ankDnevnik">
 @foreach ($diaries as $item)
-@include('blocks.diary', ['item' => $item])
+<x-blocks-diary :item="$item" />
 @endforeach
 	</table>
 @endif

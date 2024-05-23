@@ -23,7 +23,7 @@ google_ad_height = 60;
 		</td>
 	</tr>
 	@endif
-	@include('blocks.diary', ['item' => $item])
+	<x-blocks-diary :item="$item" />
 @endforeach
 </table>
 @endif
