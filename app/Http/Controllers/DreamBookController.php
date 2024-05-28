@@ -7,13 +7,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Traits\Tstr;
 use App\Helpers\Helper;
 use App\Models\DreamBook;
 
 class DreamBookController extends Controller
 {
+	use Tstr;
+
 	public $countPerPage 	= 30;
 	public $op				= 1;
+	private $pattern		= '/sonnik_id([0-9]+).html/i';
+	private $replacement 	= 'dreambook/$1.html';
+	
+
     /**
      * Create a new controller instance.
      *
@@ -57,8 +64,9 @@ class DreamBookController extends Controller
 	{
 		$dreamBookLiterals		= DreamBook::getLiter();		
 		$dreambook 				= DreamBook::getById($id);
-		if (empty ($dreambook)) abort(404);
 
+		$dreambook->description = $this->replaceStringByPattern ($dreambook->description, $this->pattern, $this->replacement);
+		if (empty ($dreambook)) abort(404);
 
 		return response()->view ('dreambooks_id', 
 		[
