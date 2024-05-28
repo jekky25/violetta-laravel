@@ -29,6 +29,7 @@ class MetaServiceProvider extends ServiceProvider
 			$this->userData 	= $view->userData;
 			$this->diary 		= $view->diary;
 			$this->dreambook 	= $view->dreambook;
+			$this->name		 	= $view->name;
 			$routeName = Route::currentRouteName();
 			switch ($routeName) {
 				case 'goroskop':
@@ -58,10 +59,9 @@ class MetaServiceProvider extends ServiceProvider
 													<meta name="Keywords" content="значение женского имени, что женское означает имя, знакомства в Москве, поиск анкет, найти любовь">';
 					break;
 				case 'names.id':
-					$name = $view->name;
-					$pageTitle = 'Значение имени ' . $name->name . ', Что означает имя ' . $name->name . ', Бесплатный сайт знакомств Виолетта';
-					$pageMeta = '<meta name="Description" content="Значение имени ' . $name->name . '.  что означает имя ' . $name->name . '. А также знакомства и многое другое.">
-					<meta name="Keywords" content="значение имени ' . $name->name . ', что означает имя ' . $name->name . ', знакомства в Москве, поиск анкет, найти любовь">';
+					$pageTitle = 'Значение имени ' . $this->getNameName() . ', Что означает имя ' . $this->getNameName() . ', Бесплатный сайт знакомств Виолетта';
+					$pageMeta = '<meta name="Description" content="Значение имени ' . $this->getNameName() . '.  что означает имя ' . $this->getNameName() . '. А также знакомства и многое другое.">
+					<meta name="Keywords" content="значение имени ' . $this->getNameName() . ', что означает имя ' . $this->getNameName() . ', знакомства в Москве, поиск анкет, найти любовь">';
 					break;
 				case 'population_search':
 				case 'population_search.sex':
@@ -245,4 +245,12 @@ class MetaServiceProvider extends ServiceProvider
 		return (!empty ($this->dreambook->name) ? $this->dreambook->name : '');
 	}
 
+	/**
+	* get name name
+	* @return string
+	*/
+	private function getNameName()
+	{
+		return (!empty ($this->name->name) ? $this->name->name : '');
+	}
 }
