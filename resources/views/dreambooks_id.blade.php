@@ -27,7 +27,7 @@ google_ad_height = 250;
 <tr>
 <td class="pad11">
 <p class="pad1">
-@include('social')
+<x-social />
 </p></td>
 <td>
 </td></tr></table>

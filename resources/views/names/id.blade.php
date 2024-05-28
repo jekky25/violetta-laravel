@@ -23,7 +23,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <table>
 <tr>
 <td class="pad11">
-<p class="pad1">@include('social')</p>
+<p class="pad1"><x-social /></p>
 </td>
 <td>
 <!-- Place this tag where you want the +1 button to render. -->
