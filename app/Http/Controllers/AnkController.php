@@ -608,8 +608,8 @@ class AnkController extends Controller
 	{
 		$comments 	= DiaryComment::getByDiary (self::$diaryCommentsPerPage, $id);
 		$diary 		= Diary::getById ($id);
-		if (empty ($diary) || empty ($diary->user)) abort (404);
 
+		if (empty ($diary) || empty ($diary->user)) abort (404);
 		$page 				= $comments->currentPage();
 		$pagination 		= Helper::preparePagination ($comments->toArray()['links']);
 		return response()->view ('ankets.comments',

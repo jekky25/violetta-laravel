@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\View;
 
 class MetaServiceProvider extends ServiceProvider
 {
-	private $userData, $diary;
+	private $userData, $diary, $dreambook;
 	/**
 	* Register services.
 	*
@@ -26,8 +26,9 @@ class MetaServiceProvider extends ServiceProvider
 	public function boot()
 	{
 		View::composer('*', function($view) {
-			$this->userData = $view->userData;
-			$this->diary 	= $view->diary;
+			$this->userData 	= $view->userData;
+			$this->diary 		= $view->diary;
+			$this->dreambook 	= $view->dreambook;
 			$routeName = Route::currentRouteName();
 			switch ($routeName) {
 				case 'goroskop':
@@ -103,10 +104,9 @@ class MetaServiceProvider extends ServiceProvider
 					break;
 
 				case 'dreambook.id':
-					$dreambook = $view->dreambook;
-					$pageTitle = 'Толкование снов: ' . $dreambook->name . ', Сонник, Сновидения, Сайт знакомств Виолетта';
-					$pageMeta = '<meta name="Description" content="Толкование снов: ' . $dreambook->name . ', сонник  ' . $dreambook->name . '. Сновидения.">
-						<meta name="Keywords" content="сонник ' . $dreambook->name . ' толкование снов сновидения">';
+					$pageTitle = 'Толкование снов: ' . $this->getDreambookName() . ', Сонник, Сновидения, Сайт знакомств Виолетта';
+					$pageMeta = '<meta name="Description" content="Толкование снов: ' . $this->getDreambookName() . ', сонник  ' . $this->getDreambookName() . '. Сновидения.">
+						<meta name="Keywords" content="сонник ' . $this->getDreambookName() . ' толкование снов сновидения">';
 					break;
 
 				case 'ankets.sex.age':
@@ -234,6 +234,15 @@ class MetaServiceProvider extends ServiceProvider
 	private function getCityName()
 	{
 		return (!empty ($this->userData->city->name) ? $this->userData->city->name : '');
+	}
+
+	/**
+	* get dreambook name
+	* @return string
+	*/
+	private function getDreambookName()
+	{
+		return (!empty ($this->dreambook->name) ? $this->dreambook->name : '');
 	}
 
 }
