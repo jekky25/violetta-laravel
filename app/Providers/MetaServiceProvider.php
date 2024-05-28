@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\View;
 
 class MetaServiceProvider extends ServiceProvider
 {
-	private $userData, $diary, $dreambook;
+	private $userData, $diary, $dreambook, $goroskop;
 	/**
 	* Register services.
 	*
@@ -30,6 +30,8 @@ class MetaServiceProvider extends ServiceProvider
 			$this->diary 		= $view->diary;
 			$this->dreambook 	= $view->dreambook;
 			$this->name		 	= $view->name;
+			$this->goroskop	 	= $view->goroskop;
+
 			$routeName = Route::currentRouteName();
 			switch ($routeName) {
 				case 'goroskop':
@@ -39,10 +41,9 @@ class MetaServiceProvider extends ServiceProvider
 						<meta name="Keywords" content="' . $titleId . ', гороскопы, бесплатные знакомства, знакомства в Москве, поиск анкет, найти любовь">';
 					break;
 				case 'goroskop.id':
-					$goroskop 		= $view->goroskop;
-					$pageTitle 		= $goroskop->gor_name . ', Гороскопы, бесплатные знакомства, Бесплатный сайт знакомств Виолетта';
-					$pageMeta 		= '<meta name="Description" content="' . $goroskop->gor_name . '. Узнай свой гороскоп на сайте знакомств Виолетта.">
-							<meta name="Keywords" content="' . $goroskop->gor_name . ', гороскопы, бесплатные знакомства, знакомства в Москве, поиск анкет, найти любовь">';
+					$pageTitle 		= $this->getGoroskopName() . ', Гороскопы, бесплатные знакомства, Бесплатный сайт знакомств Виолетта';
+					$pageMeta 		= '<meta name="Description" content="' . $this->getGoroskopName() . '. Узнай свой гороскоп на сайте знакомств Виолетта.">
+							<meta name="Keywords" content="' . $this->getGoroskopName() . ', гороскопы, бесплатные знакомства, знакомства в Москве, поиск анкет, найти любовь">';
 					break;
 				case 'names':
 					$pageTitle 		= 'Значение имени, Что означает ваше имя, Бесплатный сайт знакомств Виолетта';
@@ -252,5 +253,14 @@ class MetaServiceProvider extends ServiceProvider
 	private function getNameName()
 	{
 		return (!empty ($this->name->name) ? $this->name->name : '');
+	}
+
+	/**
+	* get goroskop name
+	* @return string
+	*/
+	private function getGoroskopName()
+	{
+		return (!empty ($this->goroskop->gor_name) ? $this->goroskop->gor_name : '');
 	}
 }
