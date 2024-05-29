@@ -22,7 +22,7 @@
 </table>
 @endif
 <p class="pad2"></p>
-@include('blocks.error', ['errName' => 'photo_link'])
+<x-error errName=photo_link />
 <table class="wth3">
 	<tr>
 		<td class="pad3">

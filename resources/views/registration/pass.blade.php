@@ -11,7 +11,7 @@
 @if (!empty ($errors->comment->all()))
 <h4 class="reg_title2">данные не сохранены, т. к. не все поля правильно заполнены</h4>
 @endif
-@include('blocks.error', ['errName' => 'password'])
+<x-error errName=password />
 <p class="pad1"></p>
 <form name="anketa" action="{{ route('registration.edit.password') }}" method="post">
 {{ csrf_field() }}

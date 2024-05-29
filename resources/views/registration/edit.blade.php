@@ -16,8 +16,8 @@
 {{ csrf_field() }}
 	<h4 class="menu_registration"><div>Имя</div></h4>
 		<p class="pad1 pad2">Укажите Ваше <strong>настоящее имя</strong>. Если вы его не помните, то придумайте псевдоним. Именно по нему (а не по Логину) вас будут узнавать на сайте.</p>
-		@include('blocks.error', ['errName' => 'name'])
-		@include('blocks.error', ['errName' => 'sex'])
+		<x-error errName=name />
+		<x-error errName=sex />
 		<table class="sexRegForm">
 			<tr>
 				<td rowspan="2"><input class="input3" type="text" name="name" value="{{ old('name', $userData->user_name) }}" /></td>
@@ -58,7 +58,7 @@
 		<p class="pad2"></p>
 		<h4 class="menu_registration"><div>Место жительства</div></h4>
 		<p class="pad1 pad2">Укажите <strong>город, регион и страну</strong>, в которой вы живете. Это поможет другим пользователям сайта, которые тоже живут рядом с вами, быстрее вас найти.</p>
-		@include('blocks.error', ['errName' => 'city'])
+		<x-error errName=city />
 		<table class="cityRegForm">
 			<tr>
 				<td width="150">страна</td>

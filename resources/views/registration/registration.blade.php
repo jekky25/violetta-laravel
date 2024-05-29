@@ -30,18 +30,18 @@
 {{ csrf_field() }}
 	<h4 class="menu_registration"><div>Login</div></h4>
 		<p class="pad1 pad2"><strong>Login</strong> - это ваше входное имя на сайте. Постарайтесь использовать легкозапоминающийся login, который вам будет трудно забыть. Также желательно, чтобы он состоял только из букв латинского алфавита и(или) цифр и не содержал пробелов. Пример: "<strong>Kolya</strong>", "<strong>alla_15</strong>", "<strong>deniska</strong>" и т.д.</p>
-		@include('blocks.error', ['errName' => 'login'])
+		<x-error errName=login />
 		<p><input class="input3" type="text" name="login" value="{{ old('login') }}" /></p>
 		<p class="pad2"></p>
 		<h4 class="menu_registration"><div>Пароль</div></h4>
 		<p class="pad1 pad2">Введите и подтвердите <strong>пароль</strong>. Придумайте сложный пароль, который нельзя подобрать. По возможности, используйте в нем <strong>большые буквы и цифры</strong>, и <strong>не используйте русские буквы</strong>. Пароль и логин чувствительны к регистру, т.е. "<strong>znakomstvo</strong>" и "<strong>ZnaKomStvo</strong>" - два разных пароля.</p>
-		@include('blocks.error', ['errName' => 'password'])
+		<x-error errName=password />
 		<p><input class="input3" type="password" name="password" value="{{ old('password') }}" />&nbsp;&nbsp;&nbsp;<input class="input3" type="password" name="password_second" value="{{ old('password_second') }}" /></p>
 		<p class="pad2"></p>
 		<h4 class="menu_registration"><div>Имя</div></h4>
 		<p class="pad1 pad2">Укажите Ваше <strong>настоящее имя</strong>. Если вы его не помните, то придумайте псевдоним. Именно по нему (а не по Логину) вас будут узнавать на сайте.</p>
-		@include('blocks.error', ['errName' => 'name'])
-		@include('blocks.error', ['errName' => 'sex'])
+		<x-error errName=name />
+		<x-error errName=sex />
 		<table class="sexRegForm">
 			<tr>
 				<td rowspan="2"><input class="input3" type="text" name="name" value="{{ old('name') }}" /></td>
@@ -82,12 +82,12 @@
 		<p class="pad2"></p>
 		<h4 class="menu_registration"><div>E-mail</div></h4>
 		<p class="pad1 pad2">Введите <strong>свой Е-мэйл</strong>. Обещаем, что мы не будем его показывать никому кроме вас. Этот адрес необходим для связи с вами.</p>
-		@include('blocks.error', ['errName' => 'mail'])
+		<x-error errName=mail />
 		<p><input class="input3" type="text" name="mail" value="{{ old('mail') }}" /></p>
 		<p class="pad2"></p>
 		<h4 class="menu_registration"><div>Место жительства</div></h4>
 						<p class="pad1 pad2">Укажите <strong>город, регион и страну</strong>, в которой вы живете. Это поможет другим пользователям сайта, которые тоже живут рядом с вами, быстрее вас найти.</p>
-						@include('blocks.error', ['errName' => 'country'])
+						<x-error errName=country />
 						<table class="cityRegForm">
 							<tr>
 								<td width="150">страна</td>
@@ -128,9 +128,9 @@
 						<script type="text/javascript" src="{{ asset('js/functions_search.js') }}"></script>
 						<p class="pad2"></p>
 						<input type="hidden" name="recaptcha_response" id="recaptchaResponse">
-						@include('blocks.error', ['errName' => 'recaptcha_response', 'before' => '<h4 class="menu_registration"><div>Антиробот</div></h4>', 'after' => '<p class="pad2"></p>'])
+						<x-error errName=recaptcha_response before='<h4 class="menu_registration"><div>Антиробот</div></h4>' after='<p class="pad2"></p>' />
 						<h4 class="menu_registration"></h4>
-						@include('blocks.error', ['errName' => 'conditions', 'before' => '<p class="pad2"></p>'])
+						<x-error errName=conditions before='<p class="pad2"></p>' />
 						<p class="pad1 pad3"><input type="checkbox" name="conditions" @if (!empty(old('conditions'))) checked="checked"@endif />&nbsp;&nbsp;&nbsp; я соглашаюсь с условиями, изложенными в <a href="{{ route('conditions') }}" class="lColor2">правилах регистрации анкет</a> и даю согласие на обработку персональных данных.</p>
 						<input type="hidden" name="otsil" value="1" />
 						<p class="pad2"></p>
