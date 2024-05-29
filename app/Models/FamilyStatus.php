@@ -11,6 +11,11 @@ class FamilyStatus extends Model
 
 	protected $table = 'sem_polozh';
 
+	/**
+    * get type of family status by $id
+    * @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')

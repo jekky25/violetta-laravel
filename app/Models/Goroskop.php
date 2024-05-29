@@ -11,6 +11,11 @@ class Goroskop extends Model
 
 	protected $table = 'goroskop';
 
+	/**
+    * get goroskop by goroskop type
+    * @param  int $type
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getByType($type)
 	{
 		$items = self::select('*')
@@ -21,6 +26,11 @@ class Goroskop extends Model
 		return $items;
 	}
 
+	/**
+    * get goroskop by goroskopId
+    * @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')

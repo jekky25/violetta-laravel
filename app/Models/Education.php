@@ -11,6 +11,11 @@ class Education extends Model
 
 	protected $table = 'education';
 
+	/**
+    * get variant of education by $id
+    * @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')
@@ -19,6 +24,10 @@ class Education extends Model
 		return $item;
 	}
 	
+	/**
+    * get all variants of educations
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getAll()
 	{
 		$items = self::select('*')

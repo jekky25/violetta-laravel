@@ -11,6 +11,10 @@ class DreamBook extends Model
 
 	protected $table 	= 'sonnik';
 
+	/**
+    * get liters
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getLiter()
 	{
 		$items = self::select('first_bukva', 'sonnik_id')
@@ -19,6 +23,12 @@ class DreamBook extends Model
 		return $items;
 	}
 
+	/**
+    * get dreambook by $option
+    * @param  int $count
+    * @param  int $op	
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function get($count = 0, $op = 1)
 	{
 		$items = self::select('*')
@@ -29,6 +39,11 @@ class DreamBook extends Model
 		return $items;
 	}
 
+	/**
+    * get dreambook by dreambookId
+    * @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')
@@ -38,6 +53,10 @@ class DreamBook extends Model
 		return $item;
 	}
 
+	/**
+    * get all dreambooks
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getAll()
 	{
 		$items = self::select('*')

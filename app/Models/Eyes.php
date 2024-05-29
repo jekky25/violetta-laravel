@@ -11,6 +11,11 @@ class Eyes extends Model
 
 	protected $table = 'eyes';
 
+	/**
+    * get type of eyes by $id
+    * @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')
