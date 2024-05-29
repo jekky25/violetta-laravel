@@ -62,6 +62,12 @@ class Diary extends Model
 		return $items;
 	}
 
+	/**
+    * get diaries by userId
+    * @param  int $count
+	* @param  int $userId
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getByUser($count, $userId)
     {
 		$items = self::select('*')
@@ -75,6 +81,12 @@ class Diary extends Model
 		return $items;
 	}
 
+	/**
+    * get diary by diaryId and userId
+    * @param  int $id
+	* @param  int $userId
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getByUserAndId($id, $userId)
 	{
 		$item = self::select('*')
@@ -86,6 +98,11 @@ class Diary extends Model
 		return $item;
 	}
 
+	/**
+    * get diary by diaryId
+    * @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')
@@ -95,10 +112,15 @@ class Diary extends Model
 		return $item;
 	}
 
+	/**
+    * get diary image link
+    * @return string
+    */
 	public function getImg ()
 	{
 		return $this->dnevniki_picture !== "0" ? './img/dnevnik/' . $this->dnevniki_picture . '.jpg' : '';
 	}
+
 
 	public function getDnevnikFotoAttribute ()
 	{
@@ -155,16 +177,25 @@ class Diary extends Model
 		return str_replace("\n", "\n<br />\n", $val);
 	}
 
+	/**
+    * get user
+    */
 	public function user()
     {
         return $this->belongsTo(User::class, 'dnevniki_user_id', 'user_id')->with('city');
     }
 
+	/**
+    * get comments
+    */
 	public function comments ()
 	{
 		return $this->hasMany(Comment::class, 'comment_dnevnik_id', 'dnevniki_id');
 	}
 
+	/**
+    * get user photo
+    */
 	public function user_photo ()
 	{
 		return $this->hasOne(Photo::class, 'user_id', 'dnevniki_user_id')->where('fotos_portret', 1);

@@ -24,6 +24,12 @@ class DiaryComment extends Model
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'comment_id';
 
+	/**
+    * get comments by diaryId
+    * @param  int $count
+	* @param  int $diaryId
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getByDiary($count, $diaryId)
     {
 		$items = self::select('*')
@@ -35,6 +41,12 @@ class DiaryComment extends Model
 		return $items;
 	}
 
+	/**
+    * get comments by commentId and userId
+    * @param  int $id
+	* @param  int $userId
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getByUserAndId($id, $userId)
 	{
 		$item = self::select('*')
@@ -60,11 +72,17 @@ class DiaryComment extends Model
 		return date("d.m.y H:i", $val);
 	}
 
+	/**
+    * get user diary
+    */
 	public function diary()
     {
         return $this->belongsTo(Diary::class, 'dnevniki_id', 'comment_dnevnik_id');
     }
 
+	/**
+    * get user
+    */
 	public function user()
     {
         return $this->belongsTo(User::class, 'comment_dnevnik_user_id', 'user_id');
