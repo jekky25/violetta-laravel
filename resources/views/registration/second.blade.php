@@ -16,7 +16,7 @@
 чтобы узнать для чего вы, собственно говоря, здесь. Ну и про <strong>языки</strong> не забудьте. А то вдруг окажется, что ваш спутник или спутница говорит на совершенно непонятном для вас языке.</p>
 	<p class="pad3"><strong>Сексуальная ориентация</strong></p>
 	<p class="pad3">
-		@include('blocks.select', ['name' => 'sex_orient', 'obj' => $sexOrient])
+		<x-select name=sex_orient :obj="$sexOrient" />
 	</p>
 	<table width="100%">
 		<tr>
@@ -82,27 +82,27 @@
 	<table class="mrg6" width="100%">
 		<tr>
 			<td align="right" width="50%">Телосложение:</td>
-			<td width="50%">@include('blocks.select', ['name' => 'body', 'obj' => $body])</td>
+			<td width="50%"><x-select name=body :obj="$body" /></td>
 		</tr>
 		<tr>
 			<td align="right">Рост:</td>
-			<td>@include('blocks.select', ['name' => 'height', 'obj' => $heights, 'type' => 'I', 'UserProp' => $userData->user_height, 'measure' => 'см'])</td>
+			<td><x-select name=height :obj="$heights" type=I :userProp="$userData->user_height" measure="см" /></td>
 		</tr>
 		<tr>
 			<td align="right">Вес:</td>
-			<td>@include('blocks.select', ['name' => 'weight', 'obj' => $weights, 'type' => 'I', 'UserProp' => $userData->user_weight, 'measure' => 'кг'])</td>
+			<td><x-select name=weight :obj="$weights" type=I :userProp="$userData->user_weight" measure="кг" /></td>
 		</tr>
 		<tr>
 			<td align="right">Цвет волос:</td>
-			<td>@include('blocks.select', ['name' => 'hair_color', 'obj' => $hairColor])</td>
+			<td><x-select name=hair_color :obj="$hairColor" /></td>
 		</tr>
 		<tr>
 			<td	align="right">Тип волос:</td>
-			<td>@include('blocks.select', ['name' => 'hair_type', 'obj' => $hairType])</td>
+			<td><x-select name=hair_type :obj="$hairType" /></td>
 		</tr>
 		<tr>
 			<td align="right">Глаза:</td>
-			<td>@include('blocks.select', ['name' => 'eyes', 'obj' => $eyes])</td>
+			<td><x-select name=eyes :obj="$eyes" /></td>
 		</tr>
 	</table>
 	<p class="pad2"></p>
@@ -111,31 +111,31 @@
 	<table class="mrg6" width="100%">
 		<tr>
 			<td align="right" width="50%">Образование:</td>
-			<td>@include('blocks.select', ['name' => 'education', 'obj' => $education])</td>
+			<td><x-select name=education :obj="$education" /></td>
 		</tr>
 		<tr>
 			<td align="right">Отношение к сигаретам:</td>
-			<td>@include('blocks.select', ['name' => 'smoke', 'obj' => $smoke])</td>
+			<td><x-select name=smoke :obj="$smoke" /></td>
 		</tr>
 		<tr>
 			<td align="right">Отношение к спиртному:</td>
-			<td>@include('blocks.select', ['name' => 'spirt', 'obj' => $spirt])</td>
+			<td><x-select name=spirt :obj="$spirt" /></td>
 		</tr>
 		<tr>
 			<td align="right">Семейное положение:</td>
-			<td>@include('blocks.select', ['name' => 'family_status', 'obj' => $familyStatus])</td>
+			<td><x-select name=family_status :obj="$familyStatus" /></td>
 		</tr>
 		<tr>
 			<td align="right">Дети:</td>
-			<td>@include('blocks.select', ['name' => 'children', 'obj' => $children])</td>
+			<td><x-select name=children :obj="$children" /></td>
 		</tr>
 		<tr>
 			<td align="right">Материальная поддержка:</td>
-			<td>@include('blocks.select', ['name' => 'help_money', 'obj' => $helpMoney])</td>
+			<td><x-select name=help_money :obj="$helpMoney" /></td>
 		</tr>
 		<tr>
 			<td align="right">Интересы:</td>
-			<td>@include('blocks.select', ['name' => 'interest[]', 'obj' => $interest, 'multiple' => true, 'size' => 10])</td>
+			<td><x-select name=interest[] :obj="$interest" multiple="true" size="10" /></td>
 		</tr>
 	</table>
 	<p class="pad2"></p>
