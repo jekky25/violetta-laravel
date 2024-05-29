@@ -55,7 +55,7 @@ google_ad_height = 60;
 	@endif
 	<tr>
 		<td>
-			<h4 class="{{ $item->user->user_class_a }}"><a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>@if (!empty($item->comment_title)) - {{ $item->comment_title }}@endif
+			<h4 class="@if (isset($item->user->user_class_a)){{ $item->user->user_class_a }}@endif"><a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>@if (!empty($item->comment_title)) - {{ $item->comment_title }}@endif
 				<p>
 					@if (!empty($user) && $user->user_id == $item->user->user_id)
 					<a class="editBut" title="редактировать" href="{{route('ank.diary.comment.edit.id', $item->comment_id)}}"></a>
