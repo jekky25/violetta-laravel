@@ -7,7 +7,7 @@
 <table class="ankDnevnik">
 	<tr>
 		<td>
-			<h4 class="{{ $userData->user_class_a }}"><a href="{{route('ank.id', $userData->user_id)}}">{{ $userData->user_name }}</a>
+			<h4 class="@if (isset($userData->user_class_a)){{ $userData->user_class_a }}@endif"><a href="{{route('ank.id', $userData->user_id)}}">{{ $userData->user_name }}</a>
 				<p>
 				@if (!empty($user) && $user->user_id == $diary->dnevniki_user_id)
 					<a class="editBut" title="редактировать" href="{{route('ank.diary.edit.id', $diary->dnevniki_id)}}"></a>
