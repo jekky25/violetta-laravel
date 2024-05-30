@@ -11,6 +11,11 @@ class HelpMoney extends Model
 
 	protected $table = 'help_money';
 
+	/**
+    * get a type of help money by Id
+    * @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')

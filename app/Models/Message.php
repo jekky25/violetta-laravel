@@ -33,6 +33,12 @@ class Message extends Model
 		$this->user	= Auth::user();
 	}
 
+	/**
+    * get all messages by userId
+    * @param  int $id
+	* @param  int $count
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getAll($id, $count)
 	{
 		$items = self::selectRaw(
@@ -64,6 +70,13 @@ class Message extends Model
 		return $items;
 	}
 
+	/**
+    * get all messages by userId and $userAutorithationId
+    * @param  int $userId
+	* @param  int $userAuthId
+	* @param  int $count
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getAllByUser($userId, $userAuthId, $count)
 	{
 		$items = self::selectRaw(
@@ -93,6 +106,13 @@ class Message extends Model
 		return $items;
 	}
 
+	/**
+    * get all messages by userId and $userAutorithationId
+    * @param  int $userId
+	* @param  int $userAuthId
+	* @param  int $count
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getForUser($userId, $userAuthId)
 	{
 		$items = self::select('*')
@@ -110,6 +130,11 @@ class Message extends Model
 		return $items;
 	}
 
+	/**
+    * get a message by id
+    * @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')
@@ -119,6 +144,12 @@ class Message extends Model
 		return $item;
 	}
 
+	/**
+    * get all new messages for $user
+    * @param  \Illuminate\Database\Eloquent\Collection $messages
+	* @param  User $user
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getNewsByUsers ($messages, $user)
 	{
 		if (count ($messages) == 0) return $messages;

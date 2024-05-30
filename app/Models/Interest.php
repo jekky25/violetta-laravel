@@ -11,6 +11,10 @@ class Interest extends Model
 
 	protected $table = 'interest';
 	
+	/**
+    * get all types of interests
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getAll()
 	{
 		$items = self::select('*')

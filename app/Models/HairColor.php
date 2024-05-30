@@ -11,6 +11,11 @@ class HairColor extends Model
 
 	protected $table = 'hair_color';
 
+	/**
+    * get a type of hair color by colorId
+    * @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')

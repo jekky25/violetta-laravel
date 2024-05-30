@@ -11,6 +11,10 @@ class MeetTarget extends Model
 
 	protected $table = 'target_meet';
 	
+	/**
+    * get all types of meeting targets
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getAll()
 	{
 		$items = self::select('*')

@@ -11,6 +11,11 @@ class HairType extends Model
 
 	protected $table = 'hair_type';
 
+	/**
+    * get a type of hair by Id
+    * @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')
