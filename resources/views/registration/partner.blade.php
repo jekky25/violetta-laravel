@@ -73,19 +73,19 @@
 					<tr>
 						<td colspan="4"><p class="pad3"><strong>Знание языков:</strong></p></td>
 					</tr>
-					@include('blocks.checkbox', ['name' => 'partner_speak_lang[]', 'obj' => $partnerSpeakLang])
+					<x-checkbox name="partner_speak_lang[]" :obj="$partnerSpeakLang" />
 					<tr>
 						<td colspan="4"><p class="pad5 pad3"><strong>Отношение к спиртному:</strong></p></td>
 					</tr>
-					@include('blocks.checkbox', ['name' => 'partner_spirt[]', 'obj' => $partnerSpirt])
+					<x-checkbox name="partner_spirt[]" :obj="$partnerSpirt" />
 					<tr>
 						<td colspan="4"><p class="pad5 pad3"><strong>Отношение к сигаретам:</strong></p></td>
 					</tr>
-					@include('blocks.checkbox', ['name' => 'partner_smoke[]', 'obj' => $partnerSmoke])
+					<x-checkbox name="partner_smoke[]" :obj="$partnerSmoke" />
 					<tr>
 						<td colspan="4"><p class="pad5 pad3"><strong>Образование:</strong></p></td>
 					</tr>
-					@include('blocks.checkbox', ['name' => 'partner_education[]', 'obj' => $partnerEducation])
+					<x-checkbox name="partner_education[]" :obj="$partnerEducation" />
 				</table>
 			</td>
 		</tr>
