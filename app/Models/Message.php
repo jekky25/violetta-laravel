@@ -182,6 +182,11 @@ class Message extends Model
 		return $messages;
 	}
 
+	/**
+    * get all messages for $user by time
+	* @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getByTimeByUser($id)
 	{
 		$items = self::select('*')

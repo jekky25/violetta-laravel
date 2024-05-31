@@ -11,6 +11,12 @@ class Name extends Model
 
 	protected $table = 'names';
 
+	/**
+    * get three names by first literal and sex
+	* @param  int $id
+	* @param  string $sex
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getPart($id, $sex)
 	{
 		$items = self::select('*')
@@ -24,6 +30,12 @@ class Name extends Model
 		return $items;
 	}
 
+	/**
+    * get all names by first literal and sex
+	* @param  string $sex
+	* @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getAllbySex($sex, $id)
 	{
 		$items = self::select('*')
@@ -35,6 +47,11 @@ class Name extends Model
 		return $items;
 	}
 
+	/**
+    * get a name by nameId
+	* @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')

@@ -21,12 +21,21 @@ class Photo extends Model
 		'user_id'
 	];
 
+	/**
+    * get count all user pictures
+    * @return int
+    */
 	public static function getCountPhotos ()
 	{
 		$count = self::select('fotos_id')->count();
 		return $count > 0 ? $count : 0;
 	}
 
+	/**
+    * get pucture by id
+	* @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')
@@ -35,6 +44,11 @@ class Photo extends Model
 		return $item;
 	}
 
+	/**
+    * get the first pucture by userId
+	* @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getFirstByUserId($id)
 	{
 		$item = self::select('*')
@@ -43,6 +57,11 @@ class Photo extends Model
 		return $item;
 	}
 
+	/**
+    * get all puctures by userId
+	* @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getAllByUserId($id)
 	{
 		$item = self::select('*')
@@ -51,6 +70,9 @@ class Photo extends Model
 		return $item;
 	}
 
+	/**
+    * get comments
+    */
 	public function comment()
 	{
 		return $this->hasMany(CommentPhoto::class, 'foto_id', 'fotos_id')->with('user');

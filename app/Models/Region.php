@@ -11,6 +11,11 @@ class Region extends Model
 
 	protected $table = 'regions';
 
+	/**
+    * get regions by country id
+	* @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getByCountryId($id)
 	{
 		$items = self::select('*')
@@ -20,6 +25,11 @@ class Region extends Model
 		return $items;
 	}
 
+	/**
+    * get region by region id
+	* @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')
