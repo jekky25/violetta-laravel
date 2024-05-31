@@ -19,7 +19,7 @@
 	<p class="pad1 pad2">Это фото <strong>будет отображаться первым</strong> при поиске анкет. Лучше всего, если это будет <strong>ваш портрет</strong>, тогда на фото вас будет легче увидеть. Эту фотографию вы можете в любой момент поменять в разделе редактирование. Если вы ее удалите, то следующая фотография (если загружено более 1 фото) станет главной.</p>
 	@foreach ($photos as $item)
 	@if ($loop->first)
-	@include('blocks.photo', ['photo' => $item])
+	<x-photo :photo="$item" />
 	@endif
 	@endforeach
 @endif
@@ -28,7 +28,7 @@
 	<p class="pad1 pad2">Кроме главной фотографии вы можете закачать на сайт еще <strong>{{(5-count($photos))}} дополнительных фото</strong>.</p>
 	@foreach ($photos as $item)
 	@if (!$loop->first)
-	@include('blocks.photo', ['photo' => $item])
+	<x-photo :photo="$item" />
 	@endif
 	@endforeach
 @endif
