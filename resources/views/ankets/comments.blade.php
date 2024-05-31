@@ -7,7 +7,7 @@
 <table class="ankDnevnik">
 	<tr>
 		<td>
-			<h4 class="@if (isset($userData->user_class_a)){{ $userData->user_class_a }}@endif"><a href="{{route('ank.id', $userData->user_id)}}">{{ $userData->user_name }}</a>
+			<h4 class="@isset($userData->user_class_a){{ $userData->user_class_a }}@endisset"><a href="{{route('ank.id', $userData->user_id)}}">{{ $userData->user_name }}</a>
 				<p>
 				@if (!empty($user) && $user->user_id == $diary->dnevniki_user_id)
 					<a class="editBut" title="редактировать" href="{{route('ank.diary.edit.id', $diary->dnevniki_id)}}"></a>
@@ -55,7 +55,7 @@ google_ad_height = 60;
 	@endif
 	<tr>
 		<td>
-			<h4 class="@if (isset($item->user->user_class_a)){{ $item->user->user_class_a }}@endif"><a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>@if (!empty($item->comment_title)) - {{ $item->comment_title }}@endif
+			<h4 class="@isset($item->user->user_class_a){{ $item->user->user_class_a }}@endisset"><a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>@if (!empty($item->comment_title)) - {{ $item->comment_title }}@endif
 				<p>
 					@if (!empty($user) && $user->user_id == $item->user->user_id)
 					<a class="editBut" title="редактировать" href="{{route('ank.diary.comment.edit.id', $item->comment_id)}}"></a>
