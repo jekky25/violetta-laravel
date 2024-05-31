@@ -12,6 +12,11 @@ class Screen extends Model
 	protected $table 	= 'screensavers';
 	public $timestamps 	= false;
 
+	/**
+    * get screensavers
+	* @param  int $count
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function get($count = 0)
 	{
 		$items = self::select('*')
@@ -21,6 +26,11 @@ class Screen extends Model
 		return $items;
 	}
 
+	/**
+    * get a screensaver by id
+	* @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')

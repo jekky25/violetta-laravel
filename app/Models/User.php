@@ -98,6 +98,11 @@ class User extends Authenticatable
 		'partner_spirt'
 	];
 
+	/**
+    * get new faces for the front page
+	* @param  int $count
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
     public static function newFaces($count)
     {
 		$items = self::select(['users_news.user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])

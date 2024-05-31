@@ -11,6 +11,11 @@ class Spirt extends Model
 
 	protected $table = 'spirt';
 
+	/**
+    * get type of drinking alkogol by id
+	* @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')
@@ -19,6 +24,10 @@ class Spirt extends Model
 		return $item;
 	}
 
+	/**
+    * get all types of drinking alkogol
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getAll()
 	{
 		$items = self::select('*')

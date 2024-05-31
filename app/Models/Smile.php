@@ -11,6 +11,10 @@ class Smile extends Model
 
 	protected $table = 'smiles';
 
+	/**
+    * get smiles
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getAll()
 	{
 		$items = self::select('*')

@@ -11,6 +11,11 @@ class SexOrient extends Model
 
 	protected $table = 'sex_orient';
 
+	/**
+    * get type of sex orientation by id
+	* @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')

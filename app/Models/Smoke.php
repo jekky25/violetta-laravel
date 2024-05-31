@@ -11,6 +11,11 @@ class Smoke extends Model
 
 	protected $table = 'smoke';
 
+	/**
+    * get type of smoke by id
+	* @param  int $id
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getById($id)
 	{
 		$item = self::select('*')
@@ -19,6 +24,10 @@ class Smoke extends Model
 		return $item;
 	}
 
+	/**
+    * get all types of smoke
+    * @return \Illuminate\Database\Eloquent\Collection
+    */
 	public static function getAll()
 	{
 		$items = self::select('*')
