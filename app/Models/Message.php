@@ -182,7 +182,7 @@ class Message extends Model
 		return $messages;
 	}
 
-	public static function getbyTimeByUser($id)
+	public static function getByTimeByUser($id)
 	{
 		$items = self::select('*')
 		->where('user_otprav', $id)

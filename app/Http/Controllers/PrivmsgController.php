@@ -258,7 +258,7 @@ class PrivmsgController extends Controller
 
 		Validator::extend('check_often',
             function () use ($user) {
-				return count (Message::getbyTimeByUser($user->user_id)) > self::$messageSendLimit ? false : true;
+				return count (Message::getByTimeByUser($user->user_id)) > self::$messageSendLimit ? false : true;
             });
 
 		$validator = Validator::make($arParams, self::$rulesPost, self::$errMessagesPost);
