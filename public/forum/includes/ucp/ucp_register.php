@@ -143,7 +143,6 @@ class ucp_register
 			return;
 		}
 
-
 		// Try to manually determine the timezone and adjust the dst if the server date/time complies with the default setting +/- 1
 		$timezone = date('Z') / 3600;
 		$is_dst = date('I');
@@ -193,13 +192,25 @@ class ucp_register
 				'tz'				=> array('num', false, -14, 14),
 				'lang'				=> array('match', false, '#^[a-z_\-]{2,}$#i'),
 			));
+			
 			if (!check_form_key('ucp_register'))
 			{
 				$error[] = $user->lang['FORM_INVALID'];
 			}
 			// Replace "error" strings with their real, localised form
-			$error = preg_replace('#^([A-Z_]+)$#', "(!empty(\$user->lang['\\1'])) ? \$user->lang['\\1'] : '\\1'", $error);
+			if (!empty ($error))
+			{
+				foreach ($error as &$val)
+				{
+					if (isset ($user->lang[$val]))
+					{
+						$val = $user->lang[$val];
+					}
+				}
+			}
+/*
 
+			$error = preg_replace('#^([A-Z_]+)$#', "(!empty(\$user->lang['\\1'])) ? \$user->lang['\\1'] : '\\1'", $error);
 			// DNSBL check
 			if ($config['check_dnsbl'])
 			{
@@ -211,7 +222,7 @@ class ucp_register
 
 			// validate custom profile fields
 			$cp->submit_cp_field('register', $user->get_iso_lang_id(), $cp_data, $error);
-
+*/
 			// Visual Confirmation handling
 			$wrong_confirm = false;
 			if ($config['enable_confirm'])

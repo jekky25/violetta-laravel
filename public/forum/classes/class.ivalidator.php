@@ -52,7 +52,7 @@ class IValidator{
 		$l_name='';
 		$top = strlen($this->RndCodes)-1;
 		srand((double) microtime()*1000000);
-		for($j=0; $j<$this->RndLength; $j++)$l_name .= $this->RndCodes{rand(0,$top)};
+		for($j=0; $j<$this->RndLength; $j++)$l_name .= $this->RndCodes[rand(0,$top)];
 		return $l_name;
 	}
 	
@@ -101,7 +101,7 @@ class IValidator{
 	        for(;$_TC>=0;$_TC--){
 	        	
 	        	$RSize = mt_rand(3, 5);
-	        	imagestring($Image,$RSize,$LettersStart+($_TC)*$LetterOffset, $RSize*2+$RSize, $_Code{$_TC}, $Font);
+	        	imagestring($Image,$RSize,$LettersStart+($_TC)*$LetterOffset, $RSize*2+$RSize, $_Code[$_TC], $Font);
 //	        	imagettftext($Image, $TrFontSize+$RSize, 0, $LettersStart+($_TC)*$LetterOffset, 25+$RSize*2, $Font, $FontFile, $_Code{$_TC});
 	        }
 	        
@@ -114,7 +114,7 @@ class IValidator{
 		        for(;$_TC>=0;$_TC--){
 		        	
 		        	$RSize = mt_rand(1, 5);
-		        	imagettftext($Image, $TrFontSize+$RSize, 0, ($_TC)*$LetterOffset, 25+$RSize, $TrFont, $FontFile, $_Code{$_TC});
+		        	imagettftext($Image, $TrFontSize+$RSize, 0, ($_TC)*$LetterOffset, 25+$RSize, $TrFont, $FontFile, $_Code[$_TC]);
 		        }
 		}
 		

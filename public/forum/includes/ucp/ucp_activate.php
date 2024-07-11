@@ -24,6 +24,7 @@ if (!defined('IN_PHPBB'))
 class ucp_activate
 {
 	var $u_action;
+	var $module_path;
 
 	function main($id, $mode)
 	{

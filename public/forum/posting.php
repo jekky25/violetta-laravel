@@ -865,7 +865,7 @@ if ($user->data['user_posts'] <= 10) {
 	include_once(DIR_ROOT.'/classes/class.ivalidator.php');
 
 	$i = new IValidator();
-	if(CONF_ENABLE_CONFIRMATION_CODE && !$i->checkCode($_POST['confirm_code'])) {
+	if(defined('CONF_ENABLE_CONFIRMATION_CODE') && CONF_ENABLE_CONFIRMATION_CODE && !$i->checkCode($_POST['confirm_code'])) {
 	    $error[] = 'Неверно введен цифровой код';
 	}
 }
