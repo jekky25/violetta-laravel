@@ -44,7 +44,6 @@ class RightColServiceProvider extends ServiceProvider
             $view->with(['user' => $user]);
         });
 
-	
 		$wItem = User::getTop100(WOMEN, 1);
 		$mItem = User::getTop100(MEN, 1);
 

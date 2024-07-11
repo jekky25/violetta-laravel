@@ -190,7 +190,6 @@ class AnketController extends Controller
 			$ankets 			= User::getOp($this->countPerPage, $s, $opt);
 			$page 				= $ankets->currentPage();
 			$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
-
 			$countSearchAnkStr	= Helper::getFoundStr ($ankets, $this->countPerPage);
 		}
 

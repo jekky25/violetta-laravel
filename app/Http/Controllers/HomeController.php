@@ -37,12 +37,10 @@ class HomeController extends Controller
      */
 	public function index(Request $request)
 	{
-
 		$ages 		= Helper::getAges();
 		$countries 	= Country::getAll();
 		$newFaces 	= User::newFaces($this->countNewFaces);
 		$diaries 	= Diary::get($this->countDiaries);
-
 		return response()->view ('home', 
 		[
 			'ages'		=> $ages,

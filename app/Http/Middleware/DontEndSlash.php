@@ -22,7 +22,6 @@ class DontEndSlash
 		//check url for the presence of a trailing slash
 		$path 			= $request->getRequestUri();
 		$trailingSlash 	= (Str::contains($path, ['#', '.html', '/?']) ? '' : '/');
-
 		if (!empty($trailingSlash) && !preg_match('/.+\/$/', $path))
 		{
 			$base_url = Config::get('app.url');
