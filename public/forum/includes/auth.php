@@ -22,10 +22,11 @@ if (!defined('IN_PHPBB'))
 */
 class auth
 {
-	var $acl = array();
-	var $cache = array();
-	var $acl_options = array();
-	var $acl_forum_ids = false;
+	var $acl 			= [];
+	var $cache 			= [];
+	var $acl_options 	= [];
+	var $acl_forum_ids 	= false;
+	var $role_cache		= [];
 
 	/**
 	* Init permissions

@@ -76,7 +76,7 @@ class captcha
 			$denom = ($code_len - $i);
 			$denom = max(1.3, $denom);
 
-			$offset[$i] = mt_rand(0, (1.5 * abs($width_avail)) / $denom);
+			$offset[$i] = mt_rand(0, (int) ((1.5 * abs($width_avail)) / $denom));
 			$width_avail -= $offset[$i];
 		}
 
@@ -105,7 +105,7 @@ class captcha
 		{
 			$dimm = $bounding_boxes[$i];
 			$xoffset += ($offset[$i] - $dimm[0]);
-			$yoffset = mt_rand(-$dimm[1], $this->height - $dimm[3]);
+			$yoffset = mt_rand((int)(-$dimm[1]), (int)($this->height - $dimm[3]));
 
 			$characters[$i]->drawchar($sizes[$i], $xoffset, $yoffset, $img, $colour->get_resource('background'), $scheme);
 			$xoffset += $dimm[2];
@@ -922,13 +922,13 @@ class char_cube3d
 					$x_corner = $this->sum2($xvec, $zvec);
 					$y_corner = $this->sum2($yvec, $zvec);
 
-					imagefilledpolygon($img, $this->gen_poly($xo, $yo, $origin, $xvec, $x_corner,$zvec), 4, $colour1);
-					imagefilledpolygon($img, $this->gen_poly($xo, $yo, $origin, $yvec, $y_corner,$zvec), 4, $colour2);
+					imagefilledpolygon($img, $this->gen_poly($xo, $yo, $origin, $xvec, $x_corner,$zvec), $colour1);
+					imagefilledpolygon($img, $this->gen_poly($xo, $yo, $origin, $yvec, $y_corner,$zvec), $colour2);
 
 					$face = $this->gen_poly($xo, $yo, $origin, $xvec, $face_corner, $yvec);
 
-					imagefilledpolygon($img, $face, 4, $background);
-					imagepolygon($img, $face, 4, $colour1);
+					imagefilledpolygon($img, $face, $background);
+					imagepolygon($img, $face, $colour1);
 				}
 			}
 		}
@@ -1155,11 +1155,21 @@ class colour_manager
 		}
 
 		$rgb		= colour_manager::model_convert($colour, $mode, 'rgb');
+		$rgb		= $this->makeIntegerColors($rgb);
 		$store		= ($this->mode == 'rgb') ? $rgb : colour_manager::model_convert($colour, $mode, $this->mode);
 		$resource	= imagecolorallocate($this->img, $rgb[0], $rgb[1], $rgb[2]);
 		$this->colours[$resource] = $store;
 
 		return $resource;
+	}
+
+	private function makeIntegerColors(array $color)
+	{
+		foreach ($color as &$_color)
+		{
+			$_color = (int) $_color;
+		}
+		return $color;
 	}
 
 	/**

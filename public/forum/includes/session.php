@@ -21,17 +21,20 @@ if (!defined('IN_PHPBB'))
 */
 class session
 {
-	var $cookie_data = array();
-	var $page = array();
-	var $data = array();
-	var $browser = '';
-	var $forwarded_for = '';
-	var $host = '';
-	var $session_id = '';
-	var $ip = '';
-	var $load = 0;
-	var $time_now = 0;
-	var $update_session_page = true;
+	var $cookie_data		 	= [];
+	var $page 					= [];
+	var $data 					= [];
+	var $browser		 		= '';
+	var $forwarded_for 			= '';
+	var $host 					= '';
+	var $session_id 			= '';
+	var $ip 					= '';
+	var $load 					= 0;
+	var $time_now 				= 0;
+	var $update_session_page 	= true;
+	var $referer 				= '';
+	var $profile_fields			= [];
+
 
 	/**
 	* Extract current session page
@@ -1014,6 +1017,37 @@ class session
 
 		return;
 	}
+
+	function confirm_gc($type = 0)
+	{
+		global $db, $config;
+
+		$sql = 'SELECT DISTINCT c.session_id
+				FROM ' . CONFIRM_TABLE . ' c
+				LEFT JOIN ' . SESSIONS_TABLE . ' s ON (c.session_id = s.session_id)
+				WHERE s.session_id IS NULL' .
+					((empty($type)) ? '' : ' AND c.confirm_type = ' . (int) $type);
+		$result = $db->sql_query($sql);
+
+		if ($row = $db->sql_fetchrow($result))
+		{
+			$sql_in = array();
+			do
+			{
+				$sql_in[] = (string) $row['session_id'];
+			}
+			while ($row = $db->sql_fetchrow($result));
+
+			if (sizeof($sql_in))
+			{
+				$sql = 'DELETE FROM ' . CONFIRM_TABLE . '
+					WHERE ' . $db->sql_in_set('session_id', $sql_in);
+				$db->sql_query($sql);
+			}
+		}
+		$db->sql_freeresult($result);
+	}
+
 
 	/**
 	* Sets a cookie

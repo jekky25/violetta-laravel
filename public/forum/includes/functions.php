@@ -290,13 +290,13 @@ function phpbb_hash($password)
 	$random_state = unique_id();
 	$random = '';
 	$count = 6;
-
+/*
 	if (($fh = @fopen('/dev/urandom', 'rb')))
 	{
 		$random = fread($fh, $count);
 		fclose($fh);
 	}
-
+*/
 	if (strlen($random) < $count)
 	{
 		$random = '';

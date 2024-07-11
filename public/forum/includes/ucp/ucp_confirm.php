@@ -32,6 +32,7 @@ if (!defined('IN_PHPBB'))
 class ucp_confirm
 {
 	var $u_action;
+	var $module_path = '';
 
 	function main($id, $mode)
 	{

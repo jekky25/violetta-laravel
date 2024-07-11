@@ -27,6 +27,7 @@ class p_master
 	var $p_name;
 	var $p_mode;
 	var $p_parent;
+	var $module;
 
 	var $active_module = false;
 	var $active_module_row_id = false;

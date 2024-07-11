@@ -23,7 +23,9 @@ if (!defined('IN_PHPBB'))
 */
 class ucp_register
 {
-	var $u_action;
+	var $u_action, $tpl_name;
+	var $module_path 	= '';
+	var $page_title		= '';
 
 	function main($id, $mode)
 	{
@@ -196,7 +198,7 @@ class ucp_register
 				$error[] = $user->lang['FORM_INVALID'];
 			}
 			// Replace "error" strings with their real, localised form
-			$error = preg_replace('#^([A-Z_]+)$#e', "(!empty(\$user->lang['\\1'])) ? \$user->lang['\\1'] : '\\1'", $error);
+			$error = preg_replace('#^([A-Z_]+)$#', "(!empty(\$user->lang['\\1'])) ? \$user->lang['\\1'] : '\\1'", $error);
 
 			// DNSBL check
 			if ($config['check_dnsbl'])
