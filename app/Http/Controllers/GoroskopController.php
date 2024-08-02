@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-
 use App\Models\Goroskop;
 use App\Models\GoroskopType;
+use App\Interfaces\GoroskopInterface;
+
 
 class GoroskopController extends Controller
 {
-
 	public 	$typeGor 	= 1;
 	public  $google		= 
 	[
@@ -30,30 +27,28 @@ class GoroskopController extends Controller
 		]
 	];
 	
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct(
+		protected GoroskopInterface $goroskopRepository
+	)
+	{
+	}
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
-
-    /**
-     * Show the page with goroskops
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-		$goroskops 		= Goroskop::getByType($this->typeGor);
+	/**
+	* Show the page with goroskops
+	* @return \Illuminate\Http\Response
+	*/
+	public function index()
+	{
+		$goroskops		= $this->goroskopRepository->getByType($this->typeGor);
 		$goroskopsType 	= GoroskopType::getNotByType($this->typeGor);
 
 		if (empty ($goroskops)) abort(404);
-
-		include('../app/includes/goroskop/zodiak_text.php');
+		include(base_path() . '/app/includes/goroskop/zodiak_text.php');
 
 		$goroskopsTitle  = 'Гороскопы - Зодиак';
 
@@ -68,18 +63,17 @@ class GoroskopController extends Controller
     }
 
 	/**
-     * show a goroskop page by id
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-	public function getItem(Request $request, $id)
+	* show a goroskop page by id
+	* @param  int $id
+	* @return \Illuminate\Http\Response
+	*/
+	public function getItem($id)
 	{
 		$goroskop = Goroskop::getById($id);
 		if (empty ($goroskop)) abort(404);
 		
 		$this->typeGor 	= $goroskop->gor_type;
-		$goroskops 		= Goroskop::getByType($this->typeGor);
+		$goroskops 		= $this->goroskopRepository->getByType($this->typeGor);
 		$goroskopsType 	= GoroskopType::getNotByType($this->typeGor);
 		
 		$goroskop->gor_text = str_replace("\n","<br \><br \>\n",$goroskop->gor_text);
@@ -128,44 +122,43 @@ class GoroskopController extends Controller
 	}
 
 	/**
-     * show the page with gorokop types
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-	public function getType(Request $request, $id = 0)
+	* show the page with gorokop types
+	* @param  int $id
+	* @return \Illuminate\Http\Response
+	*/
+	public function getType($id = 0)
 	{
 		$id = (int) $id;
 		if ($id == 0 && $id > 5) abort(404);
 		$goroskopsType = $id;
 		switch ($id) {
 			case 2:
-				include('../app/includes/goroskop/vost_goroskop_text.php');
+				include(base_path() . '/app/includes/goroskop/vost_goroskop_text.php');
 				$goroskopsTitle = 'Гороскопы - Восточный гороскоп';
 				$title_id = 'Восточный гороскоп';
 				break;
 			case 2:
-				include('../app/includes/goroskop/gall_goroskop_text.php');
+				include(base_path() . '/app/includes/goroskop/gall_goroskop_text.php');
 				$goroskopsTitle = 'Гороскопы - Галлийский гороскоп';
 				$title_id = 'Галлийский гороскоп';
 				break;
 			case 4:
-				include('../app/includes/goroskop/cvet_goroskop_text.php');
+				include(base_path() . '/app/includes/goroskop/cvet_goroskop_text.php');
 				$goroskopsTitle = 'Гороскопы - Гороскоп цветов';
 				$title_id = 'Гороскоп цветов';
 				break;
 			case 5:
-				include('../app/includes/goroskop/talisman_text.php');
+				include(base_path() . '/app/includes/goroskop/talisman_text.php');
 				$goroskopsTitle = 'Гороскопы - Талисманы';
 				$title_id = 'Талисманы';
 				break;
 			default:		
-				include('../app/includes/goroskop/zodiak_text.php');
+				include(base_path() . '/app/includes/goroskop/zodiak_text.php');
 				$goroskopsTitle = 'Гороскопы - Зодиак';
 				$title_id = 'Зодиак';
 		}
 
-		$goroskops 		= Goroskop::getByType($goroskopsType);
+		$goroskops 		= $this->goroskopRepository->getByType($goroskopsType);
 		$goroskopsType 	= GoroskopType::getNotByType($goroskopsType);
 
 		return response()->view ('goroskop', 
