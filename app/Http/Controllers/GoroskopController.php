@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Goroskop;
 use App\Models\GoroskopType;
 use App\Interfaces\GoroskopInterface;
-
 
 class GoroskopController extends Controller
 {
@@ -69,7 +67,7 @@ class GoroskopController extends Controller
 	*/
 	public function getItem($id)
 	{
-		$goroskop = Goroskop::getById($id);
+		$goroskop		= $this->goroskopRepository->getById($id);
 		if (empty ($goroskop)) abort(404);
 		
 		$this->typeGor 	= $goroskop->gor_type;

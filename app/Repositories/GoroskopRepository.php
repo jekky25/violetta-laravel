@@ -19,4 +19,18 @@ class GoroskopRepository implements GoroskopInterface {
 			->get();
 		return $items;
 	}
+
+	/**
+	* get goroskop by goroskopId
+	* @param  int $id
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public static function getById($id)
+	{
+		$item = Goroskop::select('*')
+		->where('gor_id', $id)
+		->first();
+
+		return $item;
+	}
 }
