@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\GoroskopType;
 use App\Interfaces\GoroskopInterface;
+use App\Interfaces\GoroskopTypeInterface;
 
 class GoroskopController extends Controller
 {
@@ -31,7 +32,8 @@ class GoroskopController extends Controller
 	* @return void
 	*/
 	public function __construct(
-		protected GoroskopInterface $goroskopRepository
+		protected GoroskopInterface $goroskopRepository,
+		protected GoroskopTypeInterface $goroskopTypeRepository
 	)
 	{
 	}
@@ -43,7 +45,7 @@ class GoroskopController extends Controller
 	public function index()
 	{
 		$goroskops		= $this->goroskopRepository->getByType($this->typeGor);
-		$goroskopsType 	= GoroskopType::getNotByType($this->typeGor);
+		$goroskopsType	= $this->goroskopTypeRepository->getNotByType($this->typeGor);
 
 		if (empty ($goroskops)) abort(404);
 		include(base_path() . '/app/includes/goroskop/zodiak_text.php');
@@ -70,9 +72,9 @@ class GoroskopController extends Controller
 		$goroskop		= $this->goroskopRepository->getById($id);
 		if (empty ($goroskop)) abort(404);
 		
-		$this->typeGor 	= $goroskop->gor_type;
-		$goroskops 		= $this->goroskopRepository->getByType($this->typeGor);
-		$goroskopsType 	= GoroskopType::getNotByType($this->typeGor);
+		$this->typeGor	= $goroskop->gor_type;
+		$goroskops		= $this->goroskopRepository->getByType($this->typeGor);
+		$goroskopsType	= $this->goroskopTypeRepository->getNotByType($this->typeGor);
 		
 		$goroskop->gor_text = str_replace("\n","<br \><br \>\n",$goroskop->gor_text);
 	
@@ -157,7 +159,7 @@ class GoroskopController extends Controller
 		}
 
 		$goroskops 		= $this->goroskopRepository->getByType($goroskopsType);
-		$goroskopsType 	= GoroskopType::getNotByType($goroskopsType);
+		$goroskopsType 	= $this->goroskopTypeRepository->getNotByType($goroskopsType);
 
 		return response()->view ('goroskop', 
 		[
@@ -169,4 +171,3 @@ class GoroskopController extends Controller
 
 	}
 }
-
