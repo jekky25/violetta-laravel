@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\GoroskopType;
 use App\Interfaces\GoroskopInterface;
 use App\Interfaces\GoroskopTypeInterface;
 

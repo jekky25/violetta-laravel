@@ -1,12 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-
+use App\Interfaces\NameInterface;
 use App\Models\Name;
 
 class NameController extends Controller
@@ -37,23 +33,23 @@ class NameController extends Controller
 		23 => 'Ю',
 		24 => 'Я'];
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct(
+		protected NameInterface $nameRepository,
+	)
+	{
+	}
 
 	/**
-     * show the names page
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
+	* show the names page
+	* @return \Illuminate\Http\Response
+	*/
+	public function index()
+	{
 		$nameText = 'По общепринятому мнению, имя человеку нужно для того, чтобы быть индивидуально отличимым от всех других. Эта различительная функция личных имен была и остается основной и абсолютно необходимой. Без нее имя теряет всякий смысл. <br /><br />
 		Известному русскому философу А.Ф. Лосеву принадлежат слова: "В любви мы повторяем любимое имя и взываем к любимому через его имя. И молимся мы , и проклинаем через имена, через произнесение имени. И нет границ жизни имени, нет меры для его могущества. Именами и словами создан и держится мир. Имя носит на себе каждое живое существо. Именем и словами живут народы, сдвигаются с места миллионы людей, подвигаются к жертве и к победе глухие народные массы.
 		Имя победило мир"<br /><br />
@@ -75,8 +71,8 @@ class NameController extends Controller
 
 		for ($i = 1; $i <= count ($alphabet); $i++)
 		{
-			$names ['m'][$i] = Name::getPart($i,'m');
-			$names ['w'][$i] = Name::getPart($i,'f');
+			$names ['m'][$i] = $this->nameRepository->getPart($i,'m');
+			$names ['w'][$i] = $this->nameRepository->getPart($i,'f');
 		}
 
 		return response()->view ('names', 
@@ -88,14 +84,13 @@ class NameController extends Controller
     }
 
 	/**
-     * Show genderType page
-     * @param  \Illuminate\Http\Request $request
-     * @param string $sex
-     * @param int $id
-	 * @return \Illuminate\Http\Response
-    */
-    public function getGender(Request $request, $sex, $id = 1)
-    {
+	* Show genderType page
+	* @param string $sex
+	* @param int $id
+	* @return \Illuminate\Http\Response
+	*/
+	public function getGender($sex, $id = 1)
+	{
 		$alphabet 	= $this->alphabet;
 		$nameTitle 	= $sex == 'men' ? 'Значение мужского имени' : 'Значение женского имени';
 		$s 			= $sex == 'men' ? 'm' 						: 'f';
@@ -128,12 +123,12 @@ class NameController extends Controller
 	}
 
 	/**
-     * Show the name page by id
-     * @param int $id
-	 * @return \Illuminate\Http\Response
-    */
+	* Show the name page by id
+	* @param int $id
+	* @return \Illuminate\Http\Response
+	*/
 	public function getName($id)
-    {
+	{
 		$name = Name::getById($id);
 		if (empty ($name)) abort(404);
 
