@@ -23,4 +23,22 @@ class ScreenSaverTest extends TestCase
 			$response->assertStatus(200);
 		}
 	}
+
+	/**
+	* Test a screen saver id page
+	*/
+	public function test_screen_saver_id_page(): void
+	{
+		$ar = [
+			'screensaver/43.html',
+			'screensaver/44.html'
+		];
+
+		foreach ($ar as $item)
+		{
+			$_SERVER['REQUEST_URI'] = $item;
+			$response = $this->get($_SERVER['REQUEST_URI']);
+			$response->assertStatus(200);
+		}
+	}
 }
