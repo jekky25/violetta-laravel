@@ -1,0 +1,26 @@
+<?php
+
+namespace Tests\Feature;
+use Tests\TestCase;
+
+class ScreenSaverTest extends TestCase
+{
+	/**
+	* Test a screen saver page
+	*/
+	public function test_screen_saver_page(): void
+	{
+		$ar = [
+			'screensavers.html',
+			'screensavers.html?page=3',
+			'screensavers.html?page=4',
+		];
+
+		foreach ($ar as $item)
+		{
+			$_SERVER['REQUEST_URI'] = $item;
+			$response = $this->get($_SERVER['REQUEST_URI']);
+			$response->assertStatus(200);
+		}
+	}
+}
