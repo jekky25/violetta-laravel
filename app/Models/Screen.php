@@ -7,21 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Screen extends Model
 {
 	use HasFactory;
-
 	protected $table 	= 'screensavers';
 	public $timestamps 	= false;
-
-	/**
-    * get a screensaver by id
-	* @param  int $id
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function getById($id)
-	{
-		$item = self::select('*')
-		->where('id', $id)
-		->first();
-
-		return $item;
-	}
 }

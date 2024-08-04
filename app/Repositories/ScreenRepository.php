@@ -18,4 +18,17 @@ class ScreenRepository implements ScreenInterface {
 		->paginate($count);
 		return $items;
 	}
+
+	/**
+	* get a screensaver by id
+	* @param  int $id
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public static function getById($id)
+	{
+		$item = Screen::select('*')
+		->where('id', $id)
+		->first();
+		return $item;
+	}
 }

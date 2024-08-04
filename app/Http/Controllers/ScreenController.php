@@ -53,7 +53,7 @@ class ScreenController extends Controller
 	 */
 	public function getItem(Request $request, $id)
 	{
-		$screen 			= Screen::getById($id);
+		$screen 			= $this->screenRepository->getById($id);
 		if (empty ($screen)) abort(404);
 
 		if ($request->isMethod('post'))
