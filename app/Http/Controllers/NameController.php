@@ -94,7 +94,7 @@ class NameController extends Controller
 		$alphabet 	= $this->alphabet;
 		$nameTitle 	= $sex == 'men' ? 'Значение мужского имени' : 'Значение женского имени';
 		$s 			= $sex == 'men' ? 'm' 						: 'f';
-		$names 		= Name::getAllbySex($s, $id);
+		$names 		= $this->nameRepository->getAllbySex($s, $id);
 
 		$namesGender = '';
 		for ($i = 1; $i <= count($alphabet); $i++)
@@ -129,7 +129,7 @@ class NameController extends Controller
 	*/
 	public function getName($id)
 	{
-		$name = Name::getById($id);
+		$name = $this->nameRepository->getById($id);
 		if (empty ($name)) abort(404);
 
 		$alphabet 			= $this->alphabet;

@@ -23,4 +23,34 @@ class NameRepository implements NameInterface {
 		if (empty ($items)) return null;
 		return $items;
 	}
+
+	/**
+	* get all names by first literal and sex
+	* @param  string $sex
+	* @param  int $id
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public static function getAllbySex($sex, $id)
+	{
+		$items = Name::select('*')
+		->where('gender', '=', $sex)
+		->where('name_id', '=', $id)
+		->get();
+
+		if (empty ($items)) return null;
+		return $items;
+	}
+
+	/**
+	* get a name by nameId
+	* @param  int $id
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public static function getById($id)
+	{
+		$item = Name::select('*')
+		->where('id', $id)
+		->first();
+		return $item;
+	}
 }
