@@ -3,7 +3,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\NameInterface;
-use App\Models\Name;
 
 class NameController extends Controller
 {

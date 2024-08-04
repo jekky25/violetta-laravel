@@ -12,20 +12,6 @@ class Screen extends Model
 	public $timestamps 	= false;
 
 	/**
-    * get screensavers
-	* @param  int $count
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function get($count = 0)
-	{
-		$items = self::select('*')
-		->orderBy('date', 'desc')
-		->paginate($count);
-
-		return $items;
-	}
-
-	/**
     * get a screensaver by id
 	* @param  int $id
     * @return \Illuminate\Database\Eloquent\Collection

@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
+use App\Interfaces\ScreenInterface;
 use App\Models\Screen;
 use App\Models\CommentScreen;
 use App\Helpers\Helper;
@@ -15,27 +14,26 @@ use Validator;
 
 class ScreenController extends Controller
 {
-
 	public $countPerPage 	= 6;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct(
+		protected ScreenInterface $screenRepository,
+	)
+	{
+	}
 
-    /**
-     * Show the application dashboard.
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-		$screens 			= Screen::get($this->countPerPage);
+	/**
+	* Show the application dashboard.
+	* @return \Illuminate\Http\Response
+	*/
+	public function index()
+	{
+		$screens 			= $this->screenRepository->get($this->countPerPage);
 		$page 				= $screens->currentPage();
 		$pagination 		= Helper::preparePagination ($screens->toArray()['links']);
 		return response()->view ('screensavers', 
