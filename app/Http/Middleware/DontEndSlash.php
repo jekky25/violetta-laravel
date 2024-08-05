@@ -19,25 +19,29 @@ class DontEndSlash
   */
   public function handle($request, Closure $next)
   {
+		//do it for phpUnit tests
+		$requestUri = $this->getUri($request);
+		$trailingSlash 	= (Str::contains($requestUri, ['#', '.html', '/?']) ? '' : '/');
+
 		//check url for the presence of a trailing slash
-		$path 			= $request->getRequestUri();
-		$trailingSlash 	= (Str::contains($path, ['#', '.html', '/?']) ? '' : '/');
-		if (!empty($trailingSlash) && !preg_match('/.+\/$/', $path))
+		if (!empty($trailingSlash) && !preg_match('/.+\/$/', $requestUri))
 		{
 			$base_url = Config::get('app.url');
 			return Redirect::to($base_url.$request->getRequestUri().$trailingSlash);
 		}
-	/*
-	if (!str_ends_with($request->getPathInfo(), '/')) {
-		$newval =$request->getPathInfo().'/';
-		header("HTTP/1.1 301 Moved Permanently");
-		header("Location:$newval");
-		exit();
-	}
-	*/
+		return $next($request);
+    }
 
-	return $next($request);
-    
+	/**
+	* get uri by request
+	*
+	* @param  \Illuminate\Http\Request  $request
+	* @return string
+	*/
+	public function getUri($request)
+	{
+		$uri = $request->getRequestUri();
+		return $uri != $_SERVER['REQUEST_URI'] && !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $uri;
 	}
 }
 
