@@ -6,7 +6,7 @@ use Tests\TestCase;
 class ProfileTest extends TestCase
 {
 	/**
-	* Test a name gender literal page
+	* Test a profile id page
 	*/
 	public function test_profile_id_page(): void
 	{
@@ -23,4 +23,23 @@ class ProfileTest extends TestCase
 			$response->assertStatus(200);
 		}
 	}
+
+
+	/**
+	* Test a picture profile page
+	*/
+	/*
+	public function test_picture_profile_id_page(): void
+	{
+		$ar = [
+			'ank/photo/1.html',
+		];
+		foreach ($ar as $item)
+		{
+			$_SERVER['REQUEST_URI'] = $item;
+			$response = $this->get($_SERVER['REQUEST_URI']);
+			$response->assertStatus(200);
+		}
+	}
+	*/
 }
