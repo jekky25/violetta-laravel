@@ -129,7 +129,7 @@ class AnkController extends Controller
 			$anket->ankVisits = count($ankVisits);
 			if ($anket->ankVisits == 0 && $user->user_id != $id && $user->user_id > 1)
 			{
-				AnketVisit::insertVisit($id);
+				$this->anketVisitRepository->insertVisit($id);
 				AnketVisit::removeOld(self::$visitDays);
 			} elseif ($anket->ankVisits > 0 && $user->user_id != $id)
 				$this->anketVisitRepository->updateVisit($id);
@@ -291,7 +291,7 @@ class AnkController extends Controller
 
 		if ($anket->ankVisits == 0 && $user->user_id != $id && $user->user_id > 1) 
 		{
-			AnketVisit::insertVisit($id);
+			$this->anketVisitRepository->insertVisit($id);
 			AnketVisit::removeOld(self::$visitDays);
 		} elseif ($anket->ankVisits > 0 && $user->user_id != $id)
 			$this->anketVisitRepository->updateVisit($id);

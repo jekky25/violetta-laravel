@@ -109,4 +109,27 @@ class AnketVisitRepository implements AnketVisitInterface {
 			$items = $items[0];
 		return $items;
 	}
+
+	/**
+	* insert user visite
+	* @param  int  $id
+	* @return void 
+	*/
+	public static function insertVisit ($id)
+	{
+		$user 	= \Auth::user();
+		if (empty ($user)) abort (404);
+		try {
+			$aFields = [
+				'user_id_prosm'		=> $id,
+				'ank_user_id'		=> $user->user_id,
+				'ank_time'			=> time()
+			];
+
+			$oAnketVisit = new AnketVisit ($aFields);
+			$oAnketVisit->save();
+		} catch (\Exception $e) {
+            throw new \Exception('Failed to create user visit. '.$e->getMessage());
+        }
+	}
 }
