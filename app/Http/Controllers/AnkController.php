@@ -3,23 +3,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 use Validator;
-use Illuminate\Validation\Rules\File;
 use App\Models\User;
 use App\Models\AnketVisit;
-use App\Models\MeetTarget;
-use App\Models\Interest;
 use App\Models\AnketEvaluation;
-use App\Models\Body;
 use App\Models\Vars;
 use App\Models\CommentPhoto;
 use App\Models\Photo;
 use App\Models\Diary;
 use App\Models\DiaryComment;
+use App\Interfaces\AnketEvaluationInterface;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -70,23 +66,23 @@ class AnkController extends Controller
 	public static $diaryPerPage 		= 10;
 	public static $diaryCommentsPerPage	= 20;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct(
+		protected AnketEvaluationInterface $anketEvaluationRepository,
+	)
+	{
+	}
 
 	/**
-	 * Show a profile page
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-	 * @return \Illuminate\Http\Response
-	 */
+	* Show a profile page
+	* @param  \Illuminate\Http\Request  $request
+	* @param  int $id
+	* @return \Illuminate\Http\Response
+	*/
 	public function getAnk (Request $request, $id)
 	{
 		$user 	= Auth::user();
@@ -97,7 +93,6 @@ class AnkController extends Controller
 		$vote 	= $vote > 5 ? 5 : $vote;
 
 		if (empty ($anket)) abort(404);
-
 
 		/*
 		$sql = 'SELECT user_reg_is
@@ -125,7 +120,6 @@ class AnkController extends Controller
 
 		//making interests
 		$anket->getPropertyFew('App\Models\Interest',	$anket->user_interests, 'interests');
-
 		//making an ankets review and a count of views
 		if (!empty ($user))
 		{
@@ -138,8 +132,7 @@ class AnkController extends Controller
 			} elseif ($anket->ankVisits > 0 && $user->user_id != $id) 
 				AnketVisit::updateVisit($id);
 
-			$affectedRows = AnketEvaluation::getEvaluations($user->user_id, $id);
-
+			$affectedRows = $this->anketEvaluationRepository->getEvaluations($user->user_id, $id);
 			if (count ($affectedRows) == 0) 
 			{
 				if ($request->has('send_golos') && $vote > 0) 
@@ -272,11 +265,10 @@ class AnkController extends Controller
 
 	/**
 	 * Show a page with user pictures
-     * @param  \Illuminate\Http\Request  $request
      * @param  int $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function getPhoto (Request $request, $id)
+	public function getPhoto ($id)
 	{
 		$mode 	= Route::currentRouteName() == 'ank.photo.photo_id' ? 'photo.id' : 'ank.photo';
 
@@ -303,7 +295,6 @@ class AnkController extends Controller
 		} elseif ($anket->ankVisits > 0 && $user->user_id != $id)
 			AnketVisit::updateVisit($id);
 
-		$affectedRows 		= AnketEvaluation::getEvaluations($user->user_id, $id);
 		foreach ($anket->photo as &$item)
 		{
 			$item->comment	= $item->comment->slice(0, $this->commentCountPerPage);

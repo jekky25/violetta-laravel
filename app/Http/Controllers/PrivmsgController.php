@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Validator;
 use App\Helpers\Helper;
+use App\Interfaces\AnketEvaluationInterface;
 
 use App\Models\Message;
 use App\Models\User;
@@ -44,9 +43,10 @@ class PrivmsgController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+		protected AnketEvaluationInterface $anketEvaluationRepository,
+	)
     {
-        // $this->middleware('auth');
     }
 
     /**
@@ -165,24 +165,22 @@ class PrivmsgController extends Controller
 	}
 
 	/**
-     * Show a page with the user messages
-     * @param  \Illuminate\Http\Request  $request
-	 * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
+	* Show a page with the user messages
+	* @param  \Illuminate\Http\Request  $request
+	* @param  int $id
+	* @return \Illuminate\Http\Response
+	*/
 	public function getAnkMess(Request $request, $id)
-    {
+	{
 		$user 			= Auth::user()->load(['visits']);
 		$anket 			= User::getById ($id);
 		$messages 		= Message::getAllByUser($id, $user->user_id, self::$messageAnkPerPage);
 		$vote 			= isset ($request->golos) ? (int)$request->golos : 0;
 		$vote 			= $vote > 5 ? 5 : $vote;
-
-		$page 			= $messages->currentPage();
 		$pagination 	= Helper::preparePagination ($messages->toArray()['links']);
 		$smiles			= Smile::getAll();
 
-		$affectedRows	= AnketEvaluation::getEvaluations($user->user_id, $id);
+		$affectedRows	= $this->anketEvaluationRepository->getEvaluations($user->user_id, $id);
 
 		if (count ($affectedRows) == 0) 
 		{

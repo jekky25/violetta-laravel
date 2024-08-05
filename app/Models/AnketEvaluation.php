@@ -3,7 +3,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class AnketEvaluation extends Model
 {
@@ -18,21 +17,6 @@ class AnketEvaluation extends Model
 		'ball',
 		'time'
 	  ];
-
-	/**
-     * get evaluation
-     * @param  int  $userIdAct
-	 * @param  int  $userId
-     * @return \Illuminate\Database\Eloquent\Collection 
-     */
-	public static function getEvaluations($userIdAct, $userId)
-	{
-		$items = self::select('*')
-		->where('user_id', $userIdAct)
-		->where('user_id_ocenka', $userId)
-        ->get();
-    	return $items;
-	}
 
 	/**
      * get the summ of all evaluations
