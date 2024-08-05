@@ -16,6 +16,7 @@ use App\Models\Photo;
 use App\Models\Diary;
 use App\Models\DiaryComment;
 use App\Interfaces\AnketEvaluationInterface;
+use App\Interfaces\AnketVisitInterface;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -73,6 +74,7 @@ class AnkController extends Controller
 	*/
 	public function __construct(
 		protected AnketEvaluationInterface $anketEvaluationRepository,
+		protected AnketVisitInterface $anketVisitRepository,
 	)
 	{
 	}
@@ -111,7 +113,7 @@ class AnkController extends Controller
 		$row ['user_last_visit'] .= last_visit($row['user_lastvisit']);
 	}*/
 
-		$visits = AnketVisit::getVisitsByUserId ($id, self::$visitDays);
+		$visits = $this->anketVisitRepository->getVisitsByUserId ($id, self::$visitDays);
 		
 		$anket->userank_visits_month = !empty ($visits) ? count ($visits) : 0 ;
 
@@ -123,7 +125,7 @@ class AnkController extends Controller
 		//making an ankets review and a count of views
 		if (!empty ($user))
 		{
-			$ankVisits = AnketVisit::getVisitsByUserId ($id, self::$visitDays, $user->user_id);
+			$ankVisits = $this->anketVisitRepository->getVisitsByUserId ($id, self::$visitDays, $user->user_id);
 			$anket->ankVisits = count($ankVisits);
 			if ($anket->ankVisits == 0 && $user->user_id != $id && $user->user_id > 1)
 			{
@@ -282,10 +284,9 @@ class AnkController extends Controller
 		if (!count ($anket->photo)) abort (404);
 		$user = Auth::user();
 		$user = !empty($user) ? $user->load(['visits']) : null;
-		$visits = AnketVisit::getVisitsByUserId ($id, self::$visitDays);
 		$vars 	= Vars::getAll();
 
-		$ankVisits = AnketVisit::getVisitsByUserId ($id, self::$visitDays, $user->user_id);
+		$ankVisits = $this->anketVisitRepository->getVisitsByUserId ($id, self::$visitDays, $user->user_id);
 		$anket->ankVisits = count($ankVisits);
 
 		if ($anket->ankVisits == 0 && $user->user_id != $id && $user->user_id > 1) 

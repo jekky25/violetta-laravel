@@ -18,27 +18,6 @@ class AnketVisit extends Model
 	];
 
 	/**
-    * get user visits over userId
-    * @param  int  $int
-	* @param  int  $days
-	* @param  int  $userId
-    * @return \Illuminate\Database\Eloquent\Collection 
-    */
-	public static function getVisitsByUserId($id, $days, $userId = 0)
-	{
-		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
-		$items = self::select('*')
-		->where('user_id_prosm', $id)
-		->where('ank_time', '>', $time['timestamp']);
-
-		if ($userId > 0)
-			$items->where('ank_user_id', $userId);
-
-        $items = $items->get();
-    	return $items;
-	}
-
-	/**
     * get user visits over user fields
     * @param  array  $fields
     * @return \Illuminate\Database\Eloquent\Collection
