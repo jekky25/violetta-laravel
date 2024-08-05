@@ -6,6 +6,28 @@ use App\Interfaces\AnketVisitInterface;
 use App\Models\AnketVisit;
 
 class AnketVisitRepository implements AnketVisitInterface {
+
+	protected $fields = [];
+
+	/**
+	* set fields
+	* @param  array $fields
+	* @return void
+	*/
+	public function setFields($fields)
+	{
+		$this->fields = $fields;
+	}
+
+	/**
+	* get fields
+	* @return array
+	*/
+	public function getFields()
+	{
+		return $this->fields;
+	}
+
 	/**
 	* get visits of the new users
 	* @param  \Illuminate\Database\Eloquent\Collection  $user
@@ -50,14 +72,14 @@ class AnketVisitRepository implements AnketVisitInterface {
 	{
 		$user 	= \Auth::user();
 		if (empty ($user)) abort (404);
-
 		$aFields = [
 			'user_id_prosm' => $id,
 			'ank_user_id' 	=> $user->user_id
 		];
+		$this->setFields($aFields);
 
 		try {
-			$ankVisits = AnketVisit::getByFields ($aFields);
+			$ankVisits = $this->getByFields ();
 			if (!empty($ankVisits))
 			{
 				$ankVisits->ank_time = time();
@@ -66,5 +88,25 @@ class AnketVisitRepository implements AnketVisitInterface {
         } catch (\Exception $e) {
             throw new \Exception('Failed to update user visits. '.$e->getMessage());
         }
+	}
+
+	/**
+	* get user visits over user fields
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getByFields ()
+	{
+		$fields = $this->getFields();
+		if (empty($fields)) return null;
+		$items = AnketVisit::select('*');
+		foreach ($fields as $k => $v)
+		{
+			$items->where ($k, $v);
+		}
+		$items = $items->get();
+
+		if (count($items) == 1)
+			$items = $items[0];
+		return $items;
 	}
 }

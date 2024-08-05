@@ -18,26 +18,6 @@ class AnketVisit extends Model
 	];
 
 	/**
-    * get user visits over user fields
-    * @param  array  $fields
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function getByFields ($fields = [])
-	{
-		if (empty($fields)) return null;
-		$items = self::select('*');
-		foreach ($fields as $k => $v)
-		{
-			$items->where ($k, $v);
-		}
-		$items = $items->get();
-
-		if (count($items) == 1)
-			$items = $items[0];
-		return $items;
-	}
-
-	/**
     * insert user visite
     * @param  int  $id
     * @return void 
