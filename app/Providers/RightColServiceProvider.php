@@ -1,16 +1,12 @@
 <?php
 namespace App\Providers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\AnketVisit;
-use Illuminate\Support\Facades\Session;
 use App\Helpers\Helper;
+use App\Repositories\AnketVisitRepository;
 
 class RightColServiceProvider extends ServiceProvider
 {
@@ -31,6 +27,8 @@ class RightColServiceProvider extends ServiceProvider
 	*/
 	public function boot()
 	{
+		$this->anketVisitRepository = new AnketVisitRepository();
+
 		View::composer('*', function($view) {
 			$user = Auth::user();
 			if (!empty ($user))
@@ -38,7 +36,7 @@ class RightColServiceProvider extends ServiceProvider
 				$user = $user->load(['visits']);
 				$user->user_lastvisit_format	= Helper::getDate($user->user_lastvisit);
 				$user->monthVisits				= count ($user->visits);
-				$user->monthVisitsNew			= count (AnketVisit::visitsNew($user));
+				$user->monthVisitsNew			= count ($this->anketVisitRepository->visitsNew($user));
 			}
 
             $view->with(['user' => $user]);

@@ -3,10 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
-use App\Helpers\Helper;
 
 class AnketVisit extends Model
 {
@@ -18,21 +15,7 @@ class AnketVisit extends Model
 		'ank_user_id',
 		'user_id_prosm',
 		'ank_time'
-	  ];
-
-	/**
-    * get visits of the new users
-    * @param  \Illuminate\Database\Eloquent\Collection  $user
-    * @return \Illuminate\Database\Eloquent\Collection 
-    */
-	public static function visitsNew($user)
-	{
-		$items = self::select('*')
-		->where('user_id_prosm', $user->user_id)
-		->where('ank_time', '>', $user->user_lastvisit_views)
-        ->get();
-    	return $items;
-	}
+	];
 
 	/**
     * get user visits over userId
