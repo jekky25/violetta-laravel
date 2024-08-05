@@ -38,28 +38,6 @@ class AnketVisit extends Model
 	}
 
 	/**
-    * update user visite
-    * @param  int  $id
-    * @return void 
-    */
-	public static function updateVisit ($id)
-	{
-		$user 	= Auth::user();
-		if (empty ($user)) abort (404);
-
-		$aFields = [
-			'user_id_prosm' => $id,
-			'ank_user_id' 	=> $user->user_id
-		];
-		$ankVisits = self::getByFields ($aFields);
-		if (!empty($ankVisits))
-		{
-			$ankVisits->ank_time = time();
-			$ankVisits->save();
-		}
-	}
-
-	/**
     * insert user visite
     * @param  int  $id
     * @return void 

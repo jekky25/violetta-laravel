@@ -40,4 +40,31 @@ class AnketVisitRepository implements AnketVisitInterface {
 		$items = $items->get();
 		return $items;
 	}
+
+	/**
+	* update user visits
+	* @param  int  $id
+	* @return void 
+	*/
+	public function updateVisit ($id)
+	{
+		$user 	= \Auth::user();
+		if (empty ($user)) abort (404);
+
+		$aFields = [
+			'user_id_prosm' => $id,
+			'ank_user_id' 	=> $user->user_id
+		];
+
+		try {
+			$ankVisits = AnketVisit::getByFields ($aFields);
+			if (!empty($ankVisits))
+			{
+				$ankVisits->ank_time = time();
+				$ankVisits->save();
+			}
+        } catch (\Exception $e) {
+            throw new \Exception('Failed to update user visits. '.$e->getMessage());
+        }
+	}
 }

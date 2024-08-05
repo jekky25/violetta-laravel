@@ -132,7 +132,7 @@ class AnkController extends Controller
 				AnketVisit::insertVisit($id);
 				AnketVisit::removeOld(self::$visitDays);
 			} elseif ($anket->ankVisits > 0 && $user->user_id != $id)
-				AnketVisit::updateVisit($id);
+				$this->anketVisitRepository->updateVisit($id);
 
 			$affectedRows = $this->anketEvaluationRepository->getEvaluations($user->user_id, $id);
 			if (count ($affectedRows) == 0)
@@ -294,7 +294,7 @@ class AnkController extends Controller
 			AnketVisit::insertVisit($id);
 			AnketVisit::removeOld(self::$visitDays);
 		} elseif ($anket->ankVisits > 0 && $user->user_id != $id)
-			AnketVisit::updateVisit($id);
+			$this->anketVisitRepository->updateVisit($id);
 
 		foreach ($anket->photo as &$item)
 		{
