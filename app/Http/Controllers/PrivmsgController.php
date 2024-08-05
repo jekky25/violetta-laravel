@@ -201,7 +201,7 @@ class PrivmsgController extends Controller
 					$ankEvaluationed = true;
 				}
 
-				$voteSum = AnketEvaluation::getSum ($id);
+				$voteSum = $this->anketEvaluationRepository->getSum ($id);
 				if ($voteSum > 0)
 				{
 					$anket = User::getJustById($id);

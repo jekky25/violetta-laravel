@@ -129,11 +129,11 @@ class AnkController extends Controller
 			{
 				AnketVisit::insertVisit($id);
 				AnketVisit::removeOld(self::$visitDays);
-			} elseif ($anket->ankVisits > 0 && $user->user_id != $id) 
+			} elseif ($anket->ankVisits > 0 && $user->user_id != $id)
 				AnketVisit::updateVisit($id);
 
 			$affectedRows = $this->anketEvaluationRepository->getEvaluations($user->user_id, $id);
-			if (count ($affectedRows) == 0) 
+			if (count ($affectedRows) == 0)
 			{
 				if ($request->has('send_golos') && $vote > 0) 
 				{
@@ -152,7 +152,7 @@ class AnkController extends Controller
 						$ankEvaluationed = true;
 					}
 
-					$voteSum = AnketEvaluation::getSum ($id);
+					$voteSum = $this->anketEvaluationRepository->getSum ($id);
 					if ($voteSum > 0)
 					{
 						$anket = User::getJustById($id);

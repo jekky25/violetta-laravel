@@ -12,7 +12,7 @@ class AnketEvaluationRepository implements AnketEvaluationInterface {
 	* @param  int  $userId
 	* @return \Illuminate\Database\Eloquent\Collection 
 	*/
-	public static function getEvaluations($userIdAct, $userId)
+	public function getEvaluations($userIdAct, $userId)
 	{
 		$items = AnketEvaluation::select('*')
 		->where('user_id', $userIdAct)
@@ -21,4 +21,16 @@ class AnketEvaluationRepository implements AnketEvaluationInterface {
     	return $items;
 	}
 
+	/**
+	* get the summ of all evaluations
+	* @param  int  $id
+	* @return \Illuminate\Database\Eloquent\Collection 
+	*/
+	public function getSum($id)
+	{
+		$item = AnketEvaluation::select(['*'])
+		->where('user_id_ocenka', $id)
+		->sum('ball','sum_ank');
+		return (int)$item;
+	}
 }

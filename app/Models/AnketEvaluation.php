@@ -16,18 +16,5 @@ class AnketEvaluation extends Model
 		'user_id_ocenka',
 		'ball',
 		'time'
-	  ];
-
-	/**
-     * get the summ of all evaluations
-     * @param  int  $id
-     * @return \Illuminate\Database\Eloquent\Collection 
-     */
-	public static function getSum($id)
-	{
-		$item = self::select(['*'])
-		->where('user_id_ocenka', $id)
-		->sum('ball','sum_ank');
-		return (int)$item;
-	}
+	];
 }
