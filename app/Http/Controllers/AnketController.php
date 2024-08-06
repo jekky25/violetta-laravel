@@ -8,7 +8,7 @@ use App\Interfaces\CityInterface;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\Region;
-use App\Models\Body;
+use App\Repositories\BodyRepository;
 use App\Models\HairType;
 use App\Models\Eyes;
 use App\Helpers\Helper;
@@ -357,7 +357,7 @@ class AnketController extends Controller
 			if ($body > 0) 
 			{
 				$ankets->where ('user_body', $body);
-				$oBody = Body::getById ($body);
+				$oBody = BodyRepository::getById ($body);
 				$critBody = '<br /> телосложение <strong>' . $oBody->name . '</strong>';
 				$crits		= true;
 			}
