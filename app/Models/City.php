@@ -3,29 +3,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-
-use App\Models\CategoryHome;
 
 class City extends Model
 {
 	use HasFactory;
-
 	protected $table = 'city';
-
-	/**
-    * get cities of the region by regionId
-    * @param  int $id
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function getByRegionId($id)
-	{
-		$items = self::select('*')
-		->where ('regions_id', $id)
-		->orderBy('name', 'asc')
-		->get();
-		return $items;
-	}
 
 	/**
     * get city by cityId

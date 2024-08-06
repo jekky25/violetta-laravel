@@ -7,12 +7,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Interfaces\BanListInterface;
+use App\Interfaces\CityInterface;
 
 use Validator;
 use App\Helpers\Helper;
 use App\Models\Country;
 use App\Models\Region;
-use App\Models\City;
 use App\Models\User;
 use App\Models\Photo;
 use App\Models\AnketVisit;
@@ -150,6 +150,7 @@ class RegistrationController extends Controller
 
 	public function __construct(
 		protected BanListInterface $banListRepository,
+		protected CityInterface $cityRepository,
 	)
 	{
 	}
@@ -168,7 +169,7 @@ class RegistrationController extends Controller
 		$countryId	= (int) old ('country', $user->user_country);
 		$regionId	= (int) old ('region', $user->user_region);
 		$regions 	= $countryId > 0 	? Region::getByCountryId($countryId) 	: [];
-		$cities 	= $regionId	> 0 	? City::getByRegionId($regionId) 		: [];
+		$cities 	= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
 
 		return response()->view ('registration.edit',
 		[
@@ -259,7 +260,7 @@ class RegistrationController extends Controller
 		$countryId	= (int) old ('country', $user->user_partner_country);
 		$regionId	= (int) old ('region', $user->user_partner_region);
 		$regions 	= $countryId > 0 	? Region::getByCountryId($countryId) 	: [];
-		$cities 	= $regionId	> 0 	? City::getByRegionId($regionId) 		: [];
+		$cities 	= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
 
 		return response()->view ('registration.partner',
 		[
@@ -963,7 +964,7 @@ class RegistrationController extends Controller
 		$countryId	= (int) old ('country');
 		$regionId	= (int) old ('region');
 		$regions 	= $countryId > 0 	? Region::getByCountryId($countryId) 	: [];
-		$cities 	= $regionId	> 0 	? City::getByRegionId($regionId) 		: [];
+		$cities 	= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
 
 		return response()->view ('registration.registration',
 		[

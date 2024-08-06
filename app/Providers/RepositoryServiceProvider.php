@@ -9,6 +9,7 @@ use App\Repositories\AnketEvaluationRepository;
 use App\Repositories\AnketVisitRepository;
 use App\Repositories\BanListRepository;
 use App\Repositories\UserPropertyRepository;
+use App\Repositories\CityRepository;
 
 use App\Interfaces\GoroskopInterface;
 use App\Interfaces\NameInterface;
@@ -18,6 +19,7 @@ use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\AnketVisitInterface;
 use App\Interfaces\BanListInterface;
 use App\Interfaces\UserPropertyInterface;
+use App\Interfaces\CityInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -36,6 +38,7 @@ class RepositoryServiceProvider extends ServiceProvider
 		$this->app->bind(AnketVisitInterface::class, AnketVisitRepository::class);
 		$this->app->bind(BanListInterface::class, BanListRepository::class);
 		$this->app->bind(UserPropertyInterface::class, UserPropertyRepository::class);
+		$this->app->bind(CityInterface::class, CityRepository::class);
 	}
 
 	/**
