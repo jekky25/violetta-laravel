@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Interfaces\BanListInterface;
 use App\Interfaces\CityInterface;
+use App\Interfaces\CountryInterface;
 
 use Validator;
 use App\Helpers\Helper;
@@ -151,21 +152,22 @@ class RegistrationController extends Controller
 	public function __construct(
 		protected BanListInterface $banListRepository,
 		protected CityInterface $cityRepository,
+		protected CountryInterface $countryRepository
 	)
 	{
 	}
 
 	/**
-	 * Show an edit short profile page
-	 * @return \Illuminate\Http\Response
-	 */
+	* Show an edit short profile page
+	* @return \Illuminate\Http\Response
+	*/
 	public function edit ()
 	{
 		$user 		= Auth::user();
 		$days 		= Helper::getDays();
 		$months 	= Helper::getMonths();
 		$years 		= Helper::getYears();
-		$countries	= Country::getAll();
+		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old ('country', $user->user_country);
 		$regionId	= (int) old ('region', $user->user_region);
 		$regions 	= $countryId > 0 	? Region::getByCountryId($countryId) 	: [];
@@ -184,9 +186,9 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Show an edit full profile page
-	 * @return \Illuminate\Http\Response
-	 */
+	* Show an edit full profile page
+	* @return \Illuminate\Http\Response
+	*/
 	public function second ()
 	{
 		$user 			= Auth::user();
@@ -241,9 +243,9 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Show an edit partner page
-	 * @return \Illuminate\Http\Response
-	 */
+	* Show an edit partner page
+	* @return \Illuminate\Http\Response
+	*/
 	public function partner ()
 	{
 		$user 				= Auth::user();
@@ -256,7 +258,7 @@ class RegistrationController extends Controller
 		$partnerSmoke		= Helper::BlockSelect("partner_smoke[]",SMOKE_CLASS, old ('partner_smoke', $user->user_partner_smoke),2);
 		$partnerEducation	= Helper::BlockSelect("partner_education[]",EDUCATION_CLASS, old ('partner_education', $user->user_partner_education),2);
 
-		$countries	= Country::getAll();
+		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old ('country', $user->user_partner_country);
 		$regionId	= (int) old ('region', $user->user_partner_region);
 		$regions 	= $countryId > 0 	? Region::getByCountryId($countryId) 	: [];
@@ -280,9 +282,9 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Show an edit page with the user pictures
-	 * @return \Illuminate\Http\Response
-	 */
+	* Show an edit page with the user pictures
+	* @return \Illuminate\Http\Response
+	*/
 	public function photo ()
 	{
 		$user = User::with('photo')->find(Auth::id());
@@ -293,31 +295,28 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Show a change password page
-     * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function pass (Request $request)
+	* Show a change password page
+	* @return \Illuminate\Http\Response
+	*/
+	public function pass ()
 	{
 		return response()->view ('registration.pass');
 	}
 
 	/**
-	 * Show a delete profile page
-     * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function delete (Request $request)
+	* Show a delete profile page
+	* @return \Illuminate\Http\Response
+	*/
+	public function delete ()
 	{
 		return response()->view ('registration.delete');
 	}
 
 	/**
-	 * Delete profile
-     * @param  \Illuminate\Http\Request  $request
-	 * @return void
-	 */
-	public function deleteConfirm (Request $request)
+	* Delete profile
+	* @return void
+	*/
+	public function deleteConfirm ()
 	{
 		$user = Auth::user();
 		if (count ($user->photo) > 0)
@@ -338,10 +337,10 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Change user password
-     * @param  \Illuminate\Http\Request  $request
-	 * @return void
-	 */
+	* Change user password
+	* @param  \Illuminate\Http\Request  $request
+	* @return void
+	*/
 	public function passPost (Request $request)
 	{
 		$user 			= Auth::user();
@@ -376,12 +375,11 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Show an edit picture page
-     * @param  \Illuminate\Http\Request  $request
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function editPhoto (Request $request, $id)
+	* Show an edit picture page
+	* @param int $id
+	* @return \Illuminate\Http\Response
+	*/
+	public function editPhoto ($id)
 	{
 		$user 	= User::with('photo')->find(Auth::id());
 		$photo 	= [];
@@ -404,11 +402,11 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Reupload an user picture
-     * @param  \Illuminate\Http\Request  $request
-	 * @param int $id
-	 * @return void
-	 */
+	* Reupload an user picture
+	* @param  \Illuminate\Http\Request  $request
+	* @param int $id
+	* @return void
+	*/
 	public function editPhotoPost (Request $request, $id)
 	{
 		$user 			= User::with('photo')->find(Auth::id());
@@ -427,7 +425,6 @@ class RegistrationController extends Controller
 						->withErrors($strError, 'comment')
 						->withInput();
 		}
-
 		
 		if (empty ($photo) || $photo->user_id != $user->user_id)
 		{
@@ -458,10 +455,10 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Add an user picture
-     * @param  \Illuminate\Http\Request  $request
-	 * @return void
-	 */
+	* Add an user picture
+	* @param  \Illuminate\Http\Request  $request
+	* @return void
+	*/
 	public function photoPost (Request $request)
 	{
 		$user 			= Auth::user();
@@ -513,10 +510,10 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Edit a short user profile
-     * @param  \Illuminate\Http\Request  $request
-	 * @return void
-	 */
+	* Edit a short user profile
+	* @param  \Illuminate\Http\Request  $request
+	* @return void
+	*/
 	public function editPost (Request $request)
 	{
 		$user 			= Auth::user();
@@ -573,10 +570,10 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Edit a full user profile
-     * @param  \Illuminate\Http\Request  $request
-	 * @return void
-	 */
+	* Edit a full user profile
+	* @param  \Illuminate\Http\Request  $request
+	* @return void
+	*/
 	public function secondPost (Request $request)
 	{
 		$user 			= Auth::user();
@@ -614,10 +611,10 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Edit a partner profile
-     * @param  \Illuminate\Http\Request  $request
-	 * @return void
-	 */
+	* Edit a partner profile
+	* @param  \Illuminate\Http\Request  $request
+	* @return void
+	*/
 	public function partnerPost (Request $request)
 	{
 		$user 			= Auth::user();
@@ -680,13 +677,13 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Delete an user picture
-     * @param  \Illuminate\Http\Request  $request
-	 * @param int $id
-	 * @return void
-	 */
+	* Delete an user picture
+	* @param  \Illuminate\Http\Request  $request
+	* @param int $id
+	* @return void
+	*/
 	public function deletePhoto(Request $request, $id)
-    {
+	{
 		$user 			= Auth::user();
 		$arParams 		= $request->post();
 
@@ -743,11 +740,10 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Show a user diary page
-     * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function diary (Request $request)
+	* Show a user diary page
+	* @return \Illuminate\Http\Response
+	*/
+	public function diary ()
 	{
 		$user 			= Auth::user();
 		$userId			= $user->user_id;
@@ -763,20 +759,19 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Show a setting page
-     * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function settings (Request $request)
+	* Show a setting page
+	* @return \Illuminate\Http\Response
+	*/
+	public function settings ()
 	{
 		return response()->view ('registration.settings');
 	}
 
 	/**
-	 * Update user settings
-     * @param  \Illuminate\Http\Request  $request
-	 * @return void
-	 */
+	* Update user settings
+	* @param  \Illuminate\Http\Request  $request
+	* @return void
+	*/
 	public function settingsPost (Request $request)
 	{
 		$user 			= Auth::user();
@@ -792,11 +787,10 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * Show a top100 page
-     * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function top100 (Request $request)
+	* Show a top100 page
+	* @return \Illuminate\Http\Response
+	*/
+	public function top100 ()
 	{
 		$user 			= Auth::user();
 		
@@ -825,11 +819,10 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * update top100
-     * @param  \Illuminate\Http\Request  $request
-	 * @return void
-	 */
-	public function top100Post (Request $request)
+	* update top100
+	* @return void
+	*/
+	public function top100Post ()
 	{
 		$user 			= Auth::user();
 		if (count ($user->photo) == 0)
@@ -853,7 +846,6 @@ class RegistrationController extends Controller
 			);
 		}
 
-
 		$user->user_top100			= time();
 		$user->update();
 
@@ -861,9 +853,9 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * logout
-	 * @return void
-	 */
+	* logout
+	* @return void
+	*/
 	public function logout ()
 	{
 		$user 			= Auth::user();
@@ -872,10 +864,10 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * login
-     * @param  \Illuminate\Http\Request  $request
-	 * @return void
-	 */
+	* login
+	* @param  \Illuminate\Http\Request  $request
+	* @return void
+	*/
 	public function login (Request $request)
 	{
 		$arParams 		= $request->post();
@@ -896,20 +888,19 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * show a forget password page
-     * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function forgetPass (Request $request)
+	* show a forget password page
+	* @return \Illuminate\Http\Response
+	*/
+	public function forgetPass ()
 	{
 		return response()->view ('registration.forget_pass');
 	}
 
 	/**
-	 * send email from the forget password page
-     * @param  \Illuminate\Http\Request  $request
-	 * @return void
-	 */
+	* send email from the forget password page
+	* @param  \Illuminate\Http\Request  $request
+	* @return void
+	*/
 	public function forgetPassPost (Request $request)
 	{
 		$arParams 		= $request->post();
@@ -943,12 +934,10 @@ class RegistrationController extends Controller
         	->send(new Email($oMail));
 		}
 		return redirect()->route(Route::currentRouteName())->with('success','<p>На адрес <strong>' . $email . '</strong> было выслано письмо с вашим паролем!');
-
 	}
 
 	/**
 	* show a registration page
-	* @param  \Illuminate\Http\Request  $request
 	* @return \Illuminate\Http\Response
 	*/
 	public function registration ()
@@ -960,7 +949,7 @@ class RegistrationController extends Controller
 		$days 		= Helper::getDays();
 		$months 	= Helper::getMonths();
 		$years 		= Helper::getYears();
-		$countries	= Country::getAll();
+		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old ('country');
 		$regionId	= (int) old ('region');
 		$regions 	= $countryId > 0 	? Region::getByCountryId($countryId) 	: [];

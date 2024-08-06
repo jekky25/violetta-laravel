@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\CityInterface;
+use App\Interfaces\CountryInterface;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\Region;
@@ -25,16 +26,17 @@ class AnketController extends Controller
 	* @return void
 	*/
 	public function __construct(
-		protected CityInterface $cityRepository
+		protected CityInterface $cityRepository,
+		protected CountryInterface $countryRepository
 	)
 	{
 	}
 
 	/**
-	 * show the page with the must populars profiles
-     * @param  string  $sex
-	 * @return \Illuminate\Http\Response
-	 */
+	* show the page with the must populars profiles
+	* @param  string  $sex
+	* @return \Illuminate\Http\Response
+	*/
 	public function getPopularAnkets ($sex = 'women')
 	{
 		$s 					= $sex == 'men' ? MEN 		: WOMEN;
@@ -54,13 +56,12 @@ class AnketController extends Controller
 	}
 
 	/**
-	 * show the page with profiles who celebrates a birthday today
-	 * @return \Illuminate\Http\Response
-	 */
+	* show the page with profiles who celebrates a birthday today
+	* @return \Illuminate\Http\Response
+	*/
 	public function getBirthdayAnkets ()
 	{
 		$ankets 			= User::getBirthday($this->countPerPage);
-
 		$page 				= $ankets->currentPage();
 		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
 
@@ -73,10 +74,10 @@ class AnketController extends Controller
 	}
 
 	/**
-	 * show the page with the best proprofiles
-	 * @param  string  $sex
-	 * @return \Illuminate\Http\Response
-	 */
+	* show the page with the best proprofiles
+	* @param  string  $sex
+	* @return \Illuminate\Http\Response
+	*/
 	public function getBestAnkets ($sex)
 	{
 		$s 					= $sex == 'men' ? MEN 		: WOMEN;
@@ -109,9 +110,9 @@ class AnketController extends Controller
 	}
 
 	/**
-	 * show the page with views
-	 * @return \Illuminate\Http\Response
-	 */
+	* show the page with views
+	* @return \Illuminate\Http\Response
+	*/
 	public function getViews ()
 	{
 		$ankets 					= User::getViews($this->countPerPage);
@@ -130,11 +131,11 @@ class AnketController extends Controller
 	}
 
 	/**
-	 * show the page with profiles
-	 * @param  string  $sex
-	 * @param  int  $op
-	 * @return \Illuminate\Http\Response
-	 */
+	* show the page with profiles
+	* @param  string  $sex
+	* @param  int  $op
+	* @return \Illuminate\Http\Response
+	*/
 	public function getAnkets ($sex = '', $op = '')
 	{
 		$s					= $sex == 'men' ? MEN 		: WOMEN;
@@ -457,9 +458,8 @@ class AnketController extends Controller
 					$critsSearch .= '<br />сейчас <strong>на сайте</strong>';
 			}
 		}
-
 		$ages 		= Helper::getAges();
-		$countries 	= Country::getAll();
+		$countries 	= $this->countryRepository->getAll();
 		$heights 	= Helper::getHeights();
 		$weights 	= Helper::getWeights();
 		$body 		= Helper::BlockSelect('body',BODY_CLASS,0,0);
