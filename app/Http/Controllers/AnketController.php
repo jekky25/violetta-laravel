@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Interfaces\CityInterface;
 use App\Interfaces\CountryInterface;
 use App\Models\User;
-use App\Models\Country;
 use App\Models\Region;
 use App\Repositories\BodyRepository;
 use App\Models\HairType;
@@ -444,7 +443,7 @@ class AnketController extends Controller
 
 				if ($country > 0) 
 				{
-					$oCountry = Country::getById ($country);
+					$oCountry = $this->countryRepository->getById ($country);
 					if ($city > 0 || $region > 0)
 						$critsSearch .= ' (<strong>' . $oCountry->name . ')</strong>';
 					else

@@ -17,4 +17,17 @@ class CountryRepository implements CountryInterface {
 		->get();
 		return $items;
 	}
+
+	/**
+	* get a country by id
+	* @param  int $id
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public static function getById($id)
+	{
+		$item = Country::select('*')
+		->where ('id', $id)
+		->first();
+		return $item;
+	}
 }
