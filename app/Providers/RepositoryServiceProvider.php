@@ -7,6 +7,7 @@ use App\Repositories\GoroskopTypeRepository;
 use App\Repositories\ScreenRepository;
 use App\Repositories\AnketEvaluationRepository;
 use App\Repositories\AnketVisitRepository;
+use App\Repositories\BanListRepository;
 
 use App\Interfaces\GoroskopInterface;
 use App\Interfaces\NameInterface;
@@ -14,6 +15,7 @@ use App\Interfaces\GoroskopTypeInterface;
 use App\Interfaces\ScreenInterface;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\AnketVisitInterface;
+use App\Interfaces\BanListInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -30,6 +32,7 @@ class RepositoryServiceProvider extends ServiceProvider
 		$this->app->bind(ScreenInterface::class, ScreenRepository::class);
 		$this->app->bind(AnketEvaluationInterface::class, AnketEvaluationRepository::class);
 		$this->app->bind(AnketVisitInterface::class, AnketVisitRepository::class);
+		$this->app->bind(BanListInterface::class, BanListRepository::class);
 	}
 
 	/**

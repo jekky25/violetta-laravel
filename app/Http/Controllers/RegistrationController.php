@@ -3,10 +3,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Interfaces\BanListInterface;
 
 use Validator;
 use App\Helpers\Helper;
@@ -17,7 +17,6 @@ use App\Models\User;
 use App\Models\Photo;
 use App\Models\AnketVisit;
 use App\Models\Diary;
-use App\Models\BanList;
 use App\Mail\Email;
 
 class RegistrationController extends Controller
@@ -143,23 +142,23 @@ class RegistrationController extends Controller
 	public static $countPerPage 	= 10;
 	
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
 
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
+	public function __construct(
+		protected BanListInterface $banListRepository,
+	)
+	{
+	}
 
 	/**
 	 * Show an edit short profile page
-     * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit (Request $request)
+	public function edit ()
 	{
 		$user 		= Auth::user();
 		$days 		= Helper::getDays();
@@ -185,10 +184,9 @@ class RegistrationController extends Controller
 
 	/**
 	 * Show an edit full profile page
-     * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function second (Request $request)
+	public function second ()
 	{
 		$user 			= Auth::user();
 		$sexOrient 		= Helper::BlockSelect('sex_orient',SEX_ORIENT_CLASS,$user->user_sex_orient,2);
@@ -243,10 +241,9 @@ class RegistrationController extends Controller
 
 	/**
 	 * Show an edit partner page
-     * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function partner (Request $request)
+	public function partner ()
 	{
 		$user 				= Auth::user();
 		$age 				= Helper::getAges();
@@ -950,11 +947,11 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * show a registration page
-     * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function registration (Request $request)
+	* show a registration page
+	* @param  \Illuminate\Http\Request  $request
+	* @return \Illuminate\Http\Response
+	*/
+	public function registration ()
 	{
 		if (session('success')) return response()->view ('registration.finish');
 		$user 			= Auth::user();
@@ -989,7 +986,7 @@ class RegistrationController extends Controller
 	{
 		$arParams 				= $request->post();
 		$ip 					= $request->ip();
-		$ban 					= BanList::getByIP($ip);
+		$ban 					= $this->banListRepository->getByIP($ip);
 		$login 					= !empty ($arParams ['login']) 				? $arParams['login'] 				: '';
 		$password 				= !empty ($arParams ['password'])			? $arParams['password'] 			: '';
 		$password_second 		= !empty ($arParams ['password_second'])	? $arParams['password_second']		: '';
