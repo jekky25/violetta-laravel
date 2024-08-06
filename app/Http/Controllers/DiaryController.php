@@ -3,7 +3,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\DiaryInterface;
-use App\Models\Diary;
 use App\Helpers\Helper;
 
 class DiaryController extends Controller

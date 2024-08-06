@@ -16,6 +16,7 @@ use App\Models\Diary;
 use App\Models\DiaryComment;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\AnketVisitInterface;
+use App\Interfaces\DiaryInterface;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -74,6 +75,7 @@ class AnkController extends Controller
 	public function __construct(
 		protected AnketEvaluationInterface $anketEvaluationRepository,
 		protected AnketVisitInterface $anketVisitRepository,
+		protected DiaryInterface $diaryRepository
 	)
 	{
 	}
@@ -335,11 +337,11 @@ class AnkController extends Controller
 	}
 
 	/**
-	 * post pictures comments
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-	 * @return \Illuminate\Http\Response
-	 */
+	* post pictures comments
+	* @param  \Illuminate\Http\Request  $request
+	* @param  int $id
+	* @return \Illuminate\Http\Response
+	*/
 	public function postComment (Request $request, $id)
 	{
 		//making sending comment
@@ -381,20 +383,18 @@ class AnkController extends Controller
 		->with('success','Сообщение успешно отправлено')
 		->withInput();
 	}
-
 	
 	/**
-	 * show an user diary page
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function getDiary (Request $request, $id)
+	* show an user diary page
+	* @param  int $id
+	* @return \Illuminate\Http\Response
+	*/
+	public function getDiary ($id)
 	{
 		$anket 	= User::getById ($id);
 		if (empty ($anket->photo)) abort (404);
 
-		$diaries = Diary::getByUser (self::$diaryPerPage, $id);
+		$diaries = $this->diaryRepository->getByUser (self::$diaryPerPage, $id);
 		if (count ($diaries) == 0) abort (404);
 
 		$page 				= $diaries->currentPage();

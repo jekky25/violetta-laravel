@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\Mail;
 use App\Interfaces\BanListInterface;
 use App\Interfaces\CityInterface;
 use App\Interfaces\CountryInterface;
+use App\Interfaces\DiaryInterface;
 
 use Validator;
 use App\Helpers\Helper;
-use App\Models\Country;
 use App\Models\Region;
 use App\Models\User;
 use App\Models\Photo;
 use App\Models\AnketVisit;
-use App\Models\Diary;
 use App\Mail\Email;
 
 class RegistrationController extends Controller
@@ -152,7 +151,8 @@ class RegistrationController extends Controller
 	public function __construct(
 		protected BanListInterface $banListRepository,
 		protected CityInterface $cityRepository,
-		protected CountryInterface $countryRepository
+		protected CountryInterface $countryRepository,
+		protected DiaryInterface $diaryRepository
 	)
 	{
 	}
@@ -747,7 +747,7 @@ class RegistrationController extends Controller
 	{
 		$user 			= Auth::user();
 		$userId			= $user->user_id;
-		$diaries 		= Diary::getByUser (self::$countPerPage, $userId);
+		$diaries 		= $this->diaryRepository->getByUser (self::$countPerPage, $userId);
 		$page			= $diaries->currentPage();
 		$pagination		= Helper::preparePagination ($diaries->toArray()['links']);
 
