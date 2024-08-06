@@ -2,15 +2,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
-use App\Models\AnketVisit;
+use App\Interfaces\CityInterface;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\Region;
-use App\Models\City;
 use App\Models\Body;
 use App\Models\HairType;
 use App\Models\Eyes;
@@ -22,16 +19,16 @@ class AnketController extends Controller
 	public $countPerPage 	= 10;
 	public $countNewFaces 	= 5;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct(
+		protected CityInterface $cityRepository
+	)
+	{
+	}
 
 	/**
 	 * show the page with the must populars profiles
@@ -206,10 +203,10 @@ class AnketController extends Controller
 	}
 	
 	/**
-	 * show the page with profiles by filter
-	 * @param  \Illuminate\Http\Request  $request 
-	 * @return \Illuminate\Http\Response
-	 */
+	* show the page with profiles by filter
+	* @param  \Illuminate\Http\Request  $request 
+	* @return \Illuminate\Http\Response
+	*/
 	public function getBySearch(Request $request)
 	{
 		$isSend 	= 'N';
@@ -436,7 +433,7 @@ class AnketController extends Controller
 
 				if ($city > 0) 
 				{
-					$oCity = City::getById ($city);
+					$oCity = $this->cityRepository->getById ($city);
 					$critsSearch .= '<br /> из г. <strong>' . $oCity->name . '</strong>';
 				} else if ($region > 0) 
 				{

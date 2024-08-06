@@ -19,4 +19,17 @@ class CityRepository implements CityInterface {
 		->get();
 		return $items;
 	}
+
+	/**
+	* get city by cityId
+	* @param  int $id
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public static function getById($id)
+	{
+		$item = City::select('*')
+		->where ('id', $id)
+		->first();
+		return $item;
+	}
 }
