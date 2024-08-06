@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ScreenInterface;
-use App\Models\Screen;
+use App\Interfaces\CommentScreenInterface;
 use App\Models\CommentScreen;
 use App\Helpers\Helper;
 use Validator;
@@ -23,6 +22,7 @@ class ScreenController extends Controller
 	*/
 	public function __construct(
 		protected ScreenInterface $screenRepository,
+		protected CommentScreenInterface $commentScreenRepository
 	)
 	{
 	}
@@ -46,11 +46,11 @@ class ScreenController extends Controller
     }
 
 	/**
-	 * show a screensaver page and make download screensaver
-	 * @param  \Illuminate\Http\Request  $request
-     * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
+	* show a screensaver page and make download screensaver
+	* @param  \Illuminate\Http\Request  $request
+	* @param int $id
+	* @return \Illuminate\Http\Response
+	*/
 	public function getItem(Request $request, $id)
 	{
 		$screen 			= $this->screenRepository->getById($id);
@@ -115,8 +115,6 @@ class ScreenController extends Controller
 
 				ReadFile($GetFile);
 				redirect(route('screensavers.id',$screen->id));
-				
-
 			} elseif ($request->has('send'))
 			{
 				$arParams = $request->post();
@@ -134,11 +132,9 @@ class ScreenController extends Controller
 					$messages = $validator->messages();
 					$strError = $messages;
 
-
 					return redirect()->back()
 								->withErrors($strError, 'comment')
 								->withInput();
-
 				}
 
 				$description =  str_replace("\'", "''", $arParams['description']);
@@ -165,16 +161,12 @@ class ScreenController extends Controller
 				return redirect()->back()
 								->with('success','Сообщение успешно отправлено')
 								->withInput();
-
 			}
-
 		}
-
 
 		$screen->size_scr 	= Helper::formatFileSize($screen->size_scr);
 		$screen->size_rar 	= Helper::formatFileSize($screen->size_rar);
-
-		$comments 			= CommentScreen::getByScrId($id);
+		$comments 			= $this->commentScreenRepository->getByScrId($id);
 
 		return response()->view ('screensavers_id', 
 		[
