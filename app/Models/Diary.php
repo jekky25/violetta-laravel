@@ -3,44 +3,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Diary extends Model
 {
 	use HasFactory;
-
 	protected $table = 'dnevniki';
-
 	protected $fillable = [
-        'dnevniki_user_id',
+		'dnevniki_user_id',
 		'dnevniki_title',
 		'dnevniki_time',
 		'dnevniki_text',
 		'dnevniki_picture'
-    ];
+	];
 
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'dnevniki_id';
-
-	/**
-    * get diaries
-    * @param  int $count
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function get($count)
-    {
-		$items = self::select('*')
-		->whereHas('user', function ($query) {
-			$query->where('user_active', 1);
-		})
-		->with('user')
-		->with('comments')
-		->limit ($count)
-        ->orderBy('dnevniki_time', 'desc')
-        ->get();
-
-		return $items;
-	}
 
 	/**
     * get all diaries
