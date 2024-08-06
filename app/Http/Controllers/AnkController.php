@@ -34,7 +34,7 @@ class AnkController extends Controller
 		'\\App\\Models\\SexOrient' 		=> ['prop' =>'user_sex_oriebt',			'ank_prop' =>'sex_orient'],
 		'\\App\\Models\\Country'		=> ['prop' =>'user_partner_country',	'ank_prop' =>'partner_country'],
 		'\\App\\Models\\Region'			=> ['prop' =>'user_partner_region',		'ank_prop' =>'partner_region'],
-		'\\App\\Models\\City'			=> ['prop' =>'user_partner_city',		'ank_prop' =>'partner_city']
+		'\\App\\Repositories\\CityRepository'			=> ['prop' =>'user_partner_city',		'ank_prop' =>'partner_city']
 	  ];
 
 	public static $rulesDiary = [
