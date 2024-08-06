@@ -26,7 +26,7 @@ class AnkController extends Controller
 		'\\App\\Models\\HairType' 		=> ['prop' =>'user_hair_type', 			'ank_prop' =>'hair_type'],
 		'\\App\\Models\\Eyes' 			=> ['prop' =>'user_eyes',	 			'ank_prop' =>'eyes'],
 		'\\App\\Models\\FamilyStatus' 	=> ['prop' =>'user_sem_polozh',			'ank_prop' =>'family_status'],
-		'\\App\\Models\\Children' 		=> ['prop' =>'user_children',			'ank_prop' =>'children'],
+		'\\App\\Repositories\\ChildrenRepository' 		=> ['prop' =>'user_children',			'ank_prop' =>'children'],
 		'\\App\\Models\\Education' 		=> ['prop' =>'user_education',			'ank_prop' =>'education'],
 		'\\App\\Models\\Smoke' 			=> ['prop' =>'user_smoke',				'ank_prop' =>'smoke'],
 		'\\App\\Models\\Spirt' 			=> ['prop' =>'user_spirt',				'ank_prop' =>'spirt'],
