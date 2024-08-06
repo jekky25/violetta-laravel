@@ -3,7 +3,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 class AnketVisit extends Model
 {
@@ -18,22 +17,11 @@ class AnketVisit extends Model
 	];
 
 	/**
-    * remove old visits
-    * @param  int  $days
-    * @return void 
-    */
-	public static function removeOld ($days)
-	{
-		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
-		AnketVisit::where('ank_time', '<', ($time['timestamp']))->delete();
-	}
-
-	/**
-    * get user
-    */
+	* get user
+	*/
 	public function user()
 	{
-    	return $this->hasOne(User::class, 'user_id', 'user_id_prosm')
+	  	return $this->hasOne(User::class, 'user_id', 'user_id_prosm')
 					->with('city')
 					->with('photo');
 	}

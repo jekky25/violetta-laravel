@@ -132,4 +132,19 @@ class AnketVisitRepository implements AnketVisitInterface {
             throw new \Exception('Failed to create user visit. '.$e->getMessage());
         }
 	}
+
+	/**
+	* remove old visits
+	* @param  int  $days
+	* @return void 
+	*/
+	public static function removeOld ($days)
+	{
+		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
+		try {
+			AnketVisit::where('ank_time', '<', ($time['timestamp']))->delete();
+		} catch (\Exception $e) {
+            throw new \Exception('Failed to remove old user visits: '.$e->getMessage());
+        }
+	}
 }

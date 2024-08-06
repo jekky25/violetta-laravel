@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 use Validator;
 use App\Models\User;
-use App\Models\AnketVisit;
 use App\Models\AnketEvaluation;
 use App\Models\Vars;
 use App\Models\CommentPhoto;
@@ -130,7 +129,7 @@ class AnkController extends Controller
 			if ($anket->ankVisits == 0 && $user->user_id != $id && $user->user_id > 1)
 			{
 				$this->anketVisitRepository->insertVisit($id);
-				AnketVisit::removeOld(self::$visitDays);
+				$this->anketVisitRepository->removeOld(self::$visitDays);
 			} elseif ($anket->ankVisits > 0 && $user->user_id != $id)
 				$this->anketVisitRepository->updateVisit($id);
 
@@ -266,10 +265,10 @@ class AnkController extends Controller
 	}
 
 	/**
-	 * Show a page with user pictures
-     * @param  int $id
-	 * @return \Illuminate\Http\Response
-	 */
+	* Show a page with user pictures
+	* @param  int $id
+	* @return \Illuminate\Http\Response
+	*/
 	public function getPhoto ($id)
 	{
 		$mode 	= Route::currentRouteName() == 'ank.photo.photo_id' ? 'photo.id' : 'ank.photo';
@@ -292,7 +291,7 @@ class AnkController extends Controller
 		if ($anket->ankVisits == 0 && $user->user_id != $id && $user->user_id > 1) 
 		{
 			$this->anketVisitRepository->insertVisit($id);
-			AnketVisit::removeOld(self::$visitDays);
+			$this->anketVisitRepository->removeOld(self::$visitDays);
 		} elseif ($anket->ankVisits > 0 && $user->user_id != $id)
 			$this->anketVisitRepository->updateVisit($id);
 
