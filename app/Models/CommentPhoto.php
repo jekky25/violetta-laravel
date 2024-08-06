@@ -3,12 +3,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class CommentPhoto extends Model
 {
 	use HasFactory;
-
 	protected $table 	= 'comments_fotos';
 	public $timestamps 	= false;
 
@@ -17,29 +15,13 @@ class CommentPhoto extends Model
 		'user_id',
 		'time',
 		'comments_description',
-	  ];
+	];
 
 	/**
-    * get comments of the pictures with pagination
-    * @param  int $foto_id
-	* @param  int $count
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public function getPaginate($foto_id, $count)
-    {
-		$items = self::select('*')
-		->where ('foto_id', $foto_id)
-        ->orderBy('time', 'desc')
-		->paginate($count);
-
-		return $items;
-	}
-
-	/**
-    * get user
-    */
+	* get user
+	*/
 	public function user()
 	{
-    	return $this->belongsTo(User::class, 'user_id', 'user_id')->with('city');
+		return $this->belongsTo(User::class, 'user_id', 'user_id')->with('city');
 	}
 }
