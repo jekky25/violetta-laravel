@@ -280,10 +280,9 @@ class RegistrationController extends Controller
 
 	/**
 	 * Show an edit page with the user pictures
-     * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function photo (Request $request)
+	public function photo ()
 	{
 		$user = User::with('photo')->find(Auth::id());
 		return response()->view ('registration.photo',

@@ -21,8 +21,8 @@ use App\Helpers\Helper;
 class AnkController extends Controller
 {
 	public static $getProps = [
-		'\\App\\Models\\Body' 			=> ['prop' =>'user_body', 				'ank_prop' =>'body'],
-		'\\App\\Models\\HairColor' 		=> ['prop' =>'user_hair_color', 		'ank_prop' =>'hair_color'],
+		'\\App\\Repositories\\BodyRepository'			=> ['prop' =>'user_body', 				'ank_prop' =>'body'],
+		'\\App\\Repositories\\HairColorRepository'		=> ['prop' =>'user_hair_color', 		'ank_prop' =>'hair_color'],
 		'\\App\\Models\\HairType' 		=> ['prop' =>'user_hair_type', 			'ank_prop' =>'hair_type'],
 		'\\App\\Models\\Eyes' 			=> ['prop' =>'user_eyes',	 			'ank_prop' =>'eyes'],
 		'\\App\\Models\\FamilyStatus' 	=> ['prop' =>'user_sem_polozh',			'ank_prop' =>'family_status'],
@@ -243,7 +243,7 @@ class AnkController extends Controller
 			}
 
 			//making partner body
-			$anket->getPropertyFew('App\Models\Body',	$anket->user_partner_body, 'partner_body');
+			$anket->getPropertyFew('\App\Repositories\BodyRepository',	$anket->user_partner_body, 'partner_body');
 			//making partner languages
 			$anket->getPropertyFew('App\Models\SpeakLang',	$anket->user_partner_speak_lang, 'partner_speak_lang');
 			//making partner education

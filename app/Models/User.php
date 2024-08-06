@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -340,6 +339,13 @@ class User extends Authenticatable
 		if (empty ($item)) return null;
 		return $item;
 	}
+
+	/**
+	* Get user property from the model
+	* @param array $item
+	* @param string $k
+	* @return void
+	*/
 	public function getProperty($item, $k)
 	{
 		if ((int)$this->{$item['prop']} > 0)
