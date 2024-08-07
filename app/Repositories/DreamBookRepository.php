@@ -33,4 +33,18 @@ class DreamBookRepository implements DreamBookInterface {
 		->paginate($count);
 		return $items;
 	}
+
+	/**
+	* get dreambook by dreambookId
+	* @param  int $id
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public static function getById($id)
+	{
+		$item = DreamBook::select('*')
+		->where('id', $id)
+		->first();
+
+		return $item;
+	}
 }

@@ -10,20 +10,6 @@ class DreamBook extends Model
 	protected $table 	= 'sonnik';
 
 	/**
-    * get dreambook by dreambookId
-    * @param  int $id
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function getById($id)
-	{
-		$item = self::select('*')
-		->where('id', $id)
-		->first();
-
-		return $item;
-	}
-
-	/**
     * get all dreambooks
     * @return \Illuminate\Database\Eloquent\Collection
     */

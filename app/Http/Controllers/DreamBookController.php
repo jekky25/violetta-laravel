@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Interfaces\DreamBookInterface;
 use App\Traits\Tstr;
 use App\Helpers\Helper;
-use App\Models\DreamBook;
 
 class DreamBookController extends Controller
 {
@@ -58,7 +57,7 @@ class DreamBookController extends Controller
 	public function getItem($id)
 	{
 		$dreamBookLiterals		= $this->dreamBookRepository->getLiter();
-		$dreambook 				= DreamBook::getById($id);
+		$dreambook 				= $this->dreamBookRepository->getById($id);
 
 		$dreambook->description = $this->replaceStringByPattern ($dreambook->description, $this->pattern, $this->replacement);
 		if (empty ($dreambook)) abort(404);
