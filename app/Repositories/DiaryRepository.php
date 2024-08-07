@@ -77,4 +77,18 @@ class DiaryRepository implements DiaryInterface {
 		->first();
 		return $item;
 	}
+
+	/**
+	* get diary by diaryId
+	* @param  int $id
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public static function getById($id)
+	{
+		$item = Diary::select('*')
+		->where ('dnevniki_id', $id)
+		->with('user')
+		->first();
+		return $item;
+	}
 }

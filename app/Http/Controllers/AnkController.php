@@ -410,10 +410,10 @@ class AnkController extends Controller
 	}
 
 	/**
-	 * add an user diary
-     * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
+	* add an user diary
+	* @param  \Illuminate\Http\Request  $request
+	* @return \Illuminate\Http\Response
+	*/
 	public function addDiary (Request $request)
 	{
 		$user 			= Auth::user();
@@ -459,11 +459,11 @@ class AnkController extends Controller
 	}
 
 	/**
-	 * delete the user diary
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-	 * @return void
-	 */
+	* delete the user diary
+	* @param  \Illuminate\Http\Request  $request
+	* @param  int $id
+	* @return void
+	*/
 	public function delDiary (Request $request, $id)
 	{
 		$user 			= Auth::user();
@@ -494,11 +494,11 @@ class AnkController extends Controller
 	}
 
 	/**
-	 * delete the picture of the diary
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-	 * @return void
-	 */
+	* delete the picture of the diary
+	* @param  \Illuminate\Http\Request  $request
+	* @param  int $id
+	* @return void
+	*/
 	public function delDiaryPhoto (Request $request, $id)
 	{
 		$user 			= Auth::user();
@@ -529,11 +529,11 @@ class AnkController extends Controller
 	}
 
 	/**
-	 * show edit diary page and update the diary
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-	 * @return \Illuminate\Http\Response
-	 */
+	* show edit diary page and update the diary
+	* @param  \Illuminate\Http\Request  $request
+	* @param  int $id
+	* @return \Illuminate\Http\Response
+	*/
 	public function editDiary (Request $request, $id)
 	{
 		$user 			= Auth::user();
@@ -590,15 +590,14 @@ class AnkController extends Controller
 	}
 
 	/**
-	 * show a comments diary page
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-	 * @return \Illuminate\Http\Response
-	 */	
-	public function getDiaryComments (Request $request, $id)
+	* show a comments diary page
+	* @param  int $id
+	* @return \Illuminate\Http\Response
+	*/	
+	public function getDiaryComments ($id)
 	{
 		$comments 	= DiaryComment::getByDiary (self::$diaryCommentsPerPage, $id);
-		$diary 		= Diary::getById ($id);
+		$diary 		= $this->diaryRepository->getById ($id);
 
 		if (empty ($diary) || empty ($diary->user)) abort (404);
 		$page 				= $comments->currentPage();

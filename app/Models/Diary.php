@@ -20,28 +20,13 @@ class Diary extends Model
 	protected $primaryKey 	= 'dnevniki_id';
 
 	/**
-    * get diary by diaryId
-    * @param  int $id
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function getById($id)
-	{
-		$item = self::select('*')
-		->where ('dnevniki_id', $id)
-		->with('user')
-		->first();
-		return $item;
-	}
-
-	/**
-    * get diary image link
-    * @return string
-    */
+	* get diary image link
+	* @return string
+	*/
 	public function getImg ()
 	{
 		return $this->dnevniki_picture !== "0" ? './img/dnevnik/' . $this->dnevniki_picture . '.jpg' : '';
 	}
-
 
 	public function getDnevnikFotoAttribute ()
 	{
@@ -99,27 +84,26 @@ class Diary extends Model
 	}
 
 	/**
-    * get user
-    */
+	* get user
+	*/
 	public function user()
-    {
-        return $this->belongsTo(User::class, 'dnevniki_user_id', 'user_id')->with('city');
-    }
+	{
+		return $this->belongsTo(User::class, 'dnevniki_user_id', 'user_id')->with('city');
+	}
 
 	/**
-    * get comments
-    */
+	* get comments
+	*/
 	public function comments ()
 	{
 		return $this->hasMany(Comment::class, 'comment_dnevnik_id', 'dnevniki_id');
 	}
 
 	/**
-    * get user photo
-    */
+	* get user photo
+	*/
 	public function user_photo ()
 	{
 		return $this->hasOne(Photo::class, 'user_id', 'dnevniki_user_id')->where('fotos_portret', 1);
-
 	}
 }
