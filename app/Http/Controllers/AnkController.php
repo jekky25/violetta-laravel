@@ -121,7 +121,7 @@ class AnkController extends Controller
 		$anket->userank_visits_month = !empty ($visits) ? count ($visits) : 0 ;
 
 		//making meet targets
-		$anket->getPropertyFew('App\Models\MeetTarget',	$anket->user_target_meet, 'target_meet');
+		$anket->getPropertyFew('App\Repositories\MeetTargetRepository',	$anket->user_target_meet, 'target_meet');
 
 		//making interests
 		$anket->getPropertyFew('App\Repositories\InterestRepository',	$anket->user_interests, 'interests');
@@ -193,7 +193,7 @@ class AnkController extends Controller
 			$anket->user_partner_sex = $partnerSex;
 	
 			//making languages
-			$anket->getPropertyFew('App\Models\MeetTarget',	$anket->user_speak_lang, 'speak_lang_str');
+			$anket->getPropertyFew('App\Repositories\MeetTargetRepository',	$anket->user_speak_lang, 'speak_lang_str');
 
 			//making a partner age
 			if ($anket->user_partner_age_min > PARTNER_AGE_MIN || $anket->user_partner_age_max > PARTNER_AGE_MAX) 
