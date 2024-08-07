@@ -13,7 +13,7 @@ class MessageRepository implements MessageInterface {
 	* @param  int $count
 	* @return \Illuminate\Database\Eloquent\Collection
 	*/
-	public static function getAll($id, $count)
+	public function getAll($id, $count)
 	{
 		$items = Message::selectRaw(
 				'*,
@@ -39,6 +39,42 @@ class MessageRepository implements MessageInterface {
 		->paginate($count);
 
 		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
+		if (empty ($items)) return null;
+		return $items;
+	}
+
+	/**
+	* get all messages by userId and $userAutorithationId
+	* @param  int $userId
+	* @param  int $userAuthId
+	* @param  int $count
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getAllByUser($userId, $userAuthId, $count)
+	{
+		$items = Message::selectRaw(
+				'*,
+				CASE
+						WHEN user_otprav = ' . $userAuthId . ' 
+							THEN user_poluchil
+						WHEN user_poluchil = ' . $userAuthId . ' 
+							THEN user_otprav 
+					END as user_id')
+		->where(function ($query) use ($userAuthId, $userId)
+		{
+			$query->where('user_otprav', $userAuthId);
+			$query->where('user_poluchil', $userId);
+			$query->where('user_otprav_del', 0);
+		})
+		->Orwhere (function ($query) use ($userAuthId, $userId) 
+		{
+			$query->where('user_poluchil', $userAuthId);
+			$query->where('user_otprav', $userId);
+			$query->where('user_poluchil_del', 0);
+		})
+		->orderBy('time', 'asc')
+		->paginate($count);
+
 		if (empty ($items)) return null;
 		return $items;
 	}

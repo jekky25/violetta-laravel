@@ -70,12 +70,12 @@ class PrivmsgController extends Controller
 	}
 
 	/**
-     * Delete user messages
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
-     */
+	* Delete user messages
+	* @param  \Illuminate\Http\Request  $request
+	* @return void
+	*/
 	public function delete(Request $request)
-    {
+	{
 		$user 			= Auth::user();
 		if (empty ($user)) abort (404);
 		$arParams 		= $request->post();
@@ -126,11 +126,11 @@ class PrivmsgController extends Controller
 	}
 
 	/**
-     * Delete an user message
-     * @param  \Illuminate\Http\Request  $request
-	 * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+	* Delete an user message
+	* @param  \Illuminate\Http\Request  $request
+	* @param  int  $id
+	* @return \Illuminate\Http\Response
+	*/
 	public function deletePost(Request $request, $id)
 	{
 		$user 			= Auth::user();
@@ -172,7 +172,7 @@ class PrivmsgController extends Controller
 	{
 		$user 			= Auth::user()->load(['visits']);
 		$anket 			= User::getById ($id);
-		$messages 		= Message::getAllByUser($id, $user->user_id, self::$messageAnkPerPage);
+		$messages 		= $this->messageRepository->getAllByUser($id, $user->user_id, self::$messageAnkPerPage);
 		$vote 			= isset ($request->golos) ? (int)$request->golos : 0;
 		$vote 			= $vote > 5 ? 5 : $vote;
 		$pagination 	= Helper::preparePagination ($messages->toArray()['links']);
