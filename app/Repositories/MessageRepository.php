@@ -78,4 +78,28 @@ class MessageRepository implements MessageInterface {
 		if (empty ($items)) return null;
 		return $items;
 	}
+
+	/**
+	* get all messages by userId and $userAutorithationId
+	* @param  int $userId
+	* @param  int $userAuthId
+	* @param  int $count
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getForUser($userId, $userAuthId)
+	{
+		$items = Message::select('*')
+		->where(function ($query) use ($userId, $userAuthId)
+		{
+			$query->where('user_otprav', $userId);
+			$query->where('user_poluchil', $userAuthId);
+		})
+		->Orwhere (function ($query) use ($userId, $userAuthId) 
+		{
+			$query->where('user_poluchil', $userId);
+			$query->where('user_otprav', $userAuthId);
+		})
+		->get();
+		return $items;
+	}
 }

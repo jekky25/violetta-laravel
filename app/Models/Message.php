@@ -30,30 +30,6 @@ class Message extends Model
 	}
 
 	/**
-    * get all messages by userId and $userAutorithationId
-    * @param  int $userId
-	* @param  int $userAuthId
-	* @param  int $count
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function getForUser($userId, $userAuthId)
-	{
-		$items = self::select('*')
-		->where(function ($query) use ($userId, $userAuthId)
-		{
-			$query->where('user_otprav', $userId);
-			$query->where('user_poluchil', $userAuthId);
-		})
-		->Orwhere (function ($query) use ($userId, $userAuthId) 
-		{
-			$query->where('user_poluchil', $userId);
-			$query->where('user_otprav', $userAuthId);
-		})
-		->get();
-		return $items;
-	}
-
-	/**
     * get a message by id
     * @param  int $id
     * @return \Illuminate\Database\Eloquent\Collection

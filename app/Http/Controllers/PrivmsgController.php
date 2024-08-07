@@ -90,8 +90,7 @@ class PrivmsgController extends Controller
 		if ( !empty($arParams['confirm']) ) {
 			foreach ($markList as $userId) 
 			{
-				$messages = Message::getForUser($userId, $user->user_id);
-
+				$messages = $this->messageRepository->getForUser($userId, $user->user_id);
 				if (count ($messages) > 0)
 				{
 					foreach ($messages as $item)
