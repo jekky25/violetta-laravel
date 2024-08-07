@@ -18,4 +18,19 @@ class DreamBookRepository implements DreamBookInterface {
 		->get();
 		return $items;
 	}
+
+	/**
+	* get dreambook by $option
+	* @param  int $count
+	* @param  int $op	
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function get($count = 0, $op = 1)
+	{
+		$items = DreamBook::select('*')
+		->where('sonnik_id', $op)
+		->orderBy('name', 'asc')
+		->paginate($count);
+		return $items;
+	}
 }

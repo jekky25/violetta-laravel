@@ -36,7 +36,7 @@ class DreamBookController extends Controller
 	{
 		$dreamBookLiterals		= $this->dreamBookRepository->getLiter();
 		$op						= !empty ($id) ? $id : $this->op;
-		$words					= DreamBook::get($this->countPerPage, $op);
+		$words					= $this->dreamBookRepository->get($this->countPerPage, $op);
 		$page					= $words->currentPage();
 		$pagination				= Helper::preparePagination ($words->toArray()['links']);
 

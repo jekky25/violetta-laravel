@@ -10,22 +10,6 @@ class DreamBook extends Model
 	protected $table 	= 'sonnik';
 
 	/**
-    * get dreambook by $option
-    * @param  int $count
-    * @param  int $op	
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function get($count = 0, $op = 1)
-	{
-		$items = self::select('*')
-		->where('sonnik_id', $op)
-		->orderBy('name', 'asc')
-		->paginate($count);
-
-		return $items;
-	}
-
-	/**
     * get dreambook by dreambookId
     * @param  int $id
     * @return \Illuminate\Database\Eloquent\Collection
