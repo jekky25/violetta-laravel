@@ -468,7 +468,7 @@ class AnkController extends Controller
 	{
 		$user 			= Auth::user();
 		if (empty ($user) ||  $id == 0) abort (404);
-		$diary 			= Diary::getByUserAndId($id, $user->user_id);
+		$diary 			= $this->diaryRepository->getByUserAndId($id, $user->user_id);
 		if (empty ($diary)) abort (404);
 
 		$arParams 		= $request->post();
@@ -503,7 +503,7 @@ class AnkController extends Controller
 	{
 		$user 			= Auth::user();
 		if (empty ($user) ||  $id == 0) abort (404);
-		$diary 			= Diary::getByUserAndId($id, $user->user_id);
+		$diary 			= $this->diaryRepository->getByUserAndId($id, $user->user_id);
 		if (empty ($diary)) abort (404);
 
 		$arParams 		= $request->post();
@@ -538,7 +538,7 @@ class AnkController extends Controller
 	{
 		$user 			= Auth::user();
 		if (empty ($user) ||  $id == 0) abort (404);
-		$diary 			= Diary::getByUserAndId($id, $user->user_id);
+		$diary 			= $this->diaryRepository->getByUserAndId($id, $user->user_id);
 		if (empty ($diary)) abort (404);
 
 		$arParams					= $request->post();

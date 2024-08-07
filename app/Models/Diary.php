@@ -20,23 +20,6 @@ class Diary extends Model
 	protected $primaryKey 	= 'dnevniki_id';
 
 	/**
-    * get diary by diaryId and userId
-    * @param  int $id
-	* @param  int $userId
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function getByUserAndId($id, $userId)
-	{
-		$item = self::select('*')
-		->where('dnevniki_id', $id)
-		->where('dnevniki_user_id', $userId)
-		->with('comments')
-		->first();
-
-		return $item;
-	}
-
-	/**
     * get diary by diaryId
     * @param  int $id
     * @return \Illuminate\Database\Eloquent\Collection

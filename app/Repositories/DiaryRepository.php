@@ -61,4 +61,20 @@ class DiaryRepository implements DiaryInterface {
 		->paginate($count);
 		return $items;
 	}
+
+	/**
+	* get diary by diaryId and userId
+	* @param  int $id
+	* @param  int $userId
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getByUserAndId($id, $userId)
+	{
+		$item = Diary::select('*')
+		->where('dnevniki_id', $id)
+		->where('dnevniki_user_id', $userId)
+		->with('comments')
+		->first();
+		return $item;
+	}
 }
