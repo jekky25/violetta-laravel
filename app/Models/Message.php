@@ -3,17 +3,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Services\LengthPager;
 
 class Message extends Model
 {
 	use HasFactory;
-
 	protected $table 		= 'user_messages';
 	protected $user;
-
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'message_id';
 
@@ -31,43 +27,6 @@ class Message extends Model
 		parent::__construct($attributes);
 		if (empty($this->user)) 
 		$this->user	= Auth::user();
-	}
-
-	/**
-    * get all messages by userId
-    * @param  int $id
-	* @param  int $count
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function getAll($id, $count)
-	{
-		$items = self::selectRaw(
-				'*,
-				CASE
-						WHEN user_otprav = ' . $id . ' 
-							THEN user_poluchil
-						WHEN user_poluchil = ' . $id . ' 
-							THEN user_otprav 
-					END as user_id,
-			COUNT(user_otprav) as count_messages')
-		->where(function ($query) use ($id)
-		{
-			$query->where('user_otprav', $id);
-			$query->where('user_otprav_del', 0);
-		})
-		->Orwhere (function ($query) use ($id) 
-		{
-			$query->where('user_poluchil', $id);
-			$query->where('user_poluchil_del', 0);
-		})
-		->groupBy ('user_id')
-		->orderBy('time', 'desc')
-		->paginate($count);
-
-		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
-
-		if (empty ($items)) return null;
-		return $items;
 	}
 
 	/**

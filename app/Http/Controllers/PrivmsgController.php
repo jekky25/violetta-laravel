@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Validator;
 use App\Helpers\Helper;
 use App\Interfaces\AnketEvaluationInterface;
-
+use App\Interfaces\MessageInterface;
 use App\Models\Message;
 use App\Models\User;
 use App\Models\AnketEvaluation;
@@ -19,13 +19,11 @@ use App\Mail\Email;
 
 class PrivmsgController extends Controller
 {
-
 	public static $messagePerPage 		= 10;
 	public static $messageAnkPerPage 	= 30;
 	public static $messageSendLimit		= 10;
 	public static $siteUrl				= 'www.avioletta.ru';
 	public static $siteUrlWithProtocol	= 'http://www.avioletta.ru';
-
 
 	public static $rulesPost = [
 		'message_text'	=> ['required', 'max:3000', 'min:2', 'check_often'],
@@ -38,29 +36,29 @@ class PrivmsgController extends Controller
 		'check_often'				=> 'Вы превысили лимит отправляемых сообщений:<br /> не более 10 сообщений за 5 минут'
 	];
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct(
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct(
 		protected AnketEvaluationInterface $anketEvaluationRepository,
+		protected MessageInterface $messageRepository,
 	)
-    {
-    }
+	{
+	}
 
-    /**
-     * Show the application dashboard.
-     *
-	 * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
+	/**
+	* Show the application dashboard.
+	*
+	* @return \Illuminate\Http\Response
+	*/
+	public function index()
+	{
 		$user 			= Auth::user();
 		if (empty ($user)) abort (404);
 
-		$messages 			= Message::getAll($user->user_id, self::$messagePerPage);
+		$messages 			= $this->messageRepository->getAll($user->user_id, self::$messagePerPage);
 		$messages			= Message::getNewsByUsers($messages, $user);
 		$page 				= $messages->currentPage();
 		$pagination 		= Helper::preparePagination ($messages->toArray()['links']);
@@ -69,7 +67,7 @@ class PrivmsgController extends Controller
 			'messages' 		=> $messages,
 			'pagination'	=> $pagination
 		]);
-    }
+	}
 
 	/**
      * Delete user messages
