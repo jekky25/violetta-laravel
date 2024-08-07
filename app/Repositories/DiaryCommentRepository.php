@@ -12,7 +12,7 @@ class DiaryCommentRepository implements DiaryCommentInterface {
 	* @param  int $diaryId
 	* @return \Illuminate\Database\Eloquent\Collection
 	*/
-	public static function getByDiary($count, $diaryId)
+	public function getByDiary($count, $diaryId)
 	{
 		$items = DiaryComment::select('*')
 		->where ('comment_dnevnik_id', $diaryId)
@@ -20,5 +20,20 @@ class DiaryCommentRepository implements DiaryCommentInterface {
 		->orderBy('comment_time', 'desc')
 		->paginate($count);
 		return $items;
+	}
+
+	/**
+	* get comments by commentId and userId
+	* @param  int $id
+	* @param  int $userId
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getByUserAndId($id, $userId)
+	{
+		$item = DiaryComment::select('*')
+		->where('comment_id', $id)
+		->where('comment_dnevnik_user_id', $userId)
+		->first();
+		return $item;
 	}
 }

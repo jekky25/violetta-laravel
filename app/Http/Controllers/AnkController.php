@@ -614,11 +614,11 @@ class AnkController extends Controller
 	}
 
 	/**
-	 * add a comment of the diary
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-	 * @return \Illuminate\Http\Response
-	 */	
+	* add a comment of the diary
+	* @param  \Illuminate\Http\Request  $request
+	* @param  int $id
+	* @return \Illuminate\Http\Response
+	*/	
 	public function addDiaryComment (Request $request, $id)
 	{
 		$user 			= Auth::user();
@@ -665,16 +665,16 @@ class AnkController extends Controller
 	}
 
 	/**
-	 * delete a comment of the diary
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-	 * @return void
-	 */	
+	* delete a comment of the diary
+	* @param  \Illuminate\Http\Request  $request
+	* @param  int $id
+	* @return void
+	*/	
 	public function delDiaryComment (Request $request, $id)
 	{
 		$user			= Auth::user();
 		if (empty ($user) ||  $id == 0) abort (404);
-		$comment 			= DiaryComment::getByUserAndId($id, $user->user_id);
+		$comment 			= $this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
 
 		if (empty ($comment)) abort (404);
 
@@ -701,16 +701,16 @@ class AnkController extends Controller
 	}
 
 	/**
-	 * delete thre picture of the diary comment
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-	 * @return void
-	 */	
+	* delete thre picture of the diary comment
+	* @param  \Illuminate\Http\Request  $request
+	* @param  int $id
+	* @return void
+	*/	
 	public function delDiaryCommentPhoto (Request $request, $id)
 	{
 		$user 			= Auth::user();
 		if (empty ($user) ||  $id == 0) abort (404);
-		$comment 			= DiaryComment::getByUserAndId($id, $user->user_id);
+		$comment 			= $this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
 		if (empty ($comment)) abort (404);
 
 		$arParams 		= $request->post();
@@ -736,16 +736,16 @@ class AnkController extends Controller
 	}
 
 	/**
-	 * show an edit comment page and update the comment
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-	 * @return \Illuminate\Http\Response
-	 */	
+	* show an edit comment page and update the comment
+	* @param  \Illuminate\Http\Request  $request
+	* @param  int $id
+	* @return \Illuminate\Http\Response
+	*/	
 	public function editDiaryComment (Request $request, $id)
 	{
-		$user 			= Auth::user();
+		$user 						= Auth::user();
 		if (empty ($user) ||  $id == 0) abort (404);
-		$comment 			= DiaryComment::getByUserAndId($id, $user->user_id);
+		$comment 					= $this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
 		if (empty ($comment)) abort (404);
 
 		$arParams					= $request->post();
