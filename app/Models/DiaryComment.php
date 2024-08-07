@@ -3,14 +3,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class DiaryComment extends Model
 {
 	use HasFactory;
-
 	protected $table = 'dnevniki_comments';
-
 	protected $fillable = [
 		'comment_id',
 		'comment_dnevnik_id',
@@ -19,27 +16,10 @@ class DiaryComment extends Model
 		'comment_text',
 		'comment_picture',
 		'comment_time'
-    ];
+	];
 
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'comment_id';
-
-	/**
-    * get comments by diaryId
-    * @param  int $count
-	* @param  int $diaryId
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function getByDiary($count, $diaryId)
-    {
-		$items = self::select('*')
-		->where ('comment_dnevnik_id', $diaryId)
-		->with('user')
-        ->orderBy('comment_time', 'desc')
-        ->paginate($count);
-
-		return $items;
-	}
 
 	/**
     * get comments by commentId and userId

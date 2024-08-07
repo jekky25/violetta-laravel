@@ -13,6 +13,7 @@ use App\Repositories\CityRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\CommentScreenRepository;
 use App\Repositories\DiaryRepository;
+use App\Repositories\DiaryCommentRepository;
 
 use App\Interfaces\GoroskopInterface;
 use App\Interfaces\NameInterface;
@@ -26,6 +27,7 @@ use App\Interfaces\CityInterface;
 use App\Interfaces\CountryInterface;
 use App\Interfaces\CommentScreenInterface;
 use App\Interfaces\DiaryInterface;
+use App\Interfaces\DiaryCommentInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -48,6 +50,7 @@ class RepositoryServiceProvider extends ServiceProvider
 		$this->app->bind(CountryInterface::class, CountryRepository::class);
 		$this->app->bind(CommentScreenInterface::class, CommentScreenRepository::class);
 		$this->app->bind(DiaryInterface::class, DiaryRepository::class);
+		$this->app->bind(DiaryCommentInterface::class, DiaryCommentRepository::class);
 	}
 
 	/**

@@ -17,6 +17,7 @@ use App\Models\DiaryComment;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\AnketVisitInterface;
 use App\Interfaces\DiaryInterface;
+use App\Interfaces\DiaryCommentInterface;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -75,7 +76,8 @@ class AnkController extends Controller
 	public function __construct(
 		protected AnketEvaluationInterface $anketEvaluationRepository,
 		protected AnketVisitInterface $anketVisitRepository,
-		protected DiaryInterface $diaryRepository
+		protected DiaryInterface $diaryRepository,
+		protected DiaryCommentInterface $diaryCommentRepository
 	)
 	{
 	}
@@ -596,7 +598,7 @@ class AnkController extends Controller
 	*/	
 	public function getDiaryComments ($id)
 	{
-		$comments 	= DiaryComment::getByDiary (self::$diaryCommentsPerPage, $id);
+		$comments 	= $this->diaryCommentRepository->getByDiary (self::$diaryCommentsPerPage, $id);
 		$diary 		= $this->diaryRepository->getById ($id);
 
 		if (empty ($diary) || empty ($diary->user)) abort (404);
