@@ -2,38 +2,32 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Models\DreamBook;
+use App\Interfaces\DreamBookInterface;
 
 class SiteController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct(
+		protected DreamBookInterface $dreamBookRepository
+	)
+	{
+	}
 
-    /**
-     * Show the application dashboard.
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-		$dreamBook = DreamBook::getAll();
-
+	/**
+	* Show the application dashboard.
+	* @return \Illuminate\Http\Response
+	*/
+    public function index()
+	{
+		$dreamBook = $this->dreamBookRepository->getAll();
 		return response()->view ('site_map', 
 		[
 			'dreamBook' => $dreamBook
 		]);
-    }
+	}
 }
-

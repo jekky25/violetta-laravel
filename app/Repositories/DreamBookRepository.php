@@ -39,12 +39,24 @@ class DreamBookRepository implements DreamBookInterface {
 	* @param  int $id
 	* @return \Illuminate\Database\Eloquent\Collection
 	*/
-	public static function getById($id)
+	public function getById($id)
 	{
 		$item = DreamBook::select('*')
 		->where('id', $id)
 		->first();
 
 		return $item;
+	}
+
+	/**
+	* get all dreambooks
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getAll()
+	{
+		$items = DreamBook::select('*')
+		->orderBy('name', 'asc')
+		->get();
+		return $items;
 	}
 }
