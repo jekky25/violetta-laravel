@@ -29,7 +29,7 @@ class AnkController extends Controller
 		'\\App\\Models\\Eyes' 			=> ['prop' =>'user_eyes',	 			'ank_prop' =>'eyes'],
 		'\\App\\Models\\FamilyStatus' 	=> ['prop' =>'user_sem_polozh',			'ank_prop' =>'family_status'],
 		'\\App\\Repositories\\ChildrenRepository' 		=> ['prop' =>'user_children',			'ank_prop' =>'children'],
-		'\\App\\Models\\Education' 		=> ['prop' =>'user_education',			'ank_prop' =>'education'],
+		'\\App\\Repositories\\EducationRepository' 		=> ['prop' =>'user_education',			'ank_prop' =>'education'],
 		'\\App\\Models\\Smoke' 			=> ['prop' =>'user_smoke',				'ank_prop' =>'smoke'],
 		'\\App\\Models\\Spirt' 			=> ['prop' =>'user_spirt',				'ank_prop' =>'spirt'],
 		'\\App\\Models\\HelpMoney' 		=> ['prop' =>'user_help_money',			'ank_prop' =>'help_money'],
@@ -251,7 +251,7 @@ class AnkController extends Controller
 			//making partner languages
 			$anket->getPropertyFew('App\Models\SpeakLang',	$anket->user_partner_speak_lang, 'partner_speak_lang');
 			//making partner education
-			$anket->getPropertyFew('App\Models\Education',	$anket->user_partner_education, 'partner_education');
+			$anket->getPropertyFew('App\Repositories\EducationRepository',	$anket->user_partner_education, 'partner_education');
 			//making partner smoke
 			$anket->getPropertyFew('App\Models\Smoke',	$anket->user_partner_smoke, 'partner_smoke');
 			//making partner spirt
