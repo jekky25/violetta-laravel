@@ -124,7 +124,7 @@ class AnkController extends Controller
 		$anket->getPropertyFew('App\Models\MeetTarget',	$anket->user_target_meet, 'target_meet');
 
 		//making interests
-		$anket->getPropertyFew('App\Models\Interest',	$anket->user_interests, 'interests');
+		$anket->getPropertyFew('App\Repositories\InterestRepository',	$anket->user_interests, 'interests');
 		//making an ankets review and a count of views
 		if (!empty ($user))
 		{
