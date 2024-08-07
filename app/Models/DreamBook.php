@@ -3,25 +3,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class DreamBook extends Model
 {
 	use HasFactory;
-
 	protected $table 	= 'sonnik';
-
-	/**
-    * get liters
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function getLiter()
-	{
-		$items = self::select('first_bukva', 'sonnik_id')
-		->groupBy('first_bukva', 'sonnik_id')
-		->get();
-		return $items;
-	}
 
 	/**
     * get dreambook by $option

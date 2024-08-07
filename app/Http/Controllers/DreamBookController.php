@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Interfaces\DreamBookInterface;
 use App\Traits\Tstr;
 use App\Helpers\Helper;
 use App\Models\DreamBook;
@@ -14,32 +11,30 @@ use App\Models\DreamBook;
 class DreamBookController extends Controller
 {
 	use Tstr;
-
 	public $countPerPage 	= 30;
 	public $op				= 1;
 	private $pattern		= '/sonnik_id([0-9]+).html/i';
 	private $replacement 	= 'dreambook/$1.html';
-	
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct(
+		protected DreamBookInterface $dreamBookRepository
+	)
+	{
+	}
 
-    /**
-     * Show the page with dreambooks
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request, $id = 1)
-    {
-		$dreamBookLiterals		= DreamBook::getLiter();
+	/**
+	* Show the page with dreambooks
+	* @param  int $id
+	* @return \Illuminate\Http\Response
+	*/
+	public function index($id = 1)
+	{
+		$dreamBookLiterals		= $this->dreamBookRepository->getLiter();
 		$op						= !empty ($id) ? $id : $this->op;
 		$words					= DreamBook::get($this->countPerPage, $op);
 		$page					= $words->currentPage();
@@ -52,17 +47,17 @@ class DreamBookController extends Controller
 			'page'					=> $page,
 			'pagination'			=> $pagination,
 		]);
-    }
+	}
 
 	/**
-     * Show the page with a dreambook
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-	public function getItem(Request $request, $id)
+	* Show the page with a dreambook
+	* @param  \Illuminate\Http\Request  $request
+	* @param  int $id
+	* @return \Illuminate\Http\Response
+	*/
+	public function getItem($id)
 	{
-		$dreamBookLiterals		= DreamBook::getLiter();		
+		$dreamBookLiterals		= $this->dreamBookRepository->getLiter();
 		$dreambook 				= DreamBook::getById($id);
 
 		$dreambook->description = $this->replaceStringByPattern ($dreambook->description, $this->pattern, $this->replacement);
@@ -73,7 +68,5 @@ class DreamBookController extends Controller
 			'dreamBookLiterals'		=> $dreamBookLiterals,
 			'dreambook'			=> $dreambook
 		]);
-
 	}
 }
-
