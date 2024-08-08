@@ -18,19 +18,6 @@ class Photo extends Model
 	];
 
 	/**
-    * get pucture by id
-	* @param  int $id
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function getById($id)
-	{
-		$item = self::select('*')
-		->where ('fotos_id', $id)
-		->first();
-		return $item;
-	}
-
-	/**
     * get the first pucture by userId
 	* @param  int $id
     * @return \Illuminate\Database\Eloquent\Collection

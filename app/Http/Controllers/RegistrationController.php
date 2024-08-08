@@ -10,7 +10,7 @@ use App\Interfaces\BanListInterface;
 use App\Interfaces\CityInterface;
 use App\Interfaces\CountryInterface;
 use App\Interfaces\DiaryInterface;
-
+use App\Interfaces\PhotoInterface;
 use Validator;
 use App\Helpers\Helper;
 use App\Models\Region;
@@ -152,7 +152,8 @@ class RegistrationController extends Controller
 		protected BanListInterface $banListRepository,
 		protected CityInterface $cityRepository,
 		protected CountryInterface $countryRepository,
-		protected DiaryInterface $diaryRepository
+		protected DiaryInterface $diaryRepository,
+		protected PhotoInterface $photoRepository,
 	)
 	{
 	}
@@ -410,7 +411,7 @@ class RegistrationController extends Controller
 	public function editPhotoPost (Request $request, $id)
 	{
 		$user 			= User::with('photo')->find(Auth::id());
-		$photo 			= Photo::getById($id);
+		$photo 			= $this->photoRepository->getById($id);
 		$photoId		= $id;
 		$arParams 		= $request->post();
 		$files 			= $request->file();
@@ -694,7 +695,7 @@ class RegistrationController extends Controller
 
 		if ( !empty($arParams['confirm']) ) 
 		{
-			$photo = Photo::getById($id);
+			$photo = $this->photoRepository->getById($id);
 			if (empty ($photo) || $photo->user_id != $user->user_id)
 			{
 				$title 			= 'Информация';

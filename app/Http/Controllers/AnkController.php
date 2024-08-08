@@ -11,13 +11,13 @@ use App\Models\User;
 use App\Models\AnketEvaluation;
 use App\Models\Vars;
 use App\Models\CommentPhoto;
-use App\Models\Photo;
 use App\Models\Diary;
 use App\Models\DiaryComment;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\AnketVisitInterface;
 use App\Interfaces\DiaryInterface;
 use App\Interfaces\DiaryCommentInterface;
+use App\Interfaces\PhotoInterface;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -77,7 +77,8 @@ class AnkController extends Controller
 		protected AnketEvaluationInterface $anketEvaluationRepository,
 		protected AnketVisitInterface $anketVisitRepository,
 		protected DiaryInterface $diaryRepository,
-		protected DiaryCommentInterface $diaryCommentRepository
+		protected DiaryCommentInterface $diaryCommentRepository,
+		protected PhotoInterface $photoRepository,
 	)
 	{
 	}
@@ -279,7 +280,7 @@ class AnkController extends Controller
 
 		if ($mode == 'photo.id')
 		{
-			$photo = Photo::getById ($id);
+			$photo = $this->photoRepository->getById ($id);
 			if (empty ($photo)) abort (404);
 			$id = $photo->user_id;
 		}
