@@ -133,7 +133,7 @@ class PrivmsgController extends Controller
 	public function deletePost(Request $request, $id)
 	{
 		$user 			= Auth::user();
-		$message 		= Message::getById($id);
+		$message 		= $this->messageRepository->getById($id);
 
 		if (empty ($user) or empty($message)) abort (404);
 		$arParams 		= $request->post();

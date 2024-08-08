@@ -102,4 +102,17 @@ class MessageRepository implements MessageInterface {
 		->get();
 		return $items;
 	}
+
+	/**
+	* get a message by id
+	* @param  int $id
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getById($id)
+	{
+		$item = Message::select('*')
+		->where('message_id', $id)
+		->first();
+		return $item;
+	}
 }

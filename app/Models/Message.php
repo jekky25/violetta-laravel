@@ -30,20 +30,6 @@ class Message extends Model
 	}
 
 	/**
-    * get a message by id
-    * @param  int $id
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function getById($id)
-	{
-		$item = self::select('*')
-		->where('message_id', $id)
-		->first();
-
-		return $item;
-	}
-
-	/**
     * get all new messages for $user
     * @param  \Illuminate\Database\Eloquent\Collection $messages
 	* @param  User $user
