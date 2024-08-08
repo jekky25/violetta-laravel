@@ -153,4 +153,18 @@ class MessageRepository implements MessageInterface {
 		}
 		return $messages;
 	}
+
+	/**
+	* get all messages for $user by time
+	* @param  int $id
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getByTimeByUser($id)
+	{
+		$items = Message::select('*')
+		->where('user_otprav', $id)
+		->where('time', '>', (time() - 5*60))
+		->get();
+		return $items;
+	}
 }

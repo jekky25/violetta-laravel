@@ -238,13 +238,13 @@ class PrivmsgController extends Controller
 	}
 
 	/**
-     * Add an user message
-     * @param  \Illuminate\Http\Request  $request
-	 * @param  int $id
-     * @return void
-     */
+	* Add an user message
+	* @param  \Illuminate\Http\Request  $request
+	* @param  int $id
+	* @return void
+	*/
 	public function addPost(Request $request, $id)
-    {
+	{
 		$user 			= Auth::user();
 		$anket 			= User::getJustById($id);
 		if (empty ($user) or empty ($anket)) abort (404);
@@ -253,7 +253,7 @@ class PrivmsgController extends Controller
 
 		Validator::extend('check_often',
             function () use ($user) {
-				return count (Message::getByTimeByUser($user->user_id)) > self::$messageSendLimit ? false : true;
+				return count ($this->messageRepository->getByTimeByUser($user->user_id)) > self::$messageSendLimit ? false : true;
             });
 
 		$validator = Validator::make($arParams, self::$rulesPost, self::$errMessagesPost);

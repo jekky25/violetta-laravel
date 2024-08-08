@@ -29,20 +29,6 @@ class Message extends Model
 		$this->user	= Auth::user();
 	}
 
-	/**
-    * get all messages for $user by time
-	* @param  int $id
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function getByTimeByUser($id)
-	{
-		$items = self::select('*')
-		->where('user_otprav', $id)
-		->where('time', '>', (time() - 5*60))
-		->get();
-		return $items;
-	}
-
 	public function getUserIdAttribute ($val)
 	{
 		if (!empty ($val) or empty($this->user)) return $val;
@@ -55,12 +41,12 @@ class Message extends Model
 		return $this->user->user_id == $this->user_otprav ? User::getJustById($this->user_poluchil, ['photo']) : User::getJustById($this->user_otprav, ['photo']);
 	}
 
-	public function getLastDateAttribute ($val)
+	public function getLastDateAttribute ()
 	{
 		return date("d.m.y H:i",$this->time);
 	}
 
-	public function getPhotoMainAttribute ($val)
+	public function getPhotoMainAttribute ()
 	{
 		if (count ($this->user_mes->photo) > 0)
 		{
