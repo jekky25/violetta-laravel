@@ -1,12 +1,10 @@
 <?php
 namespace App\Providers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use App\Models\User;
-use App\Models\Photo;
+use App\Repositories\PhotoRepository;
 
 class LeftColServiceProvider extends ServiceProvider
 {
@@ -17,7 +15,7 @@ class LeftColServiceProvider extends ServiceProvider
 	*/
 	public function register()
 	{
-        //
+
 	}
 
 	/**
@@ -27,10 +25,11 @@ class LeftColServiceProvider extends ServiceProvider
 	*/
 	public function boot()
 	{
+		$this->photoRepository = new PhotoRepository();
 		$statAnkets = [];
 		$statAnkets['total_women'] 			= User::getCountAnkets(WOMEN);
 		$statAnkets['total_men'] 			= User::getCountAnkets(MEN);
-		$statAnkets['total_fotos'] 			= Photo::getCountPhotos();
+		$statAnkets['total_fotos'] 			= $this->photoRepository->getCountPhotos();
 
 		$statAnkets['total_ankets'] 		= $statAnkets['total_men'] + $statAnkets['total_women'];
 		$statAnkets['women_ank_percent'] 	= round(( $statAnkets['total_women'] / $statAnkets['total_ankets'] ) * 100);

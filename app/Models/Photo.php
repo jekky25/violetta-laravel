@@ -3,15 +3,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-
-use App\Models\CategoryHome;
 use App\Models\CommentPhoto;
 
 class Photo extends Model
 {
 	use HasFactory;
-
 	protected $table 		= 'fotos';
 	protected $primaryKey 	= 'fotos_id';
 	public $timestamps 		= false;
@@ -20,16 +16,6 @@ class Photo extends Model
 		'fotos_portret',
 		'user_id'
 	];
-
-	/**
-    * get count all user pictures
-    * @return int
-    */
-	public static function getCountPhotos ()
-	{
-		$count = self::select('fotos_id')->count();
-		return $count > 0 ? $count : 0;
-	}
 
 	/**
     * get pucture by id
