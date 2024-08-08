@@ -115,4 +115,42 @@ class MessageRepository implements MessageInterface {
 		->first();
 		return $item;
 	}
+
+	/**
+	* get all new messages for $user
+	* @param  \Illuminate\Database\Eloquent\Collection $messages
+	* @param  User $user
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getNewsByUsers ($messages, $user)
+	{
+		if ($messages->count() == 0) return $messages;
+		$users = [];
+		foreach ($messages as $item)
+		{
+			$users[] = $item->user_id;
+		}
+
+		if (!empty($users))
+		{
+			$items = Message::select('*')
+			->where('user_poluchil', $user->user_id)
+			->whereIn('user_otprav', $users)
+			->where('mess_new', 1)
+			->get();
+		}
+		foreach ($messages as &$_message)
+		{
+			$_message->mess_new = 0;
+			foreach ($items as $item)
+			{
+				if ($_message->user_id == $item->user_otprav)
+				{
+					$_message->mess_new = $item->mess_new;
+					break;
+				}
+			}
+		}
+		return $messages;
+	}
 }

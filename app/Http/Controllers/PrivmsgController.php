@@ -59,7 +59,7 @@ class PrivmsgController extends Controller
 		if (empty ($user)) abort (404);
 
 		$messages 			= $this->messageRepository->getAll($user->user_id, self::$messagePerPage);
-		$messages			= Message::getNewsByUsers($messages, $user);
+		$messages			= $this->messageRepository->getNewsByUsers($messages, $user);
 		$page 				= $messages->currentPage();
 		$pagination 		= Helper::preparePagination ($messages->toArray()['links']);
 		return response()->view ('ankets.privmsg',
