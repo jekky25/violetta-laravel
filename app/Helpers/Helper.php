@@ -1,10 +1,10 @@
 <?php
 namespace App\Helpers;
-use Illuminate\Http\Request;
 use Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Photo;
+use App\Repositories\PhotoRepository;
 
 class Helper {
 
@@ -912,8 +912,7 @@ class Helper {
 
 		if ($isPortret)
 		{
-			$photo = Photo::getFirstByUserId($user->user_id);
-
+			$photo = (new PhotoRepository())->getFirstByUserId($user->user_id);
 			if (!empty($photo))
 			{
 				$photo->fotos_portret = 1;

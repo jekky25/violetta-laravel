@@ -28,4 +28,17 @@ class PhotoRepository implements PhotoInterface {
 		->first();
 		return $item;
 	}
+
+	/**
+	* get the first pucture by userId
+	* @param  int $id
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getFirstByUserId($id)
+	{
+		$item = Photo::select('*')
+		->where ('user_id', $id)
+		->first();
+		return $item;
+	}
 }

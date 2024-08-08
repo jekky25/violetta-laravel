@@ -715,7 +715,7 @@ class RegistrationController extends Controller
 
 			if ($isPortret)
 			{
-				$photo = Photo::getFirstByUserId($user->user_id);
+				$photo = $this->photoRepository->getFirstByUserId($user->user_id);
 
 				if (!empty($photo))
 				{
