@@ -52,6 +52,7 @@ class ProfileTest extends TestCase
 	{
 		$ar = [
 			'ank/photo/1.html',
+			'ank/f/photo_85842/'
 		];
 		foreach ($ar as $item)
 		{
