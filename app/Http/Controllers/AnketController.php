@@ -63,7 +63,7 @@ class AnketController extends Controller
 	*/
 	public function getBirthdayAnkets ()
 	{
-		$ankets 			= User::getBirthday($this->countPerPage);
+		$ankets 			= $this->userRepository->getBirthday($this->countPerPage);
 		$page 				= $ankets->currentPage();
 		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
 
