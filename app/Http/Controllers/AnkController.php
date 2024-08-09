@@ -30,7 +30,7 @@ class AnkController extends Controller
 		'\\App\\Repositories\\FamilyStatusRepository' 	=> ['prop' =>'user_sem_polozh',			'ank_prop' =>'family_status'],
 		'\\App\\Repositories\\ChildrenRepository' 		=> ['prop' =>'user_children',			'ank_prop' =>'children'],
 		'\\App\\Repositories\\EducationRepository' 		=> ['prop' =>'user_education',			'ank_prop' =>'education'],
-		'\\App\\Models\\Smoke' 			=> ['prop' =>'user_smoke',				'ank_prop' =>'smoke'],
+		'\\App\\Repositories\\SmokeRepository' 			=> ['prop' =>'user_smoke',				'ank_prop' =>'smoke'],
 		'\\App\\Models\\Spirt' 			=> ['prop' =>'user_spirt',				'ank_prop' =>'spirt'],
 		'\\App\\Repositories\\HelpMoneyRepository' 		=> ['prop' =>'user_help_money',			'ank_prop' =>'help_money'],
 		'\\App\\Repositories\\SexOrientRepository' 		=> ['prop' =>'user_sex_oriebt',			'ank_prop' =>'sex_orient'],
@@ -254,7 +254,7 @@ class AnkController extends Controller
 			//making partner education
 			$anket->getPropertyFew('App\Repositories\EducationRepository',	$anket->user_partner_education, 'partner_education');
 			//making partner smoke
-			$anket->getPropertyFew('App\Models\Smoke',	$anket->user_partner_smoke, 'partner_smoke');
+			$anket->getPropertyFew('App\Repositories\SmokeRepository',	$anket->user_partner_smoke, 'partner_smoke');
 			//making partner spirt
 			$anket->getPropertyFew('App\Models\Spirt',	$anket->user_partner_spirt, 'partner_spirt');
 
