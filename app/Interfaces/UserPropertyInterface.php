@@ -3,5 +3,6 @@
 namespace App\Interfaces;
 
 interface UserPropertyInterface {
-    public static function getById($id);
+	public static function getById($id);
+	public static function getAll();
 }
