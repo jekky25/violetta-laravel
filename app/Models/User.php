@@ -97,15 +97,6 @@ class User extends Authenticatable
 		'partner_spirt'
 	];
 
-	public static function getByLoginAndPass($login, $pass)
-	{
-		if (empty($login) or empty($pass)) return false;
-		return self::select(['user_id'])
-				->where('user_login', $login)
-				->where('user_hash', md5($pass))
-				->first();
-	}
-
 	public static function getByIdAndConfirmCode($id, $code)
 	{
 		if ((int)($id) == 0 or empty($code)) return false;

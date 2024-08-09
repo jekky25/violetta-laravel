@@ -12,6 +12,7 @@ use App\Interfaces\CountryInterface;
 use App\Interfaces\RegionInterface;
 use App\Interfaces\DiaryInterface;
 use App\Interfaces\PhotoInterface;
+use App\Interfaces\UserInterface;
 use Validator;
 use App\Helpers\Helper;
 use App\Models\User;
@@ -154,7 +155,8 @@ class RegistrationController extends Controller
 		protected RegionInterface $regionRepository,
 		protected CountryInterface $countryRepository,
 		protected DiaryInterface $diaryRepository,
-		protected PhotoInterface $photoRepository
+		protected PhotoInterface $photoRepository,
+		protected UserInterface $userRepository
 	)
 	{
 	}
@@ -877,7 +879,7 @@ class RegistrationController extends Controller
 		$password 		= !empty($arParams['pass_template']) 		? $arParams['pass_template'] 			: '';
 		$remember 		= true;
 
-		$user 			= User::getByLoginAndPass($username, $password);
+		$user 			= $this->userRepository->getByLoginAndPass($username, $password);
 		if (empty($user)) 
 		{
 			$title 			= 'Информация';
@@ -1111,7 +1113,7 @@ class RegistrationController extends Controller
 		->to($oMail->emailTo)
 		->send(new Email($oMail));
 
-		$user 			= User::getByLoginAndPass($login, $password);
+		$user 			= $this->userRepository->getByLoginAndPass($login, $password);
 		Auth::login($user, true);
 
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');

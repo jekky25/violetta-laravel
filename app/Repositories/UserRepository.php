@@ -144,4 +144,19 @@ class UserRepository implements UserInterface {
 
 		return $items;
 	}
+
+	/**
+	* get profile for auth
+	* @param  string $login
+	* @param  string $pass
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getByLoginAndPass($login, $pass)
+	{
+		if (empty($login) or empty($pass)) return false;
+		return User::select(['user_id'])
+				->where('user_login', $login)
+				->where('user_hash', md5($pass))
+				->first();
+	}
 }
