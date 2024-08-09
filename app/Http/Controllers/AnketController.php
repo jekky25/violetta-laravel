@@ -117,7 +117,7 @@ class AnketController extends Controller
 	*/
 	public function getViews ()
 	{
-		$ankets 					= User::getViews($this->countPerPage);
+		$ankets 					= $this->userRepository->getViews($this->countPerPage);
 		$page 						= $ankets->currentPage();
 		$pagination 				= Helper::preparePagination ($ankets->toArray()['links']);
 		$user	 					= Auth::user();

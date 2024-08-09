@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Illuminate\Support\Facades\DB;
 Use App\Interfaces\UserInterface;
 use App\Services\LengthPager;
 use App\Models\User;
@@ -111,6 +112,33 @@ class UserRepository implements UserInterface {
 		->with('photo')
 		->orderBy('user_top100', 'desc')
 		->paginate($count);
+		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
+		$items = User::addProps($items);
+
+		return $items;
+	}
+
+	/**
+	* get profiles of who watched
+	* @param  int $count
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getViews($count = 0)
+	{
+		$time	= \Carbon\Carbon::now()->subDays(30)->timestamp;
+		$items 	= User::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
+		->where('user_active', 1)
+		->with('city')
+		->with('city')
+		->with('anketVisit')
+		->whereExists(function ($query) use ($time) {
+			$query->select(DB::raw(1))
+				  ->from('anket_visit')
+				  ->where('anket_visit.ank_time', '>', $time)
+				  ->whereRaw('users_news.user_id = anket_visit.ank_user_id');
+		})
+		->paginate($count);
+
 		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
 		$items = User::addProps($items);
 
