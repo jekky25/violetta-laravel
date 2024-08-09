@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Helpers\Helper;
 use App\Repositories\AnketVisitRepository;
+use App\Repositories\UserRepository;
 
 class RightColServiceProvider extends ServiceProvider
 {
@@ -27,7 +28,8 @@ class RightColServiceProvider extends ServiceProvider
 	*/
 	public function boot()
 	{
-		$this->anketVisitRepository = new AnketVisitRepository();
+		$this->anketVisitRepository	= new AnketVisitRepository();
+		$this->userRepository 		= new UserRepository();
 
 		View::composer('*', function($view) {
 			$user = Auth::user();
@@ -42,8 +44,8 @@ class RightColServiceProvider extends ServiceProvider
             $view->with(['user' => $user]);
         });
 
-		$wItem = User::getTop100(WOMEN, 1);
-		$mItem = User::getTop100(MEN, 1);
+		$wItem = $this->userRepository->getTop100(WOMEN, 1);
+		$mItem = $this->userRepository->getTop100(MEN, 1);
 
 		$top100 = [
 			'women' => $wItem,
