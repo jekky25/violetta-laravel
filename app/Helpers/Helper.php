@@ -3,7 +3,6 @@ namespace App\Helpers;
 use Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Photo;
 use App\Repositories\PhotoRepository;
 
 class Helper {
@@ -924,7 +923,7 @@ class Helper {
 		$user->user_refresh_date_t 	= time();
 		$user->user_session_time 	= time();
 		$user->user_lastvisit 		= time();
-		$user->user_fotos 			= count (Photo::getAllByUserId($user->user_id));
+		$user->user_fotos 			= (new PhotoRepository())->getAllByUserId($user->user_id)->count();
 		$user->update();
 
 		return true;

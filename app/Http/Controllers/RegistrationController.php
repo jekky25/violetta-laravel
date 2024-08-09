@@ -728,7 +728,7 @@ class RegistrationController extends Controller
 			$user->user_refresh_date_t 	= time();
 			$user->user_session_time 	= time();
 			$user->user_lastvisit 		= time();
-			$user->user_fotos 			= count (Photo::getAllByUserId($user->user_id));
+			$user->user_fotos 			= count ($this->photoRepository->getAllByUserId($user->user_id));
 			$user->update();
 
 			return redirect()->route('registration.edit.photo')->with('success','Информация сохранена.');

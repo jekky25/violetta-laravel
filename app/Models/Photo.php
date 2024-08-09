@@ -18,21 +18,8 @@ class Photo extends Model
 	];
 
 	/**
-    * get all puctures by userId
-	* @param  int $id
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-	public static function getAllByUserId($id)
-	{
-		$item = self::select('*')
-		->where ('user_id', $id)
-		->get();
-		return $item;
-	}
-
-	/**
-    * get comments
-    */
+	* get comments
+	*/
 	public function comment()
 	{
 		return $this->hasMany(CommentPhoto::class, 'foto_id', 'fotos_id')->with('user');
