@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Models\User;
 use App\Models\AnketEvaluation;
-use App\Models\Vars;
 use App\Models\CommentPhoto;
 use App\Models\Diary;
 use App\Models\DiaryComment;
@@ -18,6 +17,7 @@ use App\Interfaces\AnketVisitInterface;
 use App\Interfaces\DiaryInterface;
 use App\Interfaces\DiaryCommentInterface;
 use App\Interfaces\PhotoInterface;
+use App\Interfaces\VarsInterface;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -79,6 +79,7 @@ class AnkController extends Controller
 		protected DiaryInterface $diaryRepository,
 		protected DiaryCommentInterface $diaryCommentRepository,
 		protected PhotoInterface $photoRepository,
+		protected VarsInterface $varsRepository
 	)
 	{
 	}
@@ -284,11 +285,11 @@ class AnkController extends Controller
 			if (empty ($photo)) abort (404);
 			$id = $photo->user_id;
 		}
-		$anket = User::getById ($id);
+		$anket	= User::getById ($id);
 		if (!count ($anket->photo)) abort (404);
-		$user = Auth::user();
-		$user = !empty($user) ? $user->load(['visits']) : null;
-		$vars 	= Vars::getAll();
+		$user	= Auth::user();
+		$user	= !empty($user) ? $user->load(['visits']) : null;
+		$vars	= $this->varsRepository->getAll();
 
 		$ankVisits = $this->anketVisitRepository->getVisitsByUserId ($id, self::$visitDays, $user->user_id);
 		$anket->ankVisits = count($ankVisits);
