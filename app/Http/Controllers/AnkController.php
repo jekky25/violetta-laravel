@@ -250,7 +250,7 @@ class AnkController extends Controller
 			//making partner body
 			$anket->getPropertyFew('\App\Repositories\BodyRepository',	$anket->user_partner_body, 'partner_body');
 			//making partner languages
-			$anket->getPropertyFew('App\Models\SpeakLang',	$anket->user_partner_speak_lang, 'partner_speak_lang');
+			$anket->getPropertyFew('App\Repositories\SpeakLangRepository',	$anket->user_partner_speak_lang, 'partner_speak_lang');
 			//making partner education
 			$anket->getPropertyFew('App\Repositories\EducationRepository',	$anket->user_partner_education, 'partner_education');
 			//making partner smoke
