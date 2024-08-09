@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Mail;
 use App\Interfaces\BanListInterface;
 use App\Interfaces\CityInterface;
 use App\Interfaces\CountryInterface;
+use App\Interfaces\RegionInterface;
 use App\Interfaces\DiaryInterface;
 use App\Interfaces\PhotoInterface;
 use Validator;
 use App\Helpers\Helper;
-use App\Models\Region;
 use App\Models\User;
 use App\Models\Photo;
 use App\Models\AnketVisit;
@@ -151,9 +151,10 @@ class RegistrationController extends Controller
 	public function __construct(
 		protected BanListInterface $banListRepository,
 		protected CityInterface $cityRepository,
+		protected RegionInterface $regionRepository,
 		protected CountryInterface $countryRepository,
 		protected DiaryInterface $diaryRepository,
-		protected PhotoInterface $photoRepository,
+		protected PhotoInterface $photoRepository
 	)
 	{
 	}
@@ -171,7 +172,7 @@ class RegistrationController extends Controller
 		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old ('country', $user->user_country);
 		$regionId	= (int) old ('region', $user->user_region);
-		$regions 	= $countryId > 0 	? Region::getByCountryId($countryId) 	: [];
+		$regions 	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: [];
 		$cities 	= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
 
 		return response()->view ('registration.edit',
@@ -262,7 +263,7 @@ class RegistrationController extends Controller
 		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old ('country', $user->user_partner_country);
 		$regionId	= (int) old ('region', $user->user_partner_region);
-		$regions 	= $countryId > 0 	? Region::getByCountryId($countryId) 	: [];
+		$regions 	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: [];
 		$cities 	= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
 
 		return response()->view ('registration.partner',
@@ -953,7 +954,7 @@ class RegistrationController extends Controller
 		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old ('country');
 		$regionId	= (int) old ('region');
-		$regions 	= $countryId > 0 	? Region::getByCountryId($countryId) 	: [];
+		$regions 	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: [];
 		$cities 	= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
 
 		return response()->view ('registration.registration',

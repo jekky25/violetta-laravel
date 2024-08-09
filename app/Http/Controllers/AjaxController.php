@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Interfaces\CityInterface;
+use App\Interfaces\RegionInterface;
 use App\Models\Region;
 use App\Helpers\Helper;
 
@@ -16,6 +17,7 @@ class AjaxController extends Controller
 	*/
 	public function __construct(
 		protected CityInterface $cityRepository,
+		protected RegionInterface $regionRepository
 	)
 	{
 	}
@@ -49,7 +51,7 @@ class AjaxController extends Controller
 	{
 		$id = (int)$request->get('id');
 		if ($id == 0) return false;
-		$regions = Region::getByCountryId($id);
+		$regions = $this->regionRepository->getByCountryId($id);
 		Helper::outToXml($regions);
 	}
 
