@@ -77,6 +77,24 @@ class ProfileTest extends TestCase
 		}
 	}
 
+	/**
+	* Test a top100 pages
+	*/
+	public function test_top100_profiles_page(): void
+	{
+		$ar = [
+			'bestankets/women/',
+			'bestankets/men/',
+		];
+
+		foreach ($ar as $item)
+		{
+			$_SERVER['REQUEST_URI'] = $item;
+			$response = $this->get($_SERVER['REQUEST_URI']);
+			$response->assertStatus(200);
+		}
+	}
+
 
 	/**
 	* Test a picture profile page
