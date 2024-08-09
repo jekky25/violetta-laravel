@@ -3,8 +3,8 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
-use App\Models\User;
 use App\Repositories\PhotoRepository;
+use App\Repositories\UserRepository;
 
 class LeftColServiceProvider extends ServiceProvider
 {
@@ -25,10 +25,11 @@ class LeftColServiceProvider extends ServiceProvider
 	*/
 	public function boot()
 	{
-		$this->photoRepository = new PhotoRepository();
+		$this->photoRepository 		= new PhotoRepository();
+		$this->userRepository 		= new UserRepository();
 		$statAnkets = [];
-		$statAnkets['total_women'] 			= User::getCountAnkets(WOMEN);
-		$statAnkets['total_men'] 			= User::getCountAnkets(MEN);
+		$statAnkets['total_women'] 			= $this->userRepository->getCountAnkets(WOMEN);
+		$statAnkets['total_men'] 			= $this->userRepository->getCountAnkets(MEN);
 		$statAnkets['total_fotos'] 			= $this->photoRepository->getCountPhotos();
 
 		$statAnkets['total_ankets'] 		= $statAnkets['total_men'] + $statAnkets['total_women'];

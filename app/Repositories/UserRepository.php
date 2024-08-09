@@ -54,4 +54,18 @@ class UserRepository implements UserInterface {
 		$items = count ($items) > 1 ? $items : $items[0];
 		return ($items);
 	}
+
+	/**
+	* get num of the profiles
+	* @param  int $sex
+	* @return int
+	*/
+	public function getCountAnkets ($sex)
+	{
+		$count = User::select('user_id')
+		->where('user_sex', $sex)
+		->where('user_active', 1)
+		->count();
+		return $count > 0 ? $count : 0;
+	}
 }

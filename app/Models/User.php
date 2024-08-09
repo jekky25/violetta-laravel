@@ -97,15 +97,6 @@ class User extends Authenticatable
 		'partner_spirt'
 	];
 
-	public static function getCountAnkets ($sex)
-	{
-		$count = self::select('user_id')
-		->where('user_sex', $sex)
-		->where('user_active', 1)
-        ->count();
-		return $count > 0 ? $count : 0;
-	}
-
 	public static function getBirthday($count = 0)
 	{
 		$tDay 	= \Carbon\Carbon::now()->format('d');
