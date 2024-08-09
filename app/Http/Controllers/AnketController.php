@@ -5,9 +5,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\CityInterface;
+use App\Interfaces\RegionInterface;
 use App\Interfaces\CountryInterface;
 use App\Models\User;
-use App\Models\Region;
 use App\Repositories\BodyRepository;
 use App\Models\HairType;
 use App\Models\Eyes;
@@ -26,6 +26,7 @@ class AnketController extends Controller
 	*/
 	public function __construct(
 		protected CityInterface $cityRepository,
+		protected RegionInterface $regionRepository,
 		protected CountryInterface $countryRepository
 	)
 	{
@@ -437,7 +438,7 @@ class AnketController extends Controller
 					$critsSearch .= '<br /> из г. <strong>' . $oCity->name . '</strong>';
 				} else if ($region > 0) 
 				{
-					$oRegion = Region::getById ($region);
+					$oRegion = $this->regionRepository->getById ($region);
 					$critsSearch .= '<br /> из <strong>' . $oRegion->name . '</strong>';
 				}
 

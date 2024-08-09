@@ -19,4 +19,17 @@ class RegionRepository implements RegionInterface {
 		->get();
 		return $items;
 	}
+
+	/**
+	* get region by region id
+	* @param  int $id
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public static function getById($id)
+	{
+		$item = Region::select('*')
+		->where ('id', $id)
+		->first();
+		return $item;
+	}
 }
