@@ -97,25 +97,6 @@ class User extends Authenticatable
 		'partner_spirt'
 	];
 
-	public static function getBest($count = 0, $sex)
-	{
-
-		$items = self::select(['*'])
-		->where('user_active', 1)
-		->where('user_sex', $sex)
-		->where('user_fotos', '>', 0)
-		->where('user_confirm_email', 1)
-		->where('user_top100', '>', 0)
-		->with('city')
-		->with('photo')
-		->orderBy('user_top100', 'desc')
-		->paginate($count);
-		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
-		$items = self::addProps($items);
-
-		return $items;
-	}
-
 	public static function getViews($count = 0)
 	{
 		$time	= \Carbon\Carbon::now()->subDays(30)->timestamp;

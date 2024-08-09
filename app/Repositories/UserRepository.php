@@ -92,4 +92,28 @@ class UserRepository implements UserInterface {
 
 		return $items;
 	}
+
+	/**
+	* get the best profiles
+	* @param  int $count
+	* @param  int $sex
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getBest($count = 0, $sex)
+	{
+		$items = User::select(['*'])
+		->where('user_active', 1)
+		->where('user_sex', $sex)
+		->where('user_fotos', '>', 0)
+		->where('user_confirm_email', 1)
+		->where('user_top100', '>', 0)
+		->with('city')
+		->with('photo')
+		->orderBy('user_top100', 'desc')
+		->paginate($count);
+		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
+		$items = User::addProps($items);
+
+		return $items;
+	}
 }
