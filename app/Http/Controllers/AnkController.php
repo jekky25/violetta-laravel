@@ -33,7 +33,7 @@ class AnkController extends Controller
 		'\\App\\Models\\Smoke' 			=> ['prop' =>'user_smoke',				'ank_prop' =>'smoke'],
 		'\\App\\Models\\Spirt' 			=> ['prop' =>'user_spirt',				'ank_prop' =>'spirt'],
 		'\\App\\Repositories\\HelpMoneyRepository' 		=> ['prop' =>'user_help_money',			'ank_prop' =>'help_money'],
-		'\\App\\Models\\SexOrient' 		=> ['prop' =>'user_sex_oriebt',			'ank_prop' =>'sex_orient'],
+		'\\App\\Repositories\\SexOrientRepository' 		=> ['prop' =>'user_sex_oriebt',			'ank_prop' =>'sex_orient'],
 		'\\App\\Repositories\\CountryRepository'		=> ['prop' =>'user_partner_country',	'ank_prop' =>'partner_country'],
 		'\\App\\Repositories\\RegionRepository'			=> ['prop' =>'user_partner_region',		'ank_prop' =>'partner_region'],
 		'\\App\\Repositories\\CityRepository'			=> ['prop' =>'user_partner_city',		'ank_prop' =>'partner_city']
