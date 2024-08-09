@@ -31,7 +31,7 @@ class AnkController extends Controller
 		'\\App\\Repositories\\ChildrenRepository' 		=> ['prop' =>'user_children',			'ank_prop' =>'children'],
 		'\\App\\Repositories\\EducationRepository' 		=> ['prop' =>'user_education',			'ank_prop' =>'education'],
 		'\\App\\Repositories\\SmokeRepository' 			=> ['prop' =>'user_smoke',				'ank_prop' =>'smoke'],
-		'\\App\\Models\\Spirt' 			=> ['prop' =>'user_spirt',				'ank_prop' =>'spirt'],
+		'\\App\\Repositories\\SpirtRepository' 			=> ['prop' =>'user_spirt',				'ank_prop' =>'spirt'],
 		'\\App\\Repositories\\HelpMoneyRepository' 		=> ['prop' =>'user_help_money',			'ank_prop' =>'help_money'],
 		'\\App\\Repositories\\SexOrientRepository' 		=> ['prop' =>'user_sex_oriebt',			'ank_prop' =>'sex_orient'],
 		'\\App\\Repositories\\CountryRepository'		=> ['prop' =>'user_partner_country',	'ank_prop' =>'partner_country'],
@@ -256,7 +256,7 @@ class AnkController extends Controller
 			//making partner smoke
 			$anket->getPropertyFew('App\Repositories\SmokeRepository',	$anket->user_partner_smoke, 'partner_smoke');
 			//making partner spirt
-			$anket->getPropertyFew('App\Models\Spirt',	$anket->user_partner_spirt, 'partner_spirt');
+			$anket->getPropertyFew('App\Repositories\SpirtRepository',	$anket->user_partner_spirt, 'partner_spirt');
 
 			$isAboutPartner = $anket->isAboutPartner();
 		}
