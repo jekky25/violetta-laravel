@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Interfaces\CityInterface;
 use App\Interfaces\RegionInterface;
 use App\Interfaces\CountryInterface;
+use App\Interfaces\UserInterface;
 use App\Models\User;
 use App\Repositories\BodyRepository;
 use App\Models\HairType;
@@ -27,7 +28,8 @@ class AnketController extends Controller
 	public function __construct(
 		protected CityInterface $cityRepository,
 		protected RegionInterface $regionRepository,
-		protected CountryInterface $countryRepository
+		protected CountryInterface $countryRepository,
+		protected UserInterface $userRepository
 	)
 	{
 	}
@@ -182,7 +184,7 @@ class AnketController extends Controller
 
 		if (empty($sex) && empty($op))
 		{
-			$ankets = User::newFaces($this->countNewFaces);
+			$ankets 			= $this->userRepository->newFaces($this->countNewFaces);
 		} else
 		{
 			$ankets 			= User::getOp($this->countPerPage, $s, $opt);
