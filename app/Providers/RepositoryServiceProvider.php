@@ -18,6 +18,7 @@ use App\Repositories\DiaryCommentRepository;
 use App\Repositories\DreamBookRepository;
 use App\Repositories\MessageRepository;
 use App\Repositories\PhotoRepository;
+use App\Repositories\SmileRepository;
 
 use App\Interfaces\GoroskopInterface;
 use App\Interfaces\NameInterface;
@@ -36,6 +37,7 @@ use App\Interfaces\DiaryCommentInterface;
 use App\Interfaces\DreamBookInterface;
 use App\Interfaces\MessageInterface;
 use App\Interfaces\PhotoInterface;
+use App\Interfaces\SmileInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -63,6 +65,7 @@ class RepositoryServiceProvider extends ServiceProvider
 		$this->app->bind(DreamBookInterface::class, DreamBookRepository::class);
 		$this->app->bind(MessageInterface::class, MessageRepository::class);
 		$this->app->bind(PhotoInterface::class, PhotoRepository::class);
+		$this->app->bind(SmileInterface::class, SmileRepository::class);
 	}
 
 	/**

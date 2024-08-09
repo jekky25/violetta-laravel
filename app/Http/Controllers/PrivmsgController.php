@@ -11,10 +11,10 @@ use Validator;
 use App\Helpers\Helper;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\MessageInterface;
+use App\Interfaces\SmileInterface;
 use App\Models\Message;
 use App\Models\User;
 use App\Models\AnketEvaluation;
-use App\Models\Smile;
 use App\Mail\Email;
 
 class PrivmsgController extends Controller
@@ -44,6 +44,7 @@ class PrivmsgController extends Controller
 	public function __construct(
 		protected AnketEvaluationInterface $anketEvaluationRepository,
 		protected MessageInterface $messageRepository,
+		protected SmileInterface $smileRepository
 	)
 	{
 	}
@@ -175,7 +176,7 @@ class PrivmsgController extends Controller
 		$vote 			= isset ($request->golos) ? (int)$request->golos : 0;
 		$vote 			= $vote > 5 ? 5 : $vote;
 		$pagination 	= Helper::preparePagination ($messages->toArray()['links']);
-		$smiles			= Smile::getAll();
+		$smiles			= $this->smileRepository->getAll();
 
 		$affectedRows	= $this->anketEvaluationRepository->getEvaluations($user->user_id, $id);
 
