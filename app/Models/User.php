@@ -15,17 +15,17 @@ use App\Services\LengthPager;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+	use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+	/**
+	* The attributes that are mass assignable.
+	*
+	* @var array<int, string>
+	*/
+	protected $fillable = [
+		'name',
+		'email',
+		'password',
 		'user_login',
 		'user_password',
 		'user_hash',
@@ -57,28 +57,28 @@ class User extends Authenticatable
 		'user_confirm_email',
 		'user_active',
 		'user_odobreno'
-    ];
+	];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+	/**
+	* The attributes that should be hidden for serialization.
+	*
+	* @var array<int, string>
+	*/
+	protected $hidden = [
+		'password',
+		'remember_token',
+	];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+	/**
+	* The attributes that should be cast.
+	*
+	* @var array<string, string>
+	*/
+	protected $casts = [
+		'email_verified_at' => 'datetime',
+	];
 
-    protected $table 		= 'users_news';
+	protected $table 		= 'users_news';
 	protected $primaryKey 	= 'user_id';
 	public $timestamps 		= false;
 
@@ -96,30 +96,6 @@ class User extends Authenticatable
 		'partner_smoke',
 		'partner_spirt'
 	];
-
-	/**
-    * get new faces for the front page
-	* @param  int $count
-    * @return \Illuminate\Database\Eloquent\Collection
-    */
-    public static function newFaces($count)
-    {
-		$items = self::select(['users_news.user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
-		->join('fotos', 'users_news.user_id', '=', 'fotos.user_id')
-		->where('user_fotos', '>', 0)
-		->where('user_confirm_email', 1)
-		->where('user_active', 1)
-		->where('fotos_portret', 1)
-		->with('city') 
-		->with('photo')
-		->limit ($count)
-        ->orderBy('user_make_date_t', 'desc')
-        ->get();
-
-		$items = self::addProps($items);
-
-		return $items;
-    }
 
 	public static function getTop100($sex, $count)
     {
