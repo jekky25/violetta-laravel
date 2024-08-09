@@ -60,6 +60,23 @@ class ProfileTest extends TestCase
 		}
 	}
 
+	/**
+	* Test a page with profiles who has a birthday today
+	*/
+	public function test_birthday_profiles_page(): void
+	{
+		$ar = [
+			'/birthday_search/',
+		];
+
+		foreach ($ar as $item)
+		{
+			$_SERVER['REQUEST_URI'] = $item;
+			$response = $this->get($_SERVER['REQUEST_URI']);
+			$response->assertStatus(200);
+		}
+	}
+
 
 	/**
 	* Test a picture profile page
