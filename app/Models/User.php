@@ -6,12 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Facades\Auth;
 use App\Repositories\UserRepository;
 use App\Helpers\Helper;
 use App\Models\Photo;
-use App\Services\LengthPager;
-
 
 class User extends Authenticatable
 {
@@ -96,29 +93,6 @@ class User extends Authenticatable
 		'partner_smoke',
 		'partner_spirt'
 	];
-
-	public static function getById($id)
-	{
-		$user = Auth::user();
-
-		$item = self::select('*')
-		->where ('user_id', $id)
-		->where ('user_active', 1);
-		if (empty ($user))
-		{
-			$item->where ('user_confirm_email', 1);
-		}
-		$item->with('diary')
-			 ->with('photo.comment.user.photo')
-			 ->with('city')
-			 ->with('region')
-			 ->with('country');
-
-		$item = $item->first();
-
-		if (empty ($item)) abort (404);
-		return $item;
-	}
 
 	public static function getByEmail($email)
 	{

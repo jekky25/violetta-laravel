@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Validator;
 use App\Helpers\Helper;
 use App\Interfaces\AnketEvaluationInterface;
+use App\Interfaces\UserInterface;
 use App\Interfaces\MessageInterface;
 use App\Interfaces\SmileInterface;
 use App\Models\Message;
@@ -44,7 +45,8 @@ class PrivmsgController extends Controller
 	public function __construct(
 		protected AnketEvaluationInterface $anketEvaluationRepository,
 		protected MessageInterface $messageRepository,
-		protected SmileInterface $smileRepository
+		protected SmileInterface $smileRepository,
+		protected UserInterface $userRepository
 	)
 	{
 	}
@@ -171,7 +173,7 @@ class PrivmsgController extends Controller
 	public function getAnkMess(Request $request, $id)
 	{
 		$user 			= Auth::user()->load(['visits']);
-		$anket 			= User::getById ($id);
+		$anket 			= $this->userRepository->getById ($id);
 		$messages 		= $this->messageRepository->getAllByUser($id, $user->user_id, self::$messageAnkPerPage);
 		$vote 			= isset ($request->golos) ? (int)$request->golos : 0;
 		$vote 			= $vote > 5 ? 5 : $vote;

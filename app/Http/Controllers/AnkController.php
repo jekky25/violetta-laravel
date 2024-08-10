@@ -18,6 +18,7 @@ use App\Interfaces\DiaryInterface;
 use App\Interfaces\DiaryCommentInterface;
 use App\Interfaces\PhotoInterface;
 use App\Interfaces\VarsInterface;
+use App\Interfaces\UserInterface;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -79,7 +80,8 @@ class AnkController extends Controller
 		protected DiaryInterface $diaryRepository,
 		protected DiaryCommentInterface $diaryCommentRepository,
 		protected PhotoInterface $photoRepository,
-		protected VarsInterface $varsRepository
+		protected VarsInterface $varsRepository,
+		protected UserInterface $userRepository
 	)
 	{
 	}
@@ -94,7 +96,7 @@ class AnkController extends Controller
 	{
 		$user 	= Auth::user();
 		$mode 	= Route::currentRouteName() == 'ank.full.id' ? 'full' : '';
-		$anket 	= User::getById ($id, $mode);
+		$anket 	= $this->userRepository->getById ($id, $mode);
 
 		$vote 	= isset ($request->golos) ? (int)$request->golos : 0;
 		$vote 	= $vote > 5 ? 5 : $vote;
@@ -285,7 +287,7 @@ class AnkController extends Controller
 			if (empty ($photo)) abort (404);
 			$id = $photo->user_id;
 		}
-		$anket	= User::getById ($id);
+		$anket	= $this->userRepository->getById ($id);
 		if (!count ($anket->photo)) abort (404);
 		$user	= Auth::user();
 		$user	= !empty($user) ? $user->load(['visits']) : null;
@@ -395,7 +397,7 @@ class AnkController extends Controller
 	*/
 	public function getDiary ($id)
 	{
-		$anket 	= User::getById ($id);
+		$anket 	= $this->userRepository->getById ($id);
 		if (empty ($anket->photo)) abort (404);
 
 		$diaries = $this->diaryRepository->getByUser (self::$diaryPerPage, $id);

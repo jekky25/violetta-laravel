@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 Use App\Interfaces\UserInterface;
 use App\Services\LengthPager;
 use App\Models\User;
@@ -250,5 +251,33 @@ class UserRepository implements UserInterface {
 		$items = self::addProps($items);
 
 		return $items;
+	}
+
+	/**
+	* get a profile by id
+	* @param  int $id
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getById($id)
+	{
+		$user = Auth::user();
+
+		$item = User::select('*')
+		->where ('user_id', $id)
+		->where ('user_active', 1);
+		if (empty ($user))
+		{
+			$item->where ('user_confirm_email', 1);
+		}
+		$item->with('diary')
+				->with('photo.comment.user.photo')
+				->with('city')
+				->with('region')
+				->with('country');
+
+		$item = $item->first();
+
+		if (empty ($item)) abort (404);
+		return $item;
 	}
 }
