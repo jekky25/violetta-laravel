@@ -227,4 +227,28 @@ class UserRepository implements UserInterface {
 		}
 		return $items;
 	}
+
+	/**
+	* get profiles by option
+	* @param  int $count
+	* @param  int $sex
+	* @param  string $op
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getOp($count = 0, $sex, $op)
+	{
+		$items = User::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
+		->where('user_sex', $sex)
+		->with('city')
+		->with('photo');
+		if (!empty ($op['birthDate']))
+			$items = $items->where('user_birth_date', '>', $op['birthDate']);
+		if (!empty ($op['birthDate2']))
+			$items = $items->where('user_birth_date', '<', $op['birthDate2']);
+		$items = $items->orderBy('user_id', 'desc')->paginate($count);
+		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
+		$items = self::addProps($items);
+
+		return $items;
+	}
 }

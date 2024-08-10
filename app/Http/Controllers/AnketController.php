@@ -188,7 +188,7 @@ class AnketController extends Controller
 			$ankets 			= $this->userRepository->newFaces($this->countNewFaces);
 		} else
 		{
-			$ankets 			= User::getOp($this->countPerPage, $s, $opt);
+			$ankets 			= $this->userRepository->getOp($this->countPerPage, $s, $opt);
 			$page 				= $ankets->currentPage();
 			$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
 			$countSearchAnkStr	= Helper::getFoundStr ($ankets, $this->countPerPage);
