@@ -159,4 +159,19 @@ class UserRepository implements UserInterface {
 				->where('user_hash', md5($pass))
 				->first();
 	}
+
+	/**
+	* get profile over user_id and confirmation code
+	* @param  int $id
+	* @param  string $code
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getByIdAndConfirmCode($id, $code)
+	{
+		if ((int)($id) == 0 or empty($code)) return false;
+		return User::select(['*'])
+				->where('user_id', $id)
+				->where('user_submit_code', addslashes($code))
+				->first();
+	}
 }

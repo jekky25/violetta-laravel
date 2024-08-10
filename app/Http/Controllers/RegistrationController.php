@@ -1128,7 +1128,7 @@ class RegistrationController extends Controller
 	public function confirm ($id, $code)
 	{
 		if (empty ($code)) abort(404);
-		$user 			= User::getByIdAndConfirmCode($id, $code);
+		$user 			= $this->userRepository->getByIdAndConfirmCode($id, $code);
 		$isConfirmed 	= false;
 		if (!empty ($user))
 		{

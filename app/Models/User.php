@@ -97,15 +97,6 @@ class User extends Authenticatable
 		'partner_spirt'
 	];
 
-	public static function getByIdAndConfirmCode($id, $code)
-	{
-		if ((int)($id) == 0 or empty($code)) return false;
-		return self::select(['*'])
-				->where('user_id', $id)
-				->where('user_submit_code', addslashes($code))
-				->first();
-	}
-
 	public static function getMaxReiting($sex)
 	{
 		$item = self::select(['*'])
