@@ -109,6 +109,12 @@ class User extends Authenticatable
 		}
 	}
 
+	/**
+	* Get user multiple property from the model
+	* @param array $item
+	* @param string $k
+	* @return void
+	*/
 	public function getPropertyFew($class, $prop,$propOut)
 	{
 		$unserProp = unserialize($prop);
@@ -131,7 +137,6 @@ class User extends Authenticatable
 					}
 				}
 			}
-
 			$this->$propOut = implode (', ', $ar);
 		}
 	}
