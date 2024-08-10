@@ -26,7 +26,7 @@ class UserRepository implements UserInterface {
 		->limit ($count)
 		->orderBy('user_make_date_t', 'desc')
 		->get();
-		$items = User::addProps($items);
+		$items = self::addProps($items);
 		return $items;
 	}
 
@@ -89,7 +89,7 @@ class UserRepository implements UserInterface {
 		->with('photo')
 		->paginate($count);
 		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
-		$items = User::addProps($items);
+		$items = self::addProps($items);
 
 		return $items;
 	}
@@ -113,7 +113,7 @@ class UserRepository implements UserInterface {
 		->orderBy('user_top100', 'desc')
 		->paginate($count);
 		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
-		$items = User::addProps($items);
+		$items = self::addProps($items);
 
 		return $items;
 	}
@@ -140,7 +140,7 @@ class UserRepository implements UserInterface {
 		->paginate($count);
 
 		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
-		$items = User::addProps($items);
+		$items = self::addProps($items);
 
 		return $items;
 	}
@@ -209,7 +209,22 @@ class UserRepository implements UserInterface {
 		})
 		->orderBy('user_id', 'desc')
 		->paginate($count);
-		$items = User::addProps($items);
+		$items = self::addProps($items);
+		return $items;
+	}
+
+	/**
+	* add properties to this repository
+	* @param  \Illuminate\Database\Eloquent\Collection $items
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public static function addProps($items)
+	{
+		foreach ($items as &$_item)
+		{
+			if (count ($_item->photo) > 0)
+				$_item->photo 		= $_item->photo[0];
+		}
 		return $items;
 	}
 }

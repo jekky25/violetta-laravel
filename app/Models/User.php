@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\UserRepository;
 use App\Helpers\Helper;
@@ -97,16 +96,6 @@ class User extends Authenticatable
 		'partner_smoke',
 		'partner_spirt'
 	];
-
-	public static function addProps($items)
-	{
-		foreach ($items as &$_item)
-		{
-			if (count ($_item->photo) > 0)
-				$_item->photo 		= $_item->photo[0];
-		}
-		return $items;
-	}
 
 	public static function getOp($count = 0, $sex, $op)
 	{
