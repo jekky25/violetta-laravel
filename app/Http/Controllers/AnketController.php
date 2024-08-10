@@ -43,7 +43,7 @@ class AnketController extends Controller
 	{
 		$s 					= $sex == 'men' ? MEN 		: WOMEN;
 		$popSex 			= $sex == 'men' ? 'мужчины' : 'женщины';
-		$ankets 			= User::getPopul($this->countPerPage, $s);
+		$ankets 			= $this->userRepository->getPopul($this->countPerPage, $s);
 		$page 				= $ankets->currentPage();
 		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
 

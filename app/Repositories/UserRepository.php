@@ -188,4 +188,28 @@ class UserRepository implements UserInterface {
 		->max('user_reiting');
 		return $item;
 	}
+
+	/**
+	* get the most popular profiles
+	* @param  int $count
+	* @param  int $sex
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getPopul($count = 0, $sex)
+	{
+		$items = User::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
+		->where('user_sex', $sex)
+		->with('city')
+		->with('photo')
+		->with('anketVisit')
+		->whereExists(function ($query) {
+			$query->select(DB::raw(1))
+					->from('anket_visit')
+					->whereRaw('users_news.user_id = anket_visit.user_id_prosm');
+		})
+		->orderBy('user_id', 'desc')
+		->paginate($count);
+		$items = User::addProps($items);
+		return $items;
+	}
 }
