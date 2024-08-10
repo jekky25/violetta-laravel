@@ -94,14 +94,6 @@ class User extends Authenticatable
 		'partner_spirt'
 	];
 
-	public static function getByEmail($email)
-	{
-		$item = self::select('*')
-		->where ('user_mail', $email)
-		->first();
-		return $item;
-	}
-
 	public static function getByLogin($login)
 	{
 		$item = self::select('*')

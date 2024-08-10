@@ -918,8 +918,8 @@ class RegistrationController extends Controller
 				->withErrors($strError, 'comment')
 				->withInput();
 		}
-		$email 	= $arParams['mail'];
-		$user 	= User::getByEmail($email);
+		$email	= $arParams['mail'];
+		$user	= $this->userRepository->getByEmail($email);
 
 		if (!empty($user))
 		{
@@ -1017,7 +1017,7 @@ class RegistrationController extends Controller
 
 		Validator::extend('check_email',
 		function () use ($arParams) {
-			return empty(User::getByEmail($arParams['mail'])) ? true : false;
+			return empty($this->userRepository->getByEmail($arParams['mail'])) ? true : false;
 		});
 
 		Validator::extend('place_empty',

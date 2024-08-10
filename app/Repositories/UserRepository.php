@@ -280,4 +280,17 @@ class UserRepository implements UserInterface {
 		if (empty ($item)) abort (404);
 		return $item;
 	}
+
+	/**
+	* get a profile by E-mail
+	* @param  string $email
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getByEmail($email)
+	{
+		$item = User::select('*')
+		->where ('user_mail', $email)
+		->first();
+		return $item;
+	}
 }
