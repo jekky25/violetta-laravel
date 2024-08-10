@@ -78,6 +78,23 @@ class ProfileTest extends TestCase
 	}
 
 	/**
+	* Test a page with the most popular profiles
+	*/
+	public function test_popular_profiles_page(): void
+	{
+		$ar = [
+			'/population_search/',
+		];
+
+		foreach ($ar as $item)
+		{
+			$_SERVER['REQUEST_URI'] = $item;
+			$response = $this->get($_SERVER['REQUEST_URI']);
+			$response->assertStatus(200);
+		}
+	}
+
+	/**
 	* Test a top100 pages
 	*/
 	public function test_top100_profiles_page(): void
