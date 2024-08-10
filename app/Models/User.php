@@ -94,14 +94,6 @@ class User extends Authenticatable
 		'partner_spirt'
 	];
 
-	public static function getByLogin($login)
-	{
-		$item = self::select('*')
-		->where ('user_login', $login)
-		->first();
-		return $item;
-	}
-
 	public static function getJustById($id, $width = [])
 	{
 		$item = self::select('*')

@@ -995,7 +995,7 @@ class RegistrationController extends Controller
 
 		Validator::extend('check_login',
 		function () use ($login) {
-			return empty(User::getByLogin($login)) ? true : false;
+			return empty($this->userRepository->getByLogin($login)) ? true : false;
 		});
 
 		Validator::extend('check_password',

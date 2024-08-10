@@ -293,4 +293,17 @@ class UserRepository implements UserInterface {
 		->first();
 		return $item;
 	}
+
+	/**
+	* get a profile by login
+	* @param  string $login
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getByLogin($login)
+	{
+		$item = self::select('*')
+		->where ('user_login', $login)
+		->first();
+		return $item;
+	}
 }
