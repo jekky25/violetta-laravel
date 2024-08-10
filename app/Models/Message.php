@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ class Message extends Model
 		'time',
 		'mess_new',
 		'privmess_text'
-    ];
+	];
 
 	public function __construct(array $attributes = []) {
 		parent::__construct($attributes);
@@ -38,7 +39,7 @@ class Message extends Model
 	public function getUserMesAttribute ($val)
 	{
 		if (!empty ($val) or empty($this->user)) return $val;
-		return $this->user->user_id == $this->user_otprav ? User::getJustById($this->user_poluchil, ['photo']) : User::getJustById($this->user_otprav, ['photo']);
+		return $this->user->user_id == $this->user_otprav ? (new UserRepository())->getJustById($this->user_poluchil, ['photo']) : (new UserRepository())->getJustById($this->user_otprav, ['photo']);
 	}
 
 	public function getLastDateAttribute ()

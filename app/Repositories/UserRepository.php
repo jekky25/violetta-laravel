@@ -282,6 +282,28 @@ class UserRepository implements UserInterface {
 	}
 
 	/**
+	* get a profile by id without relations
+	* @param  int $id
+	* @param  array $width
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getJustById($id, $width = [])
+	{
+		$item = User::select('*')
+		->where ('user_id', $id);
+		if (!empty ($width))
+		{
+			foreach ($width as $w)
+			{
+				$item->with($w);
+			}
+		}
+		$item = $item->first();
+		if (empty ($item)) return null;
+		return $item;
+	}
+
+	/**
 	* get a profile by E-mail
 	* @param  string $email
 	* @return \Illuminate\Database\Eloquent\Collection

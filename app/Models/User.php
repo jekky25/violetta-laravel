@@ -94,22 +94,6 @@ class User extends Authenticatable
 		'partner_spirt'
 	];
 
-	public static function getJustById($id, $width = [])
-	{
-		$item = self::select('*')
-		->where ('user_id', $id);
-		if (!empty ($width))
-		{
-			foreach ($width as $w)
-			{
-				$item->with($w);
-			}
-		}
-		$item = $item->first();
-		if (empty ($item)) return null;
-		return $item;
-	}
-
 	/**
 	* Get user property from the model
 	* @param array $item
@@ -305,37 +289,37 @@ class User extends Authenticatable
 
 	public function country()
 	{
-    	return $this->hasOne(Country::class, 'id', 'user_country');
+		return $this->hasOne(Country::class, 'id', 'user_country');
 	}
 
 	public function region()
 	{
-    	return $this->hasOne(Region::class, 'id', 'user_region');
+		return $this->hasOne(Region::class, 'id', 'user_region');
 	}
 
 	public function city()
 	{
-    	return $this->hasOne(City::class, 'id', 'user_city');
+		return $this->hasOne(City::class, 'id', 'user_city');
 	}
 
 	public function photo()
 	{
-    	return $this->hasMany(Photo::class, 'user_id', 'user_id')->with('comment')->orderBy('fotos_portret', 'desc');
+		return $this->hasMany(Photo::class, 'user_id', 'user_id')->with('comment')->orderBy('fotos_portret', 'desc');
 	}
 
 	public function visits()
 	{
 		$t = time() - 60*60*24*30;
-    	return $this->hasMany(AnketVisit::class, 'user_id_prosm', 'user_id')->where('ank_time', '>', $t);
+		return $this->hasMany(AnketVisit::class, 'user_id_prosm', 'user_id')->where('ank_time', '>', $t);
 	}
 
 	public function diary()
 	{
-    	return $this->hasMany(Diary::class, 'dnevniki_user_id', 'user_id')->orderBy('dnevniki_time', 'desc');
+		return $this->hasMany(Diary::class, 'dnevniki_user_id', 'user_id')->orderBy('dnevniki_time', 'desc');
 	}
 
 	public function anketVisit()
 	{
-    	return $this->hasOne(AnketVisit::class, 'user_id_prosm', 'user_id');
+		return $this->hasOne(AnketVisit::class, 'user_id_prosm', 'user_id');
 	}
 }

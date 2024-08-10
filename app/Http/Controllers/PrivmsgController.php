@@ -204,7 +204,7 @@ class PrivmsgController extends Controller
 				$voteSum = $this->anketEvaluationRepository->getSum ($id);
 				if ($voteSum > 0)
 				{
-					$anket = User::getJustById($id);
+					$anket = $this->userRepository->getJustById($id);
 					$anket->user_reiting = $voteSum;
 					$anket->update();
 				}
@@ -249,7 +249,7 @@ class PrivmsgController extends Controller
 	public function addPost(Request $request, $id)
 	{
 		$user 			= Auth::user();
-		$anket 			= User::getJustById($id);
+		$anket 			= $this->userRepository->getJustById($id);
 		if (empty ($user) or empty ($anket)) abort (404);
 		$arParams 		= $request->post();
 

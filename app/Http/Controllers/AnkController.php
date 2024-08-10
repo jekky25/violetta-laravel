@@ -164,7 +164,7 @@ class AnkController extends Controller
 					$voteSum = $this->anketEvaluationRepository->getSum ($id);
 					if ($voteSum > 0)
 					{
-						$anket = User::getJustById($id);
+						$anket = $this->userRepository->getJustById($id);
 						$anket->user_reiting = $voteSum;
 						$anket->update();
 					}
