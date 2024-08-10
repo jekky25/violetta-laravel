@@ -84,7 +84,7 @@ class AnketController extends Controller
 	{
 		$s 					= $sex == 'men' ? MEN 		: WOMEN;
 		$ankets 			= $this->userRepository->getBest($this->countPerPage, $s);
-		$maxReit 			= User::getMaxReiting($s);
+		$maxReit 			= $this->userRepository->getMaxReiting($s);
 		$page 				= $ankets->currentPage();
 		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
 

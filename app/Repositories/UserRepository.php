@@ -174,4 +174,18 @@ class UserRepository implements UserInterface {
 				->where('user_submit_code', addslashes($code))
 				->first();
 	}
+
+	/**
+	* get maximal reiting for all females or males with active profiles
+	* @param  int $isex
+	* @return integer
+	*/
+	public function getMaxReiting($sex)
+	{
+		$item = User::select(['*'])
+		->where('user_active', 1)
+		->where('user_sex', $sex)
+		->max('user_reiting');
+		return $item;
+	}
 }

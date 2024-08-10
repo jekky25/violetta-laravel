@@ -8,10 +8,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
+use App\Repositories\UserRepository;
 use App\Helpers\Helper;
 use App\Models\Photo;
 use App\Services\LengthPager;
+
 
 class User extends Authenticatable
 {
@@ -96,15 +97,6 @@ class User extends Authenticatable
 		'partner_smoke',
 		'partner_spirt'
 	];
-
-	public static function getMaxReiting($sex)
-	{
-		$item = self::select(['*'])
-		->where('user_active', 1)
-		->where('user_sex', $sex)
-		->max('user_reiting');
-		return $item;
-	}
 
 	public static function getPopul($count = 0, $sex)
 	{
@@ -323,7 +315,7 @@ class User extends Authenticatable
 
 	public function getUserReitingStrAttribute ()
 	{
-		$maxReit = self::getMaxReiting($this->user_sex);
+		$maxReit = (new UserRepository())->getMaxReiting($this->user_sex);
 		return Helper::reiting ($this->user_reiting,$maxReit);
 	}
 
