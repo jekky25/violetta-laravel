@@ -7,8 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 use Validator;
-use App\Models\User;
-use App\Models\AnketEvaluation;
 use App\Models\CommentPhoto;
 use App\Models\Diary;
 use App\Models\DiaryComment;
@@ -154,10 +152,8 @@ class AnkController extends Controller
 							'ball'				=> $vote,
 							'time'				=> time()
 						];
-			
-						$oAnketEvaluation = new AnketEvaluation ($aFields);
-						$oAnketEvaluation->save();
 
+						$this->anketEvaluationRepository->create($aFields);
 						$ankEvaluationed = true;
 					}
 

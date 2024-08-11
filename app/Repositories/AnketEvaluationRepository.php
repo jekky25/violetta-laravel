@@ -33,4 +33,17 @@ class AnketEvaluationRepository implements AnketEvaluationInterface {
 		->sum('ball','sum_ank');
 		return (int)$item;
 	}
+
+	/**
+	* create an evaluation
+	* @param  array $request
+	* @return void
+	*/	
+	public function create($request) {
+		try {
+			AnketEvaluation::create($request);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to create an Profile Evaluation '.$e->getMessage());
+		}
+	}
 }

@@ -14,8 +14,6 @@ use App\Interfaces\UserInterface;
 use App\Interfaces\MessageInterface;
 use App\Interfaces\SmileInterface;
 use App\Models\Message;
-use App\Models\User;
-use App\Models\AnketEvaluation;
 use App\Mail\Email;
 
 class PrivmsgController extends Controller
@@ -195,9 +193,7 @@ class PrivmsgController extends Controller
 						'time'				=> time()
 					];
 		
-					$oAnketEvaluation = new AnketEvaluation ($aFields);
-					$oAnketEvaluation->save();
-
+					$this->anketEvaluationRepository->create($aFields);
 					$ankEvaluationed = true;
 				}
 
