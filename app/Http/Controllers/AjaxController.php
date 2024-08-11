@@ -5,7 +5,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Interfaces\CityInterface;
 use App\Interfaces\RegionInterface;
-use App\Models\Region;
 use App\Helpers\Helper;
 
 class AjaxController extends Controller
@@ -33,10 +32,10 @@ class AjaxController extends Controller
 		switch ($selectid) 
 		{
 			case 'region':
-				AjaxController::getGeoRegion($request);
+				self::getGeoRegion($request);
 				break;
 			case 'city':
-				AjaxController::getGeoCity($request);
+				self::getGeoCity($request);
 				break;
 		}
 		return false;
