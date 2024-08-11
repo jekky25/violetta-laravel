@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 use Validator;
-use App\Models\Diary;
 use App\Models\DiaryComment;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\AnketVisitInterface;
@@ -451,8 +450,7 @@ class AnkController extends Controller
 			'dnevniki_time'				=> time()
 		];
 
-		$oComment = new Diary ($aFields);
-		$oComment->save();
+		$this->diaryRepository->create($aFields);
 
 		return redirect()->back()
 		->with('success','Дневник успешно добавлен')

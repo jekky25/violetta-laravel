@@ -91,4 +91,17 @@ class DiaryRepository implements DiaryInterface {
 		->first();
 		return $item;
 	}
+
+	/**
+	* create a diary
+	* @param  array $request
+	* @return void
+	*/	
+	public function create($request) {
+		try {
+			Diary::create($request);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to create a Diary '.$e->getMessage());
+		}
+	}
 }
