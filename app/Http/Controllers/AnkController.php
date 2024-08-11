@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 use Validator;
-use App\Models\CommentPhoto;
 use App\Models\Diary;
 use App\Models\DiaryComment;
 use App\Interfaces\AnketEvaluationInterface;
@@ -17,6 +16,7 @@ use App\Interfaces\DiaryCommentInterface;
 use App\Interfaces\PhotoInterface;
 use App\Interfaces\VarsInterface;
 use App\Interfaces\UserInterface;
+use App\Interfaces\CommentPhotoInterface;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -79,7 +79,8 @@ class AnkController extends Controller
 		protected DiaryCommentInterface $diaryCommentRepository,
 		protected PhotoInterface $photoRepository,
 		protected VarsInterface $varsRepository,
-		protected UserInterface $userRepository
+		protected UserInterface $userRepository,
+		protected CommentPhotoInterface $commentPhotoRepository
 	)
 	{
 	}
@@ -377,9 +378,7 @@ class AnkController extends Controller
 			'comments_description' 		=> str_replace("\'", "''", $description),
 			'time'						=> time()
 		];
-
-		$oComment = new CommentPhoto ($aFields);
-		$oComment->save();
+		$this->commentPhotoRepository->create($aFields);
 
 		return redirect()->back()
 		->with('success','Сообщение успешно отправлено')

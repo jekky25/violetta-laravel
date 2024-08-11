@@ -21,6 +21,7 @@ use App\Repositories\PhotoRepository;
 use App\Repositories\SmileRepository;
 use App\Repositories\VarsRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\CommentPhotoRepository;
 
 use App\Interfaces\GoroskopInterface;
 use App\Interfaces\NameInterface;
@@ -42,6 +43,7 @@ use App\Interfaces\PhotoInterface;
 use App\Interfaces\SmileInterface;
 use App\Interfaces\VarsInterface;
 use App\Interfaces\UserInterface;
+use App\Interfaces\CommentPhotoInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -72,6 +74,7 @@ class RepositoryServiceProvider extends ServiceProvider
 		$this->app->bind(SmileInterface::class, SmileRepository::class);
 		$this->app->bind(VarsInterface::class, VarsRepository::class);
 		$this->app->bind(UserInterface::class, UserRepository::class);
+		$this->app->bind(CommentPhotoInterface::class, CommentPhotoRepository::class);
 	}
 
 	/**
