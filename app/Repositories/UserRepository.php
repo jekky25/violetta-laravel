@@ -9,7 +9,7 @@ use App\Services\LengthPager;
 use App\Models\User;
 
 class UserRepository implements UserInterface {
-
+	private $id;
 	/**
 	* get select from model
 	* @param  string|array $param
@@ -19,6 +19,16 @@ class UserRepository implements UserInterface {
 	{
 		return User::select($param);
 	}
+
+	/**
+	* get id
+	* @return integer;
+	*/
+	public function getId ()
+	{
+		return ($this->id > 0 ? $this->id : 0);
+	}
+
 	/**
 	* get new faces for the front page
 	* @param  int $count
@@ -337,5 +347,19 @@ class UserRepository implements UserInterface {
 		->where ('user_login', $login)
 		->first();
 		return $item;
+	}
+
+	/**
+	* create an user
+	* @param  array $request
+	* @return void
+	*/	
+	public function create($request) {
+		try {
+			$user = User::create($request);
+			$this->id = $user->getKey();
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to create an User '.$e->getMessage());
+		}
 	}
 }

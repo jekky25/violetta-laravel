@@ -15,7 +15,6 @@ use App\Interfaces\PhotoInterface;
 use App\Interfaces\UserInterface;
 use Validator;
 use App\Helpers\Helper;
-use App\Models\User;
 use App\Models\Photo;
 use App\Models\AnketVisit;
 use App\Mail\Email;
@@ -291,7 +290,7 @@ class RegistrationController extends Controller
 	*/
 	public function photo ()
 	{
-		$user = User::with('photo')->find(Auth::id());
+		$user = $this->userRepository->getJustById(Auth::id(), ['photo']);
 		return response()->view ('registration.photo',
 		[
 			'photos' => $user->photo
@@ -385,7 +384,7 @@ class RegistrationController extends Controller
 	*/
 	public function editPhoto ($id)
 	{
-		$user 	= User::with('photo')->find(Auth::id());
+		$user 	= $this->userRepository->getJustById(Auth::id(), ['photo']);
 		$photo 	= [];
 		if (count($user->photo))
 		{
@@ -413,7 +412,7 @@ class RegistrationController extends Controller
 	*/
 	public function editPhotoPost (Request $request, $id)
 	{
-		$user 			= User::with('photo')->find(Auth::id());
+		$user 			= $this->userRepository->getJustById(Auth::id(), ['photo']);
 		$photo 			= $this->photoRepository->getById($id);
 		$photoId		= $id;
 		$arParams 		= $request->post();
@@ -1093,9 +1092,9 @@ class RegistrationController extends Controller
 			'user_partner_description' 	=> "",
 			'user_confirm_email' 		=> 0
 		];
-		$oUser = new User($aFields);
-		$oUser->save();
-		$userId	= $oUser->getKey();
+
+		$this->userRepository->create($aFields);
+		$userId	= $this->userRepository->getId();
 
 		$oMail 					= new \stdClass();
 		$oMail->emailTo 		= $arParams['mail'];
