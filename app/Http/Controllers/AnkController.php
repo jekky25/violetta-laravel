@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 use Validator;
-use App\Models\DiaryComment;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\AnketVisitInterface;
 use App\Interfaces\DiaryInterface;
@@ -652,9 +651,7 @@ class AnkController extends Controller
 			'comment_picture'			=> !empty ($picture) ? $picture : "0",
 			'comment_time'				=> time()
 		];
-
-		$oComment = new DiaryComment ($aFields);
-		$oComment->save();
+		$this->diaryCommentRepository->create($aFields);
 
 		return redirect()->back()
 		->with('success','Комментарий успешно добавлен')

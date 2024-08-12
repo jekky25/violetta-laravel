@@ -36,4 +36,17 @@ class DiaryCommentRepository implements DiaryCommentInterface {
 		->first();
 		return $item;
 	}
+
+	/**
+	* create a comment diary
+	* @param  array $request
+	* @return void
+	*/	
+	public function create($request) {
+		try {
+			DiaryComment::create($request);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to create a Diary Comment '.$e->getMessage());
+		}
+	}
 }
