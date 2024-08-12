@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\DiaryInterface;
 use App\Models\Diary;
+use App\Services\LengthPager;
 
 class DiaryRepository implements DiaryInterface {
 	/**
@@ -59,6 +60,7 @@ class DiaryRepository implements DiaryInterface {
 		->with('user_photo')
 		->orderBy('dnevniki_time', 'desc')
 		->paginate($count);
+		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
 		return $items;
 	}
 

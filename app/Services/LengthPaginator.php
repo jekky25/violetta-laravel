@@ -1,8 +1,6 @@
 <?
 namespace App\Services;
 
-use Illuminate\Pagination\Paginator;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\LengthAwarePaginator as BaseLengthAwarePaginator;
 
 class LengthPaginator extends BaseLengthAwarePaginator
