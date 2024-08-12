@@ -8,7 +8,6 @@ use App\Interfaces\CityInterface;
 use App\Interfaces\RegionInterface;
 use App\Interfaces\CountryInterface;
 use App\Interfaces\UserInterface;
-use App\Models\User;
 use App\Repositories\BodyRepository;
 use App\Models\HairType;
 use App\Models\Eyes;
@@ -252,7 +251,7 @@ class AnketController extends Controller
 			$critHairType 		= false;
 			$critEyes 			= false;
 
-			$ankets = User::select('*');
+			$ankets = $this->userRepository->select('*');
 			$ankets->where ('user_active', 1);
 
 			if ($findSex !== 0 && $sex == 0) 

@@ -9,6 +9,16 @@ use App\Services\LengthPager;
 use App\Models\User;
 
 class UserRepository implements UserInterface {
+
+	/**
+	* get select from model
+	* @param  string|array $param
+	* @return User;
+	*/
+	public function select ($param)
+	{
+		return User::select($param);
+	}
 	/**
 	* get new faces for the front page
 	* @param  int $count
