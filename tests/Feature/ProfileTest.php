@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileTest extends TestCase
 {
@@ -116,12 +117,14 @@ class ProfileTest extends TestCase
 	/**
 	* Test a picture profile page
 	*/
-	/*
+	
 	public function test_picture_profile_id_page(): void
 	{
+		Auth::loginUsingId(1);
 		$ar = [
 			'ank/photo/1.html',
-			'ank/f/photo_85842/'
+			'ank/f/photo_78014/',
+			'ank/f/photo_78015/',
 		];
 		foreach ($ar as $item)
 		{
@@ -130,5 +133,4 @@ class ProfileTest extends TestCase
 			$response->assertStatus(200);
 		}
 	}
-	*/
 }
