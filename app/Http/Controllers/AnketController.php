@@ -9,10 +9,10 @@ use App\Interfaces\RegionInterface;
 use App\Interfaces\CountryInterface;
 use App\Interfaces\UserInterface;
 use App\Repositories\BodyRepository;
-use App\Models\HairType;
 use App\Models\Eyes;
 use App\Helpers\Helper;
 use App\Repositories\UserRepository;
+use App\Repositories\HairTypeRepository;
 use App\Services\LengthPager;
 
 class AnketController extends Controller
@@ -368,7 +368,7 @@ class AnketController extends Controller
 			if ($hairType > 0) 
 			{
 				$ankets->where ('user_hair_type', $hairType);
-				$oHairType = HairType::getById ($hairType);
+				$oHairType = (new HairTypeRepository())->getById ($hairType);
 				$critHairType = '<br /> тип волос <strong>' . $oHairType->name . '</strong>';
 				$crits		= true;
 			}
