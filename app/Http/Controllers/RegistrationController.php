@@ -15,7 +15,6 @@ use App\Interfaces\PhotoInterface;
 use App\Interfaces\UserInterface;
 use Validator;
 use App\Helpers\Helper;
-use App\Models\Photo;
 use App\Models\AnketVisit;
 use App\Mail\Email;
 
@@ -489,10 +488,10 @@ class RegistrationController extends Controller
 				'fotos_t'					=> 0,
 				'user_id'					=> $user->user_id
 			];
-	
-			$oPhoto 								= new Photo ($aFields);
-			$oPhoto->save();
-			$photoId								= $oPhoto->getKey();
+
+			$this->photoRepository->create($aFields);
+			$photoId = $this->photoRepository->getId();
+
 			$extension 								= $arParams['photo_link']->extension();
 			$arParams['photo_link']->nameForInsert 	= $photoId . '.' . $extension;
 			

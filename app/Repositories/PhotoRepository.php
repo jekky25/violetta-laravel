@@ -6,6 +6,17 @@ use App\Interfaces\PhotoInterface;
 use App\Models\Photo;
 
 class PhotoRepository implements PhotoInterface {
+	private $id;
+
+	/**
+	* get id
+	* @return integer;
+	*/
+	public function getId ()
+	{
+		return ($this->id > 0 ? $this->id : 0);
+	}
+
 	/**
 	* get count all user pictures
 	* @return int
@@ -53,5 +64,19 @@ class PhotoRepository implements PhotoInterface {
 		->where ('user_id', $id)
 		->get();
 		return $item;
+	}
+
+		/**
+	* create a photo
+	* @param  array $request
+	* @return void
+	*/	
+	public function create($request) {
+		try {
+			$photo = Photo::create($request);
+			$this->id = $photo->getKey();
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to create a Photo '.$e->getMessage());
+		}
 	}
 }

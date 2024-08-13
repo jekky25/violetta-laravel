@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Email;
 use Validator;
@@ -31,30 +29,29 @@ class ContactsController extends Controller
 		'recaptcha_response.capcha'		=> 'Капча не пройдена'
 	];
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
 	public function __construct()
 	{
-        // $this->middleware('auth');
 	}
 
 	/**
-	 * show the feedback page
-	 * @return \Illuminate\Http\Response
-	 */
+	* show the feedback page
+	* @return \Illuminate\Http\Response
+	*/
 	public function index()
 	{
 		return response()->view ('contacts');
 	}
 
 	/**
-	 * post a message from the feedback page
-     * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
+	* post a message from the feedback page
+	* @param  \Illuminate\Http\Request  $request
+	* @return \Illuminate\Http\Response
+	*/
 	public function post(Request $request)
 	{
 		$arParams 				= $request->post();
@@ -112,4 +109,3 @@ class ContactsController extends Controller
 		return redirect()->route(Route::currentRouteName())->with('success','Ваше сообщение было отослано в службу поддержки. Спасибо!');
 	}
 }
-
