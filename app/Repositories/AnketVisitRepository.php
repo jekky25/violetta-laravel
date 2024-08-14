@@ -12,11 +12,12 @@ class AnketVisitRepository implements AnketVisitInterface {
 	/**
 	* set fields
 	* @param  array $fields
-	* @return void
+	* @return AnketVisitRepository;
 	*/
 	public function setFields($fields)
 	{
 		$this->fields = $fields;
+		return $this;
 	}
 
 	/**

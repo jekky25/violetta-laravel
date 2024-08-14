@@ -13,9 +13,9 @@ use App\Interfaces\RegionInterface;
 use App\Interfaces\DiaryInterface;
 use App\Interfaces\PhotoInterface;
 use App\Interfaces\UserInterface;
+use App\Interfaces\AnketVisitInterface;
 use Validator;
 use App\Helpers\Helper;
-use App\Models\AnketVisit;
 use App\Mail\Email;
 
 class RegistrationController extends Controller
@@ -154,7 +154,8 @@ class RegistrationController extends Controller
 		protected CountryInterface $countryRepository,
 		protected DiaryInterface $diaryRepository,
 		protected PhotoInterface $photoRepository,
-		protected UserInterface $userRepository
+		protected UserInterface $userRepository,
+		protected AnketVisitInterface $anketVisitRepository
 	)
 	{
 	}
@@ -328,7 +329,7 @@ class RegistrationController extends Controller
 			}
 		}
 
-		$visits = AnketVisit::select('*')->where ('ank_user_id', $user->user_id)->get();
+		$visits = $this->anketVisitRepository->setFields(['ank_user_id' => $user->user_id])->getByFields ();
 		foreach ($visits as $item)
 		{
 			$item->delete();
