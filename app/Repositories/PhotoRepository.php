@@ -66,7 +66,7 @@ class PhotoRepository implements PhotoInterface {
 		return $item;
 	}
 
-		/**
+	/**
 	* create a photo
 	* @param  array $request
 	* @return void

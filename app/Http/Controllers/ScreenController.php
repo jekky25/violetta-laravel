@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ScreenInterface;
 use App\Interfaces\CommentScreenInterface;
-use App\Models\CommentScreen;
 use App\Helpers\Helper;
 use Validator;
 
@@ -154,10 +153,7 @@ class ScreenController extends Controller
 					'time'			=> time()
 				];
 		
-		
-				$oComment = new CommentScreen ($aFields);
-				$oComment->save();
-
+				$this->commentScreenRepository->create($aFields);
 				return redirect()->back()
 								->with('success','Сообщение успешно отправлено')
 								->withInput();

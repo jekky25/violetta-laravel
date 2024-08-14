@@ -20,4 +20,17 @@ class CommentScreenRepository implements CommentScreenInterface {
 		->get();
 		return $items;
 	}
+
+	/**
+	* create a comment for the screensaver
+	* @param  array $request
+	* @return void
+	*/	
+	public function create($request) {
+		try {
+			CommentScreen::create($request);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to create a comment '.$e->getMessage());
+		}
+	}
 }
