@@ -43,7 +43,7 @@ class AjaxController extends Controller
 
 	/**
 	* get region
-	* @param  \Illuminate\Http\Request  $request
+	* @param  GeoRequest  $request
 	* @return void
 	*/
 	public function getGeoRegion (GeoRequest $request)
@@ -56,7 +56,7 @@ class AjaxController extends Controller
 
 	/**
 	* get city
-	* @param  \Illuminate\Http\Request  $request
+	* @param  GeoRequest  $request
 	* @return void
 	*/
 	public function getGeoCity (GeoRequest $request)

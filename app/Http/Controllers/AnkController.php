@@ -15,6 +15,8 @@ use App\Interfaces\PhotoInterface;
 use App\Interfaces\VarsInterface;
 use App\Interfaces\UserInterface;
 use App\Interfaces\CommentPhotoInterface;
+use App\Requests\VoteRequest;
+use App\Requests\PhotoCommentRequest;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -85,11 +87,11 @@ class AnkController extends Controller
 
 	/**
 	* Show a profile page
-	* @param  \Illuminate\Http\Request  $request
+	* @param  VoteRequest  $request
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function getAnk (Request $request, $id)
+	public function getAnk (VoteRequest $request, $id)
 	{
 		$user 	= Auth::user();
 		$mode 	= Route::currentRouteName() == 'ank.full.id' ? 'full' : '';
@@ -339,37 +341,16 @@ class AnkController extends Controller
 
 	/**
 	* post pictures comments
-	* @param  \Illuminate\Http\Request  $request
+	* @param  PhotoCommentRequest  $request
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function postComment (Request $request, $id)
+	public function postComment (PhotoCommentRequest $request, $id)
 	{
 		//making sending comment
 		$user 			= Auth::user();
-		$arParams 		= $request->post();
 		$description 	= $request->has('description') ? $request->description : '';
 		
-		$rules = [
-			'description'	=> ['required', 'max:1000', 'min:2']
-		];
-		$errMessages = [
-				'description.required' 	=> 'Комментарий не заполнен',
-				'description.max'	 	=> 'Ваш комментарий слишком длинный',
-				'description.min'	 	=> 'Ваш комментарий слишком короткий',
-		];
-
-		$validator = Validator::make($arParams, $rules, $errMessages);
-
-		if ($validator->fails()) {
-			$messages = $validator->messages();
-			$strError = $messages;
-
-			return redirect()->back()
-						->withErrors($strError, 'comment')
-						->withInput();
-		}
-
 		$aFields = [
 			'foto_id'					=> $id,
 			'user_id'					=> $user->user_id,
