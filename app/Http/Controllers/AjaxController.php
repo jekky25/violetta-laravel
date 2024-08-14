@@ -1,10 +1,10 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Interfaces\CityInterface;
 use App\Interfaces\RegionInterface;
+use App\Requests\GeoRequest;
 use App\Helpers\Helper;
 
 class AjaxController extends Controller
@@ -23,10 +23,10 @@ class AjaxController extends Controller
 
 	/**
 	* get city or region
-	* @param  \Illuminate\Http\Request  $request
+	* @param  GeoRequest  $request
 	* @return bool
 	*/
-	public function getGeo (Request $request)
+	public function getGeo (GeoRequest $request)
 	{
 		$selectid = $request->get('selectid');
 		switch ($selectid) 
@@ -46,7 +46,7 @@ class AjaxController extends Controller
 	* @param  \Illuminate\Http\Request  $request
 	* @return void
 	*/
-	public function getGeoRegion (Request $request)
+	public function getGeoRegion (GeoRequest $request)
 	{
 		$id = (int)$request->get('id');
 		if ($id == 0) return false;
@@ -59,7 +59,7 @@ class AjaxController extends Controller
 	* @param  \Illuminate\Http\Request  $request
 	* @return void
 	*/
-	public function getGeoCity (Request $request)
+	public function getGeoCity (GeoRequest $request)
 	{
 		$id = (int)$request->get('id');
 		if ($id == 0) return false;
