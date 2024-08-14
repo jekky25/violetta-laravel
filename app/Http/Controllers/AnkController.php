@@ -17,6 +17,7 @@ use App\Interfaces\UserInterface;
 use App\Interfaces\CommentPhotoInterface;
 use App\Requests\VoteRequest;
 use App\Requests\PhotoCommentRequest;
+use App\Requests\DiaryRequest;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -394,26 +395,14 @@ class AnkController extends Controller
 	* @param  \Illuminate\Http\Request  $request
 	* @return \Illuminate\Http\Response
 	*/
-	public function addDiary (Request $request)
+	public function addDiary (DiaryRequest $request)
 	{
 		$user 			= Auth::user();
 		if (empty ($user)) abort (404);
 		$arParams 		= $request->post();
 		$description 	= $request->has('description') ? $request->description : '';
 		$files 			= $request->file();
-
 		$arParams		= array_merge($arParams, $files);
-		$validator = Validator::make($arParams, self::$rulesDiary, self::$errMessagesDiary);
-
-		if ($validator->fails()) {
-			$messages = $validator->messages();
-			$strError = $messages;
-
-			return redirect()->back()
-						->withErrors($strError, 'comment')
-						->withInput();
-		}
-
 		$title			= strip_tags($arParams['title'],"<b><strong><i>");
 		$description	= strip_tags($arParams['description'],"<b><strong><i>");
 

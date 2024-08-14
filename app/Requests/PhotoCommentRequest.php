@@ -44,5 +44,4 @@ class PhotoCommentRequest extends FormRequest
 			'description'	=> ['required', 'max:1000', 'min:2']
 		];
 	}
-
 }
