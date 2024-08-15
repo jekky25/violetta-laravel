@@ -393,7 +393,7 @@ class AnkController extends Controller
 
 	/**
 	* add an user diary
-	* @param  \Illuminate\Http\Request  $request
+	* @param  DiaryRequest  $request
 	* @return \Illuminate\Http\Response
 	*/
 	public function addDiary (DiaryRequest $request)
@@ -429,7 +429,7 @@ class AnkController extends Controller
 
 	/**
 	* delete the user diary
-	* @param  \Illuminate\Http\Request  $request
+	* @param  DiaryRequest  $request
 	* @param  int $id
 	* @return void
 	*/
@@ -464,7 +464,7 @@ class AnkController extends Controller
 
 	/**
 	* delete the picture of the diary
-	* @param  \Illuminate\Http\Request  $request
+	* @param  DiaryPhotoRequest  $request
 	* @param  int $id
 	* @return void
 	*/
@@ -499,11 +499,11 @@ class AnkController extends Controller
 
 	/**
 	* show edit diary page and update the diary
-	* @param  \Illuminate\Http\Request  $request
+	* @param  DiaryRequest  $request
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function editDiary (Request $request, $id)
+	public function editDiary (DiaryRequest $request, $id)
 	{
 		$user 			= Auth::user();
 		if (empty ($user) ||  $id == 0) abort (404);
@@ -516,17 +516,6 @@ class AnkController extends Controller
 		if (!empty($arParams['otsil']))
 		{
 			$arParams			= array_merge($arParams, $files);
-			$validator 			= Validator::make($arParams, self::$rulesDiary, self::$errMessagesDiary);
-
-			if ($validator->fails()) {
-				$messages 		= $validator->messages();
-				$strError 		= $messages;
-
-				return redirect()->back()
-						->withErrors($strError, 'comment')
-						->withInput();
-			}
-
 			$title				= strip_tags($arParams['title'],"<b><strong><i>");
 			$description		= strip_tags($arParams['description'],"<b><strong><i>");
 	
@@ -535,11 +524,9 @@ class AnkController extends Controller
 				$picture = Helper::fotoUpload($arParams['photo_link'], 0, 'img/dnevnik/');
 			}
 	
-	
 			$diary->dnevniki_title		= $title;
 			$diary->dnevniki_text		= $description;
 			$diary->dnevniki_picture	= !empty ($picture) ? $picture : $diary->dnevniki_picture;
-
 			$diary->update();
 
 			return redirect()->route('ank.diary.id', $user->user_id)

@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Route;
 
 class DiaryRequest extends FormRequest
 {
-	private $routeDelete = 'ank.diary.delete.id';
+	private $routeDelete 	= 'ank.diary.delete.id';
+	private $routeEdit 		= 'ank.diary.edit.id';
+
 	/**
 	* replace array errors from default to commit
 	* @param  Illuminate\Contracts\Validation\Validator  $validator
@@ -62,6 +64,8 @@ class DiaryRequest extends FormRequest
 	private function cancelRules()
 	{
 		if (Route::currentRouteName() == $this->routeDelete) return true;
+		if (Route::currentRouteName() == $this->routeEdit && $this->isMethod('get')) return true;
+				
 		return false;
 	}
 }
