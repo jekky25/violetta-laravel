@@ -70,7 +70,7 @@ $secondBaner = 1;
 @endif
 {{ csrf_field() }}
 	<div>
-		<textarea class="textarea2" name="description" wrap="virtual"></textarea>
+		<textarea class="textarea2" name="description" wrap="virtual">{{ old('description') }}</textarea>
 	</div>
 	<p class="pad7"><input class="input2" type="submit" name="otsil" value="Отправить" /></p>
 @endif

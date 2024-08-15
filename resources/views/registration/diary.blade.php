@@ -44,6 +44,9 @@ function addfile(id)
 </script>
 </div>
 <h2 class="mTit">Добавить новую запись</h2>
+@if(session('success'))
+<p class="mess">{{session('success')}}</p>
+@endif
 @if (!empty ($errors->comment->all()))
 <p class="pad3 error">Ошибка:
 @foreach ($errors->comment->all() as $item)
