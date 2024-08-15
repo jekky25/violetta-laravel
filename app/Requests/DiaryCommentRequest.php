@@ -4,9 +4,11 @@ namespace App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Route;
 
 class DiaryCommentRequest extends FormRequest
 {
+	private $routeCommentDelete 	= 'ank.diary.comment.delete.id';
 	/**
 	* replace array errors from default to commit
 	* @param  Illuminate\Contracts\Validation\Validator  $validator
@@ -45,10 +47,21 @@ class DiaryCommentRequest extends FormRequest
 	*/
 	public function rules():array
 	{
+		if ($this->cancelRules()) return [];
 		return [
 			'description'	=> ['required', 'max:3000', 'min:2'],
 			'title'			=> ['max:255'],
 			'photo_link'	=> ['file', 'image', 'max:4048'],
 		];
+	}
+
+	/**
+	* check routes for cancel
+	* @return bool
+	*/
+	private function cancelRules()
+	{
+		if (Route::currentRouteName() == $this->routeCommentDelete) return true;
+		return false;
 	}
 }

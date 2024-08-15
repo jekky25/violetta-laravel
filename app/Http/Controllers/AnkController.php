@@ -570,7 +570,7 @@ class AnkController extends Controller
 
 	/**
 	* add a comment of the diary
-	* @param  \Illuminate\Http\Request  $request
+	* @param  DiaryCommentRequest $request
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/	
@@ -607,18 +607,16 @@ class AnkController extends Controller
 
 	/**
 	* delete a comment of the diary
-	* @param  \Illuminate\Http\Request  $request
+	* @param  DiaryCommentRequest $request
 	* @param  int $id
 	* @return void
 	*/	
-	public function delDiaryComment (Request $request, $id)
+	public function delDiaryComment (DiaryCommentRequest $request, $id)
 	{
 		$user			= Auth::user();
 		if (empty ($user) ||  $id == 0) abort (404);
 		$comment 			= $this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
-
 		if (empty ($comment)) abort (404);
-
 		$arParams 		= $request->post();
 
 		if ( !empty($arParams['cancel']) ) {
