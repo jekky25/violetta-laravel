@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 class DiaryCommentRequest extends FormRequest
 {
 	private $routeCommentDelete 	= 'ank.diary.comment.delete.id';
+	private $routeCommentEdit 		= 'ank.diary.comment.edit.id';
+	
 	/**
 	* replace array errors from default to commit
 	* @param  Illuminate\Contracts\Validation\Validator  $validator
@@ -62,6 +64,7 @@ class DiaryCommentRequest extends FormRequest
 	private function cancelRules()
 	{
 		if (Route::currentRouteName() == $this->routeCommentDelete) return true;
+		if (Route::currentRouteName() == $this->routeCommentEdit && $this->isMethod('get')) return true;
 		return false;
 	}
 }

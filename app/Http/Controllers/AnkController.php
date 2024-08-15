@@ -1,12 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
-use Validator;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\AnketVisitInterface;
 use App\Interfaces\DiaryInterface;
@@ -41,30 +38,6 @@ class AnkController extends Controller
 		'\\App\\Repositories\\RegionRepository'			=> ['prop' =>'user_partner_region',		'ank_prop' =>'partner_region'],
 		'\\App\\Repositories\\CityRepository'			=> ['prop' =>'user_partner_city',		'ank_prop' =>'partner_city']
 	  ];
-
-	public static $rulesDiary = [
-		'description'	=> ['required', 'max:3000', 'min:2'],
-		'title'			=> ['required', 'max:255', 'min:2'],
-		'photo_link'	=> ['file', 'image', 'max:4048'],
-	];
-
-	public static $rulesCommentDiary = [
-		'description'	=> ['required', 'max:3000', 'min:2'],
-		'title'			=> ['max:255'],
-		'photo_link'	=> ['file', 'image', 'max:4048'],
-	];
-
-	public static $errMessagesDiary = [
-		'description.required' 	=> 'Описание не заполнено',
-		'description.max'	 	=> 'Описание слишком длинное',
-		'description.min'	 	=> 'Описание слишком короткое',
-		'title.required'	 	=> 'Заголовок не заполнен',
-		'title.max'	 			=> 'Заголовок слишком длинный',
-		'title.min'	 			=> 'Заголовок слишком короткий',
-		'photo_link.image'		=> 'Файл не является изображением',
-		'photo_link.max'		=> 'Файл слишком большой',
-	];
-
 
 	public static $visitDays 			= 30;
 	public $commentCountPerPage 		= 100;
@@ -642,7 +615,7 @@ class AnkController extends Controller
 
 	/**
 	* delete thre picture of the diary comment
-	* @param  \Illuminate\Http\Request  $request
+	* @param  DiaryCommentPhotoRequest $request
 	* @param  int $id
 	* @return void
 	*/	
@@ -677,11 +650,11 @@ class AnkController extends Controller
 
 	/**
 	* show an edit comment page and update the comment
-	* @param  \Illuminate\Http\Request  $request
+	* @param  DiaryCommentRequest $request
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/	
-	public function editDiaryComment (Request $request, $id)
+	public function editDiaryComment (DiaryCommentRequest $request, $id)
 	{
 		$user 						= Auth::user();
 		if (empty ($user) ||  $id == 0) abort (404);
@@ -694,17 +667,6 @@ class AnkController extends Controller
 		if (!empty($arParams['otsil']))
 		{
 			$arParams			= array_merge($arParams, $files);
-			$validator 			= Validator::make($arParams, self::$rulesDiary, self::$errMessagesDiary);
-
-			if ($validator->fails()) {
-				$messages 		= $validator->messages();
-				$strError 		= $messages;
-
-				return redirect()->back()
-						->withErrors($strError, 'comment')
-						->withInput();
-			}
-
 			$title				= strip_tags($arParams['title'],"<b><strong><i>");
 			$description		= strip_tags($arParams['description'],"<b><strong><i>");
 	
