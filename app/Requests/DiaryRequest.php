@@ -4,9 +4,11 @@ namespace App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Route;
 
 class DiaryRequest extends FormRequest
 {
+	private $routeDelete = 'ank.diary.delete.id';
 	/**
 	* replace array errors from default to commit
 	* @param  Illuminate\Contracts\Validation\Validator  $validator
@@ -45,10 +47,21 @@ class DiaryRequest extends FormRequest
 	*/
 	public function rules():array
 	{
+		if ($this->cancelRules()) return [];
 		return [
 			'description'	=> ['required', 'max:3000', 'min:2'],
 			'title'			=> ['required', 'max:255', 'min:2'],
 			'photo_link'	=> ['file', 'image', 'max:4048'],
 		];
+	}
+
+	/**
+	* check routes for cancel
+	* @return bool
+	*/
+	private function cancelRules()
+	{
+		if (Route::currentRouteName() == $this->routeDelete) return true;
+		return false;
 	}
 }

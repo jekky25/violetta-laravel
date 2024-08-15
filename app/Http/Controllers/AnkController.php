@@ -432,7 +432,7 @@ class AnkController extends Controller
 	* @param  int $id
 	* @return void
 	*/
-	public function delDiary (Request $request, $id)
+	public function delDiary (DiaryRequest $request, $id)
 	{
 		$user 			= Auth::user();
 		if (empty ($user) ||  $id == 0) abort (404);
