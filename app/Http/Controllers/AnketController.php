@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\CityInterface;
@@ -13,6 +12,7 @@ use App\Helpers\Helper;
 use App\Repositories\UserRepository;
 use App\Repositories\HairTypeRepository;
 use App\Repositories\EyesRepository;
+use App\Requests\SearchRequest;
 use App\Services\LengthPager;
 
 class AnketController extends Controller
@@ -207,10 +207,10 @@ class AnketController extends Controller
 	
 	/**
 	* show the page with profiles by filter
-	* @param  \Illuminate\Http\Request  $request 
+	* @param  SearchRequest  $request 
 	* @return \Illuminate\Http\Response
 	*/
-	public function getBySearch(Request $request)
+	public function getBySearch(SearchRequest $request)
 	{
 		$isSend 	= 'N';
 		$critsSearch = '';
