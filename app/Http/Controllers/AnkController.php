@@ -20,6 +20,7 @@ use App\Requests\PhotoCommentRequest;
 use App\Requests\DiaryRequest;
 use App\Requests\DiaryPhotoRequest;
 use App\Requests\DiaryCommentRequest;
+use App\Requests\DiaryCommentPhotoRequest;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -645,7 +646,7 @@ class AnkController extends Controller
 	* @param  int $id
 	* @return void
 	*/	
-	public function delDiaryCommentPhoto (Request $request, $id)
+	public function delDiaryCommentPhoto (DiaryCommentPhotoRequest $request, $id)
 	{
 		$user 			= Auth::user();
 		if (empty ($user) ||  $id == 0) abort (404);
