@@ -48,10 +48,6 @@ class RegistrationController extends Controller
 		'partner_height_min' 	=> ['height_valid'],
 	];
 
-	public static $rulesPhoto = [
-		'photo_link'	=> ['required','file', 'image', 'max:4048'],
-	];
-
 	public static $rulesForgetPass = [
 		'mail'		=> ['required', 'email']
 	];
@@ -103,12 +99,6 @@ class RegistrationController extends Controller
 		'age_valid' 	=> 'Не верно указан возраст партнера',
 		'weight_valid' 	=> 'Не верно указан вес партнера',
 		'height_valid' 	=> 'Не верно указан рост партнера'
-	];
-
-	public static $errMessagesPhoto = [
-		'photo_link.image'		=> 'Файл не является изображением',
-		'photo_link.max'		=> 'Файл слишком большой',
-		'photo_link.required'	=> 'Файл не был загружен',
 	];
 
 	public static $languageCodes = [
@@ -416,25 +406,15 @@ class RegistrationController extends Controller
 
 	/**
 	* Add an user picture
-	* @param  \Illuminate\Http\Request  $request
+	* @param PhotoRequest $request
 	* @return void
 	*/
-	public function photoPost (Request $request)
+	public function photoPost (PhotoRequest $request)
 	{
 		$user 			= Auth::user();
 		$arParams 		= $request->post();
 		$files 			= $request->file();
 		$arParams		= array_merge($arParams, $files);
-
-		$validator = Validator::make($arParams, self::$rulesPhoto, self::$errMessagesPhoto);
-
-		if ($validator->fails()) {
-			$messages = $validator->messages();
-			$strError = $messages;
-			return redirect()->back()
-						->withErrors($strError, 'comment')
-						->withInput();
-		}
 
 		if (!empty($arParams['photo_link']))
 		{
