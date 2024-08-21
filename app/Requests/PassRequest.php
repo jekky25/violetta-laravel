@@ -32,7 +32,7 @@ class PassRequest extends FormRequest
 		return	[
 			'pass_old.required'		=> 'Старый пароль не заполнен',
 			'PassNotCorrect'		=> 'Старый пароль указан не верно',
-			'passNotMatch'			=> 'Новые пароли не совпадают',
+			'PassNotMatch'			=> 'Новые пароли не совпадают',
 			'pass.required'			=> 'Новый пароль не заполнен',
 			'pass.max'		 		=> 'Новый пароль слишком длинный',
 			'pass.min'		 		=> 'Новый пароль слишком короткий',

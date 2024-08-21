@@ -5,7 +5,7 @@ namespace App\Rules;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class PassNotMatch implements ValidationRule
+class BirthData implements ValidationRule
 {
 	/**
 	* Indicates whether the rule should be implicit.
@@ -13,18 +13,20 @@ class PassNotMatch implements ValidationRule
 	* @var bool
 	*/
 	public $implicit 			= true;
-	public $pass;
-	public $passConfirm;
+	public $birthDay;
+	public $birthMonth;
+	public $birthYear;
 
 	/**
 	* Create a new controller instance.
 	*
 	* @return void
 	*/
-	public function __construct(string $pass, string $passConfirm)
+	public function __construct(int $birthDay, int $birthMonth, int $birthYear)
 	{
-		$this->pass 		= $pass;
-		$this->passConfirm 	= $passConfirm;
+		$this->birthDay		= $birthDay;
+		$this->birthMonth	= $birthMonth;
+		$this->birthYear	= $birthYear;
 	}
 
 	/**
@@ -34,7 +36,10 @@ class PassNotMatch implements ValidationRule
 	*/
 	public function validate(string $attribute, mixed $value, Closure $fail): void
 	{
-		if ($this->pass != $this->passConfirm) 
-			$fail('Новые пароли не совпадают');
+		if ($this->birthDay == 0 		|| 
+			$this->birthMonth == 0 		|| 
+			$this->birthYear == 1900	|| 
+			$this->birthYear == 0)
+			$fail('Не указана дата рождения');
 	}
 }

@@ -16,6 +16,7 @@ use App\Interfaces\UserInterface;
 use App\Interfaces\AnketVisitInterface;
 use App\Requests\PassRequest;
 use App\Requests\PhotoRequest;
+use App\Requests\ProfileMainRequest;
 use Validator;
 use App\Helpers\Helper;
 use App\Mail\Email;
@@ -24,12 +25,6 @@ class RegistrationController extends Controller
 {
 	public static $siteUrl				= 'www.avioletta.ru';
 	public static $siteUrlWithProtocol	= 'http://www.avioletta.ru';
-
-	public static $rulesEdit = [
-		'name'	=> ['required', 'max:30', 'min:2', 'birth_data', 'birth_data_correct'],
-		'sex'	=> ['required'],
-		'city'	=> ['place_empty', 'place_correct']
-	];
 
 	public static $rulesRegistration = [
 		'login'					=> ['required', 'check_ban','max:20', 'min:4', "regex:/^[0-9a-zA-Z_]+$/", 'check_login'],
@@ -55,17 +50,6 @@ class RegistrationController extends Controller
 	public static $errMessagesForgetPass= [
 		'mail.required'			=> 'не указан Е-майл',
 		'mail.email'			=> 'указан некорректный Е-майл'
-	];
-
-	public static $errMessagesEdit = [
-		'name.required'		 	=> 'Имя не заполнено',
-		'name.max'		 		=> 'Имя слишком длинное',
-		'name.min'		 		=> 'Имя слишком короткое',
-		'sex.required'		 	=> 'Вы не указали пол',
-		'birth_data'			=> 'Не указана дата рождения',
-		'birth_data_correct'	=> 'Некорректная дата рождения',
-		'place_empty'			=> 'Не указано место жительства',
-		'place_correct'			=> 'Неверно указано место жительства'
 	];
 
 	public static $errMessagesRegistration = [
@@ -451,49 +435,13 @@ class RegistrationController extends Controller
 
 	/**
 	* Edit a short user profile
-	* @param  \Illuminate\Http\Request  $request
+	* @param  ProfileMainRequest $request
 	* @return void
 	*/
-	public function editPost (Request $request)
+	public function editPost (ProfileMainRequest $request)
 	{
-		$user 			= Auth::user();
-		$arParams 		= $request->post();
-
-		Validator::extend('birth_data',
-		function () use ($arParams) {
-			return ((int)$arParams['birth_day'] == 0 || (int)$arParams['birth_month'] == 0 || (int)$arParams['birth_year'] == 1900 || (int)$arParams['birth_year'] == 0) ? false : true;
-		});
-
-		Validator::extend('birth_data_correct',
-		function () use ($arParams) {
-			$birth_month 	= (int)$arParams['birth_month'];
-			$birth_day		= (int)$arParams['birth_day'];
-			return (($birth_month == "2" && $birth_day > "29") || (($birth_month == "4" || $birth_month == "6" || $birth_month == "9" || $birth_month == "11") && $birth_day > "30")) ? false : true;
-		});
-
-		Validator::extend('place_empty',
-		function () use ($arParams) {
-			return (int)$arParams['city'] == 0 && (int)$arParams['region'] == 0 && (int)$arParams['country'] == 0 ? false : true;
-		});
-
-		Validator::extend('place_correct',
-		function () use ($arParams) {
-			if ((int)$arParams['city'] == 0 && (int)$arParams['region'] == 0 && (int)$arParams['country'] == 0) return true;
-			return (int)$arParams['city'] == 0 || (int)$arParams['region'] == 0 || (int)$arParams['country'] == 0 ? false : true;
-		});
-
-		$validator 		= Validator::make($arParams, self::$rulesEdit, self::$errMessagesEdit);
-
-		if ($validator->fails()) {
-
-			$messages = $validator->messages();
-			$strError = $messages;
-
-			return redirect()->back()
-				->withErrors($strError, 'comment')
-				->withInput();
-		}
-
+		$user 						= Auth::user();
+		$arParams 					= $request->post();
 		$user->user_sex 			= $arParams['sex'];
 		$user->user_name 			= str_replace("\'", "''", $arParams['name']);
 		$user->user_birth_date 		= Helper::getDateStr($arParams['birth_day'],$arParams['birth_month'],$arParams['birth_year']);

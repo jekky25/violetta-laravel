@@ -5,7 +5,7 @@ namespace App\Rules;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class PassNotMatch implements ValidationRule
+class PlaceEmpty implements ValidationRule
 {
 	/**
 	* Indicates whether the rule should be implicit.
@@ -13,18 +13,20 @@ class PassNotMatch implements ValidationRule
 	* @var bool
 	*/
 	public $implicit 			= true;
-	public $pass;
-	public $passConfirm;
+	public $city;
+	public $region;
+	public $country;
 
 	/**
 	* Create a new controller instance.
 	*
 	* @return void
 	*/
-	public function __construct(string $pass, string $passConfirm)
+	public function __construct(int $city, int $region, int $country)
 	{
-		$this->pass 		= $pass;
-		$this->passConfirm 	= $passConfirm;
+		$this->city		= $city;
+		$this->region	= $region;
+		$this->country	= $country;
 	}
 
 	/**
@@ -34,7 +36,9 @@ class PassNotMatch implements ValidationRule
 	*/
 	public function validate(string $attribute, mixed $value, Closure $fail): void
 	{
-		if ($this->pass != $this->passConfirm) 
-			$fail('Новые пароли не совпадают');
+		if ($this->city 	== 0 && 
+			$this->region 	== 0 && 
+			$this->country	== 0)
+				$fail('Не указано место жительства');
 	}
 }
