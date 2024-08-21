@@ -4,10 +4,9 @@ namespace App\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use App\Repositories\MessageRepository;
 use Illuminate\Support\Facades\Auth;
 
-class CheckOften implements ValidationRule
+class PassNotCorrect implements ValidationRule
 {
 	/**
 	* Indicates whether the rule should be implicit.
@@ -16,10 +15,7 @@ class CheckOften implements ValidationRule
 	*/
 	public $implicit 			= true;
 	public $user 				= null;
-	public $messageSendLimit 	= 10;
-	protected $messageRepository;
-
-	/**
+		/**
 	* Create a new controller instance.
 	*
 	* @return void
@@ -28,7 +24,6 @@ class CheckOften implements ValidationRule
 	)
 	{
 		$this->user					= Auth::user();
-		$this->messageRepository 	= new MessageRepository;
 	}
 
 	/**
@@ -38,7 +33,7 @@ class CheckOften implements ValidationRule
 	*/
 	public function validate(string $attribute, mixed $value, Closure $fail): void
 	{
-		if ($this->messageRepository->getByTimeByUser($this->user->user_id)->count() > $this->messageSendLimit) 
-			$fail('Вы превысили лимит отправляемых сообщений:<br /> не более 10 сообщений за 5 минут');
+		if ($value != $this->user->user_password) 
+			$fail('Старый пароль указан не верно');
 	}
 }

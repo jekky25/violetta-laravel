@@ -14,6 +14,7 @@ use App\Interfaces\DiaryInterface;
 use App\Interfaces\PhotoInterface;
 use App\Interfaces\UserInterface;
 use App\Interfaces\AnketVisitInterface;
+use App\Requests\PassRequest;
 use Validator;
 use App\Helpers\Helper;
 use App\Mail\Email;
@@ -50,11 +51,6 @@ class RegistrationController extends Controller
 		'photo_link'	=> ['required','file', 'image', 'max:4048'],
 	];
 
-	public static $rulesPass = [
-		'pass_old'	=> ['required', 'pass_not_correct', 'pass_not_match'],
-		'pass'		=> ['required', 'max:15', 'min:5'],
-	];
-
 	public static $rulesForgetPass = [
 		'mail'		=> ['required', 'email']
 	];
@@ -73,15 +69,6 @@ class RegistrationController extends Controller
 		'birth_data_correct'	=> 'Некорректная дата рождения',
 		'place_empty'			=> 'Не указано место жительства',
 		'place_correct'			=> 'Неверно указано место жительства'
-	];
-
-	public static $errMessagesPass = [
-		'pass_old.required'		=> 'Старый пароль не заполнен',
-		'pass_not_correct'		=> 'Старый пароль указан не верно',
-		'pass_not_match'		=> 'Новые пароли не совпадают',
-		'pass.required'			=> 'Новый пароль не заполнен',
-		'pass.max'		 		=> 'Новый пароль слишком длинный',
-		'pass.min'		 		=> 'Новый пароль слишком короткий',
 	];
 
 	public static $errMessagesRegistration = [
@@ -341,34 +328,13 @@ class RegistrationController extends Controller
 
 	/**
 	* Change user password
-	* @param  \Illuminate\Http\Request  $request
+	* @param  PassRequest $request
 	* @return void
 	*/
-	public function passPost (Request $request)
+	public function passPost (PassRequest $request)
 	{
 		$user 			= Auth::user();
 		$arParams 		= $request->post();
-
-		Validator::extend('pass_not_correct',
-		function () use ($arParams, $user) {
-			return ($arParams['pass_old'] != $user->user_password ) ? false : true;
-		});
-
-		Validator::extend('pass_not_match',
-		function () use ($arParams) {
-			return ($arParams['pass'] != $arParams['pass_confirm'] ) ? false : true;
-		});
-
-		$validator = Validator::make($arParams, self::$rulesPass, self::$errMessagesPass);
-
-		if ($validator->fails()) {
-			$messages = $validator->messages();
-			$strError = $messages;
-			return redirect()->back()
-						->withErrors($strError, 'comment')
-						->withInput();
-		}
-
 		$user->user_password 		= $arParams['pass'];
 		$user->user_hash 			= md5($arParams['pass']);
 		$user->user_session_time	= time();
