@@ -167,4 +167,17 @@ class MessageRepository implements MessageInterface {
 		->get();
 		return $items;
 	}
+
+	/**
+	* create a message
+	* @param  array $request
+	* @return void
+	*/	
+	public function create($request) {
+		try {
+			Message::create($request);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to create a message '.$e->getMessage());
+		}
+	}
 }

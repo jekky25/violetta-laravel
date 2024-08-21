@@ -248,8 +248,7 @@ class PrivmsgController extends Controller
 			'privmess_text'				=> str_replace("\'", "''", $message)
 		];
 
-		$oMessage = new Message($aFields);
-		$oMessage->save();
+		$this->messageRepository->create($aFields);
 
 		if ($user->dont_send_email != 1) {
 			$oMail = new \stdClass();
@@ -265,7 +264,6 @@ class PrivmsgController extends Controller
 			Mail::mailer(config('mail.mail_mode'))
         	->to($oMail->emailTo)
         	->send(new Email($oMail));
-	
 		}
 
 		return redirect()->back()
