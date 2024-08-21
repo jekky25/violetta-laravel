@@ -15,6 +15,7 @@ use App\Interfaces\PhotoInterface;
 use App\Interfaces\UserInterface;
 use App\Interfaces\AnketVisitInterface;
 use App\Requests\PassRequest;
+use App\Requests\PhotoRequest;
 use Validator;
 use App\Helpers\Helper;
 use App\Mail\Email;
@@ -372,11 +373,11 @@ class RegistrationController extends Controller
 
 	/**
 	* Reupload an user picture
-	* @param  \Illuminate\Http\Request  $request
+	* @param  PhotoRequest  $request
 	* @param int $id
 	* @return void
 	*/
-	public function editPhotoPost (Request $request, $id)
+	public function editPhotoPost (PhotoRequest $request, $id)
 	{
 		$user 			= $this->userRepository->getJustById(Auth::id(), ['photo']);
 		$photo 			= $this->photoRepository->getById($id);
@@ -385,16 +386,6 @@ class RegistrationController extends Controller
 		$files 			= $request->file();
 		$arParams		= array_merge($arParams, $files);
 
-		$validator = Validator::make($arParams, self::$rulesPhoto, self::$errMessagesPhoto);
-
-		if ($validator->fails()) {
-			$messages = $validator->messages();
-			$strError = $messages;
-			return redirect()->back()
-						->withErrors($strError, 'comment')
-						->withInput();
-		}
-		
 		if (empty ($photo) || $photo->user_id != $user->user_id)
 		{
 			$title 			= 'Информация';

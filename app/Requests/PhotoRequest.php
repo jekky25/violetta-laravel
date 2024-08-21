@@ -4,10 +4,8 @@ namespace App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
-use App\Rules\PassNotCorrect;
-use App\Rules\PassNotMatch;
 
-class PassRequest extends FormRequest
+class PhotoRequest extends FormRequest
 {
 	/**
 	* replace array errors from default to commit
@@ -30,12 +28,9 @@ class PassRequest extends FormRequest
 	public function messages():array
 	{
 		return	[
-			'pass_old.required'		=> 'Старый пароль не заполнен',
-			'PassNotCorrect'		=> 'Старый пароль указан не верно',
-			'passNotMatch'			=> 'Новые пароли не совпадают',
-			'pass.required'			=> 'Новый пароль не заполнен',
-			'pass.max'		 		=> 'Новый пароль слишком длинный',
-			'pass.min'		 		=> 'Новый пароль слишком короткий',
+			'photo_link.image'		=> 'Файл не является изображением',
+			'photo_link.max'		=> 'Файл слишком большой',
+			'photo_link.required'	=> 'Файл не был загружен'
 		];
 	}
 
@@ -46,10 +41,8 @@ class PassRequest extends FormRequest
 	*/
 	public function rules(): array
 	{
-		$arParams = $this->post();
 		return [
-			'pass_old'	=> ['required', new PassNotCorrect],
-			'pass'		=> ['required', 'max:15', 'min:5', new PassNotMatch((string)$arParams['pass'], (string)$arParams['pass_confirm'])],
+			'photo_link'	=> ['required','file', 'image', 'max:4048']
 		];
 	}
 }
