@@ -9,7 +9,9 @@ use App\Rules\CheckOften;
 
 class PrivmsgRequest extends FormRequest
 {
-	private $routeMessageDelete 	= 'privmsg.post.delete';
+	private $routeMessageDelete 		= 'privmsg.post.delete';
+	private $routeUserMessagesDelete 	= 'privmsg.delete';
+	
 
 	/**
 	* replace array errors from default to commit
@@ -58,6 +60,7 @@ class PrivmsgRequest extends FormRequest
 	private function cancelRules()
 	{
 		if (Route::currentRouteName() == $this->routeMessageDelete) return true;
+		if (Route::currentRouteName() == $this->routeUserMessagesDelete) return true;
 		return false;
 	}
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -60,10 +59,10 @@ class PrivmsgController extends Controller
 
 	/**
 	* Delete user messages
-	* @param  \Illuminate\Http\Request  $request
+	* @param PrivmsgRequest $request
 	* @return void
 	*/
-	public function delete(Request $request)
+	public function delete(PrivmsgRequest $request)
 	{
 		$user 			= Auth::user();
 		if (empty ($user)) abort (404);
