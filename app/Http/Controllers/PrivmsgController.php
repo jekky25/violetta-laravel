@@ -115,11 +115,11 @@ class PrivmsgController extends Controller
 
 	/**
 	* Delete an user message
-	* @param  \Illuminate\Http\Request  $request
+	* @param  PrivmsgRequest $request
 	* @param  int  $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function deletePost(Request $request, $id)
+	public function deletePost(PrivmsgRequest $request, $id)
 	{
 		$user 			= Auth::user();
 		$message 		= $this->messageRepository->getById($id);

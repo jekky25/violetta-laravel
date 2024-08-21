@@ -4,10 +4,12 @@ namespace App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Route;
 use App\Rules\CheckOften;
 
 class PrivmsgRequest extends FormRequest
 {
+	private $routeMessageDelete 	= 'privmsg.post.delete';
 
 	/**
 	* replace array errors from default to commit
@@ -43,8 +45,19 @@ class PrivmsgRequest extends FormRequest
 	*/
 	public function rules():array
 	{
+		if ($this->cancelRules()) return [];
 		return [
 			'message_text'	=> ['required', 'max:3000', 'min:2', new CheckOften()]
 		];
+	}
+
+	/**
+	* check routes for cancel
+	* @return bool
+	*/
+	private function cancelRules()
+	{
+		if (Route::currentRouteName() == $this->routeMessageDelete) return true;
+		return false;
 	}
 }
