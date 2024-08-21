@@ -17,6 +17,7 @@ use App\Interfaces\AnketVisitInterface;
 use App\Requests\PassRequest;
 use App\Requests\PhotoRequest;
 use App\Requests\ProfileMainRequest;
+use App\Requests\ProfileSecondRequest;
 use Validator;
 use App\Helpers\Helper;
 use App\Mail\Email;
@@ -459,10 +460,10 @@ class RegistrationController extends Controller
 
 	/**
 	* Edit a full user profile
-	* @param  \Illuminate\Http\Request  $request
+	* @param  ProfileSecondRequest $request
 	* @return void
 	*/
-	public function secondPost (Request $request)
+	public function secondPost (ProfileSecondRequest $request)
 	{
 		$user 			= Auth::user();
 		$arParams 		= $request->post();
