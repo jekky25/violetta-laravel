@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Validator;
 use App\Helpers\Helper;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\UserInterface;
@@ -15,25 +14,14 @@ use App\Interfaces\MessageInterface;
 use App\Interfaces\SmileInterface;
 use App\Models\Message;
 use App\Mail\Email;
+use App\Requests\PrivmsgRequest;
 
 class PrivmsgController extends Controller
 {
 	public static $messagePerPage 		= 10;
 	public static $messageAnkPerPage 	= 30;
-	public static $messageSendLimit		= 10;
 	public static $siteUrl				= 'www.avioletta.ru';
 	public static $siteUrlWithProtocol	= 'http://www.avioletta.ru';
-
-	public static $rulesPost = [
-		'message_text'	=> ['required', 'max:3000', 'min:2', 'check_often'],
-	];
-
-	public static $errMessagesPost = [
-		'message_text.required' 	=> 'Сообщение не заполнено',
-		'message_text.max'	 		=> 'Сообщение слишком длинное',
-		'message_text.min'	 		=> 'Сообщение слишком короткое',
-		'check_often'				=> 'Вы превысили лимит отправляемых сообщений:<br /> не более 10 сообщений за 5 минут'
-	];
 
 	/**
 	* Create a new controller instance.
@@ -238,33 +226,16 @@ class PrivmsgController extends Controller
 
 	/**
 	* Add an user message
-	* @param  \Illuminate\Http\Request  $request
+	* @param  PrivmsgRequest $request
 	* @param  int $id
 	* @return void
 	*/
-	public function addPost(Request $request, $id)
+	public function addPost(PrivmsgRequest $request, $id)
 	{
 		$user 			= Auth::user();
 		$anket 			= $this->userRepository->getJustById($id);
 		if (empty ($user) or empty ($anket)) abort (404);
 		$arParams 		= $request->post();
-
-
-		Validator::extend('check_often',
-            function () use ($user) {
-				return count ($this->messageRepository->getByTimeByUser($user->user_id)) > self::$messageSendLimit ? false : true;
-            });
-
-		$validator = Validator::make($arParams, self::$rulesPost, self::$errMessagesPost);
-
-		if ($validator->fails()) {
-			$messages = $validator->messages();
-			$strError = $messages;
-
-			return redirect()->back()
-						->withErrors($strError, 'comment')
-						->withInput();
-		}
 
 		$message = $arParams['message_text'];
 		$aFields = [
