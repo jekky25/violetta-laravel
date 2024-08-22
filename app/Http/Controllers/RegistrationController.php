@@ -19,6 +19,7 @@ use App\Requests\PhotoRequest;
 use App\Requests\ProfileMainRequest;
 use App\Requests\ProfileSecondRequest;
 use App\Requests\ProfilePartnerRequest;
+use App\Requests\SettingsRequest;
 use Validator;
 use App\Helpers\Helper;
 use App\Mail\Email;
@@ -615,10 +616,10 @@ class RegistrationController extends Controller
 
 	/**
 	* Update user settings
-	* @param  \Illuminate\Http\Request  $request
+	* @param SettingsRequest $request
 	* @return void
 	*/
-	public function settingsPost (Request $request)
+	public function settingsPost (SettingsRequest $request)
 	{
 		$user 			= Auth::user();
 		$arParams 		= $request->post();
