@@ -18,6 +18,7 @@ use App\Requests\PassRequest;
 use App\Requests\PhotoRequest;
 use App\Requests\ProfileMainRequest;
 use App\Requests\ProfileSecondRequest;
+use App\Requests\ProfilePartnerRequest;
 use Validator;
 use App\Helpers\Helper;
 use App\Mail\Email;
@@ -36,12 +37,6 @@ class RegistrationController extends Controller
 		'country'				=> ['place_empty', 'place_correct'],
 		'recaptcha_response' 	=> ['required', 'capcha'],
 		'conditions'			=> ['required'],
-	];
-
-	public static $rulesPartnerEdit = [
-		'partner_age_min' 		=> ['age_valid'],
-		'partner_weight_min' 	=> ['weight_valid'],
-		'partner_height_min' 	=> ['height_valid'],
 	];
 
 	public static $rulesForgetPass = [
@@ -78,12 +73,6 @@ class RegistrationController extends Controller
 		'recaptcha_response.required'	=> 'Капча не пройдена',
 		'recaptcha_response.capcha'		=> 'Капча не пройдена',
 		'conditions.required'			=> 'Пожалуйста, согласитесь с нашими условиями'
-	];
-
-	public static $errMessagesPartnerEdit = [
-		'age_valid' 	=> 'Не верно указан возраст партнера',
-		'weight_valid' 	=> 'Не верно указан вес партнера',
-		'height_valid' 	=> 'Не верно указан рост партнера'
 	];
 
 	public static $languageCodes = [
@@ -501,45 +490,13 @@ class RegistrationController extends Controller
 
 	/**
 	* Edit a partner profile
-	* @param  \Illuminate\Http\Request  $request
+	* @param  ProfilePartnerRequest $request
 	* @return void
 	*/
-	public function partnerPost (Request $request)
+	public function partnerPost (ProfilePartnerRequest $request)
 	{
 		$user 			= Auth::user();
 		$arParams 		= $request->post();
-
-		Validator::extend('age_valid',
-		function () use ($arParams) {
-			return (int)$arParams['partner_age_min'] > 15 && (int)$arParams['partner_age_max'] > 15 && (int)$arParams['partner_age_min'] <= (int)$arParams['partner_age_max'] ? true : false;
-		});
-
-		Validator::extend('height_valid',
-		function () use ($arParams) {
-			return (int)$arParams['partner_height_min'] > 149 && (int)$arParams['partner_height_max'] > 149 && (int)$arParams['partner_height_min'] <= (int)$arParams['partner_height_max'] ? true : false;
-		});
-
-		Validator::extend('weight_valid',
-		function () use ($arParams) {
-			return (int)$arParams['partner_weight_min'] > 29 && (int)$arParams['partner_weight_max'] > 29 && (int)$arParams['partner_weight_min'] <= (int)$arParams['partner_weight_max'] ? true : false;
-		});
-
-		$validator 		= Validator::make($arParams, self::$rulesPartnerEdit, self::$errMessagesPartnerEdit);
-
-		if ($validator->fails()) {
-
-			$messages = $validator->messages();
-			$messages->has('partner_age_min') 		? $messages->add('age', $messages->get('partner_age_min')[0]) 		: '';
-			$messages->has('partner_weight_min') 	? $messages->add('age', $messages->get('partner_weight_min')[0]) 	: '';
-			$messages->has('partner_height_min') 	? $messages->add('age', $messages->get('partner_height_min')[0]) 	: '';
-
-			$strError = $messages;
-
-			return redirect()->back()
-				->withErrors($strError, 'comment')
-				->withInput();
-		}
-
 		$user->user_partner_age_min 			= (int)$arParams['partner_age_min'];
 		$user->user_partner_age_max 			= (int)$arParams['partner_age_max'];
 		$user->user_partner_height_min 			= (int)$arParams['partner_height_min'];
