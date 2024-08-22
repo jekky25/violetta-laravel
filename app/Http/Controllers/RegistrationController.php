@@ -21,6 +21,7 @@ use App\Requests\ProfileSecondRequest;
 use App\Requests\ProfilePartnerRequest;
 use App\Requests\SettingsRequest;
 use App\Requests\LoginRequest;
+use App\Requests\ForgetPasswordRequest;
 use Validator;
 use App\Helpers\Helper;
 use App\Mail\Email;
@@ -39,15 +40,6 @@ class RegistrationController extends Controller
 		'country'				=> ['place_empty', 'place_correct'],
 		'recaptcha_response' 	=> ['required', 'capcha'],
 		'conditions'			=> ['required'],
-	];
-
-	public static $rulesForgetPass = [
-		'mail'		=> ['required', 'email']
-	];
-
-	public static $errMessagesForgetPass= [
-		'mail.required'			=> 'не указан Е-майл',
-		'mail.email'			=> 'указан некорректный Е-майл'
 	];
 
 	public static $errMessagesRegistration = [
@@ -744,22 +736,12 @@ class RegistrationController extends Controller
 
 	/**
 	* send email from the forget password page
-	* @param  \Illuminate\Http\Request  $request
+	* @param  ForgetPasswordRequest $request
 	* @return void
 	*/
-	public function forgetPassPost (Request $request)
+	public function forgetPassPost (ForgetPasswordRequest $request)
 	{
 		$arParams 		= $request->post();
-		$validator 		= Validator::make($arParams, self::$rulesForgetPass, self::$errMessagesForgetPass);
-
-		if ($validator->fails()) {
-			$messages = $validator->messages();
-			$strError = $messages;
-
-			return redirect()->back()
-				->withErrors($strError, 'comment')
-				->withInput();
-		}
 		$email	= $arParams['mail'];
 		$user	= $this->userRepository->getByEmail($email);
 
