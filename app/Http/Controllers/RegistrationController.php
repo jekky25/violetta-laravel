@@ -20,6 +20,7 @@ use App\Requests\ProfileMainRequest;
 use App\Requests\ProfileSecondRequest;
 use App\Requests\ProfilePartnerRequest;
 use App\Requests\SettingsRequest;
+use App\Requests\LoginRequest;
 use Validator;
 use App\Helpers\Helper;
 use App\Mail\Email;
@@ -695,7 +696,6 @@ class RegistrationController extends Controller
 
 		$user->user_top100			= time();
 		$user->update();
-
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
@@ -712,10 +712,10 @@ class RegistrationController extends Controller
 
 	/**
 	* login
-	* @param  \Illuminate\Http\Request  $request
+	* @param LoginRequest $request
 	* @return void
 	*/
-	public function login (Request $request)
+	public function login (LoginRequest $request)
 	{
 		$arParams 		= $request->post();
 		$username 		= !empty($arParams['username_template'])	? trim($arParams['username_template']) 	: '';
@@ -728,9 +728,8 @@ class RegistrationController extends Controller
 			$title 			= 'Информация';
 			$text			= 'Неверно указаны имя пользователя или пароль!';
 			Helper::outMessageDie($title, $text);
-		}
-
-		Auth::login($user);
+		} else
+			Auth::login($user, $remember);
 		return redirect()->route('home');
 	}
 
