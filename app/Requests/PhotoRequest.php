@@ -4,9 +4,12 @@ namespace App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Route;
 
 class PhotoRequest extends FormRequest
 {
+	private $routeDelete 	= 'registration.edit.photo.delete';
+
 	/**
 	* replace array errors from default to commit
 	* @param  Illuminate\Contracts\Validation\Validator  $validator
@@ -41,8 +44,15 @@ class PhotoRequest extends FormRequest
 	*/
 	public function rules(): array
 	{
+		if ($this->cancelRules()) return [];
 		return [
 			'photo_link'	=> ['required','file', 'image', 'max:4048']
 		];
+	}
+
+	private function cancelRules()
+	{
+		if (Route::currentRouteName() == $this->routeDelete) return true;
+		return false;
 	}
 }

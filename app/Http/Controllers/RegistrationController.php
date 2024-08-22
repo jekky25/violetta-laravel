@@ -524,11 +524,11 @@ class RegistrationController extends Controller
 
 	/**
 	* Delete an user picture
-	* @param  \Illuminate\Http\Request  $request
+	* @param  PhotoRequest $request
 	* @param int $id
 	* @return void
 	*/
-	public function deletePhoto(Request $request, $id)
+	public function deletePhoto(PhotoRequest $request, $id)
 	{
 		$user 			= Auth::user();
 		$arParams 		= $request->post();
