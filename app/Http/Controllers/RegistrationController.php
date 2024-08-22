@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +21,7 @@ use App\Requests\ProfilePartnerRequest;
 use App\Requests\SettingsRequest;
 use App\Requests\LoginRequest;
 use App\Requests\ForgetPasswordRequest;
-use Validator;
+use App\Requests\RegistrationRequest;
 use App\Helpers\Helper;
 use App\Mail\Email;
 
@@ -30,45 +29,6 @@ class RegistrationController extends Controller
 {
 	public static $siteUrl				= 'www.avioletta.ru';
 	public static $siteUrlWithProtocol	= 'http://www.avioletta.ru';
-
-	public static $rulesRegistration = [
-		'login'					=> ['required', 'check_ban','max:20', 'min:4', "regex:/^[0-9a-zA-Z_]+$/", 'check_login'],
-		'password'				=> ['required', 'max:20', 'min:4', "regex:/^[0-9a-zA-Z_]+$/", 'check_password'],
-		'name'					=> ['required', 'max:30', 'min:2', 'birth_data', 'birth_data_correct'],
-		'sex'					=> ['required'],
-		'mail'					=> ['required', "regex:/^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,4}|museum$/i", "check_email"],
-		'country'				=> ['place_empty', 'place_correct'],
-		'recaptcha_response' 	=> ['required', 'capcha'],
-		'conditions'			=> ['required'],
-	];
-
-	public static $errMessagesRegistration = [
-		'login.required'				=> 'Логин не заполнен',
-		'login.check_ban'				=> 'Вы забанены из-за нарушения правил нашего сайта, по всем вопросам обращайтесь к администрации сайта',
-		'login.min'						=> 'Логин меньше :min символов',
-		'login.max'						=> 'Логин больше :max символов',
-		'login.regex'					=> 'При заполнении логина допускается использовать только цифры, буквы латинского алфавита и нижнее подчеркивание',
-		'login.check_login'				=> 'Пользователь с таким логином уже существует, выберите другой логин',
-		'password.required'				=> 'Пароль не заполнен',
-		'password.min'					=> 'Пароль меньше :min символов',
-		'password.regex'				=> 'При заполнении пароля допускается использовать только цифры, буквы латинского алфавита и нижнее подчеркивание',
-		'password.check_password'		=> 'Введенные пароли не совпадают',
-		'name.required'		 			=> 'Имя не заполнено',
-		'name.max'		 				=> 'Имя больше :max символов',
-		'name.min'		 				=> 'Имя меньше :min символов',
-		'sex.required'		 			=> 'Вы не указали пол',
-		'birth_data'					=> 'Не указана дата рождения',
-		'birth_data_correct'			=> 'Некорректная дата рождения',
-		'mail.required'		 			=> 'Не указан Е-майл',
-		'mail.regex'			 		=> 'Указан некорректный Е-майл',
-		'mail.check_email'		 		=> 'Пользователь с таким Е-майл уже зарегистрирован',
-		'place_empty'					=> 'Не указано место жительства',
-		'place_correct'					=> 'Неверно указано место жительства',
-		'recaptcha_response.required'	=> 'Капча не пройдена',
-		'recaptcha_response.capcha'		=> 'Капча не пройдена',
-		'conditions.required'			=> 'Пожалуйста, согласитесь с нашими условиями'
-	];
-
 	public static $languageCodes = [
 		'1' => 'rus',
 		'2' => 'ukr',
@@ -796,102 +756,19 @@ class RegistrationController extends Controller
 
 	/**
 	 * post data after registration and send e-mail with registration information
-     * @param  \Illuminate\Http\Request  $request
+     * @param  RegistrationRequest $request
 	 * @return void
 	 */
-	public function registrationPost (Request $request)
+	public function registrationPost (RegistrationRequest $request)
 	{
 		$arParams 				= $request->post();
 		$ip 					= $request->ip();
-		$ban 					= $this->banListRepository->getByIP($ip);
 		$login 					= !empty ($arParams ['login']) 				? $arParams['login'] 				: '';
 		$password 				= !empty ($arParams ['password'])			? $arParams['password'] 			: '';
-		$password_second 		= !empty ($arParams ['password_second'])	? $arParams['password_second']		: '';
 		$city 					= !empty ($arParams ['city']) 				? $arParams['city'] 				: 0;
 		$region 				= !empty ($arParams ['region']) 			? $arParams['region'] 				: 0;
 		$country 				= !empty ($arParams ['country']) 			? $arParams['country'] 				: 0;
-		$recaptcha_response  	= !empty ($arParams['recaptcha_response']) 	? $arParams['recaptcha_response'] 	: '';
-
-		Validator::extend('check_ban',
-		function () use ($ban) {
-			return empty($ban) ? true : false;
-		});
-
-		Validator::extend('check_login',
-		function () use ($login) {
-			return empty($this->userRepository->getByLogin($login)) ? true : false;
-		});
-
-		Validator::extend('check_password',
-		function () use ($password, $password_second) {
-			return $password == $password_second ? true : false;
-		});
-
-		Validator::extend('birth_data',
-		function () use ($arParams) {
-			return ((int)$arParams['birth_day'] == 0 || (int)$arParams['birth_month'] == 0 || (int)$arParams['birth_year'] == 1900 || (int)$arParams['birth_year'] == 0) ? false : true;
-		});
-
-		Validator::extend('birth_data_correct',
-		function () use ($arParams) {
-			$birth_month 	= (int)$arParams['birth_month'];
-			$birth_day		= (int)$arParams['birth_day'];
-			return (($birth_month == "2" && $birth_day > "29") || (($birth_month == "4" || $birth_month == "6" || $birth_month == "9" || $birth_month == "11") && $birth_day > "30")) ? false : true;
-		});
-
-		Validator::extend('check_email',
-		function () use ($arParams) {
-			return empty($this->userRepository->getByEmail($arParams['mail'])) ? true : false;
-		});
-
-		Validator::extend('place_empty',
-		function () use ($city, $region, $country) {
-			return (!$city && !$region && !$country) ? false : true;
-		});
-		Validator::extend('place_correct',
-		function () use ($city, $region, $country) {
-			if (!$city && !$region && !$country) return true;
-			return (!$city || !$region || !$country) ? false : true;
-		});
-
-
-		Validator::extend('capcha',
-		function () use ($recaptcha_response) {
-			$recaptcha_url 		= 'https://www.google.com/recaptcha/api/siteverify';
-			$recaptcha_secret 	= RE_SEC_KEY;
-
-			$ch = curl_init();
-			curl_setopt_array($ch, [
-				CURLOPT_URL => $recaptcha_url,
-				CURLOPT_POST => true,
-				CURLOPT_POSTFIELDS => [
-				'secret' 	=> $recaptcha_secret,
-				'response' 	=> $recaptcha_response,
-				'remoteip' 	=> $_SERVER['REMOTE_ADDR']
-				   ],
-				CURLOPT_RETURNTRANSFER => true
-			]);
-
-			$output = curl_exec($ch);
-			curl_close($ch);
-
-			$recaptcha = json_decode($output);
-			if ($recaptcha->success === true && $recaptcha->score >= 0.2) return true;
-			return false;
-		});
-
-		$validator 		= Validator::make($arParams, self::$rulesRegistration, self::$errMessagesRegistration);
-
-		if ($validator->fails()) {
-			$messages = $validator->messages();
-			$strError = $messages;
-			return redirect()->back()
-						->withErrors($strError, 'comment')
-						->withInput();
-		}
-
 		$code = md5 (time() . $login . rand(0, 1000));
-
 		$aFields = [
 			'user_active' 				=> 1,
 			'user_odobreno' 			=> 1,

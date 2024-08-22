@@ -30,7 +30,7 @@ class ContactsRequest extends FormRequest
 			'mail.required'					=> 'не указан Е-майл',
 			'mail.regex'					=> 'Указан некорректный Е-майл',
 			'recaptcha_response.required'	=> 'Капча не пройдена',
-			'recaptcha_response.Capcha'		=> 'Капча не пройдена'
+			'recaptcha_response.Captcha'	=> 'Капча не пройдена'
 		];
 	}
 
