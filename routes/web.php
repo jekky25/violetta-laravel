@@ -93,7 +93,9 @@ Route::middleware('slashes')->group(function () {
 	Route::get('population_search/', 'AnketController@getPopularAnkets')																		->name('population_search');
 	Route::get('birthday_search/', 'AnketController@getBirthdayAnkets')																			->name('birthday_search');
 
-	Route::match(['get', 'post'], 'screensaver/{id}.html', 'ScreenController@getItem')									->whereNumber('id')		->name('screensavers.id');
+	Route::post('screensaver/download/{id}.html', 'ScreenController@download')											->whereNumber('id')		->name('screensavers.id.download');
+	Route::post('screensaver/{id}.html', 'ScreenController@store')														->whereNumber('id')		->name('screensavers.id.store');
+	Route::get('screensaver/{id}.html', 'ScreenController@getItem')														->whereNumber('id')		->name('screensavers.id');
 	Route::get('screensavers.html', 'ScreenController@index')																					->name('screensavers');
 
 	Route::get('dreambook/op{id}.html', 'DreamBookController@index')													->whereNumber('id')		->name('dreambook.literal');

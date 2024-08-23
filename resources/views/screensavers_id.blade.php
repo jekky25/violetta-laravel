@@ -24,7 +24,7 @@
 Вы можете отрегулировать в подменю "параметры" меню установки заставки. Там же регулируется и скорость
 проигрывания самой заставки.</p>
 <p class="pad3">Приятного вам просмотра</p>
-<form name="anketa" class="form-block" action="{{route('screensavers.id',$screen->id)}}" method="post">
+<form name="anketa" class="form-block" action="{{route('screensavers.id.download',$screen->id)}}" method="post">
 {{ csrf_field() }}
 @if (!empty ($errors->download->all()))
 <div class="error">
@@ -60,7 +60,7 @@
 </td>
 <td class="valign1">
 <h4>Оставить комментарий</h4>
-<form name="anketa2" action="{{route('screensavers.id',$screen->id)}}" method="post">
+<form name="anketa2" action="{{route('screensavers.id.store',$screen->id)}}" method="post">
 {{ csrf_field() }}
 @if(session('success'))
   <div class="success">{{session('success')}}</div>
