@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -12,12 +13,9 @@ use App\Interfaces\PhotoInterface;
 use App\Interfaces\VarsInterface;
 use App\Interfaces\UserInterface;
 use App\Interfaces\CommentPhotoInterface;
-use App\Requests\VoteRequest;
 use App\Requests\PhotoCommentRequest;
 use App\Requests\DiaryRequest;
-use App\Requests\DiaryPhotoRequest;
 use App\Requests\DiaryCommentRequest;
-use App\Requests\DiaryCommentPhotoRequest;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -64,11 +62,11 @@ class AnkController extends Controller
 
 	/**
 	* Show a profile page
-	* @param  VoteRequest  $request
+	* @param  Request  $request
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function getAnk (VoteRequest $request, $id)
+	public function getAnk (Request $request, $id)
 	{
 		$user 	= Auth::user();
 		$mode 	= Route::currentRouteName() == 'ank.full.id' ? 'full' : '';
@@ -439,11 +437,11 @@ class AnkController extends Controller
 
 	/**
 	* delete the picture of the diary
-	* @param  DiaryPhotoRequest  $request
+	* @param  Illuminate\Http\Request $request
 	* @param  int $id
 	* @return void
 	*/
-	public function delDiaryPhoto (DiaryPhotoRequest $request, $id)
+	public function delDiaryPhoto (Request $request, $id)
 	{
 		$user 			= Auth::user();
 		if (empty ($user) ||  $id == 0) abort (404);
@@ -614,12 +612,12 @@ class AnkController extends Controller
 	}
 
 	/**
-	* delete thre picture of the diary comment
-	* @param  DiaryCommentPhotoRequest $request
+	* delete the picture of the diary comment
+	* @param  Illuminate\Http\Request $request
 	* @param  int $id
 	* @return void
 	*/	
-	public function delDiaryCommentPhoto (DiaryCommentPhotoRequest $request, $id)
+	public function delDiaryCommentPhoto (Request $request, $id)
 	{
 		$user 			= Auth::user();
 		if (empty ($user) ||  $id == 0) abort (404);

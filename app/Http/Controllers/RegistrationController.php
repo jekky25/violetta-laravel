@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -16,10 +17,7 @@ use App\Interfaces\AnketVisitInterface;
 use App\Requests\PassRequest;
 use App\Requests\PhotoRequest;
 use App\Requests\ProfileMainRequest;
-use App\Requests\ProfileSecondRequest;
 use App\Requests\ProfilePartnerRequest;
-use App\Requests\SettingsRequest;
-use App\Requests\LoginRequest;
 use App\Requests\ForgetPasswordRequest;
 use App\Requests\RegistrationRequest;
 use App\Helpers\Helper;
@@ -403,10 +401,10 @@ class RegistrationController extends Controller
 
 	/**
 	* Edit a full user profile
-	* @param  ProfileSecondRequest $request
+	* @param  Request $request
 	* @return void
 	*/
-	public function secondPost (ProfileSecondRequest $request)
+	public function secondPost (Request $request)
 	{
 		$user 			= Auth::user();
 		$arParams 		= $request->post();
@@ -569,10 +567,10 @@ class RegistrationController extends Controller
 
 	/**
 	* Update user settings
-	* @param SettingsRequest $request
+	* @param Request $request
 	* @return void
 	*/
-	public function settingsPost (SettingsRequest $request)
+	public function settingsPost (Request $request)
 	{
 		$user 			= Auth::user();
 		$arParams 		= $request->post();
@@ -664,10 +662,10 @@ class RegistrationController extends Controller
 
 	/**
 	* login
-	* @param LoginRequest $request
+	* @param Request $request
 	* @return void
 	*/
-	public function login (LoginRequest $request)
+	public function login (Request $request)
 	{
 		$arParams 		= $request->post();
 		$username 		= !empty($arParams['username_template'])	? trim($arParams['username_template']) 	: '';

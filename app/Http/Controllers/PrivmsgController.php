@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,6 @@ use App\Interfaces\MessageInterface;
 use App\Interfaces\SmileInterface;
 use App\Mail\Email;
 use App\Requests\PrivmsgRequest;
-use App\Requests\VoteRequest;
 
 class PrivmsgController extends Controller
 {
@@ -151,11 +151,11 @@ class PrivmsgController extends Controller
 
 	/**
 	* Show a page with the user messages
-	* @param  VoteRequest $request
+	* @param  Request $request
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function getAnkMess(VoteRequest $request, $id)
+	public function getAnkMess(Request $request, $id)
 	{
 		$user 			= Auth::user()->load(['visits']);
 		$anket 			= $this->userRepository->getById ($id);
