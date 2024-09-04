@@ -30,8 +30,8 @@ class ScreenDownloadRequest extends FormRequest
 	public function messages():array
 	{
 		return	[
-			'recaptcha_response.required'	=> 'Капча не пройдена',
-			'recaptcha_response.Captcha'	=> 'Капча не пройдена'
+			'recaptcha_response.required'		=> 'Капча не пройдена',
+			'recaptcha_response.GoogleCaptcha'	=> 'Капча не пройдена'
 		];
 	}
 

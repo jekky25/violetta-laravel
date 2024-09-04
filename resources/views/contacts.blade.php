@@ -4,20 +4,10 @@
 @if(session('success'))
 <p class="mess pad5">{{session('success')}}</p>
 @else
-@push('scripts')
-<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render={{ RE_SITE_KEY }}"></script>
-@endpush
-<script>
-        grecaptcha.ready(function () {
-            grecaptcha.execute('{{ RE_SITE_KEY }}', { action: 'contact' }).then(function (token) {
-                var recaptchaResponse = document.getElementById('recaptchaResponse');
-                recaptchaResponse.value = token;
-            });
-        });
-</script>
 <h1 class="mTit">Контактная информация</h1>
 <p class="pad3">Для того, чтобы связаться с нами, заполните пожалуйста</p>
 <form name="anketa" action="{{ route ('contacts.post') }}" method="post" class="formSearch">
+<x-google-captcha />
 {{ csrf_field() }}
 @if (!empty ($errors->comment->all()))
 	<div class="pad3 error">
@@ -41,7 +31,6 @@
 		</tr>
 		<tr><td colspan="2" align="center"><textarea cols="60" rows="10" class="login" name="description">{{ old('description', 'Оставьте здесь Ваше сообщение и мы обязательно с Вами свяжемся') }}</textarea></td></tr>
 	</table>
-	<input type="hidden" name="recaptcha_response" id="recaptchaResponse">
 <script language=JavaScript>
 function find_otsil()
 {
