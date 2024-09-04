@@ -31,7 +31,8 @@ class MetaServiceProvider extends ServiceProvider
 			$this->dreambook 	= $view->dreambook;
 			$this->name		 	= $view->name;
 			$this->goroskop	 	= $view->goroskop;
-
+			$this->screen	 	= $view->screen;
+			
 			$routeName = Route::currentRouteName();
 			switch ($routeName) {
 				case 'goroskop':
@@ -91,11 +92,10 @@ class MetaServiceProvider extends ServiceProvider
 					break;
 				case 'screensavers.id':	
 					$page = $view->page;
-					$screen = $view->screen;
 					$pageOut 	= $page > 1 ? ' страница ' . $page : '';
-					$pageTitle 	= $screen->name . ', Хранитель экрана, Скринсейвер, Screensaver, Скачать заставку с сайта знакомств Виолетта';
-					$pageMeta = '<meta name="Description" content="' . $screen->name . ' - скачай хранитель экрана прямо сейчас. Большая коллекция экранных заставок на водную тему.">
-					<meta name="Keywords" content="' . $screen->name . ', Хранители экрана, Скринсейверы, Screensaver, Скачать заставку, Сайт знакомств Виолетта">';
+					$pageTitle 	= $this->getScreenName() . ', Хранитель экрана, Скринсейвер, Screensaver, Скачать заставку с сайта знакомств Виолетта';
+					$pageMeta = '<meta name="Description" content="' . $this->getScreenName() . ' - скачай хранитель экрана прямо сейчас. Большая коллекция экранных заставок на водную тему.">
+					<meta name="Keywords" content="' . $this->getScreenName() . ', Хранители экрана, Скринсейверы, Screensaver, Скачать заставку, Сайт знакомств Виолетта">';
 					break;
 
 				case 'dreambook':	
@@ -262,5 +262,14 @@ class MetaServiceProvider extends ServiceProvider
 	private function getGoroskopName()
 	{
 		return (!empty ($this->goroskop->gor_name) ? $this->goroskop->gor_name : '');
+	}
+
+	/**
+	* get screen name
+	* @return string
+	*/
+	private function getScreenName()
+	{
+		return (!empty ($this->screen->name) ? $this->screen->name : '');
 	}
 }

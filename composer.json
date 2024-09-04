@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "j25/google-captcha": "^2.0",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.5"

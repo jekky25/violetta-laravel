@@ -1,17 +1,6 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
-@push('scripts')
-<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render={{ RE_SITE_KEY }}"></script>
-@endpush
-<script>
-        grecaptcha.ready(function () {
-            grecaptcha.execute('{{ RE_SITE_KEY }}', { action: 'contact' }).then(function (token) {
-                var recaptchaResponse = document.getElementById('recaptchaResponse');
-                recaptchaResponse.value = token;
-            });
-        });
-</script>
 <h1 class="mTit">{{ $screen->name }}</h1>
 <p class="pad3"><strong>Скачано раз: {{ $screen->zakachka }}</strong></p>
 <div class="scrPic2"><img alt="{{ $screen->name }}, хранитель экрана (скринсейвер)" src="{{ asset('screensavers/big_foto/' . $screen->path_jpg) }}" /></div>
@@ -43,7 +32,7 @@
 <td><label for="scr_arch">скачать в rar архиве {{ $screen->size_rar }}</label></td>
 </tr>
 </table>
-<input type="hidden" name="recaptcha_response" id="recaptchaResponse">
+<x-google-captcha />
 <p><input class="input2" type="submit" name="download" value="Скачать" /></p>
 </form>
 <table class="scrComments">

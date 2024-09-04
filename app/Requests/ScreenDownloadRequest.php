@@ -4,7 +4,7 @@ namespace App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
-use App\Rules\Captcha;
+use J25\GoogleCaptcha\GoogleCaptcha;
 
 class ScreenDownloadRequest extends FormRequest
 {
@@ -43,7 +43,7 @@ class ScreenDownloadRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'recaptcha_response'	=> ['required', new Captcha]
+			'recaptcha_response'	=> ['required', new GoogleCaptcha]
 		];
 	}
 }

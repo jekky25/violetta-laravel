@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4dd3ff8b464ee284030836a34c339c3",
+    "content-hash": "db6c0fd842bc42e07b1b0b33dffaee0c",
     "packages": [
         {
             "name": "brick/math",
@@ -1049,6 +1049,59 @@
                 }
             ],
             "time": "2023-12-03T19:50:20+00:00"
+        },
+        {
+            "name": "j25/google-captcha",
+            "version": "2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jekky25/google-captcha.git",
+                "reference": "881fe73306fca3994871b6706c4399f0de38e2d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jekky25/google-captcha/zipball/881fe73306fca3994871b6706c4399f0de38e2d5",
+                "reference": "881fe73306fca3994871b6706c4399f0de38e2d5",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "J25\\GoogleCaptcha\\Providers\\GoogleCaptchaServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "J25\\GoogleCaptcha\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Evgenii Vlasov",
+                    "email": "jekky25@list.ru",
+                    "homepage": "https://github.com/jekky25/"
+                }
+            ],
+            "description": "Google captcha v3.0 for laravel",
+            "keywords": [
+                "captcha",
+                "validation",
+                "webform"
+            ],
+            "support": {
+                "issues": "https://github.com/jekky25/google-captcha/issues",
+                "source": "https://github.com/jekky25/google-captcha/tree/2.0"
+            },
+            "time": "2024-09-03T03:00:49+00:00"
         },
         {
             "name": "laravel/framework",
