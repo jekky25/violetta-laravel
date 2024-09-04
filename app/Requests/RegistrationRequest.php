@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use App\Rules\PlaceEmpty;
 use App\Rules\PlaceCorrect;
-use App\Rules\Captcha;
+use J25\GoogleCaptcha\GoogleCaptcha;
 use App\Rules\CheckBan;
 use App\Rules\CheckLogin;
 use App\Rules\CheckEmail;
@@ -37,30 +37,30 @@ class RegistrationRequest extends FormRequest
 	public function messages():array
 	{
 		return	[
-			'login.required'				=> 'Логин не заполнен',
-			'login.CheckBan'				=> 'Вы забанены из-за нарушения правил нашего сайта, по всем вопросам обращайтесь к администрации сайта',
-			'login.min'						=> 'Логин меньше :min символов',
-			'login.max'						=> 'Логин больше :max символов',
-			'login.regex'					=> 'При заполнении логина допускается использовать только цифры, буквы латинского алфавита и нижнее подчеркивание',
-			'login.CheckLogin'				=> 'Пользователь с таким логином уже существует, выберите другой логин',
-			'password.required'				=> 'Пароль не заполнен',
-			'password.min'					=> 'Пароль меньше :min символов',
-			'password.regex'				=> 'При заполнении пароля допускается использовать только цифры, буквы латинского алфавита и нижнее подчеркивание',
-			'password.CheckPassword'		=> 'Введенные пароли не совпадают',
-			'name.required'		 			=> 'Имя не заполнено',
-			'name.max'		 				=> 'Имя больше :max символов',
-			'name.min'		 				=> 'Имя меньше :min символов',
-			'sex.required'		 			=> 'Вы не указали пол',
-			'BirthData'						=> 'Не указана дата рождения',
-			'birthDataCorrect'				=> 'Некорректная дата рождения',
-			'mail.required'		 			=> 'Не указан Е-майл',
-			'mail.regex'			 		=> 'Указан некорректный Е-майл',
-			'mail.CheckEmail'		 		=> 'Пользователь с таким Е-майл уже зарегистрирован',
-			'PlaceEmpty'					=> 'Не указано место жительства',
-			'PlaceCorrect'					=> 'Неверно указано место жительства',
-			'recaptcha_response.required'	=> 'Капча не пройдена',
-			'recaptcha_response.Captcha'	=> 'Капча не пройдена',
-			'conditions.required'			=> 'Пожалуйста, согласитесь с нашими условиями'
+			'login.required'					=> 'Логин не заполнен',
+			'login.CheckBan'					=> 'Вы забанены из-за нарушения правил нашего сайта, по всем вопросам обращайтесь к администрации сайта',
+			'login.min'							=> 'Логин меньше :min символов',
+			'login.max'							=> 'Логин больше :max символов',
+			'login.regex'						=> 'При заполнении логина допускается использовать только цифры, буквы латинского алфавита и нижнее подчеркивание',
+			'login.CheckLogin'					=> 'Пользователь с таким логином уже существует, выберите другой логин',
+			'password.required'					=> 'Пароль не заполнен',
+			'password.min'						=> 'Пароль меньше :min символов',
+			'password.regex'					=> 'При заполнении пароля допускается использовать только цифры, буквы латинского алфавита и нижнее подчеркивание',
+			'password.CheckPassword'			=> 'Введенные пароли не совпадают',
+			'name.required'		 				=> 'Имя не заполнено',
+			'name.max'		 					=> 'Имя больше :max символов',
+			'name.min'		 					=> 'Имя меньше :min символов',
+			'sex.required'		 				=> 'Вы не указали пол',
+			'BirthData'							=> 'Не указана дата рождения',
+			'birthDataCorrect'					=> 'Некорректная дата рождения',
+			'mail.required'		 				=> 'Не указан Е-майл',
+			'mail.regex'				 		=> 'Указан некорректный Е-майл',
+			'mail.CheckEmail'		 			=> 'Пользователь с таким Е-майл уже зарегистрирован',
+			'PlaceEmpty'						=> 'Не указано место жительства',
+			'PlaceCorrect'						=> 'Неверно указано место жительства',
+			'recaptcha_response.required'		=> 'Капча не пройдена',
+			'recaptcha_response.GoogleCaptcha'	=> 'Капча не пройдена',
+			'conditions.required'				=> 'Пожалуйста, согласитесь с нашими условиями'
 		];
 	}
 
@@ -89,7 +89,7 @@ class RegistrationRequest extends FormRequest
 			'country'				=> [
 											new PlaceEmpty($city, $region, $country), 
 											new PlaceCorrect($city, $region, $country)],
-			'recaptcha_response' 	=> ['required', new Captcha],
+			'recaptcha_response' 	=> ['required', new GoogleCaptcha],
 			'conditions'			=> ['required']
 		];
 	}

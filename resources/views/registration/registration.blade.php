@@ -1,17 +1,6 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
-@push('scripts')
-<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render={{ RE_SITE_KEY }}"></script>
-@endpush
-<script>
-        grecaptcha.ready(function () {
-            grecaptcha.execute('{{ RE_SITE_KEY }}', { action: 'contact' }).then(function (token) {
-                var recaptchaResponse = document.getElementById('recaptchaResponse');
-                recaptchaResponse.value = token;
-            });
-        });
-</script>
 <h1 class="mTit">Регистрация</h1>
 <p class="pad2">Зарегистрировавшись на нашем <strong>сайте знакомств</strong> вы сможете:!</p>
 <ul>
@@ -127,7 +116,7 @@
 						</table>
 						<script type="text/javascript" src="{{ asset('js/functions_search.js') }}"></script>
 						<p class="pad2"></p>
-						<input type="hidden" name="recaptcha_response" id="recaptchaResponse">
+						<x-google-captcha />
 						<x-error errName=recaptcha_response before='<h4 class="menu_registration"><div>Антиробот</div></h4>' after='<p class="pad2"></p>' />
 						<h4 class="menu_registration"></h4>
 						<x-error errName=conditions before='<p class="pad2"></p>' />
