@@ -5,10 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Interfaces\GoroskopInterface;
 use App\Interfaces\GoroskopTypeInterface;
+use App\includes\horoscope\ZodiacHoroscope;
+use App\includes\horoscope\EasternHoroscope;
+use App\includes\horoscope\GallHoroscope;
+use App\includes\horoscope\FloversHoroscope;
+use App\includes\horoscope\TalismanHoroscope;
 
 class GoroskopController extends Controller
 {
 	public 	$typeGor 	= 1;
+	const 	HOROSCOPES 	= [
+			1 => ZodiacHoroscope::class,
+			2 => EasternHoroscope::class,
+			3 => GallHoroscope::class,
+			4 => FloversHoroscope::class,
+			5 => TalismanHoroscope::class
+		];
 
 	/**
 	* Create a new controller instance.
@@ -30,17 +42,14 @@ class GoroskopController extends Controller
 	{
 		$goroskops		= $this->goroskopRepository->getByType($this->typeGor);
 		$goroskopsType	= $this->goroskopTypeRepository->getNotByType($this->typeGor);
-
 		if (empty ($goroskops)) abort(404);
-		include(base_path() . '/app/includes/goroskop/zodiak_text.php');
-
-		$goroskopsTitle  = 'Гороскопы - Зодиак';
+		$horoscope = new(self::HOROSCOPES[1]);
 
 		return response()->view ('goroskop', 
 		[
 			'goroskops'			=> $goroskops,
-			'zodiak_text' 		=> $zodiakText,
-			'goroskopsTitle' 	=> $goroskopsTitle,
+			'zodiak_text' 		=> $horoscope->getText(),
+			'goroskopsTitle' 	=> $horoscope->getTitle(),
 			'goroskops_type' 	=> $goroskopsType
 		]);
 	}
@@ -74,35 +83,15 @@ class GoroskopController extends Controller
 	*/
 	public function getType($id = 0)
 	{
-		$id = (int) $id;
-		if ($id == 0 && $id > 5) abort(404);
-		$goroskopsType = $id;
-		switch ($id) {
-			case 2:
-				include(base_path() . '/app/includes/goroskop/vost_goroskop_text.php');
-				break;
-			case 3:
-				include(base_path() . '/app/includes/goroskop/gall_goroskop_text.php');
-				break;
-			case 4:
-				include(base_path() . '/app/includes/goroskop/cvet_goroskop_text.php');
-				break;
-			case 5:
-				include(base_path() . '/app/includes/goroskop/talisman_text.php');
-				break;
-			default:		
-				include(base_path() . '/app/includes/goroskop/zodiak_text.php');
-		}
-
-		$goroskops		= $this->goroskopRepository->getByType($goroskopsType);
-		$goroskopsType	= $this->goroskopTypeRepository->getNotByType($goroskopsType);
+		$type = ($id > 0 && $id <= 5) ? (int) $id : 1;
+		$horoscope = new(self::HOROSCOPES[$type]);
 
 		return response()->view ('goroskop', 
 		[
-			'goroskops'			=> $goroskops,
-			'zodiak_text'		=> $zodiakText,
-			'goroskopsTitle'	=> $goroskopsTitle,
-			'goroskops_type'	=> $goroskopsType
+			'goroskops'			=> $this->goroskopRepository->getByType($type),
+			'zodiak_text'		=> $horoscope->getText(),
+			'goroskopsTitle'	=> $horoscope->getTitle(),
+			'goroskops_type'	=> $this->goroskopTypeRepository->getNotByType($type)
 		]);
 
 	}
