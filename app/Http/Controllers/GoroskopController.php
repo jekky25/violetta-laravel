@@ -9,22 +9,7 @@ use App\Interfaces\GoroskopTypeInterface;
 class GoroskopController extends Controller
 {
 	public 	$typeGor 	= 1;
-	public  $google		= 
-	[
-		[
-			'text' => '468 на 60 добавлен в гороскопы',
-			'slot' => '4331350870',
-			'width' => 468,
-			'height' => 60
-		],
-		[
-			'text' => '234x60 на гороскопах',
-			'slot' => '7650642805',
-			'width' => 234,
-			'height' => 60
-		]
-	];
-	
+
 	/**
 	* Create a new controller instance.
 	*
@@ -56,10 +41,9 @@ class GoroskopController extends Controller
 			'goroskops'			=> $goroskops,
 			'zodiak_text' 		=> $zodiakText,
 			'goroskopsTitle' 	=> $goroskopsTitle,
-			'goroskops_type' 	=> $goroskopsType,
-			
+			'goroskops_type' 	=> $goroskopsType
 		]);
-    }
+	}
 
 	/**
 	* show a goroskop page by id
@@ -69,55 +53,18 @@ class GoroskopController extends Controller
 	public function getItem($id)
 	{
 		$goroskop		= $this->goroskopRepository->getById($id);
-		if (empty ($goroskop)) abort(404);
-		
 		$this->typeGor	= $goroskop->gor_type;
 		$goroskops		= $this->goroskopRepository->getByType($this->typeGor);
 		$goroskopsType	= $this->goroskopTypeRepository->getNotByType($this->typeGor);
-		
-		$goroskop->gor_text = str_replace("\n","<br \><br \>\n",$goroskop->gor_text);
-	
-		if (!empty ($this->google))
-		{	
-			$k = 0;
-			foreach ($this->google as $_google)
-			{
-				$k++;
-				$countStr = 0;
-				$countStr = strpos ($goroskop->gor_text, '{google_baner' . $k . '}');
-				$googleBan = '</p>
-				<p class="gb1">
-				<script type="text/javascript"><!--
-					google_ad_client = "ca-pub-6379140164632940";
-					/* ' . $_google['text'] . ' */
-					google_ad_slot = "' . $_google['slot'] . '";
-					google_ad_width = ' . $_google['width'] . ';
-					google_ad_height = ' . $_google['height'] . ';
-				//-->
-				</script>
-				<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-				</p>
-				<p>';
-		
-				if ($countStr > 0) {
-					$goroskop->gor_text = substr_replace($goroskop->gor_text, $googleBan, $countStr, 15);
-				}
-			}
-		}
 
-		$zodiakText 	= $goroskop->gor_text;
-		$goroskopsTitle = $goroskop->gor_name;
-	
-		
 		return response()->view ('goroskop', 
 		[
 			'goroskops'			=> $goroskops,
 			'goroskop'			=> $goroskop,
-			'zodiak_text' 		=> $zodiakText,
-			'goroskopsTitle' 	=> $goroskopsTitle,
+			'zodiak_text' 		=> $goroskop->gor_text,
+			'goroskopsTitle' 	=> $goroskop->gor_name,
 			'goroskops_type' 	=> $goroskopsType
 		]);
-
 	}
 
 	/**
@@ -157,15 +104,15 @@ class GoroskopController extends Controller
 				$title_id = 'Зодиак';
 		}
 
-		$goroskops 		= $this->goroskopRepository->getByType($goroskopsType);
-		$goroskopsType 	= $this->goroskopTypeRepository->getNotByType($goroskopsType);
+		$goroskops		= $this->goroskopRepository->getByType($goroskopsType);
+		$goroskopsType	= $this->goroskopTypeRepository->getNotByType($goroskopsType);
 
 		return response()->view ('goroskop', 
 		[
 			'goroskops'			=> $goroskops,
-			'zodiak_text' 		=> $zodiakText,
-			'goroskopsTitle' 	=> $goroskopsTitle,
-			'goroskops_type' 	=> $goroskopsType
+			'zodiak_text'		=> $zodiakText,
+			'goroskopsTitle'	=> $goroskopsTitle,
+			'goroskops_type'	=> $goroskopsType
 		]);
 
 	}

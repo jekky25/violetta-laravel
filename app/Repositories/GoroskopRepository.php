@@ -29,8 +29,7 @@ class GoroskopRepository implements GoroskopInterface {
 	{
 		$item = Goroskop::select('*')
 		->where('gor_id', $id)
-		->first();
-
+		->firstOrFail();
 		return $item;
 	}
 }

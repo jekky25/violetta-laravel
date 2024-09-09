@@ -26,13 +26,14 @@ class MetaServiceProvider extends ServiceProvider
 	public function boot()
 	{
 		View::composer('*', function($view) {
-			$this->userData 	= $view->userData;
-			$this->diary 		= $view->diary;
-			$this->dreambook 	= $view->dreambook;
-			$this->name		 	= $view->name;
-			$this->goroskop	 	= $view->goroskop;
-			$this->screen	 	= $view->screen;
-			
+			$this->userData 		= $view->userData;
+			$this->diary 			= $view->diary;
+			$this->dreambook 		= $view->dreambook;
+			$this->name		 		= $view->name;
+			$this->goroskop	 		= $view->goroskop;
+			$this->screen	 		= $view->screen;
+			$this->goroskopsTitle 	= $view->goroskopsTitle;
+
 			$routeName = Route::currentRouteName();
 			switch ($routeName) {
 				case 'goroskop':
@@ -45,6 +46,11 @@ class MetaServiceProvider extends ServiceProvider
 					$pageTitle 		= $this->getGoroskopName() . ', Гороскопы, бесплатные знакомства, Бесплатный сайт знакомств Виолетта';
 					$pageMeta 		= '<meta name="Description" content="' . $this->getGoroskopName() . '. Узнай свой гороскоп на сайте знакомств Виолетта.">
 							<meta name="Keywords" content="' . $this->getGoroskopName() . ', гороскопы, бесплатные знакомства, знакомства в Москве, поиск анкет, найти любовь">';
+					break;
+				case 'goroskop.op':
+					$pageTitle 		= $this->getGoroskopTitle() . ', Гороскопы, бесплатные знакомства, Бесплатный сайт знакомств Виолетта';
+					$pageMeta 		= '<meta name="Description" content="' . $this->getGoroskopTitle() . '. Узнай свой гороскоп на сайте знакомств Виолетта.">
+							<meta name="Keywords" content="' . $this->getGoroskopTitle() . ', гороскопы, бесплатные знакомства, знакомства в Москве, поиск анкет, найти любовь">';
 					break;
 				case 'names':
 					$pageTitle 		= 'Значение имени, Что означает ваше имя, Бесплатный сайт знакомств Виолетта';
@@ -262,6 +268,15 @@ class MetaServiceProvider extends ServiceProvider
 	private function getGoroskopName()
 	{
 		return (!empty ($this->goroskop->gor_name) ? $this->goroskop->gor_name : '');
+	}
+
+	/**
+	* get goroskop title
+	* @return string
+	*/
+	private function getGoroskopTitle()
+	{
+		return (!empty ($this->goroskopsTitle) ? $this->goroskopsTitle : '');
 	}
 
 	/**
