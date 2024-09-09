@@ -81,27 +81,22 @@ class GoroskopController extends Controller
 			case 2:
 				include(base_path() . '/app/includes/goroskop/vost_goroskop_text.php');
 				$goroskopsTitle = 'Гороскопы - Восточный гороскоп';
-				$title_id = 'Восточный гороскоп';
 				break;
-			case 2:
+			case 3:
 				include(base_path() . '/app/includes/goroskop/gall_goroskop_text.php');
 				$goroskopsTitle = 'Гороскопы - Галлийский гороскоп';
-				$title_id = 'Галлийский гороскоп';
 				break;
 			case 4:
 				include(base_path() . '/app/includes/goroskop/cvet_goroskop_text.php');
 				$goroskopsTitle = 'Гороскопы - Гороскоп цветов';
-				$title_id = 'Гороскоп цветов';
 				break;
 			case 5:
 				include(base_path() . '/app/includes/goroskop/talisman_text.php');
 				$goroskopsTitle = 'Гороскопы - Талисманы';
-				$title_id = 'Талисманы';
 				break;
 			default:		
 				include(base_path() . '/app/includes/goroskop/zodiak_text.php');
 				$goroskopsTitle = 'Гороскопы - Зодиак';
-				$title_id = 'Зодиак';
 		}
 
 		$goroskops		= $this->goroskopRepository->getByType($goroskopsType);
