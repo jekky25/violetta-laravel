@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Interfaces\GoroskopInterface;
 use App\Interfaces\GoroskopTypeInterface;
-use App\includes\horoscope\ZodiacHoroscope;
-use App\includes\horoscope\EasternHoroscope;
-use App\includes\horoscope\GallHoroscope;
-use App\includes\horoscope\FloversHoroscope;
-use App\includes\horoscope\TalismanHoroscope;
+use App\includes\Horoscope\ZodiacHoroscope;
+use App\includes\Horoscope\EasternHoroscope;
+use App\includes\Horoscope\GallHoroscope;
+use App\includes\Horoscope\FloversHoroscope;
+use App\includes\Horoscope\TalismanHoroscope;
 
 class GoroskopController extends Controller
 {
