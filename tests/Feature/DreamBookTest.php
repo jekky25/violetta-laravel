@@ -60,4 +60,21 @@ class DreamBookTest extends TestCase
 			$response->assertStatus(200);
 		}
 	}
+
+	/**
+	* Test no exist dreambook id page
+	*/
+	public function test_dream_book_no_exist_id_page(): void
+	{
+		$ar = [
+			'/dreambook/560000.html',
+		];
+
+		foreach ($ar as $item)
+		{
+			$_SERVER['REQUEST_URI'] = $item;
+			$response = $this->get($_SERVER['REQUEST_URI']);
+			$response->assertStatus(404);
+		}
+	}
 }
