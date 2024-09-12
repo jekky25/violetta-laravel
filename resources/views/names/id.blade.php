@@ -51,5 +51,5 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </ul>
 <div class="clear"></div>
 @endif
-@if (!empty($bannerNames))<p class="pad1 pad2">{{$bannerNames}}</p>@endif
+@if (!empty($bannerNames))<p class="pad1 pad2">{!!$bannerNames!!}</p>@endif
 @overwrite
