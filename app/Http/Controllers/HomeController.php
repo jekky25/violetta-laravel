@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Interfaces\CountryInterface;
 use App\Interfaces\DiaryInterface;
 use App\Interfaces\UserInterface;
-use App\Helpers\Helper;
+use App\Services\DataService;
 
 class HomeController extends Controller
 {
@@ -31,7 +31,7 @@ class HomeController extends Controller
 	*/
 	public function index()
 	{
-		$ages		= Helper::getAges();
+		$ages		= DataService::getAges();
 		$countries	= $this->countryRepository->getAll();
 		$newFaces	= $this->userRepository->newFaces($this->countNewFaces);
 		$diaries	= $this->diaryRepository->get($this->countDiaries);

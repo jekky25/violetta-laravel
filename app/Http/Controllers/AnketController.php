@@ -14,6 +14,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\HairTypeRepository;
 use App\Repositories\EyesRepository;
 use App\Services\LengthPager;
+use App\Services\DataService;
 
 class AnketController extends Controller
 {
@@ -460,7 +461,7 @@ class AnketController extends Controller
 					$critsSearch .= '<br />сейчас <strong>на сайте</strong>';
 			}
 		}
-		$ages 		= Helper::getAges();
+		$ages 		= DataService::getAges();
 		$countries 	= $this->countryRepository->getAll();
 		$heights 	= Helper::getHeights();
 		$weights 	= Helper::getWeights();

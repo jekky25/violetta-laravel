@@ -21,6 +21,7 @@ use App\Requests\ProfilePartnerRequest;
 use App\Requests\ForgetPasswordRequest;
 use App\Requests\RegistrationRequest;
 use App\Helpers\Helper;
+use App\Services\DataService;
 use App\Mail\Email;
 
 class RegistrationController extends Controller
@@ -156,7 +157,7 @@ class RegistrationController extends Controller
 	public function partner ()
 	{
 		$user 				= Auth::user();
-		$age 				= Helper::getAges();
+		$age 				= DataService::getAges();
 		$heights 			= Helper::getHeights();
 		$weights 			= Helper::getWeights();
 		$partnerBody		= Helper::BlockSelect("partner_body[]",BODY_CLASS, old ('partner_body', $user->user_partner_body),2);
