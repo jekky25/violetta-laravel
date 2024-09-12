@@ -43,7 +43,7 @@ class DreamBookRepository implements DreamBookInterface {
 	{
 		$item = DreamBook::select('*')
 		->where('id', $id)
-		->first();
+		->firstOrFail();
 
 		return $item;
 	}

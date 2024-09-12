@@ -52,7 +52,7 @@ class DiaryRepository implements DiaryInterface {
 	* @return \Illuminate\Database\Eloquent\Collection
 	*/
 	public function getByUser($count, $userId)
-    {
+	{
 		$items = Diary::select('*')
 		->where ('dnevniki_user_id', $userId)
 		->with('user')

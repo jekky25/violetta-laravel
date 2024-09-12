@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Interfaces\DreamBookInterface;
 use App\Traits\Tstr;
-use App\Helpers\Helper;
 
 class DreamBookController extends Controller
 {
@@ -55,14 +54,12 @@ class DreamBookController extends Controller
 	{
 		$dreamBookLiterals		= $this->dreamBookRepository->getLiter();
 		$dreambook 				= $this->dreamBookRepository->getById($id);
-
 		$dreambook->description = $this->replaceStringByPattern ($dreambook->description, $this->pattern, $this->replacement);
-		if (empty ($dreambook)) abort(404);
 
 		return response()->view ('dreambooks_id', 
 		[
 			'dreamBookLiterals'		=> $dreamBookLiterals,
-			'dreambook'			=> $dreambook
+			'dreambook'				=> $dreambook
 		]);
 	}
 }
