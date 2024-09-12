@@ -548,12 +548,9 @@ class RegistrationController extends Controller
 		$userId			= $user->user_id;
 		$diaries 		= $this->diaryRepository->getByUser (self::$countPerPage, $userId);
 		$page			= $diaries->currentPage();
-		$pagination		= Helper::preparePagination ($diaries->toArray()['links']);
-
 		return response()->view ('registration.diary',
 		[
-			'diaries' 		=> $diaries,
-			'pagination'	=> $pagination,
+			'diaries' 		=> $diaries
 		]);
 	}
 

@@ -68,7 +68,7 @@ function vote(score)
 		</tr>
 	@endforeach
 	</table>
-	<x-pagination :items="$messages" :pagination="$pagination" />
+	<x-pagination :items="$messages" />
 	@endif
 	<div class="pad5">
 		<script type="text/javascript"><!--

@@ -21,5 +21,5 @@
 @endforeach
 </table>
 @endif
-<x-pagination :items="$screens" :pagination="$pagination" />
+<x-pagination :items="$screens" />
 @overwrite

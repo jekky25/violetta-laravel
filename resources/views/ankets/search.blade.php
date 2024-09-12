@@ -32,7 +32,7 @@ google_ad_height = 600;
 							</td>
 						</tr>
 					</table>
-<x-pagination :items="$ankets" :pagination="$pagination" />
+<x-pagination :items="$ankets" />
 @else
 <h1 class="mTit">Поиск</h1>
 <form name="anketa" action="{{route('search')}}" method="get" class="formSearch">

@@ -353,14 +353,11 @@ class AnkController extends Controller
 		if (count ($diaries) == 0) abort (404);
 
 		$page 				= $diaries->currentPage();
-		$pagination 		= Helper::preparePagination ($diaries->toArray()['links']);
-
 		return response()->view ('ankets.diary',
 		[
 			'userData'		=> $anket,
 			'diaries'		=> $diaries,
-			'page'			=> $page,
-			'pagination'	=> $pagination
+			'page'			=> $page
 		]);
 	}
 
@@ -530,13 +527,11 @@ class AnkController extends Controller
 
 		if (empty ($diary) || empty ($diary->user)) abort (404);
 		$page 				= $comments->currentPage();
-		$pagination 		= Helper::preparePagination ($comments->toArray()['links']);
 		return response()->view ('ankets.comments',
 		[
 			'userData'		=> $diary->user,
 			'diary'			=> $diary,
-			'comments'		=> $comments,
-			'pagination'	=> $pagination
+			'comments'		=> $comments
 		]);
 	}
 

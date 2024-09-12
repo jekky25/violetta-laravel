@@ -46,15 +46,12 @@ class AnketController extends Controller
 		$popSex 			= $sex == 'men' ? 'мужчины' : 'женщины';
 		$ankets 			= $this->userRepository->getPopul($this->countPerPage, $s);
 		$page 				= $ankets->currentPage();
-		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
-
 		return response()->view ('ankets.popular_search', 
 		[
 			'popSex'		=> $popSex,
 			'sex'			=> $sex,
 			'page'			=> $page,
-			'ankets'		=> $ankets,
-			'pagination'	=> $pagination
+			'ankets'		=> $ankets
 		]);
 	}
 
@@ -66,13 +63,10 @@ class AnketController extends Controller
 	{
 		$ankets 			= $this->userRepository->getBirthday($this->countPerPage);
 		$page 				= $ankets->currentPage();
-		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
-
 		return response()->view ('ankets.birthday_search', 
 		[
 			'page'			=> $page,
-			'ankets'		=> $ankets,
-			'pagination'	=> $pagination
+			'ankets'		=> $ankets
 		]);
 	}
 
@@ -87,8 +81,6 @@ class AnketController extends Controller
 		$ankets 			= $this->userRepository->getBest($this->countPerPage, $s);
 		$maxReit 			= $this->userRepository->getMaxReiting($s);
 		$page 				= $ankets->currentPage();
-		$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
-
 		foreach ($ankets as &$item)
 		{
 			$item->user_reiting_str 	= Helper::reiting ($item->user_reiting,$maxReit);
@@ -105,7 +97,6 @@ class AnketController extends Controller
 		[
 			'page'				=> $page,
 			'ankets'			=> $ankets,
-			'pagination'		=> $pagination,
 			'titleId'			=> $titleId,
 			'countSearchAnkStr' => $countSearchAnkStr,
 			'user'				=> $user
@@ -120,7 +111,6 @@ class AnketController extends Controller
 	{
 		$ankets 					= $this->userRepository->getViews($this->countPerPage);
 		$page 						= $ankets->currentPage();
-		$pagination 				= Helper::preparePagination ($ankets->toArray()['links']);
 		$user	 					= Auth::user();
 		$user->user_lastvisit_views = time();
 		$user->update();
@@ -128,8 +118,7 @@ class AnketController extends Controller
 		return response()->view ('ankets.views', 
 		[
 			'page'			=> $page,
-			'ankets'		=> $ankets,
-			'pagination'	=> $pagination
+			'ankets'		=> $ankets
 		]);
 	}
 
@@ -190,10 +179,8 @@ class AnketController extends Controller
 		{
 			$ankets 			= $this->userRepository->getOp($this->countPerPage, $s, $opt);
 			$page 				= $ankets->currentPage();
-			$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
 			$countSearchAnkStr	= Helper::getFoundStr ($ankets, $this->countPerPage);
 		}
-
 		return response()->view ('ankets.id', 
 		[
 			'popSex'			=> $ankTitle,
@@ -201,8 +188,7 @@ class AnketController extends Controller
 			'sex'				=> $sex,
 			'page'				=> !empty($page) ? $page : 1,
 			'ankets'			=> $ankets,
-			'countSearchAnkStr' => !empty ($countSearchAnkStr) ? $countSearchAnkStr : '',
-			'pagination'		=> !empty ($pagination) ? $pagination : ''
+			'countSearchAnkStr' => !empty ($countSearchAnkStr) ? $countSearchAnkStr : ''
 		]);
 	}
 	
@@ -404,9 +390,6 @@ class AnketController extends Controller
 			$ankets = LengthPager::makeLengthAware($ankets, $ankets->total(), $anketPerPage);
 			$ankets->appends(request()->query());
 			$ankets = UserRepository::addProps($ankets);
-
-			$pagination 		= Helper::preparePagination ($ankets->toArray()['links']);
-
 			$countSearchAnkStr	= Helper::getFoundStr ($ankets, $anketPerPage);
 
 			if ($crits === true) 
@@ -481,7 +464,6 @@ class AnketController extends Controller
 			'isSend'			=> $isSend,
 			'critsSearch' 		=> $critsSearch,
 			'ankets'			=> !empty ($ankets) ? $ankets : [],
-			'pagination'		=> !empty ($pagination) ? $pagination : [],
 			'photo'				=> !empty ($photo) ? $photo : 0,
 			'countSearchAnkStr' => !empty($countSearchAnkStr) ? $countSearchAnkStr : ''
 		]);

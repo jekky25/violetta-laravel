@@ -49,11 +49,9 @@ class PrivmsgController extends Controller
 		$messages 			= $this->messageRepository->getAll($user->user_id, self::$messagePerPage);
 		$messages			= $this->messageRepository->getNewsByUsers($messages, $user);
 		$page 				= $messages->currentPage();
-		$pagination 		= Helper::preparePagination ($messages->toArray()['links']);
 		return response()->view ('ankets.privmsg',
 		[
-			'messages' 		=> $messages,
-			'pagination'	=> $pagination
+			'messages' 		=> $messages
 		]);
 	}
 
@@ -162,7 +160,6 @@ class PrivmsgController extends Controller
 		$messages 		= $this->messageRepository->getAllByUser($id, $user->user_id, self::$messageAnkPerPage);
 		$vote 			= isset ($request->golos) ? (int)$request->golos : 0;
 		$vote 			= $vote > 5 ? 5 : $vote;
-		$pagination 	= Helper::preparePagination ($messages->toArray()['links']);
 		$smiles			= $this->smileRepository->getAll();
 
 		$affectedRows	= $this->anketEvaluationRepository->getEvaluations($user->user_id, $id);
@@ -218,7 +215,6 @@ class PrivmsgController extends Controller
 			'anketUserData'		=> $anket,
 			'ankEvaluationed' 	=> isset($ankEvaluationed) ? $ankEvaluationed : false,
 			'messages'			=> $messages,
-			'pagination'		=> $pagination,
 			'smiles'			=> $smiles
 		]);
 	}

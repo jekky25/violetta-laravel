@@ -41,5 +41,5 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 							</td>
 						</tr>
 					</table>
-<x-pagination :items="$ankets" :pagination="$pagination" />
+<x-pagination :items="$ankets" />
 @overwrite

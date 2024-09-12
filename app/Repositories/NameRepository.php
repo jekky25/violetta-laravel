@@ -50,7 +50,7 @@ class NameRepository implements NameInterface {
 	{
 		$item = Name::select('*')
 		->where('id', $id)
-		->first();
+		->firstOrFail();
 		return $item;
 	}
 }

@@ -95,11 +95,8 @@ class NameController extends Controller
 	public function getName($id)
 	{
 		$name = $this->nameRepository->getById($id);
-		if (empty ($name)) abort(404);
-
 		$nameTitle			= 'Значение имени ' . $name->name;
 		$nameText			= str_replace("\n","<br /><br />\n",$name->description);
-
 		$sex				= $name->gender == 'm' ? 'men' 							: 'women';
 		$nameTitleGender	= $name->gender == 'm' ? 'Мужские имена по алфавиту' 	: 'Женские имена по алфавиту';
 		$namesGender		= $this->nameService->getLiteralString($sex);

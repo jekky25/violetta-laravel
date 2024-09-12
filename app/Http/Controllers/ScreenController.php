@@ -33,14 +33,12 @@ class ScreenController extends Controller
 	*/
 	public function index()
 	{
-		$screens 			= $this->screenRepository->get($this->countPerPage);
-		$page 				= $screens->currentPage();
-		$pagination 		= Helper::preparePagination ($screens->toArray()['links']);
+		$screens			= $this->screenRepository->get($this->countPerPage);
+		$page				= $screens->currentPage();
 		return response()->view ('screensavers', 
 		[
 			'page'				=> $page,
 			'screens'			=> $screens,
-			'pagination'		=> $pagination,
 			'numScreens'		=> $screens->total()
 		]);
     }

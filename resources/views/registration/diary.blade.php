@@ -15,7 +15,7 @@
 @endforeach
 	</table>
 @endif
-<x-pagination :items="$diaries" :pagination="$pagination" />
+<x-pagination :items="$diaries" />
 	<div class="pad5">
 <script type="text/javascript"><!--
 google_ad_client = "ca-pub-6379140164632940";

@@ -27,7 +27,7 @@ google_ad_height = 60;
 @endforeach
 </table>
 @endif
-<x-pagination :items="$diaries" :pagination="$pagination" />
+<x-pagination :items="$diaries" />
 @auth
 @if ($user->user_id == $userData->user_id)
 <script language=JavaScript>
