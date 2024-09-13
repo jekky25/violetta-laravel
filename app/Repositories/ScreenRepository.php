@@ -28,7 +28,22 @@ class ScreenRepository implements ScreenInterface {
 	{
 		$item = Screen::select('*')
 		->where('id', $id)
-		->first();
+		->firstOrFail();
 		return $item;
+	}
+
+	/**
+	* update a screensaver
+	* @param  App\Models\Screen $request
+	* @return void
+	*/	
+	public function update($request) {
+		try {
+			Screen::where('id', $request->id)->update([
+				'zakachka'   => $request->zakachka
+			]);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to update a screen '.$e->getMessage());
+		}
 	}
 }

@@ -22,7 +22,7 @@ class SiteController extends Controller
 	* Show the application dashboard.
 	* @return \Illuminate\Http\Response
 	*/
-    public function index()
+	public function index()
 	{
 		$dreamBook = $this->dreamBookRepository->getAll();
 		return response()->view ('site_map', 

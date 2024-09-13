@@ -25,11 +25,11 @@
 <table class="scrDown">
 <tr>
 <td><input type="radio" name="f_download" value="1" id="scr" /></td>
-<td><label for="scr">скачать как есть {{ $screen->size_scr }}</label></td>
+<td><label for="scr">скачать как есть {{ $screen->size_scr_format }}</label></td>
 </tr>
 <tr>
 <td><input type="radio" name="f_download" value="2" id="scr_arch" /></td>
-<td><label for="scr_arch">скачать в rar архиве {{ $screen->size_rar }}</label></td>
+<td><label for="scr_arch">скачать в rar архиве {{ $screen->size_rar_format }}</label></td>
 </tr>
 </table>
 <x-google-captcha />

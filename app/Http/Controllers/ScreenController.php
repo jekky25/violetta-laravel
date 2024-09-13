@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ScreenInterface;
 use App\Interfaces\CommentScreenInterface;
-use App\Helpers\Helper;
 use App\Requests\ScreenRequest;
 use App\Requests\ScreenDownloadRequest;
 
 class ScreenController extends Controller
 {
 	public $countPerPage 	= 6;
+	const VAR_SCR = 1;
+	const VAR_RAR = 2;
 
 	/**
 	* Create a new controller instance.
@@ -41,23 +40,17 @@ class ScreenController extends Controller
 			'screens'			=> $screens,
 			'numScreens'		=> $screens->total()
 		]);
-    }
+	}
 
 	/**
 	* show a screensaver page and make download screensaver
-	* @param Illuminate\Http\Request $request
 	* @param int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function getItem(Request $request, $id)
+	public function show($id)
 	{
-		$screen 			= $this->screenRepository->getById($id);
-		if (empty ($screen)) abort(404);
-
-		$screen->size_scr 	= Helper::formatFileSize($screen->size_scr);
-		$screen->size_rar 	= Helper::formatFileSize($screen->size_rar);
-		$comments 			= $this->commentScreenRepository->getByScrId($id);
-
+		$screen				= $this->screenRepository->getById($id);
+		$comments			= $this->commentScreenRepository->getByScrId($id);
 		return response()->view ('screensavers_id', 
 		[
 			'screen'			=> $screen,
@@ -74,26 +67,9 @@ class ScreenController extends Controller
 	*/
 	public function store(ScreenRequest $request, $id)
 	{
-		$screen				= $this->screenRepository->getById($id);
-		if (empty ($screen)) abort(404);
-		$arParams = $request->post();
-		$description =  str_replace("\'", "''", $arParams['description']);
-		$user = Auth::user();
-		if (empty ($user))
-		{
-			return redirect()->route('login');
-		}
-		$user = $user->load(['visits']);
-
-		$aFields = [
-			'scr_id'		=> $screen->id,
-			'name'			=> $user->user_name,
-			'email' 		=> $user->user_mail,
-			'description'	=> $description,
-			'time'			=> time()
-		];
-
-		$this->commentScreenRepository->create($aFields);
+		$this->screenRepository->getById($id);
+		$arParams = $request->validated();
+		$this->commentScreenRepository->create($arParams);
 		return redirect()->back()
 						->with('success','Сообщение успешно отправлено')
 						->withInput();
@@ -107,21 +83,20 @@ class ScreenController extends Controller
 	*/
 	public function download(ScreenDownloadRequest $request, $id)
 	{
-		$screen				= $this->screenRepository->getById($id);
-		if (empty ($screen)) abort(404);
+		$screen					= $this->screenRepository->getById($id);
 		$screen->zakachka++;
-		$screen->save();
+		$this->screenRepository->update($screen);
 
-		$fDown     = $request->get('f_download') == 2 ? 2 : 1;
-		if ($fDown == 1)
+		$fDown			= $request->get('f_download') == self::VAR_RAR ? self::VAR_RAR : self::VAR_SCR;
+		if ($fDown == self::VAR_SCR)
 		{
-			$GetFile 	= "screensavers/" . $screen->path_scr;
-			$FileS 		= $screen->name . ".scr";
+			$GetFile	= "screensavers/" . $screen->path_scr;
+			$FileS		= $screen->name . ".scr";
 			$header		= "Content-type: application charset=utf-8";
 		} else
 		{
-			$GetFile 	= "screensavers/" . $screen->path_rar;
-			$FileS 		= $screen->name . ".rar";
+			$GetFile	= "screensavers/" . $screen->path_rar;
+			$FileS		= $screen->name . ".rar";
 			$header		= "Content-type: application/x-rar-compressed charset=utf-8";
 		}
 
@@ -133,4 +108,3 @@ class ScreenController extends Controller
 		redirect(route('screensavers.id',$screen->id));
 	}
 }
-

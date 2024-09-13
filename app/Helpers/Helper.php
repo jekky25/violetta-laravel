@@ -284,33 +284,6 @@ class Helper {
 	}
 
 	/**
-	 * formate string to mB or kB
-	 * @param string $str
-	 *
-	 * @return string
-	 */
-	public static function formatFileSize($str)
-	{
-  		$l = strlen($str);
-  		if ($l > 6)
-  		{
-    		$l1 	= substr($str,0,($l-6));
-    		$l_len1 = strlen ($l1);
-    		$l2 	= substr($str,$l_len1,($l-$l_len1-5));
-			$l		= $l1.",".$l2." мБ";
-		}
-		else
-		{
-			if ($l < 3)
-				$l1 = 0;
-			else
-				$l1 = substr($str,0,($l-3));
-			$l = $l1." кБ";
-		}
-		return $l;
-	}
-
-	/**
 	 * returns the date by age
 	 *
 	 * @return Carbon\Carbon
