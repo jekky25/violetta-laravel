@@ -44,6 +44,8 @@ class ContactsRequest extends FormRequest
 		return [
 			'name'					=> ['required', 'max:30', 'min:2'],
 			'mail'					=> ['required', "regex:/^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,4}|museum$/i"],
+			'organization'			=> ['string'],
+			'description'			=> ['string'],
 			'recaptcha_response'	=> ['required', new GoogleCaptcha]
 		];
 	}

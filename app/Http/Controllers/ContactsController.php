@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Requests\ContactsRequest;
-use App\Mail\Email;
+use App\Mail\ContactsEmail;
 
 class ContactsController extends Controller
 {
@@ -35,21 +35,10 @@ class ContactsController extends Controller
 	*/
 	public function post(ContactsRequest $request)
 	{
-		$arParams 				= $request->post();
-		$oMail 					= new \stdClass();
-		$oMail->emailTo 		= config('mail.email_main');
-		$oMail->emailFrom 		= config('mail.email_main');
-		$oMail->template 		= 'mails.contacts';
-		$oMail->templateText 	= 'mails.txt.contacts';
-		$oMail->name 			= $arParams['name'];
-		$oMail->organization 	= $arParams['organization'];
-		$oMail->email 			= $arParams['mail'];
-		$oMail->description 	= $arParams['description'];
-		$oMail->subject			= "Контакты";
+		$arParams 				= $request->validated();
 		Mail::mailer(config('mail.mail_mode'))
-		->to($oMail->emailTo)
-		->send(new Email($oMail));
-
+		->to(config('mail.email_main'))
+		->send(new ContactsEmail($arParams));
 		return redirect()->route(Route::currentRouteName())->with('success','Ваше сообщение было отослано в службу поддержки. Спасибо!');
 	}
 }
