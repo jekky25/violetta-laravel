@@ -4,8 +4,23 @@ namespace App\Repositories;
 
 use App\Interfaces\DiaryCommentInterface;
 use App\Models\DiaryComment;
+use App\Services\FileService;
 
 class DiaryCommentRepository implements DiaryCommentInterface {
+
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct(
+		protected FileService $fileService
+	)
+	{
+
+	}
+
+
 	/**
 	* get comments by diaryId
 	* @param  int $count
@@ -33,20 +48,61 @@ class DiaryCommentRepository implements DiaryCommentInterface {
 		$item = DiaryComment::select('*')
 		->where('comment_id', $id)
 		->where('comment_dnevnik_user_id', $userId)
-		->first();
+		->firstOrFail();
 		return $item;
 	}
 
 	/**
-	* create a comment diary
+	* store a comment diary
 	* @param  array $request
 	* @return void
 	*/	
-	public function create($request) {
+	public function store($request) {
 		try {
+			if (!empty($request['photo_link']))
+			{
+				$picture = $this->fileService->fotoUpload($request['photo_link'], 0, 'img/dnev_comment/');
+			}
+			$request['comment_picture']	= !empty ($picture) ? $picture : "0";
 			DiaryComment::create($request);
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to create a Diary Comment '.$e->getMessage());
+		}
+	}
+
+	/**
+	* update a comment diary
+	* @param  DiaryComment $comment
+	* @param  DiaryCommentRequest $request
+	* @return void
+	*/
+	public function update($comment, $request) {
+		try {
+			if (!empty($request->photo_link))
+			{
+				$picture = $this->fileService->fotoUpload($request->photo_link, 0, 'img/dnev_comment/');
+			}
+			DiaryComment::find($comment->comment_id)->update([
+				'comment_title'		=> $request->title,
+				'comment_text'		=> $request->description,
+				'comment_picture'	=> !empty ($picture) ? $picture : $comment->comment_picture
+			]);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to update Diary Comment. '.$e->getMessage());
+		}
+	}
+
+	/**
+	* delete a comment diary
+	* @param  DiaryComment $comment
+	* @return void
+	*/
+	public function delete($comment) {
+		try {
+			$this->fileService->remove($comment->picture_url);
+			DiaryComment::find($comment->comment_id)->delete();
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to delete Diary Comment. '.$e->getMessage());
 		}
 	}
 }

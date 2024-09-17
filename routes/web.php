@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
 Route::middleware('slashes')->group(function () {
 	//Route::get('registration/edit/photo/', 'NoContoller1@index')																				->name('registration.edit.photo');
 	//Route::get('registration/edit/diary/{id}.html', 'NoContoller2@index')												->whereNumber('id')		->name('registration.edit.diary.id');
@@ -49,16 +47,23 @@ Route::middleware('slashes')->group(function () {
 	Route::match(['get', 'post'], 'privmsg/post/delete/{id}.html', 'PrivmsgController@deletePost')						->whereNumber('id')		->name('privmsg.post.delete')				->middleWare('auth');
 	Route::post('privmsg/post/add/{id}.html', 'PrivmsgController@addPost')												->whereNumber('id')		->name('privmsg.post.add');
 
-	Route::get('ank/diary/comments/{id}.html', 'AnkController@getDiaryComments')										->whereNumber('id')		->name('ank.diary.comments');
 	Route::match(['get', 'post'], 'ank/diary/edit/{id}.html', 'AnkController@editDiary')								->whereNumber('id')		->name('ank.diary.edit.id')					->middleWare('auth');
 	Route::match(['get', 'post'], 'ank/diary/delete/photo/{id}.html', 'AnkController@delDiaryPhoto')					->whereNumber('id')		->name('ank.diary.delete.photo.id')			->middleWare('auth');
 	Route::match(['get', 'post'], 'ank/diary/delete/{id}.html', 'AnkController@delDiary')								->whereNumber('id')		->name('ank.diary.delete.id')				->middleWare('auth');
-	Route::match(['get', 'post'], 'ank/diary/comment/edit/{id}.html', 'AnkController@editDiaryComment')					->whereNumber('id')		->name('ank.diary.comment.edit.id')			->middleWare('auth');
-	Route::match(['get', 'post'], 'ank/diary/comment/delete/{id}.html', 'AnkController@delDiaryComment')				->whereNumber('id')		->name('ank.diary.comment.delete.id')		->middleWare('auth');
-	Route::match(['get', 'post'], 'ank/diary/comment/delete/photo/{id}.html', 'AnkController@delDiaryCommentPhoto')		->whereNumber('id')		->name('ank.diary.comment.delete.photo.id')	->middleWare('auth');
+
+	Route::get('ank/diary/comments/{id}.html', 'DiaryCommentController@index')											->whereNumber('id')		->name('ank.diary.comments');
+	Route::get('ank/diary/comment/edit/{id}.html', 'DiaryCommentController@edit')										->whereNumber('id')		->name('ank.diary.comment.edit.id')			->middleWare('auth');
+	Route::put('ank/diary/comment/edit/{id}.html', 'DiaryCommentController@update')										->whereNumber('id')		->name('ank.diary.comment.update.id')		->middleWare('auth');
+	Route::get('ank/diary/comment/delete/photo/{id}.html', 'DiaryCommentController@destroyPhoto')						->whereNumber('id')		->name('ank.diary.comment.delete.photo.id')	->middleWare('auth');
+	Route::delete('ank/diary/comment/delete/photo/{id}.html', 'DiaryCommentController@destroyPhotoAction')				->whereNumber('id')		->name('ank.diary.comment.delete.photo.action.id')
+																																															->middleWare('auth');
+	Route::get('ank/diary/comment/delete/{id}.html', 'DiaryCommentController@destroy')									->whereNumber('id')		->name('ank.diary.comment.delete.id')		->middleWare('auth');
+	Route::delete('ank/diary/comment/delete/{id}.html', 'DiaryCommentController@destroyAction')							->whereNumber('id')		->name('ank.diary.comment.delete.action.id')->middleWare('auth');
+	Route::post('ank/diary/comment/{id}/add.html', 'DiaryCommentController@store')										->whereNumber('id')		->name('ank.diary.comment.add')				->middleWare('auth');
+
+
 	Route::get('ank/diary/{id}.html', 'AnkController@getDiary')															->whereNumber('id')		->name('ank.diary.id');
 	Route::post('ank/diary/add.html', 'AnkController@addDiary')																					->name('ank.diary.add')						->middleWare('auth');
-	Route::post('ank/diary/comment/{id}/add.html', 'AnkController@addDiaryComment')										->whereNumber('id')		->name('ank.diary.comment.add')				->middleWare('auth');
 	//Route::get('ank/photo/f/{id}.html', 'NoContoller12@index')															->whereNumber('id')		->name('ank.photo.f.id');
 	Route::get('ank/photo/{id}.html', 'AnkController@getPhoto')															->whereNumber('id')		->name('ank.photo.id')						->middleWare('auth');
 	Route::post('ank/photo/{id}.html', 'AnkController@postComment')														->whereNumber('id')		->name('ank.photo.id.post.comment')			->middleWare('auth');
@@ -128,7 +133,6 @@ Route::get('/', 'HomeController@index')																											->name('home')
 
 Route::get('forum/', 'ForumController@index')																									->name('forum');
 Route::get('forum/topic_{$forum_id}_{$topic_id}.html', 'ForumController@index')																	->name('forum.topic');
-
 
 Route::get('/migr', function () {
 	//	Artisan::call('make:migration create_users_table');

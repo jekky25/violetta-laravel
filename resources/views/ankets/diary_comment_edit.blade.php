@@ -4,17 +4,6 @@
 <h1 class="mTit">{{ $userData->user_name }}@if (!empty($userData->user_age_str)), {{ $userData->user_age_str }}@endif, {{ $userData->city->name }}</h1>
 <x-ank-menu :user-data="$userData" />
 <h4 class="pinkLine">Редактировать запись</h4>
-{{--<div class="banerFoto">
-	<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* Дневники 468x60 */
-google_ad_slot = "5785131254";
-google_ad_width = 468;
-google_ad_height = 60;
-//-->
-</script>
-<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-</div>--}}
 	<script language=JavaScript>
 		function find_otsil()
 		{
@@ -25,6 +14,7 @@ google_ad_height = 60;
 	</script>
 @if (!empty($comment))
 <form name="anketa" class="addFile" action="{{route('ank.diary.comment.edit.id', $comment->comment_id)}}" method="post" enctype="multipart/form-data">
+@method('PUT')
 {{ csrf_field() }}
 @if(session('success'))
 <p class="mess">{{session('success')}}</p>

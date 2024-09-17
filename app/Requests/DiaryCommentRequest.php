@@ -10,6 +10,7 @@ class DiaryCommentRequest extends FormRequest
 {
 	private $routeCommentDelete 	= 'ank.diary.comment.delete.id';
 	private $routeCommentEdit 		= 'ank.diary.comment.edit.id';
+	private $routeCommentEditActive	= 'ank.diary.comment.delete.action.id';
 	
 	/**
 	* replace array errors from default to commit
@@ -53,7 +54,7 @@ class DiaryCommentRequest extends FormRequest
 		return [
 			'description'	=> ['required', 'max:3000', 'min:2'],
 			'title'			=> ['max:255'],
-			'photo_link'	=> ['file', 'image', 'max:4048'],
+			'photo_link'	=> ['file', 'image', 'max:4048']
 		];
 	}
 
@@ -64,7 +65,31 @@ class DiaryCommentRequest extends FormRequest
 	private function cancelRules()
 	{
 		if (Route::currentRouteName() == $this->routeCommentDelete) return true;
+		if (Route::currentRouteName() == $this->routeCommentEditActive) return true;
 		if (Route::currentRouteName() == $this->routeCommentEdit && $this->isMethod('get')) return true;
 		return false;
+	}
+
+	/**
+	* Get the validated data from the request.
+	*
+	* @param  array|int|string|null  $key
+	* @param  mixed  $default
+	* @param  integer $id
+	* @param  integer $user_id
+	* @return mixed
+	*/
+	public function validated($key = null, $default = null, $id = 0, $user_id = 0)
+    {
+		$arParams = $this->validator->validated();
+		if ($this->cancelRules()) return data_get($arParams, $key, $default);
+		$arParams['title']						= strip_tags($arParams['title'],"<b><strong><i>");
+		$arParams['comment_title']				= $arParams['title'];
+		$arParams['description']				= strip_tags($arParams['description'],"<b><strong><i>");
+		$arParams['comment_text']				= $arParams['description'];
+		$arParams['comment_time']				= time();
+		$arParams['comment_dnevnik_id']			= $id;
+		$arParams['comment_dnevnik_user_id']	= $user_id;
+		return data_get($arParams, $key, $default);
 	}
 }

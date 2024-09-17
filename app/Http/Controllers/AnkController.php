@@ -15,7 +15,6 @@ use App\Interfaces\UserInterface;
 use App\Interfaces\CommentPhotoInterface;
 use App\Requests\PhotoCommentRequest;
 use App\Requests\DiaryRequest;
-use App\Requests\DiaryCommentRequest;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -40,7 +39,6 @@ class AnkController extends Controller
 	public static $visitDays 			= 30;
 	public $commentCountPerPage 		= 100;
 	public static $diaryPerPage 		= 10;
-	public static $diaryCommentsPerPage	= 20;
 
 	/**
 	* Create a new controller instance.
@@ -76,23 +74,6 @@ class AnkController extends Controller
 		$vote 	= $vote > 5 ? 5 : $vote;
 
 		if (empty ($anket)) abort(404);
-
-		/*
-		$sql = 'SELECT user_reg_is
-		FROM session_on_line
-		WHERE user_reg_is = ' . $row['user_id'] . '
-		LIMIT 0,1';
-	$result3 = $db->query($sql);
-	$row3 = $db->sql_fetchrow($result3);
-	$row ['user_reg_is'] = !empty($row3 ['user_reg_is']) ? $row3 ['user_reg_is'] : 0;
-
-	$row ['online_per'] = ($row['user_id'] == $row['user_reg_is']) ? '<img title="на сайте" class="online1" alt="на сайте" src="templates/image/on_line.gif">' : '';
-	if ($row ['online_per'] != '') {
-		$row ['user_last_visit'] = $row ['online_per'] . ' на сайте';
-	} else {
-		$row ['user_last_visit'] = ($row['user_sex'] == MEN) ? 'Был на сайте: ' : 'Была на сайте: ';
-		$row ['user_last_visit'] .= last_visit($row['user_lastvisit']);
-	}*/
 
 		$visits = $this->anketVisitRepository->getVisitsByUserId ($id, self::$visitDays);
 		
@@ -513,180 +494,5 @@ class AnkController extends Controller
 			'userData'		=> $user,
 			'diary'			=> $diary,
 		]);
-	}
-
-	/**
-	* show a comments diary page
-	* @param  int $id
-	* @return \Illuminate\Http\Response
-	*/	
-	public function getDiaryComments ($id)
-	{
-		$comments 	= $this->diaryCommentRepository->getByDiary (self::$diaryCommentsPerPage, $id);
-		$diary 		= $this->diaryRepository->getById ($id);
-
-		if (empty ($diary) || empty ($diary->user)) abort (404);
-		$page 				= $comments->currentPage();
-		return response()->view ('ankets.comments',
-		[
-			'userData'		=> $diary->user,
-			'diary'			=> $diary,
-			'comments'		=> $comments
-		]);
-	}
-
-	/**
-	* add a comment of the diary
-	* @param  DiaryCommentRequest $request
-	* @param  int $id
-	* @return \Illuminate\Http\Response
-	*/	
-	public function addDiaryComment (DiaryCommentRequest $request, $id)
-	{
-		$user 			= Auth::user();
-		if (empty ($user)) abort (404);
-		$arParams 		= $request->post();
-		$description 	= $request->has('description') ? $request->description : '';
-		$files 			= $request->file();
-		$arParams		= array_merge($arParams, $files);
-		$title			= strip_tags($arParams['title'],"<b><strong><i>");
-		$description	= strip_tags($arParams['description'],"<b><strong><i>");
-
-		if (!empty($arParams['photo_link']))
-		{
-			$picture = Helper::fotoUpload($arParams['photo_link'], 0, 'img/dnev_comment/');
-		}
-
-		$aFields = [
-			'comment_dnevnik_id'		=> $id,
-			'comment_dnevnik_user_id'	=> $user->user_id,
-			'comment_title'				=> $title,
-			'comment_text'				=> $description,
-			'comment_picture'			=> !empty ($picture) ? $picture : "0",
-			'comment_time'				=> time()
-		];
-		$this->diaryCommentRepository->create($aFields);
-
-		return redirect()->back()
-		->with('success','Комментарий успешно добавлен')
-		->withInput();
-	}
-
-	/**
-	* delete a comment of the diary
-	* @param  DiaryCommentRequest $request
-	* @param  int $id
-	* @return void
-	*/	
-	public function delDiaryComment (DiaryCommentRequest $request, $id)
-	{
-		$user			= Auth::user();
-		if (empty ($user) ||  $id == 0) abort (404);
-		$comment 			= $this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
-		if (empty ($comment)) abort (404);
-		$arParams 		= $request->post();
-
-		if ( !empty($arParams['cancel']) ) {
-			return redirect()->route ('ank.diary.comments', $comment->comment_dnevnik_id);
-		}
-
-		if ( !empty($arParams['confirm']) ) {
-			if (!empty($comment->picture_url) && file_exists($comment->picture_url))
-			{
-				unlink($comment->picture_url);
-			}
-
-			$comment->delete();
-			return redirect()->route ('ank.diary.comments', $comment->comment_dnevnik_id);
-		}
-
-		$title 			= 'Информация';
-		$text 			= 'Вы уверены, что хотите удалить эту запись<br /><br />';
-		$confirmAction 	= route ('ank.diary.comment.delete.id', $id);
-		Helper::outMessageInfo($title, $text, $confirmAction);
-	}
-
-	/**
-	* delete the picture of the diary comment
-	* @param  Illuminate\Http\Request $request
-	* @param  int $id
-	* @return void
-	*/	
-	public function delDiaryCommentPhoto (Request $request, $id)
-	{
-		$user 			= Auth::user();
-		if (empty ($user) ||  $id == 0) abort (404);
-		$comment 			= $this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
-		if (empty ($comment)) abort (404);
-
-		$arParams 		= $request->post();
-
-		if ( !empty($arParams['cancel']) ) {
-			return redirect()->route ('ank.diary.comment.edit.id', $id);
-		}
-
-		if ( !empty($arParams['confirm']) ) {
-			if (!empty($comment->picture_url) && file_exists($comment->picture_url))
-			{
-				unlink($comment->picture_url);
-			}
-			$comment->comment_picture = 0;
-			$comment->update();
-			return redirect()->route ('ank.diary.comment.edit.id', $id);
-		}
-
-		$title 			= 'Информация';
-		$text 			= 'Вы уверены, что хотите удалить это фото<br /><br />';
-		$confirmAction 	= route ('ank.diary.comment.delete.photo.id', $id);
-		Helper::outMessageInfo($title, $text, $confirmAction);
-	}
-
-	/**
-	* show an edit comment page and update the comment
-	* @param  DiaryCommentRequest $request
-	* @param  int $id
-	* @return \Illuminate\Http\Response
-	*/	
-	public function editDiaryComment (DiaryCommentRequest $request, $id)
-	{
-		$user 						= Auth::user();
-		if (empty ($user) ||  $id == 0) abort (404);
-		$comment 					= $this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
-		if (empty ($comment)) abort (404);
-
-		$arParams					= $request->post();
-		$files 						= $request->file();
-
-		if (!empty($arParams['otsil']))
-		{
-			$arParams			= array_merge($arParams, $files);
-			$title				= strip_tags($arParams['title'],"<b><strong><i>");
-			$description		= strip_tags($arParams['description'],"<b><strong><i>");
-	
-			if (!empty($arParams['photo_link']))
-			{
-				$picture = Helper::fotoUpload($arParams['photo_link'], 0, 'img/dnev_comment/');
-			}
-	
-			$comment->comment_title		= $title;
-			$comment->comment_text		= $description;
-			$comment->comment_picture	= !empty ($picture) ? $picture : $comment->comment_picture;
-
-			$comment->update();
-
-			return redirect()->route('ank.diary.comments', $comment->comment_dnevnik_id)
-				->with('success','Комментарий был обновлен')
-				->withInput();
-		}
-
-		$comment->title	= old('title')	 		? old('title') 			: stripslashes ($comment->comment_title);
-		$comment->text	= old('description') 	? old('description') 	: $comment->comment_text;
-
-		return response()->view ('ankets.diary_comment_edit',
-		[
-			'userData'		=> $user,
-			'comment'		=> $comment,
-		]);
-
 	}
 }

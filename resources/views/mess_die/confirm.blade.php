@@ -13,7 +13,7 @@
 			<table width="100%">
 				<tr height="150" valign="middle">
 					<td align="center" bgcolor="#fcfbd6" style="border: #fe5804 1px solid;">
-						<form name="anket" action="{{ $confirmAction }}" method="POST">
+						<form name="anket" action="{{ $confirmAction }}" method="POST" enctype="multipart/form-data">
 							{{ csrf_field() }}
 							@if (!empty($hidden)){!!$hidden!!}@endif
 							<span class="name">{!! $msgText !!}

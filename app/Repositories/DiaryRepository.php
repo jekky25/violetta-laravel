@@ -90,7 +90,7 @@ class DiaryRepository implements DiaryInterface {
 		$item = Diary::select('*')
 		->where ('dnevniki_id', $id)
 		->with('user')
-		->first();
+		->firstOrFail();
 		return $item;
 	}
 

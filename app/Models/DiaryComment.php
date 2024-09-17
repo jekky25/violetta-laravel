@@ -36,6 +36,16 @@ class DiaryComment extends Model
 		return date("d.m.y H:i", $val);
 	}
 
+	public function getTitleAttribute ()
+	{
+		return old('title') ? old('title') : stripslashes ($this->comment_title);
+	}
+
+	public function getTextAttribute ()
+	{
+		return old('description') ? old('description') : $this->comment_text;
+	}
+
 	/**
 	* get user diary
 	*/

@@ -683,7 +683,7 @@ class Helper {
 	 * creates image from the file
 	 * @param string $fileName
 	 *
-	 * @return resource|bool
+	 * @return \GDImage|resource|bool
 	*/
 	public static function read($fileName)
 	{
