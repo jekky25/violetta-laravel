@@ -10,7 +10,7 @@ class DiaryCommentRequest extends FormRequest
 {
 	private $routeCommentDelete 	= 'ank.diary.comment.delete.id';
 	private $routeCommentEdit 		= 'ank.diary.comment.edit.id';
-	private $routeCommentEditActive	= 'ank.diary.comment.delete.action.id';
+	private $routeCommentDeleteActive	= 'ank.diary.comment.delete.action.id';
 	
 	/**
 	* replace array errors from default to commit
@@ -65,7 +65,7 @@ class DiaryCommentRequest extends FormRequest
 	private function cancelRules()
 	{
 		if (Route::currentRouteName() == $this->routeCommentDelete) return true;
-		if (Route::currentRouteName() == $this->routeCommentEditActive) return true;
+		if (Route::currentRouteName() == $this->routeCommentDeleteActive) return true;
 		if (Route::currentRouteName() == $this->routeCommentEdit && $this->isMethod('get')) return true;
 		return false;
 	}

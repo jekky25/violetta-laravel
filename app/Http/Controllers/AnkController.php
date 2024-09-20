@@ -8,13 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\AnketVisitInterface;
 use App\Interfaces\DiaryInterface;
-use App\Interfaces\DiaryCommentInterface;
 use App\Interfaces\PhotoInterface;
 use App\Interfaces\VarsInterface;
 use App\Interfaces\UserInterface;
 use App\Interfaces\CommentPhotoInterface;
 use App\Requests\PhotoCommentRequest;
-use App\Requests\DiaryRequest;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -38,8 +36,7 @@ class AnkController extends Controller
 
 	public static $visitDays 			= 30;
 	public $commentCountPerPage 		= 100;
-	public static $diaryPerPage 		= 10;
-
+	
 	/**
 	* Create a new controller instance.
 	*
@@ -49,7 +46,6 @@ class AnkController extends Controller
 		protected AnketEvaluationInterface $anketEvaluationRepository,
 		protected AnketVisitInterface $anketVisitRepository,
 		protected DiaryInterface $diaryRepository,
-		protected DiaryCommentInterface $diaryCommentRepository,
 		protected PhotoInterface $photoRepository,
 		protected VarsInterface $varsRepository,
 		protected UserInterface $userRepository,
@@ -318,181 +314,5 @@ class AnkController extends Controller
 		return redirect()->back()
 		->with('success','Сообщение успешно отправлено')
 		->withInput();
-	}
-	
-	/**
-	* show an user diary page
-	* @param  int $id
-	* @return \Illuminate\Http\Response
-	*/
-	public function getDiary ($id)
-	{
-		$anket 	= $this->userRepository->getById ($id);
-		if (empty ($anket->photo)) abort (404);
-
-		$diaries = $this->diaryRepository->getByUser (self::$diaryPerPage, $id);
-		if (count ($diaries) == 0) abort (404);
-
-		$page 				= $diaries->currentPage();
-		return response()->view ('ankets.diary',
-		[
-			'userData'		=> $anket,
-			'diaries'		=> $diaries,
-			'page'			=> $page
-		]);
-	}
-
-	/**
-	* add an user diary
-	* @param  DiaryRequest  $request
-	* @return \Illuminate\Http\Response
-	*/
-	public function addDiary (DiaryRequest $request)
-	{
-		$user 			= Auth::user();
-		if (empty ($user)) abort (404);
-		$arParams 		= $request->post();
-		$description 	= $request->has('description') ? $request->description : '';
-		$files 			= $request->file();
-		$arParams		= array_merge($arParams, $files);
-		$title			= strip_tags($arParams['title'],"<b><strong><i>");
-		$description	= strip_tags($arParams['description'],"<b><strong><i>");
-
-		if (!empty($arParams['photo_link']))
-		{
-			$picture = Helper::fotoUpload($arParams['photo_link'], 0, 'img/dnevnik/');
-		}
-
-		$aFields = [
-			'dnevniki_user_id'			=> $user->user_id,
-			'dnevniki_title'			=> $title,
-			'dnevniki_text'				=> $description,
-			'dnevniki_picture'			=> !empty ($picture) ? $picture : "0",
-			'dnevniki_time'				=> time()
-		];
-
-		$this->diaryRepository->create($aFields);
-
-		return redirect()->back()
-		->with('success','Дневник успешно добавлен')
-		->withInput();
-	}
-
-	/**
-	* delete the user diary
-	* @param  DiaryRequest  $request
-	* @param  int $id
-	* @return void
-	*/
-	public function delDiary (DiaryRequest $request, $id)
-	{
-		$user 			= Auth::user();
-		if (empty ($user) ||  $id == 0) abort (404);
-		$diary 			= $this->diaryRepository->getByUserAndId($id, $user->user_id);
-		if (empty ($diary)) abort (404);
-
-		$arParams 		= $request->post();
-
-		if ( !empty($arParams['cancel']) ) {
-			return redirect()->route ('ank.diary.id', $user->user_id);
-		}
-
-		if ( !empty($arParams['confirm']) ) {
-			if (!empty($diary->dnevniki_picture_url) && file_exists($diary->dnevniki_picture_url))
-			{
-				unlink($diary->dnevniki_picture_url);
-			}
-			$diary->comments()->delete();
-			$diary->delete();
-			return redirect()->route ('ank.diary.id', $user->user_id);
-		}
-
-		$title 			= 'Информация';
-		$text 			= 'Вы уверены, что хотите удалить эту запись<br /><br />';
-		$confirmAction 	= route ('ank.diary.delete.id', $id);
-		Helper::outMessageInfo($title, $text, $confirmAction);
-	}
-
-	/**
-	* delete the picture of the diary
-	* @param  Illuminate\Http\Request $request
-	* @param  int $id
-	* @return void
-	*/
-	public function delDiaryPhoto (Request $request, $id)
-	{
-		$user 			= Auth::user();
-		if (empty ($user) ||  $id == 0) abort (404);
-		$diary 			= $this->diaryRepository->getByUserAndId($id, $user->user_id);
-		if (empty ($diary)) abort (404);
-
-		$arParams 		= $request->post();
-
-		if ( !empty($arParams['cancel']) ) {
-			return redirect()->route ('ank.diary.edit.id', $id);
-		}
-
-		if ( !empty($arParams['confirm']) ) {
-			if (!empty($diary->dnevniki_picture_url) && file_exists($diary->dnevniki_picture_url))
-			{
-				unlink($diary->dnevniki_picture_url);
-			}
-			$diary->dnevniki_picture = 0;
-			$diary->update();
-			return redirect()->route ('ank.diary.edit.id', $id);
-		}
-
-		$title 			= 'Информация';
-		$text 			= 'Вы уверены, что хотите удалить это фото<br /><br />';
-		$confirmAction 	= route ('ank.diary.delete.photo.id', $id);
-		Helper::outMessageInfo($title, $text, $confirmAction);
-	}
-
-	/**
-	* show edit diary page and update the diary
-	* @param  DiaryRequest  $request
-	* @param  int $id
-	* @return \Illuminate\Http\Response
-	*/
-	public function editDiary (DiaryRequest $request, $id)
-	{
-		$user 			= Auth::user();
-		if (empty ($user) ||  $id == 0) abort (404);
-		$diary 			= $this->diaryRepository->getByUserAndId($id, $user->user_id);
-		if (empty ($diary)) abort (404);
-
-		$arParams					= $request->post();
-		$files 						= $request->file();
-
-		if (!empty($arParams['otsil']))
-		{
-			$arParams			= array_merge($arParams, $files);
-			$title				= strip_tags($arParams['title'],"<b><strong><i>");
-			$description		= strip_tags($arParams['description'],"<b><strong><i>");
-	
-			if (!empty($arParams['photo_link']))
-			{
-				$picture = Helper::fotoUpload($arParams['photo_link'], 0, 'img/dnevnik/');
-			}
-	
-			$diary->dnevniki_title		= $title;
-			$diary->dnevniki_text		= $description;
-			$diary->dnevniki_picture	= !empty ($picture) ? $picture : $diary->dnevniki_picture;
-			$diary->update();
-
-			return redirect()->route('ank.diary.id', $user->user_id)
-				->with('success','Дневник был обновлен')
-				->withInput();
-
-		}
-
-		$diary->user_dnevnik_title	= old('title')	 		? old('title') 			: stripslashes ($diary->dnevniki_title);
-		$diary->user_dnevnik_text	= old('description') 	? old('description') 	: $diary->dnevniki_text;
-
-		return response()->view ('ankets.diary_edit',
-		[
-			'userData'		=> $user,
-			'diary'			=> $diary,
-		]);
 	}
 }

@@ -54,8 +54,7 @@ class DiaryCommentController extends Controller
 	public function store (DiaryCommentRequest $request, $id)
 	{
 		$user 			= Auth::user();
-		$this->diaryCommentRepository->store($request->validated(null, null, $id, $user->user_id));
-
+		$this->diaryCommentRepository->store($request->validated(id: $id, user_id: $user->user_id));
 		return redirect()->back()
 		->with('success','Комментарий успешно добавлен')
 		->withInput();

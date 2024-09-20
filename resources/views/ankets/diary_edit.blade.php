@@ -37,6 +37,7 @@ function find_otsil()
 @endif
 <form name="anketa" class="addFile" action="{{route('ank.diary.edit.id', $diary->dnevniki_id)}}" method="post" enctype="multipart/form-data">
 	{{ csrf_field() }}
+	@method('PUT')
 	<table style="width:100px;">
 		<tr>
 			<td width="50%" align="right"><div class="dnevTeemTitle"><p>{{ $diary->dnevniki_time }}</p>Тема:</div></td>

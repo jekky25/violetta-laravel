@@ -5,8 +5,21 @@ namespace App\Repositories;
 use App\Interfaces\DiaryInterface;
 use App\Models\Diary;
 use App\Services\LengthPager;
+use App\Services\FileService;
 
 class DiaryRepository implements DiaryInterface {
+
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct(
+		protected FileService $fileService
+	)
+	{
+	}
+
 	/**
 	* get diaries
 	* @param  int $count
@@ -76,7 +89,7 @@ class DiaryRepository implements DiaryInterface {
 		->where('dnevniki_id', $id)
 		->where('dnevniki_user_id', $userId)
 		->with('comments')
-		->first();
+		->firstOrFail();
 		return $item;
 	}
 
@@ -104,6 +117,61 @@ class DiaryRepository implements DiaryInterface {
 			Diary::create($request);
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to create a Diary '.$e->getMessage());
+		}
+	}
+
+	/**
+	* store a diary
+	* @param  array $request
+	* @return void
+	*/
+	public function store($request) {
+		try {
+			if (!empty($request['photo_link']))
+			{
+				$picture = $this->fileService->fotoUpload($request['photo_link'], 0, 'img/dnevnik/');
+			}
+			$request['dnevniki_picture'] = !empty ($picture) ? $picture : "0";
+			Diary::create($request);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to create a Diary '.$e->getMessage());
+		}
+	}
+
+	/**
+	* update a diary
+	* @param  Diary $comment
+	* @param  DiaryRequest $request
+	* @return void
+	*/
+	public function update($diary, $request) {
+		try {
+			if (!empty($request->photo_link))
+			{
+				$picture = $this->fileService->fotoUpload($request->photo_link, 0, 'img/dnevnik/');
+			}
+			Diary::find($diary->dnevniki_id)->update([
+				'dnevniki_title'		=> $request->title,
+				'dnevniki_text'			=> $request->description,
+				'dnevniki_picture'		=> !empty ($picture) ? $picture : $diary->dnevniki_picture
+			]);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to update Diary. '.$e->getMessage());
+		}
+	}
+
+	/**
+	* delete a diary
+	* @param  Diary $diary
+	* @return void
+	*/
+	public function delete($diary) {
+		try {
+			$this->fileService->remove($diary->dnevniki_picture_url);
+			$diary->comments()->delete();
+			$diary->delete();
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to delete Diary . '.$e->getMessage());
 		}
 	}
 }

@@ -17,9 +17,7 @@ class DiaryCommentRepository implements DiaryCommentInterface {
 		protected FileService $fileService
 	)
 	{
-
 	}
-
 
 	/**
 	* get comments by diaryId

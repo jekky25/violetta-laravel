@@ -295,9 +295,7 @@ class UserRepository implements UserInterface {
 				->with('region')
 				->with('country');
 
-		$item = $item->first();
-
-		if (empty ($item)) abort (404);
+		$item = $item->firstOrFail();
 		return $item;
 	}
 
