@@ -7,12 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\AnketVisitInterface;
-use App\Interfaces\DiaryInterface;
 use App\Interfaces\PhotoInterface;
 use App\Interfaces\VarsInterface;
 use App\Interfaces\UserInterface;
-use App\Interfaces\CommentPhotoInterface;
-use App\Requests\PhotoCommentRequest;
 use App\Helpers\Helper;
 
 class AnkController extends Controller
@@ -45,11 +42,9 @@ class AnkController extends Controller
 	public function __construct(
 		protected AnketEvaluationInterface $anketEvaluationRepository,
 		protected AnketVisitInterface $anketVisitRepository,
-		protected DiaryInterface $diaryRepository,
 		protected PhotoInterface $photoRepository,
 		protected VarsInterface $varsRepository,
-		protected UserInterface $userRepository,
-		protected CommentPhotoInterface $commentPhotoRepository
+		protected UserInterface $userRepository
 	)
 	{
 	}
@@ -289,30 +284,5 @@ class AnkController extends Controller
 		[
 			'userData'			=> $anket,
 		]);
-	}
-
-	/**
-	* post pictures comments
-	* @param  PhotoCommentRequest  $request
-	* @param  int $id
-	* @return \Illuminate\Http\Response
-	*/
-	public function postComment (PhotoCommentRequest $request, $id)
-	{
-		//making sending comment
-		$user 			= Auth::user();
-		$description 	= $request->has('description') ? $request->description : '';
-		
-		$aFields = [
-			'foto_id'					=> $id,
-			'user_id'					=> $user->user_id,
-			'comments_description' 		=> str_replace("\'", "''", $description),
-			'time'						=> time()
-		];
-		$this->commentPhotoRepository->create($aFields);
-
-		return redirect()->back()
-		->with('success','Сообщение успешно отправлено')
-		->withInput();
 	}
 }

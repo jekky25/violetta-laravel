@@ -11,7 +11,7 @@ class CommentPhotoRepository implements CommentPhotoInterface {
 	* @param  array $request
 	* @return void
 	*/	
-	public function create($request) {
+	public function store($request) {
 		try {
 			CommentPhoto::create($request);
 		} catch (\Exception $e) {
