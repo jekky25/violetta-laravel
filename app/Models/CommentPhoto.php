@@ -17,6 +17,26 @@ class CommentPhoto extends Model
 		'comments_description',
 	];
 
+	public function getAddTimeAttribute ()
+	{
+		return date("d.m.y H:i",$this->time);
+	}
+
+	public function setCommentsDescriptionAttribute ($val)
+	{
+		$this->attributes['comments_description'] = strip_tags($val);
+	}
+
+	public function getCommentsDescriptionAttribute ($val)
+	{
+		return str_replace("\n", "\n<br />\n", $val);
+	}
+
+	public function getUserPhotoIdAttribute ()
+	{
+		return !empty($this->user->photo[0]) ? $this->user->photo[0]->fotos_id : 0;
+	}
+	
 	/**
 	* get user
 	*/

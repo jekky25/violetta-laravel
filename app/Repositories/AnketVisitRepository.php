@@ -65,6 +65,27 @@ class AnketVisitRepository implements AnketVisitInterface {
 	}
 
 	/**
+	* update user visits on the page
+	* @param  int  $userId
+	* @param  int  $days
+	* @param  int  $userAuthId
+	* @return int 
+	*/
+	public function update ($userId, $days, $userAuthId)
+	{
+		$ankVisits	= $this->getVisitsByUserId ($userId, $days, $userAuthId);
+		$visits		= $ankVisits->count();
+		if ($visits == 0 && $userAuthId != $userId) 
+		{
+			$this->insertVisit($userId);
+			$this->removeOld($days);
+		} elseif ($visits > 0 && $userAuthId != $userId)
+			$this->updateVisit($userId);
+		return $visits;
+	}
+
+
+	/**
 	* update user visits
 	* @param  int  $id
 	* @return void 

@@ -36,7 +36,7 @@ class PhotoRepository implements PhotoInterface {
 	{
 		$item = Photo::select('*')
 		->where ('fotos_id', $id)
-		->first();
+		->firstOrFail();
 		return $item;
 	}
 

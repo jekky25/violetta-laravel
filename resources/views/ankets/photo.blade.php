@@ -23,33 +23,13 @@
 <h2 class="mTit">Комментарии</h2>
 <table class="fotoComments">
 	@foreach ($userData->mainPhoto->comment as $item)
-	@if ($loop->index  == 4)
-	<tr>
-		<td colspan="2">						
-			<div class="banerFoto">
-	<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* Анкета страница Фотографии */
-google_ad_slot = "9078791059";
-google_ad_width = 468;
-google_ad_height = 60;
-//-->
-</script>
-<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-			</div>
-		</td>
-	</tr>
-@php
-$secondBaner = 1;
-@endphp
-	@endif
 	<tr>
 		<td class="fotoCommPics"><a href="{{route('ank.id', $item->user_id)}}">
 			<img alt="{{ $item->user->user_name }},{{ $item->user->user_age }} {{ $item->user->user_age_type }},{{ $item->user->city->name }}" src="{{ App\Helpers\Helper::outPicture($item->user_photo_id, $item->user->user_sex) }}" /></a></td>
 		<td>
 			<h4>
-			<a href="{{route('ank.id', $item->user_id)}}" class="{{ $item->user->user_name_class }}">{{ $item->user->user_name }}</a> <strong>{{ $item->user->user_age }} {{ $item->user->user_age_type }}</strong><span class="postData">{{ $item->add_time }}</span></h4>
-			<div>{{ $item->comments_description }}</div>
+			<a href="{{route('ank.id', $item->user_id)}}" class="{{ $item->user->name_class }}">{{ $item->user->user_name }}</a> <strong>{{ $item->user->user_age }} {{ $item->user->user_age_type }}</strong><span class="postData">{{ $item->add_time }}</span></h4>
+			<div>{!! $item->comments_description !!}</div>
 		</td>
 	</tr>
 	@endforeach
@@ -75,18 +55,5 @@ $secondBaner = 1;
 	<p class="pad7"><input class="input2" type="submit" name="otsil" value="Отправить" /></p>
 @endif
 </form>
-@endif
-@if (isset($secondBaner) && $secondBaner == 1)
-	<div class="banerFoto">
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* Анкета страница Фотографии */
-google_ad_slot = "9078791059";
-google_ad_width = 468;
-google_ad_height = 60;
-//-->
-</script>
-<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-</div>
 @endif
 @overwrite

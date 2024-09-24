@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\AnketVisitInterface;
 use App\Interfaces\PhotoInterface;
-use App\Interfaces\VarsInterface;
 use App\Interfaces\UserInterface;
 use App\Helpers\Helper;
+use App\Services\PhotoService;
 
 class AnkController extends Controller
 {
@@ -31,6 +31,7 @@ class AnkController extends Controller
 		'\\App\\Repositories\\CityRepository'			=> ['prop' =>'user_partner_city',		'ank_prop' =>'partner_city']
 	  ];
 
+	const IS_MAIN_PHOTO					= 1;
 	public static $visitDays 			= 30;
 	public $commentCountPerPage 		= 100;
 	
@@ -43,8 +44,8 @@ class AnkController extends Controller
 		protected AnketEvaluationInterface $anketEvaluationRepository,
 		protected AnketVisitInterface $anketVisitRepository,
 		protected PhotoInterface $photoRepository,
-		protected VarsInterface $varsRepository,
-		protected UserInterface $userRepository
+		protected UserInterface $userRepository,
+		protected PhotoService $photoService
 	)
 	{
 	}
@@ -78,15 +79,7 @@ class AnkController extends Controller
 		//making an ankets review and a count of views
 		if (!empty ($user))
 		{
-			$ankVisits = $this->anketVisitRepository->getVisitsByUserId ($id, self::$visitDays, $user->user_id);
-			$anket->ankVisits = count($ankVisits);
-			if ($anket->ankVisits == 0 && $user->user_id != $id && $user->user_id > 1)
-			{
-				$this->anketVisitRepository->insertVisit($id);
-				$this->anketVisitRepository->removeOld(self::$visitDays);
-			} elseif ($anket->ankVisits > 0 && $user->user_id != $id)
-				$this->anketVisitRepository->updateVisit($id);
-
+			$anket->ankVisits	= $this->anketVisitRepository->update($id, self::$visitDays, $user->user_id);
 			$affectedRows = $this->anketEvaluationRepository->getEvaluations($user->user_id, $id);
 			if (count ($affectedRows) == 0)
 			{
@@ -221,65 +214,31 @@ class AnkController extends Controller
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function getPhoto ($id)
+	public function getMainPhoto ($id)
 	{
-		$mode 	= Route::currentRouteName() == 'ank.photo.photo_id' ? 'photo.id' : 'ank.photo';
-
-		if ($mode == 'photo.id')
-		{
-			$photo = $this->photoRepository->getById ($id);
-			if (empty ($photo)) abort (404);
-			$id = $photo->user_id;
-		}
 		$anket	= $this->userRepository->getById ($id);
 		if (!count ($anket->photo)) abort (404);
-		$user	= Auth::user();
-		$user	= !empty($user) ? $user->load(['visits']) : null;
-		$vars	= $this->varsRepository->getAll();
-
-		$ankVisits = $this->anketVisitRepository->getVisitsByUserId ($id, self::$visitDays, $user->user_id);
-		$anket->ankVisits = count($ankVisits);
-
-		if ($anket->ankVisits == 0 && $user->user_id != $id && $user->user_id > 1) 
+		foreach ($anket->photo as $photo)
 		{
-			$this->anketVisitRepository->insertVisit($id);
-			$this->anketVisitRepository->removeOld(self::$visitDays);
-		} elseif ($anket->ankVisits > 0 && $user->user_id != $id)
-			$this->anketVisitRepository->updateVisit($id);
-
-		foreach ($anket->photo as &$item)
-		{
-			$item->comment	= $item->comment->slice(0, $this->commentCountPerPage);
-			if ($mode == 'photo.id' && $item->fotos_id == $photo->fotos_id)
-			$anket->mainPhoto = $item;
+			if ($photo->fotos_portret == static::IS_MAIN_PHOTO) return redirect()->route('ank.photo.photo_id', $photo->fotos_id);
 		}
-		$anket->mainPhoto 	= !empty ($anket->mainPhoto) ? $anket->mainPhoto : $anket->photo[0];
-		$photoId 			= $anket->mainPhoto->fotos_id;
-		$imgWidth 			= $vars['max_foto_width_big'];
-		$img 				= "./fotos_new/".$photoId.".jpg";
+		abort (404);
+	}
 
-		if (is_file($img)) 
-		{
-			$size = getimagesize($img);
-			$anket->mainPhoto->width	= $size [0] > $imgWidth ? $imgWidth : $size [0];
-			$anket->mainPhoto->url		= $img;
-		}
-
-		if (!empty ($anket->mainPhoto->comment))
-		{
-			foreach ($anket->mainPhoto->comment as $k => $_item)
-			{
-				if (!empty($_item->user))
-				{
-					$_item->user->user_age 			= Helper::age($_item->user->user_birth_date);
-					$_item->user->user_age_type 	= Helper::ageType($_item->user->user_age);
-					$_item->user->user_name_class 	= $_item->user->user_sex == MEN ? 'name_man' : 'name_woman';
-					$_item->user_photo_id 			= !empty($_item->user->photo[0]) ? $_item->user->photo[0]->fotos_id : 0;
-				}
-				$_item->add_time = date("d.m.y H:i",$_item->time);
-				$_item->comments_description = str_replace("\n", "\n<br />\n", $_item->comments_description);
-			}
-		}
+	/**
+	* Show a page with user pictures
+	* @param  int $id
+	* @return \Illuminate\Http\Response
+	*/
+	public function getPhoto ($id)
+	{
+		$user				= Auth::user();
+		$user				= !empty($user) ? $user->load(['visits']) : null;
+		$photo = $this->photoRepository->getById ($id);
+		$anket	= $this->userRepository->getById ($photo->user_id);
+		if (!count ($anket->photo)) abort (404);
+		$anket->ankVisits	= $this->anketVisitRepository->update($photo->user_id, self::$visitDays, $user->user_id);
+		$this->photoService->prepare($anket, $photo->fotos_id, $this->commentCountPerPage);
 		return response()->view ('ankets.photo',
 		[
 			'userData'			=> $anket,
