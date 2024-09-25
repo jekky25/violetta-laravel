@@ -281,7 +281,6 @@ class UserRepository implements UserInterface {
 	public function getById($id)
 	{
 		$user = Auth::user();
-
 		$item = User::select('*')
 		->where ('user_id', $id)
 		->where ('user_active', 1);

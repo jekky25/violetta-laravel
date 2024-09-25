@@ -2,10 +2,13 @@
 
 namespace App\Repositories;
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Models\AnketEvaluation;
 
 class AnketEvaluationRepository implements AnketEvaluationInterface {
+	private $evaluations;
 	/**
 	* get evaluation
 	* @param  int  $userIdAct
@@ -14,11 +17,42 @@ class AnketEvaluationRepository implements AnketEvaluationInterface {
 	*/
 	public function getEvaluations($userIdAct, $userId)
 	{
-		$items = AnketEvaluation::select('*')
+		$this->evaluations = AnketEvaluation::select('*')
 		->where('user_id', $userIdAct)
 		->where('user_id_ocenka', $userId)
         ->get();
-    	return $items;
+    	return $this->evaluations;
+	}
+
+	public function getEvaluationWithUpdate(Request $request, $userActiveId, $id)
+	{
+		if ($this->evaluations->count() > 0) return true;
+		$vote 	= isset ($request->golos) ? (int)$request->golos : 0;
+		$vote 	= $vote > 5 ? 5 : $vote;
+		if (!$this->isSendVoice($request, $vote)) return false;
+		if ($userActiveId != $id) 
+		{
+			$aFields = [
+				'user_id'			=> $userActiveId,
+				'user_id_ocenka'	=> $id,
+				'ball'				=> $vote,
+				'time'				=> time()
+			];
+			$this->create($aFields);
+		}
+		$voteSum = $this->getSum($id);
+		if ($voteSum > 0)
+		{
+			$anket = (new userRepository)->getJustById($id);
+			$anket->user_reiting = $voteSum;
+			$anket->update();
+		}
+		return redirect()->route(Route::currentRouteName(), $id)->with('success','Спасибо. Ваш голос учтен.');
+	}
+
+	public function isSendVoice ($request, $vote)
+	{
+		return ($request->has('send_golos') && $vote > 0);
 	}
 
 	/**

@@ -163,39 +163,8 @@ class PrivmsgController extends Controller
 		$smiles			= $this->smileRepository->getAll();
 
 		$affectedRows	= $this->anketEvaluationRepository->getEvaluations($user->user_id, $id);
-
-		if (count ($affectedRows) == 0) 
-		{
-			if ($request->has('send_golos') && $vote > 0) 
-			{
-				if ($user->user_id != $id)
-				{
-					$aFields = [
-						'user_id'			=> $user->user_id,
-						'user_id_ocenka'	=> $id,
-						'ball'				=> $vote,
-						'time'				=> time()
-					];
-		
-					$this->anketEvaluationRepository->create($aFields);
-					$ankEvaluationed = true;
-				}
-
-				$voteSum = $this->anketEvaluationRepository->getSum ($id);
-				if ($voteSum > 0)
-				{
-					$anket = $this->userRepository->getJustById($id);
-					$anket->user_reiting = $voteSum;
-					$anket->update();
-				}
-				return redirect()->route(Route::currentRouteName(), $id)->with('success','Спасибо. Ваш голос учтен.');
-			}
-			
-		} else 
-		{
-			$ankEvaluationed = true;
-		}
-
+		$ankEvaluationed = $this->anketEvaluationRepository->getEvaluationWithUpdate($request, $user->user_id, $id);
+		if (is_object($ankEvaluationed) && get_class($ankEvaluationed) == 'Illuminate\Http\RedirectResponse') return $ankEvaluationed;
 		if (count($messages) > 0)
 		{
 			foreach ($messages as &$item)

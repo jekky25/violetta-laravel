@@ -79,7 +79,7 @@ class User extends Authenticatable
 	protected $primaryKey 	= 'user_id';
 	public $timestamps 		= false;
 
-	protected $feildsAboutPartner = 
+	public $fieldsAboutPartner = 
 	[
 		'user_partner_sex',
 		'partner_age',
@@ -93,6 +93,11 @@ class User extends Authenticatable
 		'partner_smoke',
 		'partner_spirt'
 	];
+
+	const SEX_BISEXUAL	= 1;
+	const SEX_HETERO	= 2;
+	const SEX_HOMO		= 3;
+	const SEX_TRANS		= 4;
 
 	/**
 	* Get user property from the model
@@ -280,16 +285,51 @@ class User extends Authenticatable
 	public function getNameClassAttribute ()
 	{
 		return  $this->user_sex == MEN ? 'name_man' : 'name_woman';
-		
 	}
 
-	public function isAboutPartner()
+	public function getUserPartnerSexAttribute ()
 	{
-		foreach ($this->feildsAboutPartner as $prop)
+		if ($this->user_sex_orient == self::SEX_BISEXUAL || $this->user_sex_orient == self::SEX_TRANS) 
 		{
-			if (!empty ($this->$prop)) return true;
+			$partnerSex = 'Мужской, Женский';
+		} elseif ($this->user_sex_orient == self::SEX_HETERO) 
+		{
+			$partnerSex = $this->user_sex == MEN ? 'Женский' : 'Мужской';
+		} else 
+		{
+			$partnerSex = $this->user_sex == WOMEN ? 'Женский' : 'Мужской';
 		}
-		return false;
+		return  $partnerSex;
+	}
+
+	public function getPartnerAgeAttribute ()
+	{
+		if (!($this->user_partner_age_min > PARTNER_AGE_MIN || $this->user_partner_age_max > PARTNER_AGE_MAX)) return null;
+		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX) 
+			return ' ' . $this->user_partner_age_min . '-' . $this->user_partner_age_max . ' ' . Helper::ageType($this->user_partner_age_max);
+		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max <= PARTNER_AGE_MAX) 
+			return ' от ' . $this->user_partner_age_min . ' ' . Helper::ageType2($this->user_partner_age_min);
+		return ' до ' . $this->user_partner_age_max . ' ' . Helper::ageType2($this->user_partner_age_max);
+	}
+
+	public function getPartnerHeightAttribute ()
+	{
+		if (!($this->user_partner_height_min > PARTNER_HEIGHT_MIN || $this->user_partner_height_max > PARTNER_HEIGHT_MAX)) return null;
+		if ($this->user_partner_height_min > PARTNER_HEIGHT_MIN && $this->user_partner_height_max > PARTNER_HEIGHT_MAX) 
+			return ' ' . $this->user_partner_height_min . '-' . $this->user_partner_height_max . ' см';
+		if ($this->user_partner_height_min > PARTNER_HEIGHT_MIN && $this->user_partner_height_max <= PARTNER_HEIGHT_MAX) 
+			return ' от ' . $this->user_partner_height_min . ' см';
+		return	' до ' . $this->user_partner_height_max . 'см';
+	}
+
+	public function getPartnerWeightAttribute ()
+	{
+		if (!($this->user_partner_weight_min > PARTNER_WEIGHT_MIN || $this->user_partner_weight_max > PARTNER_WEIGHT_MAX))  return null;
+		if ($this->user_partner_weight_min > PARTNER_WEIGHT_MIN && $this->user_partner_weight_max > PARTNER_WEIGHT_MAX) 
+			return ' ' . $this->user_partner_weight_min . '-' . $this->user_partner_weight_max . ' кг'; 
+		if ($this->user_partner_weight_min > PARTNER_WEIGHT_MIN && $this->user_partner_weight_max <= PARTNER_WEIGHT_MAX) 
+			return ' от ' . $this->user_partner_weight_min . ' кг';
+		return ' до ' . $this->user_partner_weight_max . 'кг';
 	}
 
 	public function country()
