@@ -132,7 +132,7 @@ class MessageRepository implements MessageInterface {
 	{
 		$item = Message::select('*')
 		->where('message_id', $id)
-		->first();
+		->firstOrFail();
 		return $item;
 	}
 
@@ -198,6 +198,22 @@ class MessageRepository implements MessageInterface {
 			Message::create($request);
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to create a message '.$e->getMessage());
+		}
+	}
+
+	/**
+	* delete a message
+	* @param  Message $message
+	* @param  int $userAuthId
+	* @return void
+	*/
+	public function delete($message, $userAuthId) {
+		try {
+			$message->user_otprav_del 	= $message->user_otprav == $userAuthId ? 1 : $message->user_otprav_del;
+			$message->user_poluchil_del = $message->user_otprav == $userAuthId ? $message->user_poluchil_del : 1;
+			$message->update();
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to delete Message . '.$e->getMessage());
 		}
 	}
 }

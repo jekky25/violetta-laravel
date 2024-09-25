@@ -12,6 +12,7 @@ use App\Interfaces\UserInterface;
 use App\Interfaces\MessageInterface;
 use App\Interfaces\SmileInterface;
 use App\Requests\PrivmsgRequest;
+use App\Services\MessageService;
 use App\Mail\NewPrivMessageEmail;
 
 class PrivmsgController extends Controller
@@ -28,6 +29,7 @@ class PrivmsgController extends Controller
 		protected AnketEvaluationInterface $anketEvaluationRepository,
 		protected MessageInterface $messageRepository,
 		protected SmileInterface $smileRepository,
+		protected MessageService $messageService,
 		protected UserInterface $userRepository
 	)
 	{
@@ -106,39 +108,35 @@ class PrivmsgController extends Controller
 
 	/**
 	* Delete an user message
+	* @param  int  $id
+	* @return \Illuminate\Http\Response
+	*/
+	public function destroy($id)
+	{
+		$this->messageRepository->getById($id);
+		$title 			= 'Информация';
+		$text 			= 'Вы уверены, что хотите удалить это сообщение?<br /><br />';
+		$confirmAction 	= route ('privmsg.post.delete', $id);
+		$this->messageService->outMessageInfo($title, $text, $confirmAction, method_field('DELETE'));
+	}
+
+	/**
+	* Delete an user message
 	* @param  PrivmsgRequest $request
 	* @param  int  $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function deletePost(PrivmsgRequest $request, $id)
+	public function destroyAction(PrivmsgRequest $request, $id)
 	{
 		$user 			= Auth::user();
 		$message 		= $this->messageRepository->getById($id);
-
-		if (empty ($user) or empty($message)) abort (404);
 		$arParams 		= $request->post();
 		$user_id 		= $message->user_otprav == $user->user_id ? $message->user_poluchil : $message->user_otprav;
-
-		if ( !empty($arParams['cancel']) ) {
-			return redirect()->route ('privmsg.post', $user_id);
-		}
-
+		if ( !empty($arParams['cancel']) ) return redirect()->route ('privmsg.post', $user_id);
 		if ( !empty($arParams['confirm']) ) {
-			if ($message->user_otprav == $user->user_id) 
-			{
-				$message->user_otprav_del = 1;
-			} else 
-			{
-				$message->user_poluchil_del = 1;
-			}
-			$message->update();
+			$this->messageRepository->delete($message, $user->user_id);
 			return redirect()->route ('privmsg.post', $user_id);
 		}
-
-		$title 			= 'Информация';
-		$text 			= 'Вы уверены, что хотите удалить это сообщение?<br /><br />';
-		$confirmAction 	= route ('privmsg.post.delete', $id);
-		Helper::outMessageInfo($title, $text, $confirmAction);
 	}
 
 	/**
