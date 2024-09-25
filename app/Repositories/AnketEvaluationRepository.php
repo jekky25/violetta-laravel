@@ -24,6 +24,13 @@ class AnketEvaluationRepository implements AnketEvaluationInterface {
     	return $this->evaluations;
 	}
 
+	/**
+	* and evaluation and update
+	* @param  Illuminate\Http\Request $request
+	* @param  int $userActiveId
+	* @param  int $id
+	* @return bool|Illuminate\Http\RedirectResponse
+	*/
 	public function getEvaluationWithUpdate(Request $request, $userActiveId, $id)
 	{
 		if ($this->evaluations->count() > 0) return true;
@@ -50,6 +57,12 @@ class AnketEvaluationRepository implements AnketEvaluationInterface {
 		return redirect()->route(Route::currentRouteName(), $id)->with('success','Спасибо. Ваш голос учтен.');
 	}
 
+	/**
+	* check voice route
+	* @param  Illuminate\Http\Request $request
+	* @param  int $vote
+	* @return bool
+	*/
 	public function isSendVoice ($request, $vote)
 	{
 		return ($request->has('send_golos') && $vote > 0);

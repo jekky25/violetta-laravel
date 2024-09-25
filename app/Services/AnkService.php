@@ -26,11 +26,19 @@ class AnkService
 		$this->anket = $anket;
 	}
 
+	/**
+	* get user parameters on the anket page
+	* @return void
+	*/
 	public function prepare() {
 		$this->getTargetMeet();
 		$this->getInterests();
 	}
 
+	/**
+	* get addition user parameters on the full anket page
+	* @return void
+	*/
 	public function prepareFull() {
 		$this->getAddProps();
 		$this->getSpeakLang();
@@ -89,6 +97,10 @@ class AnkService
 		$this->anket->getPropertyFew('App\Repositories\SpirtRepository',		$this->anket->user_partner_spirt,		'partner_spirt');
 	}
 
+	/**
+	* check existing parameters about partner
+	* @return bool
+	*/
 	public function isAboutPartner()
 	{
 		foreach ($this->anket->fieldsAboutPartner as $prop)
