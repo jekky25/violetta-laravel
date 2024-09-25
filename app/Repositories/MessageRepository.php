@@ -173,7 +173,7 @@ class MessageRepository implements MessageInterface {
 	* @param  array $request
 	* @return void
 	*/	
-	public function create($request) {
+	public function store($request) {
 		try {
 			Message::create($request);
 		} catch (\Exception $e) {

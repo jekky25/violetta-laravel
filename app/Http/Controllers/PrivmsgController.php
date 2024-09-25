@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -12,15 +11,13 @@ use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\UserInterface;
 use App\Interfaces\MessageInterface;
 use App\Interfaces\SmileInterface;
-use App\Mail\Email;
 use App\Requests\PrivmsgRequest;
+use App\Mail\NewPrivMessageEmail;
 
 class PrivmsgController extends Controller
 {
 	public static $messagePerPage 		= 10;
 	public static $messageAnkPerPage 	= 30;
-	public static $siteUrl				= 'www.avioletta.ru';
-	public static $siteUrlWithProtocol	= 'http://www.avioletta.ru';
 
 	/**
 	* Create a new controller instance.
@@ -194,42 +191,18 @@ class PrivmsgController extends Controller
 	* @param  int $id
 	* @return void
 	*/
-	public function addPost(PrivmsgRequest $request, $id)
+	public function store(PrivmsgRequest $request, $id)
 	{
 		$user 			= Auth::user();
 		$anket 			= $this->userRepository->getJustById($id);
 		if (empty ($user) or empty ($anket)) abort (404);
-		$arParams 		= $request->post();
 
-		$message = $arParams['message_text'];
-		$aFields = [
-			'user_otprav'				=> $user->user_id,
-			'user_poluchil'				=> $id,
-			'user_otprav_del'			=> 0,
-			'user_poluchil_del'			=> 0,
-			'time'						=> time(),
-			'mess_new'					=> 1,
-			'privmess_text'				=> str_replace("\'", "''", $message)
-		];
-
-		$this->messageRepository->create($aFields);
-
+		$this->messageRepository->store($request->validated(id: $id, user_id: $user->user_id));
 		if ($user->dont_send_email != 1) {
-			$oMail = new \stdClass();
-			$oMail->emailTo 		= $anket->user_mail;
-			$oMail->emailFrom 		= config('mail.email_main');
-			$oMail->template 		= 'mails.notify';
-			$oMail->templateText 	= 'mails.txt.notify';
-			$oMail->name 			= $anket->user_name;
-			$oMail->sitename 		= '<a href="' . self::$siteUrlWithProtocol . '">' . self::$siteUrl . '</a>';
-			$oMail->sitenameNoTags	= self::$siteUrl;
-			$oMail->subject			= "Вам пришло новое сообщение на www.avioletta.ru";
-
 			Mail::mailer(config('mail.mail_mode'))
-        	->to($oMail->emailTo)
-        	->send(new Email($oMail));
+			->to($anket->user_mail)
+			->send(new NewPrivMessageEmail($anket));
 		}
-
 		return redirect()->back()
 		->with('success','Сообщение успешно отправлено')
 		->withInput();

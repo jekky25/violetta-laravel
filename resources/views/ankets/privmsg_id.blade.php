@@ -61,7 +61,7 @@ function vote(score)
 			@else
 				<h4 class="inMeMess"><a href="{{route('ank.id', $anketUserData->user_id)}}">{{ $anketUserData->user_name }}</a>
 			@endif
-					<p>{{ $item->date }}<a class="delBut2" title="удалить" href="{{route('privmsg.post.delete', $item->message_id)}}"></a></p>
+					<p>{{ $item->last_date }}<a class="delBut2" title="удалить" href="{{route('privmsg.post.delete', $item->message_id)}}"></a></p>
 				</h4>
 				<div class="messBody clear">{!! $item->privmess_text !!}</div>
 			</td>
@@ -70,17 +70,6 @@ function vote(score)
 	</table>
 	<x-pagination :items="$messages" />
 	@endif
-	<div class="pad5">
-		<script type="text/javascript"><!--
-			google_ad_client = "ca-pub-6379140164632940";
-			/* 468x60 сообщения (В) */
-			google_ad_slot = "9620496837";
-			google_ad_width = 468;
-			google_ad_height = 60;
-			//-->
-		</script>
-		<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-	</div>
 	<div class="pad2"></div>
 	<h2 class="mTit">Добавить сообщение</h2>
 	@if(session('success'))
