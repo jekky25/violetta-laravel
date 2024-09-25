@@ -155,26 +155,10 @@ class PrivmsgController extends Controller
 		$user 			= Auth::user()->load(['visits']);
 		$anket 			= $this->userRepository->getById ($id);
 		$messages 		= $this->messageRepository->getAllByUser($id, $user->user_id, self::$messageAnkPerPage);
-		$vote 			= isset ($request->golos) ? (int)$request->golos : 0;
-		$vote 			= $vote > 5 ? 5 : $vote;
 		$smiles			= $this->smileRepository->getAll();
-
-		$affectedRows	= $this->anketEvaluationRepository->getEvaluations($user->user_id, $id);
+		$this->anketEvaluationRepository->getEvaluations($user->user_id, $id);
 		$ankEvaluationed = $this->anketEvaluationRepository->getEvaluationWithUpdate($request, $user->user_id, $id);
 		if (is_object($ankEvaluationed) && get_class($ankEvaluationed) == 'Illuminate\Http\RedirectResponse') return $ankEvaluationed;
-		if (count($messages) > 0)
-		{
-			foreach ($messages as &$item)
-			{
-				if ($item->mess_new == 1 && $item->user_poluchil == $user->user_id)
-				{
-					$item->mess_new = 0;
-					$item->update();
-				}
-				$item->privmess_text = Helper::transformSmiles ($item->privmess_text, $smiles);
-			}
-		}
-
 		return response()->view ('ankets.privmsg_id',
 		[
 			'userData'			=> $user,

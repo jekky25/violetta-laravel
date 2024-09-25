@@ -76,7 +76,27 @@ class MessageRepository implements MessageInterface {
 		->paginate($count);
 
 		if (empty ($items)) return null;
+		foreach ($items as &$item)
+		{
+			$this->resetNewMess($item, $userAuthId);
+		}
 		return $items;
+	}
+
+	/**
+	* reset a new mess flag
+	* @param  App\Models\Message $item
+	* @param  int $userAuthId
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function resetNewMess(&$item, $userAuthId) 
+	{
+		if ($item->mess_new == 1 && $item->user_poluchil == $userAuthId)
+		{
+			$item->mess_new = 0;
+			$item->update();
+		}
+		return $item;
 	}
 
 	/**

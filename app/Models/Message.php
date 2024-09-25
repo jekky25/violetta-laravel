@@ -5,12 +5,14 @@ use App\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\SmileRepository;
+use App\Helpers\Helper;
 
 class Message extends Model
 {
 	use HasFactory;
 	protected $table 		= 'user_messages';
-	protected $user;
+	protected $user, $smiles;
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'message_id';
 
@@ -28,6 +30,7 @@ class Message extends Model
 		parent::__construct($attributes);
 		if (empty($this->user)) 
 		$this->user	= Auth::user();
+		$this->smiles = (new SmileRepository)->getAll();
 	}
 
 	public function getUserIdAttribute ($val)
@@ -45,6 +48,11 @@ class Message extends Model
 	public function getLastDateAttribute ()
 	{
 		return date("d.m.y H:i",$this->time);
+	}
+
+	public function getPrivmessTextAttribute ($val)
+	{
+		return Helper::transformSmiles ($val, $this->smiles);
 	}
 
 	public function getPhotoMainAttribute ()
