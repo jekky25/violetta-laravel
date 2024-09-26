@@ -123,6 +123,15 @@ class ProfileTest extends TestCase
 		Auth::loginUsingId(1);
 		$ar = [
 			'ank/photo/1.html',
+		];
+		foreach ($ar as $item)
+		{
+			$_SERVER['REQUEST_URI'] = $item;
+			$response = $this->get($_SERVER['REQUEST_URI']);
+			$response->assertStatus(302);
+		}
+
+		$ar = [
 			'ank/f/photo_78014/',
 			'ank/f/photo_78015/',
 		];
