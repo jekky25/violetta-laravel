@@ -15,4 +15,21 @@ class DataService
 			$items[] = $i;
 		return $items;
 	}
+
+	/**
+	* make last visit
+	* @param integer $time
+	*
+	* @return string
+	*/
+	public function lastVisit($time)
+	{
+		$timestamp = time();
+		$dateCheck = date("d-m-y",$time);
+		$timeCheck = date("d-m-y",$timestamp);
+		$timeCheckIs = date("d-m-y",$timestamp- (60*60*24));
+		if ($dateCheck == $timeCheck)	return date("Сегодня",$time);
+		if ($dateCheck == $timeCheckIs)	return date("Вчера",$time);
+		return date("d.m.y.",$time);
+	}
 }

@@ -15,6 +15,7 @@ use App\Repositories\HairTypeRepository;
 use App\Repositories\EyesRepository;
 use App\Services\LengthPager;
 use App\Services\DataService;
+use App\Services\AnkService;
 
 class AnketController extends Controller
 {
@@ -42,10 +43,10 @@ class AnketController extends Controller
 	*/
 	public function getPopularAnkets ($sex = 'women')
 	{
-		$s 					= $sex == 'men' ? MEN 		: WOMEN;
-		$popSex 			= $sex == 'men' ? 'мужчины' : 'женщины';
-		$ankets 			= $this->userRepository->getPopul($this->countPerPage, $s);
-		$page 				= $ankets->currentPage();
+		$s					= $sex == 'men' ? MEN 		: WOMEN;
+		$popSex				= $sex == 'men' ? 'мужчины' : 'женщины';
+		$ankets				= $this->userRepository->getPopul($this->countPerPage, $s);
+		$page				= $ankets->currentPage();
 		return response()->view ('ankets.popular_search', 
 		[
 			'popSex'		=> $popSex,
@@ -61,8 +62,8 @@ class AnketController extends Controller
 	*/
 	public function getBirthdayAnkets ()
 	{
-		$ankets 			= $this->userRepository->getBirthday($this->countPerPage);
-		$page 				= $ankets->currentPage();
+		$ankets				= $this->userRepository->getBirthday($this->countPerPage);
+		$page				= $ankets->currentPage();
 		return response()->view ('ankets.birthday_search', 
 		[
 			'page'			=> $page,
@@ -77,22 +78,13 @@ class AnketController extends Controller
 	*/
 	public function getBestAnkets ($sex)
 	{
-		$s 					= $sex == 'men' ? MEN 		: WOMEN;
-		$ankets 			= $this->userRepository->getBest($this->countPerPage, $s);
-		$maxReit 			= $this->userRepository->getMaxReiting($s);
-		$page 				= $ankets->currentPage();
-		foreach ($ankets as &$item)
-		{
-			$item->user_reiting_str 	= Helper::reiting ($item->user_reiting,$maxReit);
-			$item->onTop = '<strong>' . ($item->user_sex == 2 ? 'поднялась' : 'поднялся') . '</strong>: ' . Helper::lastVisit($item->user_top100);
-		}
-
+		$s					= $sex == 'men' ? MEN 		: WOMEN;
+		$ankets				= $this->userRepository->getBest($this->countPerPage, $s);
+		$page				= $ankets->currentPage();
 		$titleId = $sex == 'men' ? 'Лучшие парни' : 'Лучшие девушки';
-
-		$countSearchAnkStr	= Helper::getFoundStr ($ankets, $this->countPerPage);
+		$countSearchAnkStr	= (new AnkService($ankets))->getFoundStr ($this->countPerPage);
 		$user = Auth::user();
 		$user = !empty($user) ? $user->load(['visits']) : null;
-
 		return response()->view ('ankets.best', 
 		[
 			'page'				=> $page,

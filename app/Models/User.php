@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Repositories\UserRepository;
+use App\Services\FormatService;
+use App\Services\DataService;
 use App\Helpers\Helper;
 use App\Models\Photo;
 
@@ -214,13 +216,13 @@ class User extends Authenticatable
 
 	public function getNumberDiaryStrAttribute ()
 	{
-		return $this->number_diary . ' ' . Helper::caseDiaryType ($this->number_diary);
+		return $this->number_diary . ' ' . Helper::caseDiaryType($this->number_diary);
 	}
 
 	public function getUserReitingStrAttribute ()
 	{
 		$maxReit = (new UserRepository())->getMaxReiting($this->user_sex);
-		return Helper::reiting ($this->user_reiting,$maxReit);
+		return (new formatService)->reiting($this->user_reiting,$maxReit);
 	}
 
 	public function getUserDescriptionAttribute ($val)
@@ -245,49 +247,54 @@ class User extends Authenticatable
 		return $this->user_make_date !== $this->user_refresh_date ? Helper::dateFormat($this->user_refresh_date) : $val;
 	}
 
-	public function getMeetTargetAttribute ()
+	public function getMeetTargetAttribute()
 	{
 		return unserialize($this->user_target_meet);
 	}
 
-	public function getSpeakLangAttribute ()
+	public function getSpeakLangAttribute()
 	{
 		return unserialize($this->user_speak_lang);
 	}
 
-	public function getInterestsAttribute ()
+	public function getInterestsAttribute()
 	{
 		return unserialize($this->user_interests);
 	}
 
-	public function getUserICQAttribute ($val)
+	public function getUserICQAttribute($val)
 	{
 		return (int)$val > 0 ? $val : '';
 	}
 
-	public function getUserPartnerDescriptionAttribute ($val)
+	public function getUserPartnerDescriptionAttribute($val)
 	{
 		$val = stripslashes(trim($val));
 		return str_replace("\n", "\n<br />\n", $val);
 	}
 
-	public function getPhotoIdAttribute ($val)
+	public function getPhotoIdAttribute()
 	{
 		if (empty ($this->photo)) return null;
 		return !empty($this->photo->fotos_id) ? $this->photo->fotos_id : null;
 	}
 
-	public function getUserClassAAttribute ()
+	public function getUserClassAAttribute()
 	{
 		return $this->user_sex == MEN ? 'name_man' : 'name_woman';
 	}
 
-	public function getNameClassAttribute ()
+	public function getNameClassAttribute()
 	{
 		return  $this->user_sex == MEN ? 'name_man' : 'name_woman';
 	}
 
-	public function getUserPartnerSexAttribute ()
+	public function getOnTopAttribute()
+	{
+		return '<strong>' . ($this->user_sex == WOMEN ? 'поднялась' : 'поднялся') . '</strong>: ' . (new DataService)->lastVisit($this->user_top100);
+	}
+
+	public function getUserPartnerSexAttribute()
 	{
 		if ($this->user_sex_orient == self::SEX_BISEXUAL || $this->user_sex_orient == self::SEX_TRANS) 
 		{
@@ -302,7 +309,7 @@ class User extends Authenticatable
 		return  $partnerSex;
 	}
 
-	public function getPartnerAgeAttribute ()
+	public function getPartnerAgeAttribute()
 	{
 		if (!($this->user_partner_age_min > PARTNER_AGE_MIN || $this->user_partner_age_max > PARTNER_AGE_MAX)) return null;
 		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX) 
