@@ -216,4 +216,26 @@ class MessageRepository implements MessageInterface {
 			throw new \Exception('Failed to delete Message . '.$e->getMessage());
 		}
 	}
+
+	/**
+	* delete a message
+	* @param  array $userIds
+	* @param  int $userAuthId
+	* @return void
+	*/
+	public function deleteSelected($userIds, $userAuthId) {
+		try {
+			foreach ($userIds as $userId)
+			{
+				$messages = $this->getForUser($userId, $userAuthId);
+				if ($messages->count() == 0) continue;
+				foreach ($messages as $message)
+				{
+					$this->delete($message, $userAuthId);
+				}
+			}
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to delete Message . '.$e->getMessage());
+		}
+	}
 }

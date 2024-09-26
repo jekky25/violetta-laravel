@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Helpers\Helper;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\UserInterface;
 use App\Interfaces\MessageInterface;
 use App\Interfaces\SmileInterface;
 use App\Requests\PrivmsgRequest;
+use App\Requests\PrivmsgSelectedRequest;
 use App\Services\MessageService;
 use App\Mail\NewPrivMessageEmail;
 
@@ -53,57 +53,38 @@ class PrivmsgController extends Controller
 
 	/**
 	* Delete user messages
-	* @param PrivmsgRequest $request
+	* @param PrivmsgSelectedRequest $request
 	* @return void
 	*/
-	public function delete(PrivmsgRequest $request)
+	public function destroySelected(PrivmsgSelectedRequest $request)
 	{
-		$user 			= Auth::user();
-		if (empty ($user)) abort (404);
 		$arParams 		= $request->post();
-
-		if (empty($arParams['mark'])) return redirect()->back()->withInput();
-		$markList		= $arParams['mark'];
-
-		if ( !empty($arParams['cancel']) ) {
-			return redirect()->route ('privmsg');
-		}
-
-		if ( !empty($arParams['confirm']) ) {
-			foreach ($markList as $userId) 
-			{
-				$messages = $this->messageRepository->getForUser($userId, $user->user_id);
-				if (count ($messages) > 0)
-				{
-					foreach ($messages as $item)
-					{
-						if ($item->user_poluchil == $user->user_id)
-						{
-							$item->user_poluchil_del 	= 1;
-						}
-
-						if ($item->user_otprav == $user->user_id)
-						{
-							$item->user_otprav_del 		= 1;
-						}
-						$item->update();
-					}
-				}
-			}
-			return redirect()->route ('privmsg');
-		}
-
 		$title 			= 'Информация';
 		$text 			= 'Вы уверены, что хотите удалить сообщения этих пользователей?<br /><br />';
 		$confirmAction 	= route ('privmsg.delete');
-		$hidden			= '';
+		$hidden			= method_field('DELETE');
 
-		foreach ($markList as $item) 
+		foreach ($arParams['mark'] as $item) 
 		{
 			$hidden .= '<input type="hidden" name="mark[]" value="' . intval($item) . '" />';
 		}
+		$this->messageService->outMessageInfo($title, $text, $confirmAction, $hidden);
+	}
 
-		Helper::outMessageInfo($title, $text, $confirmAction, $hidden);
+	/**
+	* Delete user messages
+	* @param PrivmsgSelectedRequest $request
+	* @return void
+	*/
+	public function destroySelectedAction(PrivmsgSelectedRequest $request)
+	{
+		$user 			= Auth::user();
+		$arParams 		= $request->post();
+		if ( !empty($arParams['cancel']) ) return redirect()->route ('privmsg');
+		if ( !empty($arParams['confirm']) ) {
+			$this->messageRepository->deleteSelected($arParams['mark'], $user->user_id);
+			return redirect()->route ('privmsg');
+		}
 	}
 
 	/**
