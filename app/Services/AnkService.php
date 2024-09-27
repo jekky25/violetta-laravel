@@ -110,11 +110,11 @@ class AnkService
 		return false;
 	}
 
-		/**
-	 * make found string
-	 * @param integer $count
-	 * @return string
-	 */
+	/**
+	* make found string
+	* @param integer $count
+	* @return string
+	*/
 	public function getFoundStr($count = 0)
 	{
 		$start 		= (($this->anket->currentPage() - 1) * $count) + 1;

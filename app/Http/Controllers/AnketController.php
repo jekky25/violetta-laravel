@@ -16,6 +16,7 @@ use App\Repositories\EyesRepository;
 use App\Services\LengthPager;
 use App\Services\DataService;
 use App\Services\AnkService;
+use App\Services\FormatService;
 
 class AnketController extends Controller
 {
@@ -101,12 +102,11 @@ class AnketController extends Controller
 	*/
 	public function getViews ()
 	{
-		$ankets 					= $this->userRepository->getViews($this->countPerPage);
-		$page 						= $ankets->currentPage();
-		$user	 					= Auth::user();
+		$ankets						= $this->userRepository->getViews($this->countPerPage);
+		$page						= $ankets->currentPage();
+		$user						= Auth::user();
 		$user->user_lastvisit_views = time();
 		$user->update();
-
 		return response()->view ('ankets.views', 
 		[
 			'page'			=> $page,
@@ -120,50 +120,10 @@ class AnketController extends Controller
 	* @param  int  $op
 	* @return \Illuminate\Http\Response
 	*/
-	public function getAnkets ($sex = '', $op = '')
+	public function getAnkets (FormatService $formService, $sex = '', $op = '')
 	{
 		$s					= $sex == 'men' ? MEN 		: WOMEN;
-		$ankTitle 			= $sex == 'men' ? 'Анкеты: мужчины' : 'Анкеты: женщины';
-		$ankTitleId 		= $sex == 'men' ? 'Анкеты мужчин' : 'Анкеты женщин';
-		$birthDate			= NULL;
-		$birthDate2			= NULL;
-
-		switch ($op) {
-			case '20':
-				$birthDate 		= Helper::birthAround(20);
-				$ankTitle 		.= ', до 20 лет';
-				$ankTitleId 	.= ' до 20 лет';
-				break;
-		
-			case '2025':
-				$birthDate 		= Helper::birthAround(25);
-				$birthDate2		= Helper::birthAround(19);
-				$ankTitle 		.= ', 20 - 25 лет';
-				$ankTitleId 	.= ' 20 - 25 лет';
-				break;
-			case '2535':
-				$birthDate 		= Helper::birthAround(35);
-				$birthDate2		= Helper::birthAround(24);
-				$ankTitle 		.= ', 25 - 35 лет';
-				$ankTitleId 	.= ' 25 - 35 лет';
-				break;
-			case "3550":
-				$birthDate 		= Helper::birthAround(50);
-				$birthDate2 	= Helper::birthAround(34);
-				$ankTitle 		.= ', 35 - 50 лет';
-				$ankTitleId 	.= ' 35 - 50 лет';
-				break;
-			case "50":
-				$birthDate2	 	= Helper::birthAround(50);
-				$ankTitle 		.= ', от 50 лет';
-				$ankTitleId 	.= ' от 50 лет';
-				break;
-		}
-		$opt = [
-				'birthDate' => $birthDate,
-				'birthDate2' => $birthDate2,
-			];
-
+		$opt				= $formService->prepareAnketTitles($sex, $op);
 		if (empty($sex) && empty($op))
 		{
 			$ankets 			= $this->userRepository->newFaces($this->countNewFaces);
@@ -171,12 +131,12 @@ class AnketController extends Controller
 		{
 			$ankets 			= $this->userRepository->getOp($this->countPerPage, $s, $opt);
 			$page 				= $ankets->currentPage();
-			$countSearchAnkStr	= Helper::getFoundStr ($ankets, $this->countPerPage);
+			$countSearchAnkStr	= (new AnkService($ankets))->getFoundStr($this->countPerPage);
 		}
 		return response()->view ('ankets.id', 
 		[
-			'popSex'			=> $ankTitle,
-			'ankTitleId'		=> $ankTitleId,
+			'popSex'			=> $opt['ankTitle'],
+			'ankTitleId'		=> $opt['ankTitleId'],
 			'sex'				=> $sex,
 			'page'				=> !empty($page) ? $page : 1,
 			'ankets'			=> $ankets,
