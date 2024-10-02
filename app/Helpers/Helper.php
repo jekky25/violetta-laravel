@@ -355,7 +355,7 @@ class Helper {
 	 */
 	public static function queryBlock($ar, &$items)
 	{
-		$items->where (function ($query) use ($ar) {
+		$items->where(function ($query) use ($ar) {
 			$query->where('user_sex', $ar[0]);
 			$query->where(function ($query) use ($ar) {
 				$query->where('user_sex_orient', $ar[1]);
@@ -373,30 +373,13 @@ class Helper {
 	 */
 	public static function queryBlockOr($ar, &$items)
 	{
-		$items->Orwhere (function ($query) use ($ar) {
+		$items->Orwhere(function ($query) use ($ar) {
 			$query->where('user_sex', $ar[0]);
 			$query->where(function ($query) use ($ar) {
 				$query->where('user_sex_orient', $ar[1]);
 				$query->orWhere('user_sex_orient', $ar[2]);
 			});
 		});
-	}
-
-	/**
-	 * make found string
-	 * @param object $ankets
-	 * @param integer $count
-	 *
-	 * @return string
-	 */
-	public static function getFoundStr($ankets, $count = 0)
-	{
-		$startShow 		= (($ankets->currentPage() - 1) * $count) + 1;
-		$endShow		= $ankets->currentPage() * $count;
-		$endShow		= $endShow < $ankets->total() ? $endShow : $ankets->total();
-				
-		$str = 'Найдено анкет: (' . $startShow . '-' . $endShow . ') из ' . $ankets->total();
-		return $str;
 	}
 
 	/**

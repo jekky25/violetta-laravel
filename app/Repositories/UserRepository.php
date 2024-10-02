@@ -1,21 +1,23 @@
 <?php
 
 namespace App\Repositories;
-
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 Use App\Interfaces\UserInterface;
 use App\Services\LengthPager;
 use App\Models\User;
+use App\Traits\SearchByParams;
 
 class UserRepository implements UserInterface {
+	use SearchByParams;
 	private $id;
+	private $ankets;
 	/**
 	* get select from model
 	* @param  string|array $param
 	* @return User;
 	*/
-	public function select ($param)
+	public function select($param)
 	{
 		return User::select($param);
 	}
@@ -24,7 +26,7 @@ class UserRepository implements UserInterface {
 	* get id
 	* @return integer;
 	*/
-	public function getId ()
+	public function getId()
 	{
 		return ($this->id > 0 ? $this->id : 0);
 	}
@@ -83,7 +85,7 @@ class UserRepository implements UserInterface {
 	* @param  int $sex
 	* @return int
 	*/
-	public function getCountAnkets ($sex)
+	public function getCountAnkets($sex)
 	{
 		$count = User::select('user_id')
 		->where('user_sex', $sex)
@@ -286,7 +288,7 @@ class UserRepository implements UserInterface {
 		->where ('user_active', 1);
 		if (empty ($user))
 		{
-			$item->where ('user_confirm_email', 1);
+			$item->where('user_confirm_email', 1);
 		}
 		$item->with('diary')
 				->with('photo.comment.user.photo')
@@ -351,12 +353,44 @@ class UserRepository implements UserInterface {
 	* @param  array $request
 	* @return void
 	*/	
-	public function create($request) {
+	public function create($request) 
+	{
 		try {
 			$user = User::create($request);
 			$this->id = $user->getKey();
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to create an User '.$e->getMessage());
 		}
+	}
+
+	/**
+	* get profiles on the search page
+	* @param SearchRequest $request
+	* @param array $params
+	* @return void
+	*/	
+	public function getBySearch($request, $params) 
+	{
+		if (!isset ($request->send)) return null;
+		$this->ankets = $this->select('*')->where ('user_active', 1);
+		$this->getBySex($params['find_sex'], $params['sex']);
+		$this->getByPhoto($params['photo']);
+		$this->getByAgeMin($params['age_min']);
+		$this->getByAgeMax($params['age_max']);
+		$this->getByHeightMin($params['height_min']);
+		$this->getByHeightMax($params['height_max']);
+		$this->getByWeightMin($params['weight_min']);
+		$this->getByWeightMax($params['weight_max']);
+		$this->getByBody($params['body']);
+		$this->getByHairType($params['hair_type']);
+		$this->getByEyes($params['eyes']);
+		$this->getByCountry($params['country']);
+		$this->getByRegion($params['region']);
+		$this->getByCity($params['city']);
+		$this->ankets = $this->ankets->orderBy('user_refresh_date_t', 'desc')->paginate($params['anket_per_page']);
+		$this->ankets = LengthPager::makeLengthAware($this->ankets, $this->ankets->total(), $params['anket_per_page']);
+		$this->ankets->appends(request()->query());
+		$this->ankets = self::addProps($this->ankets);
+		return $this->ankets;
 	}
 }

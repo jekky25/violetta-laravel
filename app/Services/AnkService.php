@@ -30,7 +30,8 @@ class AnkService
 	* get user parameters on the anket page
 	* @return void
 	*/
-	public function prepare() {
+	public function prepare() 
+	{
 		$this->getTargetMeet();
 		$this->getInterests();
 	}
@@ -39,7 +40,8 @@ class AnkService
 	* get addition user parameters on the full anket page
 	* @return void
 	*/
-	public function prepareFull() {
+	public function prepareFull() 
+	{
 		$this->getAddProps();
 		$this->getSpeakLang();
 		$this->getPartnerBody();
@@ -117,6 +119,7 @@ class AnkService
 	*/
 	public function getFoundStr($count = 0)
 	{
+		if (empty($this->anket)) return 'Найдено анкет: 0';
 		$start 		= (($this->anket->currentPage() - 1) * $count) + 1;
 		$end		= $this->anket->currentPage() * $count;
 		$end		= $end < $this->anket->total() ? $end : $this->anket->total();

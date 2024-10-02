@@ -15,8 +15,7 @@
 			<td>
 				<h3>Быстрый поиск</h3>
 					<form name="anketa" action="{{route('search')}}" method="get" class="formSearch">
-						<input type="hidden" name="mod" value="search" />
-						<input type="hidden" name="op" value="search" />
+						<input type="hidden" name="send" value="1" />
 						<div>Я ищу&nbsp; 
 							<select name="find_sex">
 								<option value="0" selected="selected">не важно&nbsp;</option>
@@ -73,7 +72,7 @@
 							<input type="submit" name="sent" id="otsil" class="bgBut3" value="" />
 						</div>
 					</form>
-<script type="text/javascript" src="{{ asset('js/functions_search.js') }}"></script>
+					<script type="text/javascript" src="{{ asset('js/functions_search.js') }}"></script>
 				</td>
 			</tr>
 		</table>
