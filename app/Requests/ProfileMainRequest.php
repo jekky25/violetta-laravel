@@ -8,6 +8,7 @@ use App\Rules\BirthData;
 use App\Rules\BirthDataCorrect;
 use App\Rules\PlaceEmpty;
 use App\Rules\PlaceCorrect;
+use App\Helpers\Helper;
 
 class ProfileMainRequest extends FormRequest
 {
@@ -43,6 +44,28 @@ class ProfileMainRequest extends FormRequest
 		];
 	}
 
+	
+	/**
+	* Prepare params for validation
+	*
+	* @return void
+	*/
+	protected function prepareForValidation()
+    {
+        $this->merge([
+			'user_birth_date'		=> Helper::getDateStr($this->birth_day,$this->birth_month,$this->birth_year),
+			'user_refresh_date'		=> date("Y-m-d"),
+			'user_refresh_date_t'	=> time(),
+			'user_session_time'		=> time(),
+			'user_lastvisit'		=> time(),
+			'user_name'				=> $this->name,
+			'user_sex'				=> $this->sex,
+			'user_city'				=> $this->city,
+			'user_region'			=> $this->region,
+			'user_country'			=> $this->country
+        ]);
+    }
+
 	/**
 	* Get the validation rules that apply to the request.
 	*
@@ -50,20 +73,32 @@ class ProfileMainRequest extends FormRequest
 	*/
 	public function rules(): array
 	{
-		$arParams 	= $this->post();
-		$city 		= !empty($arParams['city']) 	? (int)$arParams['city'] 	: 0;
-		$region 	= !empty($arParams['region']) 	? (int)$arParams['region'] 	: 0;
-		$country 	= !empty($arParams['country']) 	? (int)$arParams['country'] : 0;
+		$arParams					= $this->post();
+		$city						= !empty($arParams['city']) 	? (int)$arParams['city'] 	: 0;
+		$region						= !empty($arParams['region']) 	? (int)$arParams['region'] 	: 0;
+		$country					= !empty($arParams['country']) 	? (int)$arParams['country'] : 0;
 		return [
-			'name'	=> [	'required', 
-							'max:30', 
-							'min:2',	
-							new BirthData((int)$arParams['birth_day'], (int)$arParams['birth_month'], (int)$arParams['birth_year']), 
-							new BirthDataCorrect((int)$arParams['birth_day'], (int)$arParams['birth_month'])],
-			'sex'	=> [	'required'],
-			'city'	=> [
-							new PlaceEmpty($city, $region, $country), 
-							new PlaceCorrect($city, $region, $country)]
+			'name'					=> ['string',
+										'required', 
+										'max:30', 
+										'min:2',	
+										new BirthData((int)$arParams['birth_day'], (int)$arParams['birth_month'], (int)$arParams['birth_year']), 
+										new BirthDataCorrect((int)$arParams['birth_day'], (int)$arParams['birth_month'])],
+			'sex'					=> ['integer', 'required'],
+			'city'					=> [
+										'integer',
+										new PlaceEmpty($city, $region, $country), 
+										new PlaceCorrect($city, $region, $country)],
+			'region'				=> ['integer'],
+			'country'				=> ['integer'],
+			'user_city'				=> ['integer'],
+			'user_region'			=> ['integer'],
+			'user_country'			=> ['integer'],
+			'user_birth_date'		=> ['string'],
+			'user_refresh_date'		=> ['string'],
+			'user_refresh_date_t'	=> ['integer'],
+			'user_session_time'		=> ['integer'],
+			'user_lastvisit'		=> ['integer']
 		];
 	}
 }

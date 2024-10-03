@@ -22,7 +22,7 @@ Route::middleware('slashes')->group(function () {
 	Route::get('registration/top100/', 'RegistrationController@top100')																			->name('registration.top100');
 	Route::post('registration/top100/', 'RegistrationController@top100Post')																	->name('registration.top100.post');
 	Route::get('registration/edit/', 'RegistrationController@edit')																				->name('registration.edit')					->middleWare('auth');
-	Route::post('registration/edit/', 'RegistrationController@editPost')																		->name('registration.edit.post')			->middleWare('auth');
+	Route::post('registration/edit/', 'RegistrationController@post')																			->name('registration.edit.post')			->middleWare('auth');
 	Route::get('registration/edit/second/', 'RegistrationController@second')																	->name('registration.edit.second')			->middleWare('auth');
 	Route::post('registration/edit/second/', 'RegistrationController@secondPost')																->name('registration.edit.second.post')		->middleWare('auth');
 	Route::get('registration/edit/partner/', 'RegistrationController@partner')																	->name('registration.edit.partner')			->middleWare('auth');

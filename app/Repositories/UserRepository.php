@@ -364,6 +364,30 @@ class UserRepository implements UserInterface {
 	}
 
 	/**
+	* update an user
+	* @param  ProfileMainRequest $request
+	* @return void
+	*/	
+	public function update($user, $request)
+	{
+		try {
+			User::find($user->user_id)->update([
+				'user_sex'				=> $request->user_sex,
+				'user_name' 			=> $request->user_name,
+				'user_birth_date' 		=> $request->user_birth_date,
+				'user_country' 			=> $request->user_country,
+				'user_region' 			=> $request->user_region,
+				'user_city' 			=> $request->user_city,
+				'user_refresh_date' 	=> $request->user_refresh_date,
+				'user_refresh_date_t' 	=> $request->user_refresh_date_t,
+				'user_session_time' 	=> $request->user_session_time
+			]);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to update User. '.$e->getMessage());
+		}
+	}
+
+	/**
 	* get profiles on the search page
 	* @param SearchRequest $request
 	* @param array $params

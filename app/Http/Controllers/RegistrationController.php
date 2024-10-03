@@ -380,22 +380,10 @@ class RegistrationController extends Controller
 	* @param  ProfileMainRequest $request
 	* @return void
 	*/
-	public function editPost (ProfileMainRequest $request)
+	public function post (ProfileMainRequest $request)
 	{
 		$user 						= Auth::user();
-		$arParams 					= $request->post();
-		$user->user_sex 			= $arParams['sex'];
-		$user->user_name 			= str_replace("\'", "''", $arParams['name']);
-		$user->user_birth_date 		= Helper::getDateStr($arParams['birth_day'],$arParams['birth_month'],$arParams['birth_year']);
-		$user->user_country 		= (int)$arParams['country'];
-		$user->user_region 			= (int)$arParams['region'];
-		$user->user_city 			= (int)$arParams['city'];
-		$user->user_refresh_date 	= date("Y-m-d");
-		$user->user_refresh_date_t 	= time();
-		$user->user_session_time 	= time();
-		$user->user_lastvisit 		= time();
-		$user->update();
-
+		$this->userRepository->update($user, $request);
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
