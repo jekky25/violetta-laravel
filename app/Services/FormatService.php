@@ -161,4 +161,14 @@ class FormatService
 		$str .= '</option></select>';
 		return $str;
 	}
+
+	public function preparePropfromArray($prop, $ar)
+	{
+		if (!is_array($prop)) return [];
+		foreach ($ar as $k => $v)
+		{
+			if (in_array($k, $prop)) $arOut[$v]['selected'] = 1;
+		}
+		return !empty($arOut) ? $arOut : [];
+	}
 }

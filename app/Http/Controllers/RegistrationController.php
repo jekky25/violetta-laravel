@@ -22,6 +22,7 @@ use App\Requests\ForgetPasswordRequest;
 use App\Requests\RegistrationRequest;
 use App\Helpers\Helper;
 use App\Services\DataService;
+use App\Services\FormatService;
 use App\Mail\Email;
 
 class RegistrationController extends Controller
@@ -96,56 +97,45 @@ class RegistrationController extends Controller
 	* Show an edit full profile page
 	* @return \Illuminate\Http\Response
 	*/
-	public function second ()
+	public function second(FormatService $formService)
 	{
-		$user 			= Auth::user();
-		$sexOrient 		= Helper::BlockSelect('sex_orient',SEX_ORIENT_CLASS,$user->user_sex_orient,2);
-		$meetTarget 	= Helper::BlockSelect('meet_target',MEET_TARGET_CLASS,$user->meet_target,2);
-		$speakLang 	 	= $user->speak_lang;
-		$userSpeakLang	= [];
-		
-		if (is_array($speakLang))
-		{
-
-			foreach (self::$languageCodes as $k => $v)
-			{
-				if (in_array($k, $speakLang)) $userSpeakLang[$v]['selected'] = 1;
-			}
-		}
-
-		$body 			= Helper::BlockSelect("body",BODY_CLASS,$user->user_body,2);
-		$heights 		= Helper::getHeights();
-		$weights 		= Helper::getWeights();
-		$hairColor 		= Helper::BlockSelect("hair_color",HAIR_COLOR_CLASS,$user->user_hair_color,2);
-		$hairType 		= Helper::BlockSelect("hair_type",HAIR_TYPE_CLASS,$user->user_hair_type,2);
-		$eyes	 		= Helper::BlockSelect("eyes",EYES_CLASS,$user->user_eyes,2);
-		$education 		= Helper::BlockSelect("education",EDUCATION_CLASS,$user->user_education,2);
-		$smoke 			= Helper::BlockSelect("smoke",SMOKE_CLASS,$user->user_smoke,2);
-		$spirt			= Helper::BlockSelect("spirt",SPIRT_CLASS,$user->user_spirt,2);
-		$familyStatus	= Helper::BlockSelect("family_status",FAMILY_STATUS_CLASS,$user->user_sem_polozh,2);
-		$children		= Helper::BlockSelect("children",CHILDREN_CLASS,$user->user_children,2);
-		$helpMoney		= Helper::BlockSelect("help_money",HELP_MONEY_CLASS,$user->user_help_money,2);
-		$interest		= Helper::BlockSelect("interest",INTEREST_CLASS,$user->interests,2);
+		$user			= Auth::user();
+		$sexOrient		= $formService->BlockSelect('sex_orient',SEX_ORIENT_CLASS,$user->user_sex_orient,2);
+		$meetTarget		= $formService->BlockSelect('meet_target',MEET_TARGET_CLASS,$user->meet_target,2);
+		$userSpeakLang	= $formService->preparePropfromArray($user->speak_lang, self::$languageCodes);
+		$body 			= $formService->BlockSelect("body",BODY_CLASS,$user->user_body,2);
+		$heights 		= $formService->getHeights();
+		$weights 		= $formService->getWeights();
+		$hairColor 		= $formService->BlockSelect("hair_color",HAIR_COLOR_CLASS,$user->user_hair_color,2);
+		$hairType 		= $formService->BlockSelect("hair_type",HAIR_TYPE_CLASS,$user->user_hair_type,2);
+		$eyes	 		= $formService->BlockSelect("eyes",EYES_CLASS,$user->user_eyes,2);
+		$education 		= $formService->BlockSelect("education",EDUCATION_CLASS,$user->user_education,2);
+		$smoke 			= $formService->BlockSelect("smoke",SMOKE_CLASS,$user->user_smoke,2);
+		$spirt			= $formService->BlockSelect("spirt",SPIRT_CLASS,$user->user_spirt,2);
+		$familyStatus	= $formService->BlockSelect("family_status",FAMILY_STATUS_CLASS,$user->user_sem_polozh,2);
+		$children		= $formService->BlockSelect("children",CHILDREN_CLASS,$user->user_children,2);
+		$helpMoney		= $formService->BlockSelect("help_money",HELP_MONEY_CLASS,$user->user_help_money,2);
+		$interest		= $formService->BlockSelect("interest",INTEREST_CLASS,$user->interests,2);
 
 		return response()->view ('registration.second',
 		[
 			'userData'		=> $user,
 			'sexOrient'		=> $sexOrient,
 			'meetTarget'	=> $meetTarget,
-			'userSpeakLang' => $userSpeakLang,
-			'body' 			=> $body,
-			'heights' 		=> $heights,
-			'weights' 		=> $weights,
-			'hairColor' 	=> $hairColor,
-			'hairType' 		=> $hairType,
-			'eyes' 			=> $eyes,
-			'education' 	=> $education,
-			'smoke' 		=> $smoke,
-			'spirt' 		=> $spirt,
-			'familyStatus' 	=> $familyStatus,
-			'children' 		=> $children,
-			'helpMoney' 	=> $helpMoney,
-			'interest' 		=> $interest,
+			'userSpeakLang'	=> $userSpeakLang,
+			'body'			=> $body,
+			'heights'		=> $heights,
+			'weights'		=> $weights,
+			'hairColor'		=> $hairColor,
+			'hairType'		=> $hairType,
+			'eyes'			=> $eyes,
+			'education'		=> $education,
+			'smoke'			=> $smoke,
+			'spirt'			=> $spirt,
+			'familyStatus'	=> $familyStatus,
+			'children'		=> $children,
+			'helpMoney'		=> $helpMoney,
+			'interest'		=> $interest,
 		]);
 	}
 
