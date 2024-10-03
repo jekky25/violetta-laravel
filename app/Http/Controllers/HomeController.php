@@ -29,9 +29,9 @@ class HomeController extends Controller
 	* show the home page
 	* @return \Illuminate\Http\Response
 	*/
-	public function index()
+	public function index(DataService $data)
 	{
-		$ages		= DataService::getAges();
+		$ages		= $data->getAges();
 		$countries	= $this->countryRepository->getAll();
 		$newFaces	= $this->userRepository->newFaces($this->countNewFaces);
 		$diaries	= $this->diaryRepository->get($this->countDiaries);

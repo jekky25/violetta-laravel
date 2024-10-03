@@ -44,7 +44,6 @@ class RegistrationController extends Controller
 	];
 
 	public static $countPerPage 	= 10;
-	
 
 	/**
 	* Create a new controller instance.
@@ -69,17 +68,17 @@ class RegistrationController extends Controller
 	* Show an edit short profile page
 	* @return \Illuminate\Http\Response
 	*/
-	public function edit ()
+	public function edit(DataService $data)
 	{
-		$user 		= Auth::user();
-		$days 		= Helper::getDays();
-		$months 	= Helper::getMonths();
-		$years 		= Helper::getYears();
+		$user		= Auth::user();
+		$days		= $data->getDays();
+		$months		= $data->getMonths();
+		$years		= $data->getYears();
 		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old ('country', $user->user_country);
 		$regionId	= (int) old ('region', $user->user_region);
-		$regions 	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: [];
-		$cities 	= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
+		$regions	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: [];
+		$cities		= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
 
 		return response()->view ('registration.edit',
 		[
@@ -154,10 +153,10 @@ class RegistrationController extends Controller
 	* Show an edit partner page
 	* @return \Illuminate\Http\Response
 	*/
-	public function partner ()
+	public function partner(DataService $data)
 	{
 		$user 				= Auth::user();
-		$age 				= DataService::getAges();
+		$age 				= $data->getAges();
 		$heights 			= Helper::getHeights();
 		$weights 			= Helper::getWeights();
 		$partnerBody		= Helper::BlockSelect("partner_body[]",BODY_CLASS, old ('partner_body', $user->user_partner_body),2);

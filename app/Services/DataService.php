@@ -10,11 +10,65 @@ class DataService
 	*
 	* @return array
 	*/
-	public static function getAges()
+	public function getAges()
 	{
 		$items = [];
 		for ($i= (17 + 1); $i < 100; $i++)
 			$items[] = $i;
+		return $items;
+	}
+
+	/**
+	* make months of the year
+	*
+	* @return array
+	*/
+	public function getMonths()
+	{
+		return [
+			0	=> '-выберите-',
+			1	=> 'Января',
+			2	=> 'Февраля',
+			3	=> 'Марта',
+			4	=> 'Апреля',
+			5	=> 'Мая',
+			6	=> 'Июня',
+			7	=> 'Июля',
+			8	=> 'Августа',
+			9	=> 'Сентября',
+			10	=> 'Октября',
+			11	=> 'Ноября',
+			12	=> 'Декабря'
+		];
+	}
+
+	/**
+	* make a list of years
+	*
+	* @return array
+	*/
+	public function getYears()
+	{
+		$years		= [];
+		$today		= getdate();
+		$todayYear	= $today['year'];
+		for ($i=1900; $i < ($todayYear - 17);$i++) {
+			$years [] = $i;
+		}
+		return $years;
+	}
+
+	/**
+	* make days in the month
+	*
+	* @return array
+	*/
+	public function getDays()
+	{
+		$items = [];
+		for ($i=0; $i < 32;$i++) {
+			$items [] = $i;
+		}
 		return $items;
 	}
 
