@@ -55,7 +55,20 @@ class User extends Authenticatable
 		'user_partner_description',
 		'user_confirm_email',
 		'user_active',
-		'user_odobreno'
+		'user_odobreno',
+		'user_sex_orient',
+		'user_target_meet',
+		'user_speak_lang',
+		'user_education',
+		'user_smoke',
+		'user_spirt',
+		'user_sem_polozh',
+		'user_children',
+		'user_help_money',
+		'user_interests',
+		'user_icq',
+		'user_url',
+		'user_phone',
 	];
 
 	/**

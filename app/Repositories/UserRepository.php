@@ -388,6 +388,46 @@ class UserRepository implements UserInterface {
 	}
 
 	/**
+	* update an user from the second edit page
+	* @param  ProfileSecondRequest $request
+	* @return void
+	*/	
+	public function secondUpdate($user, $request)
+	{
+		try {
+			User::find($user->user_id)->update([
+				'user_sex_orient'		=> $request->user_sex_orient,
+				'user_target_meet'		=> $request->user_target_meet,
+				'user_speak_lang'		=> $request->user_speak_lang,
+				'user_body'				=> $request->user_body,
+				'user_height'			=> $request->user_height,
+				'user_weight'			=> $request->user_weight,
+				'user_hair_color'		=> $request->user_hair_color,
+				'user_hair_type'		=> $request->user_hair_type,
+				'user_eyes'				=> $request->user_eyes,
+				'user_education'		=> $request->user_education,
+				'user_smoke'			=> $request->user_smoke,
+				'user_spirt'			=> $request->user_spirt,
+				'user_sem_polozh'		=> $request->user_sem_polozh,
+				'user_children'			=> $request->user_children,
+				'user_help_money'		=> $request->user_help_money,
+				'user_interests'		=> $request->user_interests,
+				'user_icq'				=> $request->user_icq,
+				'user_url'				=> $request->user_url,
+				'user_phone'			=> $request->user_phone,
+				'user_description'		=> $request->user_description,
+				'user_refresh_date'		=> $request->user_refresh_date,
+				'user_refresh_date_t'	=> $request->user_refresh_date_t,
+				'user_session_time'		=> $request->user_session_time,
+				'user_lastvisit'		=> $request->user_lastvisit,
+				'user_odobreno'			=> $request->user_odobreno,
+			]);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to update User. '.$e->getMessage());
+		}
+	}
+
+	/**
 	* get profiles on the search page
 	* @param SearchRequest $request
 	* @param array $params

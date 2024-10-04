@@ -1,0 +1,102 @@
+<?php
+
+namespace App\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use App\Helpers\Helper;
+
+class ProfileSecondRequest extends FormRequest
+{
+	/**
+	* replace array errors from default to commit
+	* @param  Illuminate\Contracts\Validation\Validator  $validator
+	* @return void
+	*/
+	public function failedValidation(Validator $validator)
+	{
+		$exception = $validator->getException();
+		$this->errorBag = 'comment';
+        throw (new $exception($validator))
+                    ->errorBag($this->errorBag)
+                    ->redirectTo($this->getRedirectUrl());
+	}
+
+	/**
+	* Prepare params for validation
+	*
+	* @return void
+	*/
+	protected function prepareForValidation()
+    {
+        $this->merge([
+			'user_sex_orient'		=> $this->sex_orient < 1 || $this->sex_orient > 4 ? 2 : $this->sex_orient,
+			'user_target_meet'		=> Helper::serializeInput($this->target_meet),
+			'user_speak_lang' 		=> Helper::serializeInput($this->speak_lang),
+			'user_body' 			=> $this->body,
+			'user_height' 			=> $this->height < 150	? 149	: $this->height,
+			'user_weight' 			=> $this->weight < 30	? 29 	: $this->weight,
+			'user_hair_color'		=> $this->hair_color,
+			'user_hair_type'		=> $this->hair_type,
+			'user_eyes'				=> $this->eyes,
+			'user_education'		=> $this->education,
+			'user_smoke'			=> $this->smoke,
+			'user_spirt'			=> $this->spirt,
+			'user_sem_polozh'		=> $this->family_status,
+			'user_children'			=> $this->children,
+			'user_help_money'		=> $this->help_money,
+			'user_interests'		=> Helper::serializeInput($this->interest),
+			'user_icq'				=> $this->icq,
+			'user_url'				=> addslashes($this->url),
+			'user_phone'			=> addslashes($this->phone),
+			'user_description'		=> addslashes($this->description),
+			'user_refresh_date'		=> date("Y-m-d"),
+			'user_refresh_date_t'	=> time(),
+			'user_session_time'		=> time(),
+			'user_lastvisit'		=> time()
+        ]);
+		if (!empty($this->user_description)) 
+			$this->merge([
+				'user_odobreno'			=> 0
+			]);
+    }
+
+	/**
+	* Get the validation rules that apply to the request.
+	*
+	* @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+	*/
+	public function rules(): array
+	{
+		return [
+			'user_sex_orient' 		=> ['integer'],
+			'target_meet'			=> ['array'],
+			'user_target_meet'		=> ['string'],
+			'speak_lang'			=> ['array'],
+			'user_speak_lang' 		=> ['string'],
+			'user_body'		 		=> ['integer'],
+			'user_height' 			=> ['integer'],
+			'user_weight' 			=> ['integer'],
+			'user_hair_color'		=> ['integer'],
+			'user_hair_type'		=> ['integer'],
+			'user_eyes'				=> ['integer'],
+			'user_education'		=> ['integer'],
+			'user_smoke'			=> ['integer'],
+			'user_spirt'			=> ['integer'],
+			'user_sem_polozh'		=> ['integer'],
+			'user_children'			=> ['integer'],
+			'user_help_money'		=> ['integer'],
+			'interests'				=> ['array'],
+			'user_interests'		=> ['string'],
+			'user_icq'				=> ['string'],
+			'user_url'				=> ['string'],
+			'user_phone'			=> ['string'],
+			'user_description'		=> ['string'],
+			'user_refresh_date'		=> ['string'],
+			'user_refresh_date_t'	=> ['integer'],
+			'user_session_time'		=> ['integer'],
+			'user_lastvisit'		=> ['integer'],
+			'user_odobreno'			=> ['integer']
+		];
+	}
+}

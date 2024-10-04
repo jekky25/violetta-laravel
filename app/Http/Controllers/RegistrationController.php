@@ -17,6 +17,7 @@ use App\Interfaces\AnketVisitInterface;
 use App\Requests\PassRequest;
 use App\Requests\PhotoRequest;
 use App\Requests\ProfileMainRequest;
+use App\Requests\ProfileSecondRequest;
 use App\Requests\ProfilePartnerRequest;
 use App\Requests\ForgetPasswordRequest;
 use App\Requests\RegistrationRequest;
@@ -143,30 +144,30 @@ class RegistrationController extends Controller
 	* Show an edit partner page
 	* @return \Illuminate\Http\Response
 	*/
-	public function partner(DataService $data)
+	public function partner(DataService $data, FormatService $formService)
 	{
-		$user 				= Auth::user();
-		$age 				= $data->getAges();
-		$heights 			= Helper::getHeights();
-		$weights 			= Helper::getWeights();
-		$partnerBody		= Helper::BlockSelect("partner_body[]",BODY_CLASS, old ('partner_body', $user->user_partner_body),2);
-		$partnerSpeakLang	= Helper::BlockSelect("partner_speak_lang[]",SPEAK_LANG_CLASS, old ('partner_speak_lang', $user->user_partner_speak_lang),2);
-		$partnerSpirt		= Helper::BlockSelect("partner_spirt[]",SPIRT_CLASS, old ('partner_spirt', $user->user_partner_spirt),2);
-		$partnerSmoke		= Helper::BlockSelect("partner_smoke[]",SMOKE_CLASS, old ('partner_smoke', $user->user_partner_smoke),2);
-		$partnerEducation	= Helper::BlockSelect("partner_education[]",EDUCATION_CLASS, old ('partner_education', $user->user_partner_education),2);
+		$user				= Auth::user();
+		$age				= $data->getAges();
+		$heights			= $formService->getHeights();
+		$weights			= $formService->getWeights();
+		$partnerBody		= $formService->BlockSelect("partner_body[]",BODY_CLASS, old ('partner_body', $user->user_partner_body),2);
+		$partnerSpeakLang	= $formService->BlockSelect("partner_speak_lang[]",SPEAK_LANG_CLASS, old ('partner_speak_lang', $user->user_partner_speak_lang),2);
+		$partnerSpirt		= $formService->BlockSelect("partner_spirt[]",SPIRT_CLASS, old ('partner_spirt', $user->user_partner_spirt),2);
+		$partnerSmoke		= $formService->BlockSelect("partner_smoke[]",SMOKE_CLASS, old ('partner_smoke', $user->user_partner_smoke),2);
+		$partnerEducation	= $formService->BlockSelect("partner_education[]",EDUCATION_CLASS, old ('partner_education', $user->user_partner_education),2);
 
 		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old ('country', $user->user_partner_country);
 		$regionId	= (int) old ('region', $user->user_partner_region);
-		$regions 	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: [];
-		$cities 	= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
+		$regions	= $countryId > 0	? $this->regionRepository->getByCountryId($countryId) 	: [];
+		$cities		= $regionId	> 0		? $this->cityRepository->getByRegionId($regionId) 		: [];
 
 		return response()->view ('registration.partner',
 		[
 			'userData'			=> $user,
 			'age'				=> $age,
-			'heights' 			=> $heights,
-			'weights' 			=> $weights,
+			'heights'			=> $heights,
+			'weights'			=> $weights,
 			'partnerBody'		=> $partnerBody,
 			'partnerSpeakLang'	=> $partnerSpeakLang,
 			'partnerSpirt'		=> $partnerSpirt,
@@ -370,7 +371,7 @@ class RegistrationController extends Controller
 	* @param  ProfileMainRequest $request
 	* @return void
 	*/
-	public function post (ProfileMainRequest $request)
+	public function post(ProfileMainRequest $request)
 	{
 		$user 						= Auth::user();
 		$this->userRepository->update($user, $request);
@@ -379,42 +380,13 @@ class RegistrationController extends Controller
 
 	/**
 	* Edit a full user profile
-	* @param  Request $request
+	* @param ProfileSecondRequest $request
 	* @return void
 	*/
-	public function secondPost (Request $request)
+	public function secondPost(ProfileSecondRequest $request)
 	{
 		$user 			= Auth::user();
-		$arParams 		= $request->post();
-
-		$user->user_sex_orient 		= $arParams['sex_orient'];
-		$user->user_sex_orient 		= $user->user_sex_orient < 1 || $user->user_sex_orient > 4 ? 2 : $user->user_sex_orient;
-		$user->user_target_meet 	= Helper::serializeInput($arParams['target_meet']);
-		$user->user_speak_lang 		= Helper::serializeInput($arParams['speak_lang']);
-		$user->user_body 			= (int)$arParams['body'];
-		$user->user_height 			= (int)$arParams['height'] < 150 	? 149 	: (int)$arParams['height'];
-		$user->user_weight 			= (int)$arParams['weight'] < 30 	? 29 	: (int)$arParams['weight'];
-		$user->user_hair_color		= (int)$arParams['hair_color'];
-		$user->user_hair_type		= (int)$arParams['hair_type'];
-		$user->user_eyes			= (int)$arParams['eyes'];
-		$user->user_education		= (int)$arParams['education'];
-		$user->user_smoke			= (int)$arParams['smoke'];
-		$user->user_spirt			= (int)$arParams['spirt'];
-		$user->user_sem_polozh		= (int)$arParams['family_status'];
-		$user->user_children		= (int)$arParams['children'];
-		$user->user_help_money		= (int)$arParams['help_money'];
-		$user->user_interests		= Helper::serializeInput($arParams['interest']);
-		$user->user_icq				= (int)$arParams['icq'];
-		$user->user_url				= addslashes($arParams['url']);
-		$user->user_phone			= addslashes($arParams['phone']);
-		$user->user_description		= addslashes($arParams['description']);
-		$user->user_refresh_date	= date("Y-m-d");
-		$user->user_refresh_date_t 	= time();
-		$user->user_session_time 	= time();
-		$user->user_lastvisit 		= time();
-		$user->user_odobreno		= !empty($user->user_description) ? 0 : $user->user_odobreno;
-		
-		$user->update();
+		$this->userRepository->secondUpdate($user, $request);
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
