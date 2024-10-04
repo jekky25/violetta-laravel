@@ -69,6 +69,21 @@ class User extends Authenticatable
 		'user_icq',
 		'user_url',
 		'user_phone',
+		'user_partner_age_min',
+		'user_partner_age_max',
+		'user_partner_height_min',
+		'user_partner_height_max',
+		'user_partner_weight_min',
+		'user_partner_weight_max',
+		'user_partner_body',
+		'user_partner_speak_lang',
+		'user_partner_spirt',
+		'user_partner_smoke',
+		'user_partner_education',
+		'user_partner_country',
+		'user_partner_region',
+		'user_partner_city',
+		'user_session_time'
 	];
 
 	/**

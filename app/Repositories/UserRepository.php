@@ -427,6 +427,41 @@ class UserRepository implements UserInterface {
 		}
 	}
 
+		/**
+	* update an user from the partner edit page
+	* @param  ProfilePartnerRequest $request
+	* @return void
+	*/	
+	public function partnerUpdate($user, $request)
+	{
+		try {
+			User::find($user->user_id)->update([
+				'user_partner_age_min'			=> $request->user_partner_age_min,
+				'user_partner_age_max'			=> $request->user_partner_age_max,
+				'user_partner_height_min'		=> $request->user_partner_height_min,
+				'user_partner_height_max'		=> $request->user_partner_height_max,
+				'user_partner_weight_min'		=> $request->user_partner_weight_min,
+				'user_partner_weight_max'		=> $request->user_partner_weight_max,
+				'user_partner_body'				=> $request->user_partner_body,
+				'user_partner_speak_lang'		=> $request->user_partner_speak_lang,
+				'user_partner_spirt'			=> $request->user_partner_spirt,
+				'user_partner_smoke'			=> $request->user_partner_smoke,
+				'user_partner_education'		=> $request->user_partner_education,
+				'user_partner_country'			=> $request->user_partner_country,
+				'user_partner_region'			=> $request->user_partner_region,
+				'user_partner_city'				=> $request->user_partner_city,
+				'user_partner_description'		=> $request->user_partner_description,
+				'user_refresh_date'		=> $request->user_refresh_date,
+				'user_refresh_date_t'	=> $request->user_refresh_date_t,
+				'user_session_time'		=> $request->user_session_time,
+				'user_lastvisit'		=> $request->user_lastvisit,
+				'user_odobreno'			=> $request->user_odobreno,
+			]);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to update User. '.$e->getMessage());
+		}
+	}
+
 	/**
 	* get profiles on the search page
 	* @param SearchRequest $request
