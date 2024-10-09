@@ -78,7 +78,7 @@ class ProfileMainRequest extends FormRequest
 		$region						= !empty($arParams['region']) 	? (int)$arParams['region'] 	: 0;
 		$country					= !empty($arParams['country']) 	? (int)$arParams['country'] : 0;
 		return [
-			'name'					=> ['string',
+			'user_name'					=> ['string',
 										'required', 
 										'max:30', 
 										'min:2',	

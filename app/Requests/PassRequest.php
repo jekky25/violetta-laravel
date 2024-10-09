@@ -40,6 +40,21 @@ class PassRequest extends FormRequest
 	}
 
 	/**
+	* Prepare params for validation
+	*
+	* @return void
+	*/
+	protected function prepareForValidation()
+    {
+        $this->merge([
+			'user_password'			=> $this->pass,
+			'user_hash'				=> md5($this->pass),
+			'user_session_time'		=> time(),
+			'user_lastvisit'		=> time()
+        ]);
+    }
+
+	/**
 	* Get the validation rules that apply to the request.
 	*
 	* @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -48,8 +63,12 @@ class PassRequest extends FormRequest
 	{
 		$arParams = $this->post();
 		return [
-			'pass_old'	=> ['required', new PassNotCorrect],
-			'pass'		=> ['required', 'max:15', 'min:5', new PassNotMatch((string)$arParams['pass'], (string)$arParams['pass_confirm'])],
+			'pass_old'					=> ['required', new PassNotCorrect],
+			'pass'						=> ['required', 'max:15', 'min:5', new PassNotMatch((string)$arParams['pass'], (string)$arParams['pass_confirm'])],
+			'user_password'				=> ['string'],
+			'user_hash'					=> ['string'],
+			'user_session_time'			=> ['integer'],
+			'user_lastvisit'			=> ['integer']
 		];
 	}
 }

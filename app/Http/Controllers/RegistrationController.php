@@ -226,15 +226,10 @@ class RegistrationController extends Controller
 	* @param  PassRequest $request
 	* @return void
 	*/
-	public function passPost (PassRequest $request)
+	public function passPost(PassRequest $request)
 	{
 		$user 			= Auth::user();
-		$arParams 		= $request->post();
-		$user->user_password 		= $arParams['pass'];
-		$user->user_hash 			= md5($arParams['pass']);
-		$user->user_session_time	= time();
-		$user->user_lastvisit 		= time();
-		$user->update();
+		$this->userRepository->passUpdate($user, $request->validated());
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
@@ -361,7 +356,7 @@ class RegistrationController extends Controller
 	public function post(ProfileMainRequest $request)
 	{
 		$user 						= Auth::user();
-		$this->userRepository->update($user, $request);
+		$this->userRepository->update($user, $request->validated());
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
@@ -373,7 +368,7 @@ class RegistrationController extends Controller
 	public function secondPost(ProfileSecondRequest $request)
 	{
 		$user 			= Auth::user();
-		$this->userRepository->secondUpdate($user, $request);
+		$this->userRepository->secondUpdate($user, $request->validated());
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
@@ -385,7 +380,7 @@ class RegistrationController extends Controller
 	public function partnerPost (ProfilePartnerRequest $request)
 	{
 		$user 			= Auth::user();
-		$this->userRepository->partnerUpdate($user, $request);
+		$this->userRepository->partnerUpdate($user, $request->validated());
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 

@@ -38,7 +38,7 @@ class ProfilePartnerRequest extends FormRequest
 		];
 	}
 
-		/**
+	/**
 	* Prepare params for validation
 	*
 	* @return void
@@ -92,8 +92,8 @@ class ProfilePartnerRequest extends FormRequest
 					new WeightValid($weightMin, $weightMax),
 					new HeightValid($heightMin, $heightMax)
 				],
-				'user_partner_age_min' => ['integer'],
-				'user_partner_age_max' => ['integer'],
+				'user_partner_age_min'		 => ['integer'],
+				'user_partner_age_max'		=> ['integer'],
 				'user_partner_height_min'	=> ['integer'],
 				'user_partner_height_max'	=> ['integer'],
 				'user_partner_weight_min' 	=> ['integer'],
@@ -112,11 +112,11 @@ class ProfilePartnerRequest extends FormRequest
 				'user_partner_region'	 	=> ['integer'],
 				'user_partner_city'	 		=> ['integer'],
 				'user_partner_description'	=> ['string'],
-				'user_refresh_date'		=> ['string'],
-				'user_refresh_date_t'	=> ['integer'],
-				'user_session_time'		=> ['integer'],
-				'user_lastvisit'		=> ['integer'],
-				'user_odobreno'			=> ['integer']
+				'user_refresh_date'			=> ['string'],
+				'user_refresh_date_t'		=> ['integer'],
+				'user_session_time'			=> ['integer'],
+				'user_lastvisit'			=> ['integer'],
+				'user_odobreno'				=> ['integer']
 		];
 	}
 }

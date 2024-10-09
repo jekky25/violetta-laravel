@@ -46,7 +46,7 @@ class ProfileSecondRequest extends FormRequest
 			'user_children'			=> $this->children,
 			'user_help_money'		=> $this->help_money,
 			'user_interests'		=> Helper::serializeInput($this->interest),
-			'user_icq'				=> $this->icq,
+			'user_icq'				=> (string)$this->icq,
 			'user_url'				=> addslashes($this->url),
 			'user_phone'			=> addslashes($this->phone),
 			'user_description'		=> addslashes($this->description),

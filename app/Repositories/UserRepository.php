@@ -368,23 +368,13 @@ class UserRepository implements UserInterface {
 
 	/**
 	* update an user
-	* @param  ProfileMainRequest $request
+	* @param array $params
 	* @return void
 	*/	
-	public function update($user, $request)
+	public function update($user, $params)
 	{
 		try {
-			User::find($user->user_id)->update([
-				'user_sex'				=> $request->user_sex,
-				'user_name' 			=> $request->user_name,
-				'user_birth_date' 		=> $request->user_birth_date,
-				'user_country' 			=> $request->user_country,
-				'user_region' 			=> $request->user_region,
-				'user_city' 			=> $request->user_city,
-				'user_refresh_date' 	=> $request->user_refresh_date,
-				'user_refresh_date_t' 	=> $request->user_refresh_date_t,
-				'user_session_time' 	=> $request->user_session_time
-			]);
+			User::find($user->user_id)->update($params);
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to update User. '.$e->getMessage());
 		}
@@ -392,39 +382,13 @@ class UserRepository implements UserInterface {
 
 	/**
 	* update an user from the second edit page
-	* @param  ProfileSecondRequest $request
+	* @param  array $params
 	* @return void
 	*/	
-	public function secondUpdate($user, $request)
+	public function secondUpdate($user, $params)
 	{
 		try {
-			User::find($user->user_id)->update([
-				'user_sex_orient'		=> $request->user_sex_orient,
-				'user_target_meet'		=> $request->user_target_meet,
-				'user_speak_lang'		=> $request->user_speak_lang,
-				'user_body'				=> $request->user_body,
-				'user_height'			=> $request->user_height,
-				'user_weight'			=> $request->user_weight,
-				'user_hair_color'		=> $request->user_hair_color,
-				'user_hair_type'		=> $request->user_hair_type,
-				'user_eyes'				=> $request->user_eyes,
-				'user_education'		=> $request->user_education,
-				'user_smoke'			=> $request->user_smoke,
-				'user_spirt'			=> $request->user_spirt,
-				'user_sem_polozh'		=> $request->user_sem_polozh,
-				'user_children'			=> $request->user_children,
-				'user_help_money'		=> $request->user_help_money,
-				'user_interests'		=> $request->user_interests,
-				'user_icq'				=> $request->user_icq,
-				'user_url'				=> $request->user_url,
-				'user_phone'			=> $request->user_phone,
-				'user_description'		=> $request->user_description,
-				'user_refresh_date'		=> $request->user_refresh_date,
-				'user_refresh_date_t'	=> $request->user_refresh_date_t,
-				'user_session_time'		=> $request->user_session_time,
-				'user_lastvisit'		=> $request->user_lastvisit,
-				'user_odobreno'			=> $request->user_odobreno,
-			]);
+			User::find($user->user_id)->update($params);
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to update User. '.$e->getMessage());
 		}
@@ -432,34 +396,27 @@ class UserRepository implements UserInterface {
 
 	/**
 	* update an user from the partner edit page
-	* @param  ProfilePartnerRequest $request
+	* @param  array $params
 	* @return void
 	*/	
-	public function partnerUpdate($user, $request)
+	public function partnerUpdate($user, $params)
 	{
 		try {
-			User::find($user->user_id)->update([
-				'user_partner_age_min'			=> $request->user_partner_age_min,
-				'user_partner_age_max'			=> $request->user_partner_age_max,
-				'user_partner_height_min'		=> $request->user_partner_height_min,
-				'user_partner_height_max'		=> $request->user_partner_height_max,
-				'user_partner_weight_min'		=> $request->user_partner_weight_min,
-				'user_partner_weight_max'		=> $request->user_partner_weight_max,
-				'user_partner_body'				=> $request->user_partner_body,
-				'user_partner_speak_lang'		=> $request->user_partner_speak_lang,
-				'user_partner_spirt'			=> $request->user_partner_spirt,
-				'user_partner_smoke'			=> $request->user_partner_smoke,
-				'user_partner_education'		=> $request->user_partner_education,
-				'user_partner_country'			=> $request->user_partner_country,
-				'user_partner_region'			=> $request->user_partner_region,
-				'user_partner_city'				=> $request->user_partner_city,
-				'user_partner_description'		=> $request->user_partner_description,
-				'user_refresh_date'		=> $request->user_refresh_date,
-				'user_refresh_date_t'	=> $request->user_refresh_date_t,
-				'user_session_time'		=> $request->user_session_time,
-				'user_lastvisit'		=> $request->user_lastvisit,
-				'user_odobreno'			=> $request->user_odobreno,
-			]);
+			User::find($user->user_id)->update($params);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to update User. '.$e->getMessage());
+		}
+	}
+
+	/**
+	* update an user
+	* @param  array $params
+	* @return void
+	*/	
+	public function passUpdate($user, $params)
+	{
+		try {
+			User::find($user->user_id)->update($params);
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to update User. '.$e->getMessage());
 		}
