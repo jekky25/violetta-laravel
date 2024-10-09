@@ -4,6 +4,7 @@ namespace App\Repositories;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 Use App\Interfaces\UserInterface;
+use App\Interfaces\AnketVisitInterface;
 use App\Services\LengthPager;
 use App\Models\User;
 use App\Traits\SearchByParams;
@@ -12,6 +13,8 @@ class UserRepository implements UserInterface {
 	use SearchByParams;
 	private $id;
 	private $ankets;
+	public AnketVisitInterface $anketVisitRepository;
+
 	/**
 	* get select from model
 	* @param  string|array $param
@@ -427,7 +430,7 @@ class UserRepository implements UserInterface {
 		}
 	}
 
-		/**
+	/**
 	* update an user from the partner edit page
 	* @param  ProfilePartnerRequest $request
 	* @return void
@@ -491,5 +494,22 @@ class UserRepository implements UserInterface {
 		$this->ankets->appends(request()->query());
 		$this->ankets = self::addProps($this->ankets);
 		return $this->ankets;
+	}
+
+	/**
+	* destroy user profile
+	* @param  User $user
+	* @return void
+	*/	
+	public function destroy($user)
+	{
+		try {
+			(new PhotoRepository)->destroyAllByUser($user);
+			$this->anketVisitRepository = new AnketVisitRepository();
+			$this->anketVisitRepository->destroyAllByUserId($user->user_id);
+			$user->delete();
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to remove User. '.$e->getMessage());
+		}
 	}
 }

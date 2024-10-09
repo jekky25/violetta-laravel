@@ -82,7 +82,7 @@ class RegistrationController extends Controller
 		$regions	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: [];
 		$cities		= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
 
-		return response()->view ('registration.edit',
+		return response()->view('registration.edit',
 		[
 			'userData'		=> $user,
 			'days'			=> $days,
@@ -118,7 +118,7 @@ class RegistrationController extends Controller
 		$helpMoney		= $formService->BlockSelect("help_money",HELP_MONEY_CLASS,$user->user_help_money,2);
 		$interest		= $formService->BlockSelect("interest",INTEREST_CLASS,$user->interests,2);
 
-		return response()->view ('registration.second',
+		return response()->view('registration.second',
 		[
 			'userData'		=> $user,
 			'sexOrient'		=> $sexOrient,
@@ -162,7 +162,7 @@ class RegistrationController extends Controller
 		$regions	= $countryId > 0	? $this->regionRepository->getByCountryId($countryId) 	: [];
 		$cities		= $regionId	> 0		? $this->cityRepository->getByRegionId($regionId) 		: [];
 
-		return response()->view ('registration.partner',
+		return response()->view('registration.partner',
 		[
 			'userData'			=> $user,
 			'age'				=> $age,
@@ -183,10 +183,10 @@ class RegistrationController extends Controller
 	* Show an edit page with the user pictures
 	* @return \Illuminate\Http\Response
 	*/
-	public function photo ()
+	public function photo()
 	{
 		$user = $this->userRepository->getJustById(Auth::id(), ['photo']);
-		return response()->view ('registration.photo',
+		return response()->view('registration.photo',
 		[
 			'photos' => $user->photo
 		]);
@@ -196,41 +196,28 @@ class RegistrationController extends Controller
 	* Show a change password page
 	* @return \Illuminate\Http\Response
 	*/
-	public function pass ()
+	public function pass()
 	{
-		return response()->view ('registration.pass');
+		return response()->view('registration.pass');
 	}
 
 	/**
 	* Show a delete profile page
 	* @return \Illuminate\Http\Response
 	*/
-	public function delete ()
+	public function destroy()
 	{
-		return response()->view ('registration.delete');
+		return response()->view('registration.delete');
 	}
 
 	/**
 	* Delete profile
 	* @return void
 	*/
-	public function deleteConfirm ()
+	public function destroyConfirm()
 	{
 		$user = Auth::user();
-		if (count ($user->photo) > 0)
-		{
-			foreach ($user->photo as $item) {
-				helper::delPhoto ($item);
-			}
-		}
-
-		$visits = $this->anketVisitRepository->setFields(['ank_user_id' => $user->user_id])->getByFields ();
-		foreach ($visits as $item)
-		{
-			$item->delete();
-		}
-		$user->delete();
-
+		$this->userRepository->destroy($user);
 		return redirect()->route('registration.delete')->with('success','Ваша анкета удалена. Но мы надеемся, что Вы еще вернетесь.');
 	}
 

@@ -133,6 +133,20 @@ class AnketVisitRepository implements AnketVisitInterface {
 	}
 
 	/**
+	* remove all visits for the user from the model
+	* @param  int $userId
+	* @return void
+	*/
+	public function destroyAllByUserId($userId)
+	{
+		$visits = $this->setFields(['ank_user_id' => $userId])->getByFields();
+		foreach ($visits as $item)
+		{
+			$item->delete();
+		}
+	}
+
+	/**
 	* insert user visite
 	* @param  int  $id
 	* @return void 

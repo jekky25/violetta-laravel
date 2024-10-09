@@ -34,8 +34,8 @@ Route::middleware('slashes')->group(function () {
 	Route::match(['get', 'post'], 'registration/edit/photo/delete/{id}.html', 'RegistrationController@deletePhoto')		->whereNumber('id')		->name('registration.edit.photo.delete')	->middleWare('auth');
 	Route::get('registration/edit/pass/', 'RegistrationController@pass')																		->name('registration.edit.password')		->middleWare('auth');
 	Route::post('registration/edit/pass/', 'RegistrationController@passPost')																	->name('registration.edit.password.post')	->middleWare('auth');
-	Route::get('registration/delete/', 'RegistrationController@delete')																			->name('registration.delete')				->middleWare('auth');
-	Route::get('registration/delete/confirm/', 'RegistrationController@deleteConfirm')															->name('registration.delete.confirm')		->middleWare('auth');
+	Route::get('registration/delete/', 'RegistrationController@destroy')																		->name('registration.delete');
+	Route::get('registration/delete/confirm/', 'RegistrationController@destroyConfirm')															->name('registration.delete.confirm')		->middleWare('auth');
 	Route::get('registration/views/', 'AnketController@getViews')																				->name('registration.views')				->middleWare('auth');
 	Route::get('registration/', 'RegistrationController@registration')																			->name('registration');
 	Route::post('registration/', 'RegistrationController@registrationPost')																		->name('registration.post');

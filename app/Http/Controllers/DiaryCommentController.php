@@ -33,7 +33,7 @@ class DiaryCommentController extends Controller
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/	
-	public function index ($id)
+	public function index($id)
 	{
 		$comments 	= $this->diaryCommentRepository->getByDiary (self::$diaryCommentsPerPage, $id);
 		$diary 		= $this->diaryRepository->getById ($id);
@@ -51,7 +51,7 @@ class DiaryCommentController extends Controller
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/	
-	public function store (DiaryCommentRequest $request, $id)
+	public function store(DiaryCommentRequest $request, $id)
 	{
 		$user 			= Auth::user();
 		$this->diaryCommentRepository->store($request->validated(id: $id, user_id: $user->user_id));
@@ -65,7 +65,7 @@ class DiaryCommentController extends Controller
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function edit ($id)
+	public function edit($id)
 	{
 		$user						= Auth::user();
 		$comment					= $this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
@@ -82,7 +82,7 @@ class DiaryCommentController extends Controller
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/	
-	public function update (DiaryCommentRequest $request, $id)
+	public function update(DiaryCommentRequest $request, $id)
 	{
 		$user						= Auth::user();
 		$comment					= $this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
@@ -98,7 +98,7 @@ class DiaryCommentController extends Controller
 	* @param  int $id
 	* @return void
 	*/	
-	public function destroy ($id)
+	public function destroy($id)
 	{
 		$user			= Auth::user();
 		$this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
@@ -114,7 +114,7 @@ class DiaryCommentController extends Controller
 	* @param  int $id
 	* @return void
 	*/	
-	public function destroyAction (DiaryCommentRequest $request, $id)
+	public function destroyAction(DiaryCommentRequest $request, $id)
 	{
 		$user			= Auth::user();
 		$comment		= $this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
@@ -122,7 +122,7 @@ class DiaryCommentController extends Controller
 		if ( !empty($arParams['cancel']) ) return redirect()->route ('ank.diary.comments', $comment->comment_dnevnik_id);
 		if ( !empty($arParams['confirm']) ) {
 			$this->diaryCommentRepository->delete($comment);
-			return redirect()->route ('ank.diary.comments', $comment->comment_dnevnik_id);
+			return redirect()->route('ank.diary.comments', $comment->comment_dnevnik_id);
 		}
 	}
 
@@ -131,7 +131,7 @@ class DiaryCommentController extends Controller
 	* @param  int $id
 	* @return void
 	*/
-	public function destroyPhoto ($id)
+	public function destroyPhoto($id)
 	{
 		$user			= Auth::user();
 		$this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
@@ -148,7 +148,7 @@ class DiaryCommentController extends Controller
 	* @return void
 	*/
 	
-	public function destroyPhotoAction (Request $request, $id)
+	public function destroyPhotoAction(Request $request, $id)
 	{
 		$user			= Auth::user();
 		$comment 		= $this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
@@ -160,7 +160,7 @@ class DiaryCommentController extends Controller
 			$request->title				= $comment->comment_title;
 			$request->description		= $comment->comment_text;
 			$this->diaryCommentRepository->update($comment, $request);
-			return redirect()->route ('ank.diary.comment.edit.id', $id);
+			return redirect()->route('ank.diary.comment.edit.id', $id);
 		}
 	}
 }

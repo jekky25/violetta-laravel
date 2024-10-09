@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Interfaces\PhotoInterface;
 use App\Models\Photo;
+use App\Models\User;
+use App\Helpers\Helper;
 
 class PhotoRepository implements PhotoInterface {
 	private $id;
@@ -12,7 +14,7 @@ class PhotoRepository implements PhotoInterface {
 	* get id
 	* @return integer;
 	*/
-	public function getId ()
+	public function getId()
 	{
 		return ($this->id > 0 ? $this->id : 0);
 	}
@@ -21,7 +23,7 @@ class PhotoRepository implements PhotoInterface {
 	* get count all user pictures
 	* @return int
 	*/
-	public function getCountPhotos ()
+	public function getCountPhotos()
 	{
 		$count = Photo::select('fotos_id')->count();
 		return $count > 0 ? $count : 0;
@@ -78,5 +80,28 @@ class PhotoRepository implements PhotoInterface {
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to create a Photo '.$e->getMessage());
 		}
+	}
+
+	/**
+	* destroy all pictures by userId
+	* @param  User $user
+	* @return void
+	*/
+	public function destroyAllByUser(User $user)
+	{
+		if (count($user->photo) == 0) return false;
+		foreach ($user->photo as $item) {
+			$this->destroyPhoto($item);
+		}
+	}
+
+	/**
+	* destroy a picture from the model
+	* @param  Photo $photo
+	* @return void
+	*/
+	public function destroyPhoto(Photo $photo)
+	{
+		helper::delPhoto($photo);
 	}
 }
