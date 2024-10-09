@@ -43,6 +43,21 @@ class PhotoRepository implements PhotoInterface {
 	}
 
 	/**
+	* get pucture by id and user_id
+	* @param  int $id
+	* @param  int $userId
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getByIdAndUserId($id, $userId)
+	{
+		$item = Photo::select('*')
+		->where ('fotos_id', $id)
+		->where ('user_id', $userId)
+		->firstOrFail();
+		return $item;
+	}
+
+	/**
 	* get the first pucture by userId
 	* @param  int $id
 	* @return \Illuminate\Database\Eloquent\Collection

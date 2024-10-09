@@ -238,22 +238,10 @@ class RegistrationController extends Controller
 	* @param int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function editPhoto ($id)
+	public function editPhoto($id)
 	{
-		$user 	= $this->userRepository->getJustById(Auth::id(), ['photo']);
-		$photo 	= [];
-		if (count($user->photo))
-		{
-			foreach ($user->photo as $item)
-			{
-				if ($item->fotos_id == $id && $item->user_id == $user->user_id)
-				{
-					$photo = $item;
-					break;
-				}
-			}
-		}
-
+		$user 			= Auth::user();
+		$photo = $this->photoRepository->getByIdAndUserId($id, $user->user_id);
 		return response()->view ('registration.photo_edit',
 		[
 			'photo' => $photo
