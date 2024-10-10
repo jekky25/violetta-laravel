@@ -401,32 +401,19 @@ class RegistrationController extends Controller
 	* update top100
 	* @return void
 	*/
-	public function top100Post ()
+	public function top100Post(FormatService $format)
 	{
 		$user 			= Auth::user();
 		if (count ($user->photo) == 0)
 		{
-			$textTop100 = '<p style="color:#f00">Вы не можете попасть в ТОП, т.к. не выполнено одно из условий</p>
-						<p>Чтобы стать участником ТОПа нашего сайта, Вам необходимо выполнить <strong>всего 3 условия:</strong></p>
-						<p>1. Иметь регистрацию на нашем сайте;</p>
-						<p style="color:#f00">2. У вас должна быть загружена хотя бы одна фотография;</p>
-						<p>3. Вам необходимо подтвердить желание участвовать в ТОПе.</p>
-						<p><strong>Перейти в раздел <a class="name" href="' . route ('registration.edit.photo') . '">Мои фото</a></strong></p>
-						<p><br></p>';
-			$formToTop = '<form name="anketa" action="' . route ('registration.top100.post') . '" method="post">' .
-						csrf_field() . '
-						<input type="submit" name="otsil" value="Попасть в ТОП" /></form>';
-
 			return redirect()->route('registration.top100')->with(
 				[
-						'textTop100'	=> !empty ($textTop100) ? $textTop100 		: '',
-						'formToTop'		=> !empty ($formToTop)	? $formToTop		: ''
+						'textTop100'	=> $format->getTextTop100Update(),
+						'formToTop'		=> $format->getFormToTopUpdate()
 				]
 			);
 		}
-
-		$user->user_top100			= time();
-		$user->update();
+		$this->userRepository->update($user, ['user_top100' => time()]);
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 

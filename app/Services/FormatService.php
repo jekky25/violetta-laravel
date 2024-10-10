@@ -193,6 +193,22 @@ class FormatService
 	}
 
 	/**
+	* get text for top100гзвфеу settings page
+	* @return string
+	*/
+	public function getTextTop100Update()
+	{
+		$text = '<p style="color:#f00">Вы не можете попасть в ТОП, т.к. не выполнено одно из условий</p>
+						<p>Чтобы стать участником ТОПа нашего сайта, Вам необходимо выполнить <strong>всего 3 условия:</strong></p>
+						<p>1. Иметь регистрацию на нашем сайте;</p>
+						<p style="color:#f00">2. У вас должна быть загружена хотя бы одна фотография;</p>
+						<p>3. Вам необходимо подтвердить желание участвовать в ТОПе.</p>
+						<p><strong>Перейти в раздел <a class="name" href="' . route ('registration.edit.photo') . '">Мои фото</a></strong></p>
+						<p><br></p>';
+		return session('textTop100') ?: $text;
+	}
+
+	/**
 	* get text for the form on the top100 settings page
 	* @return string
 	*/
@@ -204,6 +220,18 @@ class FormatService
 						<input type="submit" name="otsil" value="Поднять анкету" />
 						</center>
 					</form>';
+		return session('formToTop') ?: $formToTop;
+	}
+
+	/**
+	* get text for the form on the top100Update settings page
+	* @return string
+	*/
+	public function getFormToTopUpdate()
+	{
+		$formToTop 	= '<form name="anketa" action="' . route ('registration.top100.post') . '" method="post">' .
+						csrf_field() . '
+						<input type="submit" name="otsil" value="Попасть в ТОП" /></form>';
 		return session('formToTop') ?: $formToTop;
 	}
 }
