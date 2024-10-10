@@ -352,13 +352,11 @@ class RegistrationController extends Controller
 	* Show a user diary page
 	* @return \Illuminate\Http\Response
 	*/
-	public function diary ()
+	public function diary()
 	{
 		$user 			= Auth::user();
-		$userId			= $user->user_id;
-		$diaries 		= $this->diaryRepository->getByUser (self::$countPerPage, $userId);
-		$page			= $diaries->currentPage();
-		return response()->view ('registration.diary',
+		$diaries 		= $this->diaryRepository->getByUser(self::$countPerPage, $user->user_id);
+		return response()->view('registration.diary',
 		[
 			'diaries' 		=> $diaries
 		]);
