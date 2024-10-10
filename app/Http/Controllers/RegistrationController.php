@@ -254,41 +254,14 @@ class RegistrationController extends Controller
 	* @param int $id
 	* @return void
 	*/
-	public function editPhotoPost (PhotoRequest $request, $id)
+	public function editPhotoPost(PhotoRequest $request, $id)
 	{
-		$user 			= $this->userRepository->getJustById(Auth::id(), ['photo']);
-		$photo 			= $this->photoRepository->getById($id);
-		$photoId		= $id;
-		$arParams 		= $request->post();
-		$files 			= $request->file();
-		$arParams		= array_merge($arParams, $files);
-
-		if (empty ($photo) || $photo->user_id != $user->user_id)
-		{
-			$title 			= 'Информация';
-			$text			= 'Вы можете удалять только свои фотографии<br /><br />';
-			$text			.= '<a class="name" href="' . route ('registration.edit') . '">Перейти в Мой профиль</a><br /><br />';
-			$text			.= '<a class="name" href="' . route ('ank.id', $user->user_id) . '">Перейти в Мою анкету</a>';
-			Helper::outMessageDie($title, $text);
-		}
-
-		if (!empty($arParams['photo_link']))
-		{
-			$photo->fotos_t 	= time();
-			$photo->update();
-			$extension 								= $arParams['photo_link']->extension();
-			$arParams['photo_link']->nameForInsert 	= $photoId . '.' . $extension;
-			$picture = Helper::fotoUpload($arParams['photo_link'], 1000, 'fotos_new/');
-
-			$user->user_refresh_date 	= date("Y-m-d");
-			$user->user_refresh_date_t 	= time();
-			$user->user_session_time 	= time();
-			$user->user_lastvisit 		= time();
-			$user->update();
-			return redirect()->back()
-			->with('success','Фото успешно добавлено')
-			->withInput();
-		}
+		$user			= Auth::user();
+		$photo			= $this->photoRepository->getByIdAndUserId($id, $user->user_id);
+		$this->photoRepository->update($photo, $request->validated());
+		return redirect()->back()
+		->with('success','Фото успешно добавлено')
+		->withInput();
 	}
 
 	/**

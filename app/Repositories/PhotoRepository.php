@@ -6,9 +6,20 @@ use App\Interfaces\PhotoInterface;
 use App\Models\Photo;
 use App\Models\User;
 use App\Helpers\Helper;
+use App\Services\FileService;
 
 class PhotoRepository implements PhotoInterface {
 	private $id;
+	protected FileService $fileService;
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct()
+	{
+		$this->fileService = new FileService;
+	}
 
 	/**
 	* get id
@@ -94,6 +105,29 @@ class PhotoRepository implements PhotoInterface {
 			$this->id = $photo->getKey();
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to create a Photo '.$e->getMessage());
+		}
+	}
+
+	/**
+	* update a photo
+	* @param  array $params
+	* @return void
+	*/
+	public function update($photo, $params) {
+		try {
+			$photo->fotos_t = time();
+			$photo->update();
+			$params['photo_link']->nameForInsert = $photo->fotos_id . '.' . $params['photo_link']->extension();
+			$this->fileService->fotoUpload($params['photo_link'], 1000, 'fotos_new/');
+			User::find($photo->user_id)->update(
+				[
+					'user_refresh_date' 	=> date("Y-m-d"),
+					'user_refresh_date_t' 	=> time(),
+					'user_session_time' 	=> time(),
+					'user_lastvisit' 		=> time()
+				]);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to update a Photo '.$e->getMessage());
 		}
 	}
 

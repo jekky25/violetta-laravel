@@ -47,7 +47,7 @@ class DiaryController extends Controller
 	* @param  DiaryRequest  $request
 	* @return \Illuminate\Http\Response
 	*/
-	public function store (DiaryRequest $request)
+	public function store(DiaryRequest $request)
 	{
 		$user 			= Auth::user();
 		$this->diaryRepository->store($request->validated(user_id: $user->user_id));
@@ -61,7 +61,7 @@ class DiaryController extends Controller
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function show ($id)
+	public function show($id)
 	{
 		$anket 	= $this->userRepository->getById ($id);
 		if (empty ($anket->photo)) abort (404);
@@ -82,7 +82,7 @@ class DiaryController extends Controller
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function edit ($id)
+	public function edit($id)
 	{
 		$user			= Auth::user();
 		$diary			= $this->diaryRepository->getByUserAndId($id, $user->user_id);
@@ -101,7 +101,7 @@ class DiaryController extends Controller
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function update (DiaryRequest $request, $id)
+	public function update(DiaryRequest $request, $id)
 	{
 		$user			= Auth::user();
 		$diary			= $this->diaryRepository->getByUserAndId($id, $user->user_id);
@@ -116,7 +116,7 @@ class DiaryController extends Controller
 	* @param  int $id
 	* @return void
 	*/
-	public function destroy ($id)
+	public function destroy($id)
 	{
 		$user			= Auth::user();
 		$this->diaryRepository->getByUserAndId($id, $user->user_id);
@@ -132,7 +132,7 @@ class DiaryController extends Controller
 	* @param  int $id
 	* @return void
 	*/
-	public function destroyAction (DiaryRequest $request, $id)
+	public function destroyAction(DiaryRequest $request, $id)
 	{
 		$user			= Auth::user();
 		$diary			= $this->diaryRepository->getByUserAndId($id, $user->user_id);
@@ -149,7 +149,7 @@ class DiaryController extends Controller
 	* @param  int $id
 	* @return void
 	*/
-	public function destroyPhoto ($id)
+	public function destroyPhoto($id)
 	{
 		$user			= Auth::user();
 		$this->diaryRepository->getByUserAndId($id, $user->user_id);
@@ -165,7 +165,7 @@ class DiaryController extends Controller
 	* @param  int $id
 	* @return void
 	*/
-	public function destroyPhotoAction (Request $request, $id)
+	public function destroyPhotoAction(Request $request, $id)
 	{
 		$user			= Auth::user();
 		$diary			= $this->diaryRepository->getByUserAndId($id, $user->user_id);
