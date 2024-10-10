@@ -388,31 +388,12 @@ class RegistrationController extends Controller
 	* Show a top100 page
 	* @return \Illuminate\Http\Response
 	*/
-	public function top100 ()
+	public function top100(FormatService $format)
 	{
-		$user 			= Auth::user();
-		
-		$textTop100 = '<p>Чтобы поднять анкету в ТОПе нашего сайта, Вам необходимо выполнить <strong>всего 3 условия:</strong></p>
-					<p>1. Иметь регистрацию на нашем сайте;</p>
-					<p>2. У вас должна быть загружена хотя бы одна фотография;</p>
-					<p>3. Вам необходимо подтвердить желание участвовать в ТОПе.</p>
-					<p><br /></p>';
-
-		$formToTop 	= '<form name="anketa" action="' . route ('registration.top100.post') . '" method="post">' . 
-						csrf_field() . '
-						<center>
-						<input type="submit" name="otsil" value="Поднять анкету" />
-						</center>
-					</form>';
-
-		$textTop100	= session('textTop100') ?: $textTop100;
-		$formToTop	= session('formToTop') 	?: $formToTop;
-
-
 		return response()->view ('registration.top100',
 		[
-			'textTop100'	=> !empty ($textTop100) ? $textTop100 	: '',
-			'formToTop'		=> !empty ($formToTop)	? $formToTop	: ''
+			'textTop100'	=> $format->getTextTop100(),
+			'formToTop'		=> $format->getFormToTop()
 		]);
 	}
 

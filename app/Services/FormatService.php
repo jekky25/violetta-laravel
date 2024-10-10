@@ -162,6 +162,12 @@ class FormatService
 		return $str;
 	}
 
+	/**
+	* preparation properties frome array
+	* @param array $prop
+	* @param array $arr
+	* @return array
+	*/
 	public function preparePropfromArray($prop, $ar)
 	{
 		if (!is_array($prop)) return [];
@@ -170,5 +176,34 @@ class FormatService
 			if (in_array($k, $prop)) $arOut[$v]['selected'] = 1;
 		}
 		return !empty($arOut) ? $arOut : [];
+	}
+
+	/**
+	* get text for top100 settings page
+	* @return string
+	*/
+	public function getTextTop100()
+	{
+		$text = '<p>Чтобы поднять анкету в ТОПе нашего сайта, Вам необходимо выполнить <strong>всего 3 условия:</strong></p>
+		<p>1. Иметь регистрацию на нашем сайте;</p>
+		<p>2. У вас должна быть загружена хотя бы одна фотография;</p>
+		<p>3. Вам необходимо подтвердить желание участвовать в ТОПе.</p>
+		<p><br /></p>';
+		return session('textTop100') ?: $text;
+	}
+
+	/**
+	* get text for the form on the top100 settings page
+	* @return string
+	*/
+	public function getFormToTop()
+	{
+		$formToTop 	= '<form name="anketa" action="' . route ('registration.top100.post') . '" method="post">' . 
+						csrf_field() . '
+						<center>
+						<input type="submit" name="otsil" value="Поднять анкету" />
+						</center>
+					</form>';
+		return session('formToTop') ?: $formToTop;
 	}
 }
