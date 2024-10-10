@@ -21,6 +21,7 @@ use App\Requests\ProfileSecondRequest;
 use App\Requests\ProfilePartnerRequest;
 use App\Requests\ForgetPasswordRequest;
 use App\Requests\RegistrationRequest;
+use App\Requests\SettingRequest;
 use App\Helpers\Helper;
 use App\Services\DataService;
 use App\Services\FormatService;
@@ -366,27 +367,20 @@ class RegistrationController extends Controller
 	* Show a setting page
 	* @return \Illuminate\Http\Response
 	*/
-	public function settings ()
+	public function settings()
 	{
-		return response()->view ('registration.settings');
+		return response()->view('registration.settings');
 	}
 
 	/**
 	* Update user settings
-	* @param Request $request
+	* @param SettingRequest $request
 	* @return void
 	*/
-	public function settingsPost (Request $request)
+	public function settingsPost(SettingRequest $request)
 	{
 		$user 			= Auth::user();
-		$arParams 		= $request->post();
-
-		$user->dont_send_email		= !empty ($arParams['dont_send_email']) ? (int) $arParams['dont_send_email'] : 0;
-		$user->user_refresh_date	= date("Y-m-d");
-		$user->user_refresh_date_t	= time();
-		$user->user_session_time	= time();
-		$user->user_lastvisit		= time();		
-		$user->update();
+		$this->userRepository->settingUpdate($user, $request->validated());
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 

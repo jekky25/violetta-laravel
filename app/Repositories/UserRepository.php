@@ -423,6 +423,20 @@ class UserRepository implements UserInterface {
 	}
 
 	/**
+	* update an user from setting page
+	* @param  array $params
+	* @return void
+	*/	
+	public function settingUpdate($user, $params)
+	{
+		try {
+			User::find($user->user_id)->update($params);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to update User. '.$e->getMessage());
+		}
+	}
+
+	/**
 	* get profiles on the search page
 	* @param SearchRequest $request
 	* @param array $params
