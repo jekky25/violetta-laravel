@@ -31,7 +31,8 @@ Route::middleware('slashes')->group(function () {
 	Route::post('registration/edit/photo/', 'RegistrationController@photoStore')																->name('registration.edit.photo.post')		->middleWare('auth');
 	Route::get('registration/edit/photo/edit/{id}.html', 'RegistrationController@editPhoto')							->whereNumber('id')		->name('registration.edit.photo.edit')		->middleWare('auth');
 	Route::put('registration/edit/photo/edit/{id}.html', 'RegistrationController@editPhotoUpdate')						->whereNumber('id')		->name('registration.edit.photo.edit.post')	->middleWare('auth');
-	Route::match(['get', 'post'], 'registration/edit/photo/delete/{id}.html', 'RegistrationController@deletePhoto')		->whereNumber('id')		->name('registration.edit.photo.delete')	->middleWare('auth');
+	Route::get('registration/edit/photo/delete/{id}.html', 'RegistrationController@destroyPhoto')						->whereNumber('id')		->name('registration.edit.photo.delete')	->middleWare('auth');
+	Route::delete('registration/edit/photo/delete/{id}.html', 'RegistrationController@destroyPhotoAction')				->whereNumber('id')		->name('registration.edit.photo.delete.action')->middleWare('auth');
 	Route::get('registration/edit/pass/', 'RegistrationController@pass')																		->name('registration.edit.password')		->middleWare('auth');
 	Route::post('registration/edit/pass/', 'RegistrationController@passPost')																	->name('registration.edit.password.post')	->middleWare('auth');
 	Route::get('registration/delete/', 'RegistrationController@destroy')																		->name('registration.delete');

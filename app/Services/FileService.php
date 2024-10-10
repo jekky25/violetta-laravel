@@ -72,7 +72,7 @@ class FileService
 	 *
 	 * @return array
 	*/
-	public function resize ($file, $width = 0, $destination_file = null)
+	public function resize($file, $width = 0, $destination_file = null)
 	{
 		$width = (int) $width;
 
@@ -180,7 +180,7 @@ class FileService
 	 *
 	 * @return bool
 	*/
-	public function remove ($fileName)
+	public function remove($fileName)
 	{
 		if (!empty($fileName) && file_exists($fileName))
 		{

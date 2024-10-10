@@ -24,6 +24,7 @@ use App\Requests\RegistrationRequest;
 use App\Helpers\Helper;
 use App\Services\DataService;
 use App\Services\FormatService;
+use App\Services\MessageService;
 use App\Mail\Email;
 
 class RegistrationController extends Controller
@@ -61,7 +62,8 @@ class RegistrationController extends Controller
 		protected DiaryInterface $diaryRepository,
 		protected PhotoInterface $photoRepository,
 		protected UserInterface $userRepository,
-		protected AnketVisitInterface $anketVisitRepository
+		protected AnketVisitInterface $anketVisitRepository,
+		protected MessageService $messageService
 	)
 	{
 	}
@@ -307,7 +309,7 @@ class RegistrationController extends Controller
 	* @param  ProfilePartnerRequest $request
 	* @return void
 	*/
-	public function partnerPost (ProfilePartnerRequest $request)
+	public function partnerPost(ProfilePartnerRequest $request)
 	{
 		$user 			= Auth::user();
 		$this->userRepository->partnerUpdate($user, $request->validated());
@@ -316,65 +318,34 @@ class RegistrationController extends Controller
 
 	/**
 	* Delete an user picture
+	* @param int $id
+	* @return void
+	*/
+	public function destroyPhoto($id)
+	{
+		$title			= 'Информация';
+		$text			= 'Вы уверены, что хотите удалить это фото<br /><br />';
+		$confirmAction	= route ('registration.edit.photo.delete', $id);
+		$this->messageService->outMessageInfo($title, $text, $confirmAction, method_field('DELETE'));
+	}
+
+		/**
+	* Delete an user picture
 	* @param  PhotoRequest $request
 	* @param int $id
 	* @return void
 	*/
-	public function deletePhoto(PhotoRequest $request, $id)
+	public function destroyPhotoAction(PhotoRequest $request, $id)
 	{
 		$user 			= Auth::user();
+		$photo			= $this->photoRepository->getByIdAndUserId($id, $user->user_id);
 		$arParams 		= $request->post();
-
-		if ( !empty($arParams['cancel']) ) 
-		{
-			return redirect()->route ('registration.edit.photo');
-		}
-
+		if ( !empty($arParams['cancel']) ) return redirect()->route ('registration.edit.photo');
 		if ( !empty($arParams['confirm']) ) 
 		{
-			$photo = $this->photoRepository->getById($id);
-			if (empty ($photo) || $photo->user_id != $user->user_id)
-			{
-				$title 			= 'Информация';
-				$text			= 'Вы можете удалять только свои фотографии<br /><br />';
-				$text			.= '<a class="name" href="' . route ('registration.edit') . '">Перейти в Мой профиль</a><br /><br />';
-				$text			.= '<a class="name" href="' . route ('ank.id', $user->user_id) . '">Перейти в Мою анкету</a>';
-				Helper::outMessageDie($title, $text);
-			}
-
-			if (file_exists("fotos_new/".$id.".jpg")) {
-				if(unlink("fotos_new/".$id.".jpg")) {}
-			}
-
-			$isPortret = $photo->fotos_portret == 1 ? 1 : 0;
-
-			$photo->delete();
-
-			if ($isPortret)
-			{
-				$photo = $this->photoRepository->getFirstByUserId($user->user_id);
-
-				if (!empty($photo))
-				{
-					$photo->fotos_portret = 1;
-					$photo->update();
-				}
-			}
-
-			$user->user_refresh_date 	= date("Y-m-d");
-			$user->user_refresh_date_t 	= time();
-			$user->user_session_time 	= time();
-			$user->user_lastvisit 		= time();
-			$user->user_fotos 			= count ($this->photoRepository->getAllByUserId($user->user_id));
-			$user->update();
-
+			$this->photoRepository->destroyPhoto($photo);
 			return redirect()->route('registration.edit.photo')->with('success','Информация сохранена.');
 		}
-
-		$title 			= 'Информация';
-		$text 			= 'Вы уверены, что хотите удалить это фото<br /><br />';
-		$confirmAction 	= route ('registration.edit.photo.delete', $id);
-		Helper::outMessageInfo($title, $text, $confirmAction);
 	}
 
 	/**

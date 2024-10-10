@@ -688,7 +688,7 @@ class Helper {
 	 *
 	 * @return bool
 	 */
-	public static function delPhoto ($photo)
+	public static function delPhoto($photo)
 	{
 		$user 			= Auth::user();
 		$id 			= $photo->fotos_id;

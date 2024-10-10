@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Route;
 
 class PhotoRequest extends FormRequest
 {
-	private $routeDelete 	= 'registration.edit.photo.delete';
+	private $routeDelete		= 'registration.edit.photo.delete';
+	private $routeDeleteActive	= 'registration.edit.photo.delete.action';
 
 	/**
 	* replace array errors from default to commit
@@ -53,6 +54,7 @@ class PhotoRequest extends FormRequest
 	private function cancelRules()
 	{
 		if (Route::currentRouteName() == $this->routeDelete) return true;
+		if (Route::currentRouteName() == $this->routeDeleteActive) return true;
 		return false;
 	}
 }

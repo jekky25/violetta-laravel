@@ -110,6 +110,7 @@ class PhotoRepository implements PhotoInterface {
 
 	/**
 	* create a photo by user
+	* @param  User $user
 	* @param  array $params
 	* @return void
 	*/	
@@ -143,6 +144,7 @@ class PhotoRepository implements PhotoInterface {
 
 	/**
 	* update a photo
+	* @param  Photo $photo
 	* @param  array $params
 	* @return void
 	*/
