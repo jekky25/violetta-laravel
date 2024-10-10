@@ -28,9 +28,9 @@ Route::middleware('slashes')->group(function () {
 	Route::get('registration/edit/partner/', 'RegistrationController@partner')																	->name('registration.edit.partner')			->middleWare('auth');
 	Route::post('registration/edit/partner/', 'RegistrationController@partnerPost')																->name('registration.edit.partner.post')	->middleWare('auth');
 	Route::get('registration/edit/photo/', 'RegistrationController@photo')																		->name('registration.edit.photo')			->middleWare('auth');
-	Route::post('registration/edit/photo/', 'RegistrationController@photoPost')																	->name('registration.edit.photo.post')		->middleWare('auth');
+	Route::post('registration/edit/photo/', 'RegistrationController@photoStore')																->name('registration.edit.photo.post')		->middleWare('auth');
 	Route::get('registration/edit/photo/edit/{id}.html', 'RegistrationController@editPhoto')							->whereNumber('id')		->name('registration.edit.photo.edit')		->middleWare('auth');
-	Route::post('registration/edit/photo/edit/{id}.html', 'RegistrationController@editPhotoPost')						->whereNumber('id')		->name('registration.edit.photo.edit.post')	->middleWare('auth');
+	Route::put('registration/edit/photo/edit/{id}.html', 'RegistrationController@editPhotoUpdate')						->whereNumber('id')		->name('registration.edit.photo.edit.post')	->middleWare('auth');
 	Route::match(['get', 'post'], 'registration/edit/photo/delete/{id}.html', 'RegistrationController@deletePhoto')		->whereNumber('id')		->name('registration.edit.photo.delete')	->middleWare('auth');
 	Route::get('registration/edit/pass/', 'RegistrationController@pass')																		->name('registration.edit.password')		->middleWare('auth');
 	Route::post('registration/edit/pass/', 'RegistrationController@passPost')																	->name('registration.edit.password.post')	->middleWare('auth');

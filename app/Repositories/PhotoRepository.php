@@ -109,6 +109,39 @@ class PhotoRepository implements PhotoInterface {
 	}
 
 	/**
+	* create a photo by user
+	* @param  array $params
+	* @return void
+	*/	
+	public function store($user, $params) {
+		try {
+			$user->user_refresh_date		= date("Y-m-d");
+			$countPhoto						= count($user->photo);
+			$aFields = [
+				'fotos_portret'				=> $countPhoto > 0 ? 0 : 1,
+				'fotos_t'					=> 0,
+				'user_id'					=> $user->user_id
+			];
+			$this->create($aFields);
+			$photoId = $this->getId();
+			$params['photo_link']->nameForInsert = $photoId . '.' . $params['photo_link']->extension();
+			$this->fileService->fotoUpload($params['photo_link'], 1000, 'fotos_new/');
+			$countPhoto++;
+			$countPhoto = $countPhoto > 5 ? 5 : $countPhoto;
+			User::find($user->user_id)->update(
+				[
+					'user_fotos'			=> $countPhoto,
+					'user_refresh_date'		=> date("Y-m-d"),
+					'user_refresh_date_t'	=> time(),
+					'user_session_time'		=> time(),
+					'user_lastvisit'		=> time()
+				]);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to create a Photo '.$e->getMessage());
+		}
+	}
+
+	/**
 	* update a photo
 	* @param  array $params
 	* @return void

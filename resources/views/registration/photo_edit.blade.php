@@ -28,6 +28,7 @@
 		<td class="pad3">
 			<form name="anketa" onsubmit="return (find_otsil())" action="{{ route('registration.edit.photo.edit.post', $photo->fotos_id) }}" enctype="multipart/form-data" method="post">
 				{{ csrf_field() }}
+				@method('PUT')
 				<p><input type="file" size="25" name="photo_link" /></p>
 				<p>
 					<input type="hidden" name="otsil" value="1" />

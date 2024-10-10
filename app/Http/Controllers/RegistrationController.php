@@ -254,7 +254,7 @@ class RegistrationController extends Controller
 	* @param int $id
 	* @return void
 	*/
-	public function editPhotoPost(PhotoRequest $request, $id)
+	public function editPhotoUpdate(PhotoRequest $request, $id)
 	{
 		$user			= Auth::user();
 		$photo			= $this->photoRepository->getByIdAndUserId($id, $user->user_id);
@@ -269,44 +269,13 @@ class RegistrationController extends Controller
 	* @param PhotoRequest $request
 	* @return void
 	*/
-	public function photoPost (PhotoRequest $request)
+	public function photoStore(PhotoRequest $request)
 	{
 		$user 			= Auth::user();
-		$arParams 		= $request->post();
-		$files 			= $request->file();
-		$arParams		= array_merge($arParams, $files);
-
-		if (!empty($arParams['photo_link']))
-		{
-			$user->user_refresh_date 	= date("Y-m-d");
-			$countPhoto 				= count($user->photo);
-			$photoPortret 				= $countPhoto > 0 ? 0 : 1;
-			$aFields = [
-				'fotos_portret'				=> $photoPortret,
-				'fotos_t'					=> 0,
-				'user_id'					=> $user->user_id
-			];
-
-			$this->photoRepository->create($aFields);
-			$photoId = $this->photoRepository->getId();
-
-			$extension 								= $arParams['photo_link']->extension();
-			$arParams['photo_link']->nameForInsert 	= $photoId . '.' . $extension;
-			
-			$picture = Helper::fotoUpload($arParams['photo_link'], 1000, 'fotos_new/');
-			$countPhoto++;
-			$countPhoto = $countPhoto > 5 ? 5 : $countPhoto;
-			
-			$user->user_fotos 			= $countPhoto;
-			$user->user_refresh_date 	= date("Y-m-d");
-			$user->user_refresh_date_t 	= time();
-			$user->user_session_time 	= time();
-			$user->user_lastvisit 		= time();
-			$user->update();
+		$this->photoRepository->store($user, $request->validated());
 			return redirect()->back()
 			->with('success','Фото успешно добавлено')
 			->withInput();
-		}
 	}
 
 	/**
