@@ -27,6 +27,7 @@ use App\Services\DataService;
 use App\Services\FormatService;
 use App\Services\MessageService;
 use App\Mail\Email;
+use App\Mail\ForgetPasswordEmail;
 
 class RegistrationController extends Controller
 {
@@ -451,9 +452,9 @@ class RegistrationController extends Controller
 	* show a forget password page
 	* @return \Illuminate\Http\Response
 	*/
-	public function forgetPass ()
+	public function forgetPass()
 	{
-		return response()->view ('registration.forget_pass');
+		return response()->view('registration.forget_pass');
 	}
 
 	/**
@@ -461,27 +462,16 @@ class RegistrationController extends Controller
 	* @param  ForgetPasswordRequest $request
 	* @return void
 	*/
-	public function forgetPassPost (ForgetPasswordRequest $request)
+	public function forgetPassPost(ForgetPasswordRequest $request)
 	{
-		$arParams 		= $request->post();
-		$email	= $arParams['mail'];
+		$arParams 		= $request->validated();
+		$email			= $arParams['mail'];
 		$user	= $this->userRepository->getByEmail($email);
-
 		if (!empty($user))
 		{
-			$oMail 					= new \stdClass();
-			$oMail->emailTo 		= $email;
-			$oMail->emailFrom 		= config('mail.email_main');
-			$oMail->template 		= 'mails.pass';
-			$oMail->templateText 	= 'mails.txt.pass';
-			$oMail->login 			= $user->user_login;
-			$oMail->password		= $user->user_password;
-			$oMail->sitename 		= '<a href="' . self::$siteUrlWithProtocol . '">' . self::$siteUrl . '</a>';
-			$oMail->sitenameNoTags	= self::$siteUrl;
-			$oMail->subject			= "Запрос пароля на www.avioletta.ru";
 			Mail::mailer(config('mail.mail_mode'))
-        	->to($oMail->emailTo)
-        	->send(new Email($oMail));
+			->to($email)
+			->send(new ForgetPasswordEmail($user));
 		}
 		return redirect()->route(Route::currentRouteName())->with('success','<p>На адрес <strong>' . $email . '</strong> было выслано письмо с вашим паролем!');
 	}

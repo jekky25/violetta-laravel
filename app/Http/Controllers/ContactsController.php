@@ -25,7 +25,7 @@ class ContactsController extends Controller
 	*/
 	public function index()
 	{
-		return response()->view ('contacts');
+		return response()->view('contacts');
 	}
 
 	/**
