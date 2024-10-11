@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +21,7 @@ use App\Requests\ProfilePartnerRequest;
 use App\Requests\ForgetPasswordRequest;
 use App\Requests\RegistrationRequest;
 use App\Requests\SettingRequest;
+use App\Requests\LoginRequest;
 use App\Helpers\Helper;
 use App\Services\DataService;
 use App\Services\FormatService;
@@ -429,22 +429,19 @@ class RegistrationController extends Controller
 
 	/**
 	* login
-	* @param Request $request
+	* @param LoginRequest $request
 	* @return void
 	*/
-	public function login (Request $request)
+	public function login(LoginRequest $request)
 	{
-		$arParams 		= $request->post();
-		$username 		= !empty($arParams['username_template'])	? trim($arParams['username_template']) 	: '';
-		$password 		= !empty($arParams['pass_template']) 		? $arParams['pass_template'] 			: '';
-		$remember 		= true;
-
-		$user 			= $this->userRepository->getByLoginAndPass($username, $password);
+		$arParams		= $request->validated();
+		$remember		= true;
+		$user			= $this->userRepository->getByLoginAndPass($arParams['username_template'], $arParams['pass_template']);
 		if (empty($user)) 
 		{
-			$title 			= 'Информация';
+			$title			= 'Информация';
 			$text			= 'Неверно указаны имя пользователя или пароль!';
-			Helper::outMessageDie($title, $text);
+			$this->messageService->outMessageDie($title, $text);
 		} else
 			Auth::login($user, $remember);
 		return redirect()->route('home');

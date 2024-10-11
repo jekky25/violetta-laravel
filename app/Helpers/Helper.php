@@ -603,25 +603,6 @@ class Helper {
 	}
 
 	/**
-	 * print information page with confirm or cancel
-	 * @param string $title
-	 * @param string $text
-	 * @param string $confirmAction 
-	 * @param string $hidden
-	 *
-	 * @return \Illuminate\Http\Response
-	*/
-	public static function outMessageDie($title, $text, $hidden = '')
-	{
-		return response()->view ('mess_die.info',
-		[
-			'msgTitle' 		=> $title,
-			'msgText'		=> $text,
-			'hidden'		=> $hidden
-		])->send();
-	}
-
-	/**
 	 * translate smiles from codes to html tages
 	 * 
 	 * @param string $str
