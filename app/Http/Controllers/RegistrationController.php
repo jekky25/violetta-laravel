@@ -480,22 +480,22 @@ class RegistrationController extends Controller
 	* show a registration page
 	* @return \Illuminate\Http\Response
 	*/
-	public function registration ()
+	public function registration(DataService $data)
 	{
-		if (session('success')) return response()->view ('registration.finish');
-		$user 			= Auth::user();
+		if (session('success')) return response()->view('registration.finish');
+		$user			= Auth::user();
 		if (!empty ($user)) return redirect()->route('home');
 
-		$days 		= Helper::getDays();
-		$months 	= Helper::getMonths();
-		$years 		= Helper::getYears();
+		$days		= $data->getDays();
+		$months		= $data->getMonths();
+		$years		= $data->getYears();
 		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old ('country');
 		$regionId	= (int) old ('region');
-		$regions 	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: [];
-		$cities 	= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
+		$regions	= $countryId > 0	? $this->regionRepository->getByCountryId($countryId) 	: [];
+		$cities		= $regionId	> 0		? $this->cityRepository->getByRegionId($regionId) 		: [];
 
-		return response()->view ('registration.registration',
+		return response()->view('registration.registration',
 		[
 			'days'			=> $days,
 			'months'		=> $months,
