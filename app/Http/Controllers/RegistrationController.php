@@ -506,10 +506,10 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * post data after registration and send e-mail with registration information
-     * @param  RegistrationRequest $request
-	 * @return void
-	 */
+	* post data after registration and send e-mail with registration information
+    * @param  RegistrationRequest $request
+	* @return void
+	*/
 	public function registrationStore(RegistrationRequest $request)
 	{
 		$arParams = $request->validated();
@@ -523,26 +523,22 @@ class RegistrationController extends Controller
 	}
 
 	/**
-	 * show confirm registration page and update data
-     * @param int $id
-     * @param string $code
-	 * @return \Illuminate\Http\Response
-	 */
-	public function confirm ($id, $code)
+	* show confirm registration page and update data
+    * @param int $id
+    * @param string $code
+	* @return \Illuminate\Http\Response
+	*/
+	public function confirm($id, $code)
 	{
 		if (empty ($code)) abort(404);
 		$user 			= $this->userRepository->getByIdAndConfirmCode($id, $code);
-		$isConfirmed 	= false;
-		if (!empty ($user))
-		{
-			$user->user_confirm_email 	= 1;
-			$user->user_submit_code 	= '';
-			$user->update();
-			$isConfirmed = true;
-		}
+		$this->userRepository->update($user, [
+			'user_confirm_email'	=> 1,
+			'user_submit_code'		=> ''
+		]);
 		return response()->view ('registration.confirm',
 		[
-			'isConfirmed'			=> $isConfirmed,
+			'isConfirmed'			=> true,
 		]);
 	}
 }

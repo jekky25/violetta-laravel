@@ -198,7 +198,7 @@ class UserRepository implements UserInterface {
 		return User::select(['*'])
 				->where('user_id', $id)
 				->where('user_submit_code', addslashes($code))
-				->first();
+				->firstOrFail();
 	}
 
 	/**
