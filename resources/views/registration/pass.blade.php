@@ -14,6 +14,7 @@
 <x-error errName=password />
 <p class="pad1"></p>
 <form name="anketa" action="{{ route('registration.edit.password') }}" method="post">
+@method('PUT')
 {{ csrf_field() }}
 @if ($errors->comment->all())
 	@foreach ($errors->comment->all() as $item)

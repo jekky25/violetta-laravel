@@ -22,11 +22,10 @@ use App\Requests\ForgetPasswordRequest;
 use App\Requests\RegistrationRequest;
 use App\Requests\SettingRequest;
 use App\Requests\LoginRequest;
-use App\Helpers\Helper;
 use App\Services\DataService;
 use App\Services\FormatService;
 use App\Services\MessageService;
-use App\Mail\Email;
+use App\Mail\RegistrationEmail;
 use App\Mail\ForgetPasswordEmail;
 
 class RegistrationController extends Controller
@@ -511,64 +510,15 @@ class RegistrationController extends Controller
      * @param  RegistrationRequest $request
 	 * @return void
 	 */
-	public function registrationPost (RegistrationRequest $request)
+	public function registrationStore(RegistrationRequest $request)
 	{
-		$arParams 				= $request->post();
-		$ip 					= $request->ip();
-		$login 					= !empty ($arParams ['login']) 				? $arParams['login'] 				: '';
-		$password 				= !empty ($arParams ['password'])			? $arParams['password'] 			: '';
-		$city 					= !empty ($arParams ['city']) 				? $arParams['city'] 				: 0;
-		$region 				= !empty ($arParams ['region']) 			? $arParams['region'] 				: 0;
-		$country 				= !empty ($arParams ['country']) 			? $arParams['country'] 				: 0;
-		$code = md5 (time() . $login . rand(0, 1000));
-		$aFields = [
-			'user_active' 				=> 1,
-			'user_odobreno' 			=> 1,
-			'user_login' 				=> $login,
-			'user_password' 			=> $password,
-			'user_hash'	 				=> md5($password),
-			'user_mail' 				=> $arParams['mail'],
-			'user_sex' 					=> $arParams['sex'],
-			'user_name' 				=> $arParams['name'],
-			'user_birth_date'	 		=> Helper::getDateStr($arParams['birth_day'],$arParams['birth_month'],$arParams['birth_year']),
-			'user_country' 				=> $country,
-			'user_region' 				=> $region,
-			'user_city'					=> $city,
-			'user_make_date'	 		=> date("Y-m-d"),
-			'user_make_date_t' 			=> time(),
-			'user_refresh_date' 		=> date("Y-m-d"),
-			'user_refresh_date_t'	 	=> time(),
-			'user_session_time' 		=> time(),
-			'user_lastvisit'	 		=> time(),
-			'user_ip' 					=> $ip,
-			'user_submit_code' 			=> $code,
-			'user_description' 			=> "", 
-			'user_partner_description' 	=> "",
-			'user_confirm_email' 		=> 0
-		];
-
-		$this->userRepository->create($aFields);
-		$userId	= $this->userRepository->getId();
-
-		$oMail 					= new \stdClass();
-		$oMail->emailTo 		= $arParams['mail'];
-		$oMail->emailFrom 		= config('mail.email_main');
-		$oMail->template 		= 'mails.register';
-		$oMail->templateText 	= 'mails.txt.register';
-		$oMail->login 			= $login;
-		$oMail->password		= $password;
-		$oMail->id				= $userId;
-		$oMail->code			= $code;
-		$oMail->sitename 		= '<a href="' . self::$siteUrlWithProtocol . '">' . self::$siteUrl . '</a>';
-		$oMail->sitenameNoTags	= self::$siteUrl;
-		$oMail->subject			= "Регистрация на www.avioletta.ru";
-		Mail::mailer(config('mail.mail_mode'))
-		->to($oMail->emailTo)
-		->send(new Email($oMail));
-
-		$user 			= $this->userRepository->getByLoginAndPass($login, $password);
+		$arParams = $request->validated();
+		$this->userRepository->create($arParams);
+		$user	= $this->userRepository->getByLogin($arParams['login']);
 		Auth::login($user, true);
-
+		Mail::mailer(config('mail.mail_mode'))
+		->to($user->user_mail)
+		->send(new RegistrationEmail($user));
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 

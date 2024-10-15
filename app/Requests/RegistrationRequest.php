@@ -13,6 +13,7 @@ use App\Rules\CheckEmail;
 use App\Rules\CheckPassword;
 use App\Rules\BirthData;
 use App\Rules\BirthDataCorrect;
+use App\Helpers\Helper;
 
 class RegistrationRequest extends FormRequest
 {
@@ -64,6 +65,40 @@ class RegistrationRequest extends FormRequest
 		];
 	}
 
+		/**
+	* Prepare params for validation
+	*
+	* @return void
+	*/
+	protected function prepareForValidation()
+    {
+        $this->merge([
+			'user_active' 				=> 1,
+			'user_odobreno' 			=> 1,
+			'user_login' 				=> $this->login,
+			'user_password' 			=> $this->password,
+			'user_hash'	 				=> md5($this->password),
+			'user_mail' 				=> $this->mail,
+			'user_sex' 					=> $this->sex,
+			'user_name' 				=> $this->name,
+			'user_birth_date'	 		=> Helper::getDateStr($this->birth_day,$this->birth_month,$this->birth_year),
+			'user_country' 				=> $this->country,
+			'user_region' 				=> $this->region,
+			'user_city'					=> $this->city,
+			'user_make_date'	 		=> date("Y-m-d"),
+			'user_make_date_t' 			=> time(),
+			'user_refresh_date'			=> date("Y-m-d"),
+			'user_refresh_date_t'		=> time(),
+			'user_session_time'			=> time(),
+			'user_lastvisit'			=> time(),
+			'user_ip'					=> $this->ip(),
+			'user_submit_code' 			=> md5 (time() . $this->login . rand(0, 1000)),
+			'user_description' 			=> "", 
+			'user_partner_description' 	=> "",
+			'user_confirm_email' 		=> 0
+        ]);
+    }
+
 	/**
 	* Get the validation rules that apply to the request.
 	*
@@ -79,18 +114,43 @@ class RegistrationRequest extends FormRequest
 		$passwordSecond 		= !empty($arParams['password_second'])		? $arParams['password_second']		: '';
 
 		return [
-			'login'					=> ['required', new CheckBan,'max:20', 'min:4', "regex:/^[0-9a-zA-Z_]+$/", new CheckLogin],
-			'password'				=> ['required', 'max:20', 'min:4', "regex:/^[0-9a-zA-Z_]+$/", new CheckPassword($password, $passwordSecond)],
-			'name'					=> ['required', 'max:30', 'min:2', 
+			'login'						=> ['string', 'required', new CheckBan,'max:20', 'min:4', "regex:/^[0-9a-zA-Z_]+$/", new CheckLogin],
+			'user_login'				=> ['string'],
+			'password'					=> ['required', 'max:20', 'min:4', "regex:/^[0-9a-zA-Z_]+$/", new CheckPassword($password, $passwordSecond)],
+			'name'						=> ['required', 'max:30', 'min:2', 
 											new BirthData((int)$arParams['birth_day'], (int)$arParams['birth_month'], (int)$arParams['birth_year']), 
 											new BirthDataCorrect((int)$arParams['birth_day'], (int)$arParams['birth_month'])],
-			'sex'					=> ['required'],
-			'mail'					=> ['required', "regex:/^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,4}|museum$/i", new CheckEmail],
-			'country'				=> [
+			'sex'						=> ['integer', 'required'],
+			'mail'						=> ['required', "regex:/^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,4}|museum$/i", new CheckEmail],
+			'country'					=> ['integer',
 											new PlaceEmpty($city, $region, $country), 
 											new PlaceCorrect($city, $region, $country)],
-			'recaptcha_response' 	=> ['required', new GoogleCaptcha],
-			'conditions'			=> ['required']
+			'region'					=> ['integer'],
+			'city'						=> ['integer'],
+			'recaptcha_response'	 	=> ['required', new GoogleCaptcha],
+			'conditions'				=> ['required'],
+			'user_active'				=> ['integer'],
+			'user_odobreno'				=> ['integer'],
+			'user_password'				=> ['string'],
+			'user_hash'					=> ['string'],
+			'user_mail'					=> ['string'],
+			'user_sex'					=> ['integer'],
+			'user_name'					=> ['string'],
+			'user_birth_date'			=> ['string'],
+			'user_country'				=> ['integer'],
+			'user_region'				=> ['integer'],
+			'user_city'					=> ['integer'],
+			'user_make_date'			=> ['string'],
+			'user_make_date_t'			=> ['integer'],
+			'user_refresh_date'			=> ['string'],
+			'user_refresh_date_t'		=> ['integer'],
+			'user_session_time'			=> ['integer'],
+			'user_lastvisit'			=> ['integer'],
+			'user_ip'					=> ['string'],
+			'user_submit_code'			=> ['string'],
+			'user_description' 			=> ['string'], 
+			'user_partner_description' 	=> ['string'],
+			'user_confirm_email' 		=> ['integer']
 		];
 	}
 }

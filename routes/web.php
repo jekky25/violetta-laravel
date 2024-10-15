@@ -18,15 +18,15 @@ Route::middleware('slashes')->group(function () {
 	//Route::get('registration/delete/diary/{id}.html', 'NoContoller3@index')												->whereNumber('id')		->name('registration.delete.diary.id');
 	Route::get('registration/edit/diary/', 'RegistrationController@diary')																		->name('registration.edit.diary')			->middleWare('auth');
 	Route::get('registration/edit/settings/', 'RegistrationController@settings')																->name('registration.edit.settings')		->middleWare('auth');
-	Route::post('registration/edit/settings/', 'RegistrationController@settingsPost')															->name('registration.edit.settings.post')	->middleWare('auth');
+	Route::put('registration/edit/settings/', 'RegistrationController@settingsPost')															->name('registration.edit.settings.post')	->middleWare('auth');
 	Route::get('registration/top100/', 'RegistrationController@top100')																			->name('registration.top100');
 	Route::post('registration/top100/', 'RegistrationController@top100Post')																	->name('registration.top100.post');
 	Route::get('registration/edit/', 'RegistrationController@edit')																				->name('registration.edit')					->middleWare('auth');
-	Route::post('registration/edit/', 'RegistrationController@post')																			->name('registration.edit.post')			->middleWare('auth');
+	Route::put('registration/edit/', 'RegistrationController@post')																				->name('registration.edit.post')			->middleWare('auth');
 	Route::get('registration/edit/second/', 'RegistrationController@second')																	->name('registration.edit.second')			->middleWare('auth');
-	Route::post('registration/edit/second/', 'RegistrationController@secondPost')																->name('registration.edit.second.post')		->middleWare('auth');
+	Route::put('registration/edit/second/', 'RegistrationController@secondPost')																->name('registration.edit.second.post')		->middleWare('auth');
 	Route::get('registration/edit/partner/', 'RegistrationController@partner')																	->name('registration.edit.partner')			->middleWare('auth');
-	Route::post('registration/edit/partner/', 'RegistrationController@partnerPost')																->name('registration.edit.partner.post')	->middleWare('auth');
+	Route::put('registration/edit/partner/', 'RegistrationController@partnerPost')																->name('registration.edit.partner.post')	->middleWare('auth');
 	Route::get('registration/edit/photo/', 'RegistrationController@photo')																		->name('registration.edit.photo')			->middleWare('auth');
 	Route::post('registration/edit/photo/', 'RegistrationController@photoStore')																->name('registration.edit.photo.post')		->middleWare('auth');
 	Route::get('registration/edit/photo/edit/{id}.html', 'RegistrationController@editPhoto')							->whereNumber('id')		->name('registration.edit.photo.edit')		->middleWare('auth');
@@ -34,12 +34,12 @@ Route::middleware('slashes')->group(function () {
 	Route::get('registration/edit/photo/delete/{id}.html', 'RegistrationController@destroyPhoto')						->whereNumber('id')		->name('registration.edit.photo.delete')	->middleWare('auth');
 	Route::delete('registration/edit/photo/delete/{id}.html', 'RegistrationController@destroyPhotoAction')				->whereNumber('id')		->name('registration.edit.photo.delete.action')->middleWare('auth');
 	Route::get('registration/edit/pass/', 'RegistrationController@pass')																		->name('registration.edit.password')		->middleWare('auth');
-	Route::post('registration/edit/pass/', 'RegistrationController@passPost')																	->name('registration.edit.password.post')	->middleWare('auth');
+	Route::put('registration/edit/pass/', 'RegistrationController@passPost')																	->name('registration.edit.password.post')	->middleWare('auth');
 	Route::get('registration/delete/', 'RegistrationController@destroy')																		->name('registration.delete');
 	Route::get('registration/delete/confirm/', 'RegistrationController@destroyConfirm')															->name('registration.delete.confirm')		->middleWare('auth');
 	Route::get('registration/views/', 'AnketController@getViews')																				->name('registration.views')				->middleWare('auth');
 	Route::get('registration/', 'RegistrationController@registration')																			->name('registration');
-	Route::post('registration/', 'RegistrationController@registrationPost')																		->name('registration.post');
+	Route::post('registration/', 'RegistrationController@registrationStore')																	->name('registration.post');
 	Route::get('registration/confirm/{id}/{code}/', 'RegistrationController@confirm')									->whereNumber('id')		->name('registration.confirm');
 
 	Route::get('privmsg/', 'PrivmsgController@index')																							->name('privmsg')							->middleWare('auth');

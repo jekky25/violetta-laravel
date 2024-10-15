@@ -10,6 +10,7 @@
 @endif
 <p class="pad1"></p>
 <form name="anketa" action="{{route('registration.edit.second')}}" method="post">
+@method('PUT')
 {{ csrf_field() }}
 	<h4 class="menu_registration"><div>Базовая информация</div></h4>
 	<p class="pad1 pad2">По умолчанию ваша ориентация указана как <strong>гетеросексуал</strong>, но вы можете ее изменить в любой момент. Также вам следует указать <strong>цели вашего знакомства</strong>,

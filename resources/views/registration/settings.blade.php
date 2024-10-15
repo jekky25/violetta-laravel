@@ -6,6 +6,7 @@
 	<li class="menuRegAct">Настройки</li>
 </ul>
 <form name="anketa" action="{{ route ('registration.edit.settings.post') }}" method="post">
+	@method('PUT')
 	{{ csrf_field() }}
 	@if(session('success'))
 		<h4 class="reg_title2">информация сохранена</h4>

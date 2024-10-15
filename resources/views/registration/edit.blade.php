@@ -13,6 +13,7 @@
 @endif
 <p class="pad1"></p>
 <form name="anketa" action="{{route('registration.edit')}}" method="post">
+@method('PUT')
 {{ csrf_field() }}
 	<h4 class="menu_registration"><div>Имя</div></h4>
 		<p class="pad1 pad2">Укажите Ваше <strong>настоящее имя</strong>. Если вы его не помните, то придумайте псевдоним. Именно по нему (а не по Логину) вас будут узнавать на сайте.</p>

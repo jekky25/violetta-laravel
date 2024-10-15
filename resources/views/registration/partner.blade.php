@@ -13,6 +13,7 @@
 @endif
 <p class="pad1"></p>
 <form name="anketa" action="{{route('registration.edit.partner')}}" method="post">
+@method('PUT')
 {{ csrf_field() }}
 	<h4 class="menu_registration"><div>Внешние данные</div></h4>
 	<p class="pad1 pad2">Если у вас есть конкретные пожелания к внешности вашего партнера - укажите их здесь.</p>
