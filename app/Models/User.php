@@ -177,7 +177,7 @@ class User extends Authenticatable
 
 	public function getUserAgeAttribute ()
 	{
-		return Helper::age($this->user_birth_date);
+		return (new DataService)->age($this->user_birth_date);
 	}
 
 	public function getUserAgeTypeAttribute ()

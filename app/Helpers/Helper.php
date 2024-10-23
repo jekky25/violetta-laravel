@@ -30,25 +30,6 @@ class Helper {
     }
 
 	/**
-	 * count age
-	 * @param $birth_date
-	 *
-	 * @return integer
-	 */
-    public static function age($birth_date)
-	{
-		preg_match("/^ *(([0-9]+)-([0-9]+)-([0-9]+)) *$/",$birth_date,$pockets_old);
-		$now_date 	= date("Y-m-d");
-		preg_match("/^ *(([0-9]+)-([0-9]+)-([0-9]+)) *$/",$now_date,$pockets_new);
-		$old 		= $pockets_old[2].$pockets_old[3].$pockets_old[4];
-		$new 		= $pockets_new[2].$pockets_new[3].$pockets_new[4];
-  		$age 		= $new - $old;
-  		$lenght 	= strlen($age);
-  		$age_fin 	= substr($age,0,($lenght-4));
-  		return $age_fin;
-	}
-
-	/**
 	 * out age type
 	 * @param $age
 	 *
