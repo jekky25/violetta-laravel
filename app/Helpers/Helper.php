@@ -30,23 +30,6 @@ class Helper {
     }
 
 	/**
-	 * make a list of years
-	 *
-	 * @return array
-	 */
-	public static function getYears()
-	{
-		$years 		= [];
-		$today 		= getdate();
-		$todayYear 	= $today['year'];
-		
-		for ($i=1900; $i < ($todayYear - 17);$i++) {
-			$years [] = $i;
-		}
-		return $years;
-	}
-
-	/**
 	 * count age
 	 * @param $birth_date
 	 *
