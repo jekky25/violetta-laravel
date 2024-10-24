@@ -30,33 +30,6 @@ class Helper {
     }
 
 	/**
-	 * out age type
-	 * @param $age
-	 *
-	 * @return string
-	 */
-	public static function ageType($age)
-	{
-  		$age = (int) $age;
-
-  		if ($age >10 && $age <20)
-    		$type = "лет";
-  		else
-  		{
-			$age_fin = substr($age,-1,1);
-			if ($age_fin <=0 )
-    			$type = "лет";
-			elseif ($age_fin ==1 )
-				$type = "год";
-			elseif ($age_fin >=2 && $age_fin<=4)
-				$type = "года";
-			else
-				$type = "лет";
-		}
-  		return $type;
-	}
-
-	/**
 	 * Type age from to
 	 * @param $age
 	 *

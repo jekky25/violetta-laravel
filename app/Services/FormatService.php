@@ -234,4 +234,19 @@ class FormatService
 						<input type="submit" name="otsil" value="Попасть в ТОП" /></form>';
 		return session('formToTop') ?: $formToTop;
 	}
+
+	/**
+	* out age type
+	* @param $age
+	*
+	* @return string
+	*/
+	public function ageType(int $age)
+	{
+		$ageFin = substr($age,-1,1);
+  		if ( ($age >10 && $age <20) || $ageFin <=0	) return "лет";
+		if ( $ageFin ==1 ) return "год";
+		if ( $ageFin >=2 && $ageFin<=4 ) return "года";
+		return "лет";
+	}
 }
