@@ -237,16 +237,31 @@ class FormatService
 
 	/**
 	* out age type
-	* @param $age
+	* @param int $age
 	*
 	* @return string
 	*/
 	public function ageType(int $age)
 	{
 		$ageFin = substr($age,-1,1);
-  		if ( ($age >10 && $age <20) || $ageFin <=0	) return "лет";
+  		if ( ($age >10 && $age <20) || $ageFin <=0 ) return "лет";
 		if ( $ageFin ==1 ) return "год";
 		if ( $ageFin >=2 && $ageFin<=4 ) return "года";
+		return "лет";
+	}
+
+	/**
+	* Type age from to
+	* @param int $age
+	*
+	* @return string
+	*/
+	public function ageType2(int $age)
+	{
+		if ($age >10 && $age <20) return "лет";
+		$ageFin = substr($age,-1,1);
+		if ( ($ageFin >= 2 && $ageFin <= 4) || $ageFin <=0 ) return "лет";
+		if ($ageFin == 1 ) return "года";
 		return "лет";
 	}
 }

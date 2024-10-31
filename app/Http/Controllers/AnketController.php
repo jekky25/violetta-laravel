@@ -144,13 +144,13 @@ class AnketController extends Controller
 	* @param  Request  $request 
 	* @return \Illuminate\Http\Response
 	*/
-	public function getBySearch(SearchRequest $request, SearchService $search, FormatService $formService)
+	public function getBySearch(SearchRequest $request, SearchService $search, FormatService $formService, DataService $data)
 	{
 		$params				= $request->validated();
 		$ankets				= $this->userRepository->getBySearch($request, $params);
 		$critsSearch		= $search->getSearchText($ankets, $params);
 		$countSearchAnkStr	= (new AnkService($ankets))->getFoundStr($params['anket_per_page']);
-		$ages				= DataService::getAges();
+		$ages				= $data->getAges();
 		$countries			= $this->countryRepository->getAll();
 		$heights			= $formService->getHeights();
 		$weights			= $formService->getWeights();

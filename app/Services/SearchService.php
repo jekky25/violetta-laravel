@@ -7,7 +7,7 @@ use App\Repositories\CityRepository;
 use App\Repositories\BodyRepository;
 use App\Repositories\HairTypeRepository;
 use App\Repositories\EyesRepository;
-use App\Helpers\Helper;
+use App\Services\FormatService;
 
 class SearchService
 {
@@ -30,6 +30,7 @@ class SearchService
 	protected $countryRepository;
 	protected $cityRepository;
 	protected $regionRepository;
+	protected $formatService;
 	protected $ankets;
 	protected $params;
 
@@ -44,6 +45,7 @@ class SearchService
 		$this->countryRepository	= new CountryRepository();
 		$this->regionRepository		= new RegionRepository();
 		$this->cityRepository		= new CityRepository();
+		$this->formatService		= new FormatService();
 		$this->ankets = $ankets;
 		$this->params = $params;
 		$this->setTxtBySex($this->params['find_sex'], $this->params['sex']);
@@ -83,12 +85,12 @@ class SearchService
 
 	private function setTxtAgeMin()
 	{
-		$this->critAgeMin = $this->params['age_min'] > AGE_MIN ? ' от <strong>' . $this->params['age_min'] . '</strong> ' . Helper::ageType2($this->params['age_min']) : null;
+		$this->critAgeMin = $this->params['age_min'] > AGE_MIN ? ' от <strong>' . $this->params['age_min'] . '</strong> ' . $this->formatService->ageType2($this->params['age_min']) : null;
 	}
 
 	private function setTxtAgeMax()
 	{
-		$this->critAgeMax = $this->params['age_max'] > AGE_MAX ? ' до <strong>' . $this->params['age_max'] . '</strong> ' . Helper::ageType2($this->params['age_max']) : null;
+		$this->critAgeMax = $this->params['age_max'] > AGE_MAX ? ' до <strong>' . $this->params['age_max'] . '</strong> ' . $this->formatService->ageType2($this->params['age_max']) : null;
 	}
 
 	private function setTxtHeightMin()

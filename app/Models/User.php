@@ -222,11 +222,11 @@ class User extends Authenticatable
 		} elseif ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max <= PARTNER_AGE_MAX) 
 		{
 			$findSOrient .= ' от ' . $this->user_partner_age_min;
-			$findSOrient .= ' ' . Helper::ageType2($this->user_partner_age_min);
+			$findSOrient .= ' ' . (new formatService)->ageType2($this->user_partner_age_min);
 		} elseif ($this->user_partner_age_min <= PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX)
 		{
 			$findSOrient .= ' до ' . $this->user_partner_age_max;
-			$findSOrient .= ' ' . Helper::ageType2($this->user_partner_age_max);
+			$findSOrient .= ' ' . (new formatService)->ageType2($this->user_partner_age_max);
 		}
 		return $findSOrient;
 	}
@@ -342,8 +342,8 @@ class User extends Authenticatable
 		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX) 
 			return ' ' . $this->user_partner_age_min . '-' . $this->user_partner_age_max . ' ' . (new formatService)->ageType($this->user_partner_age_max);
 		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max <= PARTNER_AGE_MAX) 
-			return ' от ' . $this->user_partner_age_min . ' ' . Helper::ageType2($this->user_partner_age_min);
-		return ' до ' . $this->user_partner_age_max . ' ' . Helper::ageType2($this->user_partner_age_max);
+			return ' от ' . $this->user_partner_age_min . ' ' . (new formatService)->ageType2($this->user_partner_age_min);
+		return ' до ' . $this->user_partner_age_max . ' ' . (new formatService)->ageType2($this->user_partner_age_max);
 	}
 
 	public function getPartnerHeightAttribute ()
