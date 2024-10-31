@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Interfaces\CityInterface;
 use App\Interfaces\RegionInterface;
-use App\Helpers\Helper;
+use App\Services\FormatService;
 
 class AjaxController extends Controller
 {
@@ -26,7 +26,7 @@ class AjaxController extends Controller
 	* @param Request $request
 	* @return bool
 	*/
-	public function getGeo (Request $request)
+	public function getGeo(Request $request)
 	{
 		$selectid = $request->get('selectid');
 		switch ($selectid) 
@@ -46,12 +46,12 @@ class AjaxController extends Controller
 	* @param Request $request
 	* @return void
 	*/
-	public function getGeoRegion (Request $request)
+	public function getGeoRegion(Request $request)
 	{
 		$id = (int)$request->get('id');
 		if ($id == 0) return false;
 		$regions = $this->regionRepository->getByCountryId($id);
-		Helper::outToXml($regions);
+		(new FormatService)->outToXml($regions);
 	}
 
 	/**
@@ -59,12 +59,11 @@ class AjaxController extends Controller
 	* @param Request $request
 	* @return void
 	*/
-	public function getGeoCity (Request $request)
+	public function getGeoCity(Request $request)
 	{
 		$id = (int)$request->get('id');
 		if ($id == 0) return false;
-
 		$cities = $this->cityRepository->getByRegionId($id);
-		Helper::outToXml($cities);
+		(new FormatService)->outToXml($cities);
 	}
 }

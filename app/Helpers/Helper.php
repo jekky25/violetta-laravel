@@ -30,23 +30,6 @@ class Helper {
     }
 
 	/**
-	 * Out to xml
-	 * @param $obj
-	 *
-	 * @return void
-	 */
-	public static function outToXml ($obj)
-	{
-		$startStr = '<?xml version="1.0" encoding="utf-8" standalone="yes"?>';
-		return response()
-		->view ('xml.location', [
-			'obj'		=> $obj,
-			'startStr'		=> $startStr,
-		])
-		->header('Content-Type', 'text/xml')->send();
-	}
-
-	/**
 	 * formate date from timestamp to date
 	 * @param integer $timestamp
 	 *
