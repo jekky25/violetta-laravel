@@ -30,19 +30,6 @@ class Helper {
     }
 
 	/**
-	 * formate date from timestamp to date
-	 * @param integer $timestamp
-	 *
-	 * @return string
-	 */
-	public static function getDate($timestamp = 0)
-	{
-		if ($timestamp == 0) $timestamp = time();
-  		$date = date("d.m.y.",$timestamp);
-		return $date;
-	}
-
-	/**
 	 * out picture to template
 	 * @param integer $picture
 	 * @param string $sex

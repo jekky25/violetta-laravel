@@ -117,4 +117,16 @@ class DataService
   		$age_fin 	= substr($age,0,($lenght-4));
   		return $age_fin;
 	}
+
+	/**
+	* formate date from timestamp to date
+	* @param integer $timestamp
+	*
+	* @return string
+	*/
+	public function getDate(int $timestamp)
+	{
+		if ($timestamp == 0) $timestamp = time();
+		return date("d.m.y.", $timestamp);
+	}
 }

@@ -4,8 +4,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use App\Helpers\Helper;
+use App\Services\DataService;
 use App\Repositories\AnketVisitRepository;
 use App\Repositories\UserRepository;
 
@@ -26,17 +25,17 @@ class RightColServiceProvider extends ServiceProvider
 	*
 	* @return void
 	*/
-	public function boot()
+	public function boot(DataService $data)
 	{
 		$this->anketVisitRepository	= new AnketVisitRepository();
 		$this->userRepository 		= new UserRepository();
 
-		View::composer('*', function($view) {
+		View::composer('*', function($view) use ($data) {
 			$user = Auth::user();
 			if (!empty ($user))
 			{
 				$user = $user->load(['visits']);
-				$user->user_lastvisit_format	= Helper::getDate($user->user_lastvisit);
+				$user->user_lastvisit_format	= $data->getDate($user->user_lastvisit);
 				$user->monthVisits				= count ($user->visits);
 				$user->monthVisitsNew			= count ($this->anketVisitRepository->visitsNew($user));
 			}
