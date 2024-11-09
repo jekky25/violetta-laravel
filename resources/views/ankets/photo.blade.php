@@ -5,7 +5,7 @@
 <x-ank-menu :user-data="$userData" />
 @if (!empty($userData->mainPhoto->fotos_id))
 <div id="mainAnkFoto">
-	<div style="width:{{ $userData->mainPhoto->width }}px;"><img width="{{ $userData->mainPhoto->width }}px" src="{{ App\Helpers\Helper::outPicture($userData->mainPhoto->fotos_id, $userData->user_sex) }}" /></div>
+	<div style="width:{{ $userData->mainPhoto->width }}px;"><img width="{{ $userData->mainPhoto->width }}px" src="{{ (new FileService)->outPicture($userData->mainPhoto->fotos_id, $userData->user_sex) }}" /></div>
 </div>
 @endif
 @if (count ($userData->photo) > 1)
@@ -13,7 +13,7 @@
 	<tr>
 	@foreach ($userData->photo as $item)
 		<td>
-			<a href="{{route('ank.photo.photo_id', $item->fotos_id)}}"><img src="{{ App\Helpers\Helper::outPicture($item->fotos_id, $userData->user_sex) }}" /></a>
+			<a href="{{route('ank.photo.photo_id', $item->fotos_id)}}"><img src="{{ (new FileService)->outPicture($item->fotos_id, $userData->user_sex) }}" /></a>
 		</td>		
     @endforeach
 	</tr>
@@ -25,7 +25,7 @@
 	@foreach ($userData->mainPhoto->comment as $item)
 	<tr>
 		<td class="fotoCommPics"><a href="{{route('ank.id', $item->user_id)}}">
-			<img alt="{{ $item->user->user_name }},{{ $item->user->user_age }} {{ $item->user->user_age_type }},{{ $item->user->city->name }}" src="{{ App\Helpers\Helper::outPicture($item->user_photo_id, $item->user->user_sex) }}" /></a></td>
+			<img alt="{{ $item->user->user_name }},{{ $item->user->user_age }} {{ $item->user->user_age_type }},{{ $item->user->city->name }}" src="{{ (new FileService)->outPicture($item->user_photo_id, $item->user->user_sex) }}" /></a></td>
 		<td>
 			<h4>
 			<a href="{{route('ank.id', $item->user_id)}}" class="{{ $item->user->name_class }}">{{ $item->user->user_name }}</a> <strong>{{ $item->user->user_age }} {{ $item->user->user_age_type }}</strong><span class="postData">{{ $item->add_time }}</span></h4>

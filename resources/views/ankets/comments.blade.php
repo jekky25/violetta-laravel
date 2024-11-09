@@ -19,7 +19,7 @@
 			@if (!empty($diary->dnevniki_picture))
 				<a class="dnevBodyPic1" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ App\Helpers\Helper::outDiaryPicture($diary->dnevniki_picture, $userData->user_sex) }}" /></a>
 			@elseif (!empty($userData->foto_user_id))
-				<a class="dnevBodyPic2" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ App\Helpers\Helper::outPicture($diary->foto_user_id, $userData->user_sex) }}" /></a>
+				<a class="dnevBodyPic2" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ (new FileService)->outPicture($diary->foto_user_id, $userData->user_sex) }}" /></a>
 			@endif
 			@if (!empty($diary->dnevniki_picture))
 				<div class="mrg2">{{ $diary->dnevniki_text }}</div>
@@ -36,23 +36,6 @@
 @if (!empty($comments))
 <table class="ankDnevnik">
 @foreach ($comments as $item)
-	@if ($loop->index == 11)
-	<tr>
-		<td colspan="2">
-			<div class="banerFoto">
-				<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* Дневники 468x60 */
-google_ad_slot = "5785131254";
-google_ad_width = 468;
-google_ad_height = 60;
-//-->
-				</script>
-				<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-			</div>
-		</td>
-	</tr>
-	@endif
 	<tr>
 		<td>
 			<h4 class="@isset($item->user->user_class_a){{ $item->user->user_class_a }}@endisset"><a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>@if (!empty($item->comment_title)) - {{ $item->comment_title }}@endif
@@ -68,7 +51,7 @@ google_ad_height = 60;
 			@if (!empty($item->comment_picture))
 				<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ App\Helpers\Helper::outDiaryCommentPicture($item->comment_picture, $item->user->user_sex) }}" /></a>
 			@elseif (!empty($item->foto_url))
-				<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ App\Helpers\Helper::outPicture($item->foto_url, $item->user->user_sex) }}" /></a>
+				<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outPicture($item->foto_url, $item->user->user_sex) }}" /></a>
 			@endif
 			@if (!empty($item->comment_picture))
 				<div class="mrg2">{!! $item->comment_text !!}</div>

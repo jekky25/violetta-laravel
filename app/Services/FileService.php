@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Str;
+use App\Helpers\Helper;
 
 class FileService
 {
@@ -187,5 +188,17 @@ class FileService
 			return unlink($fileName);
 		}
 		return false;
+	}
+
+	/**
+	* out picture to template
+	* @param integer $picture
+	* @param string $sex
+	*
+	* @return string
+	*/
+	public function outPicture($picture, $sex = 0)
+	{
+		return Helper::getPicture($picture, $sex, 'fotos_new/', '.jpg');
 	}
 }

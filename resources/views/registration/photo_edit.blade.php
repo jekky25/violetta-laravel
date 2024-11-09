@@ -16,7 +16,7 @@
 @if (!empty($photo))
 <table class="dnevBodyPic3">
 	<tr>
-		<td><div class="photo-block"><img class="photo-block-img" alt="" src="{{ App\Helpers\Helper::outPicture($photo->fotos_id, $user->user_sex) }}" /></div>
+		<td><div class="photo-block"><img class="photo-block-img" alt="" src="{{ (new FileService)->outPicture($photo->fotos_id, $user->user_sex) }}" /></div>
 		</td>
 	</tr>
 </table>

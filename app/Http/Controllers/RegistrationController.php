@@ -244,7 +244,7 @@ class RegistrationController extends Controller
 	public function editPhoto($id)
 	{
 		$user 			= Auth::user();
-		$photo = $this->photoRepository->getByIdAndUserId($id, $user->user_id);
+		$photo			= $this->photoRepository->getByIdAndUserId($id, $user->user_id);
 		return response()->view ('registration.photo_edit',
 		[
 			'photo' => $photo

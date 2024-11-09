@@ -16,7 +16,7 @@ function vote(score)
     @if ($anketUserData->user_fotos > 0)
         @foreach ($anketUserData->photo as $item)
 		@if ($loop->iteration > 1) @continue @endif
-		<li><a class="ankFotosPics" href="{{route('ank.id', $anketUserData->user_id)}}"><img src="{{ App\Helpers\Helper::outPicture($item->fotos_id, $anketUserData->user_sex) }}" /></a></li>
+		<li><a class="ankFotosPics" href="{{route('ank.id', $anketUserData->user_id)}}"><img src="{{ (new FileService)->outPicture($item->fotos_id, $anketUserData->user_sex) }}" /></a></li>
         @endforeach
 	@else
 		<li><a class="ankFotosPics" href="{{route('ank.id', $anketUserData->user_id)}}">@if ($anketUserData->user_sex == MEN)<img src="{{ asset('image/no_foto_m_vip.jpg') }}" />@else<img src="{{ asset('image/no_foto_w_vip.jpg') }}" />@endif</a></li>

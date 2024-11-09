@@ -26,7 +26,7 @@ class PhotoService
 	* @param  int $perPage
 	* @return void
 	*/
-	public function prepare (&$anket, $photoId, $perPage)
+	public function prepare(&$anket, $photoId, $perPage)
 	{
 		foreach ($anket->photo as &$item)
 		{
@@ -43,7 +43,7 @@ class PhotoService
 	* @param  App\Models\User  $anket
 	* @return bool
 	*/
-	public function checkMainPhoto ($anket)
+	public function checkMainPhoto($anket)
 	{
 		return !empty($anket->mainPhoto) ? $anket->mainPhoto : $anket->photo[0];
 	}

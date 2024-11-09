@@ -35,9 +35,9 @@ class DiaryCommentController extends Controller
 	*/	
 	public function index($id)
 	{
-		$comments 	= $this->diaryCommentRepository->getByDiary (self::$diaryCommentsPerPage, $id);
-		$diary 		= $this->diaryRepository->getById ($id);
-		return response()->view ('ankets.comments',
+		$comments 	= $this->diaryCommentRepository->getByDiary(self::$diaryCommentsPerPage, $id);
+		$diary 		= $this->diaryRepository->getById($id);
+		return response()->view('ankets.comments',
 		[
 			'userData'		=> $diary->user,
 			'diary'			=> $diary,
@@ -69,7 +69,7 @@ class DiaryCommentController extends Controller
 	{
 		$user						= Auth::user();
 		$comment					= $this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
-		return response()->view ('ankets.diary_comment_edit',
+		return response()->view('ankets.diary_comment_edit',
 		[
 			'userData'		=> $user,
 			'comment'		=> $comment,
