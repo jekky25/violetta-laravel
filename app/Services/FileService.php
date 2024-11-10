@@ -201,4 +201,16 @@ class FileService
 	{
 		return Helper::getPicture($picture, $sex, 'fotos_new/', '.jpg');
 	}
+
+	/**
+	* out picture in diaries to template
+	* @param integer $picture
+	* @param string $sex
+	*
+	* @return string
+	*/
+	public function outDiaryPicture(string $picture, $sex)
+	{
+		return Helper::getPicture($picture, $sex, 'img/dnevnik/', '');
+	}
 }

@@ -30,18 +30,6 @@ class Helper {
     }
 
 	/**
-	 * out picture in diaries to template
-	 * @param integer $picture
-	 * @param string $sex
-	 *
-	 * @return string
-	 */
-	public static function outDiaryPicture(string $picture, $sex)
-	{
-		return self::getPicture ($picture, $sex, 'img/dnevnik/', '');
-	}
-
-	/**
 	 * out picture in comments of diaries to template
 	 * @param integer $picture
 	 * @param string $sex

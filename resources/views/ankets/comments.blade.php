@@ -17,7 +17,7 @@
 			</h4>
 			<div class="dnevBody clear">
 			@if (!empty($diary->dnevniki_picture))
-				<a class="dnevBodyPic1" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ App\Helpers\Helper::outDiaryPicture($diary->dnevniki_picture, $userData->user_sex) }}" /></a>
+				<a class="dnevBodyPic1" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ (new FileService)->outDiaryPicture($diary->dnevniki_picture, $userData->user_sex) }}" /></a>
 			@elseif (!empty($userData->foto_user_id))
 				<a class="dnevBodyPic2" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ (new FileService)->outPicture($diary->foto_user_id, $userData->user_sex) }}" /></a>
 			@endif
