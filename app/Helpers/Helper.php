@@ -30,25 +30,6 @@ class Helper {
     }
 
 	/**
-	 * out picture with storage path
-	 * @param integer $picture
-	 * @param string $sex
-	 * @param string $path
-	 * @param string $ext
-	 *
-	 * @return string
-	 */
-	public static function getPicture ($picture, $sex, $path, $ext)
-	{
-		$ext			= !empty ($ext) ? $ext : '';
-		$file 			= $_SERVER['DOCUMENT_ROOT'] . '/public/' . $path . $picture . $ext;
-		$fileTimeStr 	= !empty(self::getFileChangeTime($file)) 	? self::getFileChangeTime($file) . '/'		: '';
-		if (!empty($picture) && !empty($path)) return asset($path . $fileTimeStr . $picture . $ext);
-		$fotoUrl = $sex == MEN ? 'image/no_foto_m_vip.jpg' : 'image/no_foto_w_vip.jpg';
-		return asset ($fotoUrl);
-	}
-
-	/**
 	 * getting file changins time
 	 * @param string $file
 	 *

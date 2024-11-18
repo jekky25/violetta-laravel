@@ -199,7 +199,7 @@ class FileService
 	*/
 	public function outPicture($picture, $sex = 0)
 	{
-		return Helper::getPicture($picture, $sex, 'fotos_new/', '.jpg');
+		return $this->getPicture($picture, $sex, 'fotos_new/', '.jpg');
 	}
 
 	/**
@@ -211,7 +211,7 @@ class FileService
 	*/
 	public function outDiaryPicture(string $picture, $sex)
 	{
-		return Helper::getPicture($picture, $sex, 'img/dnevnik/', '');
+		return $this->getPicture($picture, $sex, 'img/dnevnik/', '');
 	}
 
 	/**
@@ -223,6 +223,25 @@ class FileService
 	*/
 	public function outDiaryCommentPicture(string $picture, $sex)
 	{
-		return Helper::getPicture($picture, $sex, 'img/dnev_comment/', '');
+		return $this->getPicture($picture, $sex, 'img/dnev_comment/', '');
+	}
+
+	/**
+	* out picture with storage path
+	* @param integer $picture
+	* @param string $sex
+	* @param string $path
+	* @param string $ext
+	*
+	* @return string
+	*/
+	public function getPicture($picture, $sex, $path, $ext)
+	{
+		$ext			= !empty($ext) ? $ext : '';
+		$file 			= $_SERVER['DOCUMENT_ROOT'] . '/public/' . $path . $picture . $ext;
+		$fileTimeStr 	= !empty(Helper::getFileChangeTime($file)) 	? Helper::getFileChangeTime($file) . '/'		: '';
+		if (!empty($picture) && !empty($path)) return asset($path . $fileTimeStr . $picture . $ext);
+		$fotoUrl = $sex == MEN ? 'image/no_foto_m_vip.jpg' : 'image/no_foto_w_vip.jpg';
+		return asset($fotoUrl);
 	}
 }
