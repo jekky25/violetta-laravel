@@ -239,9 +239,20 @@ class FileService
 	{
 		$ext			= !empty($ext) ? $ext : '';
 		$file 			= $_SERVER['DOCUMENT_ROOT'] . '/public/' . $path . $picture . $ext;
-		$fileTimeStr 	= !empty(Helper::getFileChangeTime($file)) 	? Helper::getFileChangeTime($file) . '/'		: '';
+		$fileTimeStr 	= !empty($this->getFileChangeTime($file)) 	? $this->getFileChangeTime($file) . '/'		: '';
 		if (!empty($picture) && !empty($path)) return asset($path . $fileTimeStr . $picture . $ext);
 		$fotoUrl = $sex == MEN ? 'image/no_foto_m_vip.jpg' : 'image/no_foto_w_vip.jpg';
 		return asset($fotoUrl);
+	}
+
+	/**
+	* getting file changins time
+	* @param string $file
+	*
+	* @return string
+	*/
+	public function getFileChangeTime(string $file)
+	{
+		return file_exists($file) ? filemtime($file)	: '';
 	}
 }

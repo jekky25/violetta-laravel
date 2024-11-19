@@ -30,17 +30,6 @@ class Helper {
     }
 
 	/**
-	 * getting file changins time
-	 * @param string $file
-	 *
-	 * @return string
-	 */
-	public static function getFileChangeTime (string $file)
-	{
-		return file_exists($file) 	? filemtime($file)		: '';
-	}
-
-	/**
 	 * returns the date by age
 	 *
 	 * @return Carbon\Carbon
