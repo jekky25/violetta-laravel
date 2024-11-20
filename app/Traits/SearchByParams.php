@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Helpers\Helper;
 use App\Services\DataService;
 
 trait SearchByParams {
@@ -12,20 +11,21 @@ trait SearchByParams {
      ***********************************/
 	private function getBySex($findSex, $sex)
 	{
+		$data = new DataService;
 		if ($findSex !== 0 && $sex == 0) $this->ankets->where('user_sex', $findSex);
 		else if ($findSex == 0 && $sex !== 0) 
 		{
 			if ($sex == MEN) 
 			{
 				$this->ankets->where(function ($query) {
-					Helper::queryBlock([MEN, GOMOSEXUAL, BISEXUAL], $query);
-					Helper::queryBlockOr([WOMEN, GETEROSEXUAL, BISEXUAL], $query);
+					$data->queryBlock([MEN, GOMOSEXUAL, BISEXUAL], $query);
+					$data->queryBlockOr([WOMEN, GETEROSEXUAL, BISEXUAL], $query);
 				});
 			} else if ($sex == WOMEN) 
 			{
 				$this->ankets->where(function ($query) {
-					Helper::queryBlock([WOMEN, GOMOSEXUAL, BISEXUAL], $query);
-					Helper::queryBlockOr([MEN, GETEROSEXUAL, BISEXUAL], $query);
+					$data->queryBlock([WOMEN, GOMOSEXUAL, BISEXUAL], $query);
+					$data->queryBlockOr([MEN, GETEROSEXUAL, BISEXUAL], $query);
 				});
 			}
 		} else if ($findSex !== 0 && $sex !== 0) 
@@ -34,19 +34,19 @@ trait SearchByParams {
 			{
 				if ($findSex == MEN) 
 				{
-					Helper::queryBlock([MEN, GOMOSEXUAL, BISEXUAL], $this->ankets);
+					$data->queryBlock([MEN, GOMOSEXUAL, BISEXUAL], $this->ankets);
 				} else if ($findSex == WOMEN) 
 				{
-					Helper::queryBlock([WOMEN, GETEROSEXUAL, BISEXUAL], $this->ankets);
+					$data->queryBlock([WOMEN, GETEROSEXUAL, BISEXUAL], $this->ankets);
 				}
 			} else if ($sex == WOMEN) 
 			{
 				if ($findSex == WOMEN) 
 				{
-					Helper::queryBlock([WOMEN, GOMOSEXUAL, BISEXUAL], $this->ankets);
+					$data->queryBlock([WOMEN, GOMOSEXUAL, BISEXUAL], $this->ankets);
 				} else if ($findSex == MEN) 
 				{
-					Helper::queryBlock([MEN, GETEROSEXUAL, BISEXUAL], $this->ankets);
+					$data->queryBlock([MEN, GETEROSEXUAL, BISEXUAL], $this->ankets);
 				}
 			}
 		}

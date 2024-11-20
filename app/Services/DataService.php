@@ -129,4 +129,40 @@ class DataService
 		if ($timestamp == 0) $timestamp = time();
 		return date("d.m.y.", $timestamp);
 	}
+
+	/**
+	* make query Block
+	* @param array $ar
+	* @param object $items
+	*
+	* @return void
+	*/
+	public function queryBlock($ar, &$items)
+	{
+		$items->where(function ($query) use ($ar) {
+			$query->where('user_sex', $ar[0]);
+			$query->where(function ($query) use ($ar) {
+				$query->where('user_sex_orient', $ar[1]);
+				$query->orWhere('user_sex_orient', $ar[2]);
+			});
+		});
+	}
+
+	/**
+	* make or query Block
+	* @param array $ar
+	* @param object $items
+	*
+	* @return void
+	*/
+	public function queryBlockOr($ar, &$items)
+	{
+		$items->Orwhere(function ($query) use ($ar) {
+			$query->where('user_sex', $ar[0]);
+			$query->where(function ($query) use ($ar) {
+				$query->where('user_sex_orient', $ar[1]);
+				$query->orWhere('user_sex_orient', $ar[2]);
+			});
+		});
+	}
 }

@@ -30,42 +30,6 @@ class Helper {
     }
 
 	/**
-	 * make query Block
-	 * @param array $ar
-	 * @param object $items
-	 *
-	 * @return void
-	 */
-	public static function queryBlock($ar, &$items)
-	{
-		$items->where(function ($query) use ($ar) {
-			$query->where('user_sex', $ar[0]);
-			$query->where(function ($query) use ($ar) {
-				$query->where('user_sex_orient', $ar[1]);
-				$query->orWhere('user_sex_orient', $ar[2]);
-			});
-		});
-	}
-
-	/**
-	 * make or query Block
-	 * @param array $ar
-	 * @param object $items
-	 *
-	 * @return void
-	 */
-	public static function queryBlockOr($ar, &$items)
-	{
-		$items->Orwhere(function ($query) use ($ar) {
-			$query->where('user_sex', $ar[0]);
-			$query->where(function ($query) use ($ar) {
-				$query->where('user_sex_orient', $ar[1]);
-				$query->orWhere('user_sex_orient', $ar[2]);
-			});
-		});
-	}
-
-	/**
 	 * out diary type in cases
 	 * @param integer $number
 	 *
