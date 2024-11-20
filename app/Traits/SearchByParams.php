@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Helpers\Helper;
+use App\Services\DataService;
 
 trait SearchByParams {
 
@@ -61,13 +62,13 @@ trait SearchByParams {
 	private function getByAgeMin($ageMin)
 	{
 		if ($ageMin <= AGE_MIN) return $this->ankets;
-		return $this->ankets->where('user_birth_date', '<', Helper::birthAround($ageMin-1));
+		return $this->ankets->where('user_birth_date', '<', (new DataService)->birthAround($ageMin-1));
 	}
 
 	private function getByAgeMax($ageMax)
 	{
 		if ($ageMax <= AGE_MAX) return $this->ankets;
-		return $this->ankets->where('user_birth_date', '>', Helper::birthAround($ageMax));
+		return $this->ankets->where('user_birth_date', '>', (new DataService)->birthAround($ageMax));
 	}
 
 	private function getByHeightMin($heightMin)

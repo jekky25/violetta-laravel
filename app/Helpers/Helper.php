@@ -30,17 +30,6 @@ class Helper {
     }
 
 	/**
-	 * returns the date by age
-	 *
-	 * @return Carbon\Carbon
-	 */
-	public static function birthAround($age)
-	{
-		$time = Carbon\Carbon::now()->add(-$age, 'year')->format('Y-m-d');
-		return $time;
-	}
-
-	/**
 	 * make query Block
 	 * @param array $ar
 	 * @param object $items
