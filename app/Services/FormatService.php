@@ -281,4 +281,20 @@ class FormatService
 		])
 		->header('Content-Type', 'text/xml')->send();
 	}
+
+	/**
+	* out diary type in cases
+	* @param integer $number
+	*
+	* @return string
+	*/
+	public function caseDiaryType(int $number)
+	{
+		if ($number >10 && $number < 20) return "записей";
+		$finalNumber = substr($number,-1,1);
+		if ($finalNumber <=0) return "записей";
+		if ($finalNumber == 1) return "запись";
+		if ($finalNumber >= 2 && $finalNumber <= 4) return "записи";
+		return "записей";
+	}
 }

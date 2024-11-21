@@ -30,32 +30,6 @@ class Helper {
     }
 
 	/**
-	 * out diary type in cases
-	 * @param integer $number
-	 *
-	 * @return string
-	*/
-	public static function caseDiaryType($number)
-	{
-		$number = intval($number);
-		if ($number >10 && $number <20)
-			$type = "записей";
-		else
-		{
-			$number_fin = substr($number,-1,1);
-			if ($number_fin <=0 )
-				$type = "записей";
-			elseif ($number_fin ==1 )
-				$type = "запись";
-			elseif ($number_fin >=2 && $number_fin<=4)
-				$type = "записи";
-			else
-				$type = "записей";
-		}
-		return $type;
-	}
-
-	/**
 	 * get zodiac name by birth date
 	 * @param string $birth_date
 	 *

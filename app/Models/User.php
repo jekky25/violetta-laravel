@@ -175,37 +175,37 @@ class User extends Authenticatable
 		}
 	}
 
-	public function getUserAgeAttribute ()
+	public function getUserAgeAttribute()
 	{
 		return (new DataService)->age($this->user_birth_date);
 	}
 
-	public function getUserAgeTypeAttribute ()
+	public function getUserAgeTypeAttribute()
 	{
 		return (new formatService)->ageType($this->user_age);
 	}
 
-	public function getBirthDayAttribute ()
+	public function getBirthDayAttribute()
 	{
 		return Helper::selectFromDate($this->user_birth_date, DATE_DAY);
 	}
 
-	public function getBirthMonthAttribute ()
+	public function getBirthMonthAttribute()
 	{
 		return Helper::selectFromDate($this->user_birth_date, DATE_MONTH);
 	}
 
-	public function getBirthYearAttribute ()
+	public function getBirthYearAttribute()
 	{
 		return Helper::selectFromDate($this->user_birth_date, DATE_YEAR);
 	}
 
-	public function getUserAgeStrAttribute ()
+	public function getUserAgeStrAttribute()
 	{
 		return $this->user_age .' ' . $this->user_age_type;
 	}
 
-	public function getFindSexOrientAttribute ()
+	public function getFindSexOrientAttribute()
 	{
 		$findSOrient = '';
 		if ($this->user_sex_orient == GOMOSEXUAL) 
@@ -231,45 +231,45 @@ class User extends Authenticatable
 		return $findSOrient;
 	}
 
-	public function getZodiacAttribute ()
+	public function getZodiacAttribute()
 	{
 		return Helper::zodiac($this->user_birth_date);
 	}
 
-	public function getNumberDiaryAttribute ()
+	public function getNumberDiaryAttribute()
 	{
 		return count($this->diary);
 	}
 
-	public function getNumberDiaryStrAttribute ()
+	public function getNumberDiaryStrAttribute()
 	{
-		return $this->number_diary . ' ' . Helper::caseDiaryType($this->number_diary);
+		return $this->number_diary . ' ' . (new formatService)->caseDiaryType($this->number_diary);
 	}
 
-	public function getUserReitingStrAttribute ()
+	public function getUserReitingStrAttribute()
 	{
 		$maxReit = (new UserRepository())->getMaxReiting($this->user_sex);
 		return (new formatService)->reiting($this->user_reiting,$maxReit);
 	}
 
-	public function getUserDescriptionAttribute ($val)
+	public function getUserDescriptionAttribute($val)
 	{
 		$val = stripslashes($val);
 		return str_replace("\n", "\n<br />\n", $val);
 	}
 
-	public function getUserSexStrAttribute ()
+	public function getUserSexStrAttribute()
 	{
 		return $this->user_sex == MEN ? 'Мужской' : 'Женский';
 	}
 
-	public function getDateMakeStrAttribute ()
+	public function getDateMakeStrAttribute()
 	{
 		return Helper::dateFormat($this->user_make_date);
 	}
 
 
-	public function getDateRefreshAttribute ($val)
+	public function getDateRefreshAttribute($val)
 	{
 		return $this->user_make_date !== $this->user_refresh_date ? Helper::dateFormat($this->user_refresh_date) : $val;
 	}
