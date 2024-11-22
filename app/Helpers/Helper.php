@@ -1,26 +1,10 @@
 <?php
 namespace App\Helpers;
-use Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\PhotoRepository;
 
 class Helper {
-
-	public static $zodiacSigns = [
-				"1" => "Козерог",
-				"2" => "Водолей",
-				"3" => "Рыбы",
-				"4" => "Овен",
-				"5" => "Телец",
-				"6" => "Близнецы",
-				"7" => "Рак",
-				"8" => "Лев",
-				"9" => "Дева",
-				"10" => "Весы",
-				"11" => "Скорпион",
-				"12" => "Стрелец"];
-
 	/**
      * Create a new controller instance.
      *
@@ -28,102 +12,6 @@ class Helper {
      */			
     public function __construct(){
     }
-
-	/**
-	 * get zodiac name by birth date
-	 * @param string $birth_date
-	 *
-	 * @return string
-	*/
-	public static function zodiac($birthDate)
-	{
-	
-		$arZodiac = [];
-		$zodiac = self::$zodiacSigns;
-		preg_match("/^ *(([0-9]+)-([0-9]+)-([0-9]+)) *$/",$birthDate,$pockets);
-
-		$pockets[3] = (int)$pockets[3];
-		$pockets[4] = (int)$pockets[4];
-		switch ($pockets[3]) {
-			case '01':
-			case '03':
-			case '04':
-				$id	= $pockets[4] <= 20 ? $pockets[3] : ($pockets[3] + 1);
-			break;
-
-			case '02':
-				$id	= $pockets[4] <= 19 ? $pockets[3] : ($pockets[3] + 1);
-			break;
-
-			case '05':
-			case '06':	
-				$id	= $pockets[4] <= 21 ? $pockets[3] : ($pockets[3] + 1);
-			break;
-
-			case '07':
-			case '08':
-			case '09':
-			case '10':
-				$id	= $pockets[4] <= 23 ? $pockets[3] : ($pockets[3] + 1);
-			break;
-
-			case '11':
-				$id	= $pockets[4] <= 22 ? $pockets[3] : ($pockets[3] + 1);
-			break;
-
-			case '12':
-				$id	= $pockets[4] <= 22 ? $pockets[3] : 1;
-			break;
-
-			default:
-				$id = 1;
-			break;
-		}
-
-
-		$arZodiac['zodiac_text'] = $zodiac[$id];
-
-		switch ($id) {
-			case 1:
-				$arZodiac['zodiac_id'] = 10;
-			break;
-			case 2:
-				$arZodiac['zodiac_id'] = 11;
-			break;
-			case 3:
-				$arZodiac['zodiac_id'] = 12;
-			break;
-			case 4:
-				$arZodiac['zodiac_id'] = 1;
-			break;
-			case 5:
-				$arZodiac['zodiac_id'] = 2;
-			break;
-			case 6:
-				$arZodiac['zodiac_id'] = 3;
-			break;
-			case 7:
-				$arZodiac['zodiac_id'] = 4;
-			break;
-			case 8:
-				$arZodiac['zodiac_id'] = 5;
-			break;
-			case 9:
-				$arZodiac['zodiac_id'] = 6;
-			break;
-			case 10:
-				$arZodiac['zodiac_id'] = 7;
-			break;
-			case 11:
-				$arZodiac['zodiac_id'] = 8;
-			break;
-			default:
-				$arZodiac['zodiac_id'] = 9;
-			break;
-
-		}
-		return $arZodiac;
-	}
 
 	/**
 	 * move date to the format dd.mm.yyyy

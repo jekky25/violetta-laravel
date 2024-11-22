@@ -233,7 +233,7 @@ class User extends Authenticatable
 
 	public function getZodiacAttribute()
 	{
-		return Helper::zodiac($this->user_birth_date);
+		return (new DataService)->zodiac($this->user_birth_date);
 	}
 
 	public function getNumberDiaryAttribute()
