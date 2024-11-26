@@ -265,13 +265,13 @@ class User extends Authenticatable
 
 	public function getDateMakeStrAttribute()
 	{
-		return Helper::dateFormat($this->user_make_date);
+		return (new DataService)->dateFormat($this->user_make_date);
 	}
 
 
 	public function getDateRefreshAttribute($val)
 	{
-		return $this->user_make_date !== $this->user_refresh_date ? Helper::dateFormat($this->user_refresh_date) : $val;
+		return $this->user_make_date !== $this->user_refresh_date ? (new DataService)->dateFormat($this->user_refresh_date) : $val;
 	}
 
 	public function getMeetTargetAttribute()

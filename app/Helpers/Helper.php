@@ -1,6 +1,5 @@
 <?php
 namespace App\Helpers;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\PhotoRepository;
 
@@ -12,45 +11,6 @@ class Helper {
      */			
     public function __construct(){
     }
-
-	/**
-	 * move date to the format dd.mm.yyyy
-	 * ex date_format ($date)
-	 * @param string $date
-	 *
-	 * @return string
-	*/
-	public static function dateFormat($date)
-	{
-		preg_match("/^ *(([0-9]+)-([0-9]+)-([0-9]+)) *$/",$date,$pockets);
-		$date_out = $pockets[4].".".$pockets[3].".".$pockets[2];
-		return $date_out;
-	}
-
-	/**
-	 * adding pictures
-	 * @param object $picture
-	 * @param integer $foto
-	 * @param string $path_foto
-	 *
-	 * @return mixed
-	*/
-	public static function fotoUpload($picture, $width = 0, $path_foto = '') 
-	{
-		$photo['link']		= !empty($picture->getPathName())					? $picture->getPathName() 								: false;
-		$photo['name']		= !empty($picture->getClientOriginalName())			? $picture->getClientOriginalName()						: '';
-		$photo['size']		= !empty($picture->getSize())						? $picture->getSize()									: 0;
-		$photo['filetype']	= !empty($picture->getMimeType())					? $picture->getMimeType()								: '';
-		$photo['extension']	= !empty($picture->getClientOriginalExtension())	? strtolower($picture->getClientOriginalExtension()) 	: 'jpg';
-		$width 				= $width > 0 ? $width : 200;
-		$photo['unic_name']	= Str::random(20) . '.' . $photo['extension'];
-		$photoLink			= $path_foto . (!empty($picture->nameForInsert) ? $picture->nameForInsert : $photo['unic_name']);
-		$photoLinkTmp		= 'img_temp/' . $photo['unic_name'];
-		$res = Helper::moveUploadedFile($photo['link'], $photoLinkTmp);
-		$res = Helper::resize($photoLinkTmp, $width, $photoLink);
-		unlink($photoLinkTmp);
-		return isset($res ['success']) ? $photo['unic_name'] : false;
-	}
 
 	/**
 	 * moving uploaded file

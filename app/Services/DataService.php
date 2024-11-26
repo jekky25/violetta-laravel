@@ -284,4 +284,17 @@ class DataService
 		}
 		return $arZodiac;
 	}
+
+	/**
+	* move date to the format dd.mm.yyyy
+	* ex date_format ($date)
+	* @param string $date
+	*
+	* @return string
+	*/
+	public function dateFormat($date)
+	{
+		$pockets	= $this->getDataFromString($date);
+		return $pockets[4].".".$pockets[3].".".$pockets[2];
+	}
 }
