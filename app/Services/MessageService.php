@@ -14,7 +14,7 @@ class MessageService
 	*/
 	public function outMessageInfo($title, $text, $confirmAction, $hidden = '')
 	{
-		return response()->view ('mess_die.confirm',
+		return response()->view('mess_die.confirm',
 		[
 			'msgTitle' 		=> $title,
 			'msgText'		=> $text,
@@ -34,7 +34,7 @@ class MessageService
 	*/
 	public function outMessageDie($title, $text, $hidden = '')
 	{
-		return response()->view ('mess_die.info',
+		return response()->view('mess_die.info',
 		[
 			'msgTitle' 		=> $title,
 			'msgText'		=> $text,

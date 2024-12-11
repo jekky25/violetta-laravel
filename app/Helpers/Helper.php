@@ -13,43 +13,6 @@ class Helper {
     }
 
 	/**
-	 * print information page with confirm or cancel
-	 * @param string $title
-	 * @param string $text
-	 * @param string $confirmAction 
-	 * @param string $hidden
-	 *
-	 * @return \Illuminate\Http\Response
-	*/
-	public static function outMessageInfo($title, $text, $confirmAction, $hidden = '')
-	{
-		return response()->view ('mess_die.confirm',
-		[
-			'msgTitle' 		=> $title,
-			'msgText'		=> $text,
-			'confirmAction' => $confirmAction,
-			'hidden'		=> $hidden
-		])->send();
-	}
-
-	/**
-	 * translate smiles from codes to html tages
-	 * 
-	 * @param string $str
-	 * @param array $smiles
-	 *
-	 * @return string
-	 */
-	public static function transformSmiles ($str, $smiles)
-	{
-		if (empty ($smiles)) return $str;
-		foreach ($smiles as $_smile) {
-			$str = str_replace ($_smile->smile_code, '<img class="messBSmile" src="' . asset('image/smiles/' . $_smile->smile_img) . '" alt="" />', $str);
-		}
-		return $str;
-	}
-
-	/**
 	 * select a separate year, month or day from the date
 	 * 
 	 * @param string $date
