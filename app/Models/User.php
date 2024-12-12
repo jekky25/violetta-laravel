@@ -9,7 +9,6 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Repositories\UserRepository;
 use App\Services\FormatService;
 use App\Services\DataService;
-use App\Helpers\Helper;
 use App\Models\Photo;
 
 class User extends Authenticatable
@@ -138,7 +137,7 @@ class User extends Authenticatable
 	{
 		if ((int)$this->{$item['prop']} > 0)
 		{
-			$oItem 		= $k::getById ($this->{$item['prop']});
+			$oItem 		= $k::getById($this->{$item['prop']});
 			$this->{$item['ank_prop']} 	= $oItem->name;
 		}
 	}
@@ -187,17 +186,17 @@ class User extends Authenticatable
 
 	public function getBirthDayAttribute()
 	{
-		return Helper::selectFromDate($this->user_birth_date, DATE_DAY);
+		return (new DataService)->selectFromDate($this->user_birth_date, DATE_DAY);
 	}
 
 	public function getBirthMonthAttribute()
 	{
-		return Helper::selectFromDate($this->user_birth_date, DATE_MONTH);
+		return(new DataService)->selectFromDate($this->user_birth_date, DATE_MONTH);
 	}
 
 	public function getBirthYearAttribute()
 	{
-		return Helper::selectFromDate($this->user_birth_date, DATE_YEAR);
+		return (new DataService)->selectFromDate($this->user_birth_date, DATE_YEAR);
 	}
 
 	public function getUserAgeStrAttribute()
@@ -302,7 +301,7 @@ class User extends Authenticatable
 
 	public function getPhotoIdAttribute()
 	{
-		if (empty ($this->photo)) return null;
+		if (empty($this->photo)) return null;
 		return !empty($this->photo->fotos_id) ? $this->photo->fotos_id : null;
 	}
 

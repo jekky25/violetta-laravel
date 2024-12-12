@@ -297,4 +297,18 @@ class DataService
 		$pockets	= $this->getDataFromString($date);
 		return $pockets[4].".".$pockets[3].".".$pockets[2];
 	}
+
+	/**
+	* select a separate year, month or day from the date
+	* 
+	* @param string $date
+	* @param integer $mode
+	*
+	* @return array
+	*/
+	public function selectFromDate($date, $mode)
+	{
+		$pockets	= $this->getDataFromString($date);
+  		return $pockets[$mode];
+	}
 }

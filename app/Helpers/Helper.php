@@ -13,20 +13,6 @@ class Helper {
     }
 
 	/**
-	 * select a separate year, month or day from the date
-	 * 
-	 * @param string $date
-	 * @param integer $mode
-	 *
-	 * @return array
-	 */
-	public static function selectFromDate($date,$mode)
-	{
-  		preg_match("/^ *(([0-9]+)-([0-9]+)-([0-9]+)) *$/",$date,$pockets_old);
-  		return $pockets_old[$mode];
-	}
-
-	/**
 	 * transform day, month and year to data string format 0000-00-00
 	 * 
 	 * @param integer $day
