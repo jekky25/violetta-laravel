@@ -4,13 +4,23 @@ namespace App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use App\Services\DataService;
 use App\Rules\AgeValid;
 use App\Rules\HeightValid;
 use App\Rules\WeightValid;
-use App\Helpers\Helper;
 
 class ProfilePartnerRequest extends FormRequest
 {
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct(DataService $data)
+	{
+		$this->data = $data;
+	}
+
 	/**
 	* replace array errors from default to commit
 	* @param  Illuminate\Contracts\Validation\Validator  $validator
@@ -52,11 +62,11 @@ class ProfilePartnerRequest extends FormRequest
 			'user_partner_height_max' 		=> $this->partner_height_max,
 			'user_partner_weight_min' 		=> $this->partner_weight_min,
 			'user_partner_weight_max' 		=> $this->partner_weight_max,
-			'user_partner_body'				=> Helper::serializeInput($this->partner_body),
-			'user_partner_speak_lang'		=> Helper::serializeInput($this->partner_speak_lang),
-			'user_partner_spirt'			=> Helper::serializeInput($this->partner_spirt),
-			'user_partner_smoke'			=> Helper::serializeInput($this->partner_smoke),
-			'user_partner_education'		=> Helper::serializeInput($this->partner_education),
+			'user_partner_body'				=> $this->data->serializeInput($this->partner_body),
+			'user_partner_speak_lang'		=> $this->data->serializeInput($this->partner_speak_lang),
+			'user_partner_spirt'			=> $this->data->serializeInput($this->partner_spirt),
+			'user_partner_smoke'			=> $this->data->serializeInput($this->partner_smoke),
+			'user_partner_education'		=> $this->data->serializeInput($this->partner_education),
 			'user_partner_country' 			=> $this->country,
 			'user_partner_region'	 		=> $this->region,
 			'user_partner_city'	 			=> $this->city,

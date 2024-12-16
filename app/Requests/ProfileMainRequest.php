@@ -13,6 +13,16 @@ use App\Services\DataService;
 class ProfileMainRequest extends FormRequest
 {
 	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct(DataService $data)
+	{
+		$this->data = $data;
+	}
+
+	/**
 	* replace array errors from default to commit
 	* @param  Illuminate\Contracts\Validation\Validator  $validator
 	* @return void
@@ -44,7 +54,6 @@ class ProfileMainRequest extends FormRequest
 		];
 	}
 
-	
 	/**
 	* Prepare params for validation
 	*
@@ -53,7 +62,7 @@ class ProfileMainRequest extends FormRequest
 	protected function prepareForValidation()
     {
         $this->merge([
-			'user_birth_date'		=> (new DataService)->getDateStr($this->birth_day,$this->birth_month,$this->birth_year),
+			'user_birth_date'		=> $this->data->getDateStr($this->birth_day,$this->birth_month,$this->birth_year),
 			'user_refresh_date'		=> date("Y-m-d"),
 			'user_refresh_date_t'	=> time(),
 			'user_session_time'		=> time(),

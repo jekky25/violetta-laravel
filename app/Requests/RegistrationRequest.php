@@ -18,6 +18,16 @@ use App\Services\DataService;
 class RegistrationRequest extends FormRequest
 {
 	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct(DataService $data)
+	{
+		$this->data = $data;
+	}
+
+	/**
 	* replace array errors from default to commit
 	* @param  Illuminate\Contracts\Validation\Validator  $validator
 	* @return void
@@ -81,7 +91,7 @@ class RegistrationRequest extends FormRequest
 			'user_mail' 				=> $this->mail,
 			'user_sex' 					=> $this->sex,
 			'user_name' 				=> $this->name,
-			'user_birth_date'	 		=> (new DataService)->getDateStr($this->birth_day,$this->birth_month,$this->birth_year),
+			'user_birth_date'	 		=> $this->data->getDateStr($this->birth_day,$this->birth_month,$this->birth_year),
 			'user_country' 				=> $this->country,
 			'user_region' 				=> $this->region,
 			'user_city'					=> $this->city,

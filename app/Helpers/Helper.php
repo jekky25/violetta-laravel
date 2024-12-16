@@ -13,19 +13,6 @@ class Helper {
     }
 
 	/**
-	 * serialize array from the input fields
-	 * 
-	 * @param array $data
-	 *
-	 * @return string
-	 */
-	public static function serializeInput($data)
-	{
-		return !is_array($data) ? '' : serialize ($data);
-	}
-
-
-	/**
 	 * remove the picture from the server and makes update about it in the DB
 	 * 
 	 * @param App\Models\Photo $photo

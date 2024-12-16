@@ -327,4 +327,16 @@ class DataService
 		$month	= $month < 10 	? "0$month" : $month;
 		return "$year-$month-$day";
 	}
+
+	/**
+	 * serialize array from the input fields
+	 * 
+	 * @param array $data
+	 *
+	 * @return string
+	 */
+	public function serializeInput($data)
+	{
+		return !is_array($data) ? '' : serialize($data);
+	}
 }

@@ -4,10 +4,20 @@ namespace App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
-use App\Helpers\Helper;
+use App\Services\DataService;
 
 class ProfileSecondRequest extends FormRequest
 {
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct(DataService $data)
+	{
+		$this->data = $data;
+	}
+
 	/**
 	* replace array errors from default to commit
 	* @param  Illuminate\Contracts\Validation\Validator  $validator
@@ -31,8 +41,8 @@ class ProfileSecondRequest extends FormRequest
     {
         $this->merge([
 			'user_sex_orient'		=> $this->sex_orient < 1 || $this->sex_orient > 4 ? 2 : $this->sex_orient,
-			'user_target_meet'		=> Helper::serializeInput($this->target_meet),
-			'user_speak_lang' 		=> Helper::serializeInput($this->speak_lang),
+			'user_target_meet'		=> $this->data->serializeInput($this->target_meet),
+			'user_speak_lang' 		=> $this->data->serializeInput($this->speak_lang),
 			'user_body' 			=> $this->body,
 			'user_height' 			=> $this->height < 150	? 149	: $this->height,
 			'user_weight' 			=> $this->weight < 30	? 29 	: $this->weight,
@@ -45,7 +55,7 @@ class ProfileSecondRequest extends FormRequest
 			'user_sem_polozh'		=> $this->family_status,
 			'user_children'			=> $this->children,
 			'user_help_money'		=> $this->help_money,
-			'user_interests'		=> Helper::serializeInput($this->interest),
+			'user_interests'		=> $this->data->serializeInput($this->interest),
 			'user_icq'				=> (string)$this->icq,
 			'user_url'				=> addslashes($this->url),
 			'user_phone'			=> addslashes($this->phone),
