@@ -311,4 +311,20 @@ class DataService
 		$pockets	= $this->getDataFromString($date);
   		return $pockets[$mode];
 	}
+
+	/**
+	 * transform day, month and year to data string format 0000-00-00
+	 * 
+	 * @param integer $day
+	 * @param integer $month
+	 * @param integer $year
+	 *
+	 * @return string
+	 */
+	public function getDateStr($day,$month,$year)
+	{
+		$day	= $day < 10 	? "0$day" 	: $day;
+		$month	= $month < 10 	? "0$month" : $month;
+		return "$year-$month-$day";
+	}
 }

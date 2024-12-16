@@ -13,7 +13,7 @@ use App\Rules\CheckEmail;
 use App\Rules\CheckPassword;
 use App\Rules\BirthData;
 use App\Rules\BirthDataCorrect;
-use App\Helpers\Helper;
+use App\Services\DataService;
 
 class RegistrationRequest extends FormRequest
 {
@@ -81,7 +81,7 @@ class RegistrationRequest extends FormRequest
 			'user_mail' 				=> $this->mail,
 			'user_sex' 					=> $this->sex,
 			'user_name' 				=> $this->name,
-			'user_birth_date'	 		=> Helper::getDateStr($this->birth_day,$this->birth_month,$this->birth_year),
+			'user_birth_date'	 		=> (new DataService)->getDateStr($this->birth_day,$this->birth_month,$this->birth_year),
 			'user_country' 				=> $this->country,
 			'user_region' 				=> $this->region,
 			'user_city'					=> $this->city,

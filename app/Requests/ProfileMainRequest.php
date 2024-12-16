@@ -8,7 +8,7 @@ use App\Rules\BirthData;
 use App\Rules\BirthDataCorrect;
 use App\Rules\PlaceEmpty;
 use App\Rules\PlaceCorrect;
-use App\Helpers\Helper;
+use App\Services\DataService;
 
 class ProfileMainRequest extends FormRequest
 {
@@ -53,7 +53,7 @@ class ProfileMainRequest extends FormRequest
 	protected function prepareForValidation()
     {
         $this->merge([
-			'user_birth_date'		=> Helper::getDateStr($this->birth_day,$this->birth_month,$this->birth_year),
+			'user_birth_date'		=> (new DataService)->getDateStr($this->birth_day,$this->birth_month,$this->birth_year),
 			'user_refresh_date'		=> date("Y-m-d"),
 			'user_refresh_date_t'	=> time(),
 			'user_session_time'		=> time(),
@@ -98,7 +98,8 @@ class ProfileMainRequest extends FormRequest
 			'user_refresh_date'		=> ['string'],
 			'user_refresh_date_t'	=> ['integer'],
 			'user_session_time'		=> ['integer'],
-			'user_lastvisit'		=> ['integer']
+			'user_lastvisit'		=> ['integer'],
+			'user_sex'				=> ['integer']
 		];
 	}
 }
