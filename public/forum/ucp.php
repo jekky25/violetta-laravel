@@ -11,8 +11,7 @@
 /**
 * @ignore
 */
-echo 'under construction';
-exit;
+
 define('IN_PHPBB', true);
 $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
@@ -65,7 +64,7 @@ switch ($mode)
 		{
 			redirect(append_sid("{$phpbb_root_path}index.$phpEx"));
 		}
-
+		$template->assign_var('RE_SITE_KEY', RE_SITE_KEY);
 		$module->load('ucp', 'register');
 		$module->display($user->lang['REGISTER']);
 	break;

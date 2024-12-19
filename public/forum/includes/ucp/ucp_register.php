@@ -16,6 +16,8 @@ if (!defined('IN_PHPBB'))
 	exit;
 }
 
+include_once($phpbb_root_path . 'includes/ucp/src/Request/Curl.php');
+
 /**
 * ucp_register
 * Board registration
@@ -26,6 +28,68 @@ class ucp_register
 	var $u_action, $tpl_name;
 	var $module_path 	= '';
 	var $page_title		= '';
+
+
+	private $reSecKey 		= '';
+	private $recaptcha_url 	= 'https://www.google.com/recaptcha/api/siteverify';
+	private $score 			= '0.2';
+	private $params			= [];
+	private $response		= '';
+
+	/**
+	* Create a new component instance.
+	*/
+	public function __construct()
+	{
+		$this->reSecKey 	= RE_SEC_KEY;
+	}
+
+	/**
+	* Run the validation rule.
+	*
+	* @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+	*/
+	public function validate(mixed $response): bool
+	{
+		$this->response = $response;
+		$output = (new Curl)->submit($this);
+		$recaptcha = json_decode($output);
+		if ($this->notPass($recaptcha)) return false;
+		return true;
+	}
+
+	/**
+	* Put params into array
+	*
+	*/
+	public function prepareParams() :array
+	{
+		$this->params = [
+			'secret' 	=> $this->reSecKey,
+			'response' 	=> $this->response,
+			'remoteip' 	=> $_SERVER['REMOTE_ADDR']
+		];
+
+		return $this->params;
+	}
+
+	/**
+	* Get a captcha URL
+	*
+	*/
+	public function getUrl() :string
+	{
+		return $this->recaptcha_url;
+	}
+
+	/**
+	* Check recaptha validation
+	* @param object $recaptcha
+	*/
+	public function notPass($recaptcha) :bool
+	{
+		return ($recaptcha->success === false || $recaptcha->score < $this->score);
+	}
 
 	function main($id, $mode)
 	{
@@ -162,7 +226,7 @@ class ucp_register
 			$timezone = $config['board_timezone'];
 		}
 
-		$data = array(
+		$data = [
 			'username'			=> utf8_normalize_nfc(request_var('username', '', true)),
 			'new_password'		=> request_var('new_password', '', true),
 			'password_confirm'	=> request_var('password_confirm', '', true),
@@ -171,7 +235,8 @@ class ucp_register
 			'confirm_code'		=> request_var('confirm_code', ''),
 			'lang'				=> basename(request_var('lang', $user->lang_name)),
 			'tz'				=> request_var('tz', (float) $timezone),
-		);
+			'recaptcha_response' => request_var('recaptcha_response', '', true),
+		];
 
 		// Check and initialize some variables if needed
 		if ($submit)
@@ -197,6 +262,15 @@ class ucp_register
 			{
 				$error[] = $user->lang['FORM_INVALID'];
 			}
+
+			if (!$this->validate($data['recaptcha_response']))
+			{
+				$error[] = 'Каптча не пройдена';
+			}
+
+//			echo '<pre>'; print_r($xxx); echo '</pre>';
+//			exit;
+
 			// Replace "error" strings with their real, localised form
 			if (!empty ($error))
 			{
