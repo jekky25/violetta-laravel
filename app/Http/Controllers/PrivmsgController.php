@@ -128,7 +128,7 @@ class PrivmsgController extends Controller
 	*/
 	public function getAnkMess(Request $request, $id)
 	{
-		$user 			= Auth::user()->load(['visits']);
+		$user 			= $request->user()->load(['visits']);
 		$anket 			= $this->userRepository->getById ($id);
 		$messages 		= $this->messageRepository->getAllByUser($id, $user->user_id, self::$messageAnkPerPage);
 		$smiles			= $this->smileRepository->getAll();
