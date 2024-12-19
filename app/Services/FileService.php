@@ -2,7 +2,6 @@
 namespace App\Services;
 
 use Illuminate\Support\Str;
-use App\Helpers\Helper;
 
 class FileService
 {
@@ -254,5 +253,14 @@ class FileService
 	public function getFileChangeTime(string $file)
 	{
 		return file_exists($file) ? filemtime($file)	: '';
+	}
+
+	public function fotoDelete($id)
+	{
+		if (file_exists("fotos_new/".$id.".jpg")) {
+			unlink("fotos_new/".$id.".jpg");
+			return true;
+		}
+		return false;
 	}
 }

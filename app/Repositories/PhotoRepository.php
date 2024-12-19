@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\PhotoInterface;
 use App\Models\Photo;
 use App\Models\User;
-use App\Helpers\Helper;
+use Illuminate\Support\Facades\Auth;
 use App\Services\FileService;
 
 class PhotoRepository implements PhotoInterface {
@@ -34,10 +34,9 @@ class PhotoRepository implements PhotoInterface {
 	* get count all user pictures
 	* @return int
 	*/
-	public function getCountPhotos()
+	public function getCount()
 	{
-		$count = Photo::select('fotos_id')->count();
-		return $count > 0 ? $count : 0;
+		return Photo::select('fotos_id')->count();
 	}
 
 	/**
@@ -186,6 +185,27 @@ class PhotoRepository implements PhotoInterface {
 	*/
 	public function destroyPhoto(Photo $photo)
 	{
-		helper::delPhoto($photo);
+		$user 			= Auth::user();
+		$id 			= $photo->fotos_id;
+		$this->fileService->fotoDelete($id);
+		$isPortret = $photo->fotos_portret == 1 ? 1 : 0;
+		$photo->delete();
+		if ($isPortret)
+		{
+			$photo = $this->getFirstByUserId($user->user_id);
+			if (!empty($photo))
+			{
+				$photo->fotos_portret = 1;
+				$photo->update();
+			}
+		}
+		$user->user_refresh_date 	= date("Y-m-d");
+		$user->user_refresh_date_t 	= time();
+		$user->user_session_time 	= time();
+		$user->user_lastvisit 		= time();
+		$user->user_fotos 			= $this->getAllByUserId($user->user_id)->count();
+		$user->update();
+
+		return true;
 	}
 }

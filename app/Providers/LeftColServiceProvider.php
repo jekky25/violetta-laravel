@@ -30,7 +30,7 @@ class LeftColServiceProvider extends ServiceProvider
 		$statAnkets = [];
 		$statAnkets['total_women'] 			= $this->userRepository->getCountAnkets(WOMEN);
 		$statAnkets['total_men'] 			= $this->userRepository->getCountAnkets(MEN);
-		$statAnkets['total_fotos'] 			= $this->photoRepository->getCountPhotos();
+		$statAnkets['total_fotos'] 			= $this->photoRepository->getCount();
 
 		$statAnkets['total_ankets'] 		= $statAnkets['total_men'] + $statAnkets['total_women'];
 		$statAnkets['women_ank_percent'] 	= round(( $statAnkets['total_women'] / $statAnkets['total_ankets'] ) * 100);
