@@ -41,21 +41,21 @@ class RightColServiceProvider extends ServiceProvider
 			}
 
             $view->with(['user' => $user]);
+
+			$wItem = $this->userRepository->getTop100(WOMEN, 1);
+			$mItem = $this->userRepository->getTop100(MEN, 1);
+	
+			$top100 = [
+				'women' => $wItem,
+				'men' 	=> $mItem,
+			];
+	
+			$copyright = '© 2006-' . date("Y",time()) . ' Сайт знакомств Виолетта';
+
+			view()->share([
+				'top100' 	=> $top100,
+				'copyright'	=> $copyright,
+			]);
         });
-
-		$wItem = $this->userRepository->getTop100(WOMEN, 1);
-		$mItem = $this->userRepository->getTop100(MEN, 1);
-
-		$top100 = [
-			'women' => $wItem,
-			'men' 	=> $mItem,
-		];
-
-		$copyright = '© 2006-' . date("Y",time()) . ' Сайт знакомств Виолетта';
-
-		view()->share([
-			'top100' 	=> $top100,
-			'copyright'	=> $copyright,
-		]);
     }
 }
