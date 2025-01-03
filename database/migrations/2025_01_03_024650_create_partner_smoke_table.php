@@ -11,14 +11,14 @@ return new class extends Migration
 	 */
 	public function up(): void
 	{
-		if (!Schema::hasTable('partner_drink')) {
-			Schema::create('partner_drink', function (Blueprint $table) {
+		if (!Schema::hasTable('partner_smoke')) {
+			Schema::create('partner_smoke', function (Blueprint $table) {
 				$table->integer('id');
 				$table->string('name');
 			});
 		}
 
-		Schema::table('partner_drink', function (Blueprint $table) {
+		Schema::table('partner_smoke', function (Blueprint $table) {
             $table->primary('id');
         });
 	}
@@ -28,9 +28,9 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::table('partner_drink', function (Blueprint $table) {
+		Schema::table('partner_smoke', function (Blueprint $table) {
 			$table->dropPrimary('id');
 		});
-		Schema::dropIfExists('partner_drink');
+		Schema::dropIfExists('partner_smoke');
 	}
 };

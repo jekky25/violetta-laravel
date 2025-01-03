@@ -11,14 +11,15 @@ return new class extends Migration
 	 */
 	public function up(): void
 	{
-		if (!Schema::hasTable('partner_drink')) {
-			Schema::create('partner_drink', function (Blueprint $table) {
+		if (!Schema::hasTable('regions')) {
+			Schema::create('regions', function (Blueprint $table) {
 				$table->integer('id');
 				$table->string('name');
+				$table->integer('country_id');
 			});
 		}
 
-		Schema::table('partner_drink', function (Blueprint $table) {
+		Schema::table('regions', function (Blueprint $table) {
             $table->primary('id');
         });
 	}
@@ -28,9 +29,9 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::table('partner_drink', function (Blueprint $table) {
+		Schema::table('regions', function (Blueprint $table) {
 			$table->dropPrimary('id');
 		});
-		Schema::dropIfExists('partner_drink');
+		Schema::dropIfExists('regions');
 	}
 };
