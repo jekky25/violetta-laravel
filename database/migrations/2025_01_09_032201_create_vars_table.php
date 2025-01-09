@@ -11,15 +11,15 @@ return new class extends Migration
 	 */
 	public function up(): void
 	{
-		if (!Schema::hasTable('users_month_visited')) {
-			Schema::create('users_month_visited', function (Blueprint $table) {
+		if (!Schema::hasTable('vars')) {
+			Schema::create('vars', function (Blueprint $table) {
 				$table->integer('id');
-				$table->integer('user_id')->default(0);
-				$table->integer('user_m_time')->default(0);
+				$table->string('name');
+				$table->string('value');
 			});
 		}
 
-		Schema::table('users_month_visited', function (Blueprint $table) {
+		Schema::table('vars', function (Blueprint $table) {
             $table->primary('id');
         });
 	}
@@ -29,9 +29,9 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::table('users_month_visited', function (Blueprint $table) {
+		Schema::table('vars', function (Blueprint $table) {
 			$table->dropPrimary('id');
 		});
-		Schema::dropIfExists('users_month_visited');
+		Schema::dropIfExists('vars');
 	}
 };
