@@ -16,6 +16,7 @@ return new class extends Migration
 				$table->integer('dnevniki_id');
 				$table->integer('dnevniki_user_id');
 				$table->string('dnevniki_title');
+				$table->text('dnevniki_text');
 				$table->string('dnevniki_picture');
 				$table->integer('dnevniki_time');
 			});
