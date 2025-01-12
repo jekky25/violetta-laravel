@@ -8,6 +8,7 @@ use App\Interfaces\AnketVisitInterface;
 use App\Services\LengthPager;
 use App\Models\User;
 use App\Traits\SearchByParams;
+use App\Repositories\PhotoRepository;
 
 class UserRepository implements UserInterface {
 	use SearchByParams;
@@ -74,13 +75,22 @@ class UserRepository implements UserInterface {
 		->limit ($count)
 		->orderBy('user_top100', 'desc')
 		->get();
-		
+		return ($this->addParams($items));
+	}
+
+	/**
+	* add params to the user profiles
+	* @param \Illuminate\Database\Eloquent\Collection $items
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	private function addParams($items)
+	{
+		if ($items->count() == 0) return $items;
 		foreach ($items as &$_item)
 		{
 			$_item->photo = $_item->photo[0];
 		}
-		$items = count ($items) > 1 ? $items : $items[0];
-		return ($items);
+		return ($items->count() > 1 ? $items : $items[0]);
 	}
 
 	/**
@@ -95,6 +105,36 @@ class UserRepository implements UserInterface {
 		->where('user_active', 1)
 		->count();
 		return $count > 0 ? $count : 0;
+	}
+
+	/**
+	* get a percent of the profiles
+	* @param  int $sex
+	* @return int
+	*/
+	public function getPercentOfAnkets($sex)
+	{
+		$totalAnkets = $this->getCountAnkets(MEN) + $this->getCountAnkets(WOMEN);
+		if ($totalAnkets == 0) return 0;
+		$percent = round(( $this->getCountAnkets($sex) / $totalAnkets ) * 100);
+		return $percent;
+	}
+
+	/**
+	* get statistic of profiles
+	* @return void
+	*/
+	public function getStatistic()
+	{
+		return [
+				'total_women' 			=> $this->getCountAnkets(WOMEN),
+				'total_men' 			=> $this->getCountAnkets(MEN),
+				'total_fotos' 			=> (new PhotoRepository)->getCount(),
+				'women_ank_percent' 	=> $this->getPercentOfAnkets(WOMEN),
+				'total_women_percent' 	=> sprintf('%d%%', $this->getPercentOfAnkets(WOMEN)),
+				'men_ank_percent' 		=> $this->getPercentOfAnkets(MEN),
+				'total_men_percent' 	=> sprintf('%d%%', $this->getPercentOfAnkets(MEN))
+			];
 	}
 
 	/**

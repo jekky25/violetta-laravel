@@ -2,13 +2,26 @@
 
 namespace Tests\Feature;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Models\User;
+use App\Models\Diary;
 
 class DiaryTest extends TestCase
 {
+	use DatabaseMigrations;
+	
 	/**
-	* Test diaries page
-	*/
-	public function test_diaries_page(): void
+	 * Set up variables
+	 */
+	protected function setUp() :void
+	{
+		parent::setUp();
+		User::factory(20)->create();
+		Diary::factory(50)->create();
+	}
+
+	/** @test */
+	public function diaries_page(): void
 	{
 		$ar = [
 			'/ank/diaries.html',

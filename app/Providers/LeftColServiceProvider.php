@@ -29,19 +29,7 @@ class LeftColServiceProvider extends ServiceProvider
 		$this->photoRepository 		= new PhotoRepository();
 		$this->userRepository 		= new UserRepository();
 		View::composer('*', function($view) {
-			$statAnkets = [];
-			$statAnkets['total_women'] 			= $this->userRepository->getCountAnkets(WOMEN);
-			$statAnkets['total_men'] 			= $this->userRepository->getCountAnkets(MEN);
-			$statAnkets['total_fotos'] 			= $this->photoRepository->getCount();
-			$statAnkets['total_ankets'] 		= $statAnkets['total_men'] + $statAnkets['total_women'];
-			$statAnkets['women_ank_percent'] 	= round(( $statAnkets['total_women'] / $statAnkets['total_ankets'] ) * 100);
-			$statAnkets['women_ank_percent_l'] 	= sprintf('%d%%', $statAnkets['women_ank_percent']);
-			$statAnkets['men_ank_percent'] 		= round(( $statAnkets['total_men'] / $statAnkets['total_ankets'] ) * 100);
-			$statAnkets['men_ank_percent_l'] 	= sprintf('%d%%', $statAnkets['men_ank_percent']);
-			$statAnkets['total_men_percent'] 	= $statAnkets['men_ank_percent_l'];
-			$statAnkets['total_women_percent'] 	= $statAnkets['women_ank_percent_l'];
 
-		
 			$sql = 'SELECT t.topic_title, t.topic_id, t.forum_id, p.topic_id
 			FROM phpbb3_topics t, phpbb3_posts p  
 			WHERE t.topic_id = p.topic_id && t.forum_id <> 7 
@@ -49,7 +37,7 @@ class LeftColServiceProvider extends ServiceProvider
 		
 			$forums = DB::connection('mysql_for')->select($sql);
 			view()->share([
-				'statAnkets' 	=> $statAnkets,
+				'statAnkets' 	=> $this->userRepository->getStatistic(),
 				'forums'		=> $forums
 			]);
 		});

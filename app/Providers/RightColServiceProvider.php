@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use App\Services\DataService;
 use App\Repositories\AnketVisitRepository;
-use App\Repositories\UserRepository;
 
 class RightColServiceProvider extends ServiceProvider
 {
@@ -28,7 +27,6 @@ class RightColServiceProvider extends ServiceProvider
 	public function boot(DataService $data)
 	{
 		$this->anketVisitRepository	= new AnketVisitRepository();
-		$this->userRepository 		= new UserRepository();
 
 		View::composer('*', function($view) use ($data) {
 			$user = Auth::user();
@@ -41,20 +39,10 @@ class RightColServiceProvider extends ServiceProvider
 			}
 
             $view->with(['user' => $user]);
-
-			$wItem = $this->userRepository->getTop100(WOMEN, 1);
-			$mItem = $this->userRepository->getTop100(MEN, 1);
-	
-			$top100 = [
-				'women' => $wItem,
-				'men' 	=> $mItem,
-			];
-	
 			$copyright = '© 2006-' . date("Y",time()) . ' Сайт знакомств Виолетта';
 
 			view()->share([
-				'top100' 	=> $top100,
-				'copyright'	=> $copyright,
+				'copyright'	=> $copyright
 			]);
         });
     }

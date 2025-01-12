@@ -36,7 +36,7 @@ class DiaryController extends Controller
 	public function index()
 	{
 		$diaries		= $this->diaryRepository->getAll($this->countPerPage);
-		return response()->view ('diaries', 
+		return response()->view('diaries', 
 		[
 			'diaries'				=> $diaries
 		]);
@@ -63,13 +63,13 @@ class DiaryController extends Controller
 	*/
 	public function show($id)
 	{
-		$anket 	= $this->userRepository->getById ($id);
+		$anket 	= $this->userRepository->getById($id);
 		if (empty ($anket->photo)) abort (404);
 
-		$diaries = $this->diaryRepository->getByUser (self::$diaryPerPage, $id);
-		if (count ($diaries) == 0) abort (404);
+		$diaries = $this->diaryRepository->getByUser(self::$diaryPerPage, $id);
+		if (count($diaries) == 0) abort(404);
 		$page 				= $diaries->currentPage();
-		return response()->view ('ankets.diary',
+		return response()->view('ankets.diary',
 		[
 			'userData'		=> $anket,
 			'diaries'		=> $diaries,
@@ -86,9 +86,9 @@ class DiaryController extends Controller
 	{
 		$user			= Auth::user();
 		$diary			= $this->diaryRepository->getByUserAndId($id, $user->user_id);
-		$diary->user_dnevnik_title	= old('title')	 		? old('title') 			: stripslashes ($diary->dnevniki_title);
+		$diary->user_dnevnik_title	= old('title')	 		? old('title') 			: stripslashes($diary->dnevniki_title);
 		$diary->user_dnevnik_text	= old('description') 	? old('description') 	: $diary->dnevniki_text;
-		return response()->view ('ankets.diary_edit',
+		return response()->view('ankets.diary_edit',
 		[
 			'userData'		=> $user,
 			'diary'			=> $diary,

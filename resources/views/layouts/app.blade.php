@@ -60,18 +60,6 @@
 				</ul>
 			</div>
 		</div>
-		<div id="hBaner">
-{{--<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* 728x90 шапка (В) */
-google_ad_slot = "8276880722";
-google_ad_width = 728;
-google_ad_height = 90;
-//-->
-</script>--}}
-<script async type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
-		</div>
 	</div>
 	<div id="center">
 		<div id="cent_cont">
@@ -182,16 +170,6 @@ if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br 
 {$s_link1}
 {/if}<br /><br />
 --}}
-{{--<script type="text/javascript"><!--
-google_ad_client = "pub-6379140164632940";
-/* Морда слева сквозняк */
-google_ad_slot = "0076736043";
-google_ad_width = 160;
-google_ad_height = 600;
-//-->
-</script>--}}
-<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
 			</div>
 		</div>
 		<div id="rightcol">
@@ -232,37 +210,9 @@ google_ad_height = 600;
 			</div>
 			@endauth
 			<div class="blFoot"></div>
-				<h2>Лучшая девушка</h2>
-				<div class="bl">
-					@php($item = $top100['women'])
-					<h3>{{ $item->user_name }}, {{ $item->user_age }} {{ $item->user_age_type }}</h3>
-					<!--noindex-->
-						<div class="foto">
-							<a href="{{route('ank.id', $item->user_id )}}" rel="nofollow">
-								<img alt="{{ $item->user_name }},{{ $item->user_age }},{{ $item->city->name }}" class="b-lazy" data-src="{{ asset('fotos_new/' . $item->photo->fotos_id) . '.jpg' }}" src="{{ asset("image/zero.gif") }}" />
-							</a>
-						</div>
-						<p class="links1"><a href="{{route('ank.id', $item->user_id )}}" rel="nofollow">смотреть анкету</a></p>
-						<p class="links1"><a href="{{route('bestankets.sex', 'women')}}">лучшие девушки</a></p>
-					<!--/noindex-->
-				</div>
-				<div class="blFoot"></div>
-				<h2>Лучший парень</h2>
-				<div class="bl">
-					@php($item = $top100['men'])
-					<h3>{{ $item->user_name }}, {{ $item->user_age }} {{ $item->user_age_type }}</h3>
-					<!--noindex-->
-						<div class="foto">
-							<a href="{{route('ank.id', $item->user_id )}}" rel="nofollow">
-							<img alt="{{ $item->user_name }},{{ $item->user_age }},{{ $item->city->name }}" class="b-lazy" data-src="{{ asset('fotos_new/' . $item->photo->fotos_id) . '.jpg' }}" src="{{ asset("image/zero.gif") }}" />
-							</a>
-						</div>
-						<p class="links1"><a href="{{route('ank.id', $item->user_id )}}" rel="nofollow">смотреть анкету</a></p>
-						<p class="links1"><a href="{{route('bestankets.sex', 'men')}}">лучшие парни</a></p>
-					<!--/noindex-->
-				</div>
-				<div class="blFoot"></div>
-				<div class="counter">
+			<x-top100 :sex="WOMEN" />
+			<x-top100 :sex="MEN" />
+			<div class="counter">
 {{--
 {if $s_link2}
 {$s_link2}
