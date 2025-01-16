@@ -2,9 +2,35 @@
 
 namespace Tests\Feature;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Models\User;
+use App\Models\DreamBook;
 
 class DreamBookTest extends TestCase
 {
+	use DatabaseMigrations;
+	protected $dreamBooks		= null;
+	protected $dreamBooksCount	= 0;
+
+	/**
+	 * Set up variables
+	 */
+	protected function setUp() :void
+	{
+		parent::setUp();
+		User::factory(20)->create();
+		$this->dreamBooks = DreamBook::factory(50)->create();
+		$this->dreamBooksCount = $this->dreamBooks->count();
+	}
+
+	/**
+	 * Get random id of the dreambook
+	 * @return int
+	 */
+	protected function getRand()
+	{
+		return rand(0, $this->dreamBooksCount);
+	}
 	/**
 	* Test a dreambook main page
 	*/
@@ -48,9 +74,9 @@ class DreamBookTest extends TestCase
 	public function test_dream_book_id_page(): void
 	{
 		$ar = [
-			'/dreambook/560.html',
-			'/dreambook/562.html',
-			'/dreambook/563.html',
+			'/dreambook/' . $this->getRand() . '.html',
+			'/dreambook/' . $this->getRand() . '.html',
+			'/dreambook/' . $this->getRand() . '.html',
 		];
 
 		foreach ($ar as $item)

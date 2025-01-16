@@ -8,4 +8,5 @@ class DreamBook extends Model
 {
 	use HasFactory;
 	protected $table 	= 'sonnik';
+	public $timestamps 		= false;
 }
