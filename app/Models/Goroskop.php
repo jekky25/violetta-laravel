@@ -8,6 +8,7 @@ use App\Traits\Tstr;
 class Goroskop extends Model
 {
 	use HasFactory, Tstr;
+	public $timestamps 		= false;
 	protected $table		= 'goroskop';
 	private $pattern 		= '/{google_baner([0-9]+)}/i';
 	private $replacement	= '';

@@ -2,9 +2,26 @@
 
 namespace Tests\Feature;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Models\User;
+use App\Models\Goroskop;
 
 class GoroskopTest extends TestCase
 {
+	use DatabaseMigrations;
+
+	protected $goroskops		= null;
+
+	/**
+	 * Set up variables
+	 */
+	protected function setUp() :void
+	{
+		parent::setUp();
+		User::factory(20)->create();
+		$this->goroskops = Goroskop::factory(50)->create();
+	}
+
 	/**
 	* Test a goroskop main page
 	*/
