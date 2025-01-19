@@ -8,4 +8,5 @@ class Name extends Model
 {
 	use HasFactory;
 	protected $table = 'names';
+	public $timestamps 		= false;
 }

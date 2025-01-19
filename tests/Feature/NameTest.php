@@ -2,9 +2,37 @@
 
 namespace Tests\Feature;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Models\User;
+use App\Models\Name;
 
 class NameTest extends TestCase
 {
+	use DatabaseMigrations;
+	
+	protected $names		= null;
+	protected $namesCount	= 0;
+
+	/**
+	 * Set up variables
+	 */
+	protected function setUp() :void
+	{
+		parent::setUp();
+		User::factory(20)->create();
+		$this->names = Name::factory(50)->create();
+		$this->namesCount = $this->names->count();
+	}
+
+	/**
+	 * Get random id of the dreambook
+	 * @return int
+	 */
+	protected function getRand()
+	{
+		return rand(0, $this->namesCount);
+	}
+
 	/**
 	* Test a name main page
 	*/
@@ -56,9 +84,9 @@ class NameTest extends TestCase
 	public function test_name_id_page(): void
 	{
 		$ar = [
-			'/names/61.html',
-			'/names/62.html',
-			'/names/63.html',
+			'/names/' . $this->getRand() . '.html',
+			'/names/' . $this->getRand() . '.html',
+			'/names/' . $this->getRand() . '.html',
 		];
 
 		foreach ($ar as $item)

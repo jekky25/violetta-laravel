@@ -31,6 +31,7 @@ class DreamBookTest extends TestCase
 	{
 		return rand(0, $this->dreamBooksCount);
 	}
+
 	/**
 	* Test a dreambook main page
 	*/
