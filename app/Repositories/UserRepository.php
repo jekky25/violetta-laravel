@@ -327,8 +327,8 @@ class UserRepository implements UserInterface {
 	{
 		$user = Auth::user();
 		$item = User::select('*')
-		->where ('user_id', $id)
-		->where ('user_active', 1);
+		->where('user_id', $id)
+		->where('user_active', 1);
 		if (empty ($user))
 		{
 			$item->where('user_confirm_email', 1);

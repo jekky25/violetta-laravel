@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use App\Models\User;
 use App\Models\Diary;
+use Tests\Traits\hasSetupPrepare;
 
 class DiaryTest extends TestCase
 {
-	use DatabaseMigrations;
+	use DatabaseMigrations, hasSetupPrepare;
 	
 	/**
 	 * Set up variables
@@ -16,7 +16,7 @@ class DiaryTest extends TestCase
 	protected function setUp() :void
 	{
 		parent::setUp();
-		User::factory(20)->create();
+		self::setUpPrepare();
 		Diary::factory(50)->create();
 	}
 

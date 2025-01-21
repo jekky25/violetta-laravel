@@ -13,7 +13,7 @@ return new class extends Migration
 	{
 		if (!Schema::hasTable('users_news')) {
 			Schema::create('users_news', function (Blueprint $table) {
-				$table->integer('user_id');
+				$table->integer('user_id')->autoIncrement();
 				$table->tinyInteger('user_active')->default(0);
 				$table->string('user_login');
 				$table->string('user_password');

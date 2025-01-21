@@ -3,8 +3,9 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Country;
 
-class DreamBookFactory extends Factory
+class RegionFactory extends Factory
 {
 	/**
 	 * Define the model's default state.
@@ -13,11 +14,10 @@ class DreamBookFactory extends Factory
 	 */
 	public function definition()
 	{
+		$countryId = Country::get()->random()->id;
 		return [
-			'sonnik_id'			=> 1,
-			'name'				=> $this->faker->name(10),
-			'description'		=> $this->faker->text(100),
-			'first_bukva'		=> 'T'
-		];
-	}
+			'country_id'				=> $countryId,
+			'name'						=> $this->faker->name(),
+        ];
+    }
 }

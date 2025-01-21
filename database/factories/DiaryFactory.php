@@ -14,7 +14,6 @@ class DiaryFactory extends Factory
 	public function definition()
 	{
 		return [
-			'dnevniki_id'		=> 1,
 			'dnevniki_user_id'	=> 1,
 			'dnevniki_title'	=> $this->faker->name(10),
 			'dnevniki_text'		=> $this->faker->text(100),

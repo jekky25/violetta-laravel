@@ -3,19 +3,41 @@
 namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Models\User;
+use App\Models\Photo;
+use Tests\Traits\hasSetupPrepare;
 
 class ProfileTest extends TestCase
 {
+	use DatabaseMigrations, hasSetupPrepare;
+
+	protected $maxItems		= 3;
+
+	/**
+	 * Set up variables
+	 */
+	protected function setUp() :void
+	{
+		parent::setUp();
+		self::setUpPrepare();
+	}
+
 	/**
 	* Test a profile id page
 	*/
 	public function test_profile_id_page(): void
 	{
-		$ar = [
-			'/ank/1/',
-			'/ank/3/',
-			'/ank/4/',
-		];
+		$i = 0;
+		$ar = [];
+		foreach ($this->users as $user)
+		{
+			$i++;
+			if ($i > $this->maxItems) break;
+			$ar[] = '/ank/' . $user->user_id . '/';
+		}
+
+		//dd($ar);
 
 		foreach ($ar as $item)
 		{
@@ -30,11 +52,14 @@ class ProfileTest extends TestCase
 	*/
 	public function test_full_profile_id_page(): void
 	{
-		$ar = [
-			'/ank/f/1/',
-			'/ank/f/3/',
-			'/ank/f/4/',
-		];
+		$i = 0;
+		$ar = [];
+		foreach ($this->users as $user)
+		{
+			$i++;
+			if ($i > $this->maxItems) break;
+			$ar[] = '/ank/f/' . $user->user_id . '/';
+		}
 
 		foreach ($ar as $item)
 		{
@@ -117,12 +142,13 @@ class ProfileTest extends TestCase
 	/**
 	* Test a picture profile page
 	*/
-	
 	public function test_picture_profile_id_page(): void
 	{
-		Auth::loginUsingId(1);
+		$user	= User::get()->random();
+		Auth::loginUsingId($user->user_id);
+		$userId = Photo::get()->random()->user_id;
 		$ar = [
-			'ank/photo/1.html',
+			'ank/photo/' . $userId .'.html',
 		];
 		foreach ($ar as $item)
 		{
@@ -131,10 +157,15 @@ class ProfileTest extends TestCase
 			$response->assertStatus(302);
 		}
 
-		$ar = [
-			'ank/f/photo_78014/',
-			'ank/f/photo_78015/',
-		];
+		$i = 0;
+		$ar = [];
+		foreach ($this->photos as $photo)
+		{
+			$i++;
+			if ($i > $this->maxItems) break;
+			$ar[] = 'ank/f/photo_' . $photo->fotos_id . '/';
+		}
+
 		foreach ($ar as $item)
 		{
 			$_SERVER['REQUEST_URI'] = $item;

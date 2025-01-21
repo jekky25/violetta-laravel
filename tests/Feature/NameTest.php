@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use App\Models\User;
 use App\Models\Name;
+use Tests\Traits\hasSetupPrepare;
 
 class NameTest extends TestCase
 {
-	use DatabaseMigrations;
+	use DatabaseMigrations, hasSetupPrepare;
 	
 	protected $names		= null;
 	protected $namesCount	= 0;
@@ -19,7 +19,7 @@ class NameTest extends TestCase
 	protected function setUp() :void
 	{
 		parent::setUp();
-		User::factory(20)->create();
+		self::setUpPrepare();
 		$this->names = Name::factory(50)->create();
 		$this->namesCount = $this->names->count();
 	}

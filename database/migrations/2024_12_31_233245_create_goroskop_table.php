@@ -13,7 +13,7 @@ return new class extends Migration
 	{
 		if (!Schema::hasTable('goroskop')) {
 			Schema::create('goroskop', function (Blueprint $table) {
-				$table->integer('gor_id');
+				$table->integer('gor_id')->autoIncrement();
 				$table->string('gor_name');
 				$table->tinyInteger('gor_type');
 				$table->integer('gor_dopoln');

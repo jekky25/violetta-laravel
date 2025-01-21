@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use App\Models\User;
 use App\Models\Goroskop;
+use Tests\Traits\hasSetupPrepare;
 
 class GoroskopTest extends TestCase
 {
-	use DatabaseMigrations;
+	use DatabaseMigrations, hasSetupPrepare;
 
 	protected $goroskops		= null;
 
@@ -18,7 +18,7 @@ class GoroskopTest extends TestCase
 	protected function setUp() :void
 	{
 		parent::setUp();
-		User::factory(20)->create();
+		self::setUpPrepare();
 		$this->goroskops = Goroskop::factory(50)->create();
 	}
 

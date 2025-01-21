@@ -13,7 +13,7 @@ return new class extends Migration
 	{
 		if (!Schema::hasTable('regions')) {
 			Schema::create('regions', function (Blueprint $table) {
-				$table->integer('id');
+				$table->integer('id')->autoIncrement();
 				$table->string('name');
 				$table->integer('country_id');
 			});

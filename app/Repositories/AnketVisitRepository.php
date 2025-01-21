@@ -71,9 +71,9 @@ class AnketVisitRepository implements AnketVisitInterface {
 	* @param  int  $userAuthId
 	* @return int 
 	*/
-	public function update ($userId, $days, $userAuthId)
+	public function update($userId, $days, $userAuthId)
 	{
-		$ankVisits	= $this->getVisitsByUserId ($userId, $days, $userAuthId);
+		$ankVisits	= $this->getVisitsByUserId($userId, $days, $userAuthId);
 		$visits		= $ankVisits->count();
 		if ($visits == 0 && $userAuthId != $userId) 
 		{
@@ -90,7 +90,7 @@ class AnketVisitRepository implements AnketVisitInterface {
 	* @param  int  $id
 	* @return void 
 	*/
-	public function updateVisit ($id)
+	public function updateVisit($id)
 	{
 		$user 	= \Auth::user();
 		if (empty ($user)) abort (404);
@@ -101,7 +101,7 @@ class AnketVisitRepository implements AnketVisitInterface {
 		$this->setFields($aFields);
 
 		try {
-			$ankVisits = $this->getByFields ();
+			$ankVisits = $this->getByFields();
 			if (!empty($ankVisits))
 			{
 				$ankVisits->ank_time = time();
@@ -116,7 +116,7 @@ class AnketVisitRepository implements AnketVisitInterface {
 	* get user visits over user fields
 	* @return \Illuminate\Database\Eloquent\Collection
 	*/
-	public function getByFields ()
+	public function getByFields()
 	{
 		$fields = $this->getFields();
 		if (empty($fields)) return null;
@@ -151,10 +151,10 @@ class AnketVisitRepository implements AnketVisitInterface {
 	* @param  int  $id
 	* @return void 
 	*/
-	public static function insertVisit ($id)
+	public static function insertVisit($id)
 	{
 		$user 	= \Auth::user();
-		if (empty ($user)) abort (404);
+		if (empty ($user)) abort(404);
 		try {
 			$aFields = [
 				'user_id_prosm'		=> $id,
@@ -162,7 +162,7 @@ class AnketVisitRepository implements AnketVisitInterface {
 				'ank_time'			=> time()
 			];
 
-			$oAnketVisit = new AnketVisit ($aFields);
+			$oAnketVisit = new AnketVisit($aFields);
 			$oAnketVisit->save();
 		} catch (\Exception $e) {
             throw new \Exception('Failed to create user visit. '.$e->getMessage());
@@ -174,7 +174,7 @@ class AnketVisitRepository implements AnketVisitInterface {
 	* @param  int  $days
 	* @return void 
 	*/
-	public static function removeOld ($days)
+	public static function removeOld($days)
 	{
 		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
 		try {

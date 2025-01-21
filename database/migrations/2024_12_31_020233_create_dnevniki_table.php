@@ -13,7 +13,7 @@ return new class extends Migration
 	{
 		if (!Schema::hasTable('dnevniki')) {
 			Schema::create('dnevniki', function (Blueprint $table) {
-				$table->integer('dnevniki_id');
+				$table->integer('dnevniki_id')->autoIncrement();
 				$table->integer('dnevniki_user_id');
 				$table->string('dnevniki_title');
 				$table->text('dnevniki_text');

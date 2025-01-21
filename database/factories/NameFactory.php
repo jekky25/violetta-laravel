@@ -3,25 +3,9 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Collection;
 
 class NameFactory extends Factory
 {
-	private static $id = 0;
-
-	public function __construct($count = null,
-		?Collection $states = null,
-		?Collection $has = null,
-		?Collection $for = null,
-		?Collection $afterMaking = null,
-		?Collection $afterCreating = null,
-		$connection = null,
-		?Collection $recycle = null)
-	{
-		parent::__construct($count, $states, $has, $for, $afterMaking, $afterCreating, $connection, $recycle);
-		self::$id = 0;
-	}
-
 	/**
 	 * Define the model's default state.
 	 *
@@ -30,7 +14,6 @@ class NameFactory extends Factory
 	public function definition()
 	{
 		return [
-			'id'				=> self::$id++,
 			'name_id'			=> 1,
 			'name'				=> $this->faker->name(10),
 			'description'		=> $this->faker->text(100),

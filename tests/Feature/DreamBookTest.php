@@ -3,12 +3,13 @@
 namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use App\Models\User;
 use App\Models\DreamBook;
+use Tests\Traits\hasSetupPrepare;
 
 class DreamBookTest extends TestCase
 {
-	use DatabaseMigrations;
+	use DatabaseMigrations, hasSetupPrepare;
+
 	protected $dreamBooks		= null;
 	protected $dreamBooksCount	= 0;
 
@@ -18,7 +19,7 @@ class DreamBookTest extends TestCase
 	protected function setUp() :void
 	{
 		parent::setUp();
-		User::factory(20)->create();
+		self::setUpPrepare();
 		$this->dreamBooks = DreamBook::factory(50)->create();
 		$this->dreamBooksCount = $this->dreamBooks->count();
 	}

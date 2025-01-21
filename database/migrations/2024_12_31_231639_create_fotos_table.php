@@ -13,7 +13,7 @@ return new class extends Migration
 	{
 		if (!Schema::hasTable('fotos')) {
 			Schema::create('fotos', function (Blueprint $table) {
-				$table->integer('fotos_id');
+				$table->integer('fotos_id')->autoIncrement();
 				$table->integer('user_id');
 				$table->tinyInteger('fotos_portret');
 				$table->integer('fotos_t');

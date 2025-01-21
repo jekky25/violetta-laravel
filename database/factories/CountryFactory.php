@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class DreamBookFactory extends Factory
+class CountryFactory extends Factory
 {
 	/**
 	 * Define the model's default state.
@@ -14,10 +14,7 @@ class DreamBookFactory extends Factory
 	public function definition()
 	{
 		return [
-			'sonnik_id'			=> 1,
-			'name'				=> $this->faker->name(10),
-			'description'		=> $this->faker->text(100),
-			'first_bukva'		=> 'T'
-		];
-	}
+			'name'						=> $this->faker->name()
+        ];
+    }
 }

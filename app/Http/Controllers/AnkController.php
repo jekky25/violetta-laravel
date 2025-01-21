@@ -39,11 +39,11 @@ class AnkController extends Controller
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function getAnk (Request $request, $id)
+	public function getAnk(Request $request, $id)
 	{
 		$user				= Auth::user();
 		$mode				= Route::currentRouteName() == 'ank.full.id' ? 'full' : '';
-		$anket 				= $this->userRepository->getById ($id);
+		$anket 				= $this->userRepository->getById($id);
 		$this->ankService	= new AnkService($anket);
 		$this->ankService->prepare();
 
@@ -61,8 +61,7 @@ class AnkController extends Controller
 			$this->ankService->prepareFull();
 			$isAboutPartner = $this->ankService->isAboutPartner();
 		}
-
-		return response()->view ('ankets.page',
+		return response()->view('ankets.page',
 		[
 			'userData'			=> $anket,
 			'ankEvaluationed' 	=> isset($ankEvaluationed)	? $ankEvaluationed	: false,
@@ -75,15 +74,15 @@ class AnkController extends Controller
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function getMainPhoto ($id)
+	public function getMainPhoto($id)
 	{
-		$anket	= $this->userRepository->getById ($id);
-		if (!count ($anket->photo)) abort (404);
+		$anket	= $this->userRepository->getById($id);
+		if (!count($anket->photo)) abort(404);
 		foreach ($anket->photo as $photo)
 		{
 			if ($photo->fotos_portret == static::IS_MAIN_PHOTO) return redirect()->route('ank.photo.photo_id', $photo->fotos_id);
 		}
-		abort (404);
+		abort(404);
 	}
 
 	/**
@@ -91,16 +90,16 @@ class AnkController extends Controller
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function getPhoto ($id)
+	public function getPhoto($id)
 	{
 		$user				= Auth::user();
 		$user				= !empty($user) ? $user->load(['visits']) : null;
-		$photo = $this->photoRepository->getById ($id);
-		$anket	= $this->userRepository->getById ($photo->user_id);
-		if (!count ($anket->photo)) abort (404);
+		$photo	= $this->photoRepository->getById($id);
+		$anket	= $this->userRepository->getById($photo->user_id);
+		if (!count($anket->photo)) abort(404);
 		$anket->ankVisits	= $this->anketVisitRepository->update($photo->user_id, self::$visitDays, $user->user_id);
 		$this->photoService->prepare($anket, $photo->fotos_id, $this->commentCountPerPage);
-		return response()->view ('ankets.photo',
+		return response()->view('ankets.photo',
 		[
 			'userData'			=> $anket,
 		]);

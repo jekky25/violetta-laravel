@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\City;
 
 class UserFactory extends Factory
 {
@@ -14,11 +15,15 @@ class UserFactory extends Factory
 	 */
 	public function definition()
 	{
+		$city = City::get()->random();
 		return [
-			'user_id'					=> $this->faker->unique()->numberBetween(1, 1000),
 			'user_name'					=> $this->faker->name(),
+			'user_city'					=> !empty($city)	? $city->id			: 0,
+			'user_country'				=> !empty($city)	? $city->country_id	: 0,
+			'user_region'				=> !empty($city)	? $city->regions_id	: 0,
 			'user_active'				=> 1,
 			'user_mail'					=> $this->faker->unique()->safeEmail(),
+			'user_reiting'				=> $this->faker->numberBetween(1, 5),
 			'user_login'				=> Str::random(10),
 			'user_password'				=> $this->faker->unique()->password(6, 8),
 			'user_hash'					=> md5($this->faker->unique()->password(6, 8)),

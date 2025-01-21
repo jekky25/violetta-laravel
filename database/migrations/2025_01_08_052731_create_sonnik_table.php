@@ -13,7 +13,7 @@ return new class extends Migration
 	{
 		if (!Schema::hasTable('sonnik')) {
 			Schema::create('sonnik', function (Blueprint $table) {
-				$table->integer('id');
+				$table->integer('id')->autoIncrement();
 				$table->integer('sonnik_id')->nullable()->default(28);
 				$table->string('name');
 				$table->text('description');

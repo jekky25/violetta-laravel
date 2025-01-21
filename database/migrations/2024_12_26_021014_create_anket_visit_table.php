@@ -13,7 +13,7 @@ return new class extends Migration
 	{
 		if (!Schema::hasTable('anket_visit')) {
 			Schema::create('anket_visit', function (Blueprint $table) {
-				$table->integer('id');
+				$table->integer('id')->autoIncrement();
 				$table->integer('ank_user_id')->default(0);
 				$table->integer('user_id_prosm')->default(0);
 				$table->integer('ank_time')->default(0);
