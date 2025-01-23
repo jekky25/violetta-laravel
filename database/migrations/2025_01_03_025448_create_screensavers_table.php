@@ -13,7 +13,7 @@ return new class extends Migration
 	{
 		if (!Schema::hasTable('screensavers')) {
 			Schema::create('screensavers', function (Blueprint $table) {
-				$table->integer('id');
+				$table->integer('id')->autoIncrement();
 				$table->date('date');
 				$table->string('name');
 				$table->string('path_scr');
