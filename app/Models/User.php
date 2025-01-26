@@ -388,7 +388,7 @@ class User extends Authenticatable
 	public function visits()
 	{
 		$t = time() - 60*60*24*30;
-		return $this->hasMany(AnketVisit::class, 'user_id_prosm', 'user_id')->where('ank_time', '>', $t);
+		return $this->hasMany(AnketVisit::class, 'user_id_prosm', 'user_id')->where('create_time', '>', $t);
 	}
 
 	public function diary()

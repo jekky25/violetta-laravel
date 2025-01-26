@@ -200,8 +200,8 @@ class UserRepository implements UserInterface {
 		->whereExists(function ($query) use ($time) {
 			$query->select(DB::raw(1))
 				  ->from('anket_visit')
-				  ->where('anket_visit.ank_time', '>', $time)
-				  ->whereRaw('users_news.user_id = anket_visit.ank_user_id');
+				  ->where('anket_visit.create_time', '>', $time)
+				  ->whereRaw('users_news.user_id = anket_visit.user_id');
 		})
 		->paginate($count);
 

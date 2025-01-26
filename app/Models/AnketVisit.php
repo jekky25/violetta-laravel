@@ -11,9 +11,9 @@ class AnketVisit extends Model
 	public $timestamps 	= false;
 	protected $table = 'anket_visit';
 	protected $fillable = [
-		'ank_user_id',
+		'user_id',
 		'user_id_prosm',
-		'ank_time'
+		'create_time'
 	];
 
 	/**

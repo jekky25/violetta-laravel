@@ -38,7 +38,7 @@ class AnketVisitRepository implements AnketVisitInterface {
 	{
 		$items = AnketVisit::select('*')
 		->where('user_id_prosm', $user->user_id)
-		->where('ank_time', '>', $user->user_lastvisit_views)
+		->where('create_time', '>', $user->user_lastvisit_views)
         ->get();
     	return $items;
 	}
@@ -55,10 +55,10 @@ class AnketVisitRepository implements AnketVisitInterface {
 		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
 		$items = AnketVisit::select('*')
 		->where('user_id_prosm', $id)
-		->where('ank_time', '>', $time['timestamp']);
+		->where('create_time', '>', $time['timestamp']);
 
 		if ($userId > 0)
-			$items->where('ank_user_id', $userId);
+			$items->where('user_id', $userId);
 
 		$items = $items->get();
 		return $items;
@@ -96,7 +96,7 @@ class AnketVisitRepository implements AnketVisitInterface {
 		if (empty ($user)) abort (404);
 		$aFields = [
 			'user_id_prosm' => $id,
-			'ank_user_id' 	=> $user->user_id
+			'user_id' 	=> $user->user_id
 		];
 		$this->setFields($aFields);
 
@@ -104,7 +104,7 @@ class AnketVisitRepository implements AnketVisitInterface {
 			$ankVisits = $this->getByFields();
 			if (!empty($ankVisits))
 			{
-				$ankVisits->ank_time = time();
+				$ankVisits->create_time = time();
 				$ankVisits->save();
 			}
         } catch (\Exception $e) {
@@ -139,7 +139,7 @@ class AnketVisitRepository implements AnketVisitInterface {
 	*/
 	public function destroyAllByUserId($userId)
 	{
-		$visits = $this->setFields(['ank_user_id' => $userId])->getByFields();
+		$visits = $this->setFields(['user_id' => $userId])->getByFields();
 		foreach ($visits as $item)
 		{
 			$item->delete();
@@ -158,8 +158,8 @@ class AnketVisitRepository implements AnketVisitInterface {
 		try {
 			$aFields = [
 				'user_id_prosm'		=> $id,
-				'ank_user_id'		=> $user->user_id,
-				'ank_time'			=> time()
+				'user_id'			=> $user->user_id,
+				'create_time'			=> time()
 			];
 
 			$oAnketVisit = new AnketVisit($aFields);
@@ -178,7 +178,7 @@ class AnketVisitRepository implements AnketVisitInterface {
 	{
 		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
 		try {
-			AnketVisit::where('ank_time', '<', ($time['timestamp']))->delete();
+			AnketVisit::where('create_time', '<', ($time['timestamp']))->delete();
 		} catch (\Exception $e) {
             throw new \Exception('Failed to remove old user visits: '.$e->getMessage());
         }
