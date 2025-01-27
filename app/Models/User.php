@@ -393,7 +393,7 @@ class User extends Authenticatable
 
 	public function diary()
 	{
-		return $this->hasMany(Diary::class, 'dnevniki_user_id', 'user_id')->orderBy('dnevniki_time', 'desc');
+		return $this->hasMany(Diary::class, 'user_id', 'user_id')->orderBy('create_time', 'desc');
 	}
 
 	public function anketVisit()

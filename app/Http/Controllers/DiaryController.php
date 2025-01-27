@@ -86,8 +86,8 @@ class DiaryController extends Controller
 	{
 		$user			= Auth::user();
 		$diary			= $this->diaryRepository->getByUserAndId($id, $user->user_id);
-		$diary->user_dnevnik_title	= old('title')	 		? old('title') 			: stripslashes($diary->dnevniki_title);
-		$diary->user_dnevnik_text	= old('description') 	? old('description') 	: $diary->dnevniki_text;
+		$diary->user_dnevnik_title	= old('title')	 		? old('title') 			: stripslashes($diary->title);
+		$diary->user_dnevnik_text	= old('description') 	? old('description') 	: $diary->description;
 		return response()->view('ankets.diary_edit',
 		[
 			'userData'		=> $user,
@@ -170,12 +170,12 @@ class DiaryController extends Controller
 		$user			= Auth::user();
 		$diary			= $this->diaryRepository->getByUserAndId($id, $user->user_id);
 		$arParams		= $request->post();
-		if ( !empty($arParams['cancel']) ) return redirect()->route ('ank.diary.edit.id', $id);
+		if ( !empty($arParams['cancel']) ) return redirect()->route('ank.diary.edit.id', $id);
 		if ( !empty($arParams['confirm']) ) {
-			$this->fileService->remove($diary->dnevniki_picture_url);
-			$diary->dnevniki_picture = 0;
-			$request->title				= $diary->dnevniki_title;
-			$request->description		= $diary->dnevniki_text;
+			$this->fileService->remove($diary->picture_url);
+			$diary->picture = 0;
+			$request->title				= $diary->title;
+			$request->description		= $diary->description;
 			$this->diaryRepository->update($diary, $request);
 			return redirect()->route ('ank.diary.edit.id', $id);
 		}

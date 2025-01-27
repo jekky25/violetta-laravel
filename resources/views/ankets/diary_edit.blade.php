@@ -35,12 +35,12 @@ function find_otsil()
 @endforeach
 	</div>
 @endif
-<form name="anketa" class="addFile" action="{{route('ank.diary.edit.id', $diary->dnevniki_id)}}" method="post" enctype="multipart/form-data">
+<form name="anketa" class="addFile" action="{{route('ank.diary.edit.id', $diary->id)}}" method="post" enctype="multipart/form-data">
 	{{ csrf_field() }}
 	@method('PUT')
 	<table style="width:100px;">
 		<tr>
-			<td width="50%" align="right"><div class="dnevTeemTitle"><p>{{ $diary->dnevniki_time }}</p>Тема:</div></td>
+			<td width="50%" align="right"><div class="dnevTeemTitle"><p>{{ $diary->create_time }}</p>Тема:</div></td>
 			<td width="50%"><input type="text" class="input3" name="title" value="{{ $diary->user_dnevnik_title }}" /></td>
 		</tr>
 		<tr>
@@ -48,11 +48,11 @@ function find_otsil()
 				<textarea class="textarea2" name="description" wrap="virtual">{{ $diary->user_dnevnik_text }}</textarea>
 			</td>
 		</tr>
-		@if (!empty($diary->dnevniki_picture))
+		@if (!empty($diary->picture))
 		<tr>
 			<td>
-				<img width="100" src="{{ (new FileService)->outDiaryPicture($diary->dnevniki_picture, $diary->user->user_sex) }}" alt="" style="vertical-align:middle; margin-right:20px;" />
-				<a class="delFoto" href="{{route('ank.diary.delete.photo.id', $diary->dnevniki_id)}}">удалить</a>
+				<img width="100" src="{{ (new FileService)->outDiaryPicture($diary->picture, $diary->user->user_sex) }}" alt="" style="vertical-align:middle; margin-right:20px;" />
+				<a class="delFoto" href="{{route('ank.diary.delete.photo.id', $diary->id)}}">удалить</a>
 			</td>
 			<td>
 				<input type="file" class="login" size="25" name="photo_link"  />

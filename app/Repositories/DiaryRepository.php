@@ -34,7 +34,7 @@ class DiaryRepository implements DiaryInterface {
 		->with('user')
 		->with('comments')
 		->limit ($count)
-		->orderBy('dnevniki_time', 'desc')
+		->orderBy('create_time', 'desc')
 		->get();
 		return $items;
 	}
@@ -53,7 +53,7 @@ class DiaryRepository implements DiaryInterface {
 		->with('user')
 		->with('comments')
 		->with('user_photo')
-		->orderBy('dnevniki_time', 'desc')
+		->orderBy('create_time', 'desc')
 		->paginate($count);
 		return $items;
 	}
@@ -67,11 +67,11 @@ class DiaryRepository implements DiaryInterface {
 	public function getByUser($count, $userId)
 	{
 		$items = Diary::select('*')
-		->where ('dnevniki_user_id', $userId)
+		->where ('user_id', $userId)
 		->with('user')
 		->with('comments')
 		->with('user_photo')
-		->orderBy('dnevniki_time', 'desc')
+		->orderBy('create_time', 'desc')
 		->paginate($count);
 		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
 		return $items;
@@ -86,8 +86,8 @@ class DiaryRepository implements DiaryInterface {
 	public function getByUserAndId($id, $userId)
 	{
 		$item = Diary::select('*')
-		->where('dnevniki_id', $id)
-		->where('dnevniki_user_id', $userId)
+		->where('id', $id)
+		->where('user_id', $userId)
 		->with('comments')
 		->firstOrFail();
 		return $item;
@@ -101,7 +101,7 @@ class DiaryRepository implements DiaryInterface {
 	public static function getById($id)
 	{
 		$item = Diary::select('*')
-		->where ('dnevniki_id', $id)
+		->where('id', $id)
 		->with('user')
 		->firstOrFail();
 		return $item;
@@ -131,7 +131,7 @@ class DiaryRepository implements DiaryInterface {
 			{
 				$picture = $this->fileService->fotoUpload($request['photo_link'], 0, 'img/dnevnik/');
 			}
-			$request['dnevniki_picture'] = !empty ($picture) ? $picture : "0";
+			$request['picture'] = !empty($picture) ? $picture : "0";
 			Diary::create($request);
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to create a Diary '.$e->getMessage());
@@ -150,10 +150,10 @@ class DiaryRepository implements DiaryInterface {
 			{
 				$picture = $this->fileService->fotoUpload($request->photo_link, 0, 'img/dnevnik/');
 			}
-			Diary::find($diary->dnevniki_id)->update([
-				'dnevniki_title'		=> $request->title,
-				'dnevniki_text'			=> $request->description,
-				'dnevniki_picture'		=> !empty ($picture) ? $picture : $diary->dnevniki_picture
+			Diary::find($diary->id)->update([
+				'title'			=> $request->title,
+				'description'	=> $request->description,
+				'picture'		=> !empty($picture) ? $picture : $diary->picture
 			]);
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to update Diary. '.$e->getMessage());
@@ -167,7 +167,7 @@ class DiaryRepository implements DiaryInterface {
 	*/
 	public function delete($diary) {
 		try {
-			$this->fileService->remove($diary->dnevniki_picture_url);
+			$this->fileService->remove($diary->picture_url);
 			$diary->comments()->delete();
 			$diary->delete();
 		} catch (\Exception $e) {

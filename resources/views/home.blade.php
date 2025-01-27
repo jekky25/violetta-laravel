@@ -102,38 +102,25 @@
 					@endif
 							</div>
 							<div class="wth1 mDnevTd">
-								<div class="counter3 for-pc">
-									{{--<script type="text/javascript"><!--
-google_ad_client = "pub-6379140164632940";
-/* 200x200, создано 26.12.08 */
-google_ad_slot = "0480668500";
-google_ad_width = 200;
-google_ad_height = 200;
-//-->
-</script>--}}
-@push('scripts')
-<script async type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-@endpush
-								</div>
 								<h3>Последние записи в дневниках</h3>
 								@if (!empty($diaries))
 								@foreach ($diaries as $item)
 								<div class="dnevnik">
 									<h4 class="{{ $item->name_class }}">
 										<a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>
-										<p>{{ $item->dnevniki_time }}</p>
+										<p>{{ $item->create_time }}</p>
 									</h4>
 									<h3>
-										<a href="{{route('ank.diary.id', $item->user->user_id)}}" class="{{ $item->name_class }}">{!! $item->dnevniki_title !!}</a>
+										<a href="{{route('ank.diary.id', $item->user->user_id)}}" class="{{ $item->name_class }}">{!! $item->title !!}</a>
 									</h3>
 									@if (!empty($item->dnevnik_foto))
 									<div class="dnevPict">
 										<a href="{{route('ank.diary.id', $item->user->user_id)}}"><img class="b-lazy" data-src="{{ $item->diaryImg }}" src="{{ asset('image/zero.gif') }}" alt="" /></a>
 									</div>
 									@endif
-									<p class="dnevText">{!! \Illuminate\Support\Str::limit($item->dnevniki_text, 300, $end='...') !!}</p>
+									<p class="dnevText">{!! \Illuminate\Support\Str::limit($item->description, 300, $end='...') !!}</p>
 								</div>
-								<a class="comLink" href="{{route('ank.diary.comments', $item->dnevniki_id)}}">комментарии ({{count ($item->comments)}})</a>
+								<a class="comLink" href="{{route('ank.diary.comments', $item->id)}}">комментарии ({{count ($item->comments)}})</a>
 								@endforeach
 								<a class="comLink left1 all-dnev-link" href="{{route('diaries')}}">все дневники >></a>
 								@endif

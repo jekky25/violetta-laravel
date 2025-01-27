@@ -14,11 +14,11 @@ class DiaryFactory extends Factory
 	public function definition()
 	{
 		return [
-			'dnevniki_user_id'	=> 1,
-			'dnevniki_title'	=> $this->faker->name(10),
-			'dnevniki_text'		=> $this->faker->text(100),
-			'dnevniki_picture'	=> 0,
-			'dnevniki_time'		=> time()
+			'user_id'			=> 1,
+			'title'				=> $this->faker->name(10),
+			'description'		=> $this->faker->text(100),
+			'picture'			=> 0,
+			'create_time'		=> time()
 		];
 	}
 }

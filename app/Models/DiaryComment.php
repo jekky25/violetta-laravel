@@ -51,7 +51,7 @@ class DiaryComment extends Model
 	*/
 	public function diary()
 	{
-		return $this->belongsTo(Diary::class, 'dnevniki_id', 'comment_dnevnik_id');
+		return $this->belongsTo(Diary::class, 'id', 'comment_dnevnik_id');
 	}
 
 	/**

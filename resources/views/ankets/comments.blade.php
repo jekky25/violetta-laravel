@@ -3,30 +3,30 @@
 @section('main_body')
 <h1 class="mTit">{{ $userData->user_name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
 <x-ank-menu :user-data="$userData" />
-<h3 class="kommentTitle">{{ $diary->dnevniki_title }}@if ($comments->total() > 0) - комментарии ({{ $comments->total() }})@else - комментарии (нет)@endif</h3>
+<h3 class="kommentTitle">{{ $diary->title }}@if ($comments->total() > 0) - комментарии ({{ $comments->total() }})@else - комментарии (нет)@endif</h3>
 <table class="ankDnevnik">
 	<tr>
 		<td>
 			<h4 class="@isset($userData->user_class_a){{ $userData->user_class_a }}@endisset"><a href="{{route('ank.id', $userData->user_id)}}">{{ $userData->user_name }}</a>
 				<p>
-				@if (!empty($user) && $user->user_id == $diary->dnevniki_user_id)
-					<a class="editBut" title="редактировать" href="{{route('ank.diary.edit.id', $diary->dnevniki_id)}}"></a>
-					<a class="delBut" title="удалить" href="{{route('ank.diary.delete.id', $diary->dnevniki_id)}}"></a>
+				@if (!empty($user) && $user->user_id == $diary->user_id)
+					<a class="editBut" title="редактировать" href="{{route('ank.diary.edit.id', $diary->id)}}"></a>
+					<a class="delBut" title="удалить" href="{{route('ank.diary.delete.id', $diary->id)}}"></a>
 				@endif
 				{{ $diary->add_time }}</p>
 			</h4>
 			<div class="dnevBody clear">
-			@if (!empty($diary->dnevniki_picture))
-				<a class="dnevBodyPic1" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ (new FileService)->outDiaryPicture($diary->dnevniki_picture, $userData->user_sex) }}" /></a>
+			@if (!empty($diary->picture))
+				<a class="dnevBodyPic1" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ (new FileService)->outDiaryPicture($diary->picture, $userData->user_sex) }}" /></a>
 			@elseif (!empty($userData->foto_user_id))
 				<a class="dnevBodyPic2" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ (new FileService)->outPicture($diary->foto_user_id, $userData->user_sex) }}" /></a>
 			@endif
-			@if (!empty($diary->dnevniki_picture))
-				<div class="mrg2">{{ $diary->dnevniki_text }}</div>
+			@if (!empty($diary->picture))
+				<div class="mrg2">{{ $diary->description }}</div>
 			@elseif ( !empty($diary->foto_url ))
-				<div class="mrg3">{{ $diary->dnevniki_text }}</div>
+				<div class="mrg3">{{ $diary->description }}</div>
 			@else
-			{{ $diary->dnevniki_text }}
+			{{ $diary->description }}
 			@endif
 			</div>
 		</td>
@@ -95,7 +95,7 @@
 @endforeach
 	</div>
 @endif
-<form name="anketa" class="addFile" action="{{route('ank.diary.comment.add', $diary->dnevniki_id)}}" method="post" enctype="multipart/form-data">
+<form name="anketa" class="addFile" action="{{route('ank.diary.comment.add', $diary->id)}}" method="post" enctype="multipart/form-data">
 {{ csrf_field() }}
 	<table>
 		<tr>

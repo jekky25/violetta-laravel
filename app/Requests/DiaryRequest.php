@@ -84,9 +84,8 @@ class DiaryRequest extends FormRequest
 		$arParams = $this->validator->validated();
 		$arParams['title']				= strip_tags($arParams['title'],"<b><strong><i>");
 		$arParams['description']		= strip_tags($arParams['description'],"<b><strong><i>");
-		$arParams['dnevniki_text']		= $arParams['description'];
-		$arParams['dnevniki_time']		= time();
-		$arParams['dnevniki_user_id']	= $user_id;
+		$arParams['create_time']		= time();
+		$arParams['user_id']			= $user_id;
 		return data_get($arParams, $key, $default);
 	}
 }
