@@ -29,7 +29,7 @@
 		<td>
 			<h4>
 			<a href="{{route('ank.id', $item->user_id)}}" class="{{ $item->user->name_class }}">{{ $item->user->user_name }}</a> <strong>{{ $item->user->user_age }} {{ $item->user->user_age_type }}</strong><span class="postData">{{ $item->add_time }}</span></h4>
-			<div>{!! $item->comments_description !!}</div>
+			<div>{!! $item->description !!}</div>
 		</td>
 	</tr>
 	@endforeach

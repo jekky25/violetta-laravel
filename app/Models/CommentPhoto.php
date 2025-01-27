@@ -14,7 +14,7 @@ class CommentPhoto extends Model
 		'foto_id',
 		'user_id',
 		'time',
-		'comments_description',
+		'description',
 	];
 
 	public function getAddTimeAttribute ()
@@ -24,7 +24,7 @@ class CommentPhoto extends Model
 
 	public function setCommentsDescriptionAttribute ($val)
 	{
-		$this->attributes['comments_description'] = strip_tags($val);
+		$this->attributes['description'] = strip_tags($val);
 	}
 
 	public function getCommentsDescriptionAttribute ($val)

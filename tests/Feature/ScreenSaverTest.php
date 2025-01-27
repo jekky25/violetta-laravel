@@ -30,7 +30,7 @@ class ScreenSaverTest extends TestCase
 	 */
 	protected function getRand()
 	{
-		return rand(0, $this->screenSaversCount);
+		return rand(0, ($this->screenSaversCount - 1));
 	}
 
 	/**

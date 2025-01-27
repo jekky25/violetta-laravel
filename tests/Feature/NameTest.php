@@ -30,7 +30,7 @@ class NameTest extends TestCase
 	 */
 	protected function getRand()
 	{
-		return rand(0, $this->namesCount);
+		return rand(0, ($this->namesCount - 1));
 	}
 
 	/**

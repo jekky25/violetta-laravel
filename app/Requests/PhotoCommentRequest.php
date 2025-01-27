@@ -59,7 +59,7 @@ class PhotoCommentRequest extends FormRequest
 		$arParams = $this->validator->validated();
 		$arParams['foto_id']				= $foto_id;
 		$arParams['user_id']				= $user_id;
-		$arParams['comments_description']	= str_replace("\'", "''", $arParams['description']);
+		$arParams['description']			= str_replace("\'", "''", $arParams['description']);
 		$arParams['time']					= time();
 		return data_get($arParams, $key, $default);
 	}

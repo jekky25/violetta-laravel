@@ -20,7 +20,7 @@ class UserFactory extends Factory
 			'user_name'					=> $this->faker->name(),
 			'user_city'					=> !empty($city)	? $city->id			: 0,
 			'user_country'				=> !empty($city)	? $city->country_id	: 0,
-			'user_region'				=> !empty($city)	? $city->regions_id	: 0,
+			'user_region'				=> !empty($city)	? $city->region_id	: 0,
 			'user_active'				=> 1,
 			'user_mail'					=> $this->faker->unique()->safeEmail(),
 			'user_reiting'				=> $this->faker->numberBetween(1, 5),

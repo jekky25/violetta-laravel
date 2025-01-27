@@ -14,7 +14,7 @@ class CityRepository implements CityInterface {
 	public function getByRegionId($id)
 	{
 		$items = City::select('*')
-		->where ('regions_id', $id)
+		->where('region_id', $id)
 		->orderBy('name', 'asc')
 		->get();
 		return $items;
@@ -28,7 +28,7 @@ class CityRepository implements CityInterface {
 	public static function getById($id)
 	{
 		$item = City::select('*')
-		->where ('id', $id)
+		->where('id', $id)
 		->first();
 		return $item;
 	}

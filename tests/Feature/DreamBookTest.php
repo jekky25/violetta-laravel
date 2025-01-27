@@ -30,7 +30,7 @@ class DreamBookTest extends TestCase
 	 */
 	protected function getRand()
 	{
-		return rand(0, $this->dreamBooksCount);
+		return rand(0, ($this->dreamBooksCount-1));
 	}
 
 	/**

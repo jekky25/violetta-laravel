@@ -13,16 +13,13 @@ return new class extends Migration
 	{
 		if (!Schema::hasTable('comments_fotos')) {
 			Schema::create('comments_fotos', function (Blueprint $table) {
+				$table->integer('comments_id')->autoIncrement();
 				$table->integer('foto_id');
 				$table->integer('user_id');
 				$table->integer('time');
 				$table->string('comments_description');
 			});
 		}
-
-		Schema::table('comments_fotos', function (Blueprint $table) {
-            $table->primary('foto_id');
-        });
 	}
 
 	/**
@@ -30,9 +27,6 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::table('comments_fotos', function (Blueprint $table) {
-			$table->dropPrimary('foto_id');
-		});
 		Schema::dropIfExists('comments_fotos');
 	}
 };
