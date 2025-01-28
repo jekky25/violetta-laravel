@@ -66,18 +66,18 @@ class Diary extends Model
 		return $this->picture !== "0" ? 'img/dnevnik/' . $this->picture : null;
 	}
 
-	public function getDnevnikiTimeAttribute($val)
+	public function getCreateTimeAttribute($val)
 	{
 		return date("d.m.y H:i", $val);
 	}
 
-	public function getDnevnikiTitleAttribute($val)
+	public function getTitleAttribute($val)
 	{
 		$val = stripslashes($val);
 		return $val == '' ? 'Тема без названия' : $val;
 	}
 
-	public function getDnevnikiTextAttribute($val)
+	public function getDescriptionAttribute($val)
 	{
 		$val = stripslashes($val);
 		return str_replace("\n", "\n<br />\n", $val);
