@@ -13,7 +13,7 @@ class CommentScreen extends Model
 	protected $fillable = [
 		'scr_id',
 		'user_id',
-		'time',
+		'create_time',
 		'name',
 		'description',
 		'email',
@@ -24,7 +24,7 @@ class CommentScreen extends Model
 	* @param  string $id
 	* @return string
 	*/
-	public function getNameAttribute ($val)
+	public function getNameAttribute($val)
 	{
 		$val = !empty ($val) ? $val : 'none';
 		return !empty($this->user) ? $this->user->user_name : $val;
@@ -35,7 +35,7 @@ class CommentScreen extends Model
 	* @param  string $string
 	* @return string
 	*/
-	public function getTimeAttribute ($val)
+	public function getCreateTimeAttribute($val)
 	{
 		return date("d-m-Y",$val);
 	}

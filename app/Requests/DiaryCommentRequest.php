@@ -84,12 +84,10 @@ class DiaryCommentRequest extends FormRequest
 		$arParams = $this->validator->validated();
 		if ($this->cancelRules()) return data_get($arParams, $key, $default);
 		$arParams['title']						= strip_tags($arParams['title'],"<b><strong><i>");
-		$arParams['comment_title']				= $arParams['title'];
 		$arParams['description']				= strip_tags($arParams['description'],"<b><strong><i>");
-		$arParams['comment_text']				= $arParams['description'];
-		$arParams['comment_time']				= time();
-		$arParams['comment_dnevnik_id']			= $id;
-		$arParams['comment_dnevnik_user_id']	= $user_id;
+		$arParams['create_time']				= time();
+		$arParams['diary_id']					= $id;
+		$arParams['user_id']					= $user_id;
 		return data_get($arParams, $key, $default);
 	}
 }

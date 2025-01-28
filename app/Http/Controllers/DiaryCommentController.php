@@ -87,7 +87,7 @@ class DiaryCommentController extends Controller
 		$user						= Auth::user();
 		$comment					= $this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
 		$this->diaryCommentRepository->update($comment, $request);
-		return redirect()->route('ank.diary.comments', $comment->comment_dnevnik_id)
+		return redirect()->route('ank.diary.comments', $comment->diary_id)
 			->with('success','Комментарий был обновлен')
 			->withInput();
 	}
@@ -119,10 +119,10 @@ class DiaryCommentController extends Controller
 		$user			= Auth::user();
 		$comment		= $this->diaryCommentRepository->getByUserAndId($id, $user->user_id);
 		$arParams		= $request->post();
-		if ( !empty($arParams['cancel']) ) return redirect()->route ('ank.diary.comments', $comment->comment_dnevnik_id);
+		if ( !empty($arParams['cancel']) ) return redirect()->route('ank.diary.comments', $comment->diary_id);
 		if ( !empty($arParams['confirm']) ) {
 			$this->diaryCommentRepository->delete($comment);
-			return redirect()->route('ank.diary.comments', $comment->comment_dnevnik_id);
+			return redirect()->route('ank.diary.comments', $comment->diary_id);
 		}
 	}
 
@@ -156,9 +156,9 @@ class DiaryCommentController extends Controller
 		if ( !empty($arParams['cancel']) ) return redirect()->route ('ank.diary.comment.edit.id', $id);
 		if ( !empty($arParams['confirm']) ) {
 			$this->fileService->remove($comment->picture_url);
-			$comment->comment_picture	= 0;
-			$request->title				= $comment->comment_title;
-			$request->description		= $comment->comment_text;
+			$comment->picture			= 0;
+			$request->title				= $comment->title;
+			$request->description		= $comment->description;
 			$this->diaryCommentRepository->update($comment, $request);
 			return redirect()->route('ank.diary.comment.edit.id', $id);
 		}

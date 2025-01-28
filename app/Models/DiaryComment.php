@@ -9,41 +9,41 @@ class DiaryComment extends Model
 	use HasFactory;
 	protected $table = 'dnevniki_comments';
 	protected $fillable = [
-		'comment_id',
-		'comment_dnevnik_id',
-		'comment_dnevnik_user_id',
-		'comment_title',
-		'comment_text',
-		'comment_picture',
-		'comment_time'
+		'id',
+		'diary_id',
+		'user_id',
+		'title',
+		'description',
+		'picture',
+		'create_time'
 	];
 
 	public $timestamps 		= false;
-	protected $primaryKey 	= 'comment_id';
+	protected $primaryKey 	= 'id';
 
-	public function getAddTimeAttribute ($val)
+	public function getAddTimeAttribute()
 	{
-		return is_numeric($this->comment_time) ? date("d.m.y H:i", $this->comment_time) : $this->comment_time;
+		return is_numeric($this->create_time) ? date("d.m.y H:i", $this->create_time) : $this->create_time;
 	}
 
-	public function getPictureUrlAttribute ($val)
+	public function getPictureUrlAttribute()
 	{	
-		return $this->comment_picture !== "0" ? 'img/dnev_comment/' . $this->comment_picture : null;
+		return $this->picture !== "0" ? 'img/dnev_comment/' . $this->picture : null;
 	}
 
-	public function getCommentTimeAttribute ($val)
+	public function getCreateTimeAttribute($val)
 	{
 		return date("d.m.y H:i", $val);
 	}
 
-	public function getTitleAttribute ()
+	public function getTitleAttribute()
 	{
-		return old('title') ? old('title') : stripslashes ($this->comment_title);
+		return old('title') ? old('title') : stripslashes($this->title);
 	}
 
-	public function getTextAttribute ()
+	public function getDescriptionAttribute()
 	{
-		return old('description') ? old('description') : $this->comment_text;
+		return old('description') ? old('description') : $this->description;
 	}
 
 	/**
@@ -51,7 +51,7 @@ class DiaryComment extends Model
 	*/
 	public function diary()
 	{
-		return $this->belongsTo(Diary::class, 'id', 'comment_dnevnik_id');
+		return $this->belongsTo(Diary::class, 'id', 'diary_id');
 	}
 
 	/**
@@ -59,6 +59,6 @@ class DiaryComment extends Model
 	*/
 	public function user()
 	{
-		return $this->belongsTo(User::class, 'comment_dnevnik_user_id', 'user_id');
+		return $this->belongsTo(User::class, 'user_id', 'user_id');
 	}
 }

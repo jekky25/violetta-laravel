@@ -16,7 +16,7 @@ class CommentScreenRepository implements CommentScreenInterface {
 		$items = CommentScreen::select('*')
 		->where('scr_id', $id)
 		->with ('user')
-		->orderBy('time', 'desc')
+		->orderBy('create_time', 'desc')
 		->get();
 		return $items;
 	}

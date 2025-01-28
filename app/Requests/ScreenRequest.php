@@ -64,7 +64,7 @@ class ScreenRequest extends FormRequest
 			'description'	=> str_replace("\'", "''", $arParams['description']),
 			'name'			=> $user->user_name,
 			'email'			=> $user->user_mail,
-			'time'			=> time()
+			'create_time'	=> time()
 		];
 		$ar  = array_merge($arParams,$ar);
 		return data_get($ar, $key, $default);

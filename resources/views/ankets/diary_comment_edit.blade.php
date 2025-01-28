@@ -13,7 +13,7 @@
 		}
 	</script>
 @if (!empty($comment))
-<form name="anketa" class="addFile" action="{{route('ank.diary.comment.edit.id', $comment->comment_id)}}" method="post" enctype="multipart/form-data">
+<form name="anketa" class="addFile" action="{{route('ank.diary.comment.edit.id', $comment->id)}}" method="post" enctype="multipart/form-data">
 @method('PUT')
 {{ csrf_field() }}
 @if(session('success'))
@@ -28,7 +28,7 @@
 @endif
 	<table style="width:100px;">
 		<tr>
-			<td width="50%" align="right"><div class="dnevTeemTitle"><p>{{ $comment->comment_time }}</p>Тема:</div></td>
+			<td width="50%" align="right"><div class="dnevTeemTitle"><p>{{ $comment->create_time }}</p>Тема:</div></td>
 			<td width="50%"><input type="text" class="input3" name="title" value="{{ $comment->title }}" /></td>
 		</tr>
 		<tr>
@@ -36,11 +36,11 @@
 				<textarea class="textarea2" name="description" wrap="virtual">{{ $comment->text }}</textarea>
 			</td>
 		</tr>
-		@if (!empty($comment->comment_picture))
+		@if (!empty($comment->picture))
 		<tr>
 			<td>
-				<img width="100" src="{{ (new FileService)->outDiaryCommentPicture($comment->comment_picture, $userData->user_sex) }}" alt="" style="vertical-align:middle; margin-right:20px;" />
-				<a class="delFoto" href="{{route('ank.diary.comment.delete.photo.id', $comment->comment_id)}}">удалить</a>
+				<img width="100" src="{{ (new FileService)->outDiaryCommentPicture($comment->picture, $userData->user_sex) }}" alt="" style="vertical-align:middle; margin-right:20px;" />
+				<a class="delFoto" href="{{route('ank.diary.comment.delete.photo.id', $comment->id)}}">удалить</a>
 			</td>
 			<td>
 				<input type="file" class="login" size="25" name="photo_link"  />

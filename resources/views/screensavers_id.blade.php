@@ -40,7 +40,7 @@
 <td @if (!empty($comments))class="valign1"@endif>
 @if (!empty($comments))
 @foreach ($comments as $item)
-<h3>{{ $item->name}}<p class="commTime">{{ $item->time }}</p></h3>
+<h3>{{ $item->name}}<p class="commTime">{{ $item->create_time }}</p></h3>
 <p class="commDescr">{{ $item->description }}</p>
 @endforeach
 @else

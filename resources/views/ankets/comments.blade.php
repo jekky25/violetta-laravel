@@ -38,27 +38,27 @@
 @foreach ($comments as $item)
 	<tr>
 		<td>
-			<h4 class="@isset($item->user->user_class_a){{ $item->user->user_class_a }}@endisset"><a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>@if (!empty($item->comment_title)) - {{ $item->comment_title }}@endif
+			<h4 class="@isset($item->user->user_class_a){{ $item->user->user_class_a }}@endisset"><a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>@if (!empty($item->title)) - {{ $item->title }}@endif
 				<p>
 					@if (!empty($user) && $user->user_id == $item->user->user_id)
-					<a class="editBut" title="редактировать" href="{{route('ank.diary.comment.edit.id', $item->comment_id)}}"></a>
-					<a class="delBut" title="удалить" href="{{route('ank.diary.comment.delete.id', $item->comment_id)}}"></a>
+					<a class="editBut" title="редактировать" href="{{route('ank.diary.comment.edit.id', $item->id)}}"></a>
+					<a class="delBut" title="удалить" href="{{route('ank.diary.comment.delete.id', $item->id)}}"></a>
 					@endif
 					{{ $item->add_time }}
 				</p>
 			</h4>
 			<div class="dnevBody clear">
-			@if (!empty($item->comment_picture))
-				<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outDiaryCommentPicture($item->comment_picture, $item->user->user_sex) }}" /></a>
+			@if (!empty($item->picture))
+				<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outDiaryCommentPicture($item->picture, $item->user->user_sex) }}" /></a>
 			@elseif (!empty($item->foto_url))
 				<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outPicture($item->foto_url, $item->user->user_sex) }}" /></a>
 			@endif
-			@if (!empty($item->comment_picture))
-				<div class="mrg2">{!! $item->comment_text !!}</div>
+			@if (!empty($item->picture))
+				<div class="mrg2">{!! $item->description !!}</div>
 			@elseif (!empty($item->foto_url))
-				<div class="mrg3">{!! $item->comment_text !!}</div>
+				<div class="mrg3">{!! $item->description !!}</div>
 			@else
-				{!! $item->comment_text !!}
+				{!! $item->description !!}
 			@endif
 			</div>
 		</td>
