@@ -86,7 +86,7 @@
 							<dt>
 								<!--noindex-->
 								<a href="{{route('ank.id', $item->user_id)}}" rel="nofollow">
-									<img class="b-lazy" alt="{{ $item->user_name }},{{ $item->user_age }}{{ $item->user_age_type }},{{ $item->city->name }}"  data-src="{{ asset('fotos_new/' . $item->photo->fotos_id) . '.jpg' }}" src="{{ asset('image/zero.gif') }}" />
+									<img class="b-lazy" alt="{{ $item->user_name }},{{ $item->user_age }}{{ $item->user_age_type }},{{ $item->city->name }}"  data-src="{{ asset('fotos_new/' . $item->photo->id) . '.jpg' }}" src="{{ asset('image/zero.gif') }}" />
 								</a>
 								<!--/noindex-->
 							</dt>

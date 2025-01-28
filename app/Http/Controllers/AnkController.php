@@ -80,7 +80,7 @@ class AnkController extends Controller
 		if (!count($anket->photo)) abort(404);
 		foreach ($anket->photo as $photo)
 		{
-			if ($photo->fotos_portret == static::IS_MAIN_PHOTO) return redirect()->route('ank.photo.photo_id', $photo->fotos_id);
+			if ($photo->main_picture == static::IS_MAIN_PHOTO) return redirect()->route('ank.photo.photo_id', $photo->id);
 		}
 		abort(404);
 	}
@@ -98,7 +98,7 @@ class AnkController extends Controller
 		$anket	= $this->userRepository->getById($photo->user_id);
 		if (!count($anket->photo)) abort(404);
 		$anket->ankVisits	= $this->anketVisitRepository->update($photo->user_id, self::$visitDays, $user->user_id);
-		$this->photoService->prepare($anket, $photo->fotos_id, $this->commentCountPerPage);
+		$this->photoService->prepare($anket, $photo->id, $this->commentCountPerPage);
 		return response()->view('ankets.photo',
 		[
 			'userData'			=> $anket,

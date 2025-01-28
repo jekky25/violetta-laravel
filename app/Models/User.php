@@ -302,7 +302,7 @@ class User extends Authenticatable
 	public function getPhotoIdAttribute()
 	{
 		if (empty($this->photo)) return null;
-		return !empty($this->photo->fotos_id) ? $this->photo->fotos_id : null;
+		return !empty($this->photo->id) ? $this->photo->id : null;
 	}
 
 	public function getUserClassAAttribute()
@@ -345,7 +345,7 @@ class User extends Authenticatable
 		return ' до ' . $this->user_partner_age_max . ' ' . (new formatService)->ageType2($this->user_partner_age_max);
 	}
 
-	public function getPartnerHeightAttribute ()
+	public function getPartnerHeightAttribute()
 	{
 		if (!($this->user_partner_height_min > PARTNER_HEIGHT_MIN || $this->user_partner_height_max > PARTNER_HEIGHT_MAX)) return null;
 		if ($this->user_partner_height_min > PARTNER_HEIGHT_MIN && $this->user_partner_height_max > PARTNER_HEIGHT_MAX) 
@@ -355,7 +355,7 @@ class User extends Authenticatable
 		return	' до ' . $this->user_partner_height_max . 'см';
 	}
 
-	public function getPartnerWeightAttribute ()
+	public function getPartnerWeightAttribute()
 	{
 		if (!($this->user_partner_weight_min > PARTNER_WEIGHT_MIN || $this->user_partner_weight_max > PARTNER_WEIGHT_MAX))  return null;
 		if ($this->user_partner_weight_min > PARTNER_WEIGHT_MIN && $this->user_partner_weight_max > PARTNER_WEIGHT_MAX) 
@@ -382,7 +382,7 @@ class User extends Authenticatable
 
 	public function photo()
 	{
-		return $this->hasMany(Photo::class, 'user_id', 'user_id')->with('comment')->orderBy('fotos_portret', 'desc');
+		return $this->hasMany(Photo::class, 'user_id', 'user_id')->with('comment')->orderBy('main_picture', 'desc');
 	}
 
 	public function visits()

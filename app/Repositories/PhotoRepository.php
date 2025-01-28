@@ -36,7 +36,7 @@ class PhotoRepository implements PhotoInterface {
 	*/
 	public function getCount()
 	{
-		return Photo::select('fotos_id')->count();
+		return Photo::select('id')->count();
 	}
 
 	/**
@@ -47,7 +47,7 @@ class PhotoRepository implements PhotoInterface {
 	public function getById($id)
 	{
 		$item = Photo::select('*')
-		->where ('fotos_id', $id)
+		->where('id', $id)
 		->firstOrFail();
 		return $item;
 	}
@@ -61,8 +61,8 @@ class PhotoRepository implements PhotoInterface {
 	public function getByIdAndUserId($id, $userId)
 	{
 		$item = Photo::select('*')
-		->where ('fotos_id', $id)
-		->where ('user_id', $userId)
+		->where('id', $id)
+		->where('user_id', $userId)
 		->firstOrFail();
 		return $item;
 	}
@@ -75,7 +75,7 @@ class PhotoRepository implements PhotoInterface {
 	public function getFirstByUserId($id)
 	{
 		$item = Photo::select('*')
-		->where ('user_id', $id)
+		->where('user_id', $id)
 		->first();
 		return $item;
 	}
@@ -88,7 +88,7 @@ class PhotoRepository implements PhotoInterface {
 	public function getAllByUserId($id)
 	{
 		$item = Photo::select('*')
-		->where ('user_id', $id)
+		->where('user_id', $id)
 		->get();
 		return $item;
 	}
@@ -118,8 +118,8 @@ class PhotoRepository implements PhotoInterface {
 			$user->user_refresh_date		= date("Y-m-d");
 			$countPhoto						= count($user->photo);
 			$aFields = [
-				'fotos_portret'				=> $countPhoto > 0 ? 0 : 1,
-				'fotos_t'					=> 0,
+				'main_picture'				=> $countPhoto > 0 ? 0 : 1,
+				'create_time'				=> 0,
 				'user_id'					=> $user->user_id
 			];
 			$this->create($aFields);
@@ -149,9 +149,9 @@ class PhotoRepository implements PhotoInterface {
 	*/
 	public function update($photo, $params) {
 		try {
-			$photo->fotos_t = time();
+			$photo->create_time = time();
 			$photo->update();
-			$params['photo_link']->nameForInsert = $photo->fotos_id . '.' . $params['photo_link']->extension();
+			$params['photo_link']->nameForInsert = $photo->id . '.' . $params['photo_link']->extension();
 			$this->fileService->fotoUpload($params['photo_link'], 1000, 'fotos_new/');
 			User::find($photo->user_id)->update(
 				[
@@ -186,16 +186,16 @@ class PhotoRepository implements PhotoInterface {
 	public function destroyPhoto(Photo $photo)
 	{
 		$user 			= Auth::user();
-		$id 			= $photo->fotos_id;
+		$id 			= $photo->id;
 		$this->fileService->fotoDelete($id);
-		$isPortret = $photo->fotos_portret == 1 ? 1 : 0;
+		$isPortret = $photo->main_picture == 1 ? 1 : 0;
 		$photo->delete();
 		if ($isPortret)
 		{
 			$photo = $this->getFirstByUserId($user->user_id);
 			if (!empty($photo))
 			{
-				$photo->fotos_portret = 1;
+				$photo->main_picture = 1;
 				$photo->update();
 			}
 		}

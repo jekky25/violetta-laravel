@@ -47,7 +47,7 @@ class UserRepository implements UserInterface {
 		->where('user_fotos', '>', 0)
 		->where('user_confirm_email', 1)
 		->where('user_active', 1)
-		->where('fotos_portret', 1)
+		->where('main_picture', 1)
 		->with('city') 
 		->with('photo')
 		->limit ($count)

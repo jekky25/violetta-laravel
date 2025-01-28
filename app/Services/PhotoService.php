@@ -31,7 +31,7 @@ class PhotoService
 		foreach ($anket->photo as &$item)
 		{
 			$item->comment	= $item->comment->slice(0, $perPage);
-			if ($photoId > 0 && $item->fotos_id == $photoId)
+			if ($photoId > 0 && $item->id == $photoId)
 				$anket->mainPhoto = $item;
 		}
 		$anket->mainPhoto			= $this->checkMainPhoto($anket);
@@ -55,7 +55,7 @@ class PhotoService
 	*/
 	public function addPictureParams($photo)
 	{
-		$img 				= "./fotos_new/".$photo->fotos_id.".jpg";
+		$img 				= "./fotos_new/".$photo->id.".jpg";
 		if (is_file($img))
 		{
 			$size = getimagesize($img);

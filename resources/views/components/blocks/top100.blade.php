@@ -6,7 +6,7 @@
 	<!--noindex-->
 		<div class="foto">
 			<a href="{{route('ank.id', $item->user_id )}}" rel="nofollow">
-				<img alt="{{ $item->user_name }},{{ $item->user_age }},{{ $item->city->name }}" class="b-lazy" data-src="{{ asset('fotos_new/' . $item->photo->fotos_id) . '.jpg' }}" src="{{ asset("image/zero.gif") }}" />
+				<img alt="{{ $item->user_name }},{{ $item->user_age }},{{ $item->city->name }}" class="b-lazy" data-src="{{ asset('fotos_new/' . $item->photo->id) . '.jpg' }}" src="{{ asset("image/zero.gif") }}" />
 			</a>
 		</div>
 		<p class="links1"><a href="{{route('ank.id', $item->user_id )}}" rel="nofollow">смотреть анкету</a></p>

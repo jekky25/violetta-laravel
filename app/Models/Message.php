@@ -60,7 +60,7 @@ class Message extends Model
 		if (count ($this->user_mes->photo) > 0)
 		{
 			$photo = $this->user_mes->photo[0];
-			return $photo->fotos_id;
+			return $photo->id;
 		}
 		return null;
 	}

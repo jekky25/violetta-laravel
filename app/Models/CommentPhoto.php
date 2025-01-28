@@ -34,7 +34,7 @@ class CommentPhoto extends Model
 
 	public function getUserPhotoIdAttribute ()
 	{
-		return !empty($this->user->photo[0]) ? $this->user->photo[0]->fotos_id : 0;
+		return !empty($this->user->photo[0]) ? $this->user->photo[0]->id : 0;
 	}
 	
 	/**

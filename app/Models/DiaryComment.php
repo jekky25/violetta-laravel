@@ -36,14 +36,14 @@ class DiaryComment extends Model
 		return date("d.m.y H:i", $val);
 	}
 
-	public function getTitleAttribute()
+	public function getTitleAttribute($val)
 	{
-		return old('title') ? old('title') : stripslashes($this->title);
+		return old('title') ? old('title') : stripslashes($val);
 	}
 
-	public function getDescriptionAttribute()
+	public function getDescriptionAttribute($val)
 	{
-		return old('description') ? old('description') : $this->description;
+		return old('description') ? old('description') : $val;
 	}
 
 	/**

@@ -16,7 +16,7 @@
 @if (!empty($photo))
 <table class="dnevBodyPic3">
 	<tr>
-		<td><div class="photo-block"><img class="photo-block-img" alt="" src="{{ (new FileService)->outPicture($photo->fotos_id, $user->user_sex) }}" /></div>
+		<td><div class="photo-block"><img class="photo-block-img" alt="" src="{{ (new FileService)->outPicture($photo->id, $user->user_sex) }}" /></div>
 		</td>
 	</tr>
 </table>
@@ -26,7 +26,7 @@
 <table class="wth3">
 	<tr>
 		<td class="pad3">
-			<form name="anketa" onsubmit="return (find_otsil())" action="{{ route('registration.edit.photo.edit.post', $photo->fotos_id) }}" enctype="multipart/form-data" method="post">
+			<form name="anketa" onsubmit="return (find_otsil())" action="{{ route('registration.edit.photo.edit.post', $photo->id) }}" enctype="multipart/form-data" method="post">
 				{{ csrf_field() }}
 				@method('PUT')
 				<p><input type="file" size="25" name="photo_link" /></p>
@@ -37,7 +37,7 @@
 			</form>
 		</td>
 		<td class="pad3">
-			<form name="anketa2" action="{{route('registration.edit.photo.delete', $photo->fotos_id)}}" method="get">
+			<form name="anketa2" action="{{route('registration.edit.photo.delete', $photo->id)}}" method="get">
 				<p><input type="hidden" name="otsil" value="1" /><input type="submit" name="sent" value="Удалить фото" />
 			</form>
 		</td>

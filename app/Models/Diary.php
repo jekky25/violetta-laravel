@@ -52,7 +52,7 @@ class Diary extends Model
 
 	public function getFotoUserIdAttribute()
 	{
-		return !empty($this->user_photo->fotos_id) ? $this->user_photo->fotos_id : null;
+		return !empty($this->user_photo->id) ? $this->user_photo->id : null;
 	}
 
 	public function getNameClassAttribute()
@@ -104,6 +104,6 @@ class Diary extends Model
 	*/
 	public function user_photo()
 	{
-		return $this->hasOne(Photo::class, 'user_id', 'user_id')->where('fotos_portret', 1);
+		return $this->hasOne(Photo::class, 'user_id', 'user_id')->where('main_picture', 1);
 	}
 }

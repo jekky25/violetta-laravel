@@ -9,11 +9,11 @@ class Photo extends Model
 {
 	use HasFactory;
 	protected $table 		= 'fotos';
-	protected $primaryKey 	= 'fotos_id';
+	protected $primaryKey 	= 'id';
 	public $timestamps 		= false;
 
 	protected $fillable = [
-		'fotos_portret',
+		'main_picture',
 		'user_id'
 	];
 
@@ -22,6 +22,6 @@ class Photo extends Model
 	*/
 	public function comment()
 	{
-		return $this->hasMany(CommentPhoto::class, 'foto_id', 'fotos_id')->with('user');
+		return $this->hasMany(CommentPhoto::class, 'foto_id', 'id')->with('user');
 	}
 }

@@ -163,7 +163,7 @@ class ProfileTest extends TestCase
 		{
 			$i++;
 			if ($i > $this->maxItems) break;
-			$ar[] = 'ank/f/photo_' . $photo->fotos_id . '/';
+			$ar[] = 'ank/f/photo_' . $photo->id . '/';
 		}
 
 		foreach ($ar as $item)
