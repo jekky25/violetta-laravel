@@ -62,17 +62,15 @@ class GoroskopController extends Controller
 	public function getItem($id)
 	{
 		$goroskop		= $this->goroskopRepository->getById($id);
-		$this->typeGor	= $goroskop->gor_type;
-		$goroskops		= $this->goroskopRepository->getByType($this->typeGor);
-		$goroskopsType	= $this->goroskopTypeRepository->getNotByType($this->typeGor);
+		$this->typeGor	= $goroskop->type;
 
 		return response()->view ('goroskop', 
 		[
-			'goroskops'			=> $goroskops,
+			'goroskops'			=> $this->goroskopRepository->getByType($this->typeGor),
 			'goroskop'			=> $goroskop,
-			'zodiak_text' 		=> $goroskop->gor_text,
-			'goroskopsTitle' 	=> $goroskop->gor_name,
-			'goroskops_type' 	=> $goroskopsType
+			'zodiak_text' 		=> $goroskop->description,
+			'goroskopsTitle' 	=> $goroskop->name,
+			'goroskops_type' 	=> $this->goroskopTypeRepository->getNotByType($this->typeGor)
 		]);
 	}
 

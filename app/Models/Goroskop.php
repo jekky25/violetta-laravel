@@ -13,9 +13,9 @@ class Goroskop extends Model
 	private $pattern 		= '/{google_baner([0-9]+)}/i';
 	private $replacement	= '';
 
-	public function getGorTextAttribute ($val)
+	public function getDescriptionAttribute($val)
     {
 		$val = str_replace("\n","<br><br>\n",$val);
-		return $this->replaceStringByPattern ($val, $this->pattern, $this->replacement);
+		return $this->replaceStringByPattern($val, $this->pattern, $this->replacement);
     }
 }

@@ -14,8 +14,8 @@ class GoroskopTypeRepository implements GoroskopTypeInterface {
 	public static function getNotByType($type)
 	{
 		$items = GoroskopType::select('*')
-		->where('gor_type_id', '!=' ,$type)
-		->orderBy('gor_type_name', 'asc')
+		->where('id', '!=' ,$type)
+		->orderBy('name', 'asc')
 		->get();
 		return $items;
 	}

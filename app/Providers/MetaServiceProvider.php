@@ -207,8 +207,8 @@ class MetaServiceProvider extends ServiceProvider
 					break;
 					
 				default:
-				$pageTitle 	= !empty ($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
-				$pageMeta 	= !empty ($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
+				$pageTitle 	= !empty($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
+				$pageMeta 	= !empty($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
 			<meta name="Description" content="Сайт знакомств на любой вкус. Найди свою любовь. Тысячи анкет с фото, бесплатная регистрация.">
 			<meta name="Keywords" content="сайт знакомств, бесплатные знакомства, знакомства в Москве, поиск анкет, найти любовь, знакомства бесплатно, служба знакомств, клуб знакомств, чат знакомств, знакомства с девушками, знакомства с мужчинами, интернет знакомства и общение">';
 			}
@@ -222,7 +222,7 @@ class MetaServiceProvider extends ServiceProvider
 	*/
 	private function getUserName()
 	{
-		return (!empty ($this->userData->user_name) ? $this->userData->user_name : '');
+		return (!empty($this->userData->user_name) ? $this->userData->user_name : '');
 	}
 
 	/**
@@ -231,7 +231,7 @@ class MetaServiceProvider extends ServiceProvider
 	*/
 	private function getUserAge()
 	{
-		return (!empty ($this->userData->user_age_str) ? $this->userData->user_age_str : '');
+		return (!empty($this->userData->user_age_str) ? $this->userData->user_age_str : '');
 	}
 
 	/**
@@ -240,7 +240,7 @@ class MetaServiceProvider extends ServiceProvider
 	*/
 	private function getCityName()
 	{
-		return (!empty ($this->userData->city->name) ? $this->userData->city->name : '');
+		return (!empty($this->userData->city->name) ? $this->userData->city->name : '');
 	}
 
 	/**
@@ -249,7 +249,7 @@ class MetaServiceProvider extends ServiceProvider
 	*/
 	private function getDreambookName()
 	{
-		return (!empty ($this->dreambook->name) ? $this->dreambook->name : '');
+		return (!empty($this->dreambook->name) ? $this->dreambook->name : '');
 	}
 
 	/**
@@ -258,7 +258,7 @@ class MetaServiceProvider extends ServiceProvider
 	*/
 	private function getNameName()
 	{
-		return (!empty ($this->name->name) ? $this->name->name : '');
+		return (!empty($this->name->name) ? $this->name->name : '');
 	}
 
 	/**
@@ -267,7 +267,7 @@ class MetaServiceProvider extends ServiceProvider
 	*/
 	private function getGoroskopName()
 	{
-		return (!empty ($this->goroskop->gor_name) ? $this->goroskop->gor_name : '');
+		return (!empty($this->goroskop->name) ? $this->goroskop->name : '');
 	}
 
 	/**
@@ -276,7 +276,7 @@ class MetaServiceProvider extends ServiceProvider
 	*/
 	private function getGoroskopTitle()
 	{
-		return (!empty ($this->goroskopsTitle) ? $this->goroskopsTitle : '');
+		return (!empty($this->goroskopsTitle) ? $this->goroskopsTitle : '');
 	}
 
 	/**
@@ -285,6 +285,6 @@ class MetaServiceProvider extends ServiceProvider
 	*/
 	private function getScreenName()
 	{
-		return (!empty ($this->screen->name) ? $this->screen->name : '');
+		return (!empty($this->screen->name) ? $this->screen->name : '');
 	}
 }

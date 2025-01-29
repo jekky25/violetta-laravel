@@ -14,8 +14,8 @@ class GoroskopRepository implements GoroskopInterface {
 	public function getByType($type)
 	{
 		$items = Goroskop::select('*')
-			->where('gor_type', $type)
-			->orderBy('gor_id', 'asc')
+			->where('type', $type)
+			->orderBy('id', 'asc')
 			->get();
 		return $items;
 	}
@@ -28,7 +28,7 @@ class GoroskopRepository implements GoroskopInterface {
 	public static function getById($id)
 	{
 		$item = Goroskop::select('*')
-		->where('gor_id', $id)
+		->where('id', $id)
 		->firstOrFail();
 		return $item;
 	}

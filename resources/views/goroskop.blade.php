@@ -6,7 +6,7 @@
 @if ($goroskops)
 	<ul>
 	@foreach ($goroskops as $item)
-	<li><a href="{{route('goroskop.id', $item->gor_id)}}">{{ $item->gor_name }}</a></li>
+	<li><a href="{{route('goroskop.id', $item->id)}}">{{ $item->name }}</a></li>
 	@endforeach
 	</ul>
 	<h3>Другие гороскопы</h3>
@@ -14,7 +14,7 @@
 @if ($goroskops_type)
 	<ul>
   @foreach ($goroskops_type as $item)    
-<li><a href="{{route('goroskop.op', $item->gor_type_id)}}">{{ $item->gor_type_name }}</a></li>
+<li><a href="{{route('goroskop.op', $item->id)}}">{{ $item->name }}</a></li>
 @endforeach
 	</ul>
 @endif

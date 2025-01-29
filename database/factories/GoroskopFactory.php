@@ -14,10 +14,10 @@ class GoroskopFactory extends Factory
 	public function definition()
 	{
 		return [
-			'gor_name'			=> $this->faker->name(10),
-			'gor_type'			=> 1,
-			'gor_dopoln'		=> 1,
-			'gor_text'			=> $this->faker->text(100)
+			'name'				=> $this->faker->name(10),
+			'type'				=> 1,
+			'addition'			=> 1,
+			'description'		=> $this->faker->text(100)
 		];
 	}
 }
