@@ -87,7 +87,7 @@ function vote(score)
 		<table id="smilesTable">
 		@foreach ($smiles as $item)
 		@if ($loop->index % 10 == 0)<tr>@endif
-			<td><a href="javascript://" onClick="checkSmile('{{ $item->smile_code }}'); return false;"><img src="{{ asset('image/smiles/' . $item->smile_img) }}" alt="" /></a></td>
+			<td><a href="javascript://" onClick="checkSmile('{{ $item->code }}'); return false;"><img src="{{ asset('image/smiles/' . $item->img) }}" alt="" /></a></td>
 		@if (($loop->index + 1) % 10 == 0 or $loop->last)</tr>@endif
 		@endforeach
 		</table>

@@ -14,8 +14,8 @@ class SmileRepository implements SmileInterface {
 	public function getAll()
 	{
 		$items = Smile::select('*')
-		->orderBy('smile_sort', 'asc')
-		->orderBy('smile_id', 'asc')
+		->orderBy('sort', 'asc')
+		->orderBy('id', 'asc')
 		->get();
 		return $items;
 	}
@@ -30,9 +30,9 @@ class SmileRepository implements SmileInterface {
 	public function transformSmiles($str)
 	{
 		$smiles = $this->getAll();
-		if (empty ($smiles)) return $str;
+		if (empty($smiles)) return $str;
 		foreach ($smiles as $_smile) {
-			$str = str_replace($_smile->smile_code, '<img class="messBSmile" src="' . asset('image/smiles/' . $_smile->smile_img) . '" alt="" />', $str);
+			$str = str_replace($_smile->code, '<img class="messBSmile" src="' . asset('image/smiles/' . $_smile->img) . '" alt="" />', $str);
 		}
 		return $str;
 	}
