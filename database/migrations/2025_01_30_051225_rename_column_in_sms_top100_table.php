@@ -40,6 +40,5 @@ return new class extends Migration
 		Schema::table('sms_top100', function (Blueprint $table) {
 			$table->renameColumn('code', 'sms_kod');
 		});
-
 	}
 };
