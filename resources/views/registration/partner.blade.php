@@ -54,7 +54,7 @@
 		<tr>
 			<td class="valign1" align="center">
 				<table class="pad13">
-					@foreach ($partnerBody as $item)
+					@foreach($partnerBody as $item)
 					<tr>
 						<td><input type="checkbox" name="partner_body[]" value="{{ $item->id }}"@if (!empty($item->selected)) checked="checked"@endif /></td>
 						<td class="left1">{{ $item->name }}</td>

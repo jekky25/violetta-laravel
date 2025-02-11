@@ -19,17 +19,6 @@
 @endif
 									</div>
 							</td>
-							<td>
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* 160x600 добавлен на списки анкет */
-google_ad_slot = "3632942762";
-google_ad_width = 160;
-google_ad_height = 600;
-//-->
-</script>
-<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-							</td>
 						</tr>
 					</table>
 <x-pagination :items="$ankets" />
@@ -41,70 +30,44 @@ google_ad_height = 600;
 	<tr>
 		<td class="right1">я</td>
 		<td>
-			<select name="sex"><option value="0" selected>не важно</option>
-				<option value="{{ MEN }}">мужчина</option>
-				<option value="{{ WOMEN }}">женщина</option>
-			</select>
+			<x-select name=sex :obj="$fields['sex']" :userProp="old('sex')" />
 		</td>
 	</tr>
 	<tr>
 		<td class="right1">ищу</td>
 		<td>
-			<select name="find_sex"><option value="0" selected>не важно</option>
-				<option value="{{ MEN }}">мужчину</option>
-				<option value="{{ WOMEN }}">женщину</option>
-			</select>
+			<x-select name=find_sex :obj="$fields['findSex']" :userProp="old('find_sex')" />
 		</td>
 	</tr>
 	<tr>
 		<td class="right1">в возрасте</td>
 		<td>от&nbsp; 
-			<select name="age_min">
-				<option value="15">не важно&nbsp;</option>
-				@if (!empty($ages))
-					@foreach ($ages as $item)
-					<option value="{{ $item }}">{{ $item }}</option>
-					@endforeach
-				@endif
-				</select>&nbsp;&nbsp;до&nbsp;
-				<select name="age_max">
-					<option value="15">не важно&nbsp;</option>
-					@if (!empty($ages))
-						@foreach ($ages as $item)
-						<option value="{{ $item }}">{{ $item }}</option>
-						@endforeach
-					@endif
-				</select>
+			<x-select name=age_min :obj="$fields['age']" :userProp="old('age_min')" />
+			&nbsp;&nbsp;до&nbsp;
+			<x-select name=age_max :obj="$fields['age']" :userProp="old('age_max')" />
 		</td>
 	</tr>
 	<tr>
 		<td class="right1">страна</td>
 		<td>
-			<select name="country" id="country" onchange="updateSelect('region', this.value, 'reg');">
-				<option value="0">не важно&nbsp;</option>
-				<option value="141">Россия</option>
-				@if (!empty($countries))
-					@foreach ($countries as $item)
-					<option value="{{ $item->id }}">{{ $item->name }}</option>
-					@endforeach
-				@endif
-			</select>
+			<x-select name=country id="country" :obj="$fields['country']" :userProp="old('country')">
+				<x-slot:firstInList><option value="141">Россия</option></x-slot>
+				<x-slot:addition>onchange="updateSelect('region', this.value, 'reg');"</x-slot:addition>
+			</x-select>
 		</td>
 	</tr>
 	<tr>
 		<td class="right1">регион</td>
 		<td>
-			<select name="region" id="region" onchange="updateSelect('city', this.value, 'cities');" >
-				<option value="0">не важно</option>
-			</select>
+			<x-select name=region id="region" :obj="[]" :userProp="old('region')">
+				<x-slot:addition>onchange="updateSelect('city', this.value, 'cities');"</x-slot:addition>
+			</x-select>
 		</td>
 	</tr>
 	<tr>
 		<td class="right1">город</td>
 		<td>
-			<select id="city" name="city">
-				<option value="0">не важно</option>
-			</select>
+			<x-select name=city id="city" :obj="[]" />
 		</td>
 	</tr>
 </table>
@@ -116,92 +79,50 @@ google_ad_height = 600;
 	<tr>
 		<td class="right1">рост</td>
 		<td>
-			от&nbsp; <select name="height_min">
-				<option value="{{ PARTNER_HEIGHT_MIN }}">не важно&nbsp;</option>
-				@if (!empty($heights))
-					@foreach ($heights as $item)
-					<option value="{{ $item }}">{{ $item }}</option>
-					@endforeach
-				@endif
-			</select>
+			от&nbsp; 
+			<x-select name=height_min :obj="$fields['height']" :userProp="old('height_min')" measure="см" />
 			&nbsp;&nbsp;до&nbsp;
-			<select name="height_max">
-				<option value="{{ PARTNER_HEIGHT_MAX }}">не важно&nbsp;</option>
-				@if (!empty($heights))
-					@foreach ($heights as $item)
-					<option value="{{ $item }}">{{ $item }}</option>
-					@endforeach
-				@endif
-			</select>
+			<x-select name=height_max :obj="$fields['height']" :userProp="old('height_max')" measure="см" />
 		</td>
 	</tr>
 	<tr>
 		<td class="right1">вес</td>
 		<td>
-			от&nbsp; <select name="weight_min">
-				<option value="{{ PARTNER_WEIGHT_MIN }}">не важно&nbsp;</option>
-				@if (!empty($weights))
-					@foreach ($weights as $item)
-					<option value="{{ $item }}">{{ $item }}</option>
-					@endforeach
-				@endif
-			</select>
+			от&nbsp; 
+			<x-select name=weight_min :obj="$fields['weight']" :userProp="old('weight_min')" measure="кг" />
 			&nbsp;&nbsp;до&nbsp;
-			<select name="weight_max">
-				<option value="{{ PARTNER_WEIGHT_MIN }}">не важно&nbsp;</option>
-				@if (!empty($weights))
-					@foreach ($weights as $item)
-					<option value="{{ $item }}">{{ $item }}</option>
-					@endforeach
-				@endif
-			</select>
+			<x-select name=weight_max :obj="$fields['weight']" :userProp="old('weight_max')" measure="кг" />
 		</td>
 	</tr>
 	<tr>
 		<td class="right1">телосложение</td>
-		<td>@if (!empty($body)){!! $body !!}@endif</td>
+		<td><x-select name=body :obj="$fields['body']" :userProp="old('body')" /></td>
 	</tr>
 	<tr>
 		<td class="right1">тип волос</td>
-		<td>@if (!empty($hairType)){!! $hairType !!}@endif</td>
+		<td><x-select name=hair_type :obj="$fields['hairType']" :userProp="old('hair_type')"  /></td>
 	</tr>
 	<tr >
 		<td class="right1">глаза</td>
-		<td>@if (!empty($eyes)){!! $eyes !!}@endif</td>
+		<td><x-select name=eyes :obj="$fields['eyes']" :userProp="old('eyes')"  /></td>
 	</tr>
 	<tr>
 		<td class="right1">только с фото</td>
-		<td><input type="checkbox" name="photo" /></td>
+		<td><input type="checkbox" name="photo" value="1" /></td>
 	</tr>
 	<tr>
 		<td class="right1">на сайте</td>
-		<td><input type="checkbox" name="online" /></td>
+		<td><input type="checkbox" name="online" value="1" /></td>
 	</tr>
 	<tr>
 		<td class="right1">анкет на странице</td>
 		<td>
-			<select name="anket_per_page">
-				<option value="5">5</option>
-				<option value="10" selected>10</option>
-				<option value="20">20</option>
-				<option value="30">30</option>
-			</select>
+			<x-select name=per_page :obj="$fields['perPage']" :userProp="old('per_page')"  />
 		</td>
 	</tr>
 	<tr><td align="center" colspan="2"><input type="submit" name="sent" id="otsil" class="bgBut3" value="" /></td></tr>	
 </table>
 </form>
 <script type="text/javascript" src="{{ asset('js/functions_search.js') }}"></script>
-<div class="pad5">
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* 468x60 поиск внизу */
-google_ad_slot = "1069383205";
-google_ad_width = 468;
-google_ad_height = 60;
-//-->
-</script>
-<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-</div>
 @endif
 @overwrite

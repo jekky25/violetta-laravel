@@ -24,9 +24,9 @@
 							</select>
 						</div>
 						<div>
-							<input type="checkbox" name="foto" />&nbsp;&nbsp;только с фото
+							<input type="checkbox" name="photo" />&nbsp;&nbsp;только с фото
 						</div>
-						<div>в возрасте от&nbsp; 
+						<div>в возрасте от&nbsp;
 							<select name="age_min">
 								<option value="15">не важно&nbsp;</option>
 								@if (!empty($ages))

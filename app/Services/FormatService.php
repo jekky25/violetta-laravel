@@ -122,14 +122,14 @@ class FormatService
 	*/
 	public function BlockSelect($name, $className, $value, $mode)
 	{
-		if (!is_array ($value))
+		if (!is_array($value))
 		{
 			try {
 				$unserValue = unserialize($value);
 			} catch (\Exception $e) {}
 		}
 
-		$value		= isset ($unserValue) && is_array ($unserValue) ? $unserValue : $value;
+		$value		= isset($unserValue) && is_array($unserValue) ? $unserValue : $value;
 		$className	= 'App\\Models\\' . $className;
 		$items		= $className::select('*')->orderBy('name','asc')->get();
 		$str		= '<select style="width: 150px" name="' . $name . '">';

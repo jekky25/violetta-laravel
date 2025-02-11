@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 Use App\Interfaces\UserInterface;
@@ -48,7 +49,7 @@ class UserRepository implements UserInterface {
 		->where('user_confirm_email', 1)
 		->where('user_active', 1)
 		->where('main_picture', 1)
-		->with('city') 
+		->with('city')
 		->with('photo')
 		->limit ($count)
 		->orderBy('user_make_date_t', 'desc')
@@ -70,7 +71,7 @@ class UserRepository implements UserInterface {
 		->where('user_active', 1)
 		->where('user_fotos', '>', 0)
 		->where('user_confirm_email', 1)
-		->with('city') 
+		->with('city')
 		->with('photo')
 		->limit ($count)
 		->orderBy('user_top100', 'desc')
@@ -91,6 +92,21 @@ class UserRepository implements UserInterface {
 			$_item->photo = $_item->photo[0];
 		}
 		return ($items->count() > 1 ? $items : $items[0]);
+	}
+
+	/**
+	* add properties to this repository
+	* @param  \Illuminate\Database\Eloquent\Collection $items
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public static function addProps($items)
+	{
+		foreach ($items as &$_item)
+		{
+			if (count($_item->photo) > 0)
+				$_item->photo 		= $_item->photo[0];
+		}
+		return $items;
 	}
 
 	/**
@@ -122,7 +138,7 @@ class UserRepository implements UserInterface {
 
 	/**
 	* get statistic of profiles
-	* @return void
+	* @return array
 	*/
 	public function getStatistic()
 	{
@@ -280,21 +296,6 @@ class UserRepository implements UserInterface {
 	}
 
 	/**
-	* add properties to this repository
-	* @param  \Illuminate\Database\Eloquent\Collection $items
-	* @return \Illuminate\Database\Eloquent\Collection
-	*/
-	public static function addProps($items)
-	{
-		foreach ($items as &$_item)
-		{
-			if (count ($_item->photo) > 0)
-				$_item->photo 		= $_item->photo[0];
-		}
-		return $items;
-	}
-
-	/**
 	* get profiles by option
 	* @param  int $count
 	* @param  int $sex
@@ -307,9 +308,9 @@ class UserRepository implements UserInterface {
 		->where('user_sex', $sex)
 		->with('city')
 		->with('photo');
-		if (!empty ($op['birthDate']))
+		if (!empty($op['birthDate']))
 			$items = $items->where('user_birth_date', '>', $op['birthDate']);
-		if (!empty ($op['birthDate2']))
+		if (!empty($op['birthDate2']))
 			$items = $items->where('user_birth_date', '<', $op['birthDate2']);
 		$items = $items->orderBy('user_id', 'desc')->paginate($count);
 		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
@@ -352,8 +353,8 @@ class UserRepository implements UserInterface {
 	public function getJustById($id, $width = [])
 	{
 		$item = User::select('*')
-		->where ('user_id', $id);
-		if (!empty ($width))
+		->where('user_id', $id);
+		if (!empty($width))
 		{
 			foreach ($width as $w)
 			{
@@ -373,7 +374,7 @@ class UserRepository implements UserInterface {
 	public function getByEmail($email)
 	{
 		$item = User::select('*')
-		->where ('user_mail', $email)
+		->where('user_mail', $email)
 		->first();
 		return $item;
 	}
@@ -395,8 +396,8 @@ class UserRepository implements UserInterface {
 	* create an user
 	* @param  array $request
 	* @return void
-	*/	
-	public function create($request) 
+	*/
+	public function create($request)
 	{
 		try {
 			$user = User::create($request);
@@ -408,9 +409,10 @@ class UserRepository implements UserInterface {
 
 	/**
 	* update an user
+	* @param User $user
 	* @param array $params
 	* @return void
-	*/	
+	*/
 	public function update($user, $params)
 	{
 		try {
@@ -422,9 +424,10 @@ class UserRepository implements UserInterface {
 
 	/**
 	* update an user from the second edit page
+	* @param User $user
 	* @param  array $params
 	* @return void
-	*/	
+	*/
 	public function secondUpdate($user, $params)
 	{
 		try {
@@ -436,9 +439,10 @@ class UserRepository implements UserInterface {
 
 	/**
 	* update an user from the partner edit page
+	* @param User $user
 	* @param  array $params
 	* @return void
-	*/	
+	*/
 	public function partnerUpdate($user, $params)
 	{
 		try {
@@ -450,9 +454,10 @@ class UserRepository implements UserInterface {
 
 	/**
 	* update an user
+	* @param User $user
 	* @param  array $params
 	* @return void
-	*/	
+	*/
 	public function passUpdate($user, $params)
 	{
 		try {
@@ -464,9 +469,10 @@ class UserRepository implements UserInterface {
 
 	/**
 	* update an user from setting page
+	* @param User $user
 	* @param  array $params
 	* @return void
-	*/	
+	*/
 	public function settingUpdate($user, $params)
 	{
 		try {
@@ -478,32 +484,13 @@ class UserRepository implements UserInterface {
 
 	/**
 	* get profiles on the search page
+	* @param UserFilter $filter
 	* @param SearchRequest $request
-	* @param array $params
 	* @return void
-	*/	
-	public function getBySearch($request, $params) 
+	*/
+	public function getBySearch($filter, $request)
 	{
-		if (!isset ($request->send)) return null;
-		$this->ankets = $this->select('*')->where ('user_active', 1);
-		$this->getBySex($params['find_sex'], $params['sex']);
-		$this->getByPhoto($params['photo']);
-		$this->getByAgeMin($params['age_min']);
-		$this->getByAgeMax($params['age_max']);
-		$this->getByHeightMin($params['height_min']);
-		$this->getByHeightMax($params['height_max']);
-		$this->getByWeightMin($params['weight_min']);
-		$this->getByWeightMax($params['weight_max']);
-		$this->getByBody($params['body']);
-		$this->getByHairType($params['hair_type']);
-		$this->getByEyes($params['eyes']);
-		$this->getByCountry($params['country']);
-		$this->getByRegion($params['region']);
-		$this->getByCity($params['city']);
-		$this->ankets = $this->ankets->orderBy('user_refresh_date_t', 'desc')->paginate($params['anket_per_page']);
-		$this->ankets = LengthPager::makeLengthAware($this->ankets, $this->ankets->total(), $params['anket_per_page']);
-		$this->ankets->appends(request()->query());
-		$this->ankets = self::addProps($this->ankets);
+		$this->ankets = User::filter($filter, $request)->orderBy('user_refresh_date_t', 'desc')->paginate($request->get('per_page'));
 		return $this->ankets;
 	}
 
@@ -511,7 +498,7 @@ class UserRepository implements UserInterface {
 	* destroy user profile
 	* @param  User $user
 	* @return void
-	*/	
+	*/
 	public function destroy($user)
 	{
 		try {
@@ -522,5 +509,21 @@ class UserRepository implements UserInterface {
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to remove User. '.$e->getMessage());
 		}
+	}
+
+	/**
+	* get fields from the array for web forms
+	* @param  array $fields
+	* @return array
+	*/
+	public function fields(array $fields) :array
+	{
+		$ar = [];
+		foreach ($fields as $name)
+		{
+			$className	= 'App\\Models\\' . $name;
+			$ar[$name]		= $className::select('*')->orderBy('name','asc')->get();
+		}
+		return $ar;
 	}
 }

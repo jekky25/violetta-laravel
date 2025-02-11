@@ -1,8 +1,7 @@
-@if (!isset ($item->photo->id)) @php $item->photo->id = 0 @endphp @endif
 <dl>
 	<dt>
 		<a href="{{route('ank.id', $item->user_id)}}">
-		<img alt="{{$item->user_name}},{{$item->user_age}}{{$item->user_age_type}},{{$item->city->name}}" data-src="{{ (new FileService)->outPicture($item->photo->id, $item->user_sex) }}" src="{{ asset('image/zero.gif') }}" /></a>
+		<img alt="{{$item->user_name}},{{$item->user_age}}{{$item->user_age_type}},{{$item->city->name}}" data-src="{{ $photoUrl }}" src="{{ asset('image/zero.gif') }}" /></a>
 	</dt>
 	<dd>
 		<p>{{--if $ankets[j].user_reg_is}<img title="на сайте" class="online" alt="на сайте" src="../../image/on_line.gif" />{/if--}}

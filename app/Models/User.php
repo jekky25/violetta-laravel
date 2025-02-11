@@ -10,10 +10,11 @@ use App\Repositories\UserRepository;
 use App\Services\FormatService;
 use App\Services\DataService;
 use App\Models\Photo;
+use App\Traits\HasFilter;
 
 class User extends Authenticatable
 {
-	use HasApiTokens, HasFactory, Notifiable;
+	use HasApiTokens, HasFactory, Notifiable, HasFilter;
 
 	/**
 	* The attributes that are mass assignable.
@@ -170,7 +171,7 @@ class User extends Authenticatable
 					}
 				}
 			}
-			$this->$propOut = implode (', ', $ar);
+			$this->$propOut = implode(', ', $ar);
 		}
 	}
 
@@ -303,6 +304,13 @@ class User extends Authenticatable
 	{
 		if (empty($this->photo)) return null;
 		return !empty($this->photo->id) ? $this->photo->id : null;
+	}
+
+	public function getFirstPhotoAttribute()
+	{
+		if ($this->photo->count() == 0) return null;
+
+		return $this->photo instanceof Photo ? $this->photo : $this->photo[0];
 	}
 
 	public function getUserClassAAttribute()

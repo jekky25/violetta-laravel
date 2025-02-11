@@ -5,6 +5,8 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use App\Services\LengthPager;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Pagination extends Component
 {
@@ -15,8 +17,11 @@ class Pagination extends Component
 	*/
 	public function __construct($items)
 	{
-		$this->items        = $items;
-		$this->pagination   = !empty($items->toArray()['links']) ? $this->preparePagination($items->toArray()['links']) : [];
+		$this->items = $items instanceof LengthAwarePaginator 
+											?	LengthPager::makeLengthAware($items, $items->total(), $items->perPage())->appends(request()->query()) 
+											:	$items;
+
+		$this->pagination   = !empty($this->items->toArray()['links']) ? $this->preparePagination($this->items->toArray()['links']) : [];
 	}
 
 	/**
