@@ -46,7 +46,6 @@ abstract class Filter
 		return $this->builder;
     }
 
-
 	/**
 	 * Check method for exception
 	 *

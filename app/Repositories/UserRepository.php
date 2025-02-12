@@ -177,30 +177,6 @@ class UserRepository implements UserInterface {
 	}
 
 	/**
-	* get the best profiles
-	* @param  int $count
-	* @param  int $sex
-	* @return \Illuminate\Database\Eloquent\Collection
-	*/
-	public function getBest($count = 0, $sex)
-	{
-		$items = User::select(['*'])
-		->where('user_active', 1)
-		->where('user_sex', $sex)
-		->where('user_fotos', '>', 0)
-		->where('user_confirm_email', 1)
-		->where('user_top100', '>', 0)
-		->with('city')
-		->with('photo')
-		->orderBy('user_top100', 'desc')
-		->paginate($count);
-		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
-		$items = self::addProps($items);
-
-		return $items;
-	}
-
-	/**
 	* get profiles of who watched
 	* @param  int $count
 	* @return \Illuminate\Database\Eloquent\Collection
@@ -484,14 +460,14 @@ class UserRepository implements UserInterface {
 
 	/**
 	* get profiles on the search page
-	* @param UserFilter $filter
-	* @param SearchRequest $request
-	* @return void
+	* @param Filter $filter
+	* @param Request $request
+	* @param string $order
+	* @return Collection
 	*/
-	public function getBySearch($filter, $request)
+	public function getBySearch($filter, $request, $order = 'user_refresh_date_t')
 	{
-		$this->ankets = User::filter($filter, $request)->orderBy('user_refresh_date_t', 'desc')->paginate($request->get('per_page'));
-		return $this->ankets;
+		return User::filter($filter, $request)->orderBy($order, 'desc')->paginate($request->get('per_page'));
 	}
 
 	/**

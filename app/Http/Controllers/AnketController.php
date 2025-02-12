@@ -7,10 +7,12 @@ use App\Interfaces\RegionInterface;
 use App\Interfaces\CountryInterface;
 use App\Interfaces\UserInterface;
 use App\Requests\SearchRequest;
+use App\Requests\UserBestRequest;
 use App\Services\AnkService;
 use App\Services\FormatService;
 use App\Services\SearchService;
 use App\Filters\UserFilter;
+use App\Filters\UserBestFilter;
 use App\Fields\SearchField;
 
 class AnketController extends Controller
@@ -69,24 +71,23 @@ class AnketController extends Controller
 
 	/**
 	* show the page with the best proprofiles
+	* @param UserBestRequest $request
+	* @param UserBestFilter $filter
 	* @param  string  $sex
 	* @return \Illuminate\Http\Response
 	*/
-	public function getBestAnkets($sex)
+	public function getBestAnkets(UserBestRequest $request, UserBestFilter $filter, $sex)
 	{
-		$s					= $sex == 'men' ? MEN 		: WOMEN;
-		$ankets				= $this->userRepository->getBest($this->countPerPage, $s);
+		$ankets				= $this->userRepository->getBySearch($filter, $request, 'user_top100');
 		$page				= $ankets->currentPage();
-		$titleId = $sex == 'men' ? 'Лучшие парни' : 'Лучшие девушки';
-		$countSearchAnkStr	= (new AnkService($ankets))->getFoundStr($this->countPerPage);
 		$user = Auth::user();
 		$user = !empty($user) ? $user->load(['visits']) : null;
 		return response()->view('ankets.best',
 		[
 			'page'				=> $page,
 			'ankets'			=> $ankets,
-			'titleId'			=> $titleId,
-			'countSearchAnkStr' => $countSearchAnkStr,
+			'titleId'			=> $sex == 'men' ? 'Лучшие парни' : 'Лучшие девушки',
+			'countSearchAnkStr' => (new AnkService($ankets))->getFoundStr($this->countPerPage),
 			'user'				=> $user
 		]);
 	}
