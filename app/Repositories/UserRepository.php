@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 Use App\Interfaces\UserInterface;
 use App\Interfaces\AnketVisitInterface;
@@ -151,33 +150,6 @@ class UserRepository implements UserInterface {
 				'men_ank_percent' 		=> $this->getPercentOfAnkets(MEN),
 				'total_men_percent' 	=> sprintf('%d%%', $this->getPercentOfAnkets(MEN))
 			];
-	}
-
-	/**
-	* get profiles of who watched
-	* @param  int $count
-	* @return \Illuminate\Database\Eloquent\Collection
-	*/
-	public function getViews($count = 0)
-	{
-		$time	= \Carbon\Carbon::now()->subDays(30)->timestamp;
-		$items 	= User::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
-		->where('user_active', 1)
-		->with('city')
-		->with('city')
-		->with('anketVisit')
-		->whereExists(function ($query) use ($time) {
-			$query->select(DB::raw(1))
-				  ->from('anket_visit')
-				  ->where('anket_visit.create_time', '>', $time)
-				  ->whereRaw('users_news.user_id = anket_visit.user_id');
-		})
-		->paginate($count);
-
-		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
-		$items = self::addProps($items);
-
-		return $items;
 	}
 
 	/**

@@ -10,6 +10,7 @@ use App\Requests\SearchRequest;
 use App\Requests\UserBestRequest;
 use App\Requests\UserPopularRequest;
 use App\Requests\UserBirthdayRequest;
+use App\Requests\UserViewsRequest;
 use App\Services\AnkService;
 use App\Services\FormatService;
 use App\Services\SearchService;
@@ -17,6 +18,7 @@ use App\Filters\UserFilter;
 use App\Filters\UserBestFilter;
 use App\Filters\UserPopularFilter;
 use App\Filters\UserBirthdayFilter;
+use App\Filters\UserViewsFilter;
 use App\Fields\SearchField;
 
 class AnketController extends Controller
@@ -102,16 +104,15 @@ class AnketController extends Controller
 	* show the page with views
 	* @return \Illuminate\Http\Response
 	*/
-	public function getViews()
+	public function getViews(UserViewsRequest $request, UserViewsFilter $filter)
 	{
-		$ankets						= $this->userRepository->getViews($this->countPerPage);
-		$page						= $ankets->currentPage();
+		$ankets						= $this->userRepository->getBySearch($filter, $request);
 		$user						= Auth::user();
 		$user->user_lastvisit_views = time();
 		$user->update();
 		return response()->view('ankets.views',
 		[
-			'page'			=> $page,
+			'page'			=> $ankets->currentPage(),
 			'ankets'		=> $ankets
 		]);
 	}
