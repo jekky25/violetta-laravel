@@ -3,13 +3,14 @@
 namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use App\Requests\UserBestRequest;
+use Illuminate\Support\Facades\DB;
+use App\Requests\UserPopularRequest;
 
-class UserBestFilter extends Filter
+class UserPopularFilter extends Filter
 {
 	public const KEYS_TO_INT = ['get_sex'];
 
-	public function __construct(UserBestRequest $request)
+	public function __construct(UserPopularRequest $request)
 	{
 		parent::__construct($request);
 	}
@@ -19,7 +20,7 @@ class UserBestFilter extends Filter
 	 * @return Builder
 	 */
 	protected function getSex(int $value) :Builder
-	{ 
+	{
 		return $this->builder->where('user_sex', $value);
 	}
 
@@ -31,9 +32,8 @@ class UserBestFilter extends Filter
 	protected function afterBuild() :Builder
 	{
 		$this->active();
-		$this->hasPhotos();
-		$this->confirmed();
-		$this->top100();
+		$this->exists();
+
 		return $this->builder;
 	}
 
@@ -44,28 +44,16 @@ class UserBestFilter extends Filter
 	{
 		return $this->builder->where('user_active', 1);
 	}
-
-	/**
-	 * @return Builder
-	 */
-	protected function hasPhotos() :Builder
-	{
-		return $this->builder->where('user_fotos', '>', 0);
-	}
-
-	/**
-	 * @return Builder
-	 */
-	protected function confirmed() :Builder
-	{
-		return $this->builder->where('user_confirm_email', 1);
-	}
 	
 	/**
 	 * @return Builder
 	 */
-	protected function top100() :Builder
+	protected function exists() :Builder
 	{
-		return $this->builder->where('user_top100', '>', 0);
+		return $this->builder->whereExists(function ($query) {
+			$query->select(DB::raw(1))
+					->from('anket_visit')
+					->whereRaw('users_news.user_id = anket_visit.user_id_prosm');
+		});
 	}
 }

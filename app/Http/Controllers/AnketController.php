@@ -8,11 +8,13 @@ use App\Interfaces\CountryInterface;
 use App\Interfaces\UserInterface;
 use App\Requests\SearchRequest;
 use App\Requests\UserBestRequest;
+use App\Requests\UserPopularRequest;
 use App\Services\AnkService;
 use App\Services\FormatService;
 use App\Services\SearchService;
 use App\Filters\UserFilter;
 use App\Filters\UserBestFilter;
+use App\Filters\UserPopularFilter;
 use App\Fields\SearchField;
 
 class AnketController extends Controller
@@ -36,20 +38,20 @@ class AnketController extends Controller
 
 	/**
 	* show the page with the must populars profiles
+	* @param UserPopularRequest $request
+	* @param UserPopularFilter $filter
 	* @param  string  $sex
 	* @return \Illuminate\Http\Response
 	*/
-	public function getPopularAnkets($sex = 'women')
+	public function getPopularAnkets(UserPopularRequest $request, UserPopularFilter $filter, $sex = 'women')
 	{
-		$s					= $sex == 'men' ? MEN 		: WOMEN;
-		$popSex				= $sex == 'men' ? 'мужчины' : 'женщины';
-		$ankets				= $this->userRepository->getPopul($this->countPerPage, $s);
-		$page				= $ankets->currentPage();
+		$ankets				= $this->userRepository->getBySearch($filter, $request);
+
 		return response()->view('ankets.popular_search',
 		[
-			'popSex'		=> $popSex,
+			'popSex'		=> $sex == 'men' ? 'мужчины' : 'женщины',
 			'sex'			=> $sex,
-			'page'			=> $page,
+			'page'			=> $ankets->currentPage(),
 			'ankets'		=> $ankets
 		]);
 	}

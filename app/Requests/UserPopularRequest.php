@@ -4,7 +4,7 @@ namespace App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserBestRequest extends FormRequest
+class UserPopularRequest extends FormRequest
 {
 	public $countPerPage 	= 10;
 	private $merge			= [];
