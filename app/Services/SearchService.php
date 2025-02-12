@@ -137,7 +137,7 @@ class SearchService
 	private function setTxtCountry() 
 	{
 		if (empty($this->params['country'])) return false;
-		$oCountry = $this->countryRepository->getById ($this->params['country']);
+		$oCountry = $this->countryRepository->getById($this->params['country']);
 		$this->critCountry = $this->params['city'] > 0 || $this->params['region'] > 0 ? ' (<strong>' . $oCountry->name . ')</strong>' : '<br /> из <strong>' . $oCountry->name . '</strong>';
 	}
 
