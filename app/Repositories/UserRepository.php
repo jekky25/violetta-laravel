@@ -154,29 +154,6 @@ class UserRepository implements UserInterface {
 	}
 
 	/**
-	* get profiles who celebrates a birthday today
-	* @param  int $count
-	* @return \Illuminate\Database\Eloquent\Collection
-	*/
-	public function getBirthday($count = 0)
-	{
-		$tDay 	= \Carbon\Carbon::now()->format('d');
-		$tMonth = \Carbon\Carbon::now()->format('m');
-		$tDate	= '____-'. $tMonth . '-' .$tDay;
-
-		$items = User::select(['user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
-		->where('user_active', 1)
-		->where('user_birth_date', 'LIKE', $tDate)
-		->with('city')
-		->with('photo')
-		->paginate($count);
-		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
-		$items = self::addProps($items);
-
-		return $items;
-	}
-
-	/**
 	* get profiles of who watched
 	* @param  int $count
 	* @return \Illuminate\Database\Eloquent\Collection

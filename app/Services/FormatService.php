@@ -297,4 +297,16 @@ class FormatService
 		if ($finalNumber >= 2 && $finalNumber <= 4) return "записи";
 		return "записей";
 	}
+
+	/**
+	* get data for search in DB
+	*
+	* @return string
+	*/
+	public function dataForDB()
+	{
+		$day 	= \Carbon\Carbon::now()->format('d');
+		$month = \Carbon\Carbon::now()->format('m');
+		return '____-'. $month . '-' .$day;
+	}
 }

@@ -9,12 +9,14 @@ use App\Interfaces\UserInterface;
 use App\Requests\SearchRequest;
 use App\Requests\UserBestRequest;
 use App\Requests\UserPopularRequest;
+use App\Requests\UserBirthdayRequest;
 use App\Services\AnkService;
 use App\Services\FormatService;
 use App\Services\SearchService;
 use App\Filters\UserFilter;
 use App\Filters\UserBestFilter;
 use App\Filters\UserPopularFilter;
+use App\Filters\UserBirthdayFilter;
 use App\Fields\SearchField;
 
 class AnketController extends Controller
@@ -58,15 +60,17 @@ class AnketController extends Controller
 
 	/**
 	* show the page with profiles who celebrates a birthday today
+	* @param UserBirthdayRequest $request
+	* @param UserBirthdayFilter $filter
 	* @return \Illuminate\Http\Response
 	*/
-	public function getBirthdayAnkets()
+	public function getBirthdayAnkets(UserBirthdayRequest $request, UserBirthdayFilter $filter)
 	{
-		$ankets				= $this->userRepository->getBirthday($this->countPerPage);
-		$page				= $ankets->currentPage();
+		$ankets				= $this->userRepository->getBySearch($filter, $request);
+
 		return response()->view('ankets.birthday_search',
 		[
-			'page'			=> $page,
+			'page'			=> $ankets->currentPage(),
 			'ankets'		=> $ankets
 		]);
 	}
