@@ -324,66 +324,6 @@ class UserRepository implements UserInterface {
 	}
 
 	/**
-	* update an user from the second edit page
-	* @param User $user
-	* @param  array $params
-	* @return void
-	*/
-	public function secondUpdate($user, $params)
-	{
-		try {
-			User::find($user->user_id)->update($params);
-		} catch (\Exception $e) {
-			throw new \Exception('Failed to update User. '.$e->getMessage());
-		}
-	}
-
-	/**
-	* update an user from the partner edit page
-	* @param User $user
-	* @param  array $params
-	* @return void
-	*/
-	public function partnerUpdate($user, $params)
-	{
-		try {
-			User::find($user->user_id)->update($params);
-		} catch (\Exception $e) {
-			throw new \Exception('Failed to update User. '.$e->getMessage());
-		}
-	}
-
-	/**
-	* update an user
-	* @param User $user
-	* @param  array $params
-	* @return void
-	*/
-	public function passUpdate($user, $params)
-	{
-		try {
-			User::find($user->user_id)->update($params);
-		} catch (\Exception $e) {
-			throw new \Exception('Failed to update User. '.$e->getMessage());
-		}
-	}
-
-	/**
-	* update an user from setting page
-	* @param User $user
-	* @param  array $params
-	* @return void
-	*/
-	public function settingUpdate($user, $params)
-	{
-		try {
-			User::find($user->user_id)->update($params);
-		} catch (\Exception $e) {
-			throw new \Exception('Failed to update User. '.$e->getMessage());
-		}
-	}
-
-	/**
 	* get profiles on the search page
 	* @param Filter $filter
 	* @param Request $request

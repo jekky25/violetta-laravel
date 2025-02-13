@@ -231,8 +231,7 @@ class RegistrationController extends Controller
 	*/
 	public function passPost(PassRequest $request)
 	{
-		$user 			= Auth::user();
-		$this->userRepository->passUpdate($user, $request->validated());
+		$this->userRepository->update(Auth::user(), $request->validated());
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
@@ -274,8 +273,7 @@ class RegistrationController extends Controller
 	*/
 	public function photoStore(PhotoRequest $request)
 	{
-		$user 			= Auth::user();
-		$this->photoRepository->store($user, $request->validated());
+		$this->photoRepository->store(Auth::user(), $request->validated());
 			return redirect()->back()
 			->with('success','Фото успешно добавлено')
 			->withInput();
@@ -288,8 +286,7 @@ class RegistrationController extends Controller
 	*/
 	public function post(ProfileMainRequest $request)
 	{
-		$user 						= Auth::user();
-		$this->userRepository->update($user, $request->validated());
+		$this->userRepository->update(Auth::user(), $request->validated());
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
@@ -300,8 +297,7 @@ class RegistrationController extends Controller
 	*/
 	public function secondPost(ProfileSecondRequest $request)
 	{
-		$user 			= Auth::user();
-		$this->userRepository->secondUpdate($user, $request->validated());
+		$this->userRepository->update(Auth::user(), $request->validated());
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
@@ -312,8 +308,7 @@ class RegistrationController extends Controller
 	*/
 	public function partnerPost(ProfilePartnerRequest $request)
 	{
-		$user 			= Auth::user();
-		$this->userRepository->partnerUpdate($user, $request->validated());
+		$this->userRepository->update(Auth::user(), $request->validated());
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
@@ -326,7 +321,7 @@ class RegistrationController extends Controller
 	{
 		$title			= 'Информация';
 		$text			= 'Вы уверены, что хотите удалить это фото<br /><br />';
-		$confirmAction	= route ('registration.edit.photo.delete', $id);
+		$confirmAction	= route('registration.edit.photo.delete', $id);
 		$this->messageService->outMessageInfo($title, $text, $confirmAction, method_field('DELETE'));
 	}
 
@@ -379,8 +374,7 @@ class RegistrationController extends Controller
 	*/
 	public function settingsPost(SettingRequest $request)
 	{
-		$user 			= Auth::user();
-		$this->userRepository->settingUpdate($user, $request->validated());
+		$this->userRepository->update(Auth::user(), $request->validated());
 		return redirect()->route(Route::currentRouteName())->with('success','Информация сохранена.');
 	}
 
@@ -390,7 +384,7 @@ class RegistrationController extends Controller
 	*/
 	public function top100(FormatService $format)
 	{
-		return response()->view ('registration.top100',
+		return response()->view('registration.top100',
 		[
 			'textTop100'	=> $format->getTextTop100(),
 			'formToTop'		=> $format->getFormToTop()

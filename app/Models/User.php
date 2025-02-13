@@ -47,6 +47,7 @@ class User extends Authenticatable
 		'user_refresh_date_t',
 		'user_session_time',
 		'user_lastvisit',
+		'user_lastvisit_views',
 		'user_ip',
 		'user_submit_code',
 		'user_description',
