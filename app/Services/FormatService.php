@@ -30,7 +30,7 @@ class FormatService
 	}
 
 	/**
-	* preparation ttles for the page with profiles
+	* preparation titles for the page with profiles
 	* @param  string  $sex
 	* @param  int  $op
 	*
@@ -79,6 +79,44 @@ class FormatService
 			'ankTitleId'	=> $ankTitleId,
 			'birthDate'		=> $birthDate,
 			'birthDate2'	=> $birthDate2
+		];
+	}
+
+	/**
+	* get range for select from the DB
+	* @param  int  $op
+	*
+	* @return array
+	*/
+	public function getRange($op = '')
+	{
+		$data				= new DataService;
+		$dateStart			= null;
+		$dateEnd			= null;
+		switch ($op) {
+			case '20':
+				$dateStart		= $data->birthAround(20);
+				break;
+		
+			case '2025':
+				$dateStart		= $data->birthAround(25);
+				$dateEnd		= $data->birthAround(19);
+				break;
+			case '2535':
+				$dateStart		= $data->birthAround(35);
+				$dateEnd		= $data->birthAround(24);
+				break;
+			case "3550":
+				$dateStart		= $data->birthAround(50);
+				$dateEnd		= $data->birthAround(34);
+				break;
+			case "50":
+				$dateEnd 		= $data->birthAround(50);
+				break;
+		}
+		return [
+			'birthDate'		=> $dateStart,
+			'birthDate2'	=> $dateEnd
 		];
 	}
 

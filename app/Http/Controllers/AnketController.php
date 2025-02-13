@@ -11,6 +11,7 @@ use App\Requests\UserBestRequest;
 use App\Requests\UserPopularRequest;
 use App\Requests\UserBirthdayRequest;
 use App\Requests\UserViewsRequest;
+use App\Requests\AnketsRequest;
 use App\Services\AnkService;
 use App\Services\FormatService;
 use App\Services\SearchService;
@@ -19,6 +20,7 @@ use App\Filters\UserBestFilter;
 use App\Filters\UserPopularFilter;
 use App\Filters\UserBirthdayFilter;
 use App\Filters\UserViewsFilter;
+use App\Filters\AnketsFilter;
 use App\Fields\SearchField;
 
 class AnketController extends Controller
@@ -121,16 +123,15 @@ class AnketController extends Controller
 	* @param  int  $op
 	* @return \Illuminate\Http\Response
 	*/
-	public function getAnkets(FormatService $formService, $sex = '', $op = '')
+	public function getAnkets(AnketsRequest $request, AnketsFilter $filter, FormatService $formService, $sex = '', $op = '')
 	{
-		$s					= $sex == 'men' ? MEN 		: WOMEN;
 		$opt				= $formService->prepareAnketTitles($sex, $op);
 		if (empty($sex) && empty($op))
 		{
 			$ankets 			= $this->userRepository->newFaces($this->countNewFaces);
 		} else
 		{
-			$ankets 			= $this->userRepository->getOp($this->countPerPage, $s, $opt);
+			$ankets				= $this->userRepository->getBySearch($filter, $request);
 			$page 				= $ankets->currentPage();
 			$countSearchAnkStr	= (new AnkService($ankets))->getFoundStr($this->countPerPage);
 		}
