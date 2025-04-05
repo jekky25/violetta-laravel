@@ -69,7 +69,7 @@ Route::middleware('slashes')->group(function () {
 	Route::post('ank/diary/add.html', 'DiaryController@store')																					->name('ank.diary.add')						->middleWare('auth');
 	//Route::get('ank/photo/f/{id}.html', 'NoContoller12@index')															->whereNumber('id')		->name('ank.photo.f.id');
 	Route::get('ank/photo/{id}.html', 'AnkController@getMainPhoto')														->whereNumber('id')		->name('ank.photo.id')						->middleWare('auth');
-	Route::post('ank/photo/{id}.html', 'PhotoCommentController@store')													->whereNumber('id')		->name('ank.photo.id.post.comment')			->middleWare('auth');
+
 	Route::get('ank/f/photo_{id}/', 'AnkController@getPhoto')															->whereNumber('id')		->name('ank.photo.photo_id')				->middleWare('auth');
 	Route::get('ank/f/{id}/', 'AnkController@getAnk')																	->whereNumber('id')		->name('ank.full.id');
 	Route::get('ank/{id}/', 'AnkController@getAnk')																		->whereNumber('id')		->name('ank.id');
@@ -129,7 +129,7 @@ Route::middleware('slashes')->group(function () {
 		return response()->view ('conditions'); 
 	})																																			->name('conditions');
 });
-
+require_once __DIR__.'/WebRoutes/PhotoComment.php';
 /*ajax */
 Route::get('ajax/geo.php', 'AjaxController@getGeo');
 Route::get('/', 'HomeController@index')																											->name('home');
