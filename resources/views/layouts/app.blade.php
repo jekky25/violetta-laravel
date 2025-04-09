@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>@include('layouts.head')</head>
-<body>
+<body id="app">
 <div id="ovHtm">
 	<div id="head">
 		<a id="chuvaki" href="{{route('home')}}"></a>
@@ -165,11 +165,6 @@ src="http://d1.cd.b3.a1.top.list.ru/counter?js=na;id=1298829;t=133"
 border=0 height=40 width=88
 alt="Рейтинг@Mail.ru"/></a></noscript><script language="JavaScript" type="text/javascript"><!--
 if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br />
-{{--
-{if $s_link1}
-{$s_link1}
-{/if}<br /><br />
---}}
 			</div>
 		</div>
 		<div id="rightcol">
@@ -191,7 +186,7 @@ if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br 
 				<p class="logOutBut"><a href="{{route('logout')}}">Выход</a></p>
 			</div>
 			@else
-			<h2>Вход для пользователей</h2>			
+			<h2>Вход для пользователей</h2>
 			<div class="bl logForm">
 				<form name="login" action="{{route('login')}}" method="post">
 					{{ csrf_field() }}
@@ -210,17 +205,9 @@ if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br 
 			</div>
 			@endauth
 			<div class="blFoot"></div>
-			<x-top100 :sex="WOMEN" />
-			<x-top100 :sex="MEN" />
+			<best-profile :sex="`{{ WOMEN }}`" :route="`{{ route('profile.get.top100', WOMEN) }}`"></best-profile>
+			<best-profile :sex="`{{ MEN }}`"  :route="`{{ route('profile.get.top100', MEN) }}`"></best-profile>
 			<div class="counter">
-{{--
-{if $s_link2}
-{$s_link2}
-{/if}<br />
-{if $s_link3}
-{$s_link3}
-{/if}<br /><br />
---}}
 <!--noindex-->
 <br />
 <!--LiveInternet counter--><script type="text/javascript"><!--
@@ -232,11 +219,6 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 ";"+Math.random()+
 "' alt='' title='LiveInternet: показано число просмотров за 24 часа, посетителей за 24 часа и за сегодн\я' "+
 "border='0' width='88' height='31'><\/a>")//--></script><!--/LiveInternet-->
-<br />
-<!--begin of Rambler's Top100 code -->
-<a href="http://top100.rambler.ru/top100/" rel="nofollow">
-
-<img src="http://counter.rambler.ru/top100.cnt?1220117" alt="" width="1" height="1" border="0"></a><!--end of Top100 code--><!--begin of Top100 logo--><a href="http://top100.rambler.ru/top100/" rel="nofollow"><img src="http://top100-images.rambler.ru/top100/w9.gif" alt="Rambler's Top100" width=88 height=31 border=0></a><!--end of Top100 logo -->
 <!--/noindex--><br /><br /></div>
 		</div>
 	</div>
@@ -267,7 +249,14 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 </div>
 <div id="mask"></div>
 <div id="prodblock"><div id="prodblockIn"><div class="bgFame1Cnt2"></div></div></div>
-<script defer src="{{ asset("js/metrika.js?1") }}" type="text/javascript"></script>
+<!-- Yandex.Metrika counter -->
+<script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script>
+<div style="display:none;"><script type="text/javascript">
+try { var yaCounter161110 = new Ya.Metrika({id:161110, enableAll: true, webvisor:true});}
+catch(e) { }
+</script></div>
+<noscript><div><img src="//mc.yandex.ru/watch/161110" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 <link rel="icon" type="image/x-icon" href="{{ asset("icon1.ico") }}" />
 <link rel="shortcut icon" type="image/x-icon" href="{{ asset("icon1.ico") }}" />
 <script async src="{{ asset("js/lazyload.min.js?t=3") }}" type="text/javascript"></script>

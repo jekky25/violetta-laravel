@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/top100/{sex}', 'AnketController@getTop100')->whereNumber('sex')->name('profile.get.top100');
