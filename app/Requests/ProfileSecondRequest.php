@@ -9,37 +9,37 @@ use App\Services\DataService;
 class ProfileSecondRequest extends FormRequest
 {
 	/**
-	* Create a new controller instance.
-	*
-	* @return void
-	*/
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
 	public function __construct(DataService $data)
 	{
 		$this->data = $data;
 	}
 
 	/**
-	* replace array errors from default to commit
-	* @param  Illuminate\Contracts\Validation\Validator  $validator
-	* @return void
-	*/
+	 * replace array errors from default to commit
+	 * @param  Illuminate\Contracts\Validation\Validator  $validator
+	 * @return void
+	 */
 	public function failedValidation(Validator $validator)
 	{
 		$exception = $validator->getException();
 		$this->errorBag = 'comment';
-        throw (new $exception($validator))
-                    ->errorBag($this->errorBag)
-                    ->redirectTo($this->getRedirectUrl());
+		throw (new $exception($validator))
+			->errorBag($this->errorBag)
+			->redirectTo($this->getRedirectUrl());
 	}
 
 	/**
-	* Prepare params for validation
-	*
-	* @return void
-	*/
+	 * Prepare params for validation
+	 *
+	 * @return void
+	 */
 	protected function prepareForValidation()
-    {
-        $this->merge([
+	{
+		$this->merge([
 			'user_sex_orient'		=> $this->sex_orient < 1 || $this->sex_orient > 4 ? 2 : $this->sex_orient,
 			'user_target_meet'		=> $this->data->serializeInput($this->target_meet),
 			'user_speak_lang' 		=> $this->data->serializeInput($this->speak_lang),
@@ -64,18 +64,18 @@ class ProfileSecondRequest extends FormRequest
 			'user_refresh_date_t'	=> time(),
 			'user_session_time'		=> time(),
 			'user_lastvisit'		=> time()
-        ]);
-		if (!empty($this->user_description)) 
+		]);
+		if (!empty($this->user_description))
 			$this->merge([
-				'user_odobreno'			=> 0
+				'approved'			=> 0
 			]);
-    }
+	}
 
 	/**
-	* Get the validation rules that apply to the request.
-	*
-	* @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-	*/
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+	 */
 	public function rules(): array
 	{
 		return [
@@ -106,7 +106,7 @@ class ProfileSecondRequest extends FormRequest
 			'user_refresh_date_t'	=> ['integer'],
 			'user_session_time'		=> ['integer'],
 			'user_lastvisit'		=> ['integer'],
-			'user_odobreno'			=> ['integer']
+			'approved'				=> ['integer']
 		];
 	}
 }

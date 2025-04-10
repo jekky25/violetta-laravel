@@ -23,7 +23,7 @@
 					<li><a href="{{route('registration.edit.photo')}}">Мои фото</a></li>
 					<li><a href="{{route('registration.edit.diary')}}">Мой дневник</a></li>
 					<li><a href="{{route('registration.edit.settings')}}">Мои настройки</a></li>
-					<li><a class="inTop" href="{{route('registration.top100')}}">@if ($user->user_fotos > 0  &&  $user->user_top100 > 0)Поднять анкету @else попасть в топ @endif</a></li>
+					<li><a class="inTop" href="{{route('registration.top100')}}">@if ($user->user_fotos > 0  &&  $user->top100 > 0)Поднять анкету @else попасть в топ @endif</a></li>
 					<li><a href="{{route('logout')}}">Выход</a></li>
 				</ul>
 			</div>
@@ -179,7 +179,7 @@ if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br 
 					<li><a href="{{route('registration.edit.photo')}}">Мои фото</a></li>
 					<li><a href="{{route('registration.edit.diary')}}">Мой дневник</a></li>
 					<li><a href="{{route('registration.edit.settings')}}">Мои настройки</a></li>
-					<li><a class="inTop" href="{{route('registration.top100')}}">@if ($user->user_fotos > 0  &&  $user->user_top100 > 0)Поднять анкету @else попасть в топ @endif</a></li>
+					<li><a class="inTop" href="{{route('registration.top100')}}">@if ($user->user_fotos > 0  &&  $user->top100 > 0)Поднять анкету @else попасть в топ @endif</a></li>
 				</ul>
 				<p>Последний визит: {{ $user->user_lastvisit_format }}</p>
 				<p>Просмотров за месяц: @if ($user->monthVisits > 0)<a href="{{route('registration.views')}}" class="views_l">{{ $user->monthVisits }}</a>@else{{ $user->monthVisits }}@endif @if ($user->monthVisitsNew > 0) <span class="views_l_new"> + <a href="{{route('registration.views')}}">{{ $user->monthVisitsNew }}</a></span>@endif</p>

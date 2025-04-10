@@ -45,7 +45,7 @@ class UserRepository implements UserInterface
 		$items = User::select(['users_news.user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'user_partner_age_min', 'user_partner_age_max'])
 			->join('fotos', 'users_news.user_id', '=', 'fotos.user_id')
 			->where('user_fotos', '>', 0)
-			->where('user_confirm_email', 1)
+			->where('confirm_email', 1)
 			->where('user_active', 1)
 			->where('main_picture', 1)
 			->with('city')
@@ -69,11 +69,11 @@ class UserRepository implements UserInterface
 			->where('user_sex', $sex)
 			->where('user_active', 1)
 			->where('user_fotos', '>', 0)
-			->where('user_confirm_email', 1)
+			->where('confirm_email', 1)
 			->with('city')
 			->with('photo')
 			->limit($count)
-			->orderBy('user_top100', 'desc')
+			->orderBy('top100', 'desc')
 			->get();
 		return ($this->addParams($items));
 	}
@@ -176,7 +176,7 @@ class UserRepository implements UserInterface
 		if ((int)($id) == 0 or empty($code)) return false;
 		return User::select(['*'])
 			->where('user_id', $id)
-			->where('user_submit_code', addslashes($code))
+			->where('submit_code', addslashes($code))
 			->firstOrFail();
 	}
 
@@ -206,7 +206,7 @@ class UserRepository implements UserInterface
 			->where('user_id', $id)
 			->where('user_active', 1);
 		if (empty($user)) {
-			$item->where('user_confirm_email', 1);
+			$item->where('confirm_email', 1);
 		}
 		$item->with('diary')
 			->with('photo.comment.user.photo')

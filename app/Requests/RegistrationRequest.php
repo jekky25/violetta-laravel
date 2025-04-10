@@ -18,34 +18,34 @@ use App\Services\DataService;
 class RegistrationRequest extends FormRequest
 {
 	/**
-	* Create a new controller instance.
-	*
-	* @return void
-	*/
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
 	public function __construct(DataService $data)
 	{
 		$this->data = $data;
 	}
 
 	/**
-	* replace array errors from default to commit
-	* @param  Illuminate\Contracts\Validation\Validator  $validator
-	* @return void
-	*/
+	 * replace array errors from default to commit
+	 * @param  Illuminate\Contracts\Validation\Validator  $validator
+	 * @return void
+	 */
 	public function failedValidation(Validator $validator)
 	{
 		$exception = $validator->getException();
 		$this->errorBag = 'comment';
-        throw (new $exception($validator))
-                    ->errorBag($this->errorBag)
-                    ->redirectTo($this->getRedirectUrl());
+		throw (new $exception($validator))
+			->errorBag($this->errorBag)
+			->redirectTo($this->getRedirectUrl());
 	}
 
 	/**
-	* messages for the request
-	* @return string array
-	*/
-	public function messages():array
+	 * messages for the request
+	 * @return string array
+	 */
+	public function messages(): array
 	{
 		return	[
 			'login.required'					=> 'Логин не заполнен',
@@ -75,23 +75,23 @@ class RegistrationRequest extends FormRequest
 		];
 	}
 
-		/**
-	* Prepare params for validation
-	*
-	* @return void
-	*/
+	/**
+	 * Prepare params for validation
+	 *
+	 * @return void
+	 */
 	protected function prepareForValidation()
-    {
-        $this->merge([
+	{
+		$this->merge([
 			'user_active' 				=> 1,
-			'user_odobreno' 			=> 1,
+			'approved'		 			=> 1,
 			'user_login' 				=> $this->login,
 			'user_password' 			=> $this->password,
 			'user_hash'	 				=> md5($this->password),
 			'user_mail' 				=> $this->mail,
 			'user_sex' 					=> $this->sex,
 			'user_name' 				=> $this->name,
-			'user_birth_date'	 		=> $this->data->getDateStr($this->birth_day,$this->birth_month,$this->birth_year),
+			'user_birth_date'	 		=> $this->data->getDateStr($this->birth_day, $this->birth_month, $this->birth_year),
 			'user_country' 				=> $this->country,
 			'user_region' 				=> $this->region,
 			'user_city'					=> $this->city,
@@ -101,19 +101,19 @@ class RegistrationRequest extends FormRequest
 			'user_refresh_date_t'		=> time(),
 			'user_session_time'			=> time(),
 			'user_lastvisit'			=> time(),
-			'user_ip'					=> $this->ip(),
-			'user_submit_code' 			=> md5 (time() . $this->login . rand(0, 1000)),
-			'user_description' 			=> "", 
+			'ip'						=> $this->ip(),
+			'submit_code' 				=> md5(time() . $this->login . rand(0, 1000)),
+			'user_description' 			=> "",
 			'user_partner_description' 	=> "",
-			'user_confirm_email' 		=> 0
-        ]);
-    }
+			'confirm_email' 			=> 0
+		]);
+	}
 
 	/**
-	* Get the validation rules that apply to the request.
-	*
-	* @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-	*/
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+	 */
 	public function rules(): array
 	{
 		$arParams 				= $this->post();
@@ -124,23 +124,29 @@ class RegistrationRequest extends FormRequest
 		$passwordSecond 		= !empty($arParams['password_second'])		? $arParams['password_second']		: '';
 
 		return [
-			'login'						=> ['string', 'required', new CheckBan,'max:20', 'min:4', "regex:/^[0-9a-zA-Z_]+$/", new CheckLogin],
+			'login'						=> ['string', 'required', new CheckBan, 'max:20', 'min:4', "regex:/^[0-9a-zA-Z_]+$/", new CheckLogin],
 			'user_login'				=> ['string'],
 			'password'					=> ['required', 'max:20', 'min:4', "regex:/^[0-9a-zA-Z_]+$/", new CheckPassword($password, $passwordSecond)],
-			'name'						=> ['required', 'max:30', 'min:2', 
-											new BirthData((int)$arParams['birth_day'], (int)$arParams['birth_month'], (int)$arParams['birth_year']), 
-											new BirthDataCorrect((int)$arParams['birth_day'], (int)$arParams['birth_month'])],
+			'name'						=> [
+				'required',
+				'max:30',
+				'min:2',
+				new BirthData((int)$arParams['birth_day'], (int)$arParams['birth_month'], (int)$arParams['birth_year']),
+				new BirthDataCorrect((int)$arParams['birth_day'], (int)$arParams['birth_month'])
+			],
 			'sex'						=> ['integer', 'required'],
 			'mail'						=> ['required', "regex:/^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,4}|museum$/i", new CheckEmail],
-			'country'					=> ['integer',
-											new PlaceEmpty($city, $region, $country), 
-											new PlaceCorrect($city, $region, $country)],
+			'country'					=> [
+				'integer',
+				new PlaceEmpty($city, $region, $country),
+				new PlaceCorrect($city, $region, $country)
+			],
 			'region'					=> ['integer'],
 			'city'						=> ['integer'],
 			'recaptcha_response'	 	=> ['required', new GoogleCaptcha],
 			'conditions'				=> ['required'],
 			'user_active'				=> ['integer'],
-			'user_odobreno'				=> ['integer'],
+			'approved'					=> ['integer'],
 			'user_password'				=> ['string'],
 			'user_hash'					=> ['string'],
 			'user_mail'					=> ['string'],
@@ -156,11 +162,11 @@ class RegistrationRequest extends FormRequest
 			'user_refresh_date_t'		=> ['integer'],
 			'user_session_time'			=> ['integer'],
 			'user_lastvisit'			=> ['integer'],
-			'user_ip'					=> ['string'],
-			'user_submit_code'			=> ['string'],
-			'user_description' 			=> ['string'], 
+			'ip'						=> ['string'],
+			'submit_code'				=> ['string'],
+			'user_description' 			=> ['string'],
 			'user_partner_description' 	=> ['string'],
-			'user_confirm_email' 		=> ['integer']
+			'confirm_email'		 		=> ['integer']
 		];
 	}
 }

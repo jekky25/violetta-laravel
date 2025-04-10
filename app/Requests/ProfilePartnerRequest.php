@@ -12,50 +12,50 @@ use App\Rules\WeightValid;
 class ProfilePartnerRequest extends FormRequest
 {
 	/**
-	* Create a new controller instance.
-	*
-	* @return void
-	*/
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
 	public function __construct(DataService $data)
 	{
 		$this->data = $data;
 	}
 
 	/**
-	* replace array errors from default to commit
-	* @param  Illuminate\Contracts\Validation\Validator  $validator
-	* @return void
-	*/
+	 * replace array errors from default to commit
+	 * @param  Illuminate\Contracts\Validation\Validator  $validator
+	 * @return void
+	 */
 	public function failedValidation(Validator $validator)
 	{
 		$exception = $validator->getException();
 		$this->errorBag = 'comment';
-        throw (new $exception($validator))
-                    ->errorBag($this->errorBag)
-                    ->redirectTo($this->getRedirectUrl());
+		throw (new $exception($validator))
+			->errorBag($this->errorBag)
+			->redirectTo($this->getRedirectUrl());
 	}
 
 	/**
-	* messages for the request
-	* @return string array
-	*/
-	public function messages():array
+	 * messages for the request
+	 * @return string array
+	 */
+	public function messages(): array
 	{
 		return	[
-				'AgeValid'		=> 'Не верно указан возраст партнера',
-				'WeightValid' 	=> 'Не верно указан вес партнера',
-				'HeightValid' 	=> 'Не верно указан рост партнера'
+			'AgeValid'		=> 'Не верно указан возраст партнера',
+			'WeightValid' 	=> 'Не верно указан вес партнера',
+			'HeightValid' 	=> 'Не верно указан рост партнера'
 		];
 	}
 
 	/**
-	* Prepare params for validation
-	*
-	* @return void
-	*/
+	 * Prepare params for validation
+	 *
+	 * @return void
+	 */
 	protected function prepareForValidation()
-    {
-        $this->merge([
+	{
+		$this->merge([
 			'user_partner_age_min' 			=> $this->partner_age_min,
 			'user_partner_age_max' 			=> $this->partner_age_max,
 			'user_partner_height_min' 		=> $this->partner_height_min,
@@ -75,19 +75,19 @@ class ProfilePartnerRequest extends FormRequest
 			'user_refresh_date_t'	=> time(),
 			'user_session_time'		=> time(),
 			'user_lastvisit'		=> time()
-        ]);
-
-		if (!empty($this->user_partner_description)) 
-		$this->merge([
-			'user_odobreno'			=> 0
 		]);
-    }
+
+		if (!empty($this->user_partner_description))
+			$this->merge([
+				'approved'			=> 0
+			]);
+	}
 
 	/**
-	* Get the validation rules that apply to the request.
-	*
-	* @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-	*/
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+	 */
 	public function rules(): array
 	{
 		$ageMin 	= !empty($this->partner_age_min) 		? (int)$this->partner_age_min 	: 0;
@@ -97,36 +97,36 @@ class ProfilePartnerRequest extends FormRequest
 		$weightMin 	= !empty($this->partner_weight_min) 	? (int)$this->partner_weight_min 	: 0;
 		$weightMax 	= !empty($this->partner_weight_max) 	? (int)$this->partner_weight_max 	: 0;
 		return [
-				'age' 		=> [
-					new AgeValid($ageMin, $ageMax),
-					new WeightValid($weightMin, $weightMax),
-					new HeightValid($heightMin, $heightMax)
-				],
-				'user_partner_age_min'		 => ['integer'],
-				'user_partner_age_max'		=> ['integer'],
-				'user_partner_height_min'	=> ['integer'],
-				'user_partner_height_max'	=> ['integer'],
-				'user_partner_weight_min' 	=> ['integer'],
-				'user_partner_weight_max' 	=> ['integer'],
-				'partner_body'				=> ['array'],
-				'user_partner_body'			=> ['string'],
-				'partner_speak_lang'		=> ['array'],
-				'user_partner_speak_lang'	=> ['string'],
-				'partner_spirt'				=> ['array'],
-				'user_partner_spirt'		=> ['string'],
-				'partner_smoke'				=> ['array'],
-				'user_partner_smoke'		=> ['string'],
-				'partner_education'			=> ['array'],
-				'user_partner_education'	=> ['string'],
-				'user_partner_country' 		=> ['integer'],
-				'user_partner_region'	 	=> ['integer'],
-				'user_partner_city'	 		=> ['integer'],
-				'user_partner_description'	=> ['string'],
-				'user_refresh_date'			=> ['string'],
-				'user_refresh_date_t'		=> ['integer'],
-				'user_session_time'			=> ['integer'],
-				'user_lastvisit'			=> ['integer'],
-				'user_odobreno'				=> ['integer']
+			'age' 		=> [
+				new AgeValid($ageMin, $ageMax),
+				new WeightValid($weightMin, $weightMax),
+				new HeightValid($heightMin, $heightMax)
+			],
+			'user_partner_age_min'		 => ['integer'],
+			'user_partner_age_max'		=> ['integer'],
+			'user_partner_height_min'	=> ['integer'],
+			'user_partner_height_max'	=> ['integer'],
+			'user_partner_weight_min' 	=> ['integer'],
+			'user_partner_weight_max' 	=> ['integer'],
+			'partner_body'				=> ['array'],
+			'user_partner_body'			=> ['string'],
+			'partner_speak_lang'		=> ['array'],
+			'user_partner_speak_lang'	=> ['string'],
+			'partner_spirt'				=> ['array'],
+			'user_partner_spirt'		=> ['string'],
+			'partner_smoke'				=> ['array'],
+			'user_partner_smoke'		=> ['string'],
+			'partner_education'			=> ['array'],
+			'user_partner_education'	=> ['string'],
+			'user_partner_country' 		=> ['integer'],
+			'user_partner_region'	 	=> ['integer'],
+			'user_partner_city'	 		=> ['integer'],
+			'user_partner_description'	=> ['string'],
+			'user_refresh_date'			=> ['string'],
+			'user_refresh_date_t'		=> ['integer'],
+			'user_session_time'			=> ['integer'],
+			'user_lastvisit'			=> ['integer'],
+			'approved'					=> ['integer']
 		];
 	}
 }

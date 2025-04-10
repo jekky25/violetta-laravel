@@ -418,7 +418,7 @@ class RegistrationController extends Controller
 				]
 			);
 		}
-		$this->userRepository->update($user, ['user_top100' => time()]);
+		$this->userRepository->update($user, ['top100' => time()]);
 		return redirect()->route(Route::currentRouteName())->with('success', 'Информация сохранена.');
 	}
 
@@ -538,8 +538,8 @@ class RegistrationController extends Controller
 		if (empty($code)) abort(404);
 		$user 			= $this->userRepository->getByIdAndConfirmCode($id, $code);
 		$this->userRepository->update($user, [
-			'user_confirm_email'	=> 1,
-			'user_submit_code'		=> ''
+			'confirm_email'			=> 1,
+			'submit_code'			=> ''
 		]);
 		return response()->view(
 			'registration.confirm',

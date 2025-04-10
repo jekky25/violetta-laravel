@@ -94,7 +94,7 @@ class AnketController extends Controller
 	 */
 	public function getBestAnkets(UserBestRequest $request, UserBestFilter $filter, $sex)
 	{
-		$ankets				= $this->userRepository->getBySearch($filter, $request, 'user_top100');
+		$ankets				= $this->userRepository->getBySearch($filter, $request, 'top100');
 		$page				= $ankets->currentPage();
 		$user = Auth::user();
 		$user = !empty($user) ? $user->load(['visits']) : null;

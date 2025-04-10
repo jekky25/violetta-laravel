@@ -17,10 +17,10 @@ class User extends Authenticatable
 	use HasApiTokens, HasFactory, Notifiable, HasFilter;
 
 	/**
-	* The attributes that are mass assignable.
-	*
-	* @var array<int, string>
-	*/
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array<int, string>
+	 */
 	protected $fillable = [
 		'email',
 		'user_login',
@@ -48,13 +48,13 @@ class User extends Authenticatable
 		'user_session_time',
 		'user_lastvisit',
 		'user_lastvisit_views',
-		'user_ip',
-		'user_submit_code',
+		'ip',
+		'submit_code',
 		'user_description',
 		'user_partner_description',
-		'user_confirm_email',
+		'confirm_email',
 		'user_active',
-		'user_odobreno',
+		'approved',
 		'user_sex_orient',
 		'user_target_meet',
 		'user_speak_lang',
@@ -87,20 +87,20 @@ class User extends Authenticatable
 	];
 
 	/**
-	* The attributes that should be hidden for serialization.
-	*
-	* @var array<int, string>
-	*/
+	 * The attributes that should be hidden for serialization.
+	 *
+	 * @var array<int, string>
+	 */
 	protected $hidden = [
 		'password',
 		'remember_token',
 	];
 
 	/**
-	* The attributes that should be cast.
-	*
-	* @var array<string, string>
-	*/
+	 * The attributes that should be cast.
+	 *
+	 * @var array<string, string>
+	 */
 	protected $casts = [
 		'email_verified_at' => 'datetime',
 	];
@@ -109,7 +109,7 @@ class User extends Authenticatable
 	protected $primaryKey 	= 'user_id';
 	public $timestamps 		= false;
 
-	public $fieldsAboutPartner = 
+	public $fieldsAboutPartner =
 	[
 		'user_partner_sex',
 		'partner_age',
@@ -130,43 +130,38 @@ class User extends Authenticatable
 	const SEX_TRANS		= 4;
 
 	/**
-	* Get user property from the model
-	* @param array $item
-	* @param string $k
-	* @return void
-	*/
+	 * Get user property from the model
+	 * @param array $item
+	 * @param string $k
+	 * @return void
+	 */
 	public function getProperty($item, $k)
 	{
-		if ((int)$this->{$item['prop']} > 0)
-		{
+		if ((int)$this->{$item['prop']} > 0) {
 			$oItem 		= $k::getById($this->{$item['prop']});
 			$this->{$item['ank_prop']} 	= $oItem->name;
 		}
 	}
 
 	/**
-	* Get user multiple property from the model
-	* @param array $item
-	* @param string $k
-	* @return void
-	*/
-	public function getPropertyFew($class, $prop,$propOut)
+	 * Get user multiple property from the model
+	 * @param array $item
+	 * @param string $k
+	 * @return void
+	 */
+	public function getPropertyFew($class, $prop, $propOut)
 	{
 		$unserProp = unserialize($prop);
-		if ($prop != "N;" && !empty($unserProp[0]))
-		{
+		if ($prop != "N;" && !empty($unserProp[0])) {
 			$obj = $class::getAll();
 
 			$i = 0;
 			$this->$propOut = '';
 			$ar = [];
-			foreach ($unserProp as $k=>$v)
-			{
+			foreach ($unserProp as $k => $v) {
 				$i++;
-				foreach ($obj as $mT)
-				{
-					if ($v == $mT->id)
-					{
+				foreach ($obj as $mT) {
+					if ($v == $mT->id) {
 						$ar[] = $mT->name;
 						break;
 					}
@@ -193,7 +188,7 @@ class User extends Authenticatable
 
 	public function getBirthMonthAttribute()
 	{
-		return(new DataService)->selectFromDate($this->user_birth_date, DATE_MONTH);
+		return (new DataService)->selectFromDate($this->user_birth_date, DATE_MONTH);
 	}
 
 	public function getBirthYearAttribute()
@@ -203,29 +198,26 @@ class User extends Authenticatable
 
 	public function getUserAgeStrAttribute()
 	{
-		return $this->user_age .' ' . $this->user_age_type;
+		return $this->user_age . ' ' . $this->user_age_type;
 	}
 
 	public function getFindSexOrientAttribute()
 	{
 		$findSOrient = '';
-		if ($this->user_sex_orient == GOMOSEXUAL) 
+		if ($this->user_sex_orient == GOMOSEXUAL)
 			$findSOrient .= $this->user_sex == MEN ? 'парня' : 'девушку';
-		elseif ($this->user_sex_orient == BISEXUAL) 
+		elseif ($this->user_sex_orient == BISEXUAL)
 			$findSOrient .= $this->user_sex == MEN ? 'девушку или парня' : 'парня или девушку';
 		else
 			$findSOrient .= $this->user_sex == MEN ? 'девушку' : 'парня';
-	
-		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX) 
-		{
+
+		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX) {
 			$findSOrient .= ' ' . $this->user_partner_age_min . '-' . $this->user_partner_age_max;
 			$findSOrient .= ' ' . (new formatService)->ageType($this->user_partner_age_max);
-		} elseif ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max <= PARTNER_AGE_MAX) 
-		{
+		} elseif ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max <= PARTNER_AGE_MAX) {
 			$findSOrient .= ' от ' . $this->user_partner_age_min;
 			$findSOrient .= ' ' . (new formatService)->ageType2($this->user_partner_age_min);
-		} elseif ($this->user_partner_age_min <= PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX)
-		{
+		} elseif ($this->user_partner_age_min <= PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX) {
 			$findSOrient .= ' до ' . $this->user_partner_age_max;
 			$findSOrient .= ' ' . (new formatService)->ageType2($this->user_partner_age_max);
 		}
@@ -250,7 +242,7 @@ class User extends Authenticatable
 	public function getUserReitingStrAttribute()
 	{
 		$maxReit = (new UserRepository())->getMaxReiting($this->user_sex);
-		return (new formatService)->reiting($this->user_reiting,$maxReit);
+		return (new formatService)->reiting($this->user_reiting, $maxReit);
 	}
 
 	public function getUserDescriptionAttribute($val)
@@ -326,19 +318,16 @@ class User extends Authenticatable
 
 	public function getOnTopAttribute()
 	{
-		return '<strong>' . ($this->user_sex == WOMEN ? 'поднялась' : 'поднялся') . '</strong>: ' . (new DataService)->lastVisit($this->user_top100);
+		return '<strong>' . ($this->user_sex == WOMEN ? 'поднялась' : 'поднялся') . '</strong>: ' . (new DataService)->lastVisit($this->top100);
 	}
 
 	public function getUserPartnerSexAttribute()
 	{
-		if ($this->user_sex_orient == self::SEX_BISEXUAL || $this->user_sex_orient == self::SEX_TRANS) 
-		{
+		if ($this->user_sex_orient == self::SEX_BISEXUAL || $this->user_sex_orient == self::SEX_TRANS) {
 			$partnerSex = 'Мужской, Женский';
-		} elseif ($this->user_sex_orient == self::SEX_HETERO) 
-		{
+		} elseif ($this->user_sex_orient == self::SEX_HETERO) {
 			$partnerSex = $this->user_sex == MEN ? 'Женский' : 'Мужской';
-		} else 
-		{
+		} else {
 			$partnerSex = $this->user_sex == WOMEN ? 'Женский' : 'Мужской';
 		}
 		return  $partnerSex;
@@ -347,9 +336,9 @@ class User extends Authenticatable
 	public function getPartnerAgeAttribute()
 	{
 		if (!($this->user_partner_age_min > PARTNER_AGE_MIN || $this->user_partner_age_max > PARTNER_AGE_MAX)) return null;
-		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX) 
+		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX)
 			return ' ' . $this->user_partner_age_min . '-' . $this->user_partner_age_max . ' ' . (new formatService)->ageType($this->user_partner_age_max);
-		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max <= PARTNER_AGE_MAX) 
+		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max <= PARTNER_AGE_MAX)
 			return ' от ' . $this->user_partner_age_min . ' ' . (new formatService)->ageType2($this->user_partner_age_min);
 		return ' до ' . $this->user_partner_age_max . ' ' . (new formatService)->ageType2($this->user_partner_age_max);
 	}
@@ -357,9 +346,9 @@ class User extends Authenticatable
 	public function getPartnerHeightAttribute()
 	{
 		if (!($this->user_partner_height_min > PARTNER_HEIGHT_MIN || $this->user_partner_height_max > PARTNER_HEIGHT_MAX)) return null;
-		if ($this->user_partner_height_min > PARTNER_HEIGHT_MIN && $this->user_partner_height_max > PARTNER_HEIGHT_MAX) 
+		if ($this->user_partner_height_min > PARTNER_HEIGHT_MIN && $this->user_partner_height_max > PARTNER_HEIGHT_MAX)
 			return ' ' . $this->user_partner_height_min . '-' . $this->user_partner_height_max . ' см';
-		if ($this->user_partner_height_min > PARTNER_HEIGHT_MIN && $this->user_partner_height_max <= PARTNER_HEIGHT_MAX) 
+		if ($this->user_partner_height_min > PARTNER_HEIGHT_MIN && $this->user_partner_height_max <= PARTNER_HEIGHT_MAX)
 			return ' от ' . $this->user_partner_height_min . ' см';
 		return	' до ' . $this->user_partner_height_max . 'см';
 	}
@@ -367,9 +356,9 @@ class User extends Authenticatable
 	public function getPartnerWeightAttribute()
 	{
 		if (!($this->user_partner_weight_min > PARTNER_WEIGHT_MIN || $this->user_partner_weight_max > PARTNER_WEIGHT_MAX))  return null;
-		if ($this->user_partner_weight_min > PARTNER_WEIGHT_MIN && $this->user_partner_weight_max > PARTNER_WEIGHT_MAX) 
-			return ' ' . $this->user_partner_weight_min . '-' . $this->user_partner_weight_max . ' кг'; 
-		if ($this->user_partner_weight_min > PARTNER_WEIGHT_MIN && $this->user_partner_weight_max <= PARTNER_WEIGHT_MAX) 
+		if ($this->user_partner_weight_min > PARTNER_WEIGHT_MIN && $this->user_partner_weight_max > PARTNER_WEIGHT_MAX)
+			return ' ' . $this->user_partner_weight_min . '-' . $this->user_partner_weight_max . ' кг';
+		if ($this->user_partner_weight_min > PARTNER_WEIGHT_MIN && $this->user_partner_weight_max <= PARTNER_WEIGHT_MAX)
 			return ' от ' . $this->user_partner_weight_min . ' кг';
 		return ' до ' . $this->user_partner_weight_max . 'кг';
 	}
@@ -396,7 +385,7 @@ class User extends Authenticatable
 
 	public function visits()
 	{
-		$t = time() - 60*60*24*30;
+		$t = time() - 60 * 60 * 24 * 30;
 		return $this->hasMany(AnketVisit::class, 'user_id_prosm', 'user_id')->where('create_time', '>', $t);
 	}
 

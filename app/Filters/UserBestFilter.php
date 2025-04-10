@@ -18,8 +18,8 @@ class UserBestFilter extends Filter
 	 * @param int $value
 	 * @return Builder
 	 */
-	protected function getSex(int $value) :Builder
-	{ 
+	protected function getSex(int $value): Builder
+	{
 		return $this->builder->where('user_sex', $value);
 	}
 
@@ -28,7 +28,7 @@ class UserBestFilter extends Filter
 	 *
 	 * @return Builder
 	 */
-	protected function afterBuild() :Builder
+	protected function afterBuild(): Builder
 	{
 		$this->active();
 		$this->hasPhotos();
@@ -40,7 +40,7 @@ class UserBestFilter extends Filter
 	/**
 	 * @return Builder
 	 */
-	protected function active() :Builder
+	protected function active(): Builder
 	{
 		return $this->builder->where('user_active', 1);
 	}
@@ -48,7 +48,7 @@ class UserBestFilter extends Filter
 	/**
 	 * @return Builder
 	 */
-	protected function hasPhotos() :Builder
+	protected function hasPhotos(): Builder
 	{
 		return $this->builder->where('user_fotos', '>', 0);
 	}
@@ -56,16 +56,16 @@ class UserBestFilter extends Filter
 	/**
 	 * @return Builder
 	 */
-	protected function confirmed() :Builder
+	protected function confirmed(): Builder
 	{
-		return $this->builder->where('user_confirm_email', 1);
+		return $this->builder->where('confirm_email', 1);
 	}
-	
+
 	/**
 	 * @return Builder
 	 */
-	protected function top100() :Builder
+	protected function top100(): Builder
 	{
-		return $this->builder->where('user_top100', '>', 0);
+		return $this->builder->where('top100', '>', 0);
 	}
 }
