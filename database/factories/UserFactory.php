@@ -15,9 +15,10 @@ class UserFactory extends Factory
 	 */
 	public function definition()
 	{
-		$city = City::get()->random();
+		$city	 = City::get()->random();
 		return [
 			'user_name'					=> $this->faker->name(),
+			'user_sex'					=> rand(1, 2),
 			'user_city'					=> !empty($city)	? $city->id			: 0,
 			'user_country'				=> !empty($city)	? $city->country_id	: 0,
 			'user_region'				=> !empty($city)	? $city->region_id	: 0,
