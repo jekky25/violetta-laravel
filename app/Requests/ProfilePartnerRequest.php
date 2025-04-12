@@ -74,7 +74,7 @@ class ProfilePartnerRequest extends FormRequest
 			'user_refresh_date'		=> date("Y-m-d"),
 			'user_refresh_date_t'	=> time(),
 			'user_session_time'		=> time(),
-			'user_lastvisit'		=> time()
+			'lastvisit'				=> time()
 		]);
 
 		if (!empty($this->partner_description))
@@ -125,7 +125,7 @@ class ProfilePartnerRequest extends FormRequest
 			'user_refresh_date'			=> ['string'],
 			'user_refresh_date_t'		=> ['integer'],
 			'user_session_time'			=> ['integer'],
-			'user_lastvisit'			=> ['integer'],
+			'lastvisit'					=> ['integer'],
 			'approved'					=> ['integer']
 		];
 	}

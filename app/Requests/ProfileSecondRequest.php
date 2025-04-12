@@ -41,7 +41,7 @@ class ProfileSecondRequest extends FormRequest
 	{
 		$this->merge([
 			'user_sex_orient'		=> $this->sex_orient < 1 || $this->sex_orient > 4 ? 2 : $this->sex_orient,
-			'user_target_meet'		=> $this->data->serializeInput($this->target_meet),
+			'targets'				=> $this->data->serializeInput($this->targets),
 			'user_speak_lang' 		=> $this->data->serializeInput($this->speak_lang),
 			'user_body' 			=> $this->body,
 			'user_height' 			=> $this->height < 150	? 149	: $this->height,
@@ -55,17 +55,17 @@ class ProfileSecondRequest extends FormRequest
 			'user_sem_polozh'		=> $this->family_status,
 			'user_children'			=> $this->children,
 			'user_help_money'		=> $this->help_money,
-			'interests'				=> $this->data->serializeInput($this->interest),
+			'interests'				=> $this->data->serializeInput($this->interests),
 			'icq'					=> (string)$this->icq,
 			'url'					=> addslashes($this->url),
 			'phone'					=> addslashes($this->phone),
-			'user_description'		=> addslashes($this->description),
+			'description'			=> addslashes($this->description),
 			'user_refresh_date'		=> date("Y-m-d"),
 			'user_refresh_date_t'	=> time(),
 			'user_session_time'		=> time(),
-			'user_lastvisit'		=> time()
+			'lastvisit'				=> time()
 		]);
-		if (!empty($this->user_description))
+		if (!empty($this->description))
 			$this->merge([
 				'approved'			=> 0
 			]);
@@ -81,7 +81,7 @@ class ProfileSecondRequest extends FormRequest
 		return [
 			'user_sex_orient' 		=> ['integer'],
 			'target_meet'			=> ['array'],
-			'user_target_meet'		=> ['string'],
+			'targets'				=> ['string'],
 			'speak_lang'			=> ['array'],
 			'user_speak_lang' 		=> ['string'],
 			'user_body'		 		=> ['integer'],
@@ -96,16 +96,15 @@ class ProfileSecondRequest extends FormRequest
 			'user_sem_polozh'		=> ['integer'],
 			'user_children'			=> ['integer'],
 			'user_help_money'		=> ['integer'],
-			'interests'				=> ['array'],
 			'interests'				=> ['string'],
 			'icq'					=> ['string'],
 			'url'					=> ['string'],
 			'phone'					=> ['string'],
-			'user_description'		=> ['string'],
+			'description'			=> ['string'],
 			'user_refresh_date'		=> ['string'],
 			'user_refresh_date_t'	=> ['integer'],
 			'user_session_time'		=> ['integer'],
-			'user_lastvisit'		=> ['integer'],
+			'lastvisit'				=> ['integer'],
 			'approved'				=> ['integer']
 		];
 	}

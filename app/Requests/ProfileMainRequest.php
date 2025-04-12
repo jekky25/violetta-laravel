@@ -13,34 +13,34 @@ use App\Services\DataService;
 class ProfileMainRequest extends FormRequest
 {
 	/**
-	* Create a new controller instance.
-	*
-	* @return void
-	*/
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
 	public function __construct(DataService $data)
 	{
 		$this->data = $data;
 	}
 
 	/**
-	* replace array errors from default to commit
-	* @param  Illuminate\Contracts\Validation\Validator  $validator
-	* @return void
-	*/
+	 * replace array errors from default to commit
+	 * @param  Illuminate\Contracts\Validation\Validator  $validator
+	 * @return void
+	 */
 	public function failedValidation(Validator $validator)
 	{
 		$exception = $validator->getException();
 		$this->errorBag = 'comment';
-        throw (new $exception($validator))
-                    ->errorBag($this->errorBag)
-                    ->redirectTo($this->getRedirectUrl());
+		throw (new $exception($validator))
+			->errorBag($this->errorBag)
+			->redirectTo($this->getRedirectUrl());
 	}
 
 	/**
-	* messages for the request
-	* @return string array
-	*/
-	public function messages():array
+	 * messages for the request
+	 * @return string array
+	 */
+	public function messages(): array
 	{
 		return	[
 			'name.required'		 	=> 'Имя не заполнено',
@@ -55,31 +55,31 @@ class ProfileMainRequest extends FormRequest
 	}
 
 	/**
-	* Prepare params for validation
-	*
-	* @return void
-	*/
+	 * Prepare params for validation
+	 *
+	 * @return void
+	 */
 	protected function prepareForValidation()
-    {
-        $this->merge([
-			'user_birth_date'		=> $this->data->getDateStr($this->birth_day,$this->birth_month,$this->birth_year),
+	{
+		$this->merge([
+			'user_birth_date'		=> $this->data->getDateStr($this->birth_day, $this->birth_month, $this->birth_year),
 			'user_refresh_date'		=> date("Y-m-d"),
 			'user_refresh_date_t'	=> time(),
 			'user_session_time'		=> time(),
-			'user_lastvisit'		=> time(),
+			'lastvisit'				=> time(),
 			'user_name'				=> $this->name,
 			'user_sex'				=> $this->sex,
 			'user_city'				=> $this->city,
 			'user_region'			=> $this->region,
 			'user_country'			=> $this->country
-        ]);
-    }
+		]);
+	}
 
 	/**
-	* Get the validation rules that apply to the request.
-	*
-	* @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-	*/
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+	 */
 	public function rules(): array
 	{
 		$arParams					= $this->post();
@@ -87,17 +87,20 @@ class ProfileMainRequest extends FormRequest
 		$region						= !empty($arParams['region']) 	? (int)$arParams['region'] 	: 0;
 		$country					= !empty($arParams['country']) 	? (int)$arParams['country'] : 0;
 		return [
-			'user_name'					=> ['string',
-										'required', 
-										'max:30', 
-										'min:2',	
-										new BirthData((int)$arParams['birth_day'], (int)$arParams['birth_month'], (int)$arParams['birth_year']), 
-										new BirthDataCorrect((int)$arParams['birth_day'], (int)$arParams['birth_month'])],
+			'user_name'					=> [
+				'string',
+				'required',
+				'max:30',
+				'min:2',
+				new BirthData((int)$arParams['birth_day'], (int)$arParams['birth_month'], (int)$arParams['birth_year']),
+				new BirthDataCorrect((int)$arParams['birth_day'], (int)$arParams['birth_month'])
+			],
 			'sex'					=> ['integer', 'required'],
 			'city'					=> [
-										'integer',
-										new PlaceEmpty($city, $region, $country), 
-										new PlaceCorrect($city, $region, $country)],
+				'integer',
+				new PlaceEmpty($city, $region, $country),
+				new PlaceCorrect($city, $region, $country)
+			],
 			'region'				=> ['integer'],
 			'country'				=> ['integer'],
 			'user_city'				=> ['integer'],
@@ -107,7 +110,7 @@ class ProfileMainRequest extends FormRequest
 			'user_refresh_date'		=> ['string'],
 			'user_refresh_date_t'	=> ['integer'],
 			'user_session_time'		=> ['integer'],
-			'user_lastvisit'		=> ['integer'],
+			'lastvisit'				=> ['integer'],
 			'user_sex'				=> ['integer']
 		];
 	}

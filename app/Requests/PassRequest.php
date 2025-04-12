@@ -10,24 +10,24 @@ use App\Rules\PassNotMatch;
 class PassRequest extends FormRequest
 {
 	/**
-	* replace array errors from default to commit
-	* @param  Illuminate\Contracts\Validation\Validator  $validator
-	* @return void
-	*/
+	 * replace array errors from default to commit
+	 * @param  Illuminate\Contracts\Validation\Validator  $validator
+	 * @return void
+	 */
 	public function failedValidation(Validator $validator)
 	{
 		$exception = $validator->getException();
 		$this->errorBag = 'comment';
-        throw (new $exception($validator))
-                    ->errorBag($this->errorBag)
-                    ->redirectTo($this->getRedirectUrl());
+		throw (new $exception($validator))
+			->errorBag($this->errorBag)
+			->redirectTo($this->getRedirectUrl());
 	}
 
 	/**
-	* messages for the request
-	* @return string array
-	*/
-	public function messages():array
+	 * messages for the request
+	 * @return string array
+	 */
+	public function messages(): array
 	{
 		return	[
 			'pass_old.required'		=> 'Старый пароль не заполнен',
@@ -40,25 +40,25 @@ class PassRequest extends FormRequest
 	}
 
 	/**
-	* Prepare params for validation
-	*
-	* @return void
-	*/
+	 * Prepare params for validation
+	 *
+	 * @return void
+	 */
 	protected function prepareForValidation()
-    {
-        $this->merge([
+	{
+		$this->merge([
 			'user_password'			=> $this->pass,
 			'user_hash'				=> md5($this->pass),
 			'user_session_time'		=> time(),
-			'user_lastvisit'		=> time()
-        ]);
-    }
+			'lastvisit'				=> time()
+		]);
+	}
 
 	/**
-	* Get the validation rules that apply to the request.
-	*
-	* @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-	*/
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+	 */
 	public function rules(): array
 	{
 		$arParams = $this->post();
@@ -68,7 +68,7 @@ class PassRequest extends FormRequest
 			'user_password'				=> ['string'],
 			'user_hash'					=> ['string'],
 			'user_session_time'			=> ['integer'],
-			'user_lastvisit'			=> ['integer']
+			'lastvisit'					=> ['integer']
 		];
 	}
 }

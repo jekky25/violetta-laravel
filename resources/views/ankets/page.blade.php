@@ -77,11 +77,11 @@ function vote(score)
 		</li>
 </ul>
 <div class="ankData">
-	@if (!empty($userData->user_description))
+	@if (!empty($userData->description))
 		<fieldset class="mono">
 			<dl>
 				<dt>Обо мне:</dt>
-				<dd>{!! $userData->user_description !!}
+				<dd>{!! $userData->description !!}
 				</dd>
 			</dl>
 		</fieldset>
@@ -174,8 +174,9 @@ function vote(score)
 	</fieldset>
 	@endif
 	<div class="clear"></div>
-	@if (!empty($userData->target_meet_out))
-	<fieldset class="mono mar1"><dl><dt>Цели знакомства:</dt><dd>{{ $userData->target_meet_out }}</dd></dl></fieldset>
+	
+	@if (!empty($userData->targets_out))
+	<fieldset class="mono mar1"><dl><dt>Цели знакомства:</dt><dd>{{ $userData->targets_out }}</dd></dl></fieldset>
 	@endif
 	@if (!empty($userData->interests_out))
 	<fieldset class="mono"><dl><dt>Интересы:</dt><dd>{{ $userData->interests_out }}</dd></dl></fieldset>

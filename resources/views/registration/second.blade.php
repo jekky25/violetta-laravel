@@ -27,9 +27,9 @@
 		<tr>
 			<td class="valign1" align="center">
 				<table class="pad13">
-				@foreach ($meetTarget as $item)
+				@foreach ($targets as $item)
 					<tr>
-						<td><input type="checkbox" name="target_meet[]" value="{{ $item->id }}"@if (!empty($item->selected)) checked="checked"@endif /></td>
+						<td><input type="checkbox" name="targets[]" value="{{ $item->id }}"@if (!empty($item->selected)) checked="checked"@endif /></td>
 						<td class="left1">{{ $item->name }}</td>
 					</tr>
 				@endforeach
@@ -136,7 +136,7 @@
 		</tr>
 		<tr>
 			<td align="right">Интересы:</td>
-			<td><x-select name=interest[] :obj="$interest" multiple="true" size="10" /></td>
+			<td><x-select name=interests[] :obj="$interests" multiple="true" size="10" /></td>
 		</tr>
 	</table>
 	<p class="pad2"></p>
@@ -161,7 +161,7 @@
 	<p class="pad1 pad2">Это самая важная часть анкеты. От того, как вы заполните это поле, очень сильно зависит <strong>успешность вашего знакомства</strong>. Отнеситесь к этому ответственно.  Опишите особенности, делающие вашу <strong>личность отличной от других</strong>. Постарайтесь <strong>избегать банальностей</strong>. Если вы любите кошек или вам нравится гулять под дождем - напишите об этом. Поверьте,
 найдется со временем тот кто ищет именно вас.</p>
 	<div>
-		<textarea class="textarea2" name="description" wrap="virtual">{{ old('description', $userData->user_description) }}</textarea>
+		<textarea class="textarea2" name="description" wrap="virtual">{{ old('description', $userData->description) }}</textarea>
 	</div>
 	<p class="pad2"></p>
 	<input type="hidden" name="otsil" value="1" />

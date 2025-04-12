@@ -46,17 +46,17 @@ class User extends Authenticatable
 		'user_refresh_date',
 		'user_refresh_date_t',
 		'user_session_time',
-		'user_lastvisit',
-		'user_lastvisit_views',
+		'lastvisit',
+		'lastvisit_views',
 		'ip',
 		'submit_code',
-		'user_description',
+		'description',
 		'partner_description',
 		'confirm_email',
 		'user_active',
 		'approved',
 		'user_sex_orient',
-		'user_target_meet',
+		'targets',
 		'user_speak_lang',
 		'user_education',
 		'user_smoke',
@@ -267,19 +267,9 @@ class User extends Authenticatable
 		return $this->user_make_date !== $this->user_refresh_date ? (new DataService)->dateFormat($this->user_refresh_date) : $val;
 	}
 
-	public function getMeetTargetAttribute()
-	{
-		return unserialize($this->user_target_meet);
-	}
-
 	public function getSpeakLangAttribute()
 	{
 		return unserialize($this->user_speak_lang);
-	}
-
-	public function getInterestsAttribute($val)
-	{
-		return unserialize($val);
 	}
 
 	public function getICQAttribute($val)

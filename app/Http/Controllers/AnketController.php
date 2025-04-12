@@ -117,7 +117,7 @@ class AnketController extends Controller
 	public function getViews(UserViewsRequest $request, UserViewsFilter $filter)
 	{
 		$ankets						= $this->userRepository->getBySearch($filter, $request);
-		$this->userRepository->update(Auth::user(), ['user_lastvisit_views' => time()]);
+		$this->userRepository->update(Auth::user(), ['lastvisit_views' => time()]);
 		return response()->view(
 			'ankets.views',
 			[

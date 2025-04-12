@@ -100,10 +100,10 @@ class RegistrationRequest extends FormRequest
 			'user_refresh_date'			=> date("Y-m-d"),
 			'user_refresh_date_t'		=> time(),
 			'user_session_time'			=> time(),
-			'user_lastvisit'			=> time(),
+			'lastvisit'					=> time(),
 			'ip'						=> $this->ip(),
 			'submit_code' 				=> md5(time() . $this->login . rand(0, 1000)),
-			'user_description' 			=> "",
+			'description'	 			=> "",
 			'partner_description'		=> "",
 			'confirm_email' 			=> 0
 		]);
@@ -161,10 +161,10 @@ class RegistrationRequest extends FormRequest
 			'user_refresh_date'			=> ['string'],
 			'user_refresh_date_t'		=> ['integer'],
 			'user_session_time'			=> ['integer'],
-			'user_lastvisit'			=> ['integer'],
+			'lastvisit'					=> ['integer'],
 			'ip'						=> ['string'],
 			'submit_code'				=> ['string'],
-			'user_description' 			=> ['string'],
+			'description' 				=> ['string'],
 			'partner_description'		=> ['string'],
 			'confirm_email'		 		=> ['integer']
 		];

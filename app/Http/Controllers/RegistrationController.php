@@ -106,7 +106,7 @@ class RegistrationController extends Controller
 	{
 		$user			= Auth::user();
 		$sexOrient		= $formService->BlockSelect('sex_orient', SEX_ORIENT_CLASS, $user->user_sex_orient, 2);
-		$meetTarget		= $formService->BlockSelect('meet_target', MEET_TARGET_CLASS, $user->meet_target, 2);
+		$targets		= $formService->BlockSelect('targets', MEET_TARGET_CLASS, $user->targets, 2);
 		$userSpeakLang	= $formService->preparePropfromArray($user->speak_lang, self::$languageCodes);
 		$body 			= $formService->BlockSelect("body", BODY_CLASS, $user->user_body, 2);
 		$heights 		= $formService->getHeights();
@@ -120,14 +120,14 @@ class RegistrationController extends Controller
 		$familyStatus	= $formService->BlockSelect("family_status", FAMILY_STATUS_CLASS, $user->user_sem_polozh, 2);
 		$children		= $formService->BlockSelect("children", CHILDREN_CLASS, $user->user_children, 2);
 		$helpMoney		= $formService->BlockSelect("help_money", HELP_MONEY_CLASS, $user->user_help_money, 2);
-		$interest		= $formService->BlockSelect("interest", INTEREST_CLASS, $user->interests, 2);
+		$interests		= $formService->BlockSelect("interests", INTEREST_CLASS, $user->interests, 2);
 
 		return response()->view(
 			'registration.second',
 			[
 				'userData'		=> $user,
 				'sexOrient'		=> $sexOrient,
-				'meetTarget'	=> $meetTarget,
+				'targets'		=> $targets,
 				'userSpeakLang'	=> $userSpeakLang,
 				'body'			=> $body,
 				'heights'		=> $heights,
@@ -141,7 +141,7 @@ class RegistrationController extends Controller
 				'familyStatus'	=> $familyStatus,
 				'children'		=> $children,
 				'helpMoney'		=> $helpMoney,
-				'interest'		=> $interest,
+				'interests'		=> $interests,
 			]
 		);
 	}

@@ -33,7 +33,7 @@ class AnkService
 	 */
 	public function prepare()
 	{
-		$this->getTargetMeet();
+		$this->getTargets();
 		$this->getInterests();
 	}
 
@@ -61,17 +61,17 @@ class AnkService
 
 	private function getInterests()
 	{
-		$this->anket->getPropertyFew('App\Repositories\InterestRepository',		$this->anket->interests,			'interests');
+		$this->anket->getPropertyFew('App\Repositories\InterestRepository',		$this->anket->interests,			'interests_out');
 	}
 
-	private function getTargetMeet()
+	private function getTargets()
 	{
-		$this->anket->getPropertyFew('App\Repositories\MeetTargetRepository',	$this->anket->user_target_meet,			'target_meet');
+		$this->anket->getPropertyFew('App\Repositories\MeetTargetRepository',	$this->anket->targets,			'targets_out');
 	}
 
 	private function getSpeakLang()
 	{
-		$this->anket->getPropertyFew('App\Repositories\MeetTargetRepository',	$this->anket->user_speak_lang,			'speak_lang_str');
+		$this->anket->getPropertyFew('App\Repositories\SpeakLangRepository',	$this->anket->user_speak_lang,		'speak_lang_str');
 	}
 
 	private function getPartnerBody()

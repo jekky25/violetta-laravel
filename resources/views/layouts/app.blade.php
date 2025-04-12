@@ -173,7 +173,7 @@ if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br 
 			<div class="bl AccMenu">
 				<h3>{{ $user->user_name }}!</h3>
 				<ul>
-					<li><a class="name_my_mess" href="{{route('privmsg')}}">Мои сообщения</a> <span @if ($user->user_new_message > 0) class="red_mark" @else class="green_mark" @endif>({{ $user->user_new_message }})</span></li>
+					<li><a class="name_my_mess" href="{{route('privmsg')}}">Мои сообщения</a> <span @if ($user->new_messages > 0) class="red_mark" @else class="green_mark" @endif>({{ $user->new_messages }})</span></li>
 					<li><a href="{{route('registration.edit')}}">Мой профиль</a></li>
 					<li><a href="{{route('ank.id', $user->user_id)}}">Моя анкета</a></li>
 					<li><a href="{{route('registration.edit.photo')}}">Мои фото</a></li>
@@ -181,7 +181,7 @@ if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br 
 					<li><a href="{{route('registration.edit.settings')}}">Мои настройки</a></li>
 					<li><a class="inTop" href="{{route('registration.top100')}}">@if ($user->user_fotos > 0  &&  $user->top100 > 0)Поднять анкету @else попасть в топ @endif</a></li>
 				</ul>
-				<p>Последний визит: {{ $user->user_lastvisit_format }}</p>
+				<p>Последний визит: {{ $user->lastvisit_format }}</p>
 				<p>Просмотров за месяц: @if ($user->monthVisits > 0)<a href="{{route('registration.views')}}" class="views_l">{{ $user->monthVisits }}</a>@else{{ $user->monthVisits }}@endif @if ($user->monthVisitsNew > 0) <span class="views_l_new"> + <a href="{{route('registration.views')}}">{{ $user->monthVisitsNew }}</a></span>@endif</p>
 				<p class="logOutBut"><a href="{{route('logout')}}">Выход</a></p>
 			</div>
