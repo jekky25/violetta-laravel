@@ -104,7 +104,7 @@ class RegistrationRequest extends FormRequest
 			'ip'						=> $this->ip(),
 			'submit_code' 				=> md5(time() . $this->login . rand(0, 1000)),
 			'user_description' 			=> "",
-			'user_partner_description' 	=> "",
+			'partner_description'		=> "",
 			'confirm_email' 			=> 0
 		]);
 	}
@@ -165,7 +165,7 @@ class RegistrationRequest extends FormRequest
 			'ip'						=> ['string'],
 			'submit_code'				=> ['string'],
 			'user_description' 			=> ['string'],
-			'user_partner_description' 	=> ['string'],
+			'partner_description'		=> ['string'],
 			'confirm_email'		 		=> ['integer']
 		];
 	}

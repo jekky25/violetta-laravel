@@ -51,7 +51,7 @@ class User extends Authenticatable
 		'ip',
 		'submit_code',
 		'user_description',
-		'user_partner_description',
+		'partner_description',
 		'confirm_email',
 		'user_active',
 		'approved',
@@ -64,10 +64,10 @@ class User extends Authenticatable
 		'user_sem_polozh',
 		'user_children',
 		'user_help_money',
-		'user_interests',
-		'user_icq',
-		'user_url',
-		'user_phone',
+		'interests',
+		'icq',
+		'url',
+		'phone',
 		'user_partner_age_min',
 		'user_partner_age_max',
 		'user_partner_height_min',
@@ -245,7 +245,7 @@ class User extends Authenticatable
 		return (new formatService)->reiting($this->user_reiting, $maxReit);
 	}
 
-	public function getUserDescriptionAttribute($val)
+	public function getDescriptionAttribute($val)
 	{
 		$val = stripslashes($val);
 		return str_replace("\n", "\n<br />\n", $val);
@@ -277,17 +277,17 @@ class User extends Authenticatable
 		return unserialize($this->user_speak_lang);
 	}
 
-	public function getInterestsAttribute()
+	public function getInterestsAttribute($val)
 	{
-		return unserialize($this->user_interests);
+		return unserialize($val);
 	}
 
-	public function getUserICQAttribute($val)
+	public function getICQAttribute($val)
 	{
 		return (int)$val > 0 ? $val : '';
 	}
 
-	public function getUserPartnerDescriptionAttribute($val)
+	public function getPartnerDescriptionAttribute($val)
 	{
 		$val = stripslashes(trim($val));
 		return str_replace("\n", "\n<br />\n", $val);

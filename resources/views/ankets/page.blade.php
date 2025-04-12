@@ -180,8 +180,8 @@ function vote(score)
 	@if (!empty($userData->interests_out))
 	<fieldset class="mono"><dl><dt>Интересы:</dt><dd>{{ $userData->interests_out }}</dd></dl></fieldset>
 	@endif
-	@if (!empty($userData->user_partner_description))
-	<fieldset class="mono"><dl><dt>Хочу найти:</dt><dd>{!! $userData->user_partner_description !!}</dd></dl></fieldset>
+	@if (!empty($userData->partner_description))
+	<fieldset class="mono"><dl><dt>Хочу найти:</dt><dd>{!! $userData->partner_description !!}</dd></dl></fieldset>
 	@endif
 	<div class="clear"></div>
 	@if ($isAboutPartner === true)
@@ -228,11 +228,11 @@ function vote(score)
 		</fieldset>
 		<div class="clear pad2"></div>
 	@endif
-	@if (!empty($userData->user_icq) || !empty($userData->user_phone) || !empty($userData->user_url))
+	@if (!empty($userData->icq) || !empty($userData->phone) || !empty($userData->url))
 	<fieldset>
-		@if (!empty($userData->user_icq))<dl><dt>Моя Аська:</dt><dd>@auth {{ $userData->user_icq }}@else вы не зарегистрированы@endauth</dd></dl>@endif
-		@if (!empty($userData->user_phone))<dl><dt>Мой телефон:</dt><dd>@auth {{$userData->user_phone }}@else вы не зарегистрированы@endauth</dd></dl>@endif
-		@if (!empty($userData->user_url))<dl><dt>Мой сайт:</dt><dd>@auth {{ $userData->user_url }}@else вы не зарегистрированы@endauth</dd></dl>@endif
+		@if (!empty($userData->icq))<dl><dt>Моя Аська:</dt><dd>@auth {{ $userData->icq }}@else вы не зарегистрированы@endauth</dd></dl>@endif
+		@if (!empty($userData->phone))<dl><dt>Мой телефон:</dt><dd>@auth {{$userData->phone }}@else вы не зарегистрированы@endauth</dd></dl>@endif
+		@if (!empty($userData->url))<dl><dt>Мой сайт:</dt><dd>@auth {{ $userData->url }}@else вы не зарегистрированы@endauth</dd></dl>@endif
 	</fieldset>
 	<div class="clear"></div>
 	@endif

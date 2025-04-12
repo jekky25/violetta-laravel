@@ -145,15 +145,15 @@
 	<table class="mrg6" width="100%">
 		<tr>
 			<td align="right" width="50%">Домашняя страничка:</td>
-			<td width="50%"><input class="select1" type="text" maxLength="70" size="30" name="url" value="{{ old('url', $userData->user_url) }}" /></td>
+			<td width="50%"><input class="select1" type="text" maxLength="70" size="30" name="url" value="{{ old('url', $userData->url) }}" /></td>
 		</tr>
 		<tr>
 			<td align="right">Телефон:</td>
-			<td><input class="select1" type="text" maxLength="70" size="30" name="phone" value="{{ old('phone', $userData->user_phone) }}" /></td>
+			<td><input class="select1" type="text" maxLength="70" size="30" name="phone" value="{{ old('phone', $userData->phone) }}" /></td>
 		</tr>
 		<tr>
 			<td align="right">ICQ:</td>
-			<td><input class="select1" type="text" maxLength="70" size="30" name="icq" value="{{ old('icq', $userData->user_icq) }}" /></td>
+			<td><input class="select1" type="text" maxLength="70" size="30" name="icq" value="{{ old('icq', $userData->icq) }}" /></td>
 		</tr>
 	</table>
 	<p class="pad2"></p>

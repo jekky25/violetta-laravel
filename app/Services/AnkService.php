@@ -1,25 +1,26 @@
 <?
+
 namespace App\Services;
 
 class AnkService
 {
 	protected $anket;
 	public static $getProps = [
-		'\\App\\Repositories\\BodyRepository'			=> ['prop' =>'user_body', 				'ank_prop' =>'body'],
-		'\\App\\Repositories\\HairColorRepository'		=> ['prop' =>'user_hair_color', 		'ank_prop' =>'hair_color'],
-		'\\App\\Repositories\\HairTypeRepository' 		=> ['prop' =>'user_hair_type', 			'ank_prop' =>'hair_type'],
-		'\\App\\Repositories\\EyesRepository' 			=> ['prop' =>'user_eyes',	 			'ank_prop' =>'eyes'],
-		'\\App\\Repositories\\FamilyStatusRepository' 	=> ['prop' =>'user_sem_polozh',			'ank_prop' =>'family_status'],
-		'\\App\\Repositories\\ChildrenRepository' 		=> ['prop' =>'user_children',			'ank_prop' =>'children'],
-		'\\App\\Repositories\\EducationRepository' 		=> ['prop' =>'user_education',			'ank_prop' =>'education'],
-		'\\App\\Repositories\\SmokeRepository' 			=> ['prop' =>'user_smoke',				'ank_prop' =>'smoke'],
-		'\\App\\Repositories\\SpirtRepository' 			=> ['prop' =>'user_spirt',				'ank_prop' =>'spirt'],
-		'\\App\\Repositories\\HelpMoneyRepository' 		=> ['prop' =>'user_help_money',			'ank_prop' =>'help_money'],
-		'\\App\\Repositories\\SexOrientRepository' 		=> ['prop' =>'user_sex_oriebt',			'ank_prop' =>'sex_orient'],
-		'\\App\\Repositories\\CountryRepository'		=> ['prop' =>'user_partner_country',	'ank_prop' =>'partner_country'],
-		'\\App\\Repositories\\RegionRepository'			=> ['prop' =>'user_partner_region',		'ank_prop' =>'partner_region'],
-		'\\App\\Repositories\\CityRepository'			=> ['prop' =>'user_partner_city',		'ank_prop' =>'partner_city']
-	  ];
+		'\\App\\Repositories\\BodyRepository'			=> ['prop' => 'user_body', 				'ank_prop' => 'body'],
+		'\\App\\Repositories\\HairColorRepository'		=> ['prop' => 'user_hair_color', 		'ank_prop' => 'hair_color'],
+		'\\App\\Repositories\\HairTypeRepository' 		=> ['prop' => 'user_hair_type', 			'ank_prop' => 'hair_type'],
+		'\\App\\Repositories\\EyesRepository' 			=> ['prop' => 'user_eyes',	 			'ank_prop' => 'eyes'],
+		'\\App\\Repositories\\FamilyStatusRepository' 	=> ['prop' => 'user_sem_polozh',			'ank_prop' => 'family_status'],
+		'\\App\\Repositories\\ChildrenRepository' 		=> ['prop' => 'user_children',			'ank_prop' => 'children'],
+		'\\App\\Repositories\\EducationRepository' 		=> ['prop' => 'user_education',			'ank_prop' => 'education'],
+		'\\App\\Repositories\\SmokeRepository' 			=> ['prop' => 'user_smoke',				'ank_prop' => 'smoke'],
+		'\\App\\Repositories\\SpirtRepository' 			=> ['prop' => 'user_spirt',				'ank_prop' => 'spirt'],
+		'\\App\\Repositories\\HelpMoneyRepository' 		=> ['prop' => 'user_help_money',			'ank_prop' => 'help_money'],
+		'\\App\\Repositories\\SexOrientRepository' 		=> ['prop' => 'user_sex_oriebt',			'ank_prop' => 'sex_orient'],
+		'\\App\\Repositories\\CountryRepository'		=> ['prop' => 'user_partner_country',	'ank_prop' => 'partner_country'],
+		'\\App\\Repositories\\RegionRepository'			=> ['prop' => 'user_partner_region',		'ank_prop' => 'partner_region'],
+		'\\App\\Repositories\\CityRepository'			=> ['prop' => 'user_partner_city',		'ank_prop' => 'partner_city']
+	];
 
 	public function __construct(&$anket)
 	{
@@ -27,20 +28,20 @@ class AnkService
 	}
 
 	/**
-	* get user parameters on the anket page
-	* @return void
-	*/
-	public function prepare() 
+	 * get user parameters on the anket page
+	 * @return void
+	 */
+	public function prepare()
 	{
 		$this->getTargetMeet();
 		$this->getInterests();
 	}
 
 	/**
-	* get addition user parameters on the full anket page
-	* @return void
-	*/
-	public function prepareFull() 
+	 * get addition user parameters on the full anket page
+	 * @return void
+	 */
+	public function prepareFull()
 	{
 		$this->getAddProps();
 		$this->getSpeakLang();
@@ -53,15 +54,14 @@ class AnkService
 
 	private function getAddProps()
 	{
-		foreach (self::$getProps as $k => $item)
-		{
+		foreach (self::$getProps as $k => $item) {
 			$this->anket->getProperty($item, $k);
 		}
 	}
 
 	private function getInterests()
 	{
-		$this->anket->getPropertyFew('App\Repositories\InterestRepository',		$this->anket->user_interests,			'interests');
+		$this->anket->getPropertyFew('App\Repositories\InterestRepository',		$this->anket->interests,			'interests');
 	}
 
 	private function getTargetMeet()
@@ -100,23 +100,22 @@ class AnkService
 	}
 
 	/**
-	* check existing parameters about partner
-	* @return bool
-	*/
+	 * check existing parameters about partner
+	 * @return bool
+	 */
 	public function isAboutPartner()
 	{
-		foreach ($this->anket->fieldsAboutPartner as $prop)
-		{
-			if (!empty ($this->anket->$prop)) return true;
+		foreach ($this->anket->fieldsAboutPartner as $prop) {
+			if (!empty($this->anket->$prop)) return true;
 		}
 		return false;
 	}
 
 	/**
-	* make found string
-	* @param integer $count
-	* @return string
-	*/
+	 * make found string
+	 * @param integer $count
+	 * @return string
+	 */
 	public function getFoundStr($count = 0)
 	{
 		if (empty($this->anket)) return 'Найдено анкет: 0';

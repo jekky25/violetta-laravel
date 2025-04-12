@@ -36,10 +36,10 @@ class UserFactory extends Factory
 			'user_partner_spirt'		=> '',
 			'user_description'			=> $this->faker->text(100),
 			'user_target_meet'			=> '',
-			'user_interests'			=> '',
-			'user_partner_description'	=> $this->faker->text(100),
-			'user_phone'				=> '123456789',
-			'user_url'					=> '',
+			'interests'					=> '',
+			'partner_description'		=> $this->faker->text(100),
+			'phone'						=> '123456789',
+			'url'						=> '',
 			'ip'						=> '127.0.0.1',
 			'remember_token'			=> Str::random(10)
 		];

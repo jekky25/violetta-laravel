@@ -70,14 +70,14 @@ class ProfilePartnerRequest extends FormRequest
 			'user_partner_country' 			=> $this->country,
 			'user_partner_region'	 		=> $this->region,
 			'user_partner_city'	 			=> $this->city,
-			'user_partner_description'		=> addslashes($this->description),
+			'partner_description'			=> addslashes($this->description),
 			'user_refresh_date'		=> date("Y-m-d"),
 			'user_refresh_date_t'	=> time(),
 			'user_session_time'		=> time(),
 			'user_lastvisit'		=> time()
 		]);
 
-		if (!empty($this->user_partner_description))
+		if (!empty($this->partner_description))
 			$this->merge([
 				'approved'			=> 0
 			]);
@@ -121,7 +121,7 @@ class ProfilePartnerRequest extends FormRequest
 			'user_partner_country' 		=> ['integer'],
 			'user_partner_region'	 	=> ['integer'],
 			'user_partner_city'	 		=> ['integer'],
-			'user_partner_description'	=> ['string'],
+			'partner_description'		=> ['string'],
 			'user_refresh_date'			=> ['string'],
 			'user_refresh_date_t'		=> ['integer'],
 			'user_session_time'			=> ['integer'],

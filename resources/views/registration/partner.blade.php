@@ -141,7 +141,7 @@
 	<p class="pad1 pad2">Опишите человека, которого вы хотите встретить. Какие его черты для вас особенно важны? Что вы хотите найти в нем? Каковы цели вашего знакомства и планы на будущее? Чем
 больше вы напишите, тем больше вероятность найти именно того, кто вам нужен.</p>
 	<div>
-		<textarea class="textarea2" name="description" wrap="virtual">{{ old('description', $userData->user_partner_description) }}</textarea>
+		<textarea class="textarea2" name="description" wrap="virtual">{{ old('description', $userData->partner_description) }}</textarea>
 	</div>
 	<p class="pad2"></p>
 	<input type="hidden" name="otsil" value="1" />
