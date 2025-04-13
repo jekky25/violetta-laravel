@@ -65,7 +65,7 @@ class ProfileMainRequest extends FormRequest
 			'user_birth_date'		=> $this->data->getDateStr($this->birth_day, $this->birth_month, $this->birth_year),
 			'user_refresh_date'		=> date("Y-m-d"),
 			'user_refresh_date_t'	=> time(),
-			'user_session_time'		=> time(),
+			'session_time'			=> time(),
 			'lastvisit'				=> time(),
 			'user_name'				=> $this->name,
 			'user_sex'				=> $this->sex,
@@ -109,7 +109,7 @@ class ProfileMainRequest extends FormRequest
 			'user_birth_date'		=> ['string'],
 			'user_refresh_date'		=> ['string'],
 			'user_refresh_date_t'	=> ['integer'],
-			'user_session_time'		=> ['integer'],
+			'session_time'			=> ['integer'],
 			'lastvisit'				=> ['integer'],
 			'user_sex'				=> ['integer']
 		];

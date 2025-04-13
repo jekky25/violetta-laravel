@@ -45,7 +45,7 @@ class User extends Authenticatable
 		'user_make_date_t',
 		'user_refresh_date',
 		'user_refresh_date_t',
-		'user_session_time',
+		'session_time',
 		'lastvisit',
 		'lastvisit_views',
 		'ip',
@@ -75,14 +75,14 @@ class User extends Authenticatable
 		'user_partner_weight_min',
 		'user_partner_weight_max',
 		'user_partner_body',
-		'user_partner_speak_lang',
-		'user_partner_spirt',
-		'user_partner_smoke',
-		'user_partner_education',
+		'partner_languages',
+		'partner_alcohol',
+		'partner_smoke',
+		'partner_education',
 		'user_partner_country',
 		'user_partner_region',
 		'user_partner_city',
-		'user_session_time',
+		'session_time',
 		'dont_send_email'
 	];
 
@@ -118,10 +118,10 @@ class User extends Authenticatable
 		'partner_country',
 		'partner_region',
 		'partner_city',
-		'partner_speak_lang',
+		'partner_languages',
 		'partner_education',
 		'partner_smoke',
-		'partner_spirt'
+		'partner_alcohol'
 	];
 
 	const SEX_BISEXUAL	= 1;

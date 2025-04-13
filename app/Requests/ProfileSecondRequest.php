@@ -62,7 +62,7 @@ class ProfileSecondRequest extends FormRequest
 			'description'			=> addslashes($this->description),
 			'user_refresh_date'		=> date("Y-m-d"),
 			'user_refresh_date_t'	=> time(),
-			'user_session_time'		=> time(),
+			'session_time'			=> time(),
 			'lastvisit'				=> time()
 		]);
 		if (!empty($this->description))
@@ -103,7 +103,7 @@ class ProfileSecondRequest extends FormRequest
 			'description'			=> ['string'],
 			'user_refresh_date'		=> ['string'],
 			'user_refresh_date_t'	=> ['integer'],
-			'user_session_time'		=> ['integer'],
+			'session_time'			=> ['integer'],
 			'lastvisit'				=> ['integer'],
 			'approved'				=> ['integer']
 		];

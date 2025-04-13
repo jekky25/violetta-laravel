@@ -81,22 +81,22 @@ class AnkService
 
 	private function getPartnerSpeakLang()
 	{
-		$this->anket->getPropertyFew('App\Repositories\SpeakLangRepository',	$this->anket->user_partner_speak_lang,	'partner_speak_lang');
+		$this->anket->getPropertyFew('App\Repositories\SpeakLangRepository',	$this->anket->partner_languages,	'partner_languages');
 	}
 
 	private function getPartnerEducation()
 	{
-		$this->anket->getPropertyFew('App\Repositories\EducationRepository',	$this->anket->user_partner_education,	'partner_education');
+		$this->anket->getPropertyFew('App\Repositories\EducationRepository',	$this->anket->partner_education,	'partner_education');
 	}
 
 	private function getPartnerSmoke()
 	{
-		$this->anket->getPropertyFew('App\Repositories\SmokeRepository',		$this->anket->user_partner_smoke,		'partner_smoke');
+		$this->anket->getPropertyFew('App\Repositories\SmokeRepository',		$this->anket->partner_smoke,		'partner_smoke');
 	}
 
 	private function getPartnerSpirt()
 	{
-		$this->anket->getPropertyFew('App\Repositories\SpirtRepository',		$this->anket->user_partner_spirt,		'partner_spirt');
+		$this->anket->getPropertyFew('App\Repositories\SpirtRepository',		$this->anket->partner_alcohol,		'partner_alcohol');
 	}
 
 	/**

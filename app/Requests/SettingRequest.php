@@ -32,7 +32,7 @@ class SettingRequest extends FormRequest
 			'dont_send_email' 		=> !empty($this->dont_send_email) ? (int) $this->dont_send_email : 0,
 			'user_refresh_date'		=> date("Y-m-d"),
 			'user_refresh_date_t'	=> time(),
-			'user_session_time'		=> time(),
+			'session_time'			=> time(),
 			'lastvisit'				=> time()
 		]);
 	}
@@ -48,7 +48,7 @@ class SettingRequest extends FormRequest
 			'dont_send_email'			=> ['integer'],
 			'user_refresh_date'			=> ['string'],
 			'user_refresh_date_t'		=> ['integer'],
-			'user_session_time'			=> ['integer'],
+			'session_time'				=> ['integer'],
 			'lastvisit'					=> ['integer']
 		];
 	}

@@ -157,10 +157,10 @@ class RegistrationController extends Controller
 		$heights			= $formService->getHeights();
 		$weights			= $formService->getWeights();
 		$partnerBody		= $formService->BlockSelect("partner_body[]", BODY_CLASS, old('partner_body', $user->user_partner_body), 2);
-		$partnerSpeakLang	= $formService->BlockSelect("partner_speak_lang[]", SPEAK_LANG_CLASS, old('partner_speak_lang', $user->user_partner_speak_lang), 2);
-		$partnerSpirt		= $formService->BlockSelect("partner_spirt[]", SPIRT_CLASS, old('partner_spirt', $user->user_partner_spirt), 2);
-		$partnerSmoke		= $formService->BlockSelect("partner_smoke[]", SMOKE_CLASS, old('partner_smoke', $user->user_partner_smoke), 2);
-		$partnerEducation	= $formService->BlockSelect("partner_education[]", EDUCATION_CLASS, old('partner_education', $user->user_partner_education), 2);
+		$partnerLanguages	= $formService->BlockSelect("partner_languages[]", SPEAK_LANG_CLASS, old('partner_languages', $user->partner_languages), 2);
+		$partnerAlcohol		= $formService->BlockSelect("partner_alcohol[]", SPIRT_CLASS, old('partner_alcohol', $user->partner_alcohol), 2);
+		$partnerSmoke		= $formService->BlockSelect("partner_smoke[]", SMOKE_CLASS, old('partner_smoke', $user->partner_smoke), 2);
+		$partnerEducation	= $formService->BlockSelect("partner_education[]", EDUCATION_CLASS, old('partner_education', $user->partner_education), 2);
 
 		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old('country', $user->user_partner_country);
@@ -176,8 +176,8 @@ class RegistrationController extends Controller
 				'heights'			=> $heights,
 				'weights'			=> $weights,
 				'partnerBody'		=> $partnerBody,
-				'partnerSpeakLang'	=> $partnerSpeakLang,
-				'partnerSpirt'		=> $partnerSpirt,
+				'partnerLanguages'	=> $partnerLanguages,
+				'partnerAlcohol'	=> $partnerAlcohol,
 				'partnerSmoke'		=> $partnerSmoke,
 				'partnerEducation'	=> $partnerEducation,
 				'countries'			=> $countries,

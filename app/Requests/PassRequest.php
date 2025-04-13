@@ -49,7 +49,7 @@ class PassRequest extends FormRequest
 		$this->merge([
 			'user_password'			=> $this->pass,
 			'user_hash'				=> md5($this->pass),
-			'user_session_time'		=> time(),
+			'session_time'			=> time(),
 			'lastvisit'				=> time()
 		]);
 	}
@@ -67,7 +67,7 @@ class PassRequest extends FormRequest
 			'pass'						=> ['required', 'max:15', 'min:5', new PassNotMatch((string)$arParams['pass'], (string)$arParams['pass_confirm'])],
 			'user_password'				=> ['string'],
 			'user_hash'					=> ['string'],
-			'user_session_time'			=> ['integer'],
+			'session_time'				=> ['integer'],
 			'lastvisit'					=> ['integer']
 		];
 	}

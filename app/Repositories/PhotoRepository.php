@@ -136,7 +136,7 @@ class PhotoRepository implements PhotoInterface
 					'user_fotos'			=> $countPhoto,
 					'user_refresh_date'		=> date("Y-m-d"),
 					'user_refresh_date_t'	=> time(),
-					'user_session_time'		=> time(),
+					'session_time'			=> time(),
 					'lastvisit'				=> time()
 				]
 			);
@@ -162,7 +162,7 @@ class PhotoRepository implements PhotoInterface
 				[
 					'user_refresh_date' 	=> date("Y-m-d"),
 					'user_refresh_date_t' 	=> time(),
-					'user_session_time' 	=> time(),
+					'session_time' 			=> time(),
 					'lastvisit' 			=> time()
 				]
 			);
@@ -205,7 +205,7 @@ class PhotoRepository implements PhotoInterface
 		}
 		$user->user_refresh_date 	= date("Y-m-d");
 		$user->user_refresh_date_t 	= time();
-		$user->user_session_time 	= time();
+		$user->session_time 		= time();
 		$user->lastvisit	 		= time();
 		$user->user_fotos 			= $this->getAllByUserId($user->user_id)->count();
 		$user->update();

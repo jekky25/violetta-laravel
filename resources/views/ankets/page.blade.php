@@ -214,8 +214,8 @@ function vote(score)
 			@endif
 		</fieldset>
 		<fieldset>
-			@if (!empty($userData->partner_speak_lang))
-				<dl><dt>Говорит на языках:</dt><dd>{{ $userData->partner_speak_lang }}</dd></dl>
+			@if (!empty($userData->partner_languages))
+				<dl><dt>Говорит на языках:</dt><dd>{{ $userData->partner_languages }}</dd></dl>
 			@endif
 			@if (!empty($userData->partner_education))
 				<dl><dt>Образование:</dt><dd>{{ $userData->partner_education }}</dd></dl>
@@ -223,8 +223,8 @@ function vote(score)
 			@if (!empty($userData->partner_smoke))
 				<dl><dt>Отношение к сигаретам:</dt><dd>{{ $userData->partner_smoke }}</dd></dl>
 			@endif
-			@if (!empty($userData->partner_spirt))
-				<dl><dt>Отношение к спиртному:</dt><dd>{{ $userData->partner_spirt }}</dd></dl>
+			@if (!empty($userData->partner_alcohol))
+				<dl><dt>Отношение к спиртному:</dt><dd>{{ $userData->partner_alcohol }}</dd></dl>
 			@endif
 		</fieldset>
 		<div class="clear pad2"></div>
