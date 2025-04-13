@@ -73,15 +73,15 @@ class User extends Authenticatable
 		'user_partner_height_min',
 		'user_partner_height_max',
 		'user_partner_weight_min',
-		'user_partner_weight_max',
-		'user_partner_body',
+		'partner_weight_max',
+		'partner_body',
 		'partner_languages',
 		'partner_alcohol',
 		'partner_smoke',
 		'partner_education',
-		'user_partner_country',
-		'user_partner_region',
-		'user_partner_city',
+		'partner_country',
+		'partner_region',
+		'partner_city',
 		'session_time',
 		'dont_send_email'
 	];
@@ -345,12 +345,12 @@ class User extends Authenticatable
 
 	public function getPartnerWeightAttribute()
 	{
-		if (!($this->user_partner_weight_min > PARTNER_WEIGHT_MIN || $this->user_partner_weight_max > PARTNER_WEIGHT_MAX))  return null;
-		if ($this->user_partner_weight_min > PARTNER_WEIGHT_MIN && $this->user_partner_weight_max > PARTNER_WEIGHT_MAX)
-			return ' ' . $this->user_partner_weight_min . '-' . $this->user_partner_weight_max . ' кг';
-		if ($this->user_partner_weight_min > PARTNER_WEIGHT_MIN && $this->user_partner_weight_max <= PARTNER_WEIGHT_MAX)
+		if (!($this->user_partner_weight_min > PARTNER_WEIGHT_MIN || $this->partner_weight_max > PARTNER_WEIGHT_MAX))  return null;
+		if ($this->user_partner_weight_min > PARTNER_WEIGHT_MIN && $this->partner_weight_max > PARTNER_WEIGHT_MAX)
+			return ' ' . $this->user_partner_weight_min . '-' . $this->partner_weight_max . ' кг';
+		if ($this->user_partner_weight_min > PARTNER_WEIGHT_MIN && $this->partner_weight_max <= PARTNER_WEIGHT_MAX)
 			return ' от ' . $this->user_partner_weight_min . ' кг';
-		return ' до ' . $this->user_partner_weight_max . 'кг';
+		return ' до ' . $this->partner_weight_max . 'кг';
 	}
 
 	public function country()

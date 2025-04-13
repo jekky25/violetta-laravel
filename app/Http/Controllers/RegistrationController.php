@@ -156,15 +156,15 @@ class RegistrationController extends Controller
 		$age				= $data->getAges();
 		$heights			= $formService->getHeights();
 		$weights			= $formService->getWeights();
-		$partnerBody		= $formService->BlockSelect("partner_body[]", BODY_CLASS, old('partner_body', $user->user_partner_body), 2);
+		$partnerBody		= $formService->BlockSelect("partner_body[]", BODY_CLASS, old('partner_body', $user->partner_body), 2);
 		$partnerLanguages	= $formService->BlockSelect("partner_languages[]", SPEAK_LANG_CLASS, old('partner_languages', $user->partner_languages), 2);
 		$partnerAlcohol		= $formService->BlockSelect("partner_alcohol[]", SPIRT_CLASS, old('partner_alcohol', $user->partner_alcohol), 2);
 		$partnerSmoke		= $formService->BlockSelect("partner_smoke[]", SMOKE_CLASS, old('partner_smoke', $user->partner_smoke), 2);
 		$partnerEducation	= $formService->BlockSelect("partner_education[]", EDUCATION_CLASS, old('partner_education', $user->partner_education), 2);
 
 		$countries	= $this->countryRepository->getAll();
-		$countryId	= (int) old('country', $user->user_partner_country);
-		$regionId	= (int) old('region', $user->user_partner_region);
+		$countryId	= (int) old('country', $user->partner_country);
+		$regionId	= (int) old('region', $user->partner_region);
 		$regions	= $countryId > 0	? $this->regionRepository->getByCountryId($countryId) 	: [];
 		$cities		= $regionId	> 0		? $this->cityRepository->getByRegionId($regionId) 		: [];
 

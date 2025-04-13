@@ -43,7 +43,7 @@
 				от&nbsp;
 				<x-select name=partner_weight_min :obj="$weights" type=I :userProp="old('partner_weight_min', $userData->user_partner_weight_min)" measure="кг" />
 				&nbsp;до&nbsp;
-				<x-select name=partner_weight_max :obj="$weights" type=I :userProp="old('partner_weight_max', $userData->user_partner_weight_max)" measure="кг" />
+				<x-select name=partner_weight_max :obj="$weights" type=I :userProp="old('partner_weight_max', $userData->partner_weight_max)" measure="кг" />
 			</td>
 		</tr>
 	</table>
@@ -100,10 +100,10 @@
 			<td width="150">страна</td>
 			<td>
 				<select name="country" id="country" onchange="updateSelect('region', this.value, 'reg');" autocomplete="off">
-					<option value="0" @if (old('country', $userData->user_partner_country) == 0) selected="selected"@endif>выберите&nbsp;</option>
-					<option value="141" @if (old('country', $userData->user_partner_country) == COUNTRY_ID_RUSSIA) selected="selected"@endif>Россия</option>
+					<option value="0" @if (old('country', $userData->partner_country) == 0) selected="selected"@endif>выберите&nbsp;</option>
+					<option value="141" @if (old('country', $userData->partner_country) == COUNTRY_ID_RUSSIA) selected="selected"@endif>Россия</option>
 					@foreach ($countries as $item)
-					<option value="{{ $item->id }}" @if (old('country', $userData->user_partner_country) == $item->id && old('country', $userData->user_partner_country) != COUNTRY_ID_RUSSIA) selected="selected"@endif>{{ $item->name }}</option>
+					<option value="{{ $item->id }}" @if (old('country', $userData->partner_country) == $item->id && old('country', $userData->partner_country) != COUNTRY_ID_RUSSIA) selected="selected"@endif>{{ $item->name }}</option>
 					@endforeach
 				</select>
 			</td>
@@ -115,7 +115,7 @@
 					<option value="0">не важно</option>
 					@if (!empty($regions))
 					@foreach ($regions as $item)
-					<option value="{{ $item->id }}"@if (old('region', $userData->user_partner_region) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
+					<option value="{{ $item->id }}"@if (old('region', $userData->partner_region) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
 					@endforeach
 					@endif
 				</select>
@@ -128,7 +128,7 @@
 					<option value="0">не важно</option>
 					@if (!empty($cities))
 					@foreach ($cities as $item)
-					<option value="{{ $item->id }}"@if (old('city', $userData->user_partner_city) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
+					<option value="{{ $item->id }}"@if (old('city', $userData->partner_city) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
 					@endforeach
 					@endif
 				</select>
