@@ -23,25 +23,25 @@
 			<td align="right" width="50%">Возраст:</td>
 			<td width="50%">
 				от&nbsp;
-				<x-select name=partner_age_min :obj="$age" type=I :userProp="old('partner_age_min', $userData->user_partner_age_min)" />
+				<x-select name=partner_age_min :obj="$age" type=I :userProp="old('partner_age_min', $userData->partner_age_min)" />
 				&nbsp;до&nbsp;
-				<x-select name=partner_age_max :obj="$age" type=I :userProp="old('partner_age_max', $userData->user_partner_age_max)" />
+				<x-select name=partner_age_max :obj="$age" type=I :userProp="old('partner_age_max', $userData->partner_age_max)" />
 			</td>
 		</tr>
 		<tr>
 			<td align="right" width="50%">Рост:</td>
 			<td width="50%">
 				от&nbsp;
-				<x-select name=partner_height_min :obj="$heights" type=I :userProp="old('partner_height_min', $userData->user_partner_height_min)" measure="см" />
+				<x-select name=partner_height_min :obj="$heights" type=I :userProp="old('partner_height_min', $userData->partner_height_min)" measure="см" />
 				&nbsp;до&nbsp;
-				<x-select name=partner_height_max :obj="$heights" type=I :userProp="old('partner_height_max', $userData->user_partner_height_max)" measure="см" />
+				<x-select name=partner_height_max :obj="$heights" type=I :userProp="old('partner_height_max', $userData->partner_height_max)" measure="см" />
 			</td>
 		</tr>
 		<tr>
 			<td align="right" width="50%">Вес:</td>
 			<td width="50%">
 				от&nbsp;
-				<x-select name=partner_weight_min :obj="$weights" type=I :userProp="old('partner_weight_min', $userData->user_partner_weight_min)" measure="кг" />
+				<x-select name=partner_weight_min :obj="$weights" type=I :userProp="old('partner_weight_min', $userData->partner_weight_min)" measure="кг" />	
 				&nbsp;до&nbsp;
 				<x-select name=partner_weight_max :obj="$weights" type=I :userProp="old('partner_weight_max', $userData->partner_weight_max)" measure="кг" />
 			</td>

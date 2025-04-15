@@ -56,11 +56,11 @@ class ProfilePartnerRequest extends FormRequest
 	protected function prepareForValidation()
 	{
 		$this->merge([
-			'user_partner_age_min' 			=> $this->partner_age_min,
-			'user_partner_age_max' 			=> $this->partner_age_max,
-			'user_partner_height_min' 		=> $this->partner_height_min,
-			'user_partner_height_max' 		=> $this->partner_height_max,
-			'user_partner_weight_min' 		=> $this->partner_weight_min,
+			'partner_age_min' 				=> $this->partner_age_min,
+			'partner_age_max' 				=> $this->partner_age_max,
+			'partner_height_min' 			=> $this->partner_height_min,
+			'partner_height_max' 			=> $this->partner_height_max,
+			'partner_weight_min' 			=> $this->partner_weight_min,
 			'partner_weight_max' 			=> $this->partner_weight_max,
 			'partner_body'					=> $this->data->serializeInput($this->partner_body),
 			'partner_languages'				=> $this->data->serializeInput($this->partner_languages),
@@ -102,11 +102,11 @@ class ProfilePartnerRequest extends FormRequest
 				new WeightValid($weightMin, $weightMax),
 				new HeightValid($heightMin, $heightMax)
 			],
-			'user_partner_age_min'		 => ['integer'],
-			'user_partner_age_max'		=> ['integer'],
-			'user_partner_height_min'	=> ['integer'],
-			'user_partner_height_max'	=> ['integer'],
-			'user_partner_weight_min' 	=> ['integer'],
+			'partner_age_min'			 => ['integer'],
+			'partner_age_max'			=> ['integer'],
+			'partner_height_min'		=> ['integer'],
+			'partner_height_max'		=> ['integer'],
+			'partner_weight_min'	 	=> ['integer'],
 			'partner_weight_max'	 	=> ['integer'],
 			'partner_body'				=> ['string'],
 			'partner_languages'			=> ['string'],

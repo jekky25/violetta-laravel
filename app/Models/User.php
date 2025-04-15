@@ -68,11 +68,11 @@ class User extends Authenticatable
 		'icq',
 		'url',
 		'phone',
-		'user_partner_age_min',
-		'user_partner_age_max',
-		'user_partner_height_min',
-		'user_partner_height_max',
-		'user_partner_weight_min',
+		'partner_age_min',
+		'partner_age_max',
+		'partner_height_min',
+		'partner_height_max',
+		'partner_weight_min',
 		'partner_weight_max',
 		'partner_body',
 		'partner_languages',
@@ -211,15 +211,15 @@ class User extends Authenticatable
 		else
 			$findSOrient .= $this->user_sex == MEN ? 'девушку' : 'парня';
 
-		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX) {
-			$findSOrient .= ' ' . $this->user_partner_age_min . '-' . $this->user_partner_age_max;
-			$findSOrient .= ' ' . (new formatService)->ageType($this->user_partner_age_max);
-		} elseif ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max <= PARTNER_AGE_MAX) {
-			$findSOrient .= ' от ' . $this->user_partner_age_min;
-			$findSOrient .= ' ' . (new formatService)->ageType2($this->user_partner_age_min);
-		} elseif ($this->user_partner_age_min <= PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX) {
-			$findSOrient .= ' до ' . $this->user_partner_age_max;
-			$findSOrient .= ' ' . (new formatService)->ageType2($this->user_partner_age_max);
+		if ($this->partner_age_min > PARTNER_AGE_MIN && $this->partner_age_max > PARTNER_AGE_MAX) {
+			$findSOrient .= ' ' . $this->partner_age_min . '-' . $this->partner_age_max;
+			$findSOrient .= ' ' . (new formatService)->ageType($this->partner_age_max);
+		} elseif ($this->partner_age_min > PARTNER_AGE_MIN && $this->partner_age_max <= PARTNER_AGE_MAX) {
+			$findSOrient .= ' от ' . $this->partner_age_min;
+			$findSOrient .= ' ' . (new formatService)->ageType2($this->partner_age_min);
+		} elseif ($this->partner_age_min <= PARTNER_AGE_MIN && $this->partner_age_max > PARTNER_AGE_MAX) {
+			$findSOrient .= ' до ' . $this->partner_age_max;
+			$findSOrient .= ' ' . (new formatService)->ageType2($this->partner_age_max);
 		}
 		return $findSOrient;
 	}
@@ -325,31 +325,31 @@ class User extends Authenticatable
 
 	public function getPartnerAgeAttribute()
 	{
-		if (!($this->user_partner_age_min > PARTNER_AGE_MIN || $this->user_partner_age_max > PARTNER_AGE_MAX)) return null;
-		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max > PARTNER_AGE_MAX)
-			return ' ' . $this->user_partner_age_min . '-' . $this->user_partner_age_max . ' ' . (new formatService)->ageType($this->user_partner_age_max);
-		if ($this->user_partner_age_min > PARTNER_AGE_MIN && $this->user_partner_age_max <= PARTNER_AGE_MAX)
-			return ' от ' . $this->user_partner_age_min . ' ' . (new formatService)->ageType2($this->user_partner_age_min);
-		return ' до ' . $this->user_partner_age_max . ' ' . (new formatService)->ageType2($this->user_partner_age_max);
+		if (!($this->partner_age_min > PARTNER_AGE_MIN || $this->partner_age_max > PARTNER_AGE_MAX)) return null;
+		if ($this->partner_age_min > PARTNER_AGE_MIN && $this->partner_age_max > PARTNER_AGE_MAX)
+			return ' ' . $this->partner_age_min . '-' . $this->partner_age_max . ' ' . (new formatService)->ageType($this->partner_age_max);
+		if ($this->partner_age_min > PARTNER_AGE_MIN && $this->partner_age_max <= PARTNER_AGE_MAX)
+			return ' от ' . $this->partner_age_min . ' ' . (new formatService)->ageType2($this->partner_age_min);
+		return ' до ' . $this->partner_age_max . ' ' . (new formatService)->ageType2($this->partner_age_max);
 	}
 
 	public function getPartnerHeightAttribute()
 	{
-		if (!($this->user_partner_height_min > PARTNER_HEIGHT_MIN || $this->user_partner_height_max > PARTNER_HEIGHT_MAX)) return null;
-		if ($this->user_partner_height_min > PARTNER_HEIGHT_MIN && $this->user_partner_height_max > PARTNER_HEIGHT_MAX)
-			return ' ' . $this->user_partner_height_min . '-' . $this->user_partner_height_max . ' см';
-		if ($this->user_partner_height_min > PARTNER_HEIGHT_MIN && $this->user_partner_height_max <= PARTNER_HEIGHT_MAX)
-			return ' от ' . $this->user_partner_height_min . ' см';
-		return	' до ' . $this->user_partner_height_max . 'см';
+		if (!($this->partner_height_min > PARTNER_HEIGHT_MIN || $this->partner_height_max > PARTNER_HEIGHT_MAX)) return null;
+		if ($this->partner_height_min > PARTNER_HEIGHT_MIN && $this->partner_height_max > PARTNER_HEIGHT_MAX)
+			return ' ' . $this->partner_height_min . '-' . $this->partner_height_max . ' см';
+		if ($this->partner_height_min > PARTNER_HEIGHT_MIN && $this->partner_height_max <= PARTNER_HEIGHT_MAX)
+			return ' от ' . $this->partner_height_min . ' см';
+		return	' до ' . $this->partner_height_max . 'см';
 	}
 
 	public function getPartnerWeightAttribute()
 	{
-		if (!($this->user_partner_weight_min > PARTNER_WEIGHT_MIN || $this->partner_weight_max > PARTNER_WEIGHT_MAX))  return null;
-		if ($this->user_partner_weight_min > PARTNER_WEIGHT_MIN && $this->partner_weight_max > PARTNER_WEIGHT_MAX)
-			return ' ' . $this->user_partner_weight_min . '-' . $this->partner_weight_max . ' кг';
-		if ($this->user_partner_weight_min > PARTNER_WEIGHT_MIN && $this->partner_weight_max <= PARTNER_WEIGHT_MAX)
-			return ' от ' . $this->user_partner_weight_min . ' кг';
+		if (!($this->partner_weight_min > PARTNER_WEIGHT_MIN || $this->partner_weight_max > PARTNER_WEIGHT_MAX))  return null;
+		if ($this->partner_weight_min > PARTNER_WEIGHT_MIN && $this->partner_weight_max > PARTNER_WEIGHT_MAX)
+			return ' ' . $this->partner_weight_min . '-' . $this->partner_weight_max . ' кг';
+		if ($this->partner_weight_min > PARTNER_WEIGHT_MIN && $this->partner_weight_max <= PARTNER_WEIGHT_MAX)
+			return ' от ' . $this->partner_weight_min . ' кг';
 		return ' до ' . $this->partner_weight_max . 'кг';
 	}
 
