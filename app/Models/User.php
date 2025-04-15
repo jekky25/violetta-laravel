@@ -41,10 +41,10 @@ class User extends Authenticatable
 		'user_hair_color',
 		'user_hair_type',
 		'user_eyes',
-		'user_make_date',
-		'user_make_date_t',
-		'user_refresh_date',
-		'user_refresh_date_t',
+		'make_date',
+		'make_date_t',
+		'refresh_date',
+		'refresh_date_t',
 		'session_time',
 		'lastvisit',
 		'lastvisit_views',
@@ -55,7 +55,7 @@ class User extends Authenticatable
 		'confirm_email',
 		'user_active',
 		'approved',
-		'user_sex_orient',
+		'sex_orient',
 		'targets',
 		'user_speak_lang',
 		'user_education',
@@ -204,9 +204,9 @@ class User extends Authenticatable
 	public function getFindSexOrientAttribute()
 	{
 		$findSOrient = '';
-		if ($this->user_sex_orient == GOMOSEXUAL)
+		if ($this->sex_orient == GOMOSEXUAL)
 			$findSOrient .= $this->user_sex == MEN ? 'парня' : 'девушку';
-		elseif ($this->user_sex_orient == BISEXUAL)
+		elseif ($this->sex_orient == BISEXUAL)
 			$findSOrient .= $this->user_sex == MEN ? 'девушку или парня' : 'парня или девушку';
 		else
 			$findSOrient .= $this->user_sex == MEN ? 'девушку' : 'парня';
@@ -258,13 +258,13 @@ class User extends Authenticatable
 
 	public function getDateMakeStrAttribute()
 	{
-		return (new DataService)->dateFormat($this->user_make_date);
+		return (new DataService)->dateFormat($this->make_date);
 	}
 
 
 	public function getDateRefreshAttribute($val)
 	{
-		return $this->user_make_date !== $this->user_refresh_date ? (new DataService)->dateFormat($this->user_refresh_date) : $val;
+		return $this->make_date !== $this->refresh_date ? (new DataService)->dateFormat($this->refresh_date) : $val;
 	}
 
 	public function getSpeakLangAttribute()
@@ -313,9 +313,9 @@ class User extends Authenticatable
 
 	public function getUserPartnerSexAttribute()
 	{
-		if ($this->user_sex_orient == self::SEX_BISEXUAL || $this->user_sex_orient == self::SEX_TRANS) {
+		if ($this->sex_orient == self::SEX_BISEXUAL || $this->sex_orient == self::SEX_TRANS) {
 			$partnerSex = 'Мужской, Женский';
-		} elseif ($this->user_sex_orient == self::SEX_HETERO) {
+		} elseif ($this->sex_orient == self::SEX_HETERO) {
 			$partnerSex = $this->user_sex == MEN ? 'Женский' : 'Мужской';
 		} else {
 			$partnerSex = $this->user_sex == WOMEN ? 'Женский' : 'Мужской';

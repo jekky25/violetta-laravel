@@ -118,7 +118,7 @@ class PhotoRepository implements PhotoInterface
 	public function store($user, $params)
 	{
 		try {
-			$user->user_refresh_date		= date("Y-m-d");
+			$user->refresh_date				= date("Y-m-d");
 			$countPhoto						= count($user->photo);
 			$aFields = [
 				'main_picture'				=> $countPhoto > 0 ? 0 : 1,
@@ -134,8 +134,8 @@ class PhotoRepository implements PhotoInterface
 			User::find($user->user_id)->update(
 				[
 					'user_fotos'			=> $countPhoto,
-					'user_refresh_date'		=> date("Y-m-d"),
-					'user_refresh_date_t'	=> time(),
+					'refresh_date'			=> date("Y-m-d"),
+					'refresh_date_t'		=> time(),
 					'session_time'			=> time(),
 					'lastvisit'				=> time()
 				]
@@ -160,8 +160,8 @@ class PhotoRepository implements PhotoInterface
 			$this->fileService->fotoUpload($params['photo_link'], 1000, 'fotos_new/');
 			User::find($photo->user_id)->update(
 				[
-					'user_refresh_date' 	=> date("Y-m-d"),
-					'user_refresh_date_t' 	=> time(),
+					'refresh_date'		 	=> date("Y-m-d"),
+					'refresh_date_t'	 	=> time(),
 					'session_time' 			=> time(),
 					'lastvisit' 			=> time()
 				]
@@ -203,8 +203,8 @@ class PhotoRepository implements PhotoInterface
 				$photo->update();
 			}
 		}
-		$user->user_refresh_date 	= date("Y-m-d");
-		$user->user_refresh_date_t 	= time();
+		$user->refresh_date 		= date("Y-m-d");
+		$user->refresh_date_t 		= time();
 		$user->session_time 		= time();
 		$user->lastvisit	 		= time();
 		$user->user_fotos 			= $this->getAllByUserId($user->user_id)->count();

@@ -30,8 +30,8 @@ class SettingRequest extends FormRequest
 	{
 		$this->merge([
 			'dont_send_email' 		=> !empty($this->dont_send_email) ? (int) $this->dont_send_email : 0,
-			'user_refresh_date'		=> date("Y-m-d"),
-			'user_refresh_date_t'	=> time(),
+			'refresh_date'			=> date("Y-m-d"),
+			'refresh_date_t'		=> time(),
 			'session_time'			=> time(),
 			'lastvisit'				=> time()
 		]);
@@ -46,8 +46,8 @@ class SettingRequest extends FormRequest
 	{
 		return [
 			'dont_send_email'			=> ['integer'],
-			'user_refresh_date'			=> ['string'],
-			'user_refresh_date_t'		=> ['integer'],
+			'refresh_date'				=> ['string'],
+			'refresh_date_t'			=> ['integer'],
 			'session_time'				=> ['integer'],
 			'lastvisit'					=> ['integer']
 		];

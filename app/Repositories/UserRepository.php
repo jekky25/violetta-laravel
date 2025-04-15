@@ -42,7 +42,7 @@ class UserRepository implements UserInterface
 	 */
 	public function newFaces($count)
 	{
-		$items = User::select(['users_news.user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'user_sex_orient', 'partner_age_min', 'partner_age_max'])
+		$items = User::select(['users_news.user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'sex_orient', 'partner_age_min', 'partner_age_max'])
 			->join('fotos', 'users_news.user_id', '=', 'fotos.user_id')
 			->where('user_fotos', '>', 0)
 			->where('confirm_email', 1)
@@ -301,7 +301,7 @@ class UserRepository implements UserInterface
 	 * @param string $order
 	 * @return Collection
 	 */
-	public function getBySearch($filter, $request, $order = 'user_refresh_date_t')
+	public function getBySearch($filter, $request, $order = 'refresh_date_t')
 	{
 		return User::filter($filter, $request)->orderBy($order, 'desc')->paginate($request->get('per_page'));
 	}
@@ -315,8 +315,8 @@ class UserRepository implements UserInterface
 	{
 		try {
 			(new PhotoRepository)->destroyAllByUser($user);
-			$this->anketVisitRepository = new AnketVisitRepository();
-			$this->anketVisitRepository->destroyAllByUserId($user->user_id);
+			$this->anketVisit = new AnketVisitRepository();
+			$this->anketVisit->destroyAllByUserId($user->user_id);
 			$user->delete();
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to remove User. ' . $e->getMessage());

@@ -63,8 +63,8 @@ class ProfileMainRequest extends FormRequest
 	{
 		$this->merge([
 			'user_birth_date'		=> $this->data->getDateStr($this->birth_day, $this->birth_month, $this->birth_year),
-			'user_refresh_date'		=> date("Y-m-d"),
-			'user_refresh_date_t'	=> time(),
+			'refresh_date'			=> date("Y-m-d"),
+			'refresh_date_t'		=> time(),
 			'session_time'			=> time(),
 			'lastvisit'				=> time(),
 			'user_name'				=> $this->name,
@@ -107,8 +107,8 @@ class ProfileMainRequest extends FormRequest
 			'user_region'			=> ['integer'],
 			'user_country'			=> ['integer'],
 			'user_birth_date'		=> ['string'],
-			'user_refresh_date'		=> ['string'],
-			'user_refresh_date_t'	=> ['integer'],
+			'refresh_date'			=> ['string'],
+			'refresh_date_t'		=> ['integer'],
 			'session_time'			=> ['integer'],
 			'lastvisit'				=> ['integer'],
 			'user_sex'				=> ['integer']

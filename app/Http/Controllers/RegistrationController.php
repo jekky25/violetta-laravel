@@ -105,7 +105,7 @@ class RegistrationController extends Controller
 	public function second(FormatService $formService)
 	{
 		$user			= Auth::user();
-		$sexOrient		= $formService->BlockSelect('sex_orient', SEX_ORIENT_CLASS, $user->user_sex_orient, 2);
+		$sexOrient		= $formService->BlockSelect('sex_orient', SEX_ORIENT_CLASS, $user->sex_orient, 2);
 		$targets		= $formService->BlockSelect('targets', MEET_TARGET_CLASS, $user->targets, 2);
 		$userSpeakLang	= $formService->preparePropfromArray($user->speak_lang, self::$languageCodes);
 		$body 			= $formService->BlockSelect("body", BODY_CLASS, $user->user_body, 2);

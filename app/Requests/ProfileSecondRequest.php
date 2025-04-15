@@ -40,7 +40,7 @@ class ProfileSecondRequest extends FormRequest
 	protected function prepareForValidation()
 	{
 		$this->merge([
-			'user_sex_orient'		=> $this->sex_orient < 1 || $this->sex_orient > 4 ? 2 : $this->sex_orient,
+			'sex_orient'			=> $this->sex_orient < 1 || $this->sex_orient > 4 ? 2 : $this->sex_orient,
 			'targets'				=> $this->data->serializeInput($this->targets),
 			'user_speak_lang' 		=> $this->data->serializeInput($this->speak_lang),
 			'user_body' 			=> $this->body,
@@ -60,8 +60,8 @@ class ProfileSecondRequest extends FormRequest
 			'url'					=> addslashes($this->url),
 			'phone'					=> addslashes($this->phone),
 			'description'			=> addslashes($this->description),
-			'user_refresh_date'		=> date("Y-m-d"),
-			'user_refresh_date_t'	=> time(),
+			'refresh_date'			=> date("Y-m-d"),
+			'refresh_date_t'		=> time(),
 			'session_time'			=> time(),
 			'lastvisit'				=> time()
 		]);
@@ -79,7 +79,7 @@ class ProfileSecondRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'user_sex_orient' 		=> ['integer'],
+			'sex_orient'	 		=> ['integer'],
 			'target_meet'			=> ['array'],
 			'targets'				=> ['string'],
 			'speak_lang'			=> ['array'],
@@ -101,8 +101,8 @@ class ProfileSecondRequest extends FormRequest
 			'url'					=> ['string'],
 			'phone'					=> ['string'],
 			'description'			=> ['string'],
-			'user_refresh_date'		=> ['string'],
-			'user_refresh_date_t'	=> ['integer'],
+			'refresh_date'			=> ['string'],
+			'refresh_date_t'		=> ['integer'],
 			'session_time'			=> ['integer'],
 			'lastvisit'				=> ['integer'],
 			'approved'				=> ['integer']

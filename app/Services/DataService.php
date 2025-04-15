@@ -1,4 +1,5 @@
 <?
+
 namespace App\Services;
 
 use Carbon;
@@ -17,27 +18,28 @@ class DataService
 		"9" => "Дева",
 		"10" => "Весы",
 		"11" => "Скорпион",
-		"12" => "Стрелец"];
+		"12" => "Стрелец"
+	];
 
 	const PATTERN_DATE = '/^ *(([0-9]+)-([0-9]+)-([0-9]+)) *$/';
 	/**
-	* make range of ages
-	*
-	* @return array
-	*/
+	 * make range of ages
+	 *
+	 * @return array
+	 */
 	public function getAges()
 	{
 		$items = [];
-		for ($i= (17 + 1); $i < 100; $i++)
+		for ($i = (17 + 1); $i < 100; $i++)
 			$items[] = $i;
 		return $items;
 	}
 
 	/**
-	* make months of the year
-	*
-	* @return array
-	*/
+	 * make months of the year
+	 *
+	 * @return array
+	 */
 	public function getMonths()
 	{
 		return [
@@ -58,86 +60,86 @@ class DataService
 	}
 
 	/**
-	* make a list of years
-	*
-	* @return array
-	*/
+	 * make a list of years
+	 *
+	 * @return array
+	 */
 	public function getYears()
 	{
 		$years		= [];
 		$today		= getdate();
 		$todayYear	= $today['year'];
-		for ($i=1900; $i < ($todayYear - 17);$i++) {
-			$years [] = $i;
+		for ($i = 1900; $i < ($todayYear - 17); $i++) {
+			$years[] = $i;
 		}
 		return $years;
 	}
 
 	/**
-	* make days in the month
-	*
-	* @return array
-	*/
+	 * make days in the month
+	 *
+	 * @return array
+	 */
 	public function getDays()
 	{
 		$items = [];
-		for ($i=0; $i < 32;$i++) {
-			$items [] = $i;
+		for ($i = 0; $i < 32; $i++) {
+			$items[] = $i;
 		}
 		return $items;
 	}
 
 	/**
-	* make last visit
-	* @param integer $time
-	*
-	* @return string
-	*/
+	 * make last visit
+	 * @param integer $time
+	 *
+	 * @return string
+	 */
 	public function lastVisit($time)
 	{
 		$timestamp = time();
-		$dateCheck = date("d-m-y",$time);
-		$timeCheck = date("d-m-y",$timestamp);
-		$timeCheckIs = date("d-m-y",$timestamp- (60*60*24));
-		if ($dateCheck == $timeCheck)	return date("Сегодня",$time);
-		if ($dateCheck == $timeCheckIs)	return date("Вчера",$time);
-		return date("d.m.y.",$time);
+		$dateCheck = date("d-m-y", $time);
+		$timeCheck = date("d-m-y", $timestamp);
+		$timeCheckIs = date("d-m-y", $timestamp - (60 * 60 * 24));
+		if ($dateCheck == $timeCheck)	return date("Сегодня", $time);
+		if ($dateCheck == $timeCheckIs)	return date("Вчера", $time);
+		return date("d.m.y.", $time);
 	}
 
 	/**
-	* returns the date by age
-	*
-	* @return Carbon\Carbon
-	*/
+	 * returns the date by age
+	 *
+	 * @return Carbon\Carbon
+	 */
 	public function birthAround($age)
 	{
 		return Carbon\Carbon::now()->add(-$age, 'year')->format('Y-m-d');
 	}
 
 	/**
-	* count age
-	* @param $birth_date
-	*
-	* @return integer
-	*/
-    public function age($birth_date)
+	 * count age
+	 * @param $birth_date
+	 *
+	 * @return integer
+	 */
+	public function age($birth_date)
 	{
 		$pockets_old = $this->getDataFromString($birth_date);
 		$pockets_new = $this->getDataFromString(date("Y-m-d"));
-		$old 		= $pockets_old[2].$pockets_old[3].$pockets_old[4];
-		$new 		= $pockets_new[2].$pockets_new[3].$pockets_new[4];
-  		$age 		= $new - $old;
-  		$lenght 	= strlen($age);
-  		$age_fin 	= substr($age,0,($lenght-4));
-  		return $age_fin;
+		$old 		= $pockets_old[2] . $pockets_old[3] . $pockets_old[4];
+		$new 		= $pockets_new[2] . $pockets_new[3] . $pockets_new[4];
+		$age 		= $new - $old;
+		$lenght 	= strlen($age);
+		$age_fin 	= substr($age, 0, ($lenght - 4));
+		return $age_fin;
 	}
 
 	/**
-	* formate date from timestamp to date
-	* @param integer $timestamp
-	*
-	* @return string
-	*/
+	 * formate date from timestamp to date
+	 * @param integer $timestamp
+	 *
+	 * @return string
+	 */
 	public function getDate(int $timestamp)
 	{
 		if ($timestamp == 0) $timestamp = time();
@@ -145,47 +147,47 @@ class DataService
 	}
 
 	/**
-	* make query Block
-	* @param array $ar
-	* @param object $items
-	*
-	* @return void
-	*/
+	 * make query Block
+	 * @param array $ar
+	 * @param object $items
+	 *
+	 * @return void
+	 */
 	public function queryBlock($ar, &$items)
 	{
 		$items->where(function ($query) use ($ar) {
 			$query->where('user_sex', $ar[0]);
 			$query->where(function ($query) use ($ar) {
-				$query->where('user_sex_orient', $ar[1]);
-				$query->orWhere('user_sex_orient', $ar[2]);
+				$query->where('sex_orient', $ar[1]);
+				$query->orWhere('sex_orient', $ar[2]);
 			});
 		});
 	}
 
 	/**
-	* make or query Block
-	* @param array $ar
-	* @param object $items
-	*
-	* @return void
-	*/
+	 * make or query Block
+	 * @param array $ar
+	 * @param object $items
+	 *
+	 * @return void
+	 */
 	public function queryBlockOr($ar, &$items)
 	{
 		$items->Orwhere(function ($query) use ($ar) {
 			$query->where('user_sex', $ar[0]);
 			$query->where(function ($query) use ($ar) {
-				$query->where('user_sex_orient', $ar[1]);
-				$query->orWhere('user_sex_orient', $ar[2]);
+				$query->where('sex_orient', $ar[1]);
+				$query->orWhere('sex_orient', $ar[2]);
 			});
 		});
 	}
 
 	/**
-	* transform data string format 0000-00-00 to an array
-	* @param string $strData
-	*
-	* @return array
-	*/
+	 * transform data string format 0000-00-00 to an array
+	 * @param string $strData
+	 *
+	 * @return array
+	 */
 	public function getDataFromString($strData)
 	{
 		preg_match(self::PATTERN_DATE, $strData, $ar);
@@ -193,123 +195,122 @@ class DataService
 	}
 
 	/**
-	* get zodiac name by birth date
-	* @param string $birth_date
-	*
-	* @return string
-	*/
+	 * get zodiac name by birth date
+	 * @param string $birth_date
+	 *
+	 * @return string
+	 */
 	public function zodiac($birthDate)
 	{
-	
+
 		$arZodiac	= [];
 		$zodiac		= self::$zodiacSigns;
 		$pockets	= $this->getDataFromString($birthDate);
-        $pockets[3] = (int)$pockets[3];
-        $pockets[4] = (int)$pockets[4];
+		$pockets[3] = (int)$pockets[3];
+		$pockets[4] = (int)$pockets[4];
 		switch ($pockets[3]) {
 			case '01':
 			case '03':
 			case '04':
 				$id	= $pockets[4] <= 20 ? $pockets[3] : ($pockets[3] + 1);
-			break;
+				break;
 
 			case '02':
 				$id	= $pockets[4] <= 19 ? $pockets[3] : ($pockets[3] + 1);
-			break;
+				break;
 
 			case '05':
-			case '06':	
+			case '06':
 				$id	= $pockets[4] <= 21 ? $pockets[3] : ($pockets[3] + 1);
-			break;
+				break;
 
 			case '07':
 			case '08':
 			case '09':
 			case '10':
 				$id	= $pockets[4] <= 23 ? $pockets[3] : ($pockets[3] + 1);
-			break;
+				break;
 
 			case '11':
 				$id	= $pockets[4] <= 22 ? $pockets[3] : ($pockets[3] + 1);
-			break;
+				break;
 
 			case '12':
 				$id	= $pockets[4] <= 22 ? $pockets[3] : 1;
-			break;
+				break;
 
 			default:
 				$id = 1;
-			break;
+				break;
 		}
 		$arZodiac['zodiac_text'] = $zodiac[$id];
 
 		switch ($id) {
 			case 1:
 				$arZodiac['zodiac_id'] = 10;
-			break;
+				break;
 			case 2:
 				$arZodiac['zodiac_id'] = 11;
-			break;
+				break;
 			case 3:
 				$arZodiac['zodiac_id'] = 12;
-			break;
+				break;
 			case 4:
 				$arZodiac['zodiac_id'] = 1;
-			break;
+				break;
 			case 5:
 				$arZodiac['zodiac_id'] = 2;
-			break;
+				break;
 			case 6:
 				$arZodiac['zodiac_id'] = 3;
-			break;
+				break;
 			case 7:
 				$arZodiac['zodiac_id'] = 4;
-			break;
+				break;
 			case 8:
 				$arZodiac['zodiac_id'] = 5;
-			break;
+				break;
 			case 9:
 				$arZodiac['zodiac_id'] = 6;
-			break;
+				break;
 			case 10:
 				$arZodiac['zodiac_id'] = 7;
-			break;
+				break;
 			case 11:
 				$arZodiac['zodiac_id'] = 8;
-			break;
+				break;
 			default:
 				$arZodiac['zodiac_id'] = 9;
-			break;
-
+				break;
 		}
 		return $arZodiac;
 	}
 
 	/**
-	* move date to the format dd.mm.yyyy
-	* ex date_format ($date)
-	* @param string $date
-	*
-	* @return string
-	*/
+	 * move date to the format dd.mm.yyyy
+	 * ex date_format ($date)
+	 * @param string $date
+	 *
+	 * @return string
+	 */
 	public function dateFormat($date)
 	{
 		$pockets	= $this->getDataFromString($date);
-		return $pockets[4].".".$pockets[3].".".$pockets[2];
+		return $pockets[4] . "." . $pockets[3] . "." . $pockets[2];
 	}
 
 	/**
-	* select a separate year, month or day from the date
-	* 
-	* @param string $date
-	* @param integer $mode
-	*
-	* @return array
-	*/
+	 * select a separate year, month or day from the date
+	 * 
+	 * @param string $date
+	 * @param integer $mode
+	 *
+	 * @return array
+	 */
 	public function selectFromDate($date, $mode)
 	{
 		$pockets	= $this->getDataFromString($date);
-  		return $pockets[$mode];
+		return $pockets[$mode];
 	}
 
 	/**
@@ -321,7 +322,7 @@ class DataService
 	 *
 	 * @return string
 	 */
-	public function getDateStr($day,$month,$year)
+	public function getDateStr($day, $month, $year)
 	{
 		$day	= $day < 10 	? "0$day" 	: $day;
 		$month	= $month < 10 	? "0$month" : $month;

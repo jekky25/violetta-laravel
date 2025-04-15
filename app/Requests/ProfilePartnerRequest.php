@@ -71,8 +71,8 @@ class ProfilePartnerRequest extends FormRequest
 			'partner_region'		 		=> $this->region,
 			'partner_city'	 				=> $this->city,
 			'partner_description'			=> addslashes($this->description),
-			'user_refresh_date'		=> date("Y-m-d"),
-			'user_refresh_date_t'	=> time(),
+			'refresh_date'			=> date("Y-m-d"),
+			'refresh_date_t'		=> time(),
 			'session_time'			=> time(),
 			'lastvisit'				=> time()
 		]);
@@ -117,8 +117,8 @@ class ProfilePartnerRequest extends FormRequest
 			'partner_region'		 	=> ['integer'],
 			'partner_city'		 		=> ['integer'],
 			'partner_description'		=> ['string'],
-			'user_refresh_date'			=> ['string'],
-			'user_refresh_date_t'		=> ['integer'],
+			'refresh_date'				=> ['string'],
+			'refresh_date_t'			=> ['integer'],
 			'session_time'				=> ['integer'],
 			'lastvisit'					=> ['integer'],
 			'approved'					=> ['integer']
