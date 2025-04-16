@@ -120,7 +120,7 @@
 		</tr>
 		<tr>
 			<td align="right">Отношение к спиртному:</td>
-			<td><x-select name=spirt :obj="$spirt" /></td>
+			<td><x-select name=alcohol :obj="$alcohol" /></td>
 		</tr>
 		<tr>
 			<td align="right">Семейное положение:</td>

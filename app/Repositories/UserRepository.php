@@ -42,7 +42,7 @@ class UserRepository implements UserInterface
 	 */
 	public function newFaces($count)
 	{
-		$items = User::select(['users_news.user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'user_make_date_t', 'user_city', 'user_fotos', 'sex_orient', 'partner_age_min', 'partner_age_max'])
+		$items = User::select(['users_news.user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'make_date_t', 'user_city', 'user_fotos', 'sex_orient', 'partner_age_min', 'partner_age_max'])
 			->join('fotos', 'users_news.user_id', '=', 'fotos.user_id')
 			->where('user_fotos', '>', 0)
 			->where('confirm_email', 1)
@@ -51,7 +51,7 @@ class UserRepository implements UserInterface
 			->with('city')
 			->with('photo')
 			->limit($count)
-			->orderBy('user_make_date_t', 'desc')
+			->orderBy('make_date_t', 'desc')
 			->get();
 		$items = self::addProps($items);
 		return $items;

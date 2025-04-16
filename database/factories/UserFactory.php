@@ -28,7 +28,7 @@ class UserFactory extends Factory
 			'user_login'				=> Str::random(10),
 			'user_password'				=> $this->faker->unique()->password(6, 8),
 			'user_hash'					=> md5($this->faker->unique()->password(6, 8)),
-			'user_speak_lang'			=> '',
+			'speak_lang'				=> '',
 			'partner_body'				=> '',
 			'partner_languages'			=> '',
 			'partner_education'			=> '',

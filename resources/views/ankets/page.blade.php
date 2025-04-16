@@ -115,8 +115,8 @@ function vote(score)
 			@if (!empty($userData->smoke))
 				<dl><dt>Отношение к сигаретам:</dt><dd>{{ $userData->smoke }}</dd></dl>
 			@endif
-			@if (!empty($userData->spirt))
-				<dl><dt>Отношение к спиртному:</dt><dd>{{ $userData->spirt }}</dd></dl>
+			@if (!empty($userData->alcohol))
+				<dl><dt>Отношение к спиртному:</dt><dd>{{ $userData->alcohol }}</dd></dl>
 			@endif
 			@if (!empty($userData->help_money))
 				<dl><dt>Материальная поддержка:</dt><dd>{{ $userData->help_money }}</dd></dl>

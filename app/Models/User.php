@@ -57,13 +57,13 @@ class User extends Authenticatable
 		'approved',
 		'sex_orient',
 		'targets',
-		'user_speak_lang',
-		'user_education',
-		'user_smoke',
-		'user_spirt',
+		'speak_lang',
+		'education',
+		'smoke',
+		'alcohol',
 		'user_sem_polozh',
 		'user_children',
-		'user_help_money',
+		'help_money',
 		'interests',
 		'icq',
 		'url',
@@ -267,9 +267,9 @@ class User extends Authenticatable
 		return $this->make_date !== $this->refresh_date ? (new DataService)->dateFormat($this->refresh_date) : $val;
 	}
 
-	public function getSpeakLangAttribute()
+	public function getSpeakLangAttribute($val)
 	{
-		return unserialize($this->user_speak_lang);
+		return unserialize($val);
 	}
 
 	public function getICQAttribute($val)
