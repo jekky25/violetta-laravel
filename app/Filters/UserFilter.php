@@ -25,7 +25,6 @@ class UserFilter extends Filter
 	{
 		parent::__construct($request);
 		$this->data = new DataService;
-
 	}
 
 	/**
@@ -33,7 +32,7 @@ class UserFilter extends Filter
 	 *
 	 * @return Builder
 	 */
-	protected function afterBuild() :Builder
+	protected function afterBuild(): Builder
 	{
 		$this->getBySex();
 		return $this->builder;
@@ -43,7 +42,7 @@ class UserFilter extends Filter
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function sex(int $value) :Builder
+	protected function sex(int $value): Builder
 	{
 		$this->sex = $value > 0 ? $value : 0;
 		return $this->builder;
@@ -53,7 +52,7 @@ class UserFilter extends Filter
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function findSex(int $value) :Builder
+	protected function findSex(int $value): Builder
 	{
 		$this->findSex = $value > 0 ? $value : 0;
 		return $this->builder;
@@ -62,42 +61,32 @@ class UserFilter extends Filter
 	/**
 	 * @return Builder
 	 */
-	private function getBySex() :Builder
+	private function getBySex(): Builder
 	{
 		if ($this->findSex !== 0 && $this->sex == 0) $this->builder->where('user_sex', $this->findSex);
-		else if ($this->findSex == 0 && $this->sex !== 0) 
-		{
-			if ($this->sex == MEN) 
-			{
+		else if ($this->findSex == 0 && $this->sex !== 0) {
+			if ($this->sex == MEN) {
 				$this->builder->where(function ($query) {
 					$this->data->queryBlock([MEN, GOMOSEXUAL, BISEXUAL], $query);
 					$this->data->queryBlockOr([WOMEN, GETEROSEXUAL, BISEXUAL], $query);
 				});
-			} else if ($this->sex == WOMEN) 
-			{
+			} else if ($this->sex == WOMEN) {
 				$this->builder->where(function ($query) {
 					$this->data->queryBlock([WOMEN, GOMOSEXUAL, BISEXUAL], $query);
 					$this->data->queryBlockOr([MEN, GETEROSEXUAL, BISEXUAL], $query);
 				});
 			}
-		} else if ($this->findSex !== 0 && $this->sex !== 0) 
-		{
-			if ($this->sex == MEN) 
-			{
-				if ($this->findSex == MEN) 
-				{
+		} else if ($this->findSex !== 0 && $this->sex !== 0) {
+			if ($this->sex == MEN) {
+				if ($this->findSex == MEN) {
 					$this->data->queryBlock([MEN, GOMOSEXUAL, BISEXUAL], $this->builder);
-				} else if ($this->findSex == WOMEN) 
-				{
+				} else if ($this->findSex == WOMEN) {
 					$this->data->queryBlock([WOMEN, GETEROSEXUAL, BISEXUAL], $this->builder);
 				}
-			} else if ($this->sex == WOMEN) 
-			{
-				if ($this->findSex == WOMEN) 
-				{
+			} else if ($this->sex == WOMEN) {
+				if ($this->findSex == WOMEN) {
 					$this->data->queryBlock([WOMEN, GOMOSEXUAL, BISEXUAL], $this->builder);
-				} else if ($this->findSex == MEN) 
-				{
+				} else if ($this->findSex == MEN) {
 					$this->data->queryBlock([MEN, GETEROSEXUAL, BISEXUAL], $this->builder);
 				}
 			}
@@ -109,7 +98,7 @@ class UserFilter extends Filter
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function photo() :Builder
+	protected function photo(): Builder
 	{
 		return $this->builder->where('user_fotos', '>', 0);
 	}
@@ -118,16 +107,16 @@ class UserFilter extends Filter
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function ageMin(int $value) :Builder
+	protected function ageMin(int $value): Builder
 	{
-		return $value <= self::AGE_MIN	? $this->builder 		: $this->builder->where('user_birth_date', '<', $this->data->birthAround($value-1));
+		return $value <= self::AGE_MIN	? $this->builder 		: $this->builder->where('user_birth_date', '<', $this->data->birthAround($value - 1));
 	}
 
 	/**
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function ageMax(int $value) :Builder
+	protected function ageMax(int $value): Builder
 	{
 		return $value <= self::AGE_MAX	? $this->builder		: $this->builder->where('user_birth_date', '>', $this->data->birthAround($value));
 	}
@@ -136,7 +125,7 @@ class UserFilter extends Filter
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function country(int $value) :Builder
+	protected function country(int $value): Builder
 	{
 		return empty($value) ? $this->builder					: $this->builder->where('user_country', $value);
 	}
@@ -145,7 +134,7 @@ class UserFilter extends Filter
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function region(int $value) :Builder
+	protected function region(int $value): Builder
 	{
 		return empty($value) ? $this->builder					: $this->builder->where('user_region', $value);
 	}
@@ -154,7 +143,7 @@ class UserFilter extends Filter
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function city(int $value) :Builder
+	protected function city(int $value): Builder
 	{
 		return empty($value) ? $this->builder					: $this->builder->where('user_city', $value);
 	}
@@ -163,7 +152,7 @@ class UserFilter extends Filter
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function heightMin(int $value) :Builder
+	protected function heightMin(int $value): Builder
 	{
 		return $value <= self::HEIGHT_MIN	? $this->builder 	: $this->builder->where('user_height', '>=', $value);
 	}
@@ -172,7 +161,7 @@ class UserFilter extends Filter
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function heightMax(int $value) :Builder
+	protected function heightMax(int $value): Builder
 	{
 		return $value <= self::HEIGHT_MAX	? $this->builder  	: $this->builder->where('user_height', '<=', $value);
 	}
@@ -181,7 +170,7 @@ class UserFilter extends Filter
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function weightMin(int $value) :Builder
+	protected function weightMin(int $value): Builder
 	{
 		return $value <= self::WEIGHT_MIN ? $this->builder		: $this->builder->where('user_weight', '>=', $value);
 	}
@@ -190,7 +179,7 @@ class UserFilter extends Filter
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function weightMax(int $value) :Builder
+	protected function weightMax(int $value): Builder
 	{
 		return $value <= self::WEIGHT_MAX ? $this->builder		: $this->builder->where('user_weight', '<=', $value);
 	}
@@ -199,7 +188,7 @@ class UserFilter extends Filter
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function body($value) :Builder
+	protected function body($value): Builder
 	{
 		return empty($value) ? $this->builder					: $this->builder->where('user_body', $value);
 	}
@@ -208,26 +197,25 @@ class UserFilter extends Filter
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function hairType(int $value) :Builder
+	protected function hairType(int $value): Builder
 	{
-		//dd($value);
-		return empty($value) ? $this->builder					: $this->builder->where('user_hair_type', $value);
+		return empty($value) ? $this->builder					: $this->builder->where('hair_type', $value);
 	}
 
 	/**
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function eyes(int $value) :Builder
+	protected function eyes(int $value): Builder
 	{
-		return empty($value) ? $this->builder					: $this->builder->where('user_eyes', $value);
+		return empty($value) ? $this->builder					: $this->builder->where('eyes', $value);
 	}
 
 	/**
 	 * @param string $value
 	 * @return Builder
 	 */
-	protected function online() :Builder
+	protected function online(): Builder
 	{
 		return $this->builder;
 	}

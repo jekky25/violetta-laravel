@@ -111,14 +111,14 @@ class RegistrationController extends Controller
 		$body 			= $formService->BlockSelect("body", BODY_CLASS, $user->user_body, 2);
 		$heights 		= $formService->getHeights();
 		$weights 		= $formService->getWeights();
-		$hairColor 		= $formService->BlockSelect("hair_color", HAIR_COLOR_CLASS, $user->user_hair_color, 2);
-		$hairType 		= $formService->BlockSelect("hair_type", HAIR_TYPE_CLASS, $user->user_hair_type, 2);
-		$eyes	 		= $formService->BlockSelect("eyes", EYES_CLASS, $user->user_eyes, 2);
+		$hairColor 		= $formService->BlockSelect("hair_color", HAIR_COLOR_CLASS, $user->hair_color, 2);
+		$hairType 		= $formService->BlockSelect("hair_type", HAIR_TYPE_CLASS, $user->hair_type, 2);
+		$eyes	 		= $formService->BlockSelect("eyes", EYES_CLASS, $user->eyes, 2);
 		$education 		= $formService->BlockSelect("education", EDUCATION_CLASS, $user->education, 2);
 		$smoke 			= $formService->BlockSelect("smoke", SMOKE_CLASS, $user->smoke, 2);
 		$alcohol		= $formService->BlockSelect("alcohol", SPIRT_CLASS, $user->alcohol, 2);
-		$familyStatus	= $formService->BlockSelect("family_status", FAMILY_STATUS_CLASS, $user->user_sem_polozh, 2);
-		$children		= $formService->BlockSelect("children", CHILDREN_CLASS, $user->user_children, 2);
+		$familyStatus	= $formService->BlockSelect("family_status", FAMILY_STATUS_CLASS, $user->family_status, 2);
+		$children		= $formService->BlockSelect("children", CHILDREN_CLASS, $user->children, 2);
 		$helpMoney		= $formService->BlockSelect("help_money", HELP_MONEY_CLASS, $user->help_money, 2);
 		$interests		= $formService->BlockSelect("interests", INTEREST_CLASS, $user->interests, 2);
 

@@ -7,11 +7,11 @@ class AnkService
 	protected $anket;
 	public static $getProps = [
 		'\\App\\Repositories\\BodyRepository'			=> ['prop' => 'user_body', 				'ank_prop' => 'body'],
-		'\\App\\Repositories\\HairColorRepository'		=> ['prop' => 'user_hair_color', 		'ank_prop' => 'hair_color'],
-		'\\App\\Repositories\\HairTypeRepository' 		=> ['prop' => 'user_hair_type', 		'ank_prop' => 'hair_type'],
-		'\\App\\Repositories\\EyesRepository' 			=> ['prop' => 'user_eyes',	 			'ank_prop' => 'eyes'],
-		'\\App\\Repositories\\FamilyStatusRepository' 	=> ['prop' => 'user_sem_polozh',		'ank_prop' => 'family_status'],
-		'\\App\\Repositories\\ChildrenRepository' 		=> ['prop' => 'user_children',			'ank_prop' => 'children'],
+		'\\App\\Repositories\\HairColorRepository'		=> ['prop' => 'hair_color',		 		'ank_prop' => 'hair_color'],
+		'\\App\\Repositories\\HairTypeRepository' 		=> ['prop' => 'hair_type',		 		'ank_prop' => 'hair_type'],
+		'\\App\\Repositories\\EyesRepository' 			=> ['prop' => 'eyes',		 			'ank_prop' => 'eyes'],
+		'\\App\\Repositories\\FamilyStatusRepository' 	=> ['prop' => 'family_status',			'ank_prop' => 'family_status'],
+		'\\App\\Repositories\\ChildrenRepository' 		=> ['prop' => 'children',				'ank_prop' => 'children'],
 		'\\App\\Repositories\\EducationRepository' 		=> ['prop' => 'education',				'ank_prop' => 'education'],
 		'\\App\\Repositories\\SmokeRepository' 			=> ['prop' => 'smoke',					'ank_prop' => 'smoke'],
 		'\\App\\Repositories\\AlcoholRepository' 		=> ['prop' => 'alcohol',				'ank_prop' => 'alcohol'],
