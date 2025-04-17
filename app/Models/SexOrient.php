@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,4 +9,5 @@ class SexOrient extends Model
 {
 	use HasFactory;
 	protected $table = 'sex_orient';
+	public $timestamps 		= false;
 }

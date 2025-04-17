@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\User;
-use App\Traits\SearchByParams;
 use App\Interfaces\UserInterface;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\PhotoRepository;
@@ -11,9 +10,7 @@ use App\Interfaces\AnketVisitInterface;
 
 class UserRepository implements UserInterface
 {
-	use SearchByParams;
 	private $id;
-	private $ankets;
 	public AnketVisitInterface $anketVisitRepository;
 
 	/**
