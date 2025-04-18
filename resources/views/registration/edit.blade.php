@@ -78,7 +78,7 @@
 					<option value="0">не важно</option>
 					@if (!empty($regions))
 					@foreach ($regions as $item)
-						<option value="{{ $item->id }}"@if (old('region', $userData->user_region) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
+						<option value="{{ $item->id }}"@if (old('region', $userData->region) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
 					@endforeach
 					@endif
 				</select></td>
@@ -89,7 +89,7 @@
 					<option value="0">не важно</option>
 					@if (!empty($cities))
 					@foreach ($cities as $item)
-						<option value="{{ $item->id }}"@if (old('city', $userData->user_city) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
+						<option value="{{ $item->id }}"@if (old('city', $userData->city) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
 					@endforeach
 					@endif
 				</select>

@@ -136,7 +136,7 @@ class UserFilter extends Filter
 	 */
 	protected function region(int $value): Builder
 	{
-		return empty($value) ? $this->builder					: $this->builder->where('user_region', $value);
+		return empty($value) ? $this->builder					: $this->builder->where('region_id', $value);
 	}
 
 	/**
@@ -145,7 +145,7 @@ class UserFilter extends Filter
 	 */
 	protected function city(int $value): Builder
 	{
-		return empty($value) ? $this->builder					: $this->builder->where('user_city', $value);
+		return empty($value) ? $this->builder					: $this->builder->where('city_id', $value);
 	}
 
 	/**
@@ -154,7 +154,7 @@ class UserFilter extends Filter
 	 */
 	protected function heightMin(int $value): Builder
 	{
-		return $value <= self::HEIGHT_MIN	? $this->builder 	: $this->builder->where('user_height', '>=', $value);
+		return $value <= self::HEIGHT_MIN	? $this->builder 	: $this->builder->where('height', '>=', $value);
 	}
 
 	/**
@@ -163,7 +163,7 @@ class UserFilter extends Filter
 	 */
 	protected function heightMax(int $value): Builder
 	{
-		return $value <= self::HEIGHT_MAX	? $this->builder  	: $this->builder->where('user_height', '<=', $value);
+		return $value <= self::HEIGHT_MAX	? $this->builder  	: $this->builder->where('height', '<=', $value);
 	}
 
 	/**
@@ -172,7 +172,7 @@ class UserFilter extends Filter
 	 */
 	protected function weightMin(int $value): Builder
 	{
-		return $value <= self::WEIGHT_MIN ? $this->builder		: $this->builder->where('user_weight', '>=', $value);
+		return $value <= self::WEIGHT_MIN ? $this->builder		: $this->builder->where('weight', '>=', $value);
 	}
 
 	/**
@@ -181,7 +181,7 @@ class UserFilter extends Filter
 	 */
 	protected function weightMax(int $value): Builder
 	{
-		return $value <= self::WEIGHT_MAX ? $this->builder		: $this->builder->where('user_weight', '<=', $value);
+		return $value <= self::WEIGHT_MAX ? $this->builder		: $this->builder->where('weight', '<=', $value);
 	}
 
 	/**
@@ -190,7 +190,7 @@ class UserFilter extends Filter
 	 */
 	protected function body($value): Builder
 	{
-		return empty($value) ? $this->builder					: $this->builder->where('user_body', $value);
+		return empty($value) ? $this->builder					: $this->builder->where('body', $value);
 	}
 
 	/**

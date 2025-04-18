@@ -6,7 +6,7 @@ class AnkService
 {
 	protected $anket;
 	public static $getProps = [
-		'\\App\\Repositories\\BodyRepository'			=> ['prop' => 'user_body', 				'ank_prop' => 'body'],
+		'\\App\\Repositories\\BodyRepository'			=> ['prop' => 'body', 					'ank_prop' => 'body'],
 		'\\App\\Repositories\\HairColorRepository'		=> ['prop' => 'hair_color',		 		'ank_prop' => 'hair_color'],
 		'\\App\\Repositories\\HairTypeRepository' 		=> ['prop' => 'hair_type',		 		'ank_prop' => 'hair_type'],
 		'\\App\\Repositories\\EyesRepository' 			=> ['prop' => 'eyes',		 			'ank_prop' => 'eyes'],

@@ -69,8 +69,8 @@ class ProfileMainRequest extends FormRequest
 			'lastvisit'				=> time(),
 			'user_name'				=> $this->name,
 			'user_sex'				=> $this->sex,
-			'user_city'				=> $this->city,
-			'user_region'			=> $this->region,
+			'city_id'				=> $this->city,
+			'region_id'				=> $this->region,
 			'user_country'			=> $this->country
 		]);
 	}
@@ -103,8 +103,8 @@ class ProfileMainRequest extends FormRequest
 			],
 			'region'				=> ['integer'],
 			'country'				=> ['integer'],
-			'user_city'				=> ['integer'],
-			'user_region'			=> ['integer'],
+			'city_id'				=> ['integer'],
+			'region_id'				=> ['integer'],
 			'user_country'			=> ['integer'],
 			'user_birth_date'		=> ['string'],
 			'refresh_date'			=> ['string'],

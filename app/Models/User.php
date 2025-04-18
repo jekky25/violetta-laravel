@@ -33,11 +33,11 @@ class User extends Authenticatable
 		'user_name',
 		'user_birth_date',
 		'user_country',
-		'user_region',
-		'user_city',
-		'user_height',
-		'user_weight',
-		'user_body',
+		'region_id',
+		'city_id',
+		'height',
+		'weight',
+		'body',
 		'hair_color',
 		'hair_type',
 		'eyes',
@@ -360,12 +360,12 @@ class User extends Authenticatable
 
 	public function region()
 	{
-		return $this->hasOne(Region::class, 'id', 'user_region');
+		return $this->hasOne(Region::class, 'id', 'region_id');
 	}
 
 	public function city()
 	{
-		return $this->hasOne(City::class, 'id', 'user_city');
+		return $this->hasOne(City::class, 'id', 'city_id');
 	}
 
 	public function photo()

@@ -87,11 +87,11 @@
 		</tr>
 		<tr>
 			<td align="right">Рост:</td>
-			<td><x-select name=height :obj="$heights" type=I :userProp="$userData->user_height" measure="см" /></td>
+			<td><x-select name=height :obj="$heights" type=I :userProp="$userData->height" measure="см" /></td>
 		</tr>
 		<tr>
 			<td align="right">Вес:</td>
-			<td><x-select name=weight :obj="$weights" type=I :userProp="$userData->user_weight" measure="кг" /></td>
+			<td><x-select name=weight :obj="$weights" type=I :userProp="$userData->weight" measure="кг" /></td>
 		</tr>
 		<tr>
 			<td align="right">Цвет волос:</td>

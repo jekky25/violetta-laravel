@@ -128,16 +128,16 @@ function vote(score)
 			<dt>Пол:</dt>
 			<dd>{{ $userData->user_sex_str }}</dd>
 		</dl>
-		@if ($userData->user_height > HEIGHT_MIN)
+		@if ($userData->height > HEIGHT_MIN)
 		<dl>
 			<dt>Рост:</dt>
-			<dd>{{ $userData->user_height }} см</dd>
+			<dd>{{ $userData->height }} см</dd>
 		</dl>
 		@endif
-		@if ($userData->user_weight > WEIGHT_MIN)
+		@if ($userData->weight > WEIGHT_MIN)
 		<dl>
 			<dt>Вес:</dt>
-			<dd>{{ $userData->user_weight }} кг</dd>
+			<dd>{{ $userData->weight }} кг</dd>
 		</dl>
 		@endif
 		@if (Route:: currentRouteName() == 'ank.full.id')

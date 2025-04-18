@@ -80,7 +80,7 @@ class RegistrationController extends Controller
 		$years		= $data->getYears();
 		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old('country', $user->user_country);
-		$regionId	= (int) old('region', $user->user_region);
+		$regionId	= (int) old('region', $user->region_id);
 		$regions	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: [];
 		$cities		= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
 
@@ -108,7 +108,7 @@ class RegistrationController extends Controller
 		$sexOrient		= $formService->BlockSelect('sex_orient', SEX_ORIENT_CLASS, $user->sex_orient, 2);
 		$targets		= $formService->BlockSelect('targets', MEET_TARGET_CLASS, $user->targets, 2);
 		$userSpeakLang	= $formService->preparePropfromArray($user->speak_lang, self::$languageCodes);
-		$body 			= $formService->BlockSelect("body", BODY_CLASS, $user->user_body, 2);
+		$body 			= $formService->BlockSelect("body", BODY_CLASS, $user->body, 2);
 		$heights 		= $formService->getHeights();
 		$weights 		= $formService->getWeights();
 		$hairColor 		= $formService->BlockSelect("hair_color", HAIR_COLOR_CLASS, $user->hair_color, 2);

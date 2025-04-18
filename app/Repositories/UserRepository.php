@@ -39,7 +39,7 @@ class UserRepository implements UserInterface
 	 */
 	public function newFaces($count)
 	{
-		$items = User::select(['users_news.user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'make_date_t', 'user_city', 'user_fotos', 'sex_orient', 'partner_age_min', 'partner_age_max'])
+		$items = User::select(['users_news.user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'make_date_t', 'city_id', 'user_fotos', 'sex_orient', 'partner_age_min', 'partner_age_max'])
 			->join('fotos', 'users_news.user_id', '=', 'fotos.user_id')
 			->where('user_fotos', '>', 0)
 			->where('confirm_email', 1)
@@ -62,7 +62,7 @@ class UserRepository implements UserInterface
 	 */
 	public function getTop100($sex, $count)
 	{
-		$items = User::select(['user_id', 'user_reiting', 'user_name', 'user_birth_date', 'user_city'])
+		$items = User::select(['user_id', 'user_reiting', 'user_name', 'user_birth_date', 'city_id'])
 			->where('user_sex', $sex)
 			->where('user_active', 1)
 			->where('user_fotos', '>', 0)

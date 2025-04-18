@@ -19,9 +19,9 @@ class UserFactory extends Factory
 		return [
 			'user_name'					=> $this->faker->name(),
 			'user_sex'					=> rand(1, 2),
-			'user_city'					=> !empty($city)	? $city->id			: 0,
+			'city_id'					=> !empty($city)	? $city->id			: 0,
 			'user_country'				=> !empty($city)	? $city->country_id	: 0,
-			'user_region'				=> !empty($city)	? $city->region_id	: 0,
+			'region_id'					=> !empty($city)	? $city->region_id	: 0,
 			'user_active'				=> 1,
 			'user_mail'					=> $this->faker->unique()->safeEmail(),
 			'user_reiting'				=> $this->faker->numberBetween(1, 5),
