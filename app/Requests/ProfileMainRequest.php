@@ -68,7 +68,7 @@ class ProfileMainRequest extends FormRequest
 			'session_time'			=> time(),
 			'lastvisit'				=> time(),
 			'name'					=> $this->name,
-			'user_sex'				=> $this->sex,
+			'sex'					=> $this->sex,
 			'city_id'				=> $this->city,
 			'region_id'				=> $this->region,
 			'country_id'			=> $this->country
@@ -111,7 +111,7 @@ class ProfileMainRequest extends FormRequest
 			'refresh_date_t'		=> ['integer'],
 			'session_time'			=> ['integer'],
 			'lastvisit'				=> ['integer'],
-			'user_sex'				=> ['integer']
+			'sex'					=> ['integer']
 		];
 	}
 }

@@ -156,7 +156,7 @@ class DataService
 	public function queryBlock($ar, &$items)
 	{
 		$items->where(function ($query) use ($ar) {
-			$query->where('user_sex', $ar[0]);
+			$query->where('sex', $ar[0]);
 			$query->where(function ($query) use ($ar) {
 				$query->where('sex_orient', $ar[1]);
 				$query->orWhere('sex_orient', $ar[2]);
@@ -174,7 +174,7 @@ class DataService
 	public function queryBlockOr($ar, &$items)
 	{
 		$items->Orwhere(function ($query) use ($ar) {
-			$query->where('user_sex', $ar[0]);
+			$query->where('sex', $ar[0]);
 			$query->where(function ($query) use ($ar) {
 				$query->where('sex_orient', $ar[1]);
 				$query->orWhere('sex_orient', $ar[2]);

@@ -22,21 +22,21 @@ class ProfileBrief extends Component
 	}
 
 	/**
-	* Get an id of the main picture of the profile
-	* @return int
-	*/
+	 * Get an id of the main picture of the profile
+	 * @return int
+	 */
 	public function getFirstPhotoId()
 	{
 		return !isset($this->item->firstPhoto->id) ? 0 : $this->item->firstPhoto->id;
 	}
 
 	/**
-	* Get an url of the main picture of the profile
-	* @return string
-	*/
+	 * Get an url of the main picture of the profile
+	 * @return string
+	 */
 	public function getFirstPhotoUrl()
 	{
-		return $this->file->outPicture($this->getFirstPhotoId(), $this->item->user_sex);
+		return $this->file->outPicture($this->getFirstPhotoId(), $this->item->sex);
 	}
 
 	/**
@@ -44,9 +44,9 @@ class ProfileBrief extends Component
 	 */
 	public function render(): View|Closure|string
 	{
-    	return view('components.ankets.brief', [
-													'photoId'	=> $this->getFirstPhotoId(),
-													'photoUrl'	=> $this->getFirstPhotoUrl()
-												]);
+		return view('components.ankets.brief', [
+			'photoId'	=> $this->getFirstPhotoId(),
+			'photoUrl'	=> $this->getFirstPhotoUrl()
+		]);
 	}
 }

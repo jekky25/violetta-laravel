@@ -16,10 +16,10 @@ function vote(score)
     @if ($anketUserData->photos_count > 0)
         @foreach ($anketUserData->photo as $item)
 		@if ($loop->iteration > 1) @continue @endif
-		<li><a class="ankFotosPics" href="{{route('ank.id', $anketUserData->user_id)}}"><img src="{{ (new FileService)->outPicture($item->id, $anketUserData->user_sex) }}" /></a></li>
+		<li><a class="ankFotosPics" href="{{route('ank.id', $anketUserData->user_id)}}"><img src="{{ (new FileService)->outPicture($item->id, $anketUserData->sex) }}" /></a></li>
         @endforeach
 	@else
-		<li><a class="ankFotosPics" href="{{route('ank.id', $anketUserData->user_id)}}">@if ($anketUserData->user_sex == MEN)<img src="{{ asset('image/no_foto_m_vip.jpg') }}" />@else<img src="{{ asset('image/no_foto_w_vip.jpg') }}" />@endif</a></li>
+		<li><a class="ankFotosPics" href="{{route('ank.id', $anketUserData->user_id)}}">@if ($anketUserData->sex == MEN)<img src="{{ asset('image/no_foto_m_vip.jpg') }}" />@else<img src="{{ asset('image/no_foto_w_vip.jpg') }}" />@endif</a></li>
 	@endif
 		<li>
 			<p><strong>Город:</strong> {{ $anketUserData->city->name }} ({{ $anketUserData->country->name }})</p>

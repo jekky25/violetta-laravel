@@ -468,7 +468,7 @@ class RegistrationController extends Controller
 	public function forgetPassPost(ForgetPasswordRequest $request)
 	{
 		$arParams 		= $request->validated();
-		$email			= $arParams['mail'];
+		$email			= $arParams['email'];
 		$user	= $this->userRepository->getByEmail($email);
 		if (!empty($user)) {
 			Mail::mailer(config('mail.mail_mode'))
@@ -522,7 +522,7 @@ class RegistrationController extends Controller
 		$user	= $this->userRepository->getByLogin($arParams['login']);
 		Auth::login($user, true);
 		Mail::mailer(config('mail.mail_mode'))
-			->to($user->user_mail)
+			->to($user->email)
 			->send(new RegistrationEmail($user));
 		return redirect()->route(Route::currentRouteName())->with('success', 'Информация сохранена.');
 	}

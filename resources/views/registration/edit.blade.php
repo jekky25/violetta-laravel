@@ -22,12 +22,12 @@
 		<table class="sexRegForm">
 			<tr>
 				<td rowspan="2"><input class="input3" type="text" name="name" value="{{ old('name', $userData->name) }}" /></td>
-				<td class="pad11"><input type="radio" name="sex" value="1"@if (old('sex', $userData->user_sex) == 1) checked="checked"@endif /></td>
+				<td class="pad11"><input type="radio" name="sex" value="1"@if (old('sex', $userData->sex) == 1) checked="checked"@endif /></td>
 				<td><span class="menuMenReg">Я мужчина</span></td>
 				<td><p class="pad12">дата рождения</p></td>
 			</tr>
 			<tr>
-				<td class="pad11"><input type="radio" name="sex" value="2"@if (old('sex', $userData->user_sex) == 2) checked="checked"@endif /></td>
+				<td class="pad11"><input type="radio" name="sex" value="2"@if (old('sex', $userData->sex) == 2) checked="checked"@endif /></td>
 				<td><span class="menuWomenReg">Я женщина</span></td>
 				<td>
 					<select name="birth_day" style="width:40px;">

@@ -5,8 +5,8 @@
 	</dt>
 	<dd>
 		<p>{{--if $ankets[j].user_reg_is}<img title="на сайте" class="online" alt="на сайте" src="../../image/on_line.gif" />{/if--}}
-		<a href="{{route('ank.id', $item->user_id)}}" @if ($item->user_sex == MEN)class="name_man" @else class="name_woman"@endif>{{$item->name}}</a>
-		@if ($item->user_sex == MEN)<img alt="Мужчина" src="{{ asset('image/sex_men.jpg') }}" />@else<img alt="Женщина" src="{{ asset('image/sex_women.jpg') }}" />@endif
+		<a href="{{route('ank.id', $item->user_id)}}" @if ($item->sex == MEN)class="name_man" @else class="name_woman"@endif>{{$item->name}}</a>
+		@if ($item->sex == MEN)<img alt="Мужчина" src="{{ asset('image/sex_men.jpg') }}" />@else<img alt="Женщина" src="{{ asset('image/sex_women.jpg') }}" />@endif
 		<span>({{$item->photos_count}} фото)</span></p>
 		<p><strong>{{$item->user_age}} {{$item->user_age_type}}</strong>, {{$item->city->name}}</p>
 		@if (!empty ($best))

@@ -63,7 +63,7 @@ class UserFilter extends Filter
 	 */
 	private function getBySex(): Builder
 	{
-		if ($this->findSex !== 0 && $this->sex == 0) $this->builder->where('user_sex', $this->findSex);
+		if ($this->findSex !== 0 && $this->sex == 0) $this->builder->where('sex', $this->findSex);
 		else if ($this->findSex == 0 && $this->sex !== 0) {
 			if ($this->sex == MEN) {
 				$this->builder->where(function ($query) {

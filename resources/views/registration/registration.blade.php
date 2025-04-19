@@ -71,8 +71,8 @@
 		<p class="pad2"></p>
 		<h4 class="menu_registration"><div>E-mail</div></h4>
 		<p class="pad1 pad2">Введите <strong>свой Е-мэйл</strong>. Обещаем, что мы не будем его показывать никому кроме вас. Этот адрес необходим для связи с вами.</p>
-		<x-error errName=mail />
-		<p><input class="input3" type="text" name="mail" value="{{ old('mail') }}" /></p>
+		<x-error errName=email />
+		<p><input class="input3" type="text" name="email" value="{{ old('email') }}" /></p>
 		<p class="pad2"></p>
 		<h4 class="menu_registration"><div>Место жительства</div></h4>
 						<p class="pad1 pad2">Укажите <strong>город, регион и страну</strong>, в которой вы живете. Это поможет другим пользователям сайта, которые тоже живут рядом с вами, быстрее вас найти.</p>

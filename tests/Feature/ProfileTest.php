@@ -36,7 +36,7 @@ class ProfileTest extends TestCase
 			[
 				'top100' 			=> time(),
 				'confirm_email'		=> 1,
-				'user_sex'			=> $sex
+				'sex'				=> $sex
 			]
 		)->create();
 		$photos	 = Photo::factory(3)->create(

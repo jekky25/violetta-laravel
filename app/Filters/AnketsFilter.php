@@ -22,7 +22,7 @@ class AnketsFilter extends Filter
 	 */
 	protected function getSex(int $value): Builder
 	{
-		return $this->builder->where('user_sex', $value);
+		return $this->builder->where('sex', $value);
 	}
 
 	/**

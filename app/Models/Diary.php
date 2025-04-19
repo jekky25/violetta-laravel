@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,9 +21,9 @@ class Diary extends Model
 	protected $primaryKey 	= 'id';
 
 	/**
-	* get diary image link
-	* @return string
-	*/
+	 * get diary image link
+	 * @return string
+	 */
 	public function getImg()
 	{
 		return $this->picture !== "0" ? './img/dnevnik/' . $this->picture . '.jpg' : '';
@@ -30,19 +31,19 @@ class Diary extends Model
 
 	public function getDnevnikFotoAttribute()
 	{
-		$img = $this-> getImg();
+		$img = $this->getImg();
 		return is_file($img) ? $this->id : null;
 	}
 
 	public function getDiaryImgAttribute()
 	{
-		$img = $this-> getImg();
+		$img = $this->getImg();
 		return is_file($img) ? $img : '';
 	}
-	
+
 	public function getUserSexAttribute()
 	{
-		return !empty($this->user) && isset($this->user->user_sex) ? $this->user->user_sex : null;
+		return !empty($this->user) && isset($this->user->sex) ? $this->user->sex : null;
 	}
 
 	public function getAddTimeAttribute()
@@ -57,12 +58,11 @@ class Diary extends Model
 
 	public function getNameClassAttribute()
 	{
-		return  $this->user_sex == MEN ? 'name_man' : 'name_woman';
-		
+		return  $this->sex == MEN ? 'name_man' : 'name_woman';
 	}
-	
+
 	public function getPictureUrlAttribute()
-	{	
+	{
 		return $this->picture !== "0" ? 'img/dnevnik/' . $this->picture : null;
 	}
 
@@ -84,24 +84,24 @@ class Diary extends Model
 	}
 
 	/**
-	* get user
-	*/
+	 * get user
+	 */
 	public function user()
 	{
 		return $this->belongsTo(User::class, 'user_id', 'user_id')->with('city');
 	}
 
 	/**
-	* get comments
-	*/
+	 * get comments
+	 */
 	public function comments()
 	{
 		return $this->hasMany(Comment::class, 'diary_id', 'id');
 	}
 
 	/**
-	* get user photo
-	*/
+	 * get user photo
+	 */
 	public function user_photo()
 	{
 		return $this->hasOne(Photo::class, 'user_id', 'user_id')->where('main_picture', 1);

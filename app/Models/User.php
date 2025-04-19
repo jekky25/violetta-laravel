@@ -23,11 +23,10 @@ class User extends Authenticatable
 	 */
 	protected $fillable = [
 		'email',
-		'user_login',
-		'user_password',
-		'user_hash',
-		'user_mail',
-		'user_sex',
+		'login',
+		'password',
+		'hash',
+		'sex',
 		'photos_count',
 		'rating',
 		'name',
@@ -205,11 +204,11 @@ class User extends Authenticatable
 	{
 		$findSOrient = '';
 		if ($this->sex_orient == GOMOSEXUAL)
-			$findSOrient .= $this->user_sex == MEN ? 'парня' : 'девушку';
+			$findSOrient .= $this->sex == MEN ? 'парня' : 'девушку';
 		elseif ($this->sex_orient == BISEXUAL)
-			$findSOrient .= $this->user_sex == MEN ? 'девушку или парня' : 'парня или девушку';
+			$findSOrient .= $this->sex == MEN ? 'девушку или парня' : 'парня или девушку';
 		else
-			$findSOrient .= $this->user_sex == MEN ? 'девушку' : 'парня';
+			$findSOrient .= $this->sex == MEN ? 'девушку' : 'парня';
 
 		if ($this->partner_age_min > PARTNER_AGE_MIN && $this->partner_age_max > PARTNER_AGE_MAX) {
 			$findSOrient .= ' ' . $this->partner_age_min . '-' . $this->partner_age_max;
@@ -241,7 +240,7 @@ class User extends Authenticatable
 
 	public function getRatingStrAttribute()
 	{
-		$maxRate = (new UserRepository())->getMaxRating($this->user_sex);
+		$maxRate = (new UserRepository())->getMaxRating($this->sex);
 		return (new formatService)->rating($this->rating, $maxRate);
 	}
 
@@ -251,9 +250,9 @@ class User extends Authenticatable
 		return str_replace("\n", "\n<br />\n", $val);
 	}
 
-	public function getUserSexStrAttribute()
+	public function getSexStrAttribute()
 	{
-		return $this->user_sex == MEN ? 'Мужской' : 'Женский';
+		return $this->sex == MEN ? 'Мужской' : 'Женский';
 	}
 
 	public function getDateMakeStrAttribute()
@@ -298,17 +297,17 @@ class User extends Authenticatable
 
 	public function getUserClassAAttribute()
 	{
-		return $this->user_sex == MEN ? 'name_man' : 'name_woman';
+		return $this->sex == MEN ? 'name_man' : 'name_woman';
 	}
 
 	public function getNameClassAttribute()
 	{
-		return  $this->user_sex == MEN ? 'name_man' : 'name_woman';
+		return  $this->sex == MEN ? 'name_man' : 'name_woman';
 	}
 
 	public function getOnTopAttribute()
 	{
-		return '<strong>' . ($this->user_sex == WOMEN ? 'поднялась' : 'поднялся') . '</strong>: ' . (new DataService)->lastVisit($this->top100);
+		return '<strong>' . ($this->sex == WOMEN ? 'поднялась' : 'поднялся') . '</strong>: ' . (new DataService)->lastVisit($this->top100);
 	}
 
 	public function getUserPartnerSexAttribute()
@@ -316,9 +315,9 @@ class User extends Authenticatable
 		if ($this->sex_orient == self::SEX_BISEXUAL || $this->sex_orient == self::SEX_TRANS) {
 			$partnerSex = 'Мужской, Женский';
 		} elseif ($this->sex_orient == self::SEX_HETERO) {
-			$partnerSex = $this->user_sex == MEN ? 'Женский' : 'Мужской';
+			$partnerSex = $this->sex == MEN ? 'Женский' : 'Мужской';
 		} else {
-			$partnerSex = $this->user_sex == WOMEN ? 'Женский' : 'Мужской';
+			$partnerSex = $this->sex == WOMEN ? 'Женский' : 'Мужской';
 		}
 		return  $partnerSex;
 	}

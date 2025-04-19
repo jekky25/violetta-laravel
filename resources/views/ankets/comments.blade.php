@@ -17,9 +17,9 @@
 			</h4>
 			<div class="dnevBody clear">
 			@if (!empty($diary->picture))
-				<a class="dnevBodyPic1" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ (new FileService)->outDiaryPicture($diary->picture, $userData->user_sex) }}" /></a>
+				<a class="dnevBodyPic1" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ (new FileService)->outDiaryPicture($diary->picture, $userData->sex) }}" /></a>
 			@elseif (!empty($userData->foto_user_id))
-				<a class="dnevBodyPic2" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ (new FileService)->outPicture($diary->foto_user_id, $userData->user_sex) }}" /></a>
+				<a class="dnevBodyPic2" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ (new FileService)->outPicture($diary->foto_user_id, $userData->sex) }}" /></a>
 			@endif
 			@if (!empty($diary->picture))
 				<div class="mrg2">{{ $diary->description }}</div>
@@ -49,9 +49,9 @@
 			</h4>
 			<div class="dnevBody clear">
 			@if (!empty($item->picture))
-				<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outDiaryCommentPicture($item->picture, $item->user->user_sex) }}" /></a>
+				<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outDiaryCommentPicture($item->picture, $item->user->sex) }}" /></a>
 			@elseif (!empty($item->foto_url))
-				<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outPicture($item->foto_url, $item->user->user_sex) }}" /></a>
+				<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outPicture($item->foto_url, $item->user->sex) }}" /></a>
 			@endif
 			@if (!empty($item->picture))
 				<div class="mrg2">{!! $item->description !!}</div>

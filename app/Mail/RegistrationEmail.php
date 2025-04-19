@@ -25,8 +25,8 @@ class RegistrationEmail extends Mailable
 	public function __construct($user)
 	{
 		$data					= new \stdClass();
-		$data->login			= $user->user_login;
-		$data->password			= $user->user_password;
+		$data->login			= $user->login;
+		$data->password			= $user->password;
 		$data->id				= $user->user_id;
 		$data->code				= $user->submit_code;
 		$data->sitename			= '<a href="' . $this->siteUrlWithProtocol . '">' . $this->siteUrl . '</a>';

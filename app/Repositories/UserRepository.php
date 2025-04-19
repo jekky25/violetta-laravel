@@ -39,7 +39,7 @@ class UserRepository implements UserInterface
 	 */
 	public function newFaces($count)
 	{
-		$items = User::select(['users_news.user_id', 'user_active', 'name', 'user_sex', 'birth_date', 'make_date_t', 'city_id', 'photos_count', 'sex_orient', 'partner_age_min', 'partner_age_max'])
+		$items = User::select(['users_news.user_id', 'user_active', 'name', 'sex', 'birth_date', 'make_date_t', 'city_id', 'photos_count', 'sex_orient', 'partner_age_min', 'partner_age_max'])
 			->join('fotos', 'users_news.user_id', '=', 'fotos.user_id')
 			->where('photos_count', '>', 0)
 			->where('confirm_email', 1)
@@ -63,7 +63,7 @@ class UserRepository implements UserInterface
 	public function getTop100($sex, $count)
 	{
 		$items = User::select(['user_id', 'rating', 'name', 'birth_date', 'city_id'])
-			->where('user_sex', $sex)
+			->where('sex', $sex)
 			->where('user_active', 1)
 			->where('photos_count', '>', 0)
 			->where('confirm_email', 1)
@@ -111,7 +111,7 @@ class UserRepository implements UserInterface
 	public function getCountAnkets($sex)
 	{
 		$count = User::select('user_id')
-			->where('user_sex', $sex)
+			->where('sex', $sex)
 			->where('user_active', 1)
 			->count();
 		return $count > 0 ? $count : 0;
@@ -157,8 +157,8 @@ class UserRepository implements UserInterface
 	{
 		if (empty($login) or empty($pass)) return false;
 		return User::select(['user_id'])
-			->where('user_login', $login)
-			->where('user_hash', md5($pass))
+			->where('login', $login)
+			->where('hash', md5($pass))
 			->first();
 	}
 
@@ -186,7 +186,7 @@ class UserRepository implements UserInterface
 	{
 		$item = User::select(['*'])
 			->where('user_active', 1)
-			->where('user_sex', $sex)
+			->where('sex', $sex)
 			->max('rating');
 		return $item;
 	}
@@ -243,7 +243,7 @@ class UserRepository implements UserInterface
 	public function getByEmail($email)
 	{
 		$item = User::select('*')
-			->where('user_mail', $email)
+			->where('email', $email)
 			->first();
 		return $item;
 	}
@@ -256,7 +256,7 @@ class UserRepository implements UserInterface
 	public function getByLogin($login)
 	{
 		$item = self::select('*')
-			->where('user_login', $login)
+			->where('login', $login)
 			->first();
 		return $item;
 	}

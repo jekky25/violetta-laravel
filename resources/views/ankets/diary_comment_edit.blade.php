@@ -39,7 +39,7 @@
 		@if (!empty($comment->picture))
 		<tr>
 			<td>
-				<img width="100" src="{{ (new FileService)->outDiaryCommentPicture($comment->picture, $userData->user_sex) }}" alt="" style="vertical-align:middle; margin-right:20px;" />
+				<img width="100" src="{{ (new FileService)->outDiaryCommentPicture($comment->picture, $userData->sex) }}" alt="" style="vertical-align:middle; margin-right:20px;" />
 				<a class="delFoto" href="{{route('ank.diary.comment.delete.photo.id', $comment->id)}}">удалить</a>
 			</td>
 			<td>

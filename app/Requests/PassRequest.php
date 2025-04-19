@@ -47,8 +47,8 @@ class PassRequest extends FormRequest
 	protected function prepareForValidation()
 	{
 		$this->merge([
-			'user_password'			=> $this->pass,
-			'user_hash'				=> md5($this->pass),
+			'password'				=> $this->pass,
+			'hash'					=> md5($this->pass),
 			'session_time'			=> time(),
 			'lastvisit'				=> time()
 		]);
@@ -65,8 +65,8 @@ class PassRequest extends FormRequest
 		return [
 			'pass_old'					=> ['required', new PassNotCorrect],
 			'pass'						=> ['required', 'max:15', 'min:5', new PassNotMatch((string)$arParams['pass'], (string)$arParams['pass_confirm'])],
-			'user_password'				=> ['string'],
-			'user_hash'					=> ['string'],
+			'password'					=> ['string'],
+			'hash'						=> ['string'],
 			'session_time'				=> ['integer'],
 			'lastvisit'					=> ['integer']
 		];

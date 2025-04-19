@@ -51,7 +51,7 @@ function find_otsil()
 		@if (!empty($diary->picture))
 		<tr>
 			<td>
-				<img width="100" src="{{ (new FileService)->outDiaryPicture($diary->picture, $diary->user->user_sex) }}" alt="" style="vertical-align:middle; margin-right:20px;" />
+				<img width="100" src="{{ (new FileService)->outDiaryPicture($diary->picture, $diary->user->sex) }}" alt="" style="vertical-align:middle; margin-right:20px;" />
 				<a class="delFoto" href="{{route('ank.diary.delete.photo.id', $diary->id)}}">удалить</a>
 			</td>
 			<td>

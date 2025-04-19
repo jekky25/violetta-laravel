@@ -11,9 +11,9 @@
 			</h4>
 			<div class="dnevBody clear">
 	@if (!empty($item->picture))
-				<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outDiaryPicture($item->picture, $item->user->user_sex) }}" /></a>
+				<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outDiaryPicture($item->picture, $item->user->sex) }}" /></a>
 	@elseif (!empty($item->foto_user_id))
-				<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outPicture($item->foto_user_id, $item->user->user_sex) }}" /></a>
+				<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outPicture($item->foto_user_id, $item->user->sex) }}" /></a>
 	@endif
 	@if (!empty($item->picture))
 				<div class="mrg2">

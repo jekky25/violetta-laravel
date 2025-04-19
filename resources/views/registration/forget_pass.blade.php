@@ -21,7 +21,7 @@
 				<table>
 					<tr>
 						<td class="valign3">
-							<input class="input3" type="text" name="mail" value="{{ old('mail') }}" />
+							<input class="input3" type="text" name="email" value="{{ old('email') }}" />
 							<input type="hidden" name="otsil" value="1" />
 						</td>
 						<td>	
