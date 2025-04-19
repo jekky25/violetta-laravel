@@ -39,9 +39,9 @@ class UserRepository implements UserInterface
 	 */
 	public function newFaces($count)
 	{
-		$items = User::select(['users_news.user_id', 'user_active', 'user_name', 'user_sex', 'user_birth_date', 'make_date_t', 'city_id', 'user_fotos', 'sex_orient', 'partner_age_min', 'partner_age_max'])
+		$items = User::select(['users_news.user_id', 'user_active', 'name', 'user_sex', 'birth_date', 'make_date_t', 'city_id', 'photos_count', 'sex_orient', 'partner_age_min', 'partner_age_max'])
 			->join('fotos', 'users_news.user_id', '=', 'fotos.user_id')
-			->where('user_fotos', '>', 0)
+			->where('photos_count', '>', 0)
 			->where('confirm_email', 1)
 			->where('user_active', 1)
 			->where('main_picture', 1)
@@ -55,17 +55,17 @@ class UserRepository implements UserInterface
 	}
 
 	/**
-	 * get profile from the top100 reiting
+	 * get profile from the top100 rating
 	 * @param  int $sex
 	 * @param  int $count
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function getTop100($sex, $count)
 	{
-		$items = User::select(['user_id', 'user_reiting', 'user_name', 'user_birth_date', 'city_id'])
+		$items = User::select(['user_id', 'rating', 'name', 'birth_date', 'city_id'])
 			->where('user_sex', $sex)
 			->where('user_active', 1)
-			->where('user_fotos', '>', 0)
+			->where('photos_count', '>', 0)
 			->where('confirm_email', 1)
 			->with('city')
 			->with('photo')
@@ -178,16 +178,16 @@ class UserRepository implements UserInterface
 	}
 
 	/**
-	 * get maximal reiting for all females or males with active profiles
+	 * get maximal rating for all females or males with active profiles
 	 * @param  int $isex
 	 * @return integer
 	 */
-	public function getMaxReiting($sex)
+	public function getMaxRating($sex)
 	{
 		$item = User::select(['*'])
 			->where('user_active', 1)
 			->where('user_sex', $sex)
-			->max('user_reiting');
+			->max('rating');
 		return $item;
 	}
 

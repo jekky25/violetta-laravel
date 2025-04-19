@@ -1,13 +1,13 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
-<h1 class="mTit">{{ $userData->user_name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
+<h1 class="mTit">{{ $userData->name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
 <x-ank-menu :user-data="$userData" />
 <h3 class="kommentTitle">{{ $diary->title }}@if ($comments->total() > 0) - комментарии ({{ $comments->total() }})@else - комментарии (нет)@endif</h3>
 <table class="ankDnevnik">
 	<tr>
 		<td>
-			<h4 class="@isset($userData->user_class_a){{ $userData->user_class_a }}@endisset"><a href="{{route('ank.id', $userData->user_id)}}">{{ $userData->user_name }}</a>
+			<h4 class="@isset($userData->user_class_a){{ $userData->user_class_a }}@endisset"><a href="{{route('ank.id', $userData->user_id)}}">{{ $userData->name }}</a>
 				<p>
 				@if (!empty($user) && $user->user_id == $diary->user_id)
 					<a class="editBut" title="редактировать" href="{{route('ank.diary.edit.id', $diary->id)}}"></a>
@@ -38,7 +38,7 @@
 @foreach ($comments as $item)
 	<tr>
 		<td>
-			<h4 class="@isset($item->user->user_class_a){{ $item->user->user_class_a }}@endisset"><a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>@if (!empty($item->title)) - {{ $item->title }}@endif
+			<h4 class="@isset($item->user->user_class_a){{ $item->user->user_class_a }}@endisset"><a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->name }}</a>@if (!empty($item->title)) - {{ $item->title }}@endif
 				<p>
 					@if (!empty($user) && $user->user_id == $item->user->user_id)
 					<a class="editBut" title="редактировать" href="{{route('ank.diary.comment.edit.id', $item->id)}}"></a>

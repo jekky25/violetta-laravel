@@ -100,7 +100,7 @@ class UserFilter extends Filter
 	 */
 	protected function photo(): Builder
 	{
-		return $this->builder->where('user_fotos', '>', 0);
+		return $this->builder->where('photos_count', '>', 0);
 	}
 
 	/**
@@ -109,7 +109,7 @@ class UserFilter extends Filter
 	 */
 	protected function ageMin(int $value): Builder
 	{
-		return $value <= self::AGE_MIN	? $this->builder 		: $this->builder->where('user_birth_date', '<', $this->data->birthAround($value - 1));
+		return $value <= self::AGE_MIN	? $this->builder 		: $this->builder->where('birth_date', '<', $this->data->birthAround($value - 1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ class UserFilter extends Filter
 	 */
 	protected function ageMax(int $value): Builder
 	{
-		return $value <= self::AGE_MAX	? $this->builder		: $this->builder->where('user_birth_date', '>', $this->data->birthAround($value));
+		return $value <= self::AGE_MAX	? $this->builder		: $this->builder->where('birth_date', '>', $this->data->birthAround($value));
 	}
 
 	/**
@@ -127,7 +127,7 @@ class UserFilter extends Filter
 	 */
 	protected function country(int $value): Builder
 	{
-		return empty($value) ? $this->builder					: $this->builder->where('user_country', $value);
+		return empty($value) ? $this->builder					: $this->builder->where('country_id', $value);
 	}
 
 	/**

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
@@ -9,23 +10,23 @@ class MetaServiceProvider extends ServiceProvider
 {
 	private $userData, $diary, $dreambook, $goroskop;
 	/**
-	* Register services.
-	*
-	* @return void
-	*/
+	 * Register services.
+	 *
+	 * @return void
+	 */
 	public function register()
 	{
-        //
+		//
 	}
 
 	/**
-	* Bootstrap services.
-	*
-	* @return void
-	*/
+	 * Bootstrap services.
+	 *
+	 * @return void
+	 */
 	public function boot()
 	{
-		View::composer('*', function($view) {
+		View::composer('*', function ($view) {
 			$this->userData 		= $view->userData;
 			$this->diary 			= $view->diary;
 			$this->dreambook 		= $view->dreambook;
@@ -60,10 +61,10 @@ class MetaServiceProvider extends ServiceProvider
 				case 'names.sex':
 					$sex = $view->sex;
 					$pageTitle 		= $sex == 'men' ? 'Значение мужского имени, Что означает мужское имя, Бесплатный сайт знакомств Виолетта' :
-													  'Значение женского имени, Что означает женское имя, Бесплатный сайт знакомств Виолетта';
+						'Значение женского имени, Что означает женское имя, Бесплатный сайт знакомств Виолетта';
 					$pageMeta 		= $sex == 'men' ? '<meta name="Description" content="Значение мужского имени.  что означает мужское имя. А также знакомства и многое другое.">
 													<meta name="Keywords" content="значение мужского имени, что мужское означает имя, знакомства в Москве, поиск анкет, найти любовь">' :
-													'<meta name="Description" content="Значение женского имени.  что означает женское имя. А также знакомства и многое другое.">
+						'<meta name="Description" content="Значение женского имени.  что означает женское имя. А также знакомства и многое другое.">
 													<meta name="Keywords" content="значение женского имени, что женское означает имя, знакомства в Москве, поиск анкет, найти любовь">';
 					break;
 				case 'names.id':
@@ -89,14 +90,14 @@ class MetaServiceProvider extends ServiceProvider
 								<meta name="Keywords" content="Участники отмечающие день рождения на сайт знакомств, ПОЗДРАВЛЯЕМ, сайт знакомств, бесплатные знакомства">';
 					break;
 
-				case 'screensavers':	
+				case 'screensavers':
 					$page = $view->page;
 					$pageOut 	= $page > 1 ? ' страница ' . $page : '';
 					$pageTitle = 'Хранители экрана, Скринсейверы, Screensaver, Скачать заставку, Сайт знакомств Виолетта' . $pageOut;
 					$pageMeta = '<meta name="Description" content="Хранители экрана. Большая коллекция экранных заставок на водную тему. Можно скачать прямо сейчас.">
 							<meta name="Keywords" content="Хранители экрана, Скринсейверы, Screensaver, Скачать заставку, Сайт знакомств Виолетта">';
 					break;
-				case 'screensavers.id':	
+				case 'screensavers.id':
 					$page = $view->page;
 					$pageOut 	= $page > 1 ? ' страница ' . $page : '';
 					$pageTitle 	= $this->getScreenName() . ', Хранитель экрана, Скринсейвер, Screensaver, Скачать заставку с сайта знакомств Виолетта';
@@ -104,7 +105,7 @@ class MetaServiceProvider extends ServiceProvider
 					<meta name="Keywords" content="' . $this->getScreenName() . ', Хранители экрана, Скринсейверы, Screensaver, Скачать заставку, Сайт знакомств Виолетта">';
 					break;
 
-				case 'dreambook':	
+				case 'dreambook':
 					$pageTitle = 'Сонник, Что тебе снится, Толкование Снов, Бесплатный сайт знакомств Виолетта';
 					$pageMeta = '<meta name="Description" content="Сонник. Толкователь снов.">
 					<meta name="Keywords" content="сонник толкователь снов сновидения">';
@@ -131,8 +132,7 @@ class MetaServiceProvider extends ServiceProvider
 					$pageMeta = '<meta name="Description" content="Поиск анкет на сайте знакомств. Найди свою любовь. Тысячи анкет с фото, бесплатная регистрация.">
 						<meta name="Keywords" content="поиск анкет, сайт знакомств, бесплатные знакомства, знакомства в Москве, найти любовь">';
 
-					if (!empty($photo))
-					{
+					if (!empty($photo)) {
 						$pageTitle = 'Поиск анкет с фото, Сайт знакомств, Бесплатный сайт знакомств Виолетта';
 						$pageMeta = '<meta name="Description" content="Поиск анкет с фотографиями. Тысячи анкет с фото, бесплатная регистрация.">
 		    				<meta name="Keywords" content="поиск анкет с фото, анкеты с фотографиями, сайт знакомств, бесплатные знакомства, знакомства в Москве">';
@@ -147,9 +147,9 @@ class MetaServiceProvider extends ServiceProvider
 
 				case 'diaries':
 					$pageTitle = 'Дневники, скачать дневник на сайте знакомств, бесплатные знакомства';
-					$pageTitle .= ', Сайт знакомств Виолетта';	
+					$pageTitle .= ', Сайт знакомств Виолетта';
 					$pageMeta = '<meta name="Description" content="Дневник, скачать дневник на сайте знакомств, бесплатные знакомства">
-						<meta name="Keywords" content="Дневник, сайт знакомств">';					
+						<meta name="Keywords" content="Дневник, сайт знакомств">';
 					break;
 
 				case 'ank.id':
@@ -203,86 +203,86 @@ class MetaServiceProvider extends ServiceProvider
 				case 'contacts':
 					$pageTitle 	= 'Контакты, Оставить сообщение, Сайт знакомств Виолетта';
 					$pageMeta 	= '<meta name="Description" content="Контакты, Оставить сообщение. На сайте знакомств ты встретишь свою судьбу.">
-						<meta name="Keywords" content="контакты, оставить сообщение, сайт знакомств, бесплатные знакомства">';	
+						<meta name="Keywords" content="контакты, оставить сообщение, сайт знакомств, бесплатные знакомства">';
 					break;
-					
+
 				default:
-				$pageTitle 	= !empty($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
-				$pageMeta 	= !empty($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
+					$pageTitle 	= !empty($pageTitle)  	? $pageTitle 	: 'Сайт знакомств, бесплатные знакомства, Бесплатный сайт знакомств Виолетта, знакомства бесплатно, клуб знакомств, интернет знакомства и общение';
+					$pageMeta 	= !empty($pageMeta) 	? $pageMeta 	: '<!-- toodoo-key: Aed2rQWEJC9rAnmJG5cwh -->
 			<meta name="Description" content="Сайт знакомств на любой вкус. Найди свою любовь. Тысячи анкет с фото, бесплатная регистрация.">
 			<meta name="Keywords" content="сайт знакомств, бесплатные знакомства, знакомства в Москве, поиск анкет, найти любовь, знакомства бесплатно, служба знакомств, клуб знакомств, чат знакомств, знакомства с девушками, знакомства с мужчинами, интернет знакомства и общение">';
 			}
-            $view->with(['title' => $pageTitle, 'pageMeta' => $pageMeta]);
-        });
-    }
-
-	/**
-	* get User Name
-	* @return string
-	*/
-	private function getUserName()
-	{
-		return (!empty($this->userData->user_name) ? $this->userData->user_name : '');
+			$view->with(['title' => $pageTitle, 'pageMeta' => $pageMeta]);
+		});
 	}
 
 	/**
-	* get User Age
-	* @return string
-	*/
+	 * get User Name
+	 * @return string
+	 */
+	private function getUserName()
+	{
+		return (!empty($this->userData->name) ? $this->userData->name : '');
+	}
+
+	/**
+	 * get User Age
+	 * @return string
+	 */
 	private function getUserAge()
 	{
 		return (!empty($this->userData->user_age_str) ? $this->userData->user_age_str : '');
 	}
 
 	/**
-	* get city name
-	* @return string
-	*/
+	 * get city name
+	 * @return string
+	 */
 	private function getCityName()
 	{
 		return (!empty($this->userData->city->name) ? $this->userData->city->name : '');
 	}
 
 	/**
-	* get dreambook name
-	* @return string
-	*/
+	 * get dreambook name
+	 * @return string
+	 */
 	private function getDreambookName()
 	{
 		return (!empty($this->dreambook->name) ? $this->dreambook->name : '');
 	}
 
 	/**
-	* get name name
-	* @return string
-	*/
+	 * get name name
+	 * @return string
+	 */
 	private function getNameName()
 	{
 		return (!empty($this->name->name) ? $this->name->name : '');
 	}
 
 	/**
-	* get goroskop name
-	* @return string
-	*/
+	 * get goroskop name
+	 * @return string
+	 */
 	private function getGoroskopName()
 	{
 		return (!empty($this->goroskop->name) ? $this->goroskop->name : '');
 	}
 
 	/**
-	* get goroskop title
-	* @return string
-	*/
+	 * get goroskop title
+	 * @return string
+	 */
 	private function getGoroskopTitle()
 	{
 		return (!empty($this->goroskopsTitle) ? $this->goroskopsTitle : '');
 	}
 
 	/**
-	* get screen name
-	* @return string
-	*/
+	 * get screen name
+	 * @return string
+	 */
 	private function getScreenName()
 	{
 		return (!empty($this->screen->name) ? $this->screen->name : '');

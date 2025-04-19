@@ -10,13 +10,13 @@ function vote(score)
 	return false;
 }
 </script>
-<h1 class="mTit">{{ $userData->user_name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
+<h1 class="mTit">{{ $userData->name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
 @if(session('success'))
 <p class="mess">{{session('success')}}</p>
 @endif
 <x-ank-menu :user-data="$userData" />
 <ul id="ankFotos" class="clear">
-    @if ($userData->user_fotos > 0)
+    @if ($userData->photos_count > 0)
         @foreach ($userData->photo as $item)
 		@if ($loop->iteration > 3) @continue @endif
 		<li><a class="ankFotosPics" href="{{route('ank.photo.photo_id', $item->id)}}"><img src="{{ (new FileService)->outPicture($item->id, $userData->user_sex) }}" /></a></li>
@@ -59,7 +59,7 @@ function vote(score)
 					<td class="wth4">
 						<div class="div-rating2">
 							<ul class="div-rating">
-								<li class="current-rating" style="width:{{ $userData->user_reiting_str }}px;">&nbsp;</li>
+								<li class="current-rating" style="width:{{ $userData->rating_str }}px;">&nbsp;</li>
 								@auth
 									@if ($user->user_id != $userData->user_id && !$ankEvaluationed)
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("1");' title='Очень плохо' class="r1-unit rater">Очень плохо</a></li>

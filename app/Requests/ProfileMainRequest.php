@@ -62,16 +62,16 @@ class ProfileMainRequest extends FormRequest
 	protected function prepareForValidation()
 	{
 		$this->merge([
-			'user_birth_date'		=> $this->data->getDateStr($this->birth_day, $this->birth_month, $this->birth_year),
+			'birth_date'			=> $this->data->getDateStr($this->birth_day, $this->birth_month, $this->birth_year),
 			'refresh_date'			=> date("Y-m-d"),
 			'refresh_date_t'		=> time(),
 			'session_time'			=> time(),
 			'lastvisit'				=> time(),
-			'user_name'				=> $this->name,
+			'name'					=> $this->name,
 			'user_sex'				=> $this->sex,
 			'city_id'				=> $this->city,
 			'region_id'				=> $this->region,
-			'user_country'			=> $this->country
+			'country_id'			=> $this->country
 		]);
 	}
 
@@ -87,7 +87,7 @@ class ProfileMainRequest extends FormRequest
 		$region						= !empty($arParams['region']) 	? (int)$arParams['region'] 	: 0;
 		$country					= !empty($arParams['country']) 	? (int)$arParams['country'] : 0;
 		return [
-			'user_name'					=> [
+			'name'					=> [
 				'string',
 				'required',
 				'max:30',
@@ -105,8 +105,8 @@ class ProfileMainRequest extends FormRequest
 			'country'				=> ['integer'],
 			'city_id'				=> ['integer'],
 			'region_id'				=> ['integer'],
-			'user_country'			=> ['integer'],
-			'user_birth_date'		=> ['string'],
+			'country_id'			=> ['integer'],
+			'birth_date'			=> ['string'],
 			'refresh_date'			=> ['string'],
 			'refresh_date_t'		=> ['integer'],
 			'session_time'			=> ['integer'],

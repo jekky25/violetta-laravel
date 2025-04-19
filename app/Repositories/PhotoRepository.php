@@ -133,7 +133,7 @@ class PhotoRepository implements PhotoInterface
 			$countPhoto = $countPhoto > 5 ? 5 : $countPhoto;
 			User::find($user->user_id)->update(
 				[
-					'user_fotos'			=> $countPhoto,
+					'photos_count'			=> $countPhoto,
 					'refresh_date'			=> date("Y-m-d"),
 					'refresh_date_t'		=> time(),
 					'session_time'			=> time(),
@@ -207,7 +207,7 @@ class PhotoRepository implements PhotoInterface
 		$user->refresh_date_t 		= time();
 		$user->session_time 		= time();
 		$user->lastvisit	 		= time();
-		$user->user_fotos 			= $this->getAllByUserId($user->user_id)->count();
+		$user->photos_count 		= $this->getAllByUserId($user->user_id)->count();
 		$user->update();
 
 		return true;

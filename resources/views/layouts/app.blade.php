@@ -15,7 +15,7 @@
 			@auth
 			<h3>Рабочее меню</h3>
 			<div class="mob-menu-first-block">
-				<h4>{{ $user->user_name }}!</h4>
+				<h4>{{ $user->name }}!</h4>
 				<ul>
 					<li class="first-item-menu"><a href="{{route('privmsg')}}"><span>Мои сообщения</span> <span @if ($user->user_new_message > 0) class="first-item-menu-num red_mark" @else class="first-item-menu-num green_mark" @endif>({{ $user->user_new_message }})</span></a></li>
 					<li><a href="{{route('registration.edit')}}">Мой профиль</a></li>
@@ -23,7 +23,7 @@
 					<li><a href="{{route('registration.edit.photo')}}">Мои фото</a></li>
 					<li><a href="{{route('registration.edit.diary')}}">Мой дневник</a></li>
 					<li><a href="{{route('registration.edit.settings')}}">Мои настройки</a></li>
-					<li><a class="inTop" href="{{route('registration.top100')}}">@if ($user->user_fotos > 0  &&  $user->top100 > 0)Поднять анкету @else попасть в топ @endif</a></li>
+					<li><a class="inTop" href="{{route('registration.top100')}}">@if ($user->photos_count > 0  &&  $user->top100 > 0)Поднять анкету @else попасть в топ @endif</a></li>
 					<li><a href="{{route('logout')}}">Выход</a></li>
 				</ul>
 			</div>
@@ -171,7 +171,7 @@ if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br 
 			@auth
 			<h2>Рабочее меню</h2>			
 			<div class="bl AccMenu">
-				<h3>{{ $user->user_name }}!</h3>
+				<h3>{{ $user->name }}!</h3>
 				<ul>
 					<li><a class="name_my_mess" href="{{route('privmsg')}}">Мои сообщения</a> <span @if ($user->new_messages > 0) class="red_mark" @else class="green_mark" @endif>({{ $user->new_messages }})</span></li>
 					<li><a href="{{route('registration.edit')}}">Мой профиль</a></li>
@@ -179,7 +179,7 @@ if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br 
 					<li><a href="{{route('registration.edit.photo')}}">Мои фото</a></li>
 					<li><a href="{{route('registration.edit.diary')}}">Мой дневник</a></li>
 					<li><a href="{{route('registration.edit.settings')}}">Мои настройки</a></li>
-					<li><a class="inTop" href="{{route('registration.top100')}}">@if ($user->user_fotos > 0  &&  $user->top100 > 0)Поднять анкету @else попасть в топ @endif</a></li>
+					<li><a class="inTop" href="{{route('registration.top100')}}">@if ($user->photos_count > 0  &&  $user->top100 > 0)Поднять анкету @else попасть в топ @endif</a></li>
 				</ul>
 				<p>Последний визит: {{ $user->lastvisit_format }}</p>
 				<p>Просмотров за месяц: @if ($user->monthVisits > 0)<a href="{{route('registration.views')}}" class="views_l">{{ $user->monthVisits }}</a>@else{{ $user->monthVisits }}@endif @if ($user->monthVisitsNew > 0) <span class="views_l_new"> + <a href="{{route('registration.views')}}">{{ $user->monthVisitsNew }}</a></span>@endif</p>

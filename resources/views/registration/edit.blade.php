@@ -21,7 +21,7 @@
 		<x-error errName=sex />
 		<table class="sexRegForm">
 			<tr>
-				<td rowspan="2"><input class="input3" type="text" name="name" value="{{ old('name', $userData->user_name) }}" /></td>
+				<td rowspan="2"><input class="input3" type="text" name="name" value="{{ old('name', $userData->name) }}" /></td>
 				<td class="pad11"><input type="radio" name="sex" value="1"@if (old('sex', $userData->user_sex) == 1) checked="checked"@endif /></td>
 				<td><span class="menuMenReg">Я мужчина</span></td>
 				<td><p class="pad12">дата рождения</p></td>
@@ -64,10 +64,10 @@
 			<tr>
 				<td width="150">страна</td>
 				<td><select name="country" id="country" onchange="updateSelect('region', this.value, 'reg');" autocomplete="off">
-					<option value="0" @if (old('country', $userData->user_country) == 0) selected="selected"@endif>выберите&nbsp;</option>
-					<option value="141" @if (old('country', $userData->user_country) == COUNTRY_ID_RUSSIA) selected="selected"@endif>Россия</option>
+					<option value="0" @if (old('country', $userData->country_id) == 0) selected="selected"@endif>выберите&nbsp;</option>
+					<option value="141" @if (old('country', $userData->country_id) == COUNTRY_ID_RUSSIA) selected="selected"@endif>Россия</option>
 					@foreach ($countries as $item)
-					<option value="{{ $item->id }}" @if (old('country', $userData->user_country) == $item->id && old('country', $userData->user_country) != COUNTRY_ID_RUSSIA) selected="selected"@endif>{{ $item->name }}</option>
+					<option value="{{ $item->id }}" @if (old('country', $userData->country_id) == $item->id && old('country', $userData->country_id) != COUNTRY_ID_RUSSIA) selected="selected"@endif>{{ $item->name }}</option>
 					@endforeach
 				</select>
 			</td>

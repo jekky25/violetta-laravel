@@ -50,7 +50,7 @@ class UserBestFilter extends Filter
 	 */
 	protected function hasPhotos(): Builder
 	{
-		return $this->builder->where('user_fotos', '>', 0);
+		return $this->builder->where('photos_count', '>', 0);
 	}
 
 	/**

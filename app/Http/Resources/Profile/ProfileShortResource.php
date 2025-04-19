@@ -18,7 +18,7 @@ class ProfileShortResource extends JsonResource
 	{
 		return [
 			'id'			=> $this->user_id,
-			'name'		 	=> $this->user_name,
+			'name'		 	=> $this->name,
 			'age'		 	=> $this->user_age,
 			'age_type'	 	=> $this->user_age_type,
 			'city'			=> new CityShortResource($this->city),

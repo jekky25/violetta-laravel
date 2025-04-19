@@ -42,7 +42,7 @@ class ProfileTest extends TestCase
 		$photos	 = Photo::factory(3)->create(
 			['user_id' => $user->user_id]
 		);
-		$user->update(['user_fotos' => $photos->count()]);
+		$user->update(['photos_count' => $photos->count()]);
 		$user->save();
 		return $user;
 	}

@@ -17,14 +17,14 @@ class UserFactory extends Factory
 	{
 		$city	 = City::get()->random();
 		return [
-			'user_name'					=> $this->faker->name(),
+			'name'						=> $this->faker->name(),
 			'user_sex'					=> rand(1, 2),
 			'city_id'					=> !empty($city)	? $city->id			: 0,
-			'user_country'				=> !empty($city)	? $city->country_id	: 0,
+			'country_id'				=> !empty($city)	? $city->country_id	: 0,
 			'region_id'					=> !empty($city)	? $city->region_id	: 0,
 			'user_active'				=> 1,
 			'user_mail'					=> $this->faker->unique()->safeEmail(),
-			'user_reiting'				=> $this->faker->numberBetween(1, 5),
+			'rating'					=> $this->faker->numberBetween(1, 5),
 			'user_login'				=> Str::random(10),
 			'user_password'				=> $this->faker->unique()->password(6, 8),
 			'user_hash'					=> md5($this->faker->unique()->password(6, 8)),

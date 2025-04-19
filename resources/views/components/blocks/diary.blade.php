@@ -1,6 +1,6 @@
 <tr>
 		<td>
-			<h4 class="{{ $item->name_class }}"><a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>
+			<h4 class="{{ $item->name_class }}"><a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->name }}</a>
 				<div class="titDnev"><a href="{{route('ank.id', $item->user->user_id)}}">{!! \Illuminate\Support\Str::limit($item->title, 40, $end='...') !!}</a></div>
 				<p>
 				@if (!empty($user) && $user->user_id == $item->user_id)

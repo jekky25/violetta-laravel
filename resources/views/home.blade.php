@@ -86,14 +86,14 @@
 							<dt>
 								<!--noindex-->
 								<a href="{{route('ank.id', $item->user_id)}}" rel="nofollow">
-									<img class="b-lazy" alt="{{ $item->user_name }},{{ $item->user_age }}{{ $item->user_age_type }},{{ $item->city->name }}"  data-src="{{ asset('fotos_new/' . $item->photo->id) . '.jpg' }}" src="{{ asset('image/zero.gif') }}" />
+									<img class="b-lazy" alt="{{ $item->name }},{{ $item->user_age }}{{ $item->user_age_type }},{{ $item->city->name }}"  data-src="{{ asset('fotos_new/' . $item->photo->id) . '.jpg' }}" src="{{ asset('image/zero.gif') }}" />
 								</a>
 								<!--/noindex-->
 							</dt>
 							<dd>
-							<p><!--noindex-->@if (!empty($item->user_reg_is))<img title="на сайте" class="online" alt="на сайте" src="{{ asset('image/on_line.gif') }}" />@endif<a href="{{route('ank.id', $item->user_id)}}" @if ($item->user_sex == MEN)class="name_man" @else class="name_woman" @endif rel="nofollow">{{ $item->user_name }}</a><!--/noindex-->
+							<p><!--noindex-->@if (!empty($item->user_reg_is))<img title="на сайте" class="online" alt="на сайте" src="{{ asset('image/on_line.gif') }}" />@endif<a href="{{route('ank.id', $item->user_id)}}" @if ($item->user_sex == MEN)class="name_man" @else class="name_woman" @endif rel="nofollow">{{ $item->name }}</a><!--/noindex-->
 							@if ($item->user_sex == MEN)<img class="b-lazy" alt="Мужчина" data-src="{{ asset('image/sex_men.jpg') }}" src="{{ asset('image/zero.gif') }}" />@else<img class="b-lazy" alt="Женщина" data-src="{{ asset('image/sex_women.jpg') }}" src="{{ asset('image/zero.gif') }}" />@endif
-							<span>({{ $item->user_fotos }} фото)</span></p>
+							<span>({{ $item->photos_count }} фото)</span></p>
 								<p><span class="st1">{{ $item->user_age }} {{ $item->user_age_type }}</span>, {{ $item->city->name }}</p>
 								<p><span class="st1">Ищу:</span> {{ $item->find_sex_orient }}</p>
 							</dd>
@@ -107,7 +107,7 @@
 								@foreach ($diaries as $item)
 								<div class="dnevnik">
 									<h4 class="{{ $item->name_class }}">
-										<a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>
+										<a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->name }}</a>
 										<p>{{ $item->create_time }}</p>
 									</h4>
 									<h3>

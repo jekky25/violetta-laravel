@@ -13,7 +13,7 @@ function vote(score)
 }
 </script>
 <ul id="ankFotos" class="clear">
-    @if ($anketUserData->user_fotos > 0)
+    @if ($anketUserData->photos_count > 0)
         @foreach ($anketUserData->photo as $item)
 		@if ($loop->iteration > 1) @continue @endif
 		<li><a class="ankFotosPics" href="{{route('ank.id', $anketUserData->user_id)}}"><img src="{{ (new FileService)->outPicture($item->id, $anketUserData->user_sex) }}" /></a></li>
@@ -33,7 +33,7 @@ function vote(score)
 					<td class="wth4">
 						<div class="div-rating2">
 							<ul class="div-rating">
-								<li class="current-rating" style="width:{{ $anketUserData->user_reiting_str }}px;">&nbsp;</li>
+								<li class="current-rating" style="width:{{ $anketUserData->rating_str }}px;">&nbsp;</li>
 								@auth
 									@if ($userData->user_id != $anketUserData->user_id && !$ankEvaluationed)
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("1");' title='Очень плохо' class="r1-unit rater">Очень плохо</a></li>
@@ -57,9 +57,9 @@ function vote(score)
 		<tr>
 			<td>
 			@if ($item->user_otprav == $userData->user_id)
-				<h4 class="outMeMess"><a href="{{route('ank.id', $userData->user_id)}}">{{ $userData->user_name }}</a>
+				<h4 class="outMeMess"><a href="{{route('ank.id', $userData->user_id)}}">{{ $userData->name }}</a>
 			@else
-				<h4 class="inMeMess"><a href="{{route('ank.id', $anketUserData->user_id)}}">{{ $anketUserData->user_name }}</a>
+				<h4 class="inMeMess"><a href="{{route('ank.id', $anketUserData->user_id)}}">{{ $anketUserData->name }}</a>
 			@endif
 					<p>{{ $item->last_date }}<a class="delBut2" title="удалить" href="{{route('privmsg.post.delete', $item->message_id)}}"></a></p>
 				</h4>

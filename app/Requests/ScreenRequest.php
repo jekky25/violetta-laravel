@@ -10,24 +10,24 @@ use App\Rules\CheckAuthorize;
 class ScreenRequest extends FormRequest
 {
 	/**
-	* replace array errors from default to commit
-	* @param  Illuminate\Contracts\Validation\Validator  $validator
-	* @return void
-	*/
+	 * replace array errors from default to commit
+	 * @param  Illuminate\Contracts\Validation\Validator  $validator
+	 * @return void
+	 */
 	public function failedValidation(Validator $validator)
 	{
 		$exception = $validator->getException();
 		$this->errorBag = 'comment';
 		throw (new $exception($validator))
-					->errorBag($this->errorBag)
-					->redirectTo($this->getRedirectUrl());
+			->errorBag($this->errorBag)
+			->redirectTo($this->getRedirectUrl());
 	}
 
 	/**
-	* messages for the request
-	* @return string array
-	*/
-	public function messages():array
+	 * messages for the request
+	 * @return string array
+	 */
+	public function messages(): array
 	{
 		return	[
 			'description.required'			=> 'Комментарий не заполнен',
@@ -37,10 +37,10 @@ class ScreenRequest extends FormRequest
 	}
 
 	/**
-	* Get the validation rules that apply to the request.
-	*
-	* @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-	*/
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+	 */
 	public function rules(): array
 	{
 		return [
@@ -49,24 +49,24 @@ class ScreenRequest extends FormRequest
 	}
 
 	/**
-	* Get the validated data from the request.
-	*
-	* @param  array|int|string|null  $key
-	* @param  mixed  $default
-	* @return mixed
-	*/
+	 * Get the validated data from the request.
+	 *
+	 * @param  array|int|string|null  $key
+	 * @param  mixed  $default
+	 * @return mixed
+	 */
 	public function validated($key = null, $default = null)
-    {
+	{
 		$arParams = $this->validator->validated();
 		$user = Auth::user();
 		$ar = [
 			'scr_id'		=> (int)$this->id,
 			'description'	=> str_replace("\'", "''", $arParams['description']),
-			'name'			=> $user->user_name,
+			'name'			=> $user->name,
 			'email'			=> $user->user_mail,
 			'create_time'	=> time()
 		];
-		$ar  = array_merge($arParams,$ar);
+		$ar  = array_merge($arParams, $ar);
 		return data_get($ar, $key, $default);
 	}
 }

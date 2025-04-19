@@ -28,11 +28,11 @@ class User extends Authenticatable
 		'user_hash',
 		'user_mail',
 		'user_sex',
-		'user_fotos',
-		'user_reiting',
-		'user_name',
-		'user_birth_date',
-		'user_country',
+		'photos_count',
+		'rating',
+		'name',
+		'birth_date',
+		'country_id',
 		'region_id',
 		'city_id',
 		'height',
@@ -173,7 +173,7 @@ class User extends Authenticatable
 
 	public function getUserAgeAttribute()
 	{
-		return (new DataService)->age($this->user_birth_date);
+		return (new DataService)->age($this->birth_date);
 	}
 
 	public function getUserAgeTypeAttribute()
@@ -183,17 +183,17 @@ class User extends Authenticatable
 
 	public function getBirthDayAttribute()
 	{
-		return (new DataService)->selectFromDate($this->user_birth_date, DATE_DAY);
+		return (new DataService)->selectFromDate($this->birth_date, DATE_DAY);
 	}
 
 	public function getBirthMonthAttribute()
 	{
-		return (new DataService)->selectFromDate($this->user_birth_date, DATE_MONTH);
+		return (new DataService)->selectFromDate($this->birth_date, DATE_MONTH);
 	}
 
 	public function getBirthYearAttribute()
 	{
-		return (new DataService)->selectFromDate($this->user_birth_date, DATE_YEAR);
+		return (new DataService)->selectFromDate($this->birth_date, DATE_YEAR);
 	}
 
 	public function getUserAgeStrAttribute()
@@ -226,7 +226,7 @@ class User extends Authenticatable
 
 	public function getZodiacAttribute()
 	{
-		return (new DataService)->zodiac($this->user_birth_date);
+		return (new DataService)->zodiac($this->birth_date);
 	}
 
 	public function getNumberDiaryAttribute()
@@ -239,10 +239,10 @@ class User extends Authenticatable
 		return $this->number_diary . ' ' . (new formatService)->caseDiaryType($this->number_diary);
 	}
 
-	public function getUserReitingStrAttribute()
+	public function getRatingStrAttribute()
 	{
-		$maxReit = (new UserRepository())->getMaxReiting($this->user_sex);
-		return (new formatService)->reiting($this->user_reiting, $maxReit);
+		$maxRate = (new UserRepository())->getMaxRating($this->user_sex);
+		return (new formatService)->rating($this->rating, $maxRate);
 	}
 
 	public function getDescriptionAttribute($val)
@@ -355,7 +355,7 @@ class User extends Authenticatable
 
 	public function country()
 	{
-		return $this->hasOne(Country::class, 'id', 'user_country');
+		return $this->hasOne(Country::class, 'id', 'country_id');
 	}
 
 	public function region()

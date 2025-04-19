@@ -21,7 +21,7 @@ class UserBirthdayFilter extends Filter
 	 *
 	 * @return Builder
 	 */
-	protected function afterBuild() :Builder
+	protected function afterBuild(): Builder
 	{
 		$this->active();
 		$this->date();
@@ -31,7 +31,7 @@ class UserBirthdayFilter extends Filter
 	/**
 	 * @return Builder
 	 */
-	protected function active() :Builder
+	protected function active(): Builder
 	{
 		return $this->builder->where('user_active', 1);
 	}
@@ -39,8 +39,8 @@ class UserBirthdayFilter extends Filter
 	/**
 	 * @return Builder
 	 */
-	protected function date() :Builder
+	protected function date(): Builder
 	{
-		return $this->builder->where('user_birth_date', 'LIKE', $this->format->dataForDB());
+		return $this->builder->where('birth_date', 'LIKE', $this->format->dataForDB());
 	}
 }
