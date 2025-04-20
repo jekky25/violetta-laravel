@@ -83,7 +83,7 @@ class RegistrationRequest extends FormRequest
 	protected function prepareForValidation()
 	{
 		$this->merge([
-			'user_active' 				=> 1,
+			'active' 					=> 1,
 			'approved'		 			=> 1,
 			'login' 					=> $this->login,
 			'password' 					=> $this->password,
@@ -142,7 +142,7 @@ class RegistrationRequest extends FormRequest
 			],
 			'recaptcha_response'	 	=> ['required', new GoogleCaptcha],
 			'conditions'				=> ['required'],
-			'user_active'				=> ['integer'],
+			'active'					=> ['integer'],
 			'approved'					=> ['integer'],
 			'password'					=> ['string'],
 			'hash'						=> ['string'],

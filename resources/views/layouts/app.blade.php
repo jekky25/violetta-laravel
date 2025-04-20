@@ -19,7 +19,7 @@
 				<ul>
 					<li class="first-item-menu"><a href="{{route('privmsg')}}"><span>Мои сообщения</span> <span @if ($user->user_new_message > 0) class="first-item-menu-num red_mark" @else class="first-item-menu-num green_mark" @endif>({{ $user->user_new_message }})</span></a></li>
 					<li><a href="{{route('registration.edit')}}">Мой профиль</a></li>
-					<li><a href="{{route('ank.id', $user->user_id)}}">Моя анкета</a></li>
+					<li><a href="{{route('ank.id', $user->id)}}">Моя анкета</a></li>
 					<li><a href="{{route('registration.edit.photo')}}">Мои фото</a></li>
 					<li><a href="{{route('registration.edit.diary')}}">Мой дневник</a></li>
 					<li><a href="{{route('registration.edit.settings')}}">Мои настройки</a></li>
@@ -175,7 +175,7 @@ if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br 
 				<ul>
 					<li><a class="name_my_mess" href="{{route('privmsg')}}">Мои сообщения</a> <span @if ($user->new_messages > 0) class="red_mark" @else class="green_mark" @endif>({{ $user->new_messages }})</span></li>
 					<li><a href="{{route('registration.edit')}}">Мой профиль</a></li>
-					<li><a href="{{route('ank.id', $user->user_id)}}">Моя анкета</a></li>
+					<li><a href="{{route('ank.id', $user->id)}}">Моя анкета</a></li>
 					<li><a href="{{route('registration.edit.photo')}}">Мои фото</a></li>
 					<li><a href="{{route('registration.edit.diary')}}">Мой дневник</a></li>
 					<li><a href="{{route('registration.edit.settings')}}">Мои настройки</a></li>

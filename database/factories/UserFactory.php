@@ -22,7 +22,7 @@ class UserFactory extends Factory
 			'city_id'					=> !empty($city)	? $city->id			: 0,
 			'country_id'				=> !empty($city)	? $city->country_id	: 0,
 			'region_id'					=> !empty($city)	? $city->region_id	: 0,
-			'user_active'				=> 1,
+			'active'					=> 1,
 			'email'						=> $this->faker->unique()->safeEmail(),
 			'rating'					=> $this->faker->numberBetween(1, 5),
 			'login'						=> Str::random(10),

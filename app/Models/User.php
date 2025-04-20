@@ -52,7 +52,7 @@ class User extends Authenticatable
 		'description',
 		'partner_description',
 		'confirm_email',
-		'user_active',
+		'active',
 		'approved',
 		'sex_orient',
 		'targets',
@@ -105,7 +105,7 @@ class User extends Authenticatable
 	];
 
 	protected $table 		= 'users_news';
-	protected $primaryKey 	= 'user_id';
+	protected $primaryKey 	= 'id';
 	public $timestamps 		= false;
 
 	public $fieldsAboutPartner =
@@ -369,22 +369,22 @@ class User extends Authenticatable
 
 	public function photo()
 	{
-		return $this->hasMany(Photo::class, 'user_id', 'user_id')->with('comment')->orderBy('main_picture', 'desc');
+		return $this->hasMany(Photo::class, 'user_id', 'id')->with('comment')->orderBy('main_picture', 'desc');
 	}
 
 	public function visits()
 	{
 		$t = time() - 60 * 60 * 24 * 30;
-		return $this->hasMany(AnketVisit::class, 'user_id_prosm', 'user_id')->where('create_time', '>', $t);
+		return $this->hasMany(AnketVisit::class, 'user_id_prosm', 'id')->where('create_time', '>', $t);
 	}
 
 	public function diary()
 	{
-		return $this->hasMany(Diary::class, 'user_id', 'user_id')->orderBy('create_time', 'desc');
+		return $this->hasMany(Diary::class, 'user_id', 'id')->orderBy('create_time', 'desc');
 	}
 
 	public function anketVisit()
 	{
-		return $this->hasOne(AnketVisit::class, 'user_id_prosm', 'user_id');
+		return $this->hasOne(AnketVisit::class, 'user_id_prosm', 'id');
 	}
 }

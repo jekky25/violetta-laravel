@@ -40,7 +40,7 @@ class ProfileTest extends TestCase
 			]
 		)->create();
 		$photos	 = Photo::factory(3)->create(
-			['user_id' => $user->user_id]
+			['user_id' => $user->id]
 		);
 		$user->update(['photos_count' => $photos->count()]);
 		$user->save();
@@ -57,7 +57,7 @@ class ProfileTest extends TestCase
 		foreach ($this->users as $user) {
 			$i++;
 			if ($i > $this->maxItems) break;
-			$ar[] = '/ank/' . $user->user_id . '/';
+			$ar[] = '/ank/' . $user->id . '/';
 		}
 
 		foreach ($ar as $item) {
@@ -77,7 +77,7 @@ class ProfileTest extends TestCase
 		foreach ($this->users as $user) {
 			$i++;
 			if ($i > $this->maxItems) break;
-			$ar[] = '/ank/f/' . $user->user_id . '/';
+			$ar[] = '/ank/f/' . $user->id . '/';
 		}
 
 		foreach ($ar as $item) {
@@ -159,7 +159,7 @@ class ProfileTest extends TestCase
 	public function test_picture_profile_id_page(): void
 	{
 		$user	= User::get()->random();
-		Auth::loginUsingId($user->user_id);
+		Auth::loginUsingId($user->id);
 		$userId = Photo::get()->random()->user_id;
 		$ar = [
 			'ank/photo/' . $userId . '.html',

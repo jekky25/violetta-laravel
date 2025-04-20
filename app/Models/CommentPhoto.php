@@ -26,7 +26,7 @@ class CommentPhoto extends Model
 			$model->time			= time();
 			$model->description		= str_replace("\'", "''", $model->description);
 			$user 					= Auth::user();
-			$model->user_id			= $user->user_id;
+			$model->user_id			= $user->id;
 		});
 	}
 
@@ -55,6 +55,6 @@ class CommentPhoto extends Model
 	 */
 	public function user()
 	{
-		return $this->belongsTo(User::class, 'user_id', 'user_id')->with('city');
+		return $this->belongsTo(User::class, 'user_id', 'id')->with('city');
 	}
 }

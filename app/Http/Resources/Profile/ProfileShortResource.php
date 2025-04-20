@@ -17,7 +17,7 @@ class ProfileShortResource extends JsonResource
 	public function toArray(Request $request): array
 	{
 		return [
-			'id'			=> $this->user_id,
+			'id'			=> $this->id,
 			'name'		 	=> $this->name,
 			'age'		 	=> $this->user_age,
 			'age_type'	 	=> $this->user_age_type,

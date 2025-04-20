@@ -4,7 +4,7 @@
 <script language="JavaScript" type="text/javascript">
 function vote(score)
 {
-	var url = '{{route(Route:: currentRouteName(), [$userData->user_id, 'send_golos' => 1 ])}}';
+	var url = '{{route(Route:: currentRouteName(), [$userData->id, 'send_golos' => 1 ])}}';
 	url += '&golos='+score;
 	window.location = url;
 	return false;
@@ -32,7 +32,7 @@ function vote(score)
 				<tr>
 					<td class="pad11">
 						<p class="pad1">
-							<a href="{{route('privmsg.post', $userData->user_id)}}" title="Написать сообщение"><img alt="Написать сообщение" src="{{ asset('image/mail.png') }}" /></a>
+							<a href="{{route('privmsg.post', $userData->id)}}" title="Написать сообщение"><img alt="Написать сообщение" src="{{ asset('image/mail.png') }}" /></a>
 							<x-social />
 						</p>
 					</td>
@@ -61,7 +61,7 @@ function vote(score)
 							<ul class="div-rating">
 								<li class="current-rating" style="width:{{ $userData->rating_str }}px;">&nbsp;</li>
 								@auth
-									@if ($user->user_id != $userData->user_id && !$ankEvaluationed)
+									@if ($user->id != $userData->id && !$ankEvaluationed)
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("1");' title='Очень плохо' class="r1-unit rater">Очень плохо</a></li>
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("2");' title='Плохо' class="r2-unit rater">Плохо</a></li>
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("3");' title='Средне' class="r3-unit rater">Средне</a></li>

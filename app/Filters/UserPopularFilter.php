@@ -42,7 +42,7 @@ class UserPopularFilter extends Filter
 	 */
 	protected function active(): Builder
 	{
-		return $this->builder->where('user_active', 1);
+		return $this->builder->where('active', 1);
 	}
 
 	/**
@@ -53,7 +53,7 @@ class UserPopularFilter extends Filter
 		return $this->builder->whereExists(function ($query) {
 			$query->select(DB::raw(1))
 				->from('anket_visit')
-				->whereRaw('users_news.user_id = anket_visit.user_id_prosm');
+				->whereRaw('users_news.id = anket_visit.user_id_prosm');
 		});
 	}
 }

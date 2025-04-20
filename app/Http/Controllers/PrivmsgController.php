@@ -41,7 +41,7 @@ class PrivmsgController extends Controller
 	public function index()
 	{
 		$user 			= Auth::user();
-		$messages 			= $this->messageRepository->getAll($user->user_id, self::$messagePerPage);
+		$messages 			= $this->messageRepository->getAll($user->id, self::$messagePerPage);
 		$messages			= $this->messageRepository->getNewsByUsers($messages, $user);
 		return response()->view(
 			'ankets.privmsg',
@@ -81,7 +81,7 @@ class PrivmsgController extends Controller
 		$arParams 		= $request->post();
 		if (!empty($arParams['cancel'])) return redirect()->route('privmsg');
 		if (!empty($arParams['confirm'])) {
-			$this->messageRepository->deleteSelected($arParams['mark'], $user->user_id);
+			$this->messageRepository->deleteSelected($arParams['mark'], $user->id);
 			return redirect()->route('privmsg');
 		}
 	}
@@ -111,11 +111,11 @@ class PrivmsgController extends Controller
 		$user 			= Auth::user();
 		$message 		= $this->messageRepository->getById($id);
 		$arParams 		= $request->post();
-		$user_id 		= $message->user_otprav == $user->user_id ? $message->user_poluchil : $message->user_otprav;
-		if (!empty($arParams['cancel'])) return redirect()->route('privmsg.post', $user_id);
+		$userId 		= $message->user_otprav == $user->id ? $message->user_poluchil : $message->user_otprav;
+		if (!empty($arParams['cancel'])) return redirect()->route('privmsg.post', $userId);
 		if (!empty($arParams['confirm'])) {
-			$this->messageRepository->delete($message, $user->user_id);
-			return redirect()->route('privmsg.post', $user_id);
+			$this->messageRepository->delete($message, $user->id);
+			return redirect()->route('privmsg.post', $userId);
 		}
 	}
 
@@ -129,10 +129,10 @@ class PrivmsgController extends Controller
 	{
 		$user 			= $request->user()->load(['visits']);
 		$anket 			= $this->userRepository->getById($id);
-		$messages 		= $this->messageRepository->getAllByUser($id, $user->user_id, self::$messageAnkPerPage);
+		$messages 		= $this->messageRepository->getAllByUser($id, $user->id, self::$messageAnkPerPage);
 		$smiles			= $this->smileRepository->getAll();
-		$this->anketEvaluationRepository->getEvaluations($user->user_id, $id);
-		$ankEvaluationed = $this->anketEvaluationRepository->getEvaluationWithUpdate($request, $user->user_id, $id);
+		$this->anketEvaluationRepository->getEvaluations($user->id, $id);
+		$ankEvaluationed = $this->anketEvaluationRepository->getEvaluationWithUpdate($request, $user->id, $id);
 		if (is_object($ankEvaluationed) && get_class($ankEvaluationed) == 'Illuminate\Http\RedirectResponse') return $ankEvaluationed;
 		return response()->view(
 			'ankets.privmsg_id',
@@ -158,7 +158,7 @@ class PrivmsgController extends Controller
 		$anket 			= $this->userRepository->getJustById($id);
 		if (empty($user) or empty($anket)) abort(404);
 
-		$this->messageRepository->store($request->validated(id: $id, user_id: $user->user_id));
+		$this->messageRepository->store($request->validated(id: $id, user_id: $user->id));
 		if ($user->dont_send_email != 1) {
 			Mail::mailer(config('mail.mail_mode'))
 				->to($anket->email)

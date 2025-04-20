@@ -96,7 +96,7 @@ class AnketVisitRepository implements AnketVisitInterface
 		if (empty($user)) abort(404);
 		$aFields = [
 			'user_id_prosm' => $id,
-			'user_id' 	=> $user->user_id
+			'user_id' 	=> $user->id
 		];
 		$this->setFields($aFields);
 
@@ -155,7 +155,7 @@ class AnketVisitRepository implements AnketVisitInterface
 		try {
 			$aFields = [
 				'user_id_prosm'		=> $id,
-				'user_id'			=> $user->user_id,
+				'user_id'			=> $user->id,
 				'create_time'			=> time()
 			];
 

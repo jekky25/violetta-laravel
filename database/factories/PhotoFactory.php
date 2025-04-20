@@ -21,13 +21,13 @@ class PhotoFactory extends Factory
 	 */
 	public function definition()
 	{
-		$userId = User::get()->random()->user_id;
+		$userId = User::get()->random()->id;
 		self::$userPhoto[$userId] = isset(self::$userPhoto[$userId]) ? (self::$userPhoto[$userId] + 1) : 1;
 		$isMain = self::$userPhoto[$userId] > 1 ? 0 : 1;
 		return [
 			'user_id'					=> $userId,
 			'main_picture'				=> $isMain,
 			'create_time'				=> time()
-        ];
-    }
+		];
+	}
 }

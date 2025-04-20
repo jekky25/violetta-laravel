@@ -54,6 +54,6 @@ class AnketsFilter extends Filter
 	 */
 	protected function active(): Builder
 	{
-		return $this->builder->where('user_active', 1);
+		return $this->builder->where('active', 1);
 	}
 }

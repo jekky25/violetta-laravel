@@ -26,7 +26,7 @@ class UserTest extends TestCase
 	{
 		$_SERVER['REQUEST_URI'] = 'registration/delete/confirm/';
 		$user = User::factory()->create();
-		Auth::loginUsingId($user->user_id);
+		Auth::loginUsingId($user->id);
 		$response = $this->get($_SERVER['REQUEST_URI']);
 		$response->assertRedirectToRoute('registration.delete');
 	}

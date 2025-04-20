@@ -250,7 +250,7 @@ class RegistrationController extends Controller
 	public function editPhoto($id)
 	{
 		$user 			= Auth::user();
-		$photo			= $this->photoRepository->getByIdAndUserId($id, $user->user_id);
+		$photo			= $this->photoRepository->getByIdAndUserId($id, $user->id);
 		return response()->view(
 			'registration.photo_edit',
 			[
@@ -268,7 +268,7 @@ class RegistrationController extends Controller
 	public function editPhotoUpdate(PhotoRequest $request, $id)
 	{
 		$user			= Auth::user();
-		$photo			= $this->photoRepository->getByIdAndUserId($id, $user->user_id);
+		$photo			= $this->photoRepository->getByIdAndUserId($id, $user->id);
 		$this->photoRepository->update($photo, $request->validated());
 		return redirect()->back()
 			->with('success', 'Фото успешно добавлено')
@@ -343,7 +343,7 @@ class RegistrationController extends Controller
 	public function destroyPhotoAction(PhotoRequest $request, $id)
 	{
 		$user 			= Auth::user();
-		$photo			= $this->photoRepository->getByIdAndUserId($id, $user->user_id);
+		$photo			= $this->photoRepository->getByIdAndUserId($id, $user->id);
 		$arParams 		= $request->post();
 		if (!empty($arParams['cancel'])) return redirect()->route('registration.edit.photo');
 		if (!empty($arParams['confirm'])) {
@@ -359,7 +359,7 @@ class RegistrationController extends Controller
 	public function diary()
 	{
 		$user 			= Auth::user();
-		$diaries 		= $this->diaryRepository->getByUser(self::$countPerPage, $user->user_id);
+		$diaries 		= $this->diaryRepository->getByUser(self::$countPerPage, $user->id);
 		return response()->view(
 			'registration.diary',
 			[

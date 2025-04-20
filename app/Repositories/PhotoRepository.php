@@ -123,7 +123,7 @@ class PhotoRepository implements PhotoInterface
 			$aFields = [
 				'main_picture'				=> $countPhoto > 0 ? 0 : 1,
 				'create_time'				=> 0,
-				'user_id'					=> $user->user_id
+				'user_id'					=> $user->id
 			];
 			$this->create($aFields);
 			$photoId = $this->getId();
@@ -131,7 +131,7 @@ class PhotoRepository implements PhotoInterface
 			$this->fileService->fotoUpload($params['photo_link'], 1000, 'fotos_new/');
 			$countPhoto++;
 			$countPhoto = $countPhoto > 5 ? 5 : $countPhoto;
-			User::find($user->user_id)->update(
+			User::find($user->id)->update(
 				[
 					'photos_count'			=> $countPhoto,
 					'refresh_date'			=> date("Y-m-d"),
@@ -197,7 +197,7 @@ class PhotoRepository implements PhotoInterface
 		$isPortret = $photo->main_picture == 1 ? 1 : 0;
 		$photo->delete();
 		if ($isPortret) {
-			$photo = $this->getFirstByUserId($user->user_id);
+			$photo = $this->getFirstByUserId($user->id);
 			if (!empty($photo)) {
 				$photo->main_picture = 1;
 				$photo->update();
@@ -207,7 +207,7 @@ class PhotoRepository implements PhotoInterface
 		$user->refresh_date_t 		= time();
 		$user->session_time 		= time();
 		$user->lastvisit	 		= time();
-		$user->photos_count 		= $this->getAllByUserId($user->user_id)->count();
+		$user->photos_count 		= $this->getAllByUserId($user->id)->count();
 		$user->update();
 
 		return true;

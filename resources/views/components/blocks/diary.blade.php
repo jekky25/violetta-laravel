@@ -1,9 +1,9 @@
 <tr>
 		<td>
-			<h4 class="{{ $item->name_class }}"><a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->name }}</a>
-				<div class="titDnev"><a href="{{route('ank.id', $item->user->user_id)}}">{!! \Illuminate\Support\Str::limit($item->title, 40, $end='...') !!}</a></div>
+			<h4 class="{{ $item->name_class }}"><a href="{{route('ank.id', $item->user->id)}}">{{ $item->user->name }}</a>
+				<div class="titDnev"><a href="{{route('ank.id', $item->user->id)}}">{!! \Illuminate\Support\Str::limit($item->title, 40, $end='...') !!}</a></div>
 				<p>
-				@if (!empty($user) && $user->user_id == $item->user_id)
+				@if (!empty($user) && $user->id == $item->id)
 				<a class="editBut" title="редактировать" href="{{route('ank.diary.edit.id', $item->id)}}"></a>
 				<a class="delBut" title="удалить" href="{{route('ank.diary.delete.id', $item->id)}}"></a>
 				@endif
@@ -11,9 +11,9 @@
 			</h4>
 			<div class="dnevBody clear">
 	@if (!empty($item->picture))
-				<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outDiaryPicture($item->picture, $item->user->sex) }}" /></a>
+				<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->id)}}"><img src="{{ (new FileService)->outDiaryPicture($item->picture, $item->user->sex) }}" /></a>
 	@elseif (!empty($item->foto_user_id))
-				<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outPicture($item->foto_user_id, $item->user->sex) }}" /></a>
+				<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->id)}}"><img src="{{ (new FileService)->outPicture($item->foto_user_id, $item->user->sex) }}" /></a>
 	@endif
 	@if (!empty($item->picture))
 				<div class="mrg2">

@@ -29,7 +29,7 @@ google_ad_height = 60;
 @endif
 <x-pagination :items="$diaries" />
 @auth
-@if ($user->user_id == $userData->user_id)
+@if ($user->id == $userData->id)
 <script language=JavaScript>
 function find_otsil()
 {

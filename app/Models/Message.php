@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Repositories\UserRepository;
@@ -24,30 +25,30 @@ class Message extends Model
 		'mess_new',
 		'privmess_text'
 	];
-	
-	public function __construct(array $attributes = []) 
+
+	public function __construct(array $attributes = [])
 	{
 		parent::__construct($attributes);
-		if (empty($this->user)) 
-		$this->user	= Auth::user();
+		if (empty($this->user))
+			$this->user	= Auth::user();
 		$this->smiles = new SmileRepository;
 	}
 
 	public function getUserIdAttribute($val)
 	{
 		if (!empty($val) or empty($this->user)) return $val;
-		return $this->user->user_id == $this->user_otprav ? $this->user_poluchil : $this->user_otprav;
+		return $this->user->id == $this->user_otprav ? $this->user_poluchil : $this->user_otprav;
 	}
 
 	public function getUserMesAttribute($val)
 	{
 		if (!empty($val) or empty($this->user)) return $val;
-		return $this->user->user_id == $this->user_otprav ? (new UserRepository())->getJustById($this->user_poluchil, ['photo']) : (new UserRepository())->getJustById($this->user_otprav, ['photo']);
+		return $this->user->id == $this->user_otprav ? (new UserRepository())->getJustById($this->user_poluchil, ['photo']) : (new UserRepository())->getJustById($this->user_otprav, ['photo']);
 	}
 
 	public function getLastDateAttribute()
 	{
-		return date("d.m.y H:i",$this->time);
+		return date("d.m.y H:i", $this->time);
 	}
 
 	public function getPrivmessTextAttribute($val)
@@ -57,8 +58,7 @@ class Message extends Model
 
 	public function getPhotoMainAttribute()
 	{
-		if (count ($this->user_mes->photo) > 0)
-		{
+		if (count($this->user_mes->photo) > 0) {
 			$photo = $this->user_mes->photo[0];
 			return $photo->id;
 		}

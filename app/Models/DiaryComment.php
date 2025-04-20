@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,7 +28,7 @@ class DiaryComment extends Model
 	}
 
 	public function getPictureUrlAttribute()
-	{	
+	{
 		return $this->picture !== "0" ? 'img/dnev_comment/' . $this->picture : null;
 	}
 
@@ -47,18 +48,18 @@ class DiaryComment extends Model
 	}
 
 	/**
-	* get user diary
-	*/
+	 * get user diary
+	 */
 	public function diary()
 	{
 		return $this->belongsTo(Diary::class, 'id', 'diary_id');
 	}
 
 	/**
-	* get user
-	*/
+	 * get user
+	 */
 	public function user()
 	{
-		return $this->belongsTo(User::class, 'user_id', 'user_id');
+		return $this->belongsTo(User::class, 'user_id', 'id');
 	}
 }

@@ -39,11 +39,11 @@ class UserRepository implements UserInterface
 	 */
 	public function newFaces($count)
 	{
-		$items = User::select(['users_news.user_id', 'user_active', 'name', 'sex', 'birth_date', 'make_date_t', 'city_id', 'photos_count', 'sex_orient', 'partner_age_min', 'partner_age_max'])
-			->join('fotos', 'users_news.user_id', '=', 'fotos.user_id')
+		$items = User::select(['users_news.id', 'active', 'name', 'sex', 'birth_date', 'make_date_t', 'city_id', 'photos_count', 'sex_orient', 'partner_age_min', 'partner_age_max'])
+			->join('fotos', 'users_news.id', '=', 'fotos.user_id')
 			->where('photos_count', '>', 0)
 			->where('confirm_email', 1)
-			->where('user_active', 1)
+			->where('active', 1)
 			->where('main_picture', 1)
 			->with('city')
 			->with('photo')
@@ -62,9 +62,9 @@ class UserRepository implements UserInterface
 	 */
 	public function getTop100($sex, $count)
 	{
-		$items = User::select(['user_id', 'rating', 'name', 'birth_date', 'city_id'])
+		$items = User::select(['id', 'rating', 'name', 'birth_date', 'city_id'])
 			->where('sex', $sex)
-			->where('user_active', 1)
+			->where('active', 1)
 			->where('photos_count', '>', 0)
 			->where('confirm_email', 1)
 			->with('city')
@@ -110,9 +110,9 @@ class UserRepository implements UserInterface
 	 */
 	public function getCountAnkets($sex)
 	{
-		$count = User::select('user_id')
+		$count = User::select('id')
 			->where('sex', $sex)
-			->where('user_active', 1)
+			->where('active', 1)
 			->count();
 		return $count > 0 ? $count : 0;
 	}
@@ -156,14 +156,14 @@ class UserRepository implements UserInterface
 	public function getByLoginAndPass($login, $pass)
 	{
 		if (empty($login) or empty($pass)) return false;
-		return User::select(['user_id'])
+		return User::select(['id'])
 			->where('login', $login)
 			->where('hash', md5($pass))
 			->first();
 	}
 
 	/**
-	 * get profile over user_id and confirmation code
+	 * get profile over id and confirmation code
 	 * @param  int $id
 	 * @param  string $code
 	 * @return \Illuminate\Database\Eloquent\Collection
@@ -172,7 +172,7 @@ class UserRepository implements UserInterface
 	{
 		if ((int)($id) == 0 or empty($code)) return false;
 		return User::select(['*'])
-			->where('user_id', $id)
+			->where('id', $id)
 			->where('submit_code', addslashes($code))
 			->firstOrFail();
 	}
@@ -185,7 +185,7 @@ class UserRepository implements UserInterface
 	public function getMaxRating($sex)
 	{
 		$item = User::select(['*'])
-			->where('user_active', 1)
+			->where('active', 1)
 			->where('sex', $sex)
 			->max('rating');
 		return $item;
@@ -200,8 +200,8 @@ class UserRepository implements UserInterface
 	{
 		$user = Auth::user();
 		$item = User::select('*')
-			->where('user_id', $id)
-			->where('user_active', 1);
+			->where('id', $id)
+			->where('active', 1);
 		if (empty($user)) {
 			$item->where('confirm_email', 1);
 		}
@@ -224,7 +224,7 @@ class UserRepository implements UserInterface
 	public function getJustById($id, $width = [])
 	{
 		$item = User::select('*')
-			->where('user_id', $id);
+			->where('id', $id);
 		if (!empty($width)) {
 			foreach ($width as $w) {
 				$item->with($w);
@@ -285,7 +285,7 @@ class UserRepository implements UserInterface
 	public function update($user, $params)
 	{
 		try {
-			User::find($user->user_id)->update($params);
+			User::find($user->id)->update($params);
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to update User. ' . $e->getMessage());
 		}
@@ -313,7 +313,7 @@ class UserRepository implements UserInterface
 		try {
 			(new PhotoRepository)->destroyAllByUser($user);
 			$this->anketVisit = new AnketVisitRepository();
-			$this->anketVisit->destroyAllByUserId($user->user_id);
+			$this->anketVisit->destroyAllByUserId($user->id);
 			$user->delete();
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to remove User. ' . $e->getMessage());

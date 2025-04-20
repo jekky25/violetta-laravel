@@ -6,7 +6,7 @@
 <script language="JavaScript" type="text/javascript">
 function vote(score)
 {
-	var url = '{{route(Route:: currentRouteName(), [$anketUserData->user_id, 'send_golos' => 1 ])}}';
+	var url = '{{route(Route:: currentRouteName(), [$anketUserData->id, 'send_golos' => 1 ])}}';
 	url += '&golos='+score;
 	window.location = url;
 	return false;
@@ -16,10 +16,10 @@ function vote(score)
     @if ($anketUserData->photos_count > 0)
         @foreach ($anketUserData->photo as $item)
 		@if ($loop->iteration > 1) @continue @endif
-		<li><a class="ankFotosPics" href="{{route('ank.id', $anketUserData->user_id)}}"><img src="{{ (new FileService)->outPicture($item->id, $anketUserData->sex) }}" /></a></li>
+		<li><a class="ankFotosPics" href="{{route('ank.id', $anketUserData->id)}}"><img src="{{ (new FileService)->outPicture($item->id, $anketUserData->sex) }}" /></a></li>
         @endforeach
 	@else
-		<li><a class="ankFotosPics" href="{{route('ank.id', $anketUserData->user_id)}}">@if ($anketUserData->sex == MEN)<img src="{{ asset('image/no_foto_m_vip.jpg') }}" />@else<img src="{{ asset('image/no_foto_w_vip.jpg') }}" />@endif</a></li>
+		<li><a class="ankFotosPics" href="{{route('ank.id', $anketUserData->id)}}">@if ($anketUserData->sex == MEN)<img src="{{ asset('image/no_foto_m_vip.jpg') }}" />@else<img src="{{ asset('image/no_foto_w_vip.jpg') }}" />@endif</a></li>
 	@endif
 		<li>
 			<p><strong>Город:</strong> {{ $anketUserData->city->name }} ({{ $anketUserData->country->name }})</p>
@@ -35,7 +35,7 @@ function vote(score)
 							<ul class="div-rating">
 								<li class="current-rating" style="width:{{ $anketUserData->rating_str }}px;">&nbsp;</li>
 								@auth
-									@if ($userData->user_id != $anketUserData->user_id && !$ankEvaluationed)
+									@if ($userData->id != $anketUserData->id && !$ankEvaluationed)
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("1");' title='Очень плохо' class="r1-unit rater">Очень плохо</a></li>
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("2");' title='Плохо' class="r2-unit rater">Плохо</a></li>
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("3");' title='Средне' class="r3-unit rater">Средне</a></li>
@@ -56,10 +56,10 @@ function vote(score)
 	@foreach ($messages as $item)
 		<tr>
 			<td>
-			@if ($item->user_otprav == $userData->user_id)
-				<h4 class="outMeMess"><a href="{{route('ank.id', $userData->user_id)}}">{{ $userData->name }}</a>
+			@if ($item->user_otprav == $userData->id)
+				<h4 class="outMeMess"><a href="{{route('ank.id', $userData->id)}}">{{ $userData->name }}</a>
 			@else
-				<h4 class="inMeMess"><a href="{{route('ank.id', $anketUserData->user_id)}}">{{ $anketUserData->name }}</a>
+				<h4 class="inMeMess"><a href="{{route('ank.id', $anketUserData->id)}}">{{ $anketUserData->name }}</a>
 			@endif
 					<p>{{ $item->last_date }}<a class="delBut2" title="удалить" href="{{route('privmsg.post.delete', $item->message_id)}}"></a></p>
 				</h4>
@@ -93,7 +93,7 @@ function vote(score)
 		</table>
 	@endif
 	</div>
-	<form name="anketa" action="{{route('privmsg.post.add', $anketUserData->user_id)}}" method="post">
+	<form name="anketa" action="{{route('privmsg.post.add', $anketUserData->id)}}" method="post">
 		{{ csrf_field() }}
 		<table width="100%">
 			<tr>
