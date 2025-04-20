@@ -110,7 +110,7 @@ class User extends Authenticatable
 
 	public $fieldsAboutPartner =
 	[
-		'user_partner_sex',
+		'partner_sex',
 		'partner_age',
 		'partner_height',
 		'partner_weight',
@@ -295,7 +295,7 @@ class User extends Authenticatable
 		return $this->photo instanceof Photo ? $this->photo : $this->photo[0];
 	}
 
-	public function getUserClassAAttribute()
+	public function getClassAAttribute()
 	{
 		return $this->sex == MEN ? 'name_man' : 'name_woman';
 	}
@@ -310,7 +310,7 @@ class User extends Authenticatable
 		return '<strong>' . ($this->sex == WOMEN ? 'поднялась' : 'поднялся') . '</strong>: ' . (new DataService)->lastVisit($this->top100);
 	}
 
-	public function getUserPartnerSexAttribute()
+	public function getPartnerSexAttribute()
 	{
 		if ($this->sex_orient == self::SEX_BISEXUAL || $this->sex_orient == self::SEX_TRANS) {
 			$partnerSex = 'Мужской, Женский';
@@ -319,7 +319,7 @@ class User extends Authenticatable
 		} else {
 			$partnerSex = $this->sex == WOMEN ? 'Женский' : 'Мужской';
 		}
-		return  $partnerSex;
+		return $partnerSex;
 	}
 
 	public function getPartnerAgeAttribute()
