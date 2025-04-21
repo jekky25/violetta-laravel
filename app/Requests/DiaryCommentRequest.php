@@ -11,26 +11,26 @@ class DiaryCommentRequest extends FormRequest
 	private $routeCommentDelete 	= 'ank.diary.comment.delete.id';
 	private $routeCommentEdit 		= 'ank.diary.comment.edit.id';
 	private $routeCommentDeleteActive	= 'ank.diary.comment.delete.action.id';
-	
+
 	/**
-	* replace array errors from default to commit
-	* @param  Illuminate\Contracts\Validation\Validator  $validator
-	* @return void
-	*/
+	 * replace array errors from default to commit
+	 * @param  Illuminate\Contracts\Validation\Validator  $validator
+	 * @return void
+	 */
 	public function failedValidation(Validator $validator)
 	{
 		$exception = $validator->getException();
 		$this->errorBag = 'comment';
-        throw (new $exception($validator))
-                    ->errorBag($this->errorBag)
-                    ->redirectTo($this->getRedirectUrl());
+		throw (new $exception($validator))
+			->errorBag($this->errorBag)
+			->redirectTo($this->getRedirectUrl());
 	}
 
 	/**
-	* messages for the request
-	* @return string array
-	*/
-	public function messages():array
+	 * messages for the request
+	 * @return string array
+	 */
+	public function messages(): array
 	{
 		return	[
 			'description.required' 	=> 'Описание не заполнено',
@@ -45,10 +45,10 @@ class DiaryCommentRequest extends FormRequest
 	}
 
 	/**
-	* rules for the request
-	* @return string array
-	*/
-	public function rules():array
+	 * rules for the request
+	 * @return string array
+	 */
+	public function rules(): array
 	{
 		if ($this->cancelRules()) return [];
 		return [
@@ -59,35 +59,14 @@ class DiaryCommentRequest extends FormRequest
 	}
 
 	/**
-	* check routes for cancel
-	* @return bool
-	*/
+	 * check routes for cancel
+	 * @return bool
+	 */
 	private function cancelRules()
 	{
 		if (Route::currentRouteName() == $this->routeCommentDelete) return true;
 		if (Route::currentRouteName() == $this->routeCommentDeleteActive) return true;
 		if (Route::currentRouteName() == $this->routeCommentEdit && $this->isMethod('get')) return true;
 		return false;
-	}
-
-	/**
-	* Get the validated data from the request.
-	*
-	* @param  array|int|string|null  $key
-	* @param  mixed  $default
-	* @param  integer $id
-	* @param  integer $user_id
-	* @return mixed
-	*/
-	public function validated($key = null, $default = null, $id = 0, $user_id = 0)
-    {
-		$arParams = $this->validator->validated();
-		if ($this->cancelRules()) return data_get($arParams, $key, $default);
-		$arParams['title']						= strip_tags($arParams['title'],"<b><strong><i>");
-		$arParams['description']				= strip_tags($arParams['description'],"<b><strong><i>");
-		$arParams['create_time']				= time();
-		$arParams['diary_id']					= $id;
-		$arParams['user_id']					= $user_id;
-		return data_get($arParams, $key, $default);
 	}
 }

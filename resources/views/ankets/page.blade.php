@@ -188,8 +188,8 @@ function vote(score)
 	@if ($isAboutPartner === true)
 		<fieldset class="mono txt1"><dl><dt>О партнере:</dt></dl></fieldset>
 		<fieldset>
-			@if (!empty($userData->user_partner_sex))
-				<dl><dt>Пол:</dt><dd>{{ $userData->user_partner_sex }}</dd></dl>
+			@if (!empty($userData->partner_sex))
+				<dl><dt>Пол:</dt><dd>{{ $userData->partner_sex }}</dd></dl>
 			@endif
 			@if (!empty($userData->partner_age))
 				<dl><dt>Возраст:</dt><dd>{{ $userData->partner_age }}</dd></dl>

@@ -7,7 +7,7 @@
 <table class="ankDnevnik">
 	<tr>
 		<td>
-			<h4 class="@isset($userData->user_class_a){{ $userData->user_class_a }}@endisset"><a href="{{route('ank.id', $userData->id)}}">{{ $userData->name }}</a>
+			<h4 class="@isset($userData->class_a){{ $userData->class_a }}@endisset"><a href="{{route('ank.id', $userData->id)}}">{{ $userData->name }}</a>
 				<p>
 				@if (!empty($user) && $user->id == $diary->user_id)
 					<a class="editBut" title="редактировать" href="{{route('ank.diary.edit.id', $diary->id)}}"></a>
@@ -38,7 +38,7 @@
 @foreach ($comments as $item)
 	<tr>
 		<td>
-			<h4 class="@isset($item->user->user_class_a){{ $item->user->user_class_a }}@endisset"><a href="{{route('ank.id', $item->user->id)}}">{{ $item->user->name }}</a>@if (!empty($item->title)) - {{ $item->title }}@endif
+			<h4 class="@isset($item->user->class_a){{ $item->user->class_a }}@endisset"><a href="{{route('ank.id', $item->user->id)}}">{{ $item->user->name }}</a>@if (!empty($item->title)) - {{ $item->title }}@endif
 				<p>
 					@if (!empty($user) && $user->id == $item->user->id)
 					<a class="editBut" title="редактировать" href="{{route('ank.diary.comment.edit.id', $item->id)}}"></a>

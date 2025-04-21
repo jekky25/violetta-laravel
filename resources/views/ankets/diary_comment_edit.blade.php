@@ -29,11 +29,11 @@
 	<table style="width:100px;">
 		<tr>
 			<td width="50%" align="right"><div class="dnevTeemTitle"><p>{{ $comment->create_time }}</p>Тема:</div></td>
-			<td width="50%"><input type="text" class="input3" name="title" value="{{ $comment->title }}" /></td>
+			<td width="50%"><input type="text" class="input3" name="title" value="{{ old('title', $comment->title) }}" /></td>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<textarea class="textarea2" name="description" wrap="virtual">{{ $comment->text }}</textarea>
+				<textarea class="textarea2" name="description" wrap="virtual">{{ old('description', $comment->description) }}</textarea>
 			</td>
 		</tr>
 		@if (!empty($comment->picture))
