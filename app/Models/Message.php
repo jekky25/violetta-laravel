@@ -34,6 +34,20 @@ class Message extends Model
 		$this->smiles = new SmileRepository;
 	}
 
+	public static function boot()
+	{
+		parent::boot();
+		self::creating(function ($model) {
+			$model->user_otprav			= $model->user->id;
+			$model->user_poluchil		= request('id');
+			$model->user_otprav_del		= 0;
+			$model->user_poluchil_del	= 0;
+			$model->time				= time();
+			$model->mess_new			= 1;
+			$model->privmess_text		= str_replace("\'", "''", request('message_text'));
+		});
+	}
+
 	public function getUserIdAttribute($val)
 	{
 		if (!empty($val) or empty($this->user)) return $val;

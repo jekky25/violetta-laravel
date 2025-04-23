@@ -158,7 +158,7 @@ class PrivmsgController extends Controller
 		$anket 			= $this->userRepository->getJustById($id);
 		if (empty($user) or empty($anket)) abort(404);
 
-		$this->messageRepository->store($request->validated(id: $id, user_id: $user->id));
+		$this->messageRepository->store($request->validated());
 		if ($user->dont_send_email != 1) {
 			Mail::mailer(config('mail.mail_mode'))
 				->to($anket->email)

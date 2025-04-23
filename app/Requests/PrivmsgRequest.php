@@ -9,29 +9,29 @@ use App\Rules\CheckOften;
 
 class PrivmsgRequest extends FormRequest
 {
-	private $routeMessageDelete 		= 'privmsg.post.delete';
+	private $routeMessageDelete 		= 'privmsg.post.delete.action';
 	private $routeUserMessagesDelete 	= 'privmsg.delete';
-	
+
 
 	/**
-	* replace array errors from default to commit
-	* @param  Illuminate\Contracts\Validation\Validator  $validator
-	* @return void
-	*/
+	 * replace array errors from default to commit
+	 * @param  Illuminate\Contracts\Validation\Validator  $validator
+	 * @return void
+	 */
 	public function failedValidation(Validator $validator)
 	{
 		$exception = $validator->getException();
 		$this->errorBag = 'comment';
 		throw (new $exception($validator))
-					->errorBag($this->errorBag)
-					->redirectTo($this->getRedirectUrl());
+			->errorBag($this->errorBag)
+			->redirectTo($this->getRedirectUrl());
 	}
 
 	/**
-	* messages for the request
-	* @return string array
-	*/
-	public function messages():array
+	 * messages for the request
+	 * @return string array
+	 */
+	public function messages(): array
 	{
 		return	[
 			'message_text.required' 	=> 'Сообщение не заполнено',
@@ -42,10 +42,10 @@ class PrivmsgRequest extends FormRequest
 	}
 
 	/**
-	* rules for the request
-	* @return string array
-	*/
-	public function rules():array
+	 * rules for the request
+	 * @return string array
+	 */
+	public function rules(): array
 	{
 		if ($this->cancelRules()) return [];
 		return [
@@ -53,33 +53,10 @@ class PrivmsgRequest extends FormRequest
 		];
 	}
 
-
 	/**
-	* Get the validated data from the request.
-	*
-	* @param  array|int|string|null  $key
-	* @param  mixed  $default
-	* @param  integer $id
-	* @param  integer $user_id
-	* @return mixed
-	*/
-	public function validated($key = null, $default = null, $id = 0, $user_id = 0)
-    {
-		$arParams						= $this->validator->validated();
-		$arParams['user_otprav']		= $user_id;
-		$arParams['user_poluchil']		= $id;
-		$arParams['user_otprav_del']	= 0;
-		$arParams['user_poluchil_del']	= 0;
-		$arParams['time']				= time();
-		$arParams['mess_new']			= 1;
-		$arParams['privmess_text']		= str_replace("\'", "''", $arParams['message_text']);
-		return data_get($arParams, $key, $default);
-	}
-
-	/**
-	* check routes for cancel
-	* @return bool
-	*/
+	 * check routes for cancel
+	 * @return bool
+	 */
 	private function cancelRules()
 	{
 		if (Route::currentRouteName() == $this->routeMessageDelete) return true;
