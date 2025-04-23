@@ -51,7 +51,7 @@ class DiaryController extends Controller
 	public function store(DiaryRequest $request)
 	{
 		$user 			= Auth::user();
-		$this->diaryRepository->store($request->validated(user_id: $user->id));
+		$this->diaryRepository->store($request->validated());
 		return redirect()->back()
 			->with('success', 'Дневник успешно добавлен')
 			->withInput();
@@ -89,8 +89,6 @@ class DiaryController extends Controller
 	{
 		$user			= Auth::user();
 		$diary			= $this->diaryRepository->getByUserAndId($id, $user->id);
-		$diary->user_dnevnik_title	= old('title')	 		? old('title') 			: stripslashes($diary->title);
-		$diary->user_dnevnik_text	= old('description') 	? old('description') 	: $diary->description;
 		return response()->view(
 			'ankets.diary_edit',
 			[

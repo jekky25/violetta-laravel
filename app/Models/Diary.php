@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Diary extends Model
 {
@@ -19,6 +20,33 @@ class Diary extends Model
 
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'id';
+
+	public static function boot()
+	{
+		parent::boot();
+		self::creating(function ($model) {
+			self::prepare($model);
+			$model->id	= request('id');
+		});
+		self::updating(function ($model) {
+			self::prepare($model);
+		});
+	}
+
+	/**
+	 * Preparating params before create or update this model
+	 *
+	 * @param  DiaryComment $model
+	 * @return void
+	 */
+	protected static function prepare($model)
+	{
+		$model->title			= strip_tags($model->title, "<b><strong><i>");
+		$model->description		= strip_tags($model->description, "<b><strong><i>");
+		$model->create_time		= time();
+		$user					= Auth::user();
+		$model->user_id			= $user->id;
+	}
 
 	/**
 	 * get diary image link
