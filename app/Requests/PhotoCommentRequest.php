@@ -44,20 +44,4 @@ class PhotoCommentRequest extends FormRequest
 			'description'	=> ['required', 'max:1000', 'min:2']
 		];
 	}
-
-	/**
-	 * Get the validated data from the request.
-	 *
-	 * @param  array|int|string|null  $key
-	 * @param  mixed  $default
-	 * @param  integer $id
-	 * @param  integer $user_id
-	 * @return mixed
-	 */
-	public function validated($key = null, $default = null, $foto_id = 0)
-	{
-		$arParams = $this->validator->validated();
-		$arParams['foto_id'] = $foto_id;
-		return data_get($arParams, $key, $default);
-	}
 }

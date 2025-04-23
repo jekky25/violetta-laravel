@@ -26,7 +26,7 @@ class PhotoCommentController extends Controller
 	 */
 	public function store(PhotoCommentRequest $request, $id)
 	{
-		$this->commentPhotoRepository->store($request->validated(foto_id: $id));
+		$this->commentPhotoRepository->store($request->validated());
 		return redirect()->back()
 			->with('success', 'Сообщение успешно отправлено')
 			->withInput();

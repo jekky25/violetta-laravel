@@ -27,6 +27,7 @@ class CommentPhoto extends Model
 			$model->description		= str_replace("\'", "''", $model->description);
 			$user 					= Auth::user();
 			$model->user_id			= $user->id;
+			$model->foto_id			= request('id');
 		});
 	}
 

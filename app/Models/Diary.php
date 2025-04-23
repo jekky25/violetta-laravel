@@ -26,7 +26,6 @@ class Diary extends Model
 		parent::boot();
 		self::creating(function ($model) {
 			self::prepare($model);
-			$model->id	= request('id');
 		});
 		self::updating(function ($model) {
 			self::prepare($model);
