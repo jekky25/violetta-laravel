@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Repositories\UserRepository;
@@ -107,6 +109,7 @@ class User extends Authenticatable
 	protected $table 		= 'users_news';
 	protected $primaryKey 	= 'id';
 	public $timestamps 		= false;
+	protected $data;
 
 	public $fieldsAboutPartner =
 	[
@@ -127,6 +130,53 @@ class User extends Authenticatable
 	const SEX_HETERO	= 2;
 	const SEX_HOMO		= 3;
 	const SEX_TRANS		= 4;
+
+	const NOT_APPROVED	= 0;
+	const AGE_MIN		= 15;
+	const HEIGHT_MIN	= 149;
+	const WEIGHT_MIN	= 29;
+
+	public function __construct(array $attributes = [])
+	{
+		parent::__construct($attributes);
+		$this->data = $this->createData();
+	}
+
+	/**
+	 * Create an instance of DataService::class because of $this->data doesn't work over __construct in the unitTests
+	 * @return DataService
+	 */
+	public function createData()
+	{
+		if (!$this->data instanceof DataService) $this->data = new DataService;
+		return $this->data;
+	}
+
+	public static function boot()
+	{
+		parent::boot();
+		self::creating(function ($model) {
+			$model->refresh_date	= date("Y-m-d");
+			$model->refresh_date_t	= time();
+			$model->session_time	= time();
+			$model->lastvisit		= time();
+			$model->make_date		= date("Y-m-d");
+			$model->make_date_t		= time();
+			$model->active 			= 1;
+			$model->approved		= 1;
+			$model->hash			= md5($model->password);
+			$model->ip				= request()->ip();
+			$model->submit_code 	= md5(time() . $model->login . rand(0, 1000));
+			$model->confirm_email	= isset($model->confirm_email) ?: 0;
+		});
+		self::updating(function ($model) {
+			$model->refresh_date	= date("Y-m-d");
+			$model->refresh_date_t	= time();
+			$model->session_time	= time();
+			$model->lastvisit		= time();
+			$model->approved		= $model->getOriginal('partner_description') !== $model->partner_description ? self::NOT_APPROVED : $model->approved;
+		});
+	}
 
 	/**
 	 * Get user property from the model
@@ -172,7 +222,7 @@ class User extends Authenticatable
 
 	public function getUserAgeAttribute()
 	{
-		return (new DataService)->age($this->birth_date);
+		return $this->data->age($this->birth_date);
 	}
 
 	public function getUserAgeTypeAttribute()
@@ -182,17 +232,17 @@ class User extends Authenticatable
 
 	public function getBirthDayAttribute()
 	{
-		return (new DataService)->selectFromDate($this->birth_date, DATE_DAY);
+		return $this->data->selectFromDate($this->birth_date, DATE_DAY);
 	}
 
 	public function getBirthMonthAttribute()
 	{
-		return (new DataService)->selectFromDate($this->birth_date, DATE_MONTH);
+		return $this->data->selectFromDate($this->birth_date, DATE_MONTH);
 	}
 
 	public function getBirthYearAttribute()
 	{
-		return (new DataService)->selectFromDate($this->birth_date, DATE_YEAR);
+		return $this->data->selectFromDate($this->birth_date, DATE_YEAR);
 	}
 
 	public function getUserAgeStrAttribute()
@@ -225,7 +275,7 @@ class User extends Authenticatable
 
 	public function getZodiacAttribute()
 	{
-		return (new DataService)->zodiac($this->birth_date);
+		return $this->data->zodiac($this->birth_date);
 	}
 
 	public function getNumberDiaryAttribute()
@@ -257,13 +307,13 @@ class User extends Authenticatable
 
 	public function getDateMakeStrAttribute()
 	{
-		return (new DataService)->dateFormat($this->make_date);
+		return $this->data->dateFormat($this->make_date);
 	}
 
 
 	public function getDateRefreshAttribute($val)
 	{
-		return $this->make_date !== $this->refresh_date ? (new DataService)->dateFormat($this->refresh_date) : $val;
+		return $this->make_date !== $this->refresh_date ? $this->data->dateFormat($this->refresh_date) : $val;
 	}
 
 	public function getSpeakLangAttribute($val)
@@ -307,7 +357,7 @@ class User extends Authenticatable
 
 	public function getOnTopAttribute()
 	{
-		return '<strong>' . ($this->sex == WOMEN ? 'поднялась' : 'поднялся') . '</strong>: ' . (new DataService)->lastVisit($this->top100);
+		return '<strong>' . ($this->sex == WOMEN ? 'поднялась' : 'поднялся') . '</strong>: ' . $this->data->lastVisit($this->top100);
 	}
 
 	public function getPartnerSexAttribute()
@@ -320,6 +370,36 @@ class User extends Authenticatable
 			$partnerSex = $this->sex == WOMEN ? 'Женский' : 'Мужской';
 		}
 		return $partnerSex;
+	}
+
+	public function getPartnerAgeMinAttribute($val)
+	{
+		return !empty($val) ? (int)$val : self::AGE_MIN;
+	}
+
+	public function getPartnerAgeMaxAttribute($val)
+	{
+		return !empty($val) ? (int)$val : self::AGE_MIN;
+	}
+
+	public function getPartnerHeightMinAttribute($val)
+	{
+		return !empty($val) ? (int)$val : self::HEIGHT_MIN;
+	}
+
+	public function getPartnerHeightMaxAttribute($val)
+	{
+		return !empty($val) ? (int)$val : self::HEIGHT_MIN;
+	}
+
+	public function getPartnerWeightMinAttribute($val)
+	{
+		return !empty($val) ? (int)$val : self::WEIGHT_MIN;
+	}
+
+	public function getPartnerWeightMaxAttribute($val)
+	{
+		return !empty($val) ? (int)$val : self::WEIGHT_MIN;
 	}
 
 	public function getPartnerAgeAttribute()
@@ -352,39 +432,119 @@ class User extends Authenticatable
 		return ' до ' . $this->partner_weight_max . 'кг';
 	}
 
-	public function country()
+	public function setSexOrientAttribute($val)
+	{
+		$this->attributes['sex_orient'] = $val < self::SEX_BISEXUAL || $val > self::SEX_TRANS ? self::SEX_HETERO : $val;
+	}
+
+	public function setHeightAttribute($val)
+	{
+		$this->attributes['height'] = $val < (self::HEIGHT_MIN + 1)	? self::HEIGHT_MIN	: $val;
+	}
+
+	public function setWeightAttribute($val)
+	{
+		$this->attributes['weight'] = $val < (self::WEIGHT_MIN + 1)	? self::WEIGHT_MIN	: $val;
+	}
+
+	public function setTargetsAttribute($val)
+	{
+		$this->attributes['targets'] = $this->createData()->serializeInput($val);
+	}
+
+	public function setSpeakLangAttribute($val)
+	{
+		$this->attributes['speak_lang'] = $this->createData()->serializeInput($val);
+	}
+
+	public function setInterestsAttribute($val)
+	{
+		$this->attributes['interests'] = $this->createData()->serializeInput($val);
+	}
+
+	public function setIcqAttribute($val)
+	{
+		$this->attributes['icq'] = (string)$val;
+	}
+
+	public function setUrlAttribute($val)
+	{
+		$this->attributes['url'] = addslashes($val);
+	}
+
+	public function setPhoneAttribute($val)
+	{
+		$this->attributes['phone'] = addslashes($val);
+	}
+
+	public function setDescriptionAttribute($val)
+	{
+		$this->attributes['description'] = addslashes($val);
+	}
+
+	public function setPartnerBodyAttribute($val)
+	{
+		$this->attributes['partner_body'] = $this->createData()->serializeInput($val);
+	}
+
+	public function setPartnerLanguagesAttribute($val)
+	{
+		$this->attributes['partner_languages'] = $this->createData()->serializeInput($val);
+	}
+
+	public function setPartnerAlcoholAttribute($val)
+	{
+		$this->attributes['partner_alcohol'] = $this->createData()->serializeInput($val);
+	}
+
+	public function setPartnerSmokeAttribute($val)
+	{
+		$this->attributes['partner_smoke'] = $this->createData()->serializeInput($val);
+	}
+
+	public function setPartnerEducationAttribute($val)
+	{
+		$this->attributes['partner_education'] = $this->createData()->serializeInput($val);
+	}
+
+
+	/***********************************
+	 * RELATIONS
+	 ***********************************/
+
+	public function country(): HasOne
 	{
 		return $this->hasOne(Country::class, 'id', 'country_id');
 	}
 
-	public function region()
+	public function region(): HasOne
 	{
 		return $this->hasOne(Region::class, 'id', 'region_id');
 	}
 
-	public function city()
+	public function city(): HasOne
 	{
 		return $this->hasOne(City::class, 'id', 'city_id');
 	}
 
-	public function photo()
+	public function anketVisit(): HasOne
+	{
+		return $this->hasOne(AnketVisit::class, 'user_id_prosm', 'id');
+	}
+
+	public function photo(): HasMany
 	{
 		return $this->hasMany(Photo::class, 'user_id', 'id')->with('comment')->orderBy('main_picture', 'desc');
 	}
 
-	public function visits()
+	public function visits(): HasMany
 	{
 		$t = time() - 60 * 60 * 24 * 30;
 		return $this->hasMany(AnketVisit::class, 'user_id_prosm', 'id')->where('create_time', '>', $t);
 	}
 
-	public function diary()
+	public function diary(): HasMany
 	{
 		return $this->hasMany(Diary::class, 'user_id', 'id')->orderBy('create_time', 'desc');
-	}
-
-	public function anketVisit()
-	{
-		return $this->hasOne(AnketVisit::class, 'user_id_prosm', 'id');
 	}
 }

@@ -33,45 +33,6 @@ class ProfileSecondRequest extends FormRequest
 	}
 
 	/**
-	 * Prepare params for validation
-	 *
-	 * @return void
-	 */
-	protected function prepareForValidation()
-	{
-		$this->merge([
-			'sex_orient'			=> $this->sex_orient < 1 || $this->sex_orient > 4 ? 2 : $this->sex_orient,
-			'targets'				=> $this->data->serializeInput($this->targets),
-			'speak_lang' 			=> $this->data->serializeInput($this->speak_lang),
-			'body'		 			=> $this->body,
-			'height'	 			=> $this->height < 150	? 149	: $this->height,
-			'weight' 				=> $this->weight < 30	? 29 	: $this->weight,
-			'hair_color'			=> $this->hair_color,
-			'hair_type'				=> $this->hair_type,
-			'eyes'					=> $this->eyes,
-			'education'				=> $this->education,
-			'smoke'					=> $this->smoke,
-			'alcohol'				=> $this->alcohol,
-			'family_status'			=> $this->family_status,
-			'children'				=> $this->children,
-			'help_money'			=> $this->help_money,
-			'interests'				=> $this->data->serializeInput($this->interests),
-			'icq'					=> (string)$this->icq,
-			'url'					=> addslashes($this->url),
-			'phone'					=> addslashes($this->phone),
-			'description'			=> addslashes($this->description),
-			'refresh_date'			=> date("Y-m-d"),
-			'refresh_date_t'		=> time(),
-			'session_time'			=> time(),
-			'lastvisit'				=> time()
-		]);
-		if (!empty($this->description))
-			$this->merge([
-				'approved'			=> 0
-			]);
-	}
-
-	/**
 	 * Get the validation rules that apply to the request.
 	 *
 	 * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -80,9 +41,8 @@ class ProfileSecondRequest extends FormRequest
 	{
 		return [
 			'sex_orient'	 		=> ['integer'],
-			'target_meet'			=> ['array'],
-			'targets'				=> ['string'],
-			'speak_lang'	 		=> ['string'],
+			'targets'				=> ['array'],
+			'speak_lang'	 		=> ['nullable', 'array'],
 			'body'		 			=> ['integer'],
 			'height'	 			=> ['integer'],
 			'weight' 				=> ['integer'],
@@ -95,7 +55,7 @@ class ProfileSecondRequest extends FormRequest
 			'family_status'			=> ['integer'],
 			'children'				=> ['integer'],
 			'help_money'			=> ['integer'],
-			'interests'				=> ['string'],
+			'interests'				=> ['array'],
 			'icq'					=> ['string'],
 			'url'					=> ['string'],
 			'phone'					=> ['string'],

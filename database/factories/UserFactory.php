@@ -41,7 +41,8 @@ class UserFactory extends Factory
 			'phone'						=> '123456789',
 			'url'						=> '',
 			'ip'						=> '127.0.0.1',
-			'remember_token'			=> Str::random(10)
+			'remember_token'			=> Str::random(10),
+			'confirm_email'				=> 1
 		];
 	}
 }

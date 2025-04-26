@@ -63,15 +63,6 @@ class ProfileMainRequest extends FormRequest
 	{
 		$this->merge([
 			'birth_date'			=> $this->data->getDateStr($this->birth_day, $this->birth_month, $this->birth_year),
-			'refresh_date'			=> date("Y-m-d"),
-			'refresh_date_t'		=> time(),
-			'session_time'			=> time(),
-			'lastvisit'				=> time(),
-			'name'					=> $this->name,
-			'sex'					=> $this->sex,
-			'city_id'				=> $this->city,
-			'region_id'				=> $this->region,
-			'country_id'			=> $this->country
 		]);
 	}
 
@@ -83,9 +74,9 @@ class ProfileMainRequest extends FormRequest
 	public function rules(): array
 	{
 		$arParams					= $this->post();
-		$city						= !empty($arParams['city']) 	? (int)$arParams['city'] 	: 0;
-		$region						= !empty($arParams['region']) 	? (int)$arParams['region'] 	: 0;
-		$country					= !empty($arParams['country']) 	? (int)$arParams['country'] : 0;
+		$city						= !empty($arParams['city_id']) 		? (int)$arParams['city_id'] 	: 0;
+		$region						= !empty($arParams['region_id']) 	? (int)$arParams['region_id'] 	: 0;
+		$country					= !empty($arParams['country_id']) 	? (int)$arParams['country_id'] : 0;
 		return [
 			'name'					=> [
 				'string',
@@ -96,21 +87,15 @@ class ProfileMainRequest extends FormRequest
 				new BirthDataCorrect((int)$arParams['birth_day'], (int)$arParams['birth_month'])
 			],
 			'sex'					=> ['integer', 'required'],
-			'city'					=> [
+			'city_id'					=> [
 				'integer',
 				new PlaceEmpty($city, $region, $country),
 				new PlaceCorrect($city, $region, $country)
 			],
 			'region'				=> ['integer'],
-			'country'				=> ['integer'],
-			'city_id'				=> ['integer'],
-			'region_id'				=> ['integer'],
 			'country_id'			=> ['integer'],
+			'region_id'				=> ['integer'],
 			'birth_date'			=> ['string'],
-			'refresh_date'			=> ['string'],
-			'refresh_date_t'		=> ['integer'],
-			'session_time'			=> ['integer'],
-			'lastvisit'				=> ['integer'],
 			'sex'					=> ['integer']
 		];
 	}

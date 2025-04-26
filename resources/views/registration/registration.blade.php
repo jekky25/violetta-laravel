@@ -81,33 +81,33 @@
 							<tr>
 								<td width="150">страна</td>
 								<td>
-									<select name="country" id="country" onchange="updateSelect('region', this.value, 'reg');" autocomplete="off">
-										<option value="0" @if (old('country') == 0) selected="selected"@endif>выберите&nbsp;</option>
-										<option value="141" @if (old('country') == COUNTRY_ID_RUSSIA) selected="selected"@endif>Россия</option>
+									<select name="country_id" id="country" onchange="updateSelect('region', this.value, 'reg');" autocomplete="off">
+										<option value="0" @if (old('country_id') == 0) selected="selected"@endif>выберите&nbsp;</option>
+										<option value="141" @if (old('country_id') == COUNTRY_ID_RUSSIA) selected="selected"@endif>Россия</option>
 										@foreach ($countries as $item)
-										<option value="{{ $item->id }}" @if (old('country') == $item->id && old('country') != COUNTRY_ID_RUSSIA) selected="selected"@endif>{{ $item->name }}</option>
+										<option value="{{ $item->id }}" @if (old('country_id') == $item->id && old('country_id') != COUNTRY_ID_RUSSIA) selected="selected"@endif>{{ $item->name }}</option>
 										@endforeach
 									</select>
 								</td>
 							</tr>
 							<tr>
 								<td width="150">регион</td>
-								<td><select name="region" id="region" onchange="updateSelect('city', this.value, 'cities');">
+								<td><select name="region_id" id="region" onchange="updateSelect('city', this.value, 'cities');">
 										<option value="0">не важно</option>
 										@if (!empty($regions))
 										@foreach ($regions as $item)
-										<option value="{{ $item->id }}"@if (old('region') == $item->id) selected="selected"@endif>{{ $item->name }}</option>
+										<option value="{{ $item->id }}"@if (old('region_id') == $item->id) selected="selected"@endif>{{ $item->name }}</option>
 										@endforeach
 										@endif
 									</select></td>
 							</tr>
 							<tr>
 								<td width="150">город</td>
-								<td><select id="city" name="city">
+								<td><select id="city" name="city_id">
 										<option value="0">не важно</option>
 										@if (!empty($cities))
 										@foreach ($cities as $item)
-										<option value="{{ $item->id }}"@if (old('city') == $item->id) selected="selected"@endif>{{ $item->name }}</option>
+										<option value="{{ $item->id }}"@if (old('city_id') == $item->id) selected="selected"@endif>{{ $item->name }}</option>
 										@endforeach
 										@endif
 									</select>

@@ -79,8 +79,9 @@ class AnketVisitRepository implements AnketVisitInterface
 		if ($visits == 0 && $userAuthId != $userId) {
 			$this->insertVisit($userId);
 			$this->removeOld($days);
-		} elseif ($visits > 0 && $userAuthId != $userId)
+		} elseif ($visits > 0 && $userAuthId != $userId) {
 			$this->updateVisit($userId);
+		}
 		return $visits;
 	}
 
@@ -99,10 +100,9 @@ class AnketVisitRepository implements AnketVisitInterface
 			'user_id' 	=> $user->id
 		];
 		$this->setFields($aFields);
-
 		try {
 			$ankVisits = $this->getByFields();
-			if (!empty($ankVisits)) {
+			if ($ankVisits->count() > 0) {
 				$ankVisits->create_time = time();
 				$ankVisits->save();
 			}

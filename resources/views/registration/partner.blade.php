@@ -53,6 +53,7 @@
 		</tr>
 		<tr>
 			<td class="valign1" align="center">
+				<input type="hidden" name="partner_body[]" value="0">
 				<table class="pad13">
 					@foreach($partnerBody as $item)
 					<tr>
@@ -70,6 +71,7 @@
 	<table width="100%">
 		<tr>
 			<td class="valign1" align="center">
+				<input type="hidden" name="partner_languages[]" value="0">
 				<table class="pad13">
 					<tr>
 						<td colspan="4"><p class="pad3"><strong>Знание языков:</strong></p></td>
@@ -99,11 +101,11 @@
 		<tr>
 			<td width="150">страна</td>
 			<td>
-				<select name="country" id="country" onchange="updateSelect('region', this.value, 'reg');" autocomplete="off">
-					<option value="0" @if (old('country', $userData->partner_country) == 0) selected="selected"@endif>выберите&nbsp;</option>
-					<option value="141" @if (old('country', $userData->partner_country) == COUNTRY_ID_RUSSIA) selected="selected"@endif>Россия</option>
+				<select name="partner_country" id="country" onchange="updateSelect('region', this.value, 'reg');" autocomplete="off">
+					<option value="0" @if (old('partner_country', $userData->partner_country) == 0) selected="selected"@endif>выберите&nbsp;</option>
+					<option value="141" @if (old('partner_country', $userData->partner_country) == COUNTRY_ID_RUSSIA) selected="selected"@endif>Россия</option>
 					@foreach ($countries as $item)
-					<option value="{{ $item->id }}" @if (old('country', $userData->partner_country) == $item->id && old('country', $userData->partner_country) != COUNTRY_ID_RUSSIA) selected="selected"@endif>{{ $item->name }}</option>
+					<option value="{{ $item->id }}" @if (old('partner_country', $userData->partner_country) == $item->id && old('partner_country', $userData->partner_country) != COUNTRY_ID_RUSSIA) selected="selected"@endif>{{ $item->name }}</option>
 					@endforeach
 				</select>
 			</td>
@@ -111,11 +113,11 @@
 		<tr>
 			<td width="150">регион</td>
 			<td>
-				<select name="region" id="region" onchange="updateSelect('city', this.value, 'cities');">
+				<select name="partner_region" id="region" onchange="updateSelect('city', this.value, 'cities');">
 					<option value="0">не важно</option>
 					@if (!empty($regions))
 					@foreach ($regions as $item)
-					<option value="{{ $item->id }}"@if (old('region', $userData->partner_region) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
+					<option value="{{ $item->id }}"@if (old('partner_region', $userData->partner_region) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
 					@endforeach
 					@endif
 				</select>
@@ -124,11 +126,11 @@
 		<tr>
 			<td width="150">город</td>
 			<td>
-				<select id="city" name="city">
+				<select id="city" name="partner_city">
 					<option value="0">не важно</option>
 					@if (!empty($cities))
 					@foreach ($cities as $item)
-					<option value="{{ $item->id }}"@if (old('city', $userData->partner_city) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
+					<option value="{{ $item->id }}"@if (old('partner_city', $userData->partner_city) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
 					@endforeach
 					@endif
 				</select>
@@ -141,7 +143,7 @@
 	<p class="pad1 pad2">Опишите человека, которого вы хотите встретить. Какие его черты для вас особенно важны? Что вы хотите найти в нем? Каковы цели вашего знакомства и планы на будущее? Чем
 больше вы напишите, тем больше вероятность найти именно того, кто вам нужен.</p>
 	<div>
-		<textarea class="textarea2" name="description" wrap="virtual">{{ old('description', $userData->partner_description) }}</textarea>
+		<textarea class="textarea2" name="partner_description" wrap="virtual">{{ old('partner_description', $userData->partner_description) }}</textarea>
 	</div>
 	<p class="pad2"></p>
 	<input type="hidden" name="otsil" value="1" />

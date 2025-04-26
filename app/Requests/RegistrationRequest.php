@@ -49,27 +49,32 @@ class RegistrationRequest extends FormRequest
 	{
 		return	[
 			'login.required'					=> 'Логин не заполнен',
+			'login.string'						=> 'Логин не заполнен',
 			'login.CheckBan'					=> 'Вы забанены из-за нарушения правил нашего сайта, по всем вопросам обращайтесь к администрации сайта',
 			'login.min'							=> 'Логин меньше :min символов',
 			'login.max'							=> 'Логин больше :max символов',
 			'login.regex'						=> 'При заполнении логина допускается использовать только цифры, буквы латинского алфавита и нижнее подчеркивание',
 			'login.CheckLogin'					=> 'Пользователь с таким логином уже существует, выберите другой логин',
 			'password.required'					=> 'Пароль не заполнен',
+			'password.string'					=> 'Пароль не заполнен',
 			'password.min'						=> 'Пароль меньше :min символов',
 			'password.regex'					=> 'При заполнении пароля допускается использовать только цифры, буквы латинского алфавита и нижнее подчеркивание',
 			'password.CheckPassword'			=> 'Введенные пароли не совпадают',
 			'name.required'		 				=> 'Имя не заполнено',
+			'name.string'		 				=> 'Имя не заполнено',
 			'name.max'		 					=> 'Имя больше :max символов',
 			'name.min'		 					=> 'Имя меньше :min символов',
 			'sex.required'		 				=> 'Вы не указали пол',
+			'sex.integer'		 				=> 'Вы не указали пол',
 			'BirthData'							=> 'Не указана дата рождения',
 			'birthDataCorrect'					=> 'Некорректная дата рождения',
 			'email.required'		 			=> 'Не указан Е-майл',
+			'email.string'			 			=> 'Не указан Е-майл',
 			'email.regex'				 		=> 'Указан некорректный Е-майл',
 			'email.CheckEmail'		 			=> 'Пользователь с таким Е-майл уже зарегистрирован',
 			'PlaceEmpty'						=> 'Не указано место жительства',
 			'PlaceCorrect'						=> 'Неверно указано место жительства',
-			'recaptcha_response.required'		=> 'Капча не пройдена',
+			'recaptcha_response.required'		=> 'Капча не пройдена2323',
 			'recaptcha_response.GoogleCaptcha'	=> 'Капча не пройдена',
 			'conditions.required'				=> 'Пожалуйста, согласитесь с нашими условиями'
 		];
@@ -83,29 +88,7 @@ class RegistrationRequest extends FormRequest
 	protected function prepareForValidation()
 	{
 		$this->merge([
-			'active' 					=> 1,
-			'approved'		 			=> 1,
-			'login' 					=> $this->login,
-			'password' 					=> $this->password,
-			'hash'		 				=> md5($this->password),
-			'email'		 				=> $this->email,
-			'sex' 						=> $this->sex,
-			'name'		 				=> $this->name,
-			'birth_date'				=> $this->data->getDateStr($this->birth_day, $this->birth_month, $this->birth_year),
-			'country_id' 				=> $this->country,
-			'region_id'					=> $this->region,
-			'city_id'					=> $this->city,
-			'make_date'			 		=> date("Y-m-d"),
-			'make_date_t' 				=> time(),
-			'refresh_date'				=> date("Y-m-d"),
-			'refresh_date_t'			=> time(),
-			'session_time'				=> time(),
-			'lastvisit'					=> time(),
-			'ip'						=> $this->ip(),
-			'submit_code' 				=> md5(time() . $this->login . rand(0, 1000)),
-			'description'	 			=> "",
-			'partner_description'		=> "",
-			'confirm_email' 			=> 0
+			'birth_date'			=> $this->data->getDateStr($this->birth_day, $this->birth_month, $this->birth_year),
 		]);
 	}
 
@@ -117,9 +100,9 @@ class RegistrationRequest extends FormRequest
 	public function rules(): array
 	{
 		$arParams 				= $this->post();
-		$city 					= !empty($arParams['city']) 				? (int)$arParams['city'] 			: 0;
-		$region 				= !empty($arParams['region']) 				? (int)$arParams['region'] 			: 0;
-		$country 				= !empty($arParams['country']) 				? (int)$arParams['country'] 		: 0;
+		$city 					= !empty($arParams['city_id']) 				? (int)$arParams['city_id'] 		: 0;
+		$region 				= !empty($arParams['region_id']) 			? (int)$arParams['region_id'] 		: 0;
+		$country 				= !empty($arParams['country_id']) 			? (int)$arParams['country_id'] 		: 0;
 		$password 				= !empty($arParams['password'])				? $arParams['password'] 			: '';
 		$passwordSecond 		= !empty($arParams['password_second'])		? $arParams['password_second']		: '';
 
@@ -135,11 +118,13 @@ class RegistrationRequest extends FormRequest
 			],
 			'sex'						=> ['integer', 'required'],
 			'email'						=> ['required', "regex:/^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,4}|museum$/i", new CheckEmail],
-			'country'					=> [
+			'country_id'				=> [
 				'integer',
 				new PlaceEmpty($city, $region, $country),
 				new PlaceCorrect($city, $region, $country)
 			],
+			'region_id'					=> ['integer'],
+			'city_id'					=> ['integer'],
 			'recaptcha_response'	 	=> ['required', new GoogleCaptcha],
 			'conditions'				=> ['required'],
 			'active'					=> ['integer'],
@@ -150,9 +135,6 @@ class RegistrationRequest extends FormRequest
 			'sex'						=> ['integer'],
 			'name'						=> ['string'],
 			'birth_date'				=> ['string'],
-			'country_id'				=> ['integer'],
-			'region_id'					=> ['integer'],
-			'city_id'					=> ['integer'],
 			'make_date'					=> ['string'],
 			'make_date_t'				=> ['integer'],
 			'refresh_date'				=> ['string'],
@@ -163,7 +145,7 @@ class RegistrationRequest extends FormRequest
 			'submit_code'				=> ['string'],
 			'description' 				=> ['string'],
 			'partner_description'		=> ['string'],
-			'confirm_email'		 		=> ['integer']
+			'confirm_email'		 		=> ['integer'],
 		];
 	}
 }

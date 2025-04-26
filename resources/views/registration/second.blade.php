@@ -27,6 +27,7 @@
 		<tr>
 			<td class="valign1" align="center">
 				<table class="pad13">
+					<input type="hidden" name="targets[]" value="0">
 				@foreach ($targets as $item)
 					<tr>
 						<td><input type="checkbox" name="targets[]" value="{{ $item->id }}"@if (!empty($item->selected)) checked="checked"@endif /></td>
@@ -36,9 +37,12 @@
 				</table>		
 			</td>
 			<td class="valign1" align="center">
+				<input type="hidden" name="speak_lang[]" value="0">
 				<table class="pad13">
 					<tr>
-						<td><input type="checkbox" name="speak_lang[]" value="1" @if (!empty($userSpeakLang['rus']['selected'])) checked="checked"@endif /></td>
+						<td>
+							<input type="checkbox" name="speak_lang[]" value="1" @if (!empty($userSpeakLang['rus']['selected'])) checked="checked"@endif />
+						</td>
 						<td class="left1"><span>Русский</span></td>
 						<td><input type="checkbox" name="speak_lang[]" value="2" @if (!empty($userSpeakLang['ukr']['selected'])) checked="checked"@endif /></td>
 						<td class="left1"><span>Украинский</span></td>

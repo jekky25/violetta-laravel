@@ -196,7 +196,7 @@ class ProfileTest extends TestCase
 		$ankets = $this->userRepository->getTop100(WOMEN, 1);
 		$this->assertInstanceOf(User::class, $ankets);
 
-		$ankets = $this->userRepository->getTop100(WOMEN, 2);
+		$ankets = $this->userRepository->getTop100(MEN, 1);
 		$this->assertInstanceOf(User::class, $ankets);
 	}
 }

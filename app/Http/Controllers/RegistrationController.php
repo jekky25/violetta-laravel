@@ -79,8 +79,8 @@ class RegistrationController extends Controller
 		$months		= $data->getMonths();
 		$years		= $data->getYears();
 		$countries	= $this->countryRepository->getAll();
-		$countryId	= (int) old('country', $user->country_id);
-		$regionId	= (int) old('region', $user->region_id);
+		$countryId	= (int) old('country_id', $user->country_id);
+		$regionId	= (int) old('region_id', $user->region_id);
 		$regions	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: [];
 		$cities		= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
 
@@ -492,8 +492,8 @@ class RegistrationController extends Controller
 		$months		= $data->getMonths();
 		$years		= $data->getYears();
 		$countries	= $this->countryRepository->getAll();
-		$countryId	= (int) old('country');
-		$regionId	= (int) old('region');
+		$countryId	= (int) old('country_id');
+		$regionId	= (int) old('region_id');
 		$regions	= $countryId > 0	? $this->regionRepository->getByCountryId($countryId) 	: [];
 		$cities		= $regionId	> 0		? $this->cityRepository->getByRegionId($regionId) 		: [];
 

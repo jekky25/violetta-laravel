@@ -12,11 +12,7 @@ return new class extends Migration
 	public function up(): void
 	{
 		Schema::table('users_news', function (Blueprint $table) {
-			$table->renameColumn('user_active', 'active');
-		});
-
-		Schema::table('users_news', function (Blueprint $table) {
-			$table->renameColumn('user_id', 'id');
+			$table->string('ip', 16)->change();
 		});
 	}
 
@@ -26,11 +22,7 @@ return new class extends Migration
 	public function down(): void
 	{
 		Schema::table('users_news', function (Blueprint $table) {
-			$table->renameColumn('active', 'user_active');
-		});
-
-		Schema::table('users_news', function (Blueprint $table) {
-			$table->renameColumn('id', 'user_id');
+			$table->string('ip', 8)->change();
 		});
 	}
 };
