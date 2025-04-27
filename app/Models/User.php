@@ -84,7 +84,8 @@ class User extends Authenticatable
 		'partner_region',
 		'partner_city',
 		'session_time',
-		'dont_send_email'
+		'dont_send_email',
+		'remember_token'
 	];
 
 	/**
