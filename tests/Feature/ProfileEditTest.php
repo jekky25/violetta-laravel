@@ -165,4 +165,47 @@ class ProfileEditTest extends TestCase
 			]
 		);
 	}
+
+	/** @test */
+	public function check_profile_edit_partner_page(): void
+	{
+		$url = $_SERVER['REQUEST_URI'] = route('registration.edit.partner');
+		$response = $this->get($url);
+		$response->assertRedirectToRoute('login');
+
+		$response = $this->actingAs($this->user)->get($url);
+		$response->assertStatus(200);
+
+		$age				= $this->dataService->getAges();
+		$heights			= $this->formService->getHeights();
+		$weights			= $this->formService->getWeights();
+		$partnerBody		= $this->formService->BlockSelect("partner_body[]", BODY_CLASS, old('partner_body', $this->user->partner_body), 2);
+		$partnerLanguages	= $this->formService->BlockSelect("partner_languages[]", SPEAK_LANG_CLASS, old('partner_languages', $this->user->partner_languages), 2);
+		$partnerAlcohol		= $this->formService->BlockSelect("partner_alcohol[]", SPIRT_CLASS, old('partner_alcohol', $this->user->partner_alcohol), 2);
+		$partnerSmoke		= $this->formService->BlockSelect("partner_smoke[]", SMOKE_CLASS, old('partner_smoke', $this->user->partner_smoke), 2);
+		$partnerEducation	= $this->formService->BlockSelect("partner_education[]", EDUCATION_CLASS, old('partner_education', $this->user->partner_education), 2);
+
+		$countries	= $this->countryRepository->getAll();
+		$countryId	= (int) old('country', $this->user->partner_country);
+		$regionId	= (int) old('region', $this->user->partner_region);
+		$regions	= $countryId > 0	? $this->regionRepository->getByCountryId($countryId) 	: [];
+		$cities		= $regionId	> 0		? $this->cityRepository->getByRegionId($regionId) 		: [];
+
+		$response->assertViewHasAll(
+			[
+				'userData'			=> $this->user,
+				'age'				=> $age,
+				'heights'			=> $heights,
+				'weights'			=> $weights,
+				'partnerBody'		=> $partnerBody,
+				'partnerLanguages'	=> $partnerLanguages,
+				'partnerAlcohol'	=> $partnerAlcohol,
+				'partnerSmoke'		=> $partnerSmoke,
+				'partnerEducation'	=> $partnerEducation,
+				'countries'			=> $countries,
+				'regions'			=> $regions,
+				'cities'			=> $cities,
+			]
+		);
+	}
 }
