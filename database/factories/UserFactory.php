@@ -16,6 +16,8 @@ class UserFactory extends Factory
 	public function definition()
 	{
 		$city	 = City::get()->random();
+		$dateStr	= $this->faker->dateTimeBetween('-100 years', '-20 years')->format('Y-m-d');
+
 		return [
 			'name'						=> $this->faker->name(),
 			'sex'						=> rand(1, 2),
@@ -42,7 +44,9 @@ class UserFactory extends Factory
 			'url'						=> '',
 			'ip'						=> '127.0.0.1',
 			'remember_token'			=> Str::random(10),
-			'confirm_email'				=> 1
+			'confirm_email'				=> 1,
+			'lastvisit_views'			=> rand(0, 10),
+			'birth_date'				=> $dateStr,
 		];
 	}
 }

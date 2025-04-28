@@ -38,7 +38,7 @@ class AnketVisitRepository implements AnketVisitInterface
 	public function visitsNew($user)
 	{
 		$items = AnketVisit::select('*')
-			->where('user_id_prosm', $user->user_id)
+			->where('user_id_prosm', $user->id)
 			->where('create_time', '>', $user->lastvisit_views)
 			->get();
 		return $items;
