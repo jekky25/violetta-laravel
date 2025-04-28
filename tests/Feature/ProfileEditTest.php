@@ -9,7 +9,9 @@ use App\Repositories\UserRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\RegionRepository;
 use App\Repositories\CityRepository;
+use App\Http\Controllers\RegistrationController;
 use App\Services\DataService;
+use App\Services\FormatService;
 use App\Models\User;
 
 class ProfileEditTest extends TestCase
@@ -49,6 +51,7 @@ class ProfileEditTest extends TestCase
 	protected $regionRepository;
 	protected $cityRepository;
 	protected $dataService;
+	protected $formService;
 
 	/**
 	 * Set up variables
@@ -59,6 +62,7 @@ class ProfileEditTest extends TestCase
 		self::setUpPrepare();
 		$this->userRepository		= new UserRepository;
 		$this->dataService			= new DataService;
+		$this->formService			= new FormatService;
 		$this->countryRepository	= new CountryRepository;
 		$this->regionRepository		= new RegionRepository;
 		$this->cityRepository		= new CityRepository;
@@ -110,5 +114,55 @@ class ProfileEditTest extends TestCase
 			'regions'		=> $regions,
 			'cities'		=> $cities
 		]);
+	}
+
+	/** @test */
+	public function check_profile_edit_second_page(): void
+	{
+		$url = $_SERVER['REQUEST_URI'] = route('registration.edit.second');
+		$response = $this->get($url);
+		$response->assertRedirectToRoute('login');
+
+		$response = $this->actingAs($this->user)->get($url);
+		$response->assertStatus(200);
+
+		$sexOrient		= $this->formService->BlockSelect('sex_orient', SEX_ORIENT_CLASS, $this->user->sex_orient, 2);
+		$targets		= $this->formService->BlockSelect('targets', MEET_TARGET_CLASS, $this->user->targets, 2);
+		$userSpeakLang	= $this->formService->preparePropfromArray($this->user->speak_lang, RegistrationController::$languageCodes);
+		$body 			= $this->formService->BlockSelect("body", BODY_CLASS, $this->user->body, 2);
+		$heights 		= $this->formService->getHeights();
+		$weights 		= $this->formService->getWeights();
+		$hairColor 		= $this->formService->BlockSelect("hair_color", HAIR_COLOR_CLASS, $this->user->hair_color, 2);
+		$hairType 		= $this->formService->BlockSelect("hair_type", HAIR_TYPE_CLASS, $this->user->hair_type, 2);
+		$eyes	 		= $this->formService->BlockSelect("eyes", EYES_CLASS, $this->user->eyes, 2);
+		$education 		= $this->formService->BlockSelect("education", EDUCATION_CLASS, $this->user->education, 2);
+		$smoke 			= $this->formService->BlockSelect("smoke", SMOKE_CLASS, $this->user->smoke, 2);
+		$alcohol		= $this->formService->BlockSelect("alcohol", SPIRT_CLASS, $this->user->alcohol, 2);
+		$familyStatus	= $this->formService->BlockSelect("family_status", FAMILY_STATUS_CLASS, $this->user->family_status, 2);
+		$children		= $this->formService->BlockSelect("children", CHILDREN_CLASS, $this->user->children, 2);
+		$helpMoney		= $this->formService->BlockSelect("help_money", HELP_MONEY_CLASS, $this->user->help_money, 2);
+		$interests		= $this->formService->BlockSelect("interests", INTEREST_CLASS, $this->user->interests, 2);
+
+		$response->assertViewHasAll(
+			[
+				'userData'		=> $this->user,
+				'sexOrient'		=> $sexOrient,
+				'targets'		=> $targets,
+				'userSpeakLang'	=> $userSpeakLang,
+				'body'			=> $body,
+				'heights'		=> $heights,
+				'weights'		=> $weights,
+				'hairColor'		=> $hairColor,
+				'hairType'		=> $hairType,
+				'eyes'			=> $eyes,
+				'education'		=> $education,
+				'smoke'			=> $smoke,
+				'alcohol'		=> $alcohol,
+				'familyStatus'	=> $familyStatus,
+				'children'		=> $children,
+				'helpMoney'		=> $helpMoney,
+				'interests'		=> $interests
+			]
+		);
 	}
 }
