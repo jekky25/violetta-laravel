@@ -14,11 +14,11 @@ class Message extends Model
 	protected $table 		= 'user_messages';
 	protected $user, $smiles;
 	public $timestamps 		= false;
-	protected $primaryKey 	= 'message_id';
+	protected $primaryKey 	= 'id';
 
 	protected $fillable = [
-		'user_otprav',
-		'user_poluchil',
+		'sent_user_id',
+		'received_user_id',
 		'sent_is_deleted',
 		'received_is_deleted',
 		'create_time',
@@ -38,8 +38,8 @@ class Message extends Model
 	{
 		parent::boot();
 		self::creating(function ($model) {
-			$model->user_otprav			= $model->user->id;
-			$model->user_poluchil		= request('id');
+			$model->sent_user_id		= $model->user->id;
+			$model->received_user_id	= request('id');
 			$model->sent_is_deleted		= 0;
 			$model->received_is_deleted	= 0;
 			$model->create_time			= time();
@@ -51,13 +51,13 @@ class Message extends Model
 	public function getUserIdAttribute($val)
 	{
 		if (!empty($val) or empty($this->user)) return $val;
-		return $this->user->id == $this->user_otprav ? $this->user_poluchil : $this->user_otprav;
+		return $this->user->id == $this->sent_user_id ? $this->received_user_id : $this->sent_user_id;
 	}
 
 	public function getUserMesAttribute($val)
 	{
 		if (!empty($val) or empty($this->user)) return $val;
-		return $this->user->id == $this->user_otprav ? (new UserRepository())->getJustById($this->user_poluchil, ['photo']) : (new UserRepository())->getJustById($this->user_otprav, ['photo']);
+		return $this->user->id == $this->sent_user_id ? (new UserRepository())->getJustById($this->received_user_id, ['photo']) : (new UserRepository())->getJustById($this->sent_user_id, ['photo']);
 	}
 
 	public function getLastDateAttribute()

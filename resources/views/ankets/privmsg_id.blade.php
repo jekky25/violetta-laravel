@@ -56,12 +56,12 @@ function vote(score)
 	@foreach ($messages as $item)
 		<tr>
 			<td>
-			@if ($item->user_otprav == $userData->id)
+			@if ($item->sent_user_id == $userData->id)
 				<h4 class="outMeMess"><a href="{{route('ank.id', $userData->id)}}">{{ $userData->name }}</a>
 			@else
 				<h4 class="inMeMess"><a href="{{route('ank.id', $anketUserData->id)}}">{{ $anketUserData->name }}</a>
 			@endif
-					<p>{{ $item->last_date }}<a class="delBut2" title="удалить" href="{{route('privmsg.post.delete', $item->message_id)}}"></a></p>
+					<p>{{ $item->last_date }}<a class="delBut2" title="удалить" href="{{route('privmsg.post.delete', $item->id)}}"></a></p>
 				</h4>
 				<div class="messBody clear">{!! $item->description !!}</div>
 			</td>

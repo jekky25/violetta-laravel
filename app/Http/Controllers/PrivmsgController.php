@@ -111,7 +111,7 @@ class PrivmsgController extends Controller
 		$user 			= Auth::user();
 		$message 		= $this->messageRepository->getById($id);
 		$arParams 		= $request->post();
-		$userId 		= $message->user_otprav == $user->id ? $message->user_poluchil : $message->user_otprav;
+		$userId 		= $message->sent_user_id == $user->id ? $message->received_user_id : $message->sent_user_id;
 		if (!empty($arParams['cancel'])) return redirect()->route('privmsg.post', $userId);
 		if (!empty($arParams['confirm'])) {
 			$this->messageRepository->delete($message, $user->id);

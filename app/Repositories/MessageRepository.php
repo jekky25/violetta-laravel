@@ -19,19 +19,19 @@ class MessageRepository implements MessageInterface
 		$items = Message::selectRaw(
 			'*,
 				CASE
-						WHEN user_otprav = ' . $id . ' 
-							THEN user_poluchil
-						WHEN user_poluchil = ' . $id . ' 
-							THEN user_otprav 
+						WHEN sent_user_id = ' . $id . ' 
+							THEN received_user_id
+						WHEN received_user_id = ' . $id . ' 
+							THEN sent_user_id 
 					END as user_id,
-			COUNT(user_otprav) as count_messages'
+			COUNT(sent_user_id) as count_messages'
 		)
 			->where(function ($query) use ($id) {
-				$query->where('user_otprav', $id);
+				$query->where('sent_user_id', $id);
 				$query->where('sent_is_deleted', 0);
 			})
 			->Orwhere(function ($query) use ($id) {
-				$query->where('user_poluchil', $id);
+				$query->where('received_user_id', $id);
 				$query->where('received_is_deleted', 0);
 			})
 			->groupBy('user_id')
@@ -55,20 +55,20 @@ class MessageRepository implements MessageInterface
 		$items = Message::selectRaw(
 			'*,
 				CASE
-						WHEN user_otprav = ' . $userAuthId . ' 
-							THEN user_poluchil
-						WHEN user_poluchil = ' . $userAuthId . ' 
-							THEN user_otprav 
+						WHEN sent_user_id = ' . $userAuthId . ' 
+							THEN received_user_id
+						WHEN received_user_id = ' . $userAuthId . ' 
+							THEN sent_user_id 
 					END as user_id'
 		)
 			->where(function ($query) use ($userAuthId, $userId) {
-				$query->where('user_otprav', $userAuthId);
-				$query->where('user_poluchil', $userId);
+				$query->where('sent_user_id', $userAuthId);
+				$query->where('received_user_id', $userId);
 				$query->where('sent_is_deleted', 0);
 			})
 			->Orwhere(function ($query) use ($userAuthId, $userId) {
-				$query->where('user_poluchil', $userAuthId);
-				$query->where('user_otprav', $userId);
+				$query->where('received_user_id', $userAuthId);
+				$query->where('sent_user_id', $userId);
 				$query->where('received_is_deleted', 0);
 			})
 			->orderBy('create_time', 'asc')
@@ -89,7 +89,7 @@ class MessageRepository implements MessageInterface
 	 */
 	public function resetNewMess(&$item, $userAuthId)
 	{
-		if ($item->is_new == 1 && $item->user_poluchil == $userAuthId) {
+		if ($item->is_new == 1 && $item->received_user_id == $userAuthId) {
 			$item->is_new = 0;
 			$item->update();
 		}
@@ -107,12 +107,12 @@ class MessageRepository implements MessageInterface
 	{
 		$items = Message::select('*')
 			->where(function ($query) use ($userId, $userAuthId) {
-				$query->where('user_otprav', $userId);
-				$query->where('user_poluchil', $userAuthId);
+				$query->where('sent_user_id', $userId);
+				$query->where('received_user_id', $userAuthId);
 			})
 			->Orwhere(function ($query) use ($userId, $userAuthId) {
-				$query->where('user_poluchil', $userId);
-				$query->where('user_otprav', $userAuthId);
+				$query->where('received_user_id', $userId);
+				$query->where('sent_user_id', $userAuthId);
 			})
 			->get();
 		return $items;
@@ -126,7 +126,7 @@ class MessageRepository implements MessageInterface
 	public function getById($id)
 	{
 		$item = Message::select('*')
-			->where('message_id', $id)
+			->where('id', $id)
 			->firstOrFail();
 		return $item;
 	}
@@ -147,15 +147,15 @@ class MessageRepository implements MessageInterface
 
 		if (!empty($users)) {
 			$items = Message::select('*')
-				->where('user_poluchil', $user->id)
-				->whereIn('user_otprav', $users)
+				->where('received_user_id', $user->id)
+				->whereIn('sent_user_id', $users)
 				->where('is_new', 1)
 				->get();
 		}
 		foreach ($messages as &$_message) {
 			$_message->is_new = 0;
 			foreach ($items as $item) {
-				if ($_message->user_id == $item->user_otprav) {
+				if ($_message->user_id == $item->sent_user_id) {
 					$_message->is_new = $item->is_new;
 					break;
 				}
@@ -172,7 +172,7 @@ class MessageRepository implements MessageInterface
 	public function getByTimeByUser($id)
 	{
 		$items = Message::select('*')
-			->where('user_otprav', $id)
+			->where('sent_user_id', $id)
 			->where('create_time', '>', (time() - 5 * 60))
 			->get();
 		return $items;
@@ -201,8 +201,8 @@ class MessageRepository implements MessageInterface
 	public function delete($message, $userAuthId)
 	{
 		try {
-			$message->sent_is_deleted		= $message->user_otprav == $userAuthId ? 1 : $message->sent_is_deleted;
-			$message->received_is_deleted	= $message->user_otprav == $userAuthId ? $message->received_is_deleted : 1;
+			$message->sent_is_deleted		= $message->sent_user_id == $userAuthId ? 1 : $message->sent_is_deleted;
+			$message->received_is_deleted	= $message->sent_user_id == $userAuthId ? $message->received_is_deleted : 1;
 			$message->update();
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to delete Message . ' . $e->getMessage());
