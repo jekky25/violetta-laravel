@@ -208,4 +208,32 @@ class ProfileEditTest extends TestCase
 			]
 		);
 	}
+
+	/** @test */
+	public function check_profile_change_password_page(): void
+	{
+		$url = $_SERVER['REQUEST_URI'] = route('registration.edit.password');
+		$response = $this->get($url);
+		$response->assertRedirectToRoute('login');
+
+		$response = $this->actingAs($this->user)->get($url);
+		$response->assertStatus(200);	
+	}
+
+	/** @test */
+	public function check_profile_photo_page(): void
+	{
+		$url = $_SERVER['REQUEST_URI'] = route('registration.edit.photo');
+		$response = $this->get($url);
+		$response->assertRedirectToRoute('login');
+
+		$response = $this->actingAs($this->user)->get($url);
+		$response->assertStatus(200);
+
+		$response->assertViewHasAll(
+			[
+				'photos' => $this->user->photo
+			]
+		);
+	}
 }
