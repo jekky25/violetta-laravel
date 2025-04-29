@@ -63,7 +63,7 @@ function vote(score)
 			@endif
 					<p>{{ $item->last_date }}<a class="delBut2" title="удалить" href="{{route('privmsg.post.delete', $item->message_id)}}"></a></p>
 				</h4>
-				<div class="messBody clear">{!! $item->privmess_text !!}</div>
+				<div class="messBody clear">{!! $item->description !!}</div>
 			</td>
 		</tr>
 	@endforeach
@@ -98,7 +98,7 @@ function vote(score)
 		<table width="100%">
 			<tr>
 				<td>
-					<textarea class="textarea2" id="textMessage" name="message_text" wrap="virtual">{{ old('message_text') }}</textarea>
+					<textarea class="textarea2" id="textMessage" name="description" wrap="virtual">{{ old('description') }}</textarea>
 				</td>
 			</tr>
 			<tr>

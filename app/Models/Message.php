@@ -19,11 +19,11 @@ class Message extends Model
 	protected $fillable = [
 		'user_otprav',
 		'user_poluchil',
-		'user_otprav_del',
-		'user_poluchil_del',
-		'time',
-		'mess_new',
-		'privmess_text'
+		'sent_is_deleted',
+		'received_is_deleted',
+		'create_time',
+		'is_new',
+		'description'
 	];
 
 	public function __construct(array $attributes = [])
@@ -40,11 +40,11 @@ class Message extends Model
 		self::creating(function ($model) {
 			$model->user_otprav			= $model->user->id;
 			$model->user_poluchil		= request('id');
-			$model->user_otprav_del		= 0;
-			$model->user_poluchil_del	= 0;
-			$model->time				= time();
-			$model->mess_new			= 1;
-			$model->privmess_text		= str_replace("\'", "''", request('message_text'));
+			$model->sent_is_deleted		= 0;
+			$model->received_is_deleted	= 0;
+			$model->create_time			= time();
+			$model->is_new				= 1;
+			$model->description			= str_replace("\'", "''", request('description'));
 		});
 	}
 
@@ -62,7 +62,7 @@ class Message extends Model
 
 	public function getLastDateAttribute()
 	{
-		return date("d.m.y H:i", $this->time);
+		return date("d.m.y H:i", $this->create_time);
 	}
 
 	public function getPrivmessTextAttribute($val)

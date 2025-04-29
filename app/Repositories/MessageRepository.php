@@ -28,14 +28,14 @@ class MessageRepository implements MessageInterface
 		)
 			->where(function ($query) use ($id) {
 				$query->where('user_otprav', $id);
-				$query->where('user_otprav_del', 0);
+				$query->where('sent_is_deleted', 0);
 			})
 			->Orwhere(function ($query) use ($id) {
 				$query->where('user_poluchil', $id);
-				$query->where('user_poluchil_del', 0);
+				$query->where('received_is_deleted', 0);
 			})
 			->groupBy('user_id')
-			->orderBy('time', 'desc')
+			->orderBy('create_time', 'desc')
 			->paginate($count);
 
 		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
@@ -64,14 +64,14 @@ class MessageRepository implements MessageInterface
 			->where(function ($query) use ($userAuthId, $userId) {
 				$query->where('user_otprav', $userAuthId);
 				$query->where('user_poluchil', $userId);
-				$query->where('user_otprav_del', 0);
+				$query->where('sent_is_deleted', 0);
 			})
 			->Orwhere(function ($query) use ($userAuthId, $userId) {
 				$query->where('user_poluchil', $userAuthId);
 				$query->where('user_otprav', $userId);
-				$query->where('user_poluchil_del', 0);
+				$query->where('received_is_deleted', 0);
 			})
-			->orderBy('time', 'asc')
+			->orderBy('create_time', 'asc')
 			->paginate($count);
 
 		if (empty($items)) return null;
@@ -89,8 +89,8 @@ class MessageRepository implements MessageInterface
 	 */
 	public function resetNewMess(&$item, $userAuthId)
 	{
-		if ($item->mess_new == 1 && $item->user_poluchil == $userAuthId) {
-			$item->mess_new = 0;
+		if ($item->is_new == 1 && $item->user_poluchil == $userAuthId) {
+			$item->is_new = 0;
 			$item->update();
 		}
 		return $item;
@@ -149,14 +149,14 @@ class MessageRepository implements MessageInterface
 			$items = Message::select('*')
 				->where('user_poluchil', $user->id)
 				->whereIn('user_otprav', $users)
-				->where('mess_new', 1)
+				->where('is_new', 1)
 				->get();
 		}
 		foreach ($messages as &$_message) {
-			$_message->mess_new = 0;
+			$_message->is_new = 0;
 			foreach ($items as $item) {
 				if ($_message->user_id == $item->user_otprav) {
-					$_message->mess_new = $item->mess_new;
+					$_message->is_new = $item->is_new;
 					break;
 				}
 			}
@@ -173,7 +173,7 @@ class MessageRepository implements MessageInterface
 	{
 		$items = Message::select('*')
 			->where('user_otprav', $id)
-			->where('time', '>', (time() - 5 * 60))
+			->where('create_time', '>', (time() - 5 * 60))
 			->get();
 		return $items;
 	}
@@ -201,8 +201,8 @@ class MessageRepository implements MessageInterface
 	public function delete($message, $userAuthId)
 	{
 		try {
-			$message->user_otprav_del 	= $message->user_otprav == $userAuthId ? 1 : $message->user_otprav_del;
-			$message->user_poluchil_del = $message->user_otprav == $userAuthId ? $message->user_poluchil_del : 1;
+			$message->sent_is_deleted		= $message->user_otprav == $userAuthId ? 1 : $message->sent_is_deleted;
+			$message->received_is_deleted	= $message->user_otprav == $userAuthId ? $message->received_is_deleted : 1;
 			$message->update();
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to delete Message . ' . $e->getMessage());

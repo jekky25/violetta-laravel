@@ -34,9 +34,9 @@ class PrivmsgRequest extends FormRequest
 	public function messages(): array
 	{
 		return	[
-			'message_text.required' 	=> 'Сообщение не заполнено',
-			'message_text.max'	 		=> 'Сообщение слишком длинное',
-			'message_text.min'	 		=> 'Сообщение слишком короткое',
+			'description.required' 	=> 'Сообщение не заполнено',
+			'description.max'	 		=> 'Сообщение слишком длинное',
+			'description.min'	 		=> 'Сообщение слишком короткое',
 			'check_often'				=> 'Вы превысили лимит отправляемых сообщений:<br /> не более 10 сообщений за 5 минут'
 		];
 	}
@@ -49,7 +49,7 @@ class PrivmsgRequest extends FormRequest
 	{
 		if ($this->cancelRules()) return [];
 		return [
-			'message_text'	=> ['required', 'max:3000', 'min:2', new CheckOften()]
+			'description'	=> ['required', 'max:3000', 'min:2', new CheckOften()]
 		];
 	}
 
