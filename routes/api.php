@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/top100/{sex}', 'AnketController@getTop100')->whereNumber('sex')->name('profile.get.top100');
 Route::get('/forum/top', 'ForumController@getTop')->name('forum.get.top');
+Route::get('/statistics/', 'StatisticsController@get')->name('statistics.get');

@@ -94,7 +94,7 @@
 					@if (Route::is('contacts') || Route::is('review'))
 					 <li><a href="{{route('review')}}">Оставить отзыв</a></li>
 					@endif
-				</ul>	
+				</ul>
 			</div>
 			<div class="blFoot"></div>
 			<h2>Анкеты</h2>
@@ -126,12 +126,7 @@
 			</div>
 			<forum-top></forum-top>
 			<div class="blFoot"></div>
-			<h3>Статистика</h3>
-			<div id="static">
-				<p>Всего женщин:<a href="{{route('search', ['find_sex' => 2, 'send' => '1'])}}">{{ $statAnkets['total_women'] }}</a>({{ $statAnkets['total_women_percent'] }})</p>
-				<p>Всего мужчин:<a href="{{route('search', ['find_sex' => 1, 'send' => '1'])}}">{{ $statAnkets['total_men'] }}</a>({{ $statAnkets['total_men_percent'] }})</p>
-				<p>Всего фотографий:<a href="{{route('search', ['photo' => 1, 'send' => '1'])}}">{{ $statAnkets['total_fotos'] }}</a></p>
-			</div>
+			<statistics></statistics>
 			<div class="counter">
 <!--noindex-->
 <!--Rating@Mail.ru COUNTEr--><script language="JavaScript" type="text/javascript"><!--

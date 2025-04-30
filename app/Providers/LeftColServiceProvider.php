@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\PhotoRepository;
@@ -27,9 +26,7 @@ class LeftColServiceProvider extends ServiceProvider
 		$this->photoRepository 		= new PhotoRepository();
 		$this->userRepository 		= new UserRepository();
 		View::composer('*', function ($view) {
-			view()->share([
-				'statAnkets' 	=> $this->userRepository->getStatistic()
-			]);
+			view()->share([]);
 		});
 	}
 }
