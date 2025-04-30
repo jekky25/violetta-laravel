@@ -124,19 +124,7 @@
 					</tr>
 				</table>					
 			</div>
-			@if ( !empty($forums))
-			<div class="blFoot"></div>
-			<h2>Последние темы форума</h2>
-			<div class="bl">
-				<!--noindex-->
-					<ul>
-						@foreach ($forums as $item)
-						<li><a href="{{ route ('forum.topic', [$item->forum_id, $item->topic_id]) }}" rel="nofollow">{!! \Illuminate\Support\Str::limit($item->topic_title, 28, $end='...') !!}</a></li>
-						@endforeach
-					</ul>
-				<!--/noindex-->
-			</div>
-			@endif
+			<forum-top></forum-top>
 			<div class="blFoot"></div>
 			<h3>Статистика</h3>
 			<div id="static">

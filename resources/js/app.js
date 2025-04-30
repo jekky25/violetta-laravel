@@ -6,6 +6,7 @@ import '../css/style.css';
 
 import { createApp } from 'vue/dist/vue.esm-bundler';
 import BestProfile from './components/Profiles/BestProfile.vue';
+import ForumTop from './components/Forum/ForumTop.vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -15,7 +16,8 @@ import BestProfile from './components/Profiles/BestProfile.vue';
 
 const app = createApp({
     components: {
-        BestProfile
+        BestProfile,
+        ForumTop
     },
 });
 
