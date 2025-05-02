@@ -97,7 +97,7 @@ export default {
 		ajaxPostError(res) {
 			this.$data.errors += '<p>' + res.response.data.message + '</p>';
 		},
-		ajaxPostSuccess(res) { 
+		ajaxPostSuccess(res) {
 			window.location.href = this.getRoute('home');
 		},
 		clearParams() {
