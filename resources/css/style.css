@@ -679,3 +679,16 @@ h1.main_title, H1.main_t_up {
 	max-width: 100%;
 	opacity: 0;
 }
+
+.error-text {
+	color:#a01619; 
+	font-size: 11px; 
+	padding-bottom: 5px; 
+	text-align: center;
+}
+.error-text p {
+	margin-bottom: 0;
+	color:#a01619;
+	margin-top: 0;
+	font-size: 10px;
+}

@@ -8,6 +8,7 @@ import { createApp } from 'vue/dist/vue.esm-bundler';
 import BestProfile from './components/Profiles/BestProfile.vue';
 import ForumTop from './components/Forum/ForumTop.vue';
 import Statistics from './components/Blocks/Statistics.vue';
+import LoginProfile from './components/Profiles/LoginProfile.vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -19,7 +20,8 @@ const app = createApp({
     components: {
         BestProfile,
         ForumTop,
-        Statistics
+        Statistics,
+        LoginProfile
     },
 });
 

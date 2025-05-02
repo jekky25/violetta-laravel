@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::middleware('slashes')->group(function () {
 	//Route::get('registration/edit/photo/', 'NoContoller1@index')																				->name('registration.edit.photo');
 	//Route::get('registration/edit/diary/{id}.html', 'NoContoller2@index')												->whereNumber('id')		->name('registration.edit.diary.id');

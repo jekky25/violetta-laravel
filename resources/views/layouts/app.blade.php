@@ -151,43 +151,7 @@ if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br 
 			</div>
 		</div>
 		<div id="rightcol">
-			@auth
-			<h2>Рабочее меню</h2>			
-			<div class="bl AccMenu">
-				<h3>{{ $user->name }}!</h3>
-				<ul>
-					<li><a class="name_my_mess" href="{{route('privmsg')}}">Мои сообщения</a> <span @if ($user->new_messages > 0) class="red_mark" @else class="green_mark" @endif>({{ $user->new_messages }})</span></li>
-					<li><a href="{{route('registration.edit')}}">Мой профиль</a></li>
-					<li><a href="{{route('ank.id', $user->id)}}">Моя анкета</a></li>
-					<li><a href="{{route('registration.edit.photo')}}">Мои фото</a></li>
-					<li><a href="{{route('registration.edit.diary')}}">Мой дневник</a></li>
-					<li><a href="{{route('registration.edit.settings')}}">Мои настройки</a></li>
-					<li><a class="inTop" href="{{route('registration.top100')}}">@if ($user->photos_count > 0  &&  $user->top100 > 0)Поднять анкету @else попасть в топ @endif</a></li>
-				</ul>
-				<p>Последний визит: {{ $user->lastvisit_format }}</p>
-				<p>Просмотров за месяц: @if ($user->monthVisits > 0)<a href="{{route('registration.views')}}" class="views_l">{{ $user->monthVisits }}</a>@else{{ $user->monthVisits }}@endif @if ($user->monthVisitsNew > 0) <span class="views_l_new"> + <a href="{{route('registration.views')}}">{{ $user->monthVisitsNew }}</a></span>@endif</p>
-				<p class="logOutBut"><a href="{{route('logout')}}">Выход</a></p>
-			</div>
-			@else
-			<h2>Вход для пользователей</h2>
-			<div class="bl logForm">
-				<form name="login" action="{{route('login')}}" method="post">
-					{{ csrf_field() }}
-					<dl>
-						<dt>Ваш логин:</dt>
-						<dd><input type="text" name="username_template" /></dd>
-					</dl>
-					<dl>
-						<dt>Пароль:</dt>
-						<dd><input type="password" name="pass_template" /></dd>
-					</dl>
-					<p class="pad1"><input class="bgBut2" class="submit" type="submit" value="" /></p>
-				</form>
-				<p><a class="name" style="padding-right: 20px;" href="{{route('forget_pass')}}">Забыли пароль?</a></p>
-				<p><a class="name" style="padding-right: 20px;" href="{{route('registration')}}">Зарегистрироваться</a></p>				
-			</div>
-			@endauth
-			<div class="blFoot"></div>
+			<login-profile></login-profile>
 			<best-profile :sex="`{{ WOMEN }}`" :route="`{{ route('profile.get.top100', WOMEN) }}`"></best-profile>
 			<best-profile :sex="`{{ MEN }}`"  :route="`{{ route('profile.get.top100', MEN) }}`"></best-profile>
 			<div class="counter">

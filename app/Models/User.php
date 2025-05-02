@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Repositories\UserRepository;
+use App\Repositories\AnketVisitRepository;
 use App\Services\FormatService;
 use App\Services\DataService;
 use App\Models\Photo;
@@ -112,6 +113,8 @@ class User extends Authenticatable
 	public $timestamps 		= false;
 	protected $data;
 
+	private $anketVisitRepository;
+
 	public $fieldsAboutPartner =
 	[
 		'partner_sex',
@@ -139,6 +142,7 @@ class User extends Authenticatable
 
 	public function __construct(array $attributes = [])
 	{
+		$this->anketVisitRepository = new AnketVisitRepository;
 		parent::__construct($attributes);
 		$this->data = $this->createData();
 	}
@@ -431,6 +435,21 @@ class User extends Authenticatable
 		if ($this->partner_weight_min > PARTNER_WEIGHT_MIN && $this->partner_weight_max <= PARTNER_WEIGHT_MAX)
 			return ' от ' . $this->partner_weight_min . ' кг';
 		return ' до ' . $this->partner_weight_max . 'кг';
+	}
+
+	public function getMonthVisitsNewAttribute()
+	{
+		return count($this->anketVisitRepository->visitsNew($this));
+	}
+
+	public function getMonthVisitsAttribute()
+	{
+		return count($this->visits);
+	}
+
+	public function getLastvisitFormatAttribute()
+	{
+		return $this->data->getDate($this->lastvisit);
 	}
 
 	public function setSexOrientAttribute($val)
