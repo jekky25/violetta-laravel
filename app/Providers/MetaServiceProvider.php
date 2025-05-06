@@ -231,7 +231,7 @@ class MetaServiceProvider extends ServiceProvider
 	 */
 	private function getUserAge()
 	{
-		return (!empty($this->userData->user_age_str) ? $this->userData->user_age_str : '');
+		return (!empty($this->userData->age_str) ? $this->userData->age_str : '');
 	}
 
 	/**

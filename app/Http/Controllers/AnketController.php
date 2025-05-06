@@ -188,7 +188,7 @@ class AnketController extends Controller
 	 */
 	public function getTop100($sex = WOMEN)
 	{
-		$ankets = $this->userRepository->getTop100($sex, $this->countOne);
-		return new ProfileShortResource($ankets);
+		$profiles = $this->userRepository->getTop100($sex, $this->countOne);
+		return new ProfileShortResource($profiles);
 	}
 }

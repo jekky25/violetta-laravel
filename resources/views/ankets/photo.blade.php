@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
-<h1 class="mTit">{{ $userData->name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
+<h1 class="mTit">{{ $userData->name }}, {{ $userData->age_str }}, {{ $userData->city->name }}</h1>
 <x-ank-menu :user-data="$userData" />
 @if (!empty($userData->mainPhoto->id))
 <div id="mainAnkFoto">
@@ -25,10 +25,10 @@
 	@foreach ($userData->mainPhoto->comment as $item)
 	<tr>
 		<td class="fotoCommPics"><a href="{{route('ank.id', $item->user_id)}}">
-			<img alt="{{ $item->user->name }},{{ $item->user->user_age }} {{ $item->user->user_age_type }},{{ $item->user->city->name }}" src="{{ (new FileService)->outPicture($item->user_photo_id, $item->user->sex) }}" /></a></td>
+			<img alt="{{ $item->user->name }},{{ $item->user->age }} {{ $item->user->age_type }},{{ $item->user->city->name }}" src="{{ (new FileService)->outPicture($item->user_photo_id, $item->user->sex) }}" /></a></td>
 		<td>
 			<h4>
-			<a href="{{route('ank.id', $item->user_id)}}" class="{{ $item->user->name_class }}">{{ $item->user->name }}</a> <strong>{{ $item->user->user_age }} {{ $item->user->user_age_type }}</strong><span class="postData">{{ $item->add_time }}</span></h4>
+			<a href="{{route('ank.id', $item->user_id)}}" class="{{ $item->user->name_class }}">{{ $item->user->name }}</a> <strong>{{ $item->user->age }} {{ $item->user->age_type }}</strong><span class="postData">{{ $item->add_time }}</span></h4>
 			<div>{!! $item->description !!}</div>
 		</td>
 	</tr>

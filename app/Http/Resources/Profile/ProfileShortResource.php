@@ -17,12 +17,15 @@ class ProfileShortResource extends JsonResource
 	public function toArray(Request $request): array
 	{
 		return [
-			'id'			=> $this->id,
-			'name'		 	=> $this->name,
-			'age'		 	=> $this->user_age,
-			'age_type'	 	=> $this->user_age_type,
-			'city'			=> new CityShortResource($this->city),
-			'photo'			=> new PhotoShortResource($this->photo)
+			'id'				=> $this->id,
+			'name'			 	=> $this->name,
+			'sex'		 		=> $this->sex,
+			'age'			 	=> $this->age,
+			'age_type'	 		=> $this->age_type,
+			'city'				=> new CityShortResource($this->city),
+			'photo'				=> new PhotoShortResource($this->photo),
+			'photos_count'		=> $this->photos_count,
+			'find_sex_orient'	=> $this->find_sex_orient
 		];
 	}
 }

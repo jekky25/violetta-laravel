@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
-<h1 class="mTit">{{ $userData->name }}@if (!empty($userData->user_age_str)), {{ $userData->user_age_str }}@endif, {{ $userData->city->name }}</h1>
+<h1 class="mTit">{{ $userData->name }}@if (!empty($userData->age_str)), {{ $userData->age_str }}@endif, {{ $userData->city->name }}</h1>
 <x-ank-menu :user-data="$userData" />
 <h4 class="pinkLine">Редактировать запись</h4>
 	<script language=JavaScript>

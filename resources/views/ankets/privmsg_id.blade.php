@@ -23,7 +23,7 @@ function vote(score)
 	@endif
 		<li>
 			<p><strong>Город:</strong> {{ $anketUserData->city->name }} ({{ $anketUserData->country->name }})</p>
-			<p><strong>Возраст:</strong> {{ $anketUserData->user_age_str }}</p>
+			<p><strong>Возраст:</strong> {{ $anketUserData->age_str }}</p>
 			<p><strong>Знак зодиака:</strong> <a href="{{route('goroskop.id', $anketUserData->zodiac['zodiac_id'])}}" title="Узнайте свой Зодиак">{{$anketUserData->zodiac['zodiac_text']}}</a></p>
 			<p>{{ $anketUserData->user_last_visit }}</p>
 			<p>Просмотров за месяц: {{ $anketUserData->ankVisits }}</p>

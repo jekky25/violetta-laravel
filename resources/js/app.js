@@ -9,6 +9,7 @@ import BestProfile from './components/Profiles/BestProfile.vue';
 import ForumTop from './components/Forum/ForumTop.vue';
 import Statistics from './components/Blocks/Statistics.vue';
 import LoginProfile from './components/Profiles/LoginProfile.vue';
+import NewFaces from './components/Profiles/NewFaces.vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -21,7 +22,8 @@ const app = createApp({
         BestProfile,
         ForumTop,
         Statistics,
-        LoginProfile
+        LoginProfile,
+        NewFaces
     },
 });
 

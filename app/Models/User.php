@@ -225,14 +225,14 @@ class User extends Authenticatable
 		}
 	}
 
-	public function getUserAgeAttribute()
+	public function getAgeAttribute()
 	{
 		return $this->data->age($this->birth_date);
 	}
 
-	public function getUserAgeTypeAttribute()
+	public function getAgeTypeAttribute()
 	{
-		return (new formatService)->ageType($this->user_age);
+		return (new formatService)->ageType($this->age);
 	}
 
 	public function getBirthDayAttribute()
@@ -250,9 +250,9 @@ class User extends Authenticatable
 		return $this->data->selectFromDate($this->birth_date, DATE_YEAR);
 	}
 
-	public function getUserAgeStrAttribute()
+	public function getAgeStrAttribute()
 	{
-		return $this->user_age . ' ' . $this->user_age_type;
+		return $this->age . ' ' . $this->age_type;
 	}
 
 	public function getFindSexOrientAttribute()

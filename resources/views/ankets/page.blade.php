@@ -10,7 +10,7 @@ function vote(score)
 	return false;
 }
 </script>
-<h1 class="mTit">{{ $userData->name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
+<h1 class="mTit">{{ $userData->name }}, {{ $userData->age_str }}, {{ $userData->city->name }}</h1>
 @if(session('success'))
 <p class="mess">{{session('success')}}</p>
 @endif
@@ -26,7 +26,7 @@ function vote(score)
 	@endif
 		<li>
 			<p><strong>Город:</strong> {{ $userData->city->name }} ({{ $userData->country->name }})</p>
-			<p><strong>Возраст:</strong> {{ $userData->user_age_str }}</p>
+			<p><strong>Возраст:</strong> {{ $userData->age_str }}</p>
 			<p><strong>Знак зодиака:</strong> <a href="{{route('goroskop.id', $userData->zodiac['zodiac_id'])}}" title="Узнайте свой Зодиак">{{$userData->zodiac['zodiac_text']}}</a></p>
 			<table>
 				<tr>
