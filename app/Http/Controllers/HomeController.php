@@ -8,6 +8,7 @@ use App\Interfaces\DiaryInterface;
 use App\Interfaces\UserInterface;
 use App\Services\DataService;
 use App\Http\Resources\Profile\ProfileShortResource;
+use App\Http\Resources\Diary\DiaryResource;
 
 class HomeController extends Controller
 {
@@ -33,13 +34,11 @@ class HomeController extends Controller
 	{
 		$ages		= $data->getAges();
 		$countries	= $this->countryRepository->getAll();
-		$diaries	= $this->diaryRepository->get($this->countDiaries);
 		return response()->view(
 			'home',
 			[
 				'ages'		=> $ages,
-				'countries' => $countries,
-				'diaries' 	=> $diaries,
+				'countries' => $countries
 			]
 		);
 	}
@@ -52,5 +51,15 @@ class HomeController extends Controller
 	{
 		$profiles	= $this->userRepository->newFaces($this->countNewFaces);
 		return ProfileShortResource::collection($profiles);
+	}
+
+	/**
+	 * Get diaries
+	 * @return \Illuminate\Http\Response
+	 */
+	public function diaries()
+	{
+		$diaries	= $this->diaryRepository->get($this->countDiaries);
+		return DiaryResource::collection($diaries);
 	}
 }

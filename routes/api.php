@@ -24,3 +24,5 @@ Route::get('/statistics/', 'StatisticsController@get')->name('statistics.get');
 Route::get('/auth/', 'AuthController@getAuth')->name('auth.get');
 Route::post('/login/', 'AuthController@loginApi')->name('login.api');
 Route::get('/new_faces/', 'HomeController@newFaces')->name('newfaces.get');
+
+Route::get('/home/diaries/', 'HomeController@diaries')->name('home.diaries');

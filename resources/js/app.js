@@ -10,6 +10,7 @@ import ForumTop from './components/Forum/ForumTop.vue';
 import Statistics from './components/Blocks/Statistics.vue';
 import LoginProfile from './components/Profiles/LoginProfile.vue';
 import NewFaces from './components/Profiles/NewFaces.vue';
+import DiariesHome from './components/Diaries/DiariesHome.vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -23,7 +24,8 @@ const app = createApp({
         ForumTop,
         Statistics,
         LoginProfile,
-        NewFaces
+        NewFaces,
+        DiariesHome
     },
 });
 

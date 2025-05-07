@@ -47,21 +47,6 @@ class Diary extends Model
 		$model->user_id			= $user->id;
 	}
 
-	/**
-	 * get diary image link
-	 * @return string
-	 */
-	public function getImg()
-	{
-		return $this->picture !== "0" ? './img/dnevnik/' . $this->picture . '.jpg' : '';
-	}
-
-	public function getDnevnikFotoAttribute()
-	{
-		$img = $this->getImg();
-		return is_file($img) ? $this->id : null;
-	}
-
 	public function getDiaryImgAttribute()
 	{
 		$img = $this->getImg();
@@ -71,6 +56,16 @@ class Diary extends Model
 	public function getUserSexAttribute()
 	{
 		return !empty($this->user) && isset($this->user->sex) ? $this->user->sex : null;
+	}
+
+	public function getDescriptionBriefAttribute()
+	{
+		return \Illuminate\Support\Str::limit($this->description, 300, $end = '...');
+	}
+
+	public function getCommentsCountAttribute()
+	{
+		return $this->comments->count();
 	}
 
 	public function getAddTimeAttribute()
@@ -90,7 +85,8 @@ class Diary extends Model
 
 	public function getPictureUrlAttribute()
 	{
-		return $this->picture !== "0" ? 'img/dnevnik/' . $this->picture : null;
+		$url =  $this->picture !== "0" ? 'img/dnevnik/' . $this->picture : null;
+		return is_file($url) ? $url : null;
 	}
 
 	public function getCreateTimeAttribute($val)

@@ -81,31 +81,9 @@
 				<div class="wth1 mDnevTd">
 					<new-faces :women="{{WOMEN}}" :men="{{MEN}}"></new-faces>
 				</div>
-							<div class="wth1 mDnevTd">
-								<h3>Последние записи в дневниках</h3>
-								@if (!empty($diaries))
-								@foreach ($diaries as $item)
-								<div class="dnevnik">
-									<h4 class="{{ $item->name_class }}">
-										<a href="{{route('ank.id', $item->user->id)}}">{{ $item->user->name }}</a>
-										<p>{{ $item->create_time }}</p>
-									</h4>
-									<h3>
-										<a href="{{route('ank.diary.id', $item->user->id)}}" class="{{ $item->name_class }}">{!! $item->title !!}</a>
-									</h3>
-									@if (!empty($item->dnevnik_foto))
-									<div class="dnevPict">
-										<a href="{{route('ank.diary.id', $item->user->id)}}"><img class="b-lazy" data-src="{{ $item->diaryImg }}" src="{{ asset('image/zero.gif') }}" alt="" /></a>
-									</div>
-									@endif
-									<p class="dnevText">{!! \Illuminate\Support\Str::limit($item->description, 300, $end='...') !!}</p>
-								</div>
-								<a class="comLink" href="{{route('ank.diary.comments', $item->id)}}">комментарии ({{count ($item->comments)}})</a>
-								@endforeach
-								<a class="comLink left1 all-dnev-link" href="{{route('diaries')}}">все дневники >></a>
-								@endif
-							</div>
-						</div>
-					</div>
-
+				<div class="wth1 mDnevTd">
+					<diaries-home></diaries-home>
+				</div>
+			</div>
+		</div>
 @overwrite
