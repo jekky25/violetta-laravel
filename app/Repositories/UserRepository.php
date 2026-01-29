@@ -5,7 +5,6 @@ namespace App\Repositories;
 use Illuminate\Support\Facades\Auth;
 Use App\Interfaces\UserInterface;
 use App\Interfaces\AnketVisitInterface;
-use App\Services\LengthPager;
 use App\Models\User;
 use App\Traits\SearchByParams;
 use App\Repositories\PhotoRepository;
