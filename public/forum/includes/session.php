@@ -1587,7 +1587,7 @@ class user extends session
 		{
 			$this->lang_name = basename($config['default_lang']);
 			$this->date_format = $config['default_dateformat'];
-			$this->timezone = $config['board_timezone'] * 3600;
+			$this->timezone = (int)$config['board_timezone'] * 3600;
 			$this->dst = $config['board_dst'] * 3600;
 
 			/**

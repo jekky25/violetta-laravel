@@ -45,6 +45,16 @@ class bbcode
 		}
 	}
 
+	function bbcode($bitfield = '')
+	{
+		if ($bitfield)
+		{
+			$this->bbcode_bitfield = $bitfield;
+			$this->bbcode_cache_init();
+		}
+	}
+	
+
 	/**
 	* Second pass bbcodes
 	*/
