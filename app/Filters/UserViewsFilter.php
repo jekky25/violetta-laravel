@@ -18,7 +18,7 @@ class UserViewsFilter extends Filter
 	 *
 	 * @return Builder
 	 */
-	protected function afterBuild() :Builder
+	protected function afterBuild(): Builder
 	{
 		$this->active();
 		$this->exists();
@@ -28,22 +28,22 @@ class UserViewsFilter extends Filter
 	/**
 	 * @return Builder
 	 */
-	protected function active() :Builder
+	protected function active(): Builder
 	{
-		return $this->builder->where('user_active', 1);
+		return $this->builder->where('active', 1);
 	}
 
 	/**
 	 * @return Builder
 	 */
-	protected function exists() :Builder
+	protected function exists(): Builder
 	{
 		$time	= \Carbon\Carbon::now()->subDays(30)->timestamp;
 		return $this->builder->whereExists(function ($query) use ($time) {
 			$query->select(DB::raw(1))
-				  ->from('anket_visit')
-				  ->where('anket_visit.create_time', '>', $time)
-				  ->whereRaw('users_news.user_id = anket_visit.user_id');
+				->from('anket_visit')
+				->where('anket_visit.create_time', '>', $time)
+				->whereRaw('users_news.id = anket_visit.user_id');
 		});
 	}
 }

@@ -61,7 +61,7 @@ return [
             'transport' => 'postmark',
         ],
 
-        'sendmail25' => [
+        'sendmail' => [
             'transport' => 'sendmail',
 //            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -t -i'),
             //'path' => env('MAIL_SENDMAIL', 'e:/ospanel_543/modules/sendmail/sendmail.exe -t -i'),

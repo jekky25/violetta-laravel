@@ -1,3 +1,6 @@
+@if (!empty($multiple))
+<input type="hidden" name="{{ $name }}" value="0">
+@endif
 <select class="select1" name="{{ $name }}" 
 	@if (!empty($id))id="{{ $id }}" @endif
 	@if (!empty($multiple))multiple @endif

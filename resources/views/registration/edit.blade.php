@@ -21,13 +21,13 @@
 		<x-error errName=sex />
 		<table class="sexRegForm">
 			<tr>
-				<td rowspan="2"><input class="input3" type="text" name="name" value="{{ old('name', $userData->user_name) }}" /></td>
-				<td class="pad11"><input type="radio" name="sex" value="1"@if (old('sex', $userData->user_sex) == 1) checked="checked"@endif /></td>
+				<td rowspan="2"><input class="input3" type="text" name="name" value="{{ old('name', $userData->name) }}" /></td>
+				<td class="pad11"><input type="radio" name="sex" value="1"@if (old('sex', $userData->sex) == 1) checked="checked"@endif /></td>
 				<td><span class="menuMenReg">Я мужчина</span></td>
 				<td><p class="pad12">дата рождения</p></td>
 			</tr>
 			<tr>
-				<td class="pad11"><input type="radio" name="sex" value="2"@if (old('sex', $userData->user_sex) == 2) checked="checked"@endif /></td>
+				<td class="pad11"><input type="radio" name="sex" value="2"@if (old('sex', $userData->sex) == 2) checked="checked"@endif /></td>
 				<td><span class="menuWomenReg">Я женщина</span></td>
 				<td>
 					<select name="birth_day" style="width:40px;">
@@ -63,33 +63,33 @@
 		<table class="cityRegForm">
 			<tr>
 				<td width="150">страна</td>
-				<td><select name="country" id="country" onchange="updateSelect('region', this.value, 'reg');" autocomplete="off">
-					<option value="0" @if (old('country', $userData->user_country) == 0) selected="selected"@endif>выберите&nbsp;</option>
-					<option value="141" @if (old('country', $userData->user_country) == COUNTRY_ID_RUSSIA) selected="selected"@endif>Россия</option>
+				<td><select name="country_id" id="country" onchange="updateSelect('region', this.value, 'reg');" autocomplete="off">
+					<option value="0" @if (old('country_id', $userData->country_id) == 0) selected="selected"@endif>выберите&nbsp;</option>
+					<option value="141" @if (old('country_id', $userData->country_id) == COUNTRY_ID_RUSSIA) selected="selected"@endif>Россия</option>
 					@foreach ($countries as $item)
-					<option value="{{ $item->id }}" @if (old('country', $userData->user_country) == $item->id && old('country', $userData->user_country) != COUNTRY_ID_RUSSIA) selected="selected"@endif>{{ $item->name }}</option>
+					<option value="{{ $item->id }}" @if (old('country_id', $userData->country_id) == $item->id && old('country_id', $userData->country_id) != COUNTRY_ID_RUSSIA) selected="selected"@endif>{{ $item->name }}</option>
 					@endforeach
 				</select>
 			</td>
 		</tr>
 		<tr>
 			<td width="150">регион</td>
-			<td><select name="region" id="region" onchange="updateSelect('city', this.value, 'cities');" autocomplete="off">
+			<td><select name="region_id" id="region" onchange="updateSelect('city', this.value, 'cities');" autocomplete="off">
 					<option value="0">не важно</option>
 					@if (!empty($regions))
 					@foreach ($regions as $item)
-						<option value="{{ $item->id }}"@if (old('region', $userData->user_region) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
+						<option value="{{ $item->id }}"@if (old('region_id', $userData->region_id) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
 					@endforeach
 					@endif
 				</select></td>
 		</tr>
 		<tr>
 			<td width="150">город</td>
-			<td><select id="city" name="city" autocomplete="off">
+			<td><select id="city" name="city_id" autocomplete="off">
 					<option value="0">не важно</option>
 					@if (!empty($cities))
 					@foreach ($cities as $item)
-						<option value="{{ $item->id }}"@if (old('city', $userData->user_city) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
+						<option value="{{ $item->id }}"@if (old('city_id', $userData->city_id) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
 					@endforeach
 					@endif
 				</select>

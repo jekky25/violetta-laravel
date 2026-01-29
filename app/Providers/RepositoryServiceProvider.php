@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Providers;
+
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\GoroskopRepository;
 use App\Repositories\NameRepository;
@@ -22,6 +24,7 @@ use App\Repositories\SmileRepository;
 use App\Repositories\VarsRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\CommentPhotoRepository;
+use App\Repositories\ForumRepository;
 
 use App\Interfaces\GoroskopInterface;
 use App\Interfaces\NameInterface;
@@ -44,14 +47,15 @@ use App\Interfaces\SmileInterface;
 use App\Interfaces\VarsInterface;
 use App\Interfaces\UserInterface;
 use App\Interfaces\CommentPhotoInterface;
+use App\Interfaces\ForumInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
 	/**
-	* Register services.
-	*
-	* @return void
-	*/
+	 * Register services.
+	 *
+	 * @return void
+	 */
 	public function register()
 	{
 		$this->app->bind(GoroskopInterface::class, GoroskopRepository::class);
@@ -75,14 +79,13 @@ class RepositoryServiceProvider extends ServiceProvider
 		$this->app->bind(VarsInterface::class, VarsRepository::class);
 		$this->app->bind(UserInterface::class, UserRepository::class);
 		$this->app->bind(CommentPhotoInterface::class, CommentPhotoRepository::class);
+		$this->app->bind(ForumInterface::class, ForumRepository::class);
 	}
 
 	/**
-	* Bootstrap services.
-	*
-	* @return void
-	*/
-	public function boot()
-	{
-	}
+	 * Bootstrap services.
+	 *
+	 * @return void
+	 */
+	public function boot() {}
 }

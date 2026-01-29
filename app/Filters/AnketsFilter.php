@@ -20,20 +20,20 @@ class AnketsFilter extends Filter
 	 * @param int $value
 	 * @return Builder
 	 */
-	protected function getSex(int $value) :Builder
+	protected function getSex(int $value): Builder
 	{
-		return $this->builder->where('user_sex', $value);
+		return $this->builder->where('sex', $value);
 	}
 
 	/**
 	 * @param int $value
 	 * @return Builder
 	 */
-	protected function age(int $value) :Builder
+	protected function age(int $value): Builder
 	{
 		$op	= $this->format->getRange($value);
-		if (!empty($op['birthDate'])) $this->builder->where('user_birth_date', '>', $op['birthDate']);
-		if (!empty($op['birthDate2'])) $this->builder->where('user_birth_date', '<', $op['birthDate2']);
+		if (!empty($op['birthDate'])) $this->builder->where('birth_date', '>', $op['birthDate']);
+		if (!empty($op['birthDate2'])) $this->builder->where('birth_date', '<', $op['birthDate2']);
 		return $this->builder;
 	}
 
@@ -42,7 +42,7 @@ class AnketsFilter extends Filter
 	 *
 	 * @return Builder
 	 */
-	protected function afterBuild() :Builder
+	protected function afterBuild(): Builder
 	{
 		$this->active();
 
@@ -52,8 +52,8 @@ class AnketsFilter extends Filter
 	/**
 	 * @return Builder
 	 */
-	protected function active() :Builder
+	protected function active(): Builder
 	{
-		return $this->builder->where('user_active', 1);
+		return $this->builder->where('active', 1);
 	}
 }

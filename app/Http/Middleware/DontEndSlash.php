@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Config;
 
-
 class DontEndSlash
 {
   /**

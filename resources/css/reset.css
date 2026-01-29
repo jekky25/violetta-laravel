@@ -1,0 +1,10 @@
+html, body { margin:0; padding:0; cursor:default; text-align:left;}
+h1,h2,h3,h4,h5,h6 { margin:0; padding:0 0 0 0; font-weight:bold;}
+a {outline:none; cursor:pointer;}
+img {margin:0; padding:0; border:0;}
+table, td { border-collapse:collapse; margin:0; padding:0; vertical-align:middle; border-spacing:0;}
+p { margin:0; padding:0 0 5px 0;}
+ul, li { margin:0; padding:0; list-style:none;}
+form { margin:0; padding:0;}
+:focus { outline:none;}
+fieldset {border:0;}

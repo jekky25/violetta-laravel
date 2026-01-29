@@ -79,53 +79,11 @@
 		<div id="mDnev">
 			<div class="mDnevTr">
 				<div class="wth1 mDnevTd">
-					<h3 class="for-pc">Новые лица на сайте знакомств</h3>		
-					@if (!empty($newFaces))
-						@foreach ($newFaces as $item)
-						<dl @if ($loop->index >= 4) class="for-pc"@endif>
-							<dt>
-								<!--noindex-->
-								<a href="{{route('ank.id', $item->user_id)}}" rel="nofollow">
-									<img class="b-lazy" alt="{{ $item->user_name }},{{ $item->user_age }}{{ $item->user_age_type }},{{ $item->city->name }}"  data-src="{{ asset('fotos_new/' . $item->photo->id) . '.jpg' }}" src="{{ asset('image/zero.gif') }}" />
-								</a>
-								<!--/noindex-->
-							</dt>
-							<dd>
-							<p><!--noindex-->@if (!empty($item->user_reg_is))<img title="на сайте" class="online" alt="на сайте" src="{{ asset('image/on_line.gif') }}" />@endif<a href="{{route('ank.id', $item->user_id)}}" @if ($item->user_sex == MEN)class="name_man" @else class="name_woman" @endif rel="nofollow">{{ $item->user_name }}</a><!--/noindex-->
-							@if ($item->user_sex == MEN)<img class="b-lazy" alt="Мужчина" data-src="{{ asset('image/sex_men.jpg') }}" src="{{ asset('image/zero.gif') }}" />@else<img class="b-lazy" alt="Женщина" data-src="{{ asset('image/sex_women.jpg') }}" src="{{ asset('image/zero.gif') }}" />@endif
-							<span>({{ $item->user_fotos }} фото)</span></p>
-								<p><span class="st1">{{ $item->user_age }} {{ $item->user_age_type }}</span>, {{ $item->city->name }}</p>
-								<p><span class="st1">Ищу:</span> {{ $item->find_sex_orient }}</p>
-							</dd>
-						</dl>
-						@endforeach
-					@endif
-							</div>
-							<div class="wth1 mDnevTd">
-								<h3>Последние записи в дневниках</h3>
-								@if (!empty($diaries))
-								@foreach ($diaries as $item)
-								<div class="dnevnik">
-									<h4 class="{{ $item->name_class }}">
-										<a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>
-										<p>{{ $item->create_time }}</p>
-									</h4>
-									<h3>
-										<a href="{{route('ank.diary.id', $item->user->user_id)}}" class="{{ $item->name_class }}">{!! $item->title !!}</a>
-									</h3>
-									@if (!empty($item->dnevnik_foto))
-									<div class="dnevPict">
-										<a href="{{route('ank.diary.id', $item->user->user_id)}}"><img class="b-lazy" data-src="{{ $item->diaryImg }}" src="{{ asset('image/zero.gif') }}" alt="" /></a>
-									</div>
-									@endif
-									<p class="dnevText">{!! \Illuminate\Support\Str::limit($item->description, 300, $end='...') !!}</p>
-								</div>
-								<a class="comLink" href="{{route('ank.diary.comments', $item->id)}}">комментарии ({{count ($item->comments)}})</a>
-								@endforeach
-								<a class="comLink left1 all-dnev-link" href="{{route('diaries')}}">все дневники >></a>
-								@endif
-							</div>
-						</div>
-					</div>
-
+					<new-faces :women="{{WOMEN}}" :men="{{MEN}}"></new-faces>
+				</div>
+				<div class="wth1 mDnevTd">
+					<diaries-home></diaries-home>
+				</div>
+			</div>
+		</div>
 @overwrite

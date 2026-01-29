@@ -1,21 +1,9 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
-<h1 class="mTit">{{ $userData->user_name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
+<h1 class="mTit">{{ $userData->name }}, {{ $userData->age_str }}, {{ $userData->city->name }}</h1>
 <x-ank-menu :user-data="$userData" />
 <h4 class="pinkLine">Редактировать запись</h4>
-{{--<div class="banerFoto">
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* Дневники 468x60 */
-google_ad_slot = "5785131254";
-google_ad_width = 468;
-google_ad_height = 60;
-//-->
-</script>
-<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
-</div>--}}
 <script language=JavaScript>
 function find_otsil()
 {
@@ -41,17 +29,17 @@ function find_otsil()
 	<table style="width:100px;">
 		<tr>
 			<td width="50%" align="right"><div class="dnevTeemTitle"><p>{{ $diary->create_time }}</p>Тема:</div></td>
-			<td width="50%"><input type="text" class="input3" name="title" value="{{ $diary->user_dnevnik_title }}" /></td>
+			<td width="50%"><input type="text" class="input3" name="title" value="{{ old('title', $diary->title) }}" /></td>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<textarea class="textarea2" name="description" wrap="virtual">{{ $diary->user_dnevnik_text }}</textarea>
+				<textarea class="textarea2" name="description" wrap="virtual">{{ old('description', $diary->description) }}</textarea>
 			</td>
 		</tr>
 		@if (!empty($diary->picture))
 		<tr>
 			<td>
-				<img width="100" src="{{ (new FileService)->outDiaryPicture($diary->picture, $diary->user->user_sex) }}" alt="" style="vertical-align:middle; margin-right:20px;" />
+				<img width="100" src="{{ (new FileService)->outDiaryPicture($diary->picture, $diary->user->sex) }}" alt="" style="vertical-align:middle; margin-right:20px;" />
 				<a class="delFoto" href="{{route('ank.diary.delete.photo.id', $diary->id)}}">удалить</a>
 			</td>
 			<td>

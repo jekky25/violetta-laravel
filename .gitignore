@@ -23,6 +23,7 @@ yarn-error.log
 /public/forum/images/avatars/upload/
 /public/forum/ANTQUAB.TTF
 /public/forum/arial.ttf
+/public/build
 /2985ac2e5fba128e432d8e4c54a11c6f
 /config/app.php
 /config/database.php

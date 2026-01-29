@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -17,28 +18,26 @@ class AnkController extends Controller
 	const IS_MAIN_PHOTO					= 1;
 	public static $visitDays 			= 30;
 	public $commentCountPerPage 		= 100;
-	
+
 	/**
-	* Create a new controller instance.
-	*
-	* @return void
-	*/
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
 	public function __construct(
 		protected AnketEvaluationInterface $anketEvaluationRepository,
 		protected AnketVisitInterface $anketVisitRepository,
 		protected PhotoInterface $photoRepository,
 		protected UserInterface $userRepository,
 		protected PhotoService $photoService
-	)
-	{
-	}
+	) {}
 
 	/**
-	* Show a profile page
-	* @param  Request  $request
-	* @param  int $id
-	* @return \Illuminate\Http\Response
-	*/
+	 * Show a profile page
+	 * @param  Request  $request
+	 * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getAnk(Request $request, $id)
 	{
 		$user				= Auth::user();
@@ -48,8 +47,7 @@ class AnkController extends Controller
 		$this->ankService->prepare();
 
 		//making an ankets review and a count of views
-		if (!empty ($user))
-		{
+		if (!empty($user)) {
 			$anket->ankVisits	= $this->anketVisitRepository->update($id, self::$visitDays, $user->user_id);
 
 			$this->anketEvaluationRepository->getEvaluations($user->user_id, $id);
@@ -61,35 +59,36 @@ class AnkController extends Controller
 			$this->ankService->prepareFull();
 			$isAboutPartner = $this->ankService->isAboutPartner();
 		}
-		return response()->view('ankets.page',
-		[
-			'userData'			=> $anket,
-			'ankEvaluationed' 	=> isset($ankEvaluationed)	? $ankEvaluationed	: false,
-			'isAboutPartner' 	=> isset($isAboutPartner)	? $isAboutPartner	: false
-		]);
+		return response()->view(
+			'ankets.page',
+			[
+				'userData'			=> $anket,
+				'ankEvaluationed' 	=> isset($ankEvaluationed)	? $ankEvaluationed	: false,
+				'isAboutPartner' 	=> isset($isAboutPartner)	? $isAboutPartner	: false
+			]
+		);
 	}
 
 	/**
-	* Show a page with user pictures
-	* @param  int $id
-	* @return \Illuminate\Http\Response
-	*/
+	 * Show a page with user pictures
+	 * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getMainPhoto($id)
 	{
 		$anket	= $this->userRepository->getById($id);
 		if (!count($anket->photo)) abort(404);
-		foreach ($anket->photo as $photo)
-		{
+		foreach ($anket->photo as $photo) {
 			if ($photo->main_picture == static::IS_MAIN_PHOTO) return redirect()->route('ank.photo.photo_id', $photo->id);
 		}
 		abort(404);
 	}
 
 	/**
-	* Show a page with user pictures
-	* @param  int $id
-	* @return \Illuminate\Http\Response
-	*/
+	 * Show a page with user pictures
+	 * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getPhoto($id)
 	{
 		$user				= Auth::user();
@@ -97,11 +96,13 @@ class AnkController extends Controller
 		$photo	= $this->photoRepository->getById($id);
 		$anket	= $this->userRepository->getById($photo->user_id);
 		if (!count($anket->photo)) abort(404);
-		$anket->ankVisits	= $this->anketVisitRepository->update($photo->user_id, self::$visitDays, $user->user_id);
+		$anket->ankVisits	= $this->anketVisitRepository->update($photo->user_id, self::$visitDays, $user->id);
 		$this->photoService->prepare($anket, $photo->id, $this->commentCountPerPage);
-		return response()->view('ankets.photo',
-		[
-			'userData'			=> $anket,
-		]);
+		return response()->view(
+			'ankets.photo',
+			[
+				'userData'			=> $anket,
+			]
+		);
 	}
 }

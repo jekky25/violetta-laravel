@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
-<h1 class="mTit">{{ $userData->user_name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
+<h1 class="mTit">{{ $userData->name }}, {{ $userData->age_str }}, {{ $userData->city->name }}</h1>
 <x-ank-menu :user-data="$userData" />
 @if (!empty($diaries))
 <table class="ankDnevnik">
@@ -29,7 +29,7 @@ google_ad_height = 60;
 @endif
 <x-pagination :items="$diaries" />
 @auth
-@if ($user->user_id == $userData->user_id)
+@if ($user->id == $userData->id)
 <script language=JavaScript>
 function find_otsil()
 {

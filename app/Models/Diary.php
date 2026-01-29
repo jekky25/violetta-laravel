@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Diary extends Model
 {
@@ -19,30 +21,51 @@ class Diary extends Model
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'id';
 
-	/**
-	* get diary image link
-	* @return string
-	*/
-	public function getImg()
+	public static function boot()
 	{
-		return $this->picture !== "0" ? './img/dnevnik/' . $this->picture . '.jpg' : '';
+		parent::boot();
+		self::creating(function ($model) {
+			self::prepare($model);
+		});
+		self::updating(function ($model) {
+			self::prepare($model);
+		});
 	}
 
-	public function getDnevnikFotoAttribute()
+	/**
+	 * Preparating params before create or update this model
+	 *
+	 * @param  DiaryComment $model
+	 * @return void
+	 */
+	protected static function prepare($model)
 	{
-		$img = $this-> getImg();
-		return is_file($img) ? $this->id : null;
+		$model->title			= strip_tags($model->title, "<b><strong><i>");
+		$model->description		= strip_tags($model->description, "<b><strong><i>");
+		$model->create_time		= time();
+		$user					= Auth::user();
+		$model->user_id			= $user->id;
 	}
 
 	public function getDiaryImgAttribute()
 	{
-		$img = $this-> getImg();
+		$img = $this->getImg();
 		return is_file($img) ? $img : '';
 	}
-	
+
 	public function getUserSexAttribute()
 	{
-		return !empty($this->user) && isset($this->user->user_sex) ? $this->user->user_sex : null;
+		return !empty($this->user) && isset($this->user->sex) ? $this->user->sex : null;
+	}
+
+	public function getDescriptionBriefAttribute()
+	{
+		return \Illuminate\Support\Str::limit($this->description, 300, $end = '...');
+	}
+
+	public function getCommentsCountAttribute()
+	{
+		return $this->comments->count();
 	}
 
 	public function getAddTimeAttribute()
@@ -57,13 +80,13 @@ class Diary extends Model
 
 	public function getNameClassAttribute()
 	{
-		return  $this->user_sex == MEN ? 'name_man' : 'name_woman';
-		
+		return  $this->sex == MEN ? 'name_man' : 'name_woman';
 	}
-	
+
 	public function getPictureUrlAttribute()
-	{	
-		return $this->picture !== "0" ? 'img/dnevnik/' . $this->picture : null;
+	{
+		$url =  $this->picture !== "0" ? 'img/dnevnik/' . $this->picture : null;
+		return is_file($url) ? $url : null;
 	}
 
 	public function getCreateTimeAttribute($val)
@@ -84,24 +107,24 @@ class Diary extends Model
 	}
 
 	/**
-	* get user
-	*/
+	 * get user
+	 */
 	public function user()
 	{
-		return $this->belongsTo(User::class, 'user_id', 'user_id')->with('city');
+		return $this->belongsTo(User::class, 'user_id', 'id')->with('city');
 	}
 
 	/**
-	* get comments
-	*/
+	 * get comments
+	 */
 	public function comments()
 	{
 		return $this->hasMany(Comment::class, 'diary_id', 'id');
 	}
 
 	/**
-	* get user photo
-	*/
+	 * get user photo
+	 */
 	public function user_photo()
 	{
 		return $this->hasOne(Photo::class, 'user_id', 'user_id')->where('main_picture', 1);

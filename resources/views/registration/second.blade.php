@@ -27,18 +27,22 @@
 		<tr>
 			<td class="valign1" align="center">
 				<table class="pad13">
-				@foreach ($meetTarget as $item)
+					<input type="hidden" name="targets[]" value="0">
+				@foreach ($targets as $item)
 					<tr>
-						<td><input type="checkbox" name="target_meet[]" value="{{ $item->id }}"@if (!empty($item->selected)) checked="checked"@endif /></td>
+						<td><input type="checkbox" name="targets[]" value="{{ $item->id }}"@if (!empty($item->selected)) checked="checked"@endif /></td>
 						<td class="left1">{{ $item->name }}</td>
 					</tr>
 				@endforeach
 				</table>		
 			</td>
 			<td class="valign1" align="center">
+				<input type="hidden" name="speak_lang[]" value="0">
 				<table class="pad13">
 					<tr>
-						<td><input type="checkbox" name="speak_lang[]" value="1" @if (!empty($userSpeakLang['rus']['selected'])) checked="checked"@endif /></td>
+						<td>
+							<input type="checkbox" name="speak_lang[]" value="1" @if (!empty($userSpeakLang['rus']['selected'])) checked="checked"@endif />
+						</td>
 						<td class="left1"><span>Русский</span></td>
 						<td><input type="checkbox" name="speak_lang[]" value="2" @if (!empty($userSpeakLang['ukr']['selected'])) checked="checked"@endif /></td>
 						<td class="left1"><span>Украинский</span></td>
@@ -87,11 +91,11 @@
 		</tr>
 		<tr>
 			<td align="right">Рост:</td>
-			<td><x-select name=height :obj="$heights" type=I :userProp="$userData->user_height" measure="см" /></td>
+			<td><x-select name=height :obj="$heights" type=I :userProp="$userData->height" measure="см" /></td>
 		</tr>
 		<tr>
 			<td align="right">Вес:</td>
-			<td><x-select name=weight :obj="$weights" type=I :userProp="$userData->user_weight" measure="кг" /></td>
+			<td><x-select name=weight :obj="$weights" type=I :userProp="$userData->weight" measure="кг" /></td>
 		</tr>
 		<tr>
 			<td align="right">Цвет волос:</td>
@@ -120,7 +124,7 @@
 		</tr>
 		<tr>
 			<td align="right">Отношение к спиртному:</td>
-			<td><x-select name=spirt :obj="$spirt" /></td>
+			<td><x-select name=alcohol :obj="$alcohol" /></td>
 		</tr>
 		<tr>
 			<td align="right">Семейное положение:</td>
@@ -136,7 +140,7 @@
 		</tr>
 		<tr>
 			<td align="right">Интересы:</td>
-			<td><x-select name=interest[] :obj="$interest" multiple="true" size="10" /></td>
+			<td><x-select name=interests[] :obj="$interests" multiple="true" size="10" /></td>
 		</tr>
 	</table>
 	<p class="pad2"></p>
@@ -145,15 +149,15 @@
 	<table class="mrg6" width="100%">
 		<tr>
 			<td align="right" width="50%">Домашняя страничка:</td>
-			<td width="50%"><input class="select1" type="text" maxLength="70" size="30" name="url" value="{{ old('url', $userData->user_url) }}" /></td>
+			<td width="50%"><input class="select1" type="text" maxLength="70" size="30" name="url" value="{{ old('url', $userData->url) }}" /></td>
 		</tr>
 		<tr>
 			<td align="right">Телефон:</td>
-			<td><input class="select1" type="text" maxLength="70" size="30" name="phone" value="{{ old('phone', $userData->user_phone) }}" /></td>
+			<td><input class="select1" type="text" maxLength="70" size="30" name="phone" value="{{ old('phone', $userData->phone) }}" /></td>
 		</tr>
 		<tr>
 			<td align="right">ICQ:</td>
-			<td><input class="select1" type="text" maxLength="70" size="30" name="icq" value="{{ old('icq', $userData->user_icq) }}" /></td>
+			<td><input class="select1" type="text" maxLength="70" size="30" name="icq" value="{{ old('icq', $userData->icq) }}" /></td>
 		</tr>
 	</table>
 	<p class="pad2"></p>
@@ -161,7 +165,7 @@
 	<p class="pad1 pad2">Это самая важная часть анкеты. От того, как вы заполните это поле, очень сильно зависит <strong>успешность вашего знакомства</strong>. Отнеситесь к этому ответственно.  Опишите особенности, делающие вашу <strong>личность отличной от других</strong>. Постарайтесь <strong>избегать банальностей</strong>. Если вы любите кошек или вам нравится гулять под дождем - напишите об этом. Поверьте,
 найдется со временем тот кто ищет именно вас.</p>
 	<div>
-		<textarea class="textarea2" name="description" wrap="virtual">{{ old('description', $userData->user_description) }}</textarea>
+		<textarea class="textarea2" name="description" wrap="virtual">{{ old('description', $userData->description) }}</textarea>
 	</div>
 	<p class="pad2"></p>
 	<input type="hidden" name="otsil" value="1" />

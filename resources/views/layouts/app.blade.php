@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>@include('layouts.head')</head>
-<body>
+<body id="app">
 <div id="ovHtm">
 	<div id="head">
 		<a id="chuvaki" href="{{route('home')}}"></a>
@@ -15,15 +15,15 @@
 			@auth
 			<h3>Рабочее меню</h3>
 			<div class="mob-menu-first-block">
-				<h4>{{ $user->user_name }}!</h4>
+				<h4>{{ $user->name }}!</h4>
 				<ul>
 					<li class="first-item-menu"><a href="{{route('privmsg')}}"><span>Мои сообщения</span> <span @if ($user->user_new_message > 0) class="first-item-menu-num red_mark" @else class="first-item-menu-num green_mark" @endif>({{ $user->user_new_message }})</span></a></li>
 					<li><a href="{{route('registration.edit')}}">Мой профиль</a></li>
-					<li><a href="{{route('ank.id', $user->user_id)}}">Моя анкета</a></li>
+					<li><a href="{{route('ank.id', $user->id)}}">Моя анкета</a></li>
 					<li><a href="{{route('registration.edit.photo')}}">Мои фото</a></li>
 					<li><a href="{{route('registration.edit.diary')}}">Мой дневник</a></li>
 					<li><a href="{{route('registration.edit.settings')}}">Мои настройки</a></li>
-					<li><a class="inTop" href="{{route('registration.top100')}}">@if ($user->user_fotos > 0  &&  $user->user_top100 > 0)Поднять анкету @else попасть в топ @endif</a></li>
+					<li><a class="inTop" href="{{route('registration.top100')}}">@if ($user->photos_count > 0  &&  $user->top100 > 0)Поднять анкету @else попасть в топ @endif</a></li>
 					<li><a href="{{route('logout')}}">Выход</a></li>
 				</ul>
 			</div>
@@ -94,7 +94,7 @@
 					@if (Route::is('contacts') || Route::is('review'))
 					 <li><a href="{{route('review')}}">Оставить отзыв</a></li>
 					@endif
-				</ul>	
+				</ul>
 			</div>
 			<div class="blFoot"></div>
 			<h2>Анкеты</h2>
@@ -124,26 +124,9 @@
 					</tr>
 				</table>					
 			</div>
-			@if ( !empty($forums))
+			<forum-top></forum-top>
 			<div class="blFoot"></div>
-			<h2>Последние темы форума</h2>
-			<div class="bl">
-				<!--noindex-->
-					<ul>
-						@foreach ($forums as $item)
-						<li><a href="{{ route ('forum.topic', [$item->forum_id, $item->topic_id]) }}" rel="nofollow">{!! \Illuminate\Support\Str::limit($item->topic_title, 28, $end='...') !!}</a></li>
-						@endforeach
-					</ul>
-				<!--/noindex-->
-			</div>
-			@endif
-			<div class="blFoot"></div>
-			<h3>Статистика</h3>
-			<div id="static">
-				<p>Всего женщин:<a href="{{route('search', ['find_sex' => 2, 'send' => '1'])}}">{{ $statAnkets['total_women'] }}</a>({{ $statAnkets['total_women_percent'] }})</p>
-				<p>Всего мужчин:<a href="{{route('search', ['find_sex' => 1, 'send' => '1'])}}">{{ $statAnkets['total_men'] }}</a>({{ $statAnkets['total_men_percent'] }})</p>
-				<p>Всего фотографий:<a href="{{route('search', ['photo' => 1, 'send' => '1'])}}">{{ $statAnkets['total_fotos'] }}</a></p>
-			</div>
+			<statistics></statistics>
 			<div class="counter">
 <!--noindex-->
 <!--Rating@Mail.ru COUNTEr--><script language="JavaScript" type="text/javascript"><!--
@@ -165,62 +148,13 @@ src="http://d1.cd.b3.a1.top.list.ru/counter?js=na;id=1298829;t=133"
 border=0 height=40 width=88
 alt="Рейтинг@Mail.ru"/></a></noscript><script language="JavaScript" type="text/javascript"><!--
 if(11<js)d.write('--'+'>')//--></script><!--/COUNTER--><!--/noindex--><br /><br />
-{{--
-{if $s_link1}
-{$s_link1}
-{/if}<br /><br />
---}}
 			</div>
 		</div>
 		<div id="rightcol">
-			@auth
-			<h2>Рабочее меню</h2>			
-			<div class="bl AccMenu">
-				<h3>{{ $user->user_name }}!</h3>
-				<ul>
-					<li><a class="name_my_mess" href="{{route('privmsg')}}">Мои сообщения</a> <span @if ($user->user_new_message > 0) class="red_mark" @else class="green_mark" @endif>({{ $user->user_new_message }})</span></li>
-					<li><a href="{{route('registration.edit')}}">Мой профиль</a></li>
-					<li><a href="{{route('ank.id', $user->user_id)}}">Моя анкета</a></li>
-					<li><a href="{{route('registration.edit.photo')}}">Мои фото</a></li>
-					<li><a href="{{route('registration.edit.diary')}}">Мой дневник</a></li>
-					<li><a href="{{route('registration.edit.settings')}}">Мои настройки</a></li>
-					<li><a class="inTop" href="{{route('registration.top100')}}">@if ($user->user_fotos > 0  &&  $user->user_top100 > 0)Поднять анкету @else попасть в топ @endif</a></li>
-				</ul>
-				<p>Последний визит: {{ $user->user_lastvisit_format }}</p>
-				<p>Просмотров за месяц: @if ($user->monthVisits > 0)<a href="{{route('registration.views')}}" class="views_l">{{ $user->monthVisits }}</a>@else{{ $user->monthVisits }}@endif @if ($user->monthVisitsNew > 0) <span class="views_l_new"> + <a href="{{route('registration.views')}}">{{ $user->monthVisitsNew }}</a></span>@endif</p>
-				<p class="logOutBut"><a href="{{route('logout')}}">Выход</a></p>
-			</div>
-			@else
-			<h2>Вход для пользователей</h2>			
-			<div class="bl logForm">
-				<form name="login" action="{{route('login')}}" method="post">
-					{{ csrf_field() }}
-					<dl>
-						<dt>Ваш логин:</dt>
-						<dd><input type="text" name="username_template" /></dd>
-					</dl>
-					<dl>
-						<dt>Пароль:</dt>
-						<dd><input type="password" name="pass_template" /></dd>
-					</dl>
-					<p class="pad1"><input class="bgBut2" class="submit" type="submit" value="" /></p>
-				</form>
-				<p><a class="name" style="padding-right: 20px;" href="{{route('forget_pass')}}">Забыли пароль?</a></p>
-				<p><a class="name" style="padding-right: 20px;" href="{{route('registration')}}">Зарегистрироваться</a></p>				
-			</div>
-			@endauth
-			<div class="blFoot"></div>
-			<x-top100 :sex="WOMEN" />
-			<x-top100 :sex="MEN" />
+			<login-profile></login-profile>
+			<best-profile :sex="`{{ WOMEN }}`" :route="`{{ route('profile.get.top100', WOMEN) }}`"></best-profile>
+			<best-profile :sex="`{{ MEN }}`"  :route="`{{ route('profile.get.top100', MEN) }}`"></best-profile>
 			<div class="counter">
-{{--
-{if $s_link2}
-{$s_link2}
-{/if}<br />
-{if $s_link3}
-{$s_link3}
-{/if}<br /><br />
---}}
 <!--noindex-->
 <br />
 <!--LiveInternet counter--><script type="text/javascript"><!--
@@ -232,11 +166,6 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 ";"+Math.random()+
 "' alt='' title='LiveInternet: показано число просмотров за 24 часа, посетителей за 24 часа и за сегодн\я' "+
 "border='0' width='88' height='31'><\/a>")//--></script><!--/LiveInternet-->
-<br />
-<!--begin of Rambler's Top100 code -->
-<a href="http://top100.rambler.ru/top100/" rel="nofollow">
-
-<img src="http://counter.rambler.ru/top100.cnt?1220117" alt="" width="1" height="1" border="0"></a><!--end of Top100 code--><!--begin of Top100 logo--><a href="http://top100.rambler.ru/top100/" rel="nofollow"><img src="http://top100-images.rambler.ru/top100/w9.gif" alt="Rambler's Top100" width=88 height=31 border=0></a><!--end of Top100 logo -->
 <!--/noindex--><br /><br /></div>
 		</div>
 	</div>
@@ -267,7 +196,14 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 </div>
 <div id="mask"></div>
 <div id="prodblock"><div id="prodblockIn"><div class="bgFame1Cnt2"></div></div></div>
-<script defer src="{{ asset("js/metrika.js?1") }}" type="text/javascript"></script>
+<!-- Yandex.Metrika counter -->
+<script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script>
+<div style="display:none;"><script type="text/javascript">
+try { var yaCounter161110 = new Ya.Metrika({id:161110, enableAll: true, webvisor:true});}
+catch(e) { }
+</script></div>
+<noscript><div><img src="//mc.yandex.ru/watch/161110" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 <link rel="icon" type="image/x-icon" href="{{ asset("icon1.ico") }}" />
 <link rel="shortcut icon" type="image/x-icon" href="{{ asset("icon1.ico") }}" />
 <script async src="{{ asset("js/lazyload.min.js?t=3") }}" type="text/javascript"></script>

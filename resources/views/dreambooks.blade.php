@@ -25,7 +25,7 @@ google_ad_height = 250;
 @foreach ($words as $item)
 <p>
 	<a href="{{route('dreambook.id',$item->id)}}">{{ $item->name }}</a>
-	<br />{!! \Illuminate\Support\Str::limit($item->description, 120, $end='...') !!}
+	<br />{!! \Illuminate\Support\Str::limit(strip_tags($item->description), 120, $end='...') !!}
 	<a class="strelki" href="{{route('dreambook.id',$item->id)}}">»»</a>
 </p>
 @endforeach

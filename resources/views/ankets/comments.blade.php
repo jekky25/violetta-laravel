@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
-<h1 class="mTit">{{ $userData->user_name }}, {{ $userData->user_age_str }}, {{ $userData->city->name }}</h1>
+<h1 class="mTit">{{ $userData->name }}, {{ $userData->age_str }}, {{ $userData->city->name }}</h1>
 <x-ank-menu :user-data="$userData" />
 <h3 class="kommentTitle">{{ $diary->title }}@if ($comments->total() > 0) - комментарии ({{ $comments->total() }})@else - комментарии (нет)@endif</h3>
 <table class="ankDnevnik">
 	<tr>
 		<td>
-			<h4 class="@isset($userData->user_class_a){{ $userData->user_class_a }}@endisset"><a href="{{route('ank.id', $userData->user_id)}}">{{ $userData->user_name }}</a>
+			<h4 class="@isset($userData->class_a){{ $userData->class_a }}@endisset"><a href="{{route('ank.id', $userData->id)}}">{{ $userData->name }}</a>
 				<p>
-				@if (!empty($user) && $user->user_id == $diary->user_id)
+				@if (!empty($user) && $user->id == $diary->user_id)
 					<a class="editBut" title="редактировать" href="{{route('ank.diary.edit.id', $diary->id)}}"></a>
 					<a class="delBut" title="удалить" href="{{route('ank.diary.delete.id', $diary->id)}}"></a>
 				@endif
@@ -17,9 +17,9 @@
 			</h4>
 			<div class="dnevBody clear">
 			@if (!empty($diary->picture))
-				<a class="dnevBodyPic1" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ (new FileService)->outDiaryPicture($diary->picture, $userData->user_sex) }}" /></a>
+				<a class="dnevBodyPic1" href="{{route('ank.id', $userData->id)}}"><img src="{{ (new FileService)->outDiaryPicture($diary->picture, $userData->sex) }}" /></a>
 			@elseif (!empty($userData->foto_user_id))
-				<a class="dnevBodyPic2" href="{{route('ank.id', $userData->user_id)}}"><img src="{{ (new FileService)->outPicture($diary->foto_user_id, $userData->user_sex) }}" /></a>
+				<a class="dnevBodyPic2" href="{{route('ank.id', $userData->id)}}"><img src="{{ (new FileService)->outPicture($diary->foto_user_id, $userData->sex) }}" /></a>
 			@endif
 			@if (!empty($diary->picture))
 				<div class="mrg2">{{ $diary->description }}</div>
@@ -38,9 +38,9 @@
 @foreach ($comments as $item)
 	<tr>
 		<td>
-			<h4 class="@isset($item->user->user_class_a){{ $item->user->user_class_a }}@endisset"><a href="{{route('ank.id', $item->user->user_id)}}">{{ $item->user->user_name }}</a>@if (!empty($item->title)) - {{ $item->title }}@endif
+			<h4 class="@isset($item->user->class_a){{ $item->user->class_a }}@endisset"><a href="{{route('ank.id', $item->user->id)}}">{{ $item->user->name }}</a>@if (!empty($item->title)) - {{ $item->title }}@endif
 				<p>
-					@if (!empty($user) && $user->user_id == $item->user->user_id)
+					@if (!empty($user) && $user->id == $item->user->id)
 					<a class="editBut" title="редактировать" href="{{route('ank.diary.comment.edit.id', $item->id)}}"></a>
 					<a class="delBut" title="удалить" href="{{route('ank.diary.comment.delete.id', $item->id)}}"></a>
 					@endif
@@ -49,9 +49,9 @@
 			</h4>
 			<div class="dnevBody clear">
 			@if (!empty($item->picture))
-				<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outDiaryCommentPicture($item->picture, $item->user->user_sex) }}" /></a>
+				<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->id)}}"><img src="{{ (new FileService)->outDiaryCommentPicture($item->picture, $item->user->sex) }}" /></a>
 			@elseif (!empty($item->foto_url))
-				<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->user_id)}}"><img src="{{ (new FileService)->outPicture($item->foto_url, $item->user->user_sex) }}" /></a>
+				<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->id)}}"><img src="{{ (new FileService)->outPicture($item->foto_url, $item->user->sex) }}" /></a>
 			@endif
 			@if (!empty($item->picture))
 				<div class="mrg2">{!! $item->description !!}</div>

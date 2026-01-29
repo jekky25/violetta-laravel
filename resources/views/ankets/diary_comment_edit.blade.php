@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
-<h1 class="mTit">{{ $userData->user_name }}@if (!empty($userData->user_age_str)), {{ $userData->user_age_str }}@endif, {{ $userData->city->name }}</h1>
+<h1 class="mTit">{{ $userData->name }}@if (!empty($userData->age_str)), {{ $userData->age_str }}@endif, {{ $userData->city->name }}</h1>
 <x-ank-menu :user-data="$userData" />
 <h4 class="pinkLine">Редактировать запись</h4>
 	<script language=JavaScript>
@@ -29,17 +29,17 @@
 	<table style="width:100px;">
 		<tr>
 			<td width="50%" align="right"><div class="dnevTeemTitle"><p>{{ $comment->create_time }}</p>Тема:</div></td>
-			<td width="50%"><input type="text" class="input3" name="title" value="{{ $comment->title }}" /></td>
+			<td width="50%"><input type="text" class="input3" name="title" value="{{ old('title', $comment->title) }}" /></td>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<textarea class="textarea2" name="description" wrap="virtual">{{ $comment->text }}</textarea>
+				<textarea class="textarea2" name="description" wrap="virtual">{{ old('description', $comment->description) }}</textarea>
 			</td>
 		</tr>
 		@if (!empty($comment->picture))
 		<tr>
 			<td>
-				<img width="100" src="{{ (new FileService)->outDiaryCommentPicture($comment->picture, $userData->user_sex) }}" alt="" style="vertical-align:middle; margin-right:20px;" />
+				<img width="100" src="{{ (new FileService)->outDiaryCommentPicture($comment->picture, $userData->sex) }}" alt="" style="vertical-align:middle; margin-right:20px;" />
 				<a class="delFoto" href="{{route('ank.diary.comment.delete.photo.id', $comment->id)}}">удалить</a>
 			</td>
 			<td>

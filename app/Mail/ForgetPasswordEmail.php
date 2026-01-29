@@ -19,34 +19,35 @@ class ForgetPasswordEmail extends Mailable
 	private	$params					= [];
 
 	/**
-	* Create a new message instance.
-	*
-	* @return void
-	*/
+	 * Create a new message instance.
+	 *
+	 * @return void
+	 */
 	public function __construct($user)
 	{
 		$data					= new \stdClass();
-		$data->login			= $user->user_login;
-		$data->password			= $user->user_password;
+		$data->login			= $user->login;
+		$data->password			= $user->password;
 		$data->sitename			= '<a href="' . $this->siteUrlWithProtocol . '">' . $this->siteUrl . '</a>';
 		$data->sitenameNoTags	= $this->siteUrl;
 		$this->data = $data;
 	}
 
 	/**
-	* Build the message.
-	*
-	* @return $this
-	*/
+	 * Build the message.
+	 *
+	 * @return $this
+	 */
 	public function build()
-	{	
+	{
 		return $this->from(config('mail.email_main'))
-		->view($this->template)
-		->subject($this->subject)
-		->text($this->templateText)
-		->with(
-			[
-				'data' => $this->data
-			]);
+			->view($this->template)
+			->subject($this->subject)
+			->text($this->templateText)
+			->with(
+				[
+					'data' => $this->data
+				]
+			);
 	}
 }

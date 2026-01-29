@@ -69,23 +69,4 @@ class DiaryRequest extends FormRequest
 		if (Route::currentRouteName() == $this->routeEdit && $this->isMethod('get')) return true;
 		return false;
 	}
-
-	/**
-	* Get the validated data from the request.
-	*
-	* @param  array|int|string|null  $key
-	* @param  mixed  $default
-	* @param  integer $id
-	* @param  integer $user_id
-	* @return mixed
-	*/
-	public function validated($key = null, $default = null, $user_id = 0)
-    {
-		$arParams = $this->validator->validated();
-		$arParams['title']				= strip_tags($arParams['title'],"<b><strong><i>");
-		$arParams['description']		= strip_tags($arParams['description'],"<b><strong><i>");
-		$arParams['create_time']		= time();
-		$arParams['user_id']			= $user_id;
-		return data_get($arParams, $key, $default);
-	}
 }

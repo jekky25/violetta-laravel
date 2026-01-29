@@ -4,8 +4,8 @@
 <h1 class="mTit">{{ $titleId }} сайта знакомств "Виолетта"</h1>
 <h3 class="titleSAnkets mrg4">{{ $countSearchAnkStr }}</h3>
 @auth
-	@if ($user->user_top100 > 0 && $user->user_fotos > 0)
-	@elseif ($user->user_top100 == 0 && $user->user_fotos > 0)
+	@if ($user->top100 > 0 && $user->photos_count > 0)
+	@elseif ($user->top100 == 0 && $user->photos_count > 0)
 	<p align="center" class="blue inTop">Стань участником ТОПа</p>
 	@else
 		<p align="center" class="blue inTop">Стань участником ТОПа</p>

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,31 +21,31 @@ class CommentScreen extends Model
 	];
 
 	/**
-	* get Name using user->user_name
-	* @param  string $id
-	* @return string
-	*/
+	 * get Name using user->name
+	 * @param  string $id
+	 * @return string
+	 */
 	public function getNameAttribute($val)
 	{
-		$val = !empty ($val) ? $val : 'none';
-		return !empty($this->user) ? $this->user->user_name : $val;
+		$val = !empty($val) ? $val : 'none';
+		return !empty($this->user) ? $this->user->name : $val;
 	}
 
 	/**
-	* get Time 
-	* @param  string $string
-	* @return string
-	*/
+	 * get Time 
+	 * @param  string $string
+	 * @return string
+	 */
 	public function getCreateTimeAttribute($val)
 	{
-		return date("d-m-Y",$val);
+		return date("d-m-Y", $val);
 	}
 
 	/**
-	* get user
-	*/
+	 * get user
+	 */
 	public function user()
 	{
-    	return $this->belongsTo(User::class, 'user_id', 'user_id');
+		return $this->belongsTo(User::class, 'user_id', 'id');
 	}
 }

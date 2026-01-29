@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,12 +18,12 @@ class AnketVisit extends Model
 	];
 
 	/**
-	* get user
-	*/
+	 * get user
+	 */
 	public function user()
 	{
-	  	return $this->hasOne(User::class, 'user_id', 'user_id_prosm')
-					->with('city')
-					->with('photo');
+		return $this->hasOne(User::class, 'id', 'user_id_prosm')
+			->with('city')
+			->with('photo');
 	}
 }
