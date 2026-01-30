@@ -22,9 +22,6 @@ return new class extends Migration
 			});
 		}
 
-		Schema::table('names', function (Blueprint $table) {
-            $table->primary('id');
-        });
 	}
 
 	/**
@@ -32,9 +29,6 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::table('names', function (Blueprint $table) {
-			$table->dropPrimary('id');
-		});
 		Schema::dropIfExists('names');
 	}
 };

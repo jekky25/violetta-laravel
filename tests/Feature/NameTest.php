@@ -2,13 +2,12 @@
 
 namespace Tests\Feature;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\Name;
 use Tests\Traits\hasSetupPrepare;
 
 class NameTest extends TestCase
 {
-	use DatabaseMigrations, hasSetupPrepare;
+	use hasSetupPrepare;
 	
 	protected $names		= null;
 	protected $namesCount	= 0;

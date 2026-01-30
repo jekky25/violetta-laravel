@@ -2,13 +2,12 @@
 
 namespace Tests\Feature;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\DreamBook;
 use Tests\Traits\hasSetupPrepare;
 
 class DreamBookTest extends TestCase
 {
-	use DatabaseMigrations, hasSetupPrepare;
+	use hasSetupPrepare;
 
 	protected $dreamBooks		= null;
 	protected $dreamBooksCount	= 0;

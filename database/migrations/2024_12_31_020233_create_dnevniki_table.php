@@ -21,10 +21,6 @@ return new class extends Migration
 				$table->integer('dnevniki_time');
 			});
 		}
-
-		Schema::table('dnevniki', function (Blueprint $table) {
-            $table->primary('dnevniki_id');
-        });
 	}
 
 	/**
@@ -32,9 +28,6 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::table('dnevniki', function (Blueprint $table) {
-			$table->dropPrimary('dnevniki_id');
-		});
 		Schema::dropIfExists('dnevniki');
 	}
 };

@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\Diary;
 use App\Models\User;
 use Tests\Traits\hasSetupPrepare;
@@ -11,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class DiaryTest extends TestCase
 {
-	use DatabaseMigrations, hasSetupPrepare;
+	use hasSetupPrepare;
 
 	/**
 	 * Set up variables
@@ -25,8 +24,7 @@ class DiaryTest extends TestCase
 		Diary::factory(50)->create();
 	}
 
-	/** @test */
-	public function diaries_page(): void
+	public function test_diaries_page(): void
 	{
 		$ar = [
 			'/ank/diaries.html',

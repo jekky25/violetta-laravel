@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\Traits\hasSetupPrepare;
 use App\Repositories\UserRepository;
 use App\Repositories\CountryRepository;
@@ -16,7 +15,7 @@ use App\Models\User;
 
 class ProfileEditTest extends TestCase
 {
-	use DatabaseMigrations, hasSetupPrepare;
+	use hasSetupPrepare;
 
 	protected $data = [
 		'login'					=> 'test25',
@@ -71,8 +70,7 @@ class ProfileEditTest extends TestCase
 		$this->user = $user;
 	}
 
-	/** @test */
-	public function check_register_user(): void
+	public function test_check_register_user(): void
 	{
 		$this->userRepository->create($this->data);
 		$user	= $this->userRepository->getByLogin($this->data['login']);
@@ -87,8 +85,7 @@ class ProfileEditTest extends TestCase
 		$this->assertEquals($user->city_id, 		$this->data['city_id']);
 	}
 
-	/** @test */
-	public function check_profile_edit_main_page(): void
+	public function test_check_profile_edit_main_page(): void
 	{
 		$url = $_SERVER['REQUEST_URI'] = route('registration.edit');
 		$response = $this->get($url);
@@ -116,8 +113,7 @@ class ProfileEditTest extends TestCase
 		]);
 	}
 
-	/** @test */
-	public function check_profile_edit_second_page(): void
+	public function test_check_profile_edit_second_page(): void
 	{
 		$url = $_SERVER['REQUEST_URI'] = route('registration.edit.second');
 		$response = $this->get($url);
@@ -166,8 +162,7 @@ class ProfileEditTest extends TestCase
 		);
 	}
 
-	/** @test */
-	public function check_profile_edit_partner_page(): void
+	public function test_check_profile_edit_partner_page(): void
 	{
 		$url = $_SERVER['REQUEST_URI'] = route('registration.edit.partner');
 		$response = $this->get($url);
@@ -209,8 +204,7 @@ class ProfileEditTest extends TestCase
 		);
 	}
 
-	/** @test */
-	public function check_profile_change_password_page(): void
+	public function test_check_profile_change_password_page(): void
 	{
 		$url = $_SERVER['REQUEST_URI'] = route('registration.edit.password');
 		$response = $this->get($url);
@@ -220,8 +214,7 @@ class ProfileEditTest extends TestCase
 		$response->assertStatus(200);	
 	}
 
-	/** @test */
-	public function check_profile_photo_page(): void
+	public function test_check_profile_photo_page(): void
 	{
 		$url = $_SERVER['REQUEST_URI'] = route('registration.edit.photo');
 		$response = $this->get($url);

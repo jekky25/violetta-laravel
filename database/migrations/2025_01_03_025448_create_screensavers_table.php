@@ -25,10 +25,6 @@ return new class extends Migration
 				$table->integer('zakachka');
 			});
 		}
-
-		Schema::table('screensavers', function (Blueprint $table) {
-            $table->primary('id');
-        });
 	}
 
 	/**
@@ -36,9 +32,6 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::table('screensavers', function (Blueprint $table) {
-			$table->dropPrimary('id');
-		});
 		Schema::dropIfExists('screensavers');
 	}
 };

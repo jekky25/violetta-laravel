@@ -3,14 +3,13 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\Traits\hasSetupPrepare;
 use App\Repositories\UserRepository;
 use App\Models\User;
 
 class AuthTest extends TestCase
 {
-	use DatabaseMigrations, hasSetupPrepare;
+	use hasSetupPrepare;
 
 	protected $userRepository;
 	protected $testLogin		= 'test';
@@ -26,8 +25,7 @@ class AuthTest extends TestCase
 		self::setUpPrepare();
 	}
 
-	/** @test */
-	public function check_auth(): void
+	public function test_check_auth(): void
 	{
 		$user = User::factory(
 			[

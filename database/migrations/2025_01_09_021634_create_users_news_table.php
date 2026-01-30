@@ -79,10 +79,6 @@ return new class extends Migration
 				$table->string('remember_token');
 			});
 		}
-
-		Schema::table('users_news', function (Blueprint $table) {
-            $table->primary('user_id');
-        });
 	}
 
 	/**
@@ -90,9 +86,6 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::table('users_news', function (Blueprint $table) {
-			$table->dropPrimary('user_id');
-		});
 		Schema::dropIfExists('users_news');
 	}
 };

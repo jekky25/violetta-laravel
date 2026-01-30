@@ -20,10 +20,6 @@ return new class extends Migration
 				$table->char('first_bukva')->nullable()->default('T');
 			});
 		}
-
-		Schema::table('sonnik', function (Blueprint $table) {
-            $table->primary('id');
-        });
 	}
 
 	/**
@@ -31,9 +27,6 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::table('sonnik', function (Blueprint $table) {
-			$table->dropPrimary('id');
-		});
 		Schema::dropIfExists('sonnik');
 	}
 };

@@ -3,14 +3,13 @@
 namespace Tests\Feature;
 use Tests\TestCase;
 use Tests\Traits\hasSetupPrepare;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\City;
 use App\Models\Country;
 use Illuminate\Support\Arr;
 
 class SearchTest extends TestCase
 {
-	use DatabaseMigrations, hasSetupPrepare;
+	use hasSetupPrepare;
 
 	/**
 	 * Set up variables
@@ -31,23 +30,25 @@ class SearchTest extends TestCase
 		$response->assertStatus(200);
 	}
 
-	/** @test */
-	public function search_with_params(): void
+	public function test_search_with_params(): void
 	{
-		$country = Country::factory()->create(
-			[
-				'id'						=> 141,
-				'name'						=> 'Россия'
-			]);
+		$select = [
+				'id'						=> 141
+		];
+		$db = Country::select($select);
+		if ($db->count() > 0) $db->delete();
+		$select = array_merge($select, ['name' => 'Россия']);
+		$country = Country::factory()->create($select);
 
-		$city = City::factory()->create(
-			[
-				'id'						=> 2953,
-				'country_id'				=> $country->id,
-				'region_id'					=> 1,
-				'name'						=> 'Москва'
-			]);
-$ar[] = [
+		$select = ['id' => 2953];
+		$db = City::select($select);
+		if ($db->count() > 0) $db->delete();
+		$select = array_merge($select, ['country_id' => $country->id,
+										'region_id'  => 1,
+										'name'       => 'Москва']);
+		$city = City::factory()->create($select);
+
+		$ar[] = [
 			"sex" => 1,
 			"find_sex" => 2,
 			"photo" => true,

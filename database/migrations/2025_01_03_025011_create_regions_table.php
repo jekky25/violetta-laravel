@@ -18,10 +18,6 @@ return new class extends Migration
 				$table->integer('country_id');
 			});
 		}
-
-		Schema::table('regions', function (Blueprint $table) {
-            $table->primary('id');
-        });
 	}
 
 	/**
@@ -29,9 +25,6 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::table('regions', function (Blueprint $table) {
-			$table->dropPrimary('id');
-		});
 		Schema::dropIfExists('regions');
 	}
 };

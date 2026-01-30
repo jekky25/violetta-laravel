@@ -9,6 +9,7 @@
 .osp
 .env
 .env.backup
+.env.testing
 .phpunit.result.cache
 docker-compose.override.yml
 Homestead.json

@@ -20,10 +20,6 @@ return new class extends Migration
 				$table->text('gor_text');
 			});
 		}
-
-		Schema::table('goroskop', function (Blueprint $table) {
-            $table->primary('gor_id');
-        });
 	}
 
 	/**
@@ -31,9 +27,6 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::table('goroskop', function (Blueprint $table) {
-			$table->dropPrimary('gor_id');
-		});
 		Schema::dropIfExists('goroskop');
 	}
 };

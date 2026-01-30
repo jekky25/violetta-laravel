@@ -3,13 +3,12 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\Traits\hasSetupPrepare;
 use App\Repositories\UserRepository;
 
 class StatisticsTest extends TestCase
 {
-	use DatabaseMigrations, hasSetupPrepare;
+	use hasSetupPrepare;
 
 	protected $userRepository;
 
@@ -23,8 +22,7 @@ class StatisticsTest extends TestCase
 		self::setUpPrepare();
 	}
 
-	/** @test */
-	public function get_block_statistics(): void
+	public function test_get_block_statistics(): void
 	{
 		$statProfiles	= $this->userRepository->getStatistic();
 		$check = [

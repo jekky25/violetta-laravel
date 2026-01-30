@@ -3,11 +3,10 @@
 namespace Tests\Feature;
 use Tests\TestCase;
 use Tests\Traits\hasSetupPrepare;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class SiteMapTest extends TestCase
 {
-	use DatabaseMigrations, hasSetupPrepare;
+	use hasSetupPrepare;
 
 	/**
 	 * Set up variables

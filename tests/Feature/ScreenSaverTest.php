@@ -3,12 +3,11 @@
 namespace Tests\Feature;
 use Tests\TestCase;
 use Tests\Traits\hasSetupPrepare;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\Screen;
 
 class ScreenSaverTest extends TestCase
 {
-	use DatabaseMigrations, hasSetupPrepare;
+	use hasSetupPrepare;
 
 	protected $screenSavers		= null;
 	protected $screenSaversCount	= 0;

@@ -24,15 +24,15 @@ trait hasSetupPrepare
 	 */
 	protected function setUpPrepare(): void
 	{
-		parent::setUp();
 		PhotoFactory::resetPhoto();
-		$this->sexOrient	= SexOrient::factory()->count(4)->sequence(
-			['id' => '1', 'name' => 'Бисексуал'],
-			['id' => '2', 'name' => 'Гетеросексуал'],
-			['id' => '3', 'name' => 'Гомосексуал'],
-			['id' => '4', 'name' => 'Транссексуал']
-		)
-			->create();
+		if (SexOrient::select('*')->count() === 0) {
+			$this->sexOrient	= SexOrient::factory()->count(4)->sequence(
+				['id' => '1', 'name' => 'Бисексуал'],
+				['id' => '2', 'name' => 'Гетеросексуал'],
+				['id' => '3', 'name' => 'Гомосексуал'],
+				['id' => '4', 'name' => 'Транссексуал']
+			)->create();
+		}
 		$this->countries	= Country::factory(10)->create();
 		$this->regions		= Region::factory(20)->create();
 		$this->cities		= City::factory(30)->create();

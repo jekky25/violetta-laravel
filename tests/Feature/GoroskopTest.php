@@ -2,13 +2,12 @@
 
 namespace Tests\Feature;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\Goroskop;
 use Tests\Traits\hasSetupPrepare;
 
 class GoroskopTest extends TestCase
 {
-	use DatabaseMigrations, hasSetupPrepare;
+	use hasSetupPrepare;
 
 	protected $goroskops		= null;
 

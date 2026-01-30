@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\User;
 use App\Models\Photo;
 use Tests\Traits\hasSetupPrepare;
@@ -12,7 +11,7 @@ use App\Repositories\UserRepository;
 
 class ProfileTest extends TestCase
 {
-	use DatabaseMigrations, hasSetupPrepare;
+	use hasSetupPrepare;
 
 	protected $maxItems		= 3;
 
@@ -185,8 +184,7 @@ class ProfileTest extends TestCase
 		}
 	}
 
-	/** @test */
-	public function get_the_best_of_top100_profile(): void
+	public function test_get_the_best_of_top100_profile(): void
 	{
 		$this->userRepository = new UserRepository;
 

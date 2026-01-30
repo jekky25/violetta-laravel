@@ -19,10 +19,6 @@ return new class extends Migration
 				$table->integer('fotos_t');
 			});
 		}
-
-		Schema::table('fotos', function (Blueprint $table) {
-            $table->primary('fotos_id');
-        });
 	}
 
 	/**
@@ -30,9 +26,6 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::table('fotos', function (Blueprint $table) {
-			$table->dropPrimary('fotos_id');
-		});
 		Schema::dropIfExists('fotos');
 	}
 };

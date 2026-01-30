@@ -2,12 +2,11 @@
 
 namespace Tests\Feature;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\Traits\hasSetupPrepare;
 
 class MainPageTest extends TestCase
 {
-	use DatabaseMigrations, hasSetupPrepare;
+	use hasSetupPrepare;
 
 	/**
 	 * Set up variables
