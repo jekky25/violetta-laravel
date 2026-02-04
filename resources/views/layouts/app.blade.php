@@ -67,13 +67,13 @@
 				<div class="fLine mrg1"></div>
 				<table id="hMenu">
 					<tr>
-						<td class="fFirst"></td>
-						<td class="top-menu-main"><a href="{{route('home')}}">Главная</a></td>
+						<td></td>
+						<td><a href="{{route('home')}}">Главная</a></td>
 						<td><a href="{{route('search')}}">Поиск</a></td>
 						<td><a href="{{route('ankets')}}">Анкеты</a></td>
 						<td><a href="{{route('diaries')}}">Дневники</a></td>
 						<td><a href="{{route('forum')}}">Форум</a></td>
-						<td class="fLast"></td>
+						<td></td>
 					</tr>
 				</table>
 				<div id="cPad">

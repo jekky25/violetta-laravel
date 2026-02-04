@@ -1,4 +1,11 @@
 * {margin:0;padding: 0;}
+
+:root {
+	--top-menu-height: 24px;
+	--top-menu-text-size: 12px;
+	--top-menu-color: #fff;
+}
+
 body {
 	font-family: Arial, Tahoma, Verdana, sans-serif; 
 	color: #000; 
@@ -175,12 +182,31 @@ a:hover.lColor2 {color:#5954b0; text-decoration:none;}
 	
 	h1.mTit {font-family:Arial, Tahoma, Verdana, sans-serif; font-size: 12px; text-align:center; padding-top:10px; padding-bottom:20px;}
 	h2.mTit {font-family:Arial, Tahoma, Verdana, sans-serif; font-size: 12px; text-align:center; padding-top:10px; padding-bottom:10px; clear: both;}
+
+	/*top menu*/
 	table#hMenu {width:100%;}
-		#hMenu td {height:24px; background: #d23530 url(../image/vert_line3.jpg) 0 0 no-repeat; text-align:center; vertical-align:middle; color:#fff; font-size:12px; padding: 0 10px;}
-		#hMenu a, #hMenu a:visited {font-size:12px; color:#fff; text-decoration: none;}
-		#hMenu a:hover {text-decoration: underline;}
-		#hMenu .fFirst {background:url(../image/vert_line4.jpg) 0 0 repeat-x; width:30px; padding: 0;}
-		#hMenu .fLast {width:30px; padding: 0;}
+	#hMenu td, #hMenu td:first-child {
+		height: var(--top-menu-height);
+		text-align:center;
+		vertical-align:middle;
+		color: var(--top-menu-color);
+		font-size: var(--top-menu-text-size);
+		background-color: #d23530;
+		background: linear-gradient(to bottom, #fff, #d23530) right / 1px 100% no-repeat, #d23530;
+	}
+	#hMenu a,
+	#hMenu a:visited {
+		font-size: var(--top-menu-text-size);
+		color: var(--top-menu-color);
+		text-decoration: none;
+		padding: 0 10px;
+		display: inline-block;
+		width: calc(100% - 20px);
+		line-height: var(--top-menu-height);
+	}
+	#hMenu a:hover {text-decoration: underline;}
+	#hMenu td:first-child, 
+	#hMenu td:last-child { width:30px; }
 
 	div#cPad {padding:0 7px;}
 	table#mDescr {width:100%;}
@@ -650,7 +676,7 @@ h1.main_title, H1.main_t_up {
 }
 
 @media screen and (max-width: 360px) {
-	.top-menu-main {display:none;}
+	#hMenu td:nth-child(2) { display:none; }
 }
 
 
