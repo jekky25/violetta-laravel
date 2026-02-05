@@ -622,7 +622,7 @@ h1.main_title, H1.main_t_up {
 /*mobile*/
 @media screen and (max-width: 980px) {
 	.for-mob {display:block;}
-	.for-pc {display:none;}
+	.for-pc, .namesMW2.for-pc {display:none;}
 
 	#ovHtm {width:100%;}
 	#head {height:75px;}
@@ -652,7 +652,10 @@ h1.main_title, H1.main_t_up {
 	.mDnevTd {display:block; width:100%;}
 	#mDnev .mDnevTd dl {width:50%; float:left; clear:none;}
 
-	div#cPad {padding-left: 0; padding-right:0;}
+	div#cPad {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
 	
 	div.dnevnik {margin-left:-10px; margin-right:-10px;}
 	.dnevnik .name_man a {left:10px;}

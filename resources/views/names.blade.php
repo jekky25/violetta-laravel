@@ -8,19 +8,6 @@
 </ul>
 <div class="clear"></div>
 <h2 class="mTit pad5">Тайная гармония между человеком и его именем</h2>
-<div class="google_banner">
-{{--<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* 300X250 имена */
-google_ad_slot = "6112326239";
-google_ad_width = 300;
-google_ad_height = 250;
-//-->
-</script>--}}
-@push('scripts')
-<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-@endpush
-</div>
 <p class="pad8">
 По общепринятому мнению, имя человеку нужно для того, чтобы быть индивидуально отличимым от всех других. Эта различительная функция личных имен была и остается основной и абсолютно необходимой. Без нее имя теряет всякий смысл. <br /><br />
 Известному русскому философу А.Ф. Лосеву принадлежат слова: "В любви мы повторяем любимое имя и взываем к любимому через его имя. И молимся мы , и проклинаем через имена, через произнесение имени. И нет границ жизни имени, нет меры для его могущества. Именами и словами создан и держится мир. Имя носит на себе каждое живое существо. Именем и словами живут народы, сдвигаются с места миллионы людей, подвигаются к жертве и к победе глухие народные массы.
@@ -46,7 +33,7 @@ google_ad_height = 250;
 </ul>
 <div class="clear"></div>
 <div class="clear">
-<ul class="namesMW2">
+<ul class="namesMW2 for-pc">
 @if (!empty($names['m']))
 	@foreach ($names['m'] as $k => $item)
 		@if (!empty ($alphabet[$k]) && count($item) > 0)
@@ -61,7 +48,7 @@ google_ad_height = 250;
 	@endforeach
 @endif
 </ul>
-<ul class="namesMW2">
+<ul class="namesMW2 for-pc">
 @if (!empty($names['w']))
 	@foreach ($names['w'] as $k => $item)
 		@if (!empty ($alphabet[$k]) && count($item) > 0)
