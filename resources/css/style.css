@@ -104,13 +104,48 @@ a:hover.lColor2 {color:#5954b0; text-decoration:none;}
 .bgBut12 {display:block; width:10px; height:10px; cursor:pointer; background: url(../image/bgbut12.png) 0 0 no-repeat; border:0; position:absolute; right:3px; top:3px;}
 
 
-#ovHtm {width: 980px; margin:0 auto; background-color:#fff; height:100%;}
+.overHtml {
+	width: 100%;
+	max-width: 1200px;
+	margin:0 auto;
+	background-color:#fff;
+	height:100%;
+}
 
-#head {height:185px; position:relative;}
-	#chuvaki {background: url(../image/chuvaki.jpg) 0 0 no-repeat; display:block; width:296px; height:147px; position:absolute; right:3px; bottom:30px;}
-	#logo {background: url(../image/logo2.jpg) 0 0 no-repeat; display:block; width:465px; height:119px; position:absolute; left:93px; top:19px;}		
-	#head h1 {font-style:italic; position:absolute; left:333px; top:114px; width:400px; font-weight:bold; font-family: "Times New Roman", Tahoma, Verdana, sans-serif; font-size:30px;}
-	#hBaner {width:728px; height:90px; position:absolute; top:93px; right:0px;}
+/*header*/
+header {
+	height:185px; 
+	position:relative;
+}
+.logo {
+	background: url(../image/chuvaki.jpg) 0 0 no-repeat;
+	display:block;
+	width:296px;
+	height:147px;
+	position:absolute;
+	right:3px;
+	bottom:30px;
+}
+.logo-title {
+	background: url(../image/logo2.jpg) 0 0 no-repeat;
+	display: block;
+	width: 465px;
+	height: 119px;
+	position: absolute;
+	left: 93px;
+	top: 19px;
+}
+
+.head-text {
+	font-style: italic;
+	position: absolute;
+	left: 333px;
+	top: 114px;
+	width: 400px;
+	font-weight: bold;
+	font-family: "Times New Roman", Tahoma, Verdana, sans-serif;
+	font-size: 30px;
+}
 		
 .fLine	{height:5px; background:#c59ea3 url(../image/line_broun.jpg) 0 0 repeat-x;}	
 #footer {height:24px; background:#d23530 url(../image/vert_line2.jpg) 0 0 repeat-x;}
@@ -624,11 +659,23 @@ h1.main_title, H1.main_t_up {
 	.for-mob {display:block;}
 	.for-pc, .namesMW2.for-pc {display:none;}
 
-	#ovHtm {width:100%;}
-	#head {height:75px;}
-	.logo-face-mob {display:block; position:absolute; width:137px; height:61px;  background:url('../image/logo_mob.png') 0 0 no-repeat; position:absolute; right:21px; top:16px;}
-	#chuvaki {display:none;}
-	#logo {display:none;}
+	.overHtml { width:100%; }
+	header { height:75px; }
+	.logo {
+		width:137px; 
+		height:61px; 
+		right:18px;
+		top:15px;
+		background-size: 90%;
+	}
+
+	.logo-title {
+		max-width:314px; 
+		margin-right:155px; 
+		height:75px;
+		background:url('../image/logo_mob2.png') 0 0 no-repeat;
+	}
+
 	.logo-mob {display:table; max-width:314px; margin-right:155px; height:75px; padding-left:10px; vertical-align:middle;}
 	.logo-mob span {display:table-cell; height:75px; vertical-align:middle;}
 	.logo-mob img {width:100%;}
@@ -669,12 +716,21 @@ h1.main_title, H1.main_t_up {
 	
 	
 }
+
+@media screen and (max-width: 550px) {
+	.logo-title { left:10px; }
+}
 @media screen and (max-width: 500px) {
 	#footer td.fLast {max-width: 20px; min-width: 10px; width:auto;}
 	#footer td.fFirst {max-width: 20px; min-width: 10px; width:auto;}
 }
 
+@media screen and (max-width: 450px) {
+	.logo-title { background-size: 70%; }
+}
+
 @media screen and (max-width: 400px) {
+	.logo { display: none; }
 	.map-site-link {display:none;}
 }
 

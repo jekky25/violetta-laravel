@@ -2,13 +2,11 @@
 <html lang="ru">
 <head>@include('layouts.head')</head>
 <body id="app">
-<div id="ovHtm">
-	<div id="head">
-		<a id="chuvaki" href="{{route('home')}}"></a>
-		<a class="logo-face-mob" href="{{route('home')}}"></a>
-		<a id="logo" href="{{route('home')}}"></a>
-		<a class="logo-mob" href="{{route('home')}}"><span><img class="b-lazy" data-src="{{ asset('image/logo_mob2.png') }}" src="{{ asset('image/zero.gif') }}" alt="" /></span></a>
-		<h1 class="for-pc">Сайт знакомств</h1>
+<div class="overHtml">
+	<header>
+		<a class="logo" href="{{route('home')}}"></a>
+		<a class="logo-title" href="{{route('home')}}"></a>
+		<div class="head-text for-pc">Сайт знакомств</div>
 		<div class="mob-menu-icon"></div>
 		<div class="mob-menu">
 			<div class="close-menu"></div>
@@ -60,7 +58,7 @@
 				</ul>
 			</div>
 		</div>
-	</div>
+	</header>
 	<div id="center">
 		<div id="cent_cont">
 			<div id="content">
