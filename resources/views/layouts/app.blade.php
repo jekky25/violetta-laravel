@@ -59,26 +59,25 @@
 			</div>
 		</div>
 	</header>
-	<div id="center">
-		<div id="cent_cont">
-			<div id="content">
-				<div class="fLine mrg1"></div>
-				<table id="hMenu">
-					<tr>
-						<td></td>
-						<td><a href="{{route('home')}}">Главная</a></td>
-						<td><a href="{{route('search')}}">Поиск</a></td>
-						<td><a href="{{route('ankets')}}">Анкеты</a></td>
-						<td><a href="{{route('diaries')}}">Дневники</a></td>
-						<td><a href="{{route('forum')}}">Форум</a></td>
-						<td></td>
-					</tr>
-				</table>
-				<div id="cPad">
-					@yield('main_body')
-				</div>	
+	<main>
+		<div id="center">
+			<div id="cent_cont">
+				<div id="content">
+					<div class="fLine mrg1"></div>
+					<nav class="top-menu" aria-label="Основное меню хедер">
+						<ul>
+							<li><a href="{{route('home')}}">Главная</a></li>
+							<li><a href="{{route('search')}}">Поиск</a></li>
+							<li><a href="{{route('ankets')}}">Анкеты</a></li>
+							<li><a href="{{route('diaries')}}">Дневники</a></li>
+							<li><a href="{{route('forum')}}">Форум</a></li>
+						</ul>
+					</nav>
+					<div id="cPad">
+						@yield('main_body')
+					</div>	
+				</div>
 			</div>
-		</div>
 		<div id="leftcol">
 			<h2>Знакомства</h2>
 			<div class="bl">
@@ -167,7 +166,8 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 <!--/noindex--><br /><br /></div>
 		</div>
 	</div>
-	<div class="fLine"></div>
+		<div class="fLine"></div>
+	</main>
 	<footer>
 		<div>
 			<nav class="bottom-menu" aria-label="Основное меню футер">

@@ -72,13 +72,23 @@
 @media screen and (max-width: 550px) {
 	.logo-title { left:10px; }
 }
+
 @media screen and (max-width: 500px) {
-	footer:before, footer::after {
+
+	footer:before,
+	footer::after,
+	.top-menu:before,
+	.top-menu:after {
 		width: 10px;
 	}
 
 	footer>div:nth-child(1) {
 		flex: 0 0 calc(100% - 10px - 10px);
+		margin-left: 10px;
+	}
+
+	.top-menu ul {
+		width: calc(100% - 10px - 10px);
 		margin-left: 10px;
 	}
 }
@@ -102,5 +112,8 @@
 }
 
 @media screen and (max-width: 360px) {
-	#hMenu td:nth-child(2) { display:none; }
+	#hMenu td:nth-child(2), 
+	.top-menu li:first-child { 
+		display:none; 
+	}
 }
