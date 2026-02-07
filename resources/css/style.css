@@ -103,7 +103,6 @@ a:hover.lColor2 {color:#5954b0; text-decoration:none;}
 .bgBut10:hover {background-position: 0 -22px;}
 .bgBut12 {display:block; width:10px; height:10px; cursor:pointer; background: url(../image/bgbut12.png) 0 0 no-repeat; border:0; position:absolute; right:3px; top:3px;}
 
-
 .overHtml {
 	width: 100%;
 	max-width: 1200px;
@@ -147,14 +146,95 @@ header {
 	font-size: 30px;
 }
 		
-.fLine	{height:5px; background:#c59ea3 url(../image/line_broun.jpg) 0 0 repeat-x;}	
-#footer {height:24px; background:#d23530 url(../image/vert_line2.jpg) 0 0 repeat-x;}
-	#footer table {width:100%;}
-	#footer td {height:24px; background:url(../image/vert_white_line.jpg) 0 0 no-repeat; text-align:center; vertical-align:middle; color:#fff; font-size:12px; padding: 0 10px;}
-	#footer a, #footer a:visited {font-size:12px; color:#fff; text-decoration: none;}
-	#footer a:hover {text-decoration: underline;}
-	#footer td.fFirst {background:url(../image/zero.gif) 0 0 no-repeat; width:30px; padding: 0;}
-	#footer td.fLast {width:30px; padding: 0;}
+.fLine	{height:5px; background:#c59ea3 url(../image/line_broun.jpg) 0 0 repeat-x;}
+
+/*footer*/
+footer {
+	min-height: var(--top-menu-height);
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+}
+
+footer>div {
+	box-sizing: border-box;
+	flex: 0 0 25%;
+	min-height: var(--top-menu-height);
+	font-size: var(--top-menu-text-size);
+}
+
+footer a,
+footer a:visited {
+	font-size: var(--top-menu-text-size);
+	color: var(--top-menu-color);
+	text-decoration: none;
+}
+
+footer:before,
+footer:after {
+	display: block;
+	content: ' ';
+	width: 30px;
+	min-height: var(--top-menu-height);
+	position: absolute;
+}
+
+footer:before {
+	background-color: #d23530;
+	background: linear-gradient(to bottom, #fff, #d23530) right / 1px 100% no-repeat, linear-gradient(to bottom, #e1423c, #c73130), #c73130;
+}
+
+footer:after {
+	background-color: #d23530;
+	background: linear-gradient(to bottom, #e1423c, #c73130), #c73130;
+	right: 0;
+}
+
+footer>div:first-child,
+footer>div:nth-child(2) {
+	background-color: #d23530;
+	background: linear-gradient(to bottom, #fff, #d23530) right / 1px 100% no-repeat, linear-gradient(to bottom, #e1423c, #c73130), #c73130;
+}
+
+footer>div:nth-child(1) {
+	flex: 0 0 calc(100% - 30px - 350px - 30px);
+	margin-left: 30px;
+}
+
+footer>div:nth-child(2) {
+	flex: 0 0 350px;
+	text-align: center;
+	vertical-align: middle;
+	color: var(--top-menu-color);
+	padding: 0 10px;
+	line-height: var(--top-menu-height);
+}
+
+footer>div:last-child {
+	flex: 0 0 100%;
+}
+
+.bottom-menu ul {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-align: center;
+	line-height: var(--top-menu-height);
+}
+
+.bottom-menu li {
+	flex: 1 1 auto;
+	text-align: center;
+	background: linear-gradient(to bottom,#fff,#d23530) right / 1px 100% no-repeat;
+}
+
+.bottom-menu a {
+	padding: 0 10px;
+	display: block;
+}
 	
 .drugi {font-size:10px; padding:5px; text-align:center;}
 
@@ -227,7 +307,7 @@ header {
 		color: var(--top-menu-color);
 		font-size: var(--top-menu-text-size);
 		background-color: #d23530;
-		background: linear-gradient(to bottom, #fff, #d23530) right / 1px 100% no-repeat, #d23530;
+		background: linear-gradient(to bottom,#fff,#d23530) right / 1px 100% no-repeat, linear-gradient(to bottom,#e1423c,#c73130),#c73130;
 	}
 	#hMenu a,
 	#hMenu a:visited {
@@ -711,18 +791,32 @@ h1.main_title, H1.main_t_up {
 	.dnevnik .dnevText {padding-right:10px; padding-left: 10px;}
 	a.comLink {padding-right:0;}
 	
-	.mob-copyrights {display:block; text-align:center; padding:15px 10px;}
+	footer>div:nth-child(1) {
+		flex: 0 0 calc(100% - 30px - 30px);
+	}
+	
+	.mob-copyrights {
+		display: block;
+		text-align: center;
+		padding: 10px;
+		min-height: 0;
+	}
+
 	a.comLink.all-dnev-link {padding: 40px 10px; text-align: center !important;}
-	
-	
 }
 
 @media screen and (max-width: 550px) {
 	.logo-title { left:10px; }
 }
 @media screen and (max-width: 500px) {
-	#footer td.fLast {max-width: 20px; min-width: 10px; width:auto;}
-	#footer td.fFirst {max-width: 20px; min-width: 10px; width:auto;}
+	footer:before, footer::after {
+		width: 10px;
+	}
+
+	footer>div:nth-child(1) {
+		flex: 0 0 calc(100% - 10px - 10px);
+		margin-left: 10px;
+	}
 }
 
 @media screen and (max-width: 450px) {
@@ -730,8 +824,17 @@ h1.main_title, H1.main_t_up {
 }
 
 @media screen and (max-width: 400px) {
-	.logo { display: none; }
-	.map-site-link {display:none;}
+	.logo {
+		display: none;
+	}
+	
+	.logo-title {
+		max-width: calc(100% - 10px);
+	}
+	
+	.bottom-menu li:last-child {
+		display: none;
+	}
 }
 
 @media screen and (max-width: 360px) {

@@ -168,29 +168,22 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 		</div>
 	</div>
 	<div class="fLine"></div>
-	<div id="footer">
-		<table>
-			<tr>
-				<td class="fFirst"></td>
-				<td class="for-pc"><a href="{{route('home')}}">Главная</a></td>
-				<td><a href="{{route('search')}}">Поиск</a></td>
-				<td><a href="{{route('ankets')}}">Анкеты</a></td>
-				<td><a href="{{route('forum')}}">Форум</a></td>
-				<td><a href="{{route('sitemap')}}">Карта&nbsp;сайта</a></td>
-				<td class="map-site-link"><a href="{{route('contacts')}}">Контакты</a></td>
-				<td class="wth2 for-pc">{{ $copyright }}</td>
-				<td class="fLast"></td>
-			</tr>
-		</table>
-	</div>
-	<div class="mob-copyrights">{{ $copyright }}</div>
-{{--
-{if $s_link4}
-<div class="drugi">	
-{$s_link4}
-</div>
-{/if}
---}}
+	<footer>
+		<div>
+			<nav class="bottom-menu" aria-label="Основное меню футер">
+				<ul>
+					<li class="for-pc"><a href="{{route('home')}}">Главная</a></li>
+					<li><a href="{{route('search')}}">Поиск</a></li>
+					<li><a href="{{route('ankets')}}">Анкеты</a></li>
+					<li><a href="{{route('forum')}}">Форум</a></li>
+					<li><a href="{{route('sitemap')}}">Карта&nbsp;сайта</a></li>
+					<li><a href="{{route('contacts')}}">Контакты</a></li>
+    			</ul>
+    		</nav>
+		</div>
+		<div class="for-pc">{{ $copyright }}</div>
+		<div class="mob-copyrights">{{ $copyright }}</div>
+	</footer>
 </div>
 <div id="mask"></div>
 <div id="prodblock"><div id="prodblockIn"><div class="bgFame1Cnt2"></div></div></div>
