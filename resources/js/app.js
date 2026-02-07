@@ -3,6 +3,7 @@ import '../js/frame_script.js';
 import './bootstrap';
 import '../css/reset.css';
 import '../css/style.css';
+import '../css/media.css';
 
 import { createApp } from 'vue/dist/vue.esm-bundler';
 import BestProfile from './components/Profiles/BestProfile.vue';
