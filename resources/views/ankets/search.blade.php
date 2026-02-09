@@ -6,22 +6,16 @@
 					<p>{!! $critsSearch !!}</p>
 					<p><a class="lColor1" href="{{route('search')}}">изменить критерии поиска</a></p>
 					<h3 class="titleSAnkets">{{ $countSearchAnkStr }}</h3>
-					<table id="mScreen">
-						<tr>
-							<td class="wth1">
-								<div class="ankets">
 @if (!empty($ankets))
+	<div class="profile-list-container">
     @foreach ($ankets as $item)
 	<x-profile-brief :item="$item" />
     @endforeach
+	</div>
+	<x-pagination :items="$ankets" />
 @else
 <p class="pad5"><strong>по вашему запросу ничего не найдено</strong></p>
 @endif
-									</div>
-							</td>
-						</tr>
-					</table>
-<x-pagination :items="$ankets" />
 @else
 <h1 class="mTit">Поиск</h1>
 <form name="anketa" action="{{route('search')}}" method="get" class="formSearch">

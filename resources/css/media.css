@@ -109,6 +109,34 @@
 	.bottom-menu li:last-child {
 		display: none;
 	}
+
+	.profile-list-container .profile-brief {
+    	flex: 0 0 100%;
+	}
+
+	.profile-brief-content {
+ 		padding-left: 0px;
+		text-align: center;
+  		width: 100%;
+	}
+
+	.profile-brief-image {
+		width: 100%;
+		flex: 0 0 100%;
+		padding-bottom: 10px;
+	}
+
+	.profile-brief-image a {
+		width: 100%;
+		height: auto;
+		left: 0px;
+	}
+
+	.profile-brief-image img {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 0.9;
+	}
 }
 
 @media screen and (max-width: 360px) {

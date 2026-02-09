@@ -103,10 +103,9 @@ abstract class Field
 	public function perPage() :\Illuminate\Support\Collection
 	{
 		$ar = [
-			(object)['id' => 5,		'name' => 5],
-			(object)['id' => 10,	'name' => 10, 'selected' => true],
-			(object)['id' => 20,	'name' => 20],
-			(object)['id' => 30,	'name' => 30]
+			(object)['id' => 20,	'name' => 20, 'selected' => true],
+			(object)['id' => 40,	'name' => 40],
+			(object)['id' => 60,	'name' => 60]
 		];
 		return collect($ar);
 	}

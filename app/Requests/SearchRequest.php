@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 
 class SearchRequest extends FormRequest
 {
-	public $countPerPage 	= 10;
+	public $countPerPage 	= 20;
 	private $merge			= [];
 	private $default		= [
 		'age_min'			=> AGE_MIN,
@@ -16,7 +16,7 @@ class SearchRequest extends FormRequest
 		'height_max'		=> HEIGHT_MAX,
 		'weight_min'		=> WEIGHT_MIN,
 		'weight_max'		=> WEIGHT_MAX,
-		'anket_per_page'	=> 10
+		'anket_per_page'	=> 20
 	];
 
 	/**

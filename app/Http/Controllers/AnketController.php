@@ -28,8 +28,8 @@ use App\Http\Resources\Profile\ProfileShortResource;
 
 class AnketController extends Controller
 {
-	public $countPerPage 	= 10;
-	public $countNewFaces 	= 5;
+	public $countPerPage 	= 20;
+	public $countNewFaces 	= 10;
 	public $countOne		= 1;
 
 	/**
@@ -168,7 +168,7 @@ class AnketController extends Controller
 	{
 		$ankets				= $this->userRepository->getBySearch($filter, $request);
 		$critsSearch		= $search->getSearchText($ankets, $request->validated());
-		$countSearchAnkStr	= (new AnkService($ankets))->getFoundStr($request->anket_per_page);
+		$countSearchAnkStr	= (new AnkService($ankets))->getFoundStr($request->per_page);
 		return response()->view(
 			'ankets.search',
 			[

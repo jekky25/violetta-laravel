@@ -140,6 +140,8 @@ class User extends Authenticatable
 	const HEIGHT_MIN	= 149;
 	const WEIGHT_MIN	= 29;
 
+	const COUNT_PER_PAGE = 20;
+
 	public function __construct(array $attributes = [])
 	{
 		$this->anketVisitRepository = new AnketVisitRepository;
