@@ -240,7 +240,7 @@ class FileService
 		$file 			= $_SERVER['DOCUMENT_ROOT'] . '/public/' . $path . $picture . $ext;
 		$fileTimeStr 	= !empty($this->getFileChangeTime($file)) 	? $this->getFileChangeTime($file) . '/'		: '';
 		if (!empty($picture) && !empty($path)) return asset($path . $fileTimeStr . $picture . $ext);
-		$fotoUrl = $sex == MEN ? 'image/no_foto_m_vip2.jpg' : 'image/no_foto_w_vip2.jpg';
+		$fotoUrl = $sex == MEN ? 'image/no_foto_m_vip4.jpg' : 'image/no_foto_w_vip4.jpg';
 		return asset($fotoUrl);
 	}
 

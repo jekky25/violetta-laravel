@@ -533,6 +533,7 @@ p.gb1 {text-align:center; padding-bottom:10px;}
 .profile-brief-content {
 	padding-left: 10px;
 	padding-bottom: 20px;
+	flex: 1;
 }
 
 .profile-brief-content img {
