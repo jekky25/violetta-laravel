@@ -103,7 +103,9 @@ function vote(score)
 			</tr>
 			<tr>
 				<td>
-					<div class="pad7 pos1"><input type="submit" name="send" class="bgBut7" value="" /> <a href="javascript://" class="smileIcon" onClick="openFrame1({idFrame : 'smileBox', winWidth : '500', winHeight : '300'}); return false;"></a></div>
+					<div class="pad7 pos1">
+						<x-submit name=send value="отправить сообщение" />
+						<a href="javascript://" class="smileIcon" onClick="openFrame1({idFrame : 'smileBox', winWidth : '500', winHeight : '300'}); return false;"></a></div>
 				</td>
 			</tr>
 		</table>

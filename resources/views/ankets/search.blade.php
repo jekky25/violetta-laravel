@@ -114,7 +114,9 @@
 			<x-select name=per_page :obj="$fields['perPage']" :userProp="old('per_page')"  />
 		</td>
 	</tr>
-	<tr><td align="center" colspan="2"><input type="submit" name="sent" id="otsil" class="bgBut3" value="" /></td></tr>	
+	<tr><td align="center" colspan="2">
+		<x-submit name=sent value="найти" />
+	</td></tr>
 </table>
 </form>
 <script type="text/javascript" src="{{ asset('js/functions_search.js') }}"></script>

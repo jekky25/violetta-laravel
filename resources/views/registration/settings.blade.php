@@ -20,20 +20,9 @@
 	</table>	
 	<input type="hidden" name="otsil" value="1" />
 	<p class="pad2"></p>
-	<p class="pad3"><input type="submit" name="sent" class="bgBut8" value="" /></p>
+	<p class="pad3">
+		<x-submit name=sent value="изменить данные" />
+	</p>
 </form>
-<p class="pad2"></p>
-
-<div class="pad5">					
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* 468x60 редактирование анкеты */
-google_ad_slot = "8757413983";
-google_ad_width = 468;
-google_ad_height = 60;
-//-->
-</script>
-<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-</div>
 <p class="pad2"></p>
 @overwrite

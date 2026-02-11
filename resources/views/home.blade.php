@@ -69,7 +69,7 @@
 							</select>
 						</div>
 						<div>
-							<input type="submit" name="sent" id="otsil" class="bgBut3" value="" />
+							<x-submit name=sent value="найти" />
 						</div>
 					</form>
 					<script type="text/javascript" src="{{ asset('js/functions_search.js') }}"></script>

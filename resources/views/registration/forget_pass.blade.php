@@ -25,7 +25,7 @@
 							<input type="hidden" name="otsil" value="1" />
 						</td>
 						<td>	
-							<input type="submit" name="sent" class="bgBut4" value="" />
+							<x-submit name=sent value="отправить" />
 						</td>
 					</tr>		
 				</table>

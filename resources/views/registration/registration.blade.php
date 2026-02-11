@@ -123,6 +123,8 @@
 						<p class="pad1 pad3"><input type="checkbox" name="conditions" @if (!empty(old('conditions'))) checked="checked"@endif />&nbsp;&nbsp;&nbsp; я соглашаюсь с условиями, изложенными в <a href="{{ route('conditions') }}" class="lColor2">правилах регистрации анкет</a> и даю согласие на обработку персональных данных.</p>
 						<input type="hidden" name="otsil" value="1" />
 						<p class="pad2"></p>
-						<p class="pad3"><input type="submit" name="sent" class="bgBut5" value="" /></p>
+						<p class="pad3">
+							<x-submit name=sent value="зарегистрироваться" />
+						</p>
 					</form>
 @overwrite

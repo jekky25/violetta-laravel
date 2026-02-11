@@ -1,0 +1,1 @@
+<input type="submit" name="{{ $name }}" class="button" value="{{ $value }}" />

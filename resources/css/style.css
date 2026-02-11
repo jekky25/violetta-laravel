@@ -7,6 +7,10 @@
 
 	--profile-brief-image-width: 110px;
 	--profile-brief-image-height: 150px;
+
+	--button-text-size: 12px;
+	--button-height: 21px;
+	--button-border-radius: 10px;
 }
 
 body {
@@ -84,22 +88,36 @@ a:hover.lColor2 {color:#5954b0; text-decoration:none;}
 .st1 {font-weight:bold;}
 .pos1 {position:relative;}
 
-.bgBut1 {display:block; width:68px; height:22px; cursor:pointer; background: url(../image/bgbut1.png) 0 0 no-repeat; border:0; margin:0 auto;}
-.bgBut1:hover {background-position: 0 -22px;}
-.bgBut2 {display:block; width:67px; height:21px; cursor:pointer; background: url(../image/bgbut2.png) 0 0 no-repeat; border:0; margin:0 auto;}
-.bgBut2:hover {background-position: 0 -21px;}
-.bgBut3 {display:block; width:67px; height:21px; cursor:pointer; background: url(../image/bgbut3.png) 0 0 no-repeat; border:0; margin:0 auto;}
-.bgBut3:hover {background-position: 0 -21px;}
-.bgBut4 {display:block; width:73px; height:21px; cursor:pointer; background: url(../image/bgbut4.png) 0 0 no-repeat; border:0;}
-.bgBut4:hover {background-position: 0 -21px;}
-.bgBut5 {display:block; width:127px; height:21px; cursor:pointer; background: url(../image/bgbut5.png) 0 0 no-repeat; border:0; margin:0 auto;}
-.bgBut5:hover {background-position: 0 -21px;}
-.bgBut6 {display:block; width:127px; height:21px; cursor:pointer; background: url(../image/bgbut6.png) 0 0 no-repeat; border:0; float:right;}
-.bgBut6:hover {background-position: 0 -21px;}
-.bgBut7 {display:block; width:137px; height:21px; cursor:pointer; background: url(../image/bgbut7.png) 0 0 no-repeat; border:0; margin:0 auto;}
-.bgBut7:hover {background-position: 0 -21px;}
-.bgBut8 {display:block; width:117px; height:21px; cursor:pointer; background: url(../image/bgbut8.png) 0 0 no-repeat; border:0; margin:0 auto;}
-.bgBut8:hover {background-position: 0 -21px;}
+.button {
+	display: inline-block;
+	height: var(--button-height);
+	line-height: var(--button-height);
+	text-align: center;
+	cursor: pointer;
+	border: none;
+	margin: 0 auto;
+	color: #fff;
+	font-size: var(--button-text-size);
+	font-weight: bold;
+	text-decoration: none;
+	border-radius: var(--button-border-radius);
+	padding: 0 20px;
+	background: linear-gradient(to bottom,
+			#ffb36b 0%,
+			#ff8c2a 50%,
+			#e45b00 100%);
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.6),
+		0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover {
+	background: linear-gradient(to bottom,
+			#ffc58a 0%,
+			#ffa044 50%,
+			#f06a00 100%);
+}
+
 .bgBut9 {display:block; width:67px; height:22px; cursor:pointer; background: url(../image/bgbut9.png) 0 0 no-repeat; border:0; margin:0 auto;}
 .bgBut9:hover {background-position: 0 -22px;}
 .bgBut10 {display:block; width:67px; height:22px; cursor:pointer; background: url(../image/bgbut10.png) 0 0 no-repeat; border:0; margin:0 auto;}

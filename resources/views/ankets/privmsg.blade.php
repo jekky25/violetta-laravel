@@ -26,18 +26,9 @@
 		@endforeach
 	</table>
 	<x-pagination :items="$messages" />
-	<div class="right1 clear"><input type="submit" name="delete" class="bgBut6" value="" /></div>
-	<div class="pad5">
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* 468x60 сообщения (В) */
-google_ad_slot = "9620496837";
-google_ad_width = 468;
-google_ad_height = 60;
-//-->
-</script>
-<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-</div>
+	<div class="right1 clear">
+		<x-submit name=delete value="удалить отмеченные" />
+	</div>
 </form>
 <script language="Javascript" type="text/javascript">
 function selectCheckBoxs(mainbox, boxname)

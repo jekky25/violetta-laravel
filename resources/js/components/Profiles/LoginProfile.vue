@@ -34,7 +34,7 @@
 								<dt>Пароль:</dt>
 								<dd><input type="password" ref="password" v-model="password" name="password" /></dd>
 							</dl>
-							<p class="pad1"><input class="bgBut2" type="submit" v-on:click="loginSend()" value="" /></p>
+							<p class="pad1"><input class="button" type="submit" v-on:click="loginSend()" value="войти" /></p>
 						</form>
 						<p><a class="name" style="padding-right: 20px;" :href="`${getRoute('forget_pass')}`">Забыли пароль?</a></p>
 						<p><a class="name" style="padding-right: 20px;" :href="`${getRoute('registration')}`">Зарегистрироваться</a></p>
