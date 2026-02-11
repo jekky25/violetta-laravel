@@ -98,7 +98,7 @@ a:hover.lColor2 {color:#5954b0; text-decoration:none;}
 	margin: 0 auto;
 	color: #fff;
 	font-size: var(--button-text-size);
-	font-weight: bold;
+	font-weight: 500;
 	text-decoration: none;
 	border-radius: var(--button-border-radius);
 	padding: 0 20px;
