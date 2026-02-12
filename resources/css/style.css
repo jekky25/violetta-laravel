@@ -82,6 +82,10 @@ a:hover	{text-decoration:underline;}
 	line-height: 18px;
 }
 
+.input:focus {
+	border-color:#f00;
+}
+
 .textarea1 {width:250px; height:150px; border: 1px solid #ff5704; margin:0 auto; display:block;}
 .textarea2 {width:450px; height:150px; border: 1px solid #ff5704; margin:0 auto; display:block;}
 .valign1 {vertical-align:top; width:50%;}
