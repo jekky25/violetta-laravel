@@ -16,16 +16,6 @@
 	</table>
 @endif
 <x-pagination :items="$diaries" />
-	<div class="pad5">
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* Дневники 468x60 */
-google_ad_slot = "5785131254";
-google_ad_width = 468;
-google_ad_height = 60;
-//-->
-</script>
-<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 <script language=JavaScript>
 function find_otsil()
 {
@@ -42,7 +32,6 @@ function addfile(id)
 	}
 }
 </script>
-</div>
 <h2 class="mTit">Добавить новую запись</h2>
 @if(session('success'))
 <p class="mess">{{session('success')}}</p>
@@ -59,8 +48,9 @@ function addfile(id)
 	<table>
 		<tr>
 			<td width="50%" align="right">Тема:</td>
-
-			<td width="50%"><input type="text" class="input3" name="title" value="" /></td>
+			<td width="50%">
+				<x-input name="title" value="" />
+			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -73,7 +63,7 @@ function addfile(id)
 				<a class="screpka" href="javascript:addfile('file')"></a></td>
 			<td width="50%"><input type="hidden" name="otsil" value="1" />
 				<input type="hidden" name="add" value="1" />
-				<input type="submit" name="send" onclick="find_otsil()" value="Добавить запись" />
+				<x-submit name="send" onclick="find_otsil()" value="добавить запись" />
 			</td>
 		</tr>
 	</table>

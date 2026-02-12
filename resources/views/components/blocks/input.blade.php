@@ -1,0 +1,1 @@
+<input type="{{ $type }}" {{ $attributes->merge(['class' => 'input']) }} name="{{ $name }}" value="{{ $value }}" />

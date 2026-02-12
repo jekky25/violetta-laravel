@@ -26,15 +26,21 @@
 	<table class="mrg6" width="100%">
 		<tr>
 			<td align="right" width="50%">Старый пароль:</td>
-			<td width="50%"><input type="password" maxLength="70" size="30" name="pass_old" value="" /></td>
+			<td width="50%">
+				<x-input type="password" name="pass_old" value="" />
+			</td>
 		</tr>
 		<tr>
 			<td align="right" width="50%">Новый пароль:</td>
-			<td width="50%"><input type="password" maxLength="70" size="30" name="pass" value="" /></td>
+			<td width="50%">
+				<x-input type="password" name="pass" value="" />
+			</td>
 		</tr>
 		<tr>
 			<td align="right" width="50%">Подтвердите новый пароль:</td>
-			<td width="50%"><input type="password" maxLength="70" size="30" name="pass_confirm" value="" /></td>
+			<td width="50%">
+				<x-input type="password" name="pass_confirm" value="" />
+			</td>
 		</tr>
 	</table>
 	<input type="hidden" name="otsil" value="1" />

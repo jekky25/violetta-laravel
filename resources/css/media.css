@@ -91,10 +91,41 @@
 		width: calc(100% - 10px - 10px);
 		margin-left: 10px;
 	}
+
+	.textarea2 {
+		width: 100%;
+	}
 }
 
 @media screen and (max-width: 450px) {
-	.logo-title { background-size: 70%; }
+	.input, 
+	.button,
+	.mob-menu-subm {
+		width: 100%;
+	}
+	.logo-title { 
+		background-size: 70%; 
+	}
+
+	.sexRegForm, 
+	.sexRegForm tbody,
+	.sexRegForm tr:first-child,
+	.sexRegForm tr > td:first-child {
+		display: block;
+		padding-right: 0;
+	}
+
+	.sexRegForm tr > td:first-child {
+		padding-bottom: 10px;
+	}
+
+	.sexRegForm tr:nth-child(2) td:first-child {
+		padding-bottom: 0;
+	}
+
+	.sexRegForm tr:nth-child(2) td:first-child input {
+		vertical-align: middle;
+	}
 }
 
 @media screen and (max-width: 400px) {

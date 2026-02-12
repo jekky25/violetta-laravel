@@ -8,14 +8,16 @@ use Illuminate\View\Component;
 
 class Submit extends Component
 {
-	public $name, $value;
+	public $name, $value, $onclick;
+
 	/**
 	 * Create a new component instance.
 	 */
-	public function __construct($name, $value = '')
+	public function __construct($name, $onclick = null, $value = '')
 	{
 		$this->name     = $name;
 		$this->value    = $value;
+		$this->onclick  = $onclick;
 	}
 
 	/**

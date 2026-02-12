@@ -1,1 +1,1 @@
-<input type="submit" name="{{ $name }}" class="button" value="{{ $value }}" />
+<input type="submit" name="{{ $name }}" class="button" value="{{ $value }}" @if ( !empty($onclick) ) onclick = "{{ $onclick}}" @endif />

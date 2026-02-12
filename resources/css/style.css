@@ -1,6 +1,10 @@
 * {margin:0;padding: 0;}
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 
 :root {
+	--main-text-size: 12px;
 	--top-menu-height: 24px;
 	--top-menu-text-size: 12px;
 	--top-menu-color: #fff;
@@ -11,6 +15,9 @@
 	--button-text-size: 12px;
 	--button-height: 21px;
 	--button-border-radius: 10px;
+
+	--input-text-size: 12px;
+	--input-padding-horizontal: 8px;
 }
 
 body {
@@ -66,7 +73,15 @@ a:hover	{text-decoration:underline;}
 .right1 {text-align:right !important;}
 .input1 {width:50px; color: #000; font-size: 10px; border: 1px solid #ff5704; margin:0 auto; display:block;}
 .input2 {margin:0 auto; display:block; width:80px; cursor:pointer;}
-.input3 {width:120px; color: #000; font-size: 10px; border: 1px solid #ff5704;}
+.input {
+	color: #000;
+	font-size: var(--input-text-size);
+	border: 1px solid #ff5704;
+	border-radius: 6px;
+	padding: 0 var(--input-padding-horizontal);
+	line-height: 18px;
+}
+
 .textarea1 {width:250px; height:150px; border: 1px solid #ff5704; margin:0 auto; display:block;}
 .textarea2 {width:450px; height:150px; border: 1px solid #ff5704; margin:0 auto; display:block;}
 .valign1 {vertical-align:top; width:50%;}
@@ -323,7 +338,9 @@ footer>div:last-child {
 	#rightcol div.bl {border-left: #fe5804 1px solid; border-right: #fe5804 1px solid; padding:7px 10px 0 10px; background-color:#fcfbd6;}
 	#rightcol dl {padding-bottom:5px;}
 	#rightcol dt {font-size: 10px; padding-bottom: 5px;}
-	#rightcol dd input {width:165px; color: #000; font-size: 10px; border: 1px solid #ff5704;}
+	#rightcol dd input {
+		width:100%;
+	}
 		#rightcol .bl form p {text-align:center;}
 		
 		div.foto {width:110px; margin:0 auto; background-color:#878672; position:relative;}
@@ -798,7 +815,16 @@ div.messBody {padding-left:10px;}
 .mapSite2 a {margin-left:5px; margin-right:5px;}
 
 h4.reg_title {background-color:#ffd1d0; font-weight:bold; height:20px; line-height:20px; text-align:center; font-size:12px;}
-h4.reg_title2 {background-color:#eaedfa; font-weight:bold; height:20px; line-height:20px; text-align:center; font-size:12px; color:#f00; margin-top:10px;}
+.reg_title2 {
+	background-color: #eaedfa; 
+	font-weight: bold;
+	min-height: 20px;
+	line-height: 20px;
+	text-align: center;
+	font-size: var(--main-text-size);
+	color: #f00;
+	margin-top: 10px;
+}
 h4.menu_registration {border-bottom:1px solid #ee514e; height:20px;}
 h4.menu_registration div {background-color:#ee514e; line-height:20px; height:20px; color:#fff; float:left; padding-left:20px; padding-right:20px; text-align:center; min-width:50px; font-size:11px; font-weight:bold;}
 
@@ -859,15 +885,6 @@ table.voprTabl {margin:0 auto;}
 .mob-menu-second-block a {line-height:30px; color:#211b92; font-size:13px; text-decoration:underline; display:block;}
 .mob-menu-second-block a:hover {text-decoration:none;}
 .close-menu {position:absolute; top:0; right:0; width:36px; height:36px; cursor:pointer; background:url('../image/close_menu.png') 10px 10px no-repeat;}
-
-.mob-menu dd input {
-	border: 1px solid #ff5704;
-	color: #000;
-	font-size: 12px;
-	line-height:16px;
-	width: 165px;
-	padding:0 10px;
-}
 
 .mob-menu dt {
 	font-size: 12px;

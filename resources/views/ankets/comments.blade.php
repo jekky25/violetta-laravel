@@ -100,7 +100,9 @@
 	<table>
 		<tr>
 			<td width="50%" align="right">Тема:</td>
-			<td width="50%"><input type="text" class="input3" name="title" value="{{ old('title') }}" /></td>
+			<td width="50%">
+				<x-input name="title" value="{{ old('title') }}" />
+			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -113,7 +115,7 @@
 			<td width="50%"><input type="hidden" name="otsil" value="1" />
 				<input type="hidden" name="add" value="1" />
 				<input type="hidden" name="start" value="{{ old('start') }}" />
-				<input type="submit" name="send" onclick="find_otsil()" value="Добавить запись" />
+				<x-submit name="send" onclick="find_otsil()" value="добавить запись" />
 			</td>
 		</tr>
 	</table>	

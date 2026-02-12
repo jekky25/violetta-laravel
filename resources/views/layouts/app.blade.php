@@ -32,11 +32,11 @@
 					{{ csrf_field() }}
 					<dl>
 						<dt>Ваш логин:</dt>
-						<dd><input type="text" name="username_template" /></dd>
+						<dd><x-input name="username_template" /></dd>
 					</dl>
 					<dl>
 						<dt>Пароль:</dt>
-						<dd><input type="password" name="pass_template" /></dd>
+						<dd><x-input type="password" name="pass_template" /></dd>
 					</dl>					
 					<p class="pad1 mob-menu-subm">
 						<x-submit name=sent value="войти" />

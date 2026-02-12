@@ -6,23 +6,6 @@
 @if (!empty($diaries))
 <table class="ankDnevnik">
 @foreach ($diaries as $item)
-	@if ($loop->index == 5)
-	<tr>
-		<td colspan="2">						
-			<div class="banerFoto">
-				<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* Дневники 468x60 */
-google_ad_slot = "5785131254";
-google_ad_width = 468;
-google_ad_height = 60;
-//-->
-</script>
-				<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-			</div>
-		</td>
-	</tr>
-	@endif
 	<x-blocks-diary :item="$item" />
 @endforeach
 </table>
@@ -62,7 +45,9 @@ function addfile(id)
 	<table>
 		<tr>
 			<td width="50%" align="right">Тема:</td>
-			<td width="50%"><input type="text" class="input3" name="title" value="{{ old('title') }}" /></td>
+			<td width="50%">
+				<x-input name="title" value="{{ old('title') }}" />
+			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -74,7 +59,7 @@ function addfile(id)
 				<a class="screpka" href="javascript:addfile('file')"></a></td>
 			<td width="50%"><input type="hidden" name="otsil" value="1" />
 				<input type="hidden" name="add" value="1" />
-				<input type="submit" name="send" onclick="find_otsil()" value="Добавить запись" />
+				<x-submit name="send" onclick="find_otsil()" value="добавить запись" />
 			</td>
 		</tr>
 	</table>	

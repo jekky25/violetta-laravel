@@ -29,7 +29,9 @@ function find_otsil()
 	<table style="width:100px;">
 		<tr>
 			<td width="50%" align="right"><div class="dnevTeemTitle"><p>{{ $diary->create_time }}</p>Тема:</div></td>
-			<td width="50%"><input type="text" class="input3" name="title" value="{{ old('title', $diary->title) }}" /></td>
+			<td width="50%">
+				<x-input name="title" value="{{ old('title', $diary->title) }}" />
+			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -56,7 +58,7 @@ function find_otsil()
 		<tr>
 			<td colspan="2" align="center">
 				<input type="hidden" name="otsil" value="1" />
-				<input type="submit" name="send" onclick="find_otsil()" value="Обновить запись" />
+				<x-submit name="send" onclick="find_otsil()" value="обновить запись" />
 			</td>
 		</tr>
 	</table>	

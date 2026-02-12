@@ -28,11 +28,11 @@
 							<div class="error-text" v-html="errors" v-if="errors"></div>
 							<dl>
 								<dt>Ваш логин:</dt>
-								<dd><input type="text" ref="login" v-model="login" name="login" /></dd>
+								<dd><input type="text" class="input" ref="login" v-model="login" name="login" /></dd>
 							</dl>
 							<dl>
 								<dt>Пароль:</dt>
-								<dd><input type="password" ref="password" v-model="password" name="password" /></dd>
+								<dd><input type="password" class="input" ref="password" v-model="password" name="password" /></dd>
 							</dl>
 							<p class="pad1"><input class="button" type="submit" v-on:click="loginSend()" value="войти" /></p>
 						</form>
