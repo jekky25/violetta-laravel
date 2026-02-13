@@ -98,7 +98,7 @@ function vote(score)
 		<table width="100%">
 			<tr>
 				<td>
-					<textarea class="textarea2" id="textMessage" name="description" wrap="virtual">{{ old('description') }}</textarea>
+					<x-textarea name="description" class="textMessage" value="{{ old('description') }}" />
 				</td>
 			</tr>
 			<tr>
@@ -113,7 +113,7 @@ function vote(score)
 <script type="text/javascript">
 function checkSmile (x) 
 {
-	var e = document.getElementById('textMessage').value;
+	e = $('.textMessage').val();
 	$('#textMessage').val(e + x);
 	closeButfunk();
 }

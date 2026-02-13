@@ -41,20 +41,9 @@
 	<p class="pad3"><input type="file" size="25" name="photo_link"></p>
 	<input type="hidden" name="otsil" value="1" />
 	<p class="pad2"></p>
-	<p class="pad3"><input type="submit" name="sent" onclick="find_otsil()" value="Добавить фото" /></p>
+	<p class="pad3"><x-submit name="sent" onclick="find_otsil()" value="добавить фото" /></p>
 	@endif
 </form>
-<div class="pad5">					
-	<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* 468x60 редактирование анкеты */
-google_ad_slot = "8757413983";
-google_ad_width = 468;
-google_ad_height = 60;
-//-->
-	</script>
-	<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-</div>
 <p class="pad2"></p>
 <script language=JavaScript>
 function find_otsil() {

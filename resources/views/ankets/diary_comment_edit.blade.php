@@ -26,7 +26,7 @@
 @endforeach
 	</div>
 @endif
-	<table style="width:100px;">
+	<table class="add-comment-table">
 		<tr>
 			<td width="50%" align="right"><div class="dnevTeemTitle"><p>{{ $comment->create_time }}</p>Тема:</div></td>
 			<td width="50%">
@@ -35,7 +35,7 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-				<textarea class="textarea2" name="description" wrap="virtual">{{ old('description', $comment->description) }}</textarea>
+				<x-textarea name="description" value="{{ old('description', $comment->description) }}" />
 			</td>
 		</tr>
 		@if (!empty($comment->picture))

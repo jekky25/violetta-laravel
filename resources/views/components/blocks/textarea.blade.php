@@ -1,0 +1,1 @@
+<textarea name="{{ $name }}" wrap="virtual" {{ $attributes->merge(['class' => 'textarea']) }} >{{ $value }}</textarea>

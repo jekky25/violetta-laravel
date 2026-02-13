@@ -50,9 +50,9 @@
 @endif
 {{ csrf_field() }}
 	<div>
-		<textarea class="textarea2" name="description" wrap="virtual">{{ old('description') }}</textarea>
+		<x-textarea name="description" value="{{ old('description') }}" />
 	</div>
-	<p class="pad7"><input class="input2" type="submit" name="otsil" value="Отправить" /></p>
+	<p class="pad7"><x-submit name="otsil" value="отправить" /></p>
 @endif
 </form>
 @endif

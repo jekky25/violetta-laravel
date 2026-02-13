@@ -26,7 +26,7 @@ function find_otsil()
 <form name="anketa" class="addFile" action="{{route('ank.diary.edit.id', $diary->id)}}" method="post" enctype="multipart/form-data">
 	{{ csrf_field() }}
 	@method('PUT')
-	<table style="width:100px;">
+	<table class="add-comment-table">
 		<tr>
 			<td width="50%" align="right"><div class="dnevTeemTitle"><p>{{ $diary->create_time }}</p>Тема:</div></td>
 			<td width="50%">
@@ -35,7 +35,7 @@ function find_otsil()
 		</tr>
 		<tr>
 			<td colspan="2">
-				<textarea class="textarea2" name="description" wrap="virtual">{{ old('description', $diary->description) }}</textarea>
+				<x-textarea name="description" value="{{ old('description', $diary->description) }}" />
 			</td>
 		</tr>
 		@if (!empty($diary->picture))

@@ -171,7 +171,7 @@
 	<p class="pad1 pad2">Это самая важная часть анкеты. От того, как вы заполните это поле, очень сильно зависит <strong>успешность вашего знакомства</strong>. Отнеситесь к этому ответственно.  Опишите особенности, делающие вашу <strong>личность отличной от других</strong>. Постарайтесь <strong>избегать банальностей</strong>. Если вы любите кошек или вам нравится гулять под дождем - напишите об этом. Поверьте,
 найдется со временем тот кто ищет именно вас.</p>
 	<div>
-		<textarea class="textarea2" name="description" wrap="virtual">{{ old('description', $userData->description) }}</textarea>
+		<x-textarea name="description" value="{{ old('description', $userData->description) }}" />
 	</div>
 	<p class="pad2"></p>
 	<input type="hidden" name="otsil" value="1" />

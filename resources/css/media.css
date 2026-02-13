@@ -70,7 +70,12 @@
 }
 
 @media screen and (max-width: 550px) {
-	.logo-title { left:10px; }
+	.logo-title { 
+		left:10px;
+	}
+	.add-comment-table {
+		width: 100%;
+	}
 }
 
 @media screen and (max-width: 500px) {
@@ -90,10 +95,6 @@
 	.top-menu ul {
 		width: calc(100% - 10px - 10px);
 		margin-left: 10px;
-	}
-
-	.textarea2 {
-		width: 100%;
 	}
 }
 

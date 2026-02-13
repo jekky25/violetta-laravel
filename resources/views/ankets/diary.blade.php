@@ -42,7 +42,7 @@ function addfile(id)
 @endif
 <form name="anketa" class="addFile" action="{{route('ank.diary.add')}}" method="post" enctype="multipart/form-data">
 {{ csrf_field() }}
-	<table>
+	<table class="add-comment-table">
 		<tr>
 			<td width="50%" align="right">Тема:</td>
 			<td width="50%">
@@ -51,7 +51,7 @@ function addfile(id)
 		</tr>
 		<tr>
 			<td colspan="2">
-				<textarea class="textarea2" name="description" wrap="virtual">{{ old('description') }}</textarea>
+				<x-textarea name="description" value="{{ old('description') }}" />
 			</td>
 		</tr>
 		<tr>

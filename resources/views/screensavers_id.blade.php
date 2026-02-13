@@ -33,7 +33,7 @@
 </tr>
 </table>
 <x-google-captcha />
-<p><input class="input2" type="submit" name="download" value="Скачать" /></p>
+<p class="text-align-center"><x-submit name="download" value="скачать" /></p>
 </form>
 <table class="scrComments">
 <tr>
@@ -61,8 +61,10 @@
 @endforeach
 	</div>
 @endif
-<div class="pad2"><textarea name="description" wrap="virtual" class="textarea1" ></textarea></div>
-<p><input class="input2" type="submit" name="send" value="Отправить" /></p>
+<div class="pad2">
+	<x-textarea name="description" />
+</div>
+<p class="text-align-center"><x-submit name="send" value="отправить" /></p>
 @endif
 </form>
 </td>
