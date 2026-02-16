@@ -28,6 +28,7 @@ use App\Services\FormatService;
 use App\Services\MessageService;
 use App\Mail\RegistrationEmail;
 use App\Mail\ForgetPasswordEmail;
+use App\Fields\RegistrationField;
 
 class RegistrationController extends Controller
 {
@@ -72,13 +73,9 @@ class RegistrationController extends Controller
 	 * Show an edit short profile page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit(DataService $data)
+	public function edit(RegistrationField $fields)
 	{
 		$user		= Auth::user();
-		$days		= $data->getDays();
-		$months		= $data->getMonths();
-		$years		= $data->getYears();
-		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old('country_id', $user->country_id);
 		$regionId	= (int) old('region_id', $user->region_id);
 		$regions	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: [];
@@ -88,12 +85,9 @@ class RegistrationController extends Controller
 			'registration.edit',
 			[
 				'userData'		=> $user,
-				'days'			=> $days,
-				'months'		=> $months,
-				'years'			=> $years,
-				'countries'		=> $countries,
 				'regions'		=> $regions,
 				'cities'		=> $cities,
+				'fields'		=> $fields->get()
 			]
 		);
 	}
@@ -150,7 +144,7 @@ class RegistrationController extends Controller
 	 * Show an edit partner page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function partner(DataService $data, FormatService $formService)
+	public function partner(DataService $data, FormatService $formService, RegistrationField $fields)
 	{
 		$user				= Auth::user();
 		$age				= $data->getAges();
@@ -162,7 +156,6 @@ class RegistrationController extends Controller
 		$partnerSmoke		= $formService->BlockSelect("partner_smoke[]", SMOKE_CLASS, old('partner_smoke', $user->partner_smoke), 2);
 		$partnerEducation	= $formService->BlockSelect("partner_education[]", EDUCATION_CLASS, old('partner_education', $user->partner_education), 2);
 
-		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old('country', $user->partner_country);
 		$regionId	= (int) old('region', $user->partner_region);
 		$regions	= $countryId > 0	? $this->regionRepository->getByCountryId($countryId) 	: [];
@@ -180,9 +173,9 @@ class RegistrationController extends Controller
 				'partnerAlcohol'	=> $partnerAlcohol,
 				'partnerSmoke'		=> $partnerSmoke,
 				'partnerEducation'	=> $partnerEducation,
-				'countries'			=> $countries,
 				'regions'			=> $regions,
 				'cities'			=> $cities,
+				'fields'		=> $fields->get()
 			]
 		);
 	}
@@ -482,16 +475,12 @@ class RegistrationController extends Controller
 	 * show a registration page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function registration(DataService $data)
+	public function registration(RegistrationField $fields)
 	{
 		if (session('success')) return response()->view('registration.finish');
 		$user			= Auth::user();
 		if (!empty($user)) return redirect()->route('home');
 
-		$days		= $data->getDays();
-		$months		= $data->getMonths();
-		$years		= $data->getYears();
-		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old('country_id');
 		$regionId	= (int) old('region_id');
 		$regions	= $countryId > 0	? $this->regionRepository->getByCountryId($countryId) 	: [];
@@ -500,12 +489,9 @@ class RegistrationController extends Controller
 		return response()->view(
 			'registration.registration',
 			[
-				'days'			=> $days,
-				'months'		=> $months,
-				'years'			=> $years,
-				'countries'		=> $countries,
 				'regions'		=> $regions,
-				'cities'		=> $cities
+				'cities'		=> $cities,
+				'fields'		=> $fields->get()
 			]
 		);
 	}

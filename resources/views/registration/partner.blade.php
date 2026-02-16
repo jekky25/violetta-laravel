@@ -101,39 +101,24 @@
 		<tr>
 			<td width="150">страна</td>
 			<td>
-				<select name="partner_country" id="country" onchange="updateSelect('region', this.value, 'reg');" autocomplete="off">
-					<option value="0" @if (old('partner_country', $userData->partner_country) == 0) selected="selected"@endif>выберите&nbsp;</option>
-					<option value="141" @if (old('partner_country', $userData->partner_country) == COUNTRY_ID_RUSSIA) selected="selected"@endif>Россия</option>
-					@foreach ($countries as $item)
-					<option value="{{ $item->id }}" @if (old('partner_country', $userData->partner_country) == $item->id && old('partner_country', $userData->partner_country) != COUNTRY_ID_RUSSIA) selected="selected"@endif>{{ $item->name }}</option>
-					@endforeach
-				</select>
+				<x-select name="partner_country" id="country" :obj="$fields['country']" userProp="{{ old('partner_country', $userData->partner_country) }}">
+					<x-slot:firstInList><option value="141">Россия</option></x-slot>
+					<x-slot:addition>onchange="updateSelect('region', this.value, 'reg');"</x-slot:addition>
+				</x-select>
 			</td>
 		</tr>
 		<tr>
 			<td width="150">регион</td>
 			<td>
-				<select name="partner_region" id="region" onchange="updateSelect('city', this.value, 'cities');">
-					<option value="0">не важно</option>
-					@if (!empty($regions))
-					@foreach ($regions as $item)
-					<option value="{{ $item->id }}"@if (old('partner_region', $userData->partner_region) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
-					@endforeach
-					@endif
-				</select>
+				<x-select name="partner_region" id="region" :obj="$regions" userProp="{{ old('partner_region', $userData->partner_region) }}">
+					<x-slot:addition>onchange="updateSelect('city', this.value, 'cities');"</x-slot:addition>
+				</x-select>
 			</td>
 		</tr>
 		<tr>
 			<td width="150">город</td>
 			<td>
-				<select id="city" name="partner_city">
-					<option value="0">не важно</option>
-					@if (!empty($cities))
-					@foreach ($cities as $item)
-					<option value="{{ $item->id }}"@if (old('partner_city', $userData->partner_city) == $item->id) selected="selected"@endif>{{ $item->name }}</option>
-					@endforeach
-					@endif
-				</select>
+				<x-select name="partner_city" id="city" :obj="$cities"  userProp="{{ old('partner_city', $userData->partner_city) }}" />
 			</td>
 		</tr>
 	</table>

@@ -7,6 +7,7 @@ use App\Interfaces\CountryInterface;
 use App\Interfaces\DiaryInterface;
 use App\Interfaces\UserInterface;
 use App\Services\DataService;
+use App\Fields\SearchField;
 use App\Http\Resources\Profile\ProfileShortResource;
 use App\Http\Resources\Diary\DiaryResource;
 
@@ -30,15 +31,13 @@ class HomeController extends Controller
 	 * show the home page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index(DataService $data)
+	public function index(DataService $data, SearchField $fields)
 	{
-		$ages		= $data->getAges();
-		$countries	= $this->countryRepository->getAll();
 		return response()->view(
 			'home',
 			[
-				'ages'		=> $ages,
-				'countries' => $countries
+				'ages'		=> $data->getAges(),
+				'fields'	=> $fields->get()
 			]
 		);
 	}

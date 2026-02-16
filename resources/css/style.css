@@ -15,6 +15,7 @@
 	--button-text-size: 12px;
 	--button-height: 21px;
 	--button-border-radius: 10px;
+	--input-border-radius: 6px;
 
 	--input-text-size: 12px;
 	--input-padding-horizontal: 8px;
@@ -79,7 +80,7 @@ a:hover	{text-decoration:underline;}
 	color: #000;
 	font-size: var(--input-text-size);
 	border: 1px solid #ff5704;
-	border-radius: 6px;
+	border-radius: var(--input-border-radius);
 	padding: 0 var(--input-padding-horizontal);
 	line-height: 18px;
 }
@@ -95,9 +96,28 @@ a:hover	{text-decoration:underline;}
 	padding: var(--input-padding-horizontal);
 	width: 100%;
 	min-height: 100px;
-	border-radius: 6px;
+	border-radius: var(--input-border-radius);
 	margin:0 auto; 
 	display:block;
+}
+
+.select {
+	border-radius: var(--input-border-radius);
+	border: 1px solid #ff5704;
+	background-color: #fff;
+	padding: 0 var(--input-padding-horizontal);
+	line-height: 18px;
+	height: 18px;
+}
+
+.select option:hover {
+	background-color: #ff5704;
+	color: #fff;
+}
+
+.select option {
+	background-color: #0f0;
+	color: #fff;
 }
 
 .valign1 {vertical-align:top; width:50%;}

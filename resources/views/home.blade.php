@@ -16,57 +16,33 @@
 				<h3>Быстрый поиск</h3>
 					<form name="anketa" action="{{route('search')}}" method="get" class="formSearch">
 						<input type="hidden" name="send" value="1" />
-						<div>Я ищу&nbsp; 
-							<select name="find_sex">
-								<option value="0" selected="selected">не важно&nbsp;</option>
-								<option value="1">мужчину</option>
-								<option value="2">женщину</option>
-							</select>
+						<div>Я ищу&nbsp;
+							<x-select name="find_sex" :obj="$fields['sex']" :userProp="old('sex')" />
 						</div>
 						<div>
 							<input type="checkbox" name="photo" />&nbsp;&nbsp;только с фото
 						</div>
 						<div>в возрасте от&nbsp;
-							<select name="age_min">
-								<option value="15">не важно&nbsp;</option>
-								@if (!empty($ages))
-								@foreach ($ages as $item)
-								<option value="{{ $item }}">{{ $item }}</option>
-								@endforeach
-								@endif
-							</select> до 
-							<select name="age_max">
-								<option value="15">не важно&nbsp;</option>
-								@if (!empty($ages))
-								@foreach ($ages as $item)
-								<option value="{{ $item }}">{{ $item }}</option>
-								@endforeach
-								@endif
-							</select>
+							<x-select name=age_min :obj="$fields['age']" :userProp="old('age_min')" />
+							до
+							<x-select name=age_max :obj="$fields['age']" :userProp="old('age_max')" />
 						</div>
 						<div>страна</div>
 						<div>
-							<select name="country" id="country" onchange="updateSelect('region', this.value, 'reg');">
-								<option value="0">не важно&nbsp;</option>
-								<option value="141">Россия</option>
-								@if (!empty($countries))
-								@foreach ($countries as $item)
-								<option value="{{ $item->id }}">{{ $item->name }}</option>
-								@endforeach
-								@endif
-							</select>
+							<x-select name=country id="country" :obj="$fields['country']" :userProp="old('country')">
+								<x-slot:firstInList><option value="141">Россия</option></x-slot>
+								<x-slot:addition>onchange="updateSelect('region', this.value, 'reg');"</x-slot:addition>
+							</x-select>
 						</div>
 						<div>регион</div>
 						<div>
-							<select name="region" id="region" onchange="updateSelect('city', this.value, 'cities');" >
-								<option value="0">не важно</option>
-							</select>
+							<x-select name=region id="region" :obj="[]" :userProp="old('region')">
+								<x-slot:addition>onchange="updateSelect('city', this.value, 'cities');"</x-slot:addition>
+							</x-select>
 						</div>
 						<div>город</div>
 						<div>
-							<select id="city" name="city">
-								<option value="0">не важно</option>
-							</select>
+							<x-select name=city id="city" :obj="[]" />
 						</div>
 						<div>
 							<x-submit name=sent value="найти" />

@@ -8,20 +8,22 @@ use Illuminate\View\Component;
 
 class Select extends Component
 {
-	public $name, $obj, $id, $type, $userProp, $measure, $multiple, $size;
+	public $name, $obj, $id, $type, $userProp, $measure, $multiple, $size, $fieldZero;
+
 	/**
 	 * Create a new component instance.
 	 */
-	public function __construct($name, $obj, $id = '', $type = '', $userProp = '', $measure = '', $multiple = false, $size = 0)
+	public function __construct($name, $obj, $id = '', $type = '', $userProp = '', $measure = '', $multiple = false, $size = 0, $fieldZero = '')
 	{
-		$this->name     = $name;
-		$this->obj      = $obj;
-		$this->id     	= $id;
-		$this->type     = $type;
-		$this->userProp = $userProp;
-		$this->measure  = $measure;
-		$this->multiple = $multiple;
-		$this->size     = $size;
+		$this->name      = $name;
+		$this->obj       = $obj;
+		$this->id     	 = $id;
+		$this->type      = $type;
+		$this->userProp  = $userProp;
+		$this->measure   = $measure;
+		$this->multiple  = $multiple;
+		$this->size      = $size;
+		$this->fieldZero = $fieldZero;
 	}
 
 	/**

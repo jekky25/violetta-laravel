@@ -31,7 +31,7 @@ class DataService
 	{
 		$items = [];
 		for ($i = (17 + 1); $i < 100; $i++)
-			$items[] = $i;
+			$items[$i] = $i;
 		return $items;
 	}
 
@@ -70,7 +70,7 @@ class DataService
 		$today		= getdate();
 		$todayYear	= $today['year'];
 		for ($i = 1900; $i < ($todayYear - 17); $i++) {
-			$years[] = $i;
+			$years[$i] = $i;
 		}
 		return $years;
 	}

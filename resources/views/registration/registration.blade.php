@@ -48,29 +48,9 @@
 				<td class="pad11"><input type="radio" name="sex" value="2"@if (old('sex') == 2) checked="checked"@endif /></td>
 				<td><span class="menuWomenReg">Я женщина</span></td>
 				<td>
-					<select name="birth_day" style="width:40px;">
-						@foreach ($days as $item)
-						@if ($item == 0)
-							<option value="0"@if (old('birth_day') == 0) selected="selected"@endif>---</option>
-						@else
-							<option value="{{ $item }}"@if (old('birth_day') == $item) selected="selected"@endif>{{ $item }}</option>
-						@endif
-						@endforeach
-					</select>
-					<select name="birth_month" style="width:80px;">
-						@foreach ($months as $id => $item)
-							<option value="{{ $id }}"@if (old('birth_month') == $id) selected="selected"@endif>{{ $item }}</option>
-						@endforeach
-					</select>
-					<select name="birth_year" style="width:50px;">
-					@foreach ($years as $id => $item)
-					@if ($item == 1900)
-						<option value="{{ $item }}"@if (old('birth_year') == 1990) selected="selected"@endif>---</option>
-					@else
-						<option value="{{ $item }}"@if (old('birth_year') == $item) selected="selected"@endif>{{ $item }}</option>
-					@endif
-					@endforeach
-					</select>
+					<x-select name="birth_day" :obj="$fields['day']" userProp="{{ old('birth_day') }}" fieldZero="---" />
+					<x-select name="birth_month" :obj="$fields['month']" userProp="{{ old('birth_month') }}" />
+					<x-select name="birth_year" :obj="$fields['year']" userProp="{{ old('birth_year') }}" fieldZero="---" />
 				</td>
 			</tr>
 		</table>
@@ -87,36 +67,24 @@
 							<tr>
 								<td width="150">страна</td>
 								<td>
-									<select name="country_id" id="country" onchange="updateSelect('region', this.value, 'reg');" autocomplete="off">
-										<option value="0" @if (old('country_id') == 0) selected="selected"@endif>выберите&nbsp;</option>
-										<option value="141" @if (old('country_id') == COUNTRY_ID_RUSSIA) selected="selected"@endif>Россия</option>
-										@foreach ($countries as $item)
-										<option value="{{ $item->id }}" @if (old('country_id') == $item->id && old('country_id') != COUNTRY_ID_RUSSIA) selected="selected"@endif>{{ $item->name }}</option>
-										@endforeach
-									</select>
+									<x-select name="country_id" id="country" :obj="$fields['country']" userProp="{{ old('country_id') }}">
+										<x-slot:firstInList><option value="141">Россия</option></x-slot>
+										<x-slot:addition>onchange="updateSelect('region', this.value, 'reg');"</x-slot:addition>
+									</x-select>
 								</td>
 							</tr>
 							<tr>
 								<td width="150">регион</td>
-								<td><select name="region_id" id="region" onchange="updateSelect('city', this.value, 'cities');">
-										<option value="0">не важно</option>
-										@if (!empty($regions))
-										@foreach ($regions as $item)
-										<option value="{{ $item->id }}"@if (old('region_id') == $item->id) selected="selected"@endif>{{ $item->name }}</option>
-										@endforeach
-										@endif
-									</select></td>
+								<td>
+									<x-select name="region_id" id="region" :obj="$regions" userProp="{{ old('region_id') }}">
+										<x-slot:addition>onchange="updateSelect('city', this.value, 'cities');"</x-slot:addition>
+									</x-select>
+								</td>
 							</tr>
 							<tr>
 								<td width="150">город</td>
-								<td><select id="city" name="city_id">
-										<option value="0">не важно</option>
-										@if (!empty($cities))
-										@foreach ($cities as $item)
-										<option value="{{ $item->id }}"@if (old('city_id') == $item->id) selected="selected"@endif>{{ $item->name }}</option>
-										@endforeach
-										@endif
-									</select>
+								<td>
+									<x-select name="city_id" id="city" :obj="$cities"  userProp="{{ old('city_id') }}" />
 								</td>
 							</tr>
 						</table>
