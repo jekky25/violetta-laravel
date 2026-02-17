@@ -75,18 +75,10 @@ class RegistrationController extends Controller
 	 */
 	public function edit(RegistrationField $fields)
 	{
-		$user		= Auth::user();
-		$countryId	= (int) old('country_id', $user->country_id);
-		$regionId	= (int) old('region_id', $user->region_id);
-		$regions	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: [];
-		$cities		= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
-
 		return response()->view(
 			'registration.edit',
 			[
-				'userData'		=> $user,
-				'regions'		=> $regions,
-				'cities'		=> $cities,
+				'userData'		=> Auth::user(),
 				'fields'		=> $fields->get()
 			]
 		);
@@ -156,11 +148,6 @@ class RegistrationController extends Controller
 		$partnerSmoke		= $formService->BlockSelect("partner_smoke[]", SMOKE_CLASS, old('partner_smoke', $user->partner_smoke), 2);
 		$partnerEducation	= $formService->BlockSelect("partner_education[]", EDUCATION_CLASS, old('partner_education', $user->partner_education), 2);
 
-		$countryId	= (int) old('country', $user->partner_country);
-		$regionId	= (int) old('region', $user->partner_region);
-		$regions	= $countryId > 0	? $this->regionRepository->getByCountryId($countryId) 	: [];
-		$cities		= $regionId	> 0		? $this->cityRepository->getByRegionId($regionId) 		: [];
-
 		return response()->view(
 			'registration.partner',
 			[
@@ -173,9 +160,7 @@ class RegistrationController extends Controller
 				'partnerAlcohol'	=> $partnerAlcohol,
 				'partnerSmoke'		=> $partnerSmoke,
 				'partnerEducation'	=> $partnerEducation,
-				'regions'			=> $regions,
-				'cities'			=> $cities,
-				'fields'		=> $fields->get()
+				'fields'			=> $fields->get()
 			]
 		);
 	}
@@ -478,19 +463,11 @@ class RegistrationController extends Controller
 	public function registration(RegistrationField $fields)
 	{
 		if (session('success')) return response()->view('registration.finish');
-		$user			= Auth::user();
-		if (!empty($user)) return redirect()->route('home');
-
-		$countryId	= (int) old('country_id');
-		$regionId	= (int) old('region_id');
-		$regions	= $countryId > 0	? $this->regionRepository->getByCountryId($countryId) 	: [];
-		$cities		= $regionId	> 0		? $this->cityRepository->getByRegionId($regionId) 		: [];
+		if (!empty(Auth::user())) return redirect()->route('home');
 
 		return response()->view(
 			'registration.registration',
 			[
-				'regions'		=> $regions,
-				'cities'		=> $cities,
 				'fields'		=> $fields->get()
 			]
 		);

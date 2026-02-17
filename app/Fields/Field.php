@@ -29,7 +29,6 @@ abstract class Field
 		protected CountryInterface $country,
 		protected DataService $data,
 		protected FormatService $format
-
 	)
 	{
 	}

@@ -110,7 +110,7 @@
 		<tr>
 			<td width="150">регион</td>
 			<td>
-				<x-select name="partner_region" id="region" :obj="$regions" userProp="{{ old('partner_region', $userData->partner_region) }}">
+				<x-select name="partner_region" id="region" :obj="$fields['region']" userProp="{{ old('partner_region', $userData->partner_region) }}">
 					<x-slot:addition>onchange="updateSelect('city', this.value, 'cities');"</x-slot:addition>
 				</x-select>
 			</td>
@@ -118,7 +118,7 @@
 		<tr>
 			<td width="150">город</td>
 			<td>
-				<x-select name="partner_city" id="city" :obj="$cities"  userProp="{{ old('partner_city', $userData->partner_city) }}" />
+				<x-select name="partner_city" id="city" :obj="$fields['city']"  userProp="{{ old('partner_city', $userData->partner_city) }}" />
 			</td>
 		</tr>
 	</table>

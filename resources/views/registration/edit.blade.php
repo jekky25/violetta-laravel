@@ -55,7 +55,7 @@
 		<tr>
 			<td width="150">регион</td>
 			<td>
-				<x-select name="region_id" id="region" :obj="$regions" userProp="{{ old('region_id', $userData->region_id) }}">
+				<x-select name="region_id" id="region" :obj="$fields['region']" userProp="{{ old('region_id', $userData->region_id) }}">
 					<x-slot:addition>onchange="updateSelect('city', this.value, 'cities');"</x-slot:addition>
 				</x-select>
 			</td>
@@ -63,7 +63,7 @@
 		<tr>
 			<td width="150">город</td>
 			<td>
-				<x-select name="city_id" id="city" :obj="$cities"  userProp="{{ old('city_id', $userData->city_id) }}" />
+				<x-select name="city_id" id="city" :obj="$fields['city']"  userProp="{{ old('city_id', $userData->city_id) }}" />
 			</td>
 		</tr>
 	</table>
