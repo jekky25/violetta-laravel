@@ -5,6 +5,7 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use App\Services\FormatService;
 
 class Select extends Component
 {
@@ -15,11 +16,13 @@ class Select extends Component
 	 */
 	public function __construct($name, $obj, $id = '', $type = '', $userProp = '', $measure = '', $multiple = false, $size = 0, $fieldZero = '')
 	{
+		$format = new FormatService;
+
 		$this->name      = $name;
 		$this->obj       = $obj;
 		$this->id     	 = $id;
 		$this->type      = $type;
-		$this->userProp  = $userProp;
+		$this->userProp  = $format->stringTransform($userProp);
 		$this->measure   = $measure;
 		$this->multiple  = $multiple;
 		$this->size      = $size;

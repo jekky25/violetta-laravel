@@ -15,7 +15,7 @@ autocomplete="off">
 		<option value="{{ $id }}" @if ($id == $userProp) selected="selected"@endif>{{ $item }}@if (!empty($measure)) {{ $measure }}@endif</option>
 		@endif
 	@else
-		<option value="{{ $item->id }}"@if ($item->id == $userProp) selected="selected"@endif>{{ $item->name }}@if (!empty($measure)) {{ $measure }}@endif</option>
+		<option value="{{ $item->id }}"@if ((is_array($userProp) && in_array($item->id, $userProp)) || $item->id == $userProp) selected="selected"@endif>{{ $item->name }} @if (!empty($measure)) {{ $measure }}@endif</option>
 	@endif
 	@endforeach
 </select>

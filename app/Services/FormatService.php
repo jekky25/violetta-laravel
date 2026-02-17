@@ -130,7 +130,7 @@ class FormatService
 	{
 		$items = [];
 		for ($i = (PARTNER_HEIGHT_MIN + 1); $i < 221; $i++) {
-			$items[] = $i;
+			$items[$i] = $i;
 		}
 		return $items;
 	}
@@ -144,7 +144,7 @@ class FormatService
 	{
 		$items = [];
 		for ($i = (PARTNER_WEIGHT_MIN + 1); $i < 131; $i++) {
-			$items[] = $i;
+			$items[$i] = $i;
 		}
 		return $items;
 	}
@@ -340,5 +340,30 @@ class FormatService
 		$day 	= \Carbon\Carbon::now()->format('d');
 		$month = \Carbon\Carbon::now()->format('m');
 		return '____-' . $month . '-' . $day;
+	}
+
+	/**
+	 * check the string and formating it from serialising to array
+	 * @param string $str
+	 * 
+	 * @return string|array
+	 */
+	public function stringTransform($str)
+	{
+		if ($this->isSerialized($str)) {
+			$str = html_entity_decode($str, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+			return unserialize($str);
+		}
+		return $str;
+	}
+
+	/**
+	 * check the string is serialised or not
+	 * @param string $str
+	 * 
+	 * @return bool
+	 */
+	function isSerialized($value): bool {
+		return is_string($value) && preg_match('/^(a|s|i|b|O|C|N):/', $value);
 	}
 }

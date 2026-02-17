@@ -17,7 +17,7 @@
 чтобы узнать для чего вы, собственно говоря, здесь. Ну и про <strong>языки</strong> не забудьте. А то вдруг окажется, что ваш спутник или спутница говорит на совершенно непонятном для вас языке.</p>
 	<p class="pad3"><strong>Сексуальная ориентация</strong></p>
 	<p class="pad3">
-		<x-select name=sex_orient :obj="$sexOrient" />
+		<x-select name="sex_orient" :obj="$sexOrient" userProp="{{ old('sex_orient', $userData->sex_orient) }}" />
 	</p>
 	<table width="100%">
 		<tr>
@@ -87,27 +87,27 @@
 	<table class="mrg6" width="100%">
 		<tr>
 			<td align="right" width="50%">Телосложение:</td>
-			<td width="50%"><x-select name=body :obj="$body" /></td>
+			<td width="50%"><x-select name="body" :obj="$body" userProp="{{ old('body', $userData->body) }}" /></td>
 		</tr>
 		<tr>
 			<td align="right">Рост:</td>
-			<td><x-select name=height :obj="$heights" type=I :userProp="$userData->height" measure="см" /></td>
+			<td><x-select name="height" :obj="$heights" type=I :userProp="$userData->height" measure="см" /></td>
 		</tr>
 		<tr>
 			<td align="right">Вес:</td>
-			<td><x-select name=weight :obj="$weights" type=I :userProp="$userData->weight" measure="кг" /></td>
+			<td><x-select name="weight" :obj="$weights" type=I :userProp="$userData->weight" measure="кг" /></td>
 		</tr>
 		<tr>
 			<td align="right">Цвет волос:</td>
-			<td><x-select name=hair_color :obj="$hairColor" /></td>
+			<td><x-select name="hair_color" :obj="$hairColor" userProp="{{ old('hair_color', $userData->hair_color) }}" /></td>
 		</tr>
 		<tr>
 			<td	align="right">Тип волос:</td>
-			<td><x-select name=hair_type :obj="$hairType" /></td>
+			<td><x-select name="hair_type" :obj="$hairType" userProp="{{ old('hair_type', $userData->hair_type) }}" /></td>
 		</tr>
 		<tr>
 			<td align="right">Глаза:</td>
-			<td><x-select name=eyes :obj="$eyes" /></td>
+			<td><x-select name="eyes" :obj="$eyes" userProp="{{ old('eyes', $userData->eyes) }}" /></td>
 		</tr>
 	</table>
 	<p class="pad2"></p>
@@ -116,31 +116,31 @@
 	<table class="mrg6" width="100%">
 		<tr>
 			<td align="right" width="50%">Образование:</td>
-			<td><x-select name=education :obj="$education" /></td>
+			<td><x-select name="education" :obj="$education" userProp="{{ old('education', $userData->education) }}" /></td>
 		</tr>
 		<tr>
 			<td align="right">Отношение к сигаретам:</td>
-			<td><x-select name=smoke :obj="$smoke" /></td>
+			<td><x-select name="smoke" :obj="$smoke" userProp="{{ old('smoke', $userData->smoke) }}" /></td>
 		</tr>
 		<tr>
 			<td align="right">Отношение к спиртному:</td>
-			<td><x-select name=alcohol :obj="$alcohol" /></td>
+			<td><x-select name="alcohol" :obj="$alcohol" userProp="{{ old('alcohol', $userData->alcohol) }}" /></td>
 		</tr>
 		<tr>
 			<td align="right">Семейное положение:</td>
-			<td><x-select name=family_status :obj="$familyStatus" /></td>
+			<td><x-select name="family_status" :obj="$familyStatus" userProp="{{ old('family_status', $userData->family_status) }}" /></td>
 		</tr>
 		<tr>
 			<td align="right">Дети:</td>
-			<td><x-select name=children :obj="$children" /></td>
+			<td><x-select name="children" :obj="$children" userProp="{{ old('children', $userData->children) }}" /></td>
 		</tr>
 		<tr>
 			<td align="right">Материальная поддержка:</td>
-			<td><x-select name=help_money :obj="$helpMoney" /></td>
+			<td><x-select name="help_money" :obj="$helpMoney" userProp="{{ old('help_money', $userData->help_money) }}" /></td>
 		</tr>
 		<tr>
 			<td align="right">Интересы:</td>
-			<td><x-select name=interests[] :obj="$interests" multiple="true" size="10" /></td>
+			<td><x-select name="interests[]" :obj="$interests" multiple="true" size="10" userProp="{{ old('interests', $userData->interests) }}" /></td>
 		</tr>
 	</table>
 	<p class="pad2"></p>
