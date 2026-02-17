@@ -37,7 +37,7 @@ Route::middleware('slashes')->group(function () {
 	Route::get('registration/delete/', 'RegistrationController@destroy')																		->name('registration.delete');
 	Route::get('registration/delete/confirm/', 'RegistrationController@destroyConfirm')															->name('registration.delete.confirm')		->middleWare('auth');
 	Route::get('registration/views/', 'AnketController@getViews')																				->name('registration.views')				->middleWare('auth');
-	Route::get('registration/', 'RegistrationController@registration')																			->name('registration');
+	Route::get('registration/', 'RegistrationController@registration')																			->name('registration')						->middleWare('guest');
 	Route::post('registration/', 'RegistrationController@registrationStore')																	->name('registration.post');
 	Route::get('registration/confirm/{id}/{code}/', 'RegistrationController@confirm')									->whereNumber('id')		->name('registration.confirm');
 

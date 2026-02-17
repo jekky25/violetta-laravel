@@ -462,14 +462,9 @@ class RegistrationController extends Controller
 	 */
 	public function registration(RegistrationField $fields)
 	{
-		if (session('success')) return response()->view('registration.finish');
-		if (!empty(Auth::user())) return redirect()->route('home');
-
 		return response()->view(
-			'registration.registration',
-			[
-				'fields'		=> $fields->get()
-			]
+			session('success') ? 'registration.finish' : 'registration.registration',
+			['fields'		=> $fields->get()]
 		);
 	}
 
