@@ -108,6 +108,7 @@ a:hover	{text-decoration:underline;}
 	padding: 0 var(--input-padding-horizontal);
 	line-height: 18px;
 	height: 18px;
+	cursor: pointer;
 }
 
 .select option:hover {
@@ -116,8 +117,12 @@ a:hover	{text-decoration:underline;}
 }
 
 .select option {
-	background-color: #0f0;
 	color: #fff;
+}
+
+.select:disabled {
+	cursor: default;
+	background-color: #ebebeb;
 }
 
 .valign1 {vertical-align:top; width:50%;}
