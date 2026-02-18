@@ -154,10 +154,9 @@ class FormatService
 	 * @param string $name
 	 * @param string $className
 	 * @param integer $value
-	 * @param integer $mode
-	 * @return string
+	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
-	public function BlockSelect($name, $className, $value, $mode)
+	public function BlockSelect($name, $className, $value)
 	{
 		if (!is_array($value)) {
 			try {
@@ -169,30 +168,12 @@ class FormatService
 		$value		= isset($unserValue) && is_array($unserValue) ? $unserValue : $value;
 		$className	= 'App\\Models\\' . $className;
 		$items		= $className::select('*')->orderBy('name', 'asc')->get();
-		$str		= '<select style="width: 150px" name="' . $name . '">';
-		$str		.= '<option value="0"';
-		$str		.= $value == '0' 	? ' selected' 		: '';
-		$str		.= $mode == 1 		? '>-выберите-' 	: '>-не важно-';
-
-		if ($mode == 2) {
-			$out = [];
-			foreach ($items as $_item) {
-				$_item->selected = is_array($value) ? (in_array($_item->id, $value) 	? 1 			: 0)
-					: ($value == $_item->id 			? ' selected' 	: '');
-				$out[] = $_item;
-			}
-			return $out;
+	
+		foreach ($items as &$_item) {
+			$_item->selected = is_array($value) ? (in_array($_item->id, $value) 	? 1 			: 0)
+				: ($value == $_item->id 			? ' selected' 	: '');
 		}
-
-		if (!empty($items)) {
-			foreach ($items as $_item) {
-				$str .= '  <option value="' . $_item->id . '"';
-				$str .= $value == $_item->id ? ' selected' : '';
-				$str .= '>' . $_item->name;
-			}
-		}
-		$str .= '</option></select>';
-		return $str;
+		return $items;
 	}
 
 	/**
