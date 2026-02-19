@@ -91,7 +91,7 @@ class RegistrationController extends Controller
 	public function second(FormatService $formService, RegistrationField $fields)
 	{
 		$user			= Auth::user();
-		$targets		= $formService->BlockSelect('targets', MEET_TARGET_CLASS, $user->targets, 2);
+		$targets		= $formService->BlockSelect(MEET_TARGET_CLASS, $user->targets);
 		$userSpeakLang	= $formService->preparePropfromArray($user->speak_lang, self::$languageCodes);
 
 		return response()->view(
@@ -112,22 +112,16 @@ class RegistrationController extends Controller
 	public function partner(DataService $data, FormatService $formService, RegistrationField $fields)
 	{
 		$user				= Auth::user();
-		$age				= $data->getAges();
-		$heights			= $formService->getHeights();
-		$weights			= $formService->getWeights();
-		$partnerBody		= $formService->BlockSelect("partner_body[]", BODY_CLASS, old('partner_body', $user->partner_body), 2);
-		$partnerLanguages	= $formService->BlockSelect("partner_languages[]", SPEAK_LANG_CLASS, old('partner_languages', $user->partner_languages), 2);
-		$partnerAlcohol		= $formService->BlockSelect("partner_alcohol[]", SPIRT_CLASS, old('partner_alcohol', $user->partner_alcohol), 2);
-		$partnerSmoke		= $formService->BlockSelect("partner_smoke[]", SMOKE_CLASS, old('partner_smoke', $user->partner_smoke), 2);
-		$partnerEducation	= $formService->BlockSelect("partner_education[]", EDUCATION_CLASS, old('partner_education', $user->partner_education), 2);
+		$partnerBody		= $formService->BlockSelect(BODY_CLASS, old('partner_body', $user->partner_body));
+		$partnerLanguages	= $formService->BlockSelect(SPEAK_LANG_CLASS, old('partner_languages', $user->partner_languages));
+		$partnerAlcohol		= $formService->BlockSelect(SPIRT_CLASS, old('partner_alcohol', $user->partner_alcohol));
+		$partnerSmoke		= $formService->BlockSelect(SMOKE_CLASS, old('partner_smoke', $user->partner_smoke));
+		$partnerEducation	= $formService->BlockSelect(EDUCATION_CLASS, old('partner_education', $user->partner_education));
 
 		return response()->view(
 			'registration.partner',
 			[
 				'userData'			=> $user,
-				'age'				=> $age,
-				'heights'			=> $heights,
-				'weights'			=> $weights,
 				'partnerBody'		=> $partnerBody,
 				'partnerLanguages'	=> $partnerLanguages,
 				'partnerAlcohol'	=> $partnerAlcohol,

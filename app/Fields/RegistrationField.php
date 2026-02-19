@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class RegistrationField extends Field
 {
 	public $names = ['day', 'month', 'year', 'country', 'region', 'city', 'sexOrient', 'body', 'height', 'weight', 
-					'hairColor', 'hairType', 'eyes', 'education', 'smoke', 'alcohol', 'familyStatus', 'children', 'helpMoney', 'interests'];
+					'hairColor', 'hairType', 'eyes', 'education', 'smoke', 'alcohol', 'familyStatus', 'children', 'helpMoney', 'interests', 'age'];
 	private static $user = null;
 
 	/**
@@ -62,61 +62,61 @@ class RegistrationField extends Field
 
 	public function sexOrient() :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect('sex_orient', SEX_ORIENT_CLASS, self::$user !== null ? self::$user->sex_orient : 0);
+		return $this->format->BlockSelect(SEX_ORIENT_CLASS, self::$user !== null ? self::$user->sex_orient : 0);
 	}
 
 	public function body() :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect("body", BODY_CLASS, self::$user !== null ? self::$user->body : 0);
+		return $this->format->BlockSelect(BODY_CLASS, self::$user !== null ? self::$user->body : 0);
 	}
 
 	public function hairColor() :\Illuminate\Database\Eloquent\Collection
 	{
-		return	$this->format->BlockSelect("hair_color", HAIR_COLOR_CLASS, self::$user !== null ? self::$user->hair_color : 0);
+		return	$this->format->BlockSelect(HAIR_COLOR_CLASS, self::$user !== null ? self::$user->hair_color : 0);
 	}
 
 	public function hairType() :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect("hair_type", HAIR_TYPE_CLASS, self::$user !== null ? self::$user->hair_type : 0);
+		return $this->format->BlockSelect(HAIR_TYPE_CLASS, self::$user !== null ? self::$user->hair_type : 0);
 	}
 
 	public function eyes() :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect("eyes", EYES_CLASS, self::$user !== null ? self::$user->eyes : 0);
+		return $this->format->BlockSelect(EYES_CLASS, self::$user !== null ? self::$user->eyes : 0);
 	}
 
 	public function education() :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect("education", EDUCATION_CLASS, self::$user !== null ? self::$user->education : 0);
+		return $this->format->BlockSelect(EDUCATION_CLASS, self::$user !== null ? self::$user->education : 0);
 	}
 
 	public function smoke() :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect("smoke", SMOKE_CLASS, self::$user !== null ? self::$user->smoke : 0);
+		return $this->format->BlockSelect(SMOKE_CLASS, self::$user !== null ? self::$user->smoke : 0);
 	}
 
 	public function alcohol() :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect("alcohol", SPIRT_CLASS, self::$user !== null ? self::$user->alcohol : 0);
+		return $this->format->BlockSelect(SPIRT_CLASS, self::$user !== null ? self::$user->alcohol : 0);
 	}
 
 	public function familyStatus() :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect("family_status", FAMILY_STATUS_CLASS, self::$user !== null ? self::$user->family_status : 0);
+		return $this->format->BlockSelect(FAMILY_STATUS_CLASS, self::$user !== null ? self::$user->family_status : 0);
 	}
 
 	public function children() :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect("children", CHILDREN_CLASS, self::$user !== null ? self::$user->children : 0);
+		return $this->format->BlockSelect(CHILDREN_CLASS, self::$user !== null ? self::$user->children : 0);
 	}
 
 	public function helpMoney() :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect("help_money", HELP_MONEY_CLASS, self::$user !== null ? self::$user->help_money : 0);
+		return $this->format->BlockSelect(HELP_MONEY_CLASS, self::$user !== null ? self::$user->help_money : 0);
 	}
 
 	public function interests() :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect("interests", INTEREST_CLASS, self::$user !== null ? self::$user->interests : 0);
+		return $this->format->BlockSelect(INTEREST_CLASS, self::$user !== null ? self::$user->interests : 0);
 	}
 }

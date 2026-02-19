@@ -151,12 +151,11 @@ class FormatService
 
 	/**
 	 * make block <select>...</select>
-	 * @param string $name
 	 * @param string $className
 	 * @param integer $value
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
-	public function BlockSelect($name, $className, $value)
+	public function BlockSelect($className, $value)
 	{
 		if (!is_array($value)) {
 			try {
