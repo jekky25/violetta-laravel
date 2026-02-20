@@ -21,6 +21,9 @@
 	--input-padding-horizontal: 8px;
 
 	--line-pink-color: #ffd1d0;
+
+	--man-color: #2d8cf7;
+	--woman-color: #f72d4e;
 }
 
 body {
@@ -876,8 +879,15 @@ h4.menu_registration {border-bottom:1px solid #ee514e; height:20px;}
 h4.menu_registration div {background-color:#ee514e; line-height:20px; height:20px; color:#fff; float:left; padding-left:20px; padding-right:20px; text-align:center; min-width:50px; font-size:11px; font-weight:bold;}
 
 .sexRegForm td {padding-right:20px;}
-.menuMenReg {color:#2d8cf7; font-weight:bold;}
-.menuWomenReg {color:#f72d4e; font-weight:bold;}
+.string-man {
+	color: var(--man-color);
+	font-weight: bold;
+}
+
+.string-woman {
+	color: var(--woman-color);
+	font-weight: bold;
+}
 
 .cityRegForm td {padding-bottom:5px; text-align:center;}
 .cityRegForm #country {width:200px;}
@@ -1029,4 +1039,33 @@ h1.main_title, H1.main_t_up {
 	line-height: 20px;
 	text-align: center;
 	font-size: var(--main-text-size);
+}
+
+.form-main-data-container {
+	display: flex;
+	gap: 20px;
+}
+
+.form-main-data-block1 {
+	padding-top:10px;
+}
+
+.form-main-data-block2 .form-row {
+	margin-bottom: 5px;
+}
+.form-main-data-block2 .form-row label {
+	white-space: nowrap;
+}
+
+.form-main-data-block3 {
+	text-align: center;
+}
+
+.form-main-data-block3 > div:first-child {
+	margin-bottom: 5px;
+}
+
+.form-main-data-block3 .form-row {
+	gap:5px;
+	margin-bottom: 0;
 }
