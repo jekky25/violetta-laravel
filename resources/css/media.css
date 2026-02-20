@@ -96,6 +96,41 @@
 		width: calc(100% - 10px - 10px);
 		margin-left: 10px;
 	}
+
+	.form-row {
+	    flex-direction: column;
+    	align-items: stretch;
+  	}
+
+	 .form-row-checkbox {
+		flex-direction: unset;
+ 	}
+
+	.form-row > label {
+		flex: none;
+		width: 100%;
+		text-align: center;
+	}
+
+	.form-row-checkbox label {
+		text-align: right;
+		flex: 0 1 50%;
+	}
+
+	.form-row .select,
+	.form-row #country, 
+	.form-row #region,
+	.form-row #city {
+		width: 100%;
+	}
+
+	.range {
+		margin: 0 auto;
+	}
+
+	.range label {
+		flex: 0 1 0;
+	}
 }
 
 @media screen and (max-width: 450px) {

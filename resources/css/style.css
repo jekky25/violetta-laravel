@@ -19,6 +19,8 @@
 
 	--input-text-size: 12px;
 	--input-padding-horizontal: 8px;
+
+	--line-pink-color: #ffd1d0;
 }
 
 body {
@@ -63,6 +65,11 @@ a:hover	{text-decoration:underline;}
 .pad12 {padding-bottom:5px; text-align:center;}
 .pad13 td {padding-bottom:5px; padding-right:10px;}
 .pad13 td span {padding-right:20px;}
+
+.mb-1 {
+	margin-bottom: 10px;
+}
+
 .mrg1 {margin-top:15px;}
 .mrg2 {margin-left:100px;}
 .mrg3 {margin-left:100px;}
@@ -990,4 +997,36 @@ h1.main_title, H1.main_t_up {
 
 .add-comment-table {
 	width: 500px;
+}
+
+/*form*/
+.form-row {
+	gap: 10px;
+	margin-bottom: 10px;
+	display: flex;
+}
+
+.form-row label {
+	text-align: right;
+	flex: 0 1 50%;
+}
+
+.form-row #country, 
+.form-row #region,
+.form-row #city {
+	width: 200px;
+}
+
+.range {
+	display: flex;
+	gap: 5px;
+}
+
+.line-title-pink {
+	background-color: var(--line-pink-color);
+	font-weight: 700;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	font-size: var(--main-text-size);
 }
