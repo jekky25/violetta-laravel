@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class RegistrationField extends Field
 {
 	public $names = ['day', 'month', 'year', 'country', 'region', 'city', 'sexOrient', 'body', 'height', 'weight', 
-					'hairColor', 'hairType', 'eyes', 'education', 'smoke', 'alcohol', 'familyStatus', 'children', 'helpMoney', 'interests', 'age'];
+					'hairColor', 'hairType', 'eyes', 'education', 'smoke', 'alcohol', 'familyStatus', 'children', 'helpMoney', 'interests', 'age', 'targets', 'userSpeakLang'];
 	private static $user = null;
 
 	/**
@@ -118,5 +118,15 @@ class RegistrationField extends Field
 	public function interests() :\Illuminate\Database\Eloquent\Collection
 	{
 		return $this->format->BlockSelect(INTEREST_CLASS, self::$user !== null ? self::$user->interests : 0);
+	}
+
+	public function targets() :\Illuminate\Database\Eloquent\Collection
+	{
+		return $this->format->BlockSelect(MEET_TARGET_CLASS, self::$user !== null ? self::$user->targets : 0);
+	}
+
+	public function userSpeakLang() :\Illuminate\Database\Eloquent\Collection
+	{
+		return $this->format->BlockSelect(SPEAK_LANG_CLASS, self::$user !== null ? self::$user->speak_lang : 0);
 	}
 }

@@ -161,6 +161,27 @@
 	.form-main-data-block1 .input {
 		width: 100%;
 	}
+
+	.checkbox-container-body .form-row {
+		flex-direction: unset;
+	}
+
+	.checkbox-container-body .form-row.col-2 {
+		flex: 0 1 100%;
+	}
+
+	.row-flex .sm-col-1 {
+		flex: 0 1 100%;
+	}
+
+	.checkbox-container-body .form-row .checkbox-container {
+		flex: 0 1 45%;
+	}
+
+	.checkbox-container-body .form-row label {
+		flex: 0 1 55%;
+		white-space: normal;
+	}
 }
 
 @media screen and (max-width: 450px) {

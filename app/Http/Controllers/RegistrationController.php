@@ -88,18 +88,12 @@ class RegistrationController extends Controller
 	 * Show an edit full profile page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function second(FormatService $formService, RegistrationField $fields)
+	public function second(RegistrationField $fields)
 	{
-		$user			= Auth::user();
-		$targets		= $formService->BlockSelect(MEET_TARGET_CLASS, $user->targets);
-		$userSpeakLang	= $formService->preparePropfromArray($user->speak_lang, self::$languageCodes);
-
 		return response()->view(
 			'registration.second',
 			[
-				'userData'		=> $user,
-				'targets'		=> $targets,
-				'userSpeakLang'	=> $userSpeakLang,
+				'userData'		=> Auth::user(),
 				'fields'		=> $fields->get()
 			]
 		);
@@ -109,7 +103,7 @@ class RegistrationController extends Controller
 	 * Show an edit partner page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function partner(DataService $data, FormatService $formService, RegistrationField $fields)
+	public function partner(FormatService $formService, RegistrationField $fields)
 	{
 		$user				= Auth::user();
 		$partnerBody		= $formService->BlockSelect(BODY_CLASS, old('partner_body', $user->partner_body));
