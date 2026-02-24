@@ -9,7 +9,7 @@
 <h4 class="reg_title2">информация сохранена</h4>
 @endif
 <p class="pad1"></p>
-<form name="anketa" action="{{route('registration.edit.second')}}" method="post">
+<form name="anketa" class="pad2" action="{{route('registration.edit.second')}}" method="post">
 @method('PUT')
 {{ csrf_field() }}
 	<h4 class="menu_registration"><div>Базовая информация</div></h4>
@@ -100,15 +100,12 @@
 	<h4 class="menu_registration"><div>Несколько слов о вас</div></h4>
 	<p class="pad1 pad2">Это самая важная часть анкеты. От того, как вы заполните это поле, очень сильно зависит <strong>успешность вашего знакомства</strong>. Отнеситесь к этому ответственно.  Опишите особенности, делающие вашу <strong>личность отличной от других</strong>. Постарайтесь <strong>избегать банальностей</strong>. Если вы любите кошек или вам нравится гулять под дождем - напишите об этом. Поверьте,
 найдется со временем тот кто ищет именно вас.</p>
-	<div>
+	<div class="pad2">
 		<x-textarea name="description" value="{{ old('description', $userData->description) }}" />
 	</div>
-	<p class="pad2"></p>
 	<input type="hidden" name="otsil" value="1" />
-	<p class="pad2"></p>
 	<p class="pad3">
-		<x-submit name=sent value="изменить данные" />
+		<x-submit name="sent" value="изменить данные" />
 	</p>
 </form>
-<p class="pad2"></p>
 @overwrite

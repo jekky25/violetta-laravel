@@ -8,7 +8,7 @@ use App\Services\FormatService;
 use App\Services\DataService;
 use Illuminate\Support\Facades\Auth;
 
-class RegistrationField extends Field
+class ProfileEditField extends Field
 {
 	public $names = ['day', 'month', 'year', 'country', 'region', 'city'];
 

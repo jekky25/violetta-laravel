@@ -23,12 +23,14 @@ use App\Requests\ForgetPasswordRequest;
 use App\Requests\RegistrationRequest;
 use App\Requests\SettingRequest;
 use App\Requests\LoginRequest;
-use App\Services\DataService;
 use App\Services\FormatService;
 use App\Services\MessageService;
 use App\Mail\RegistrationEmail;
 use App\Mail\ForgetPasswordEmail;
 use App\Fields\RegistrationField;
+use App\Fields\ProfileEditField;
+use App\Fields\ProfileSecondField;
+use App\Fields\ProfilePartnerField;
 
 class RegistrationController extends Controller
 {
@@ -73,7 +75,7 @@ class RegistrationController extends Controller
 	 * Show an edit short profile page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit(RegistrationField $fields)
+	public function edit(ProfileEditField $fields)
 	{
 		return response()->view(
 			'registration.edit',
@@ -88,7 +90,7 @@ class RegistrationController extends Controller
 	 * Show an edit full profile page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function second(RegistrationField $fields)
+	public function second(ProfileSecondField $fields)
 	{
 		return response()->view(
 			'registration.second',
@@ -103,7 +105,7 @@ class RegistrationController extends Controller
 	 * Show an edit partner page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function partner(RegistrationField $fields)
+	public function partner(ProfilePartnerField $fields)
 	{
 		return response()->view(
 			'registration.partner',
