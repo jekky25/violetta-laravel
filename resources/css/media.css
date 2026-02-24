@@ -174,11 +174,13 @@
 		flex: 0 1 100%;
 	}
 
-	.checkbox-container-body .form-row .checkbox-container {
+	.checkbox-container-body .form-row .checkbox-div-container,
+	.col-2 .checkbox-container-body .form-row .checkbox-div-container {
 		flex: 0 1 45%;
 	}
 
-	.checkbox-container-body .form-row label {
+	.checkbox-container-body .form-row label,
+	.col-2 .checkbox-container-body .form-row label {
 		flex: 0 1 55%;
 		white-space: normal;
 	}

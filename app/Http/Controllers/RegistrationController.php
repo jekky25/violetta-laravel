@@ -103,24 +103,12 @@ class RegistrationController extends Controller
 	 * Show an edit partner page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function partner(FormatService $formService, RegistrationField $fields)
+	public function partner(RegistrationField $fields)
 	{
-		$user				= Auth::user();
-		$partnerBody		= $formService->BlockSelect(BODY_CLASS, old('partner_body', $user->partner_body));
-		$partnerLanguages	= $formService->BlockSelect(SPEAK_LANG_CLASS, old('partner_languages', $user->partner_languages));
-		$partnerAlcohol		= $formService->BlockSelect(SPIRT_CLASS, old('partner_alcohol', $user->partner_alcohol));
-		$partnerSmoke		= $formService->BlockSelect(SMOKE_CLASS, old('partner_smoke', $user->partner_smoke));
-		$partnerEducation	= $formService->BlockSelect(EDUCATION_CLASS, old('partner_education', $user->partner_education));
-
 		return response()->view(
 			'registration.partner',
 			[
-				'userData'			=> $user,
-				'partnerBody'		=> $partnerBody,
-				'partnerLanguages'	=> $partnerLanguages,
-				'partnerAlcohol'	=> $partnerAlcohol,
-				'partnerSmoke'		=> $partnerSmoke,
-				'partnerEducation'	=> $partnerEducation,
+				'userData'			=> Auth::user(),
 				'fields'			=> $fields->get()
 			]
 		);

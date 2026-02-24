@@ -1079,6 +1079,10 @@ h1.main_title, H1.main_t_up {
 	margin-bottom: 0;
 }
 
+.checkbox-container {
+	margin-bottom: 10px;
+}
+
 .checkbox-container-title {
 	padding-bottom: 10px;
 	text-align: center;
@@ -1089,15 +1093,22 @@ h1.main_title, H1.main_t_up {
 	margin-bottom: 5px;
 }
 
-.checkbox-container-body .form-row .checkbox-container {
-	flex: 0 1 30%;
+.checkbox-container-body .form-row .checkbox-div-container {
+	flex: 0 1 45%;
 	text-align: right;
 }
 
 .checkbox-container-body .form-row label {
-	flex: 0 1 70%;
+	flex: 0 1 55%;
 	text-align:left;
-	white-space: nowrap;
+}
+
+.col-2 .checkbox-container-body .form-row .checkbox-div-container {
+	flex: 0 1 30%;
+}
+
+.col-2 .checkbox-container-body .form-row label {
+	flex: 0 1 70%;
 }
 
 .checkbox-container-body.col-2 {

@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 class RegistrationField extends Field
 {
 	public $names = ['day', 'month', 'year', 'country', 'region', 'city', 'sexOrient', 'body', 'height', 'weight', 
-					'hairColor', 'hairType', 'eyes', 'education', 'smoke', 'alcohol', 'familyStatus', 'children', 'helpMoney', 'interests', 'age', 'targets', 'userSpeakLang'];
+					'hairColor', 'hairType', 'eyes', 'education', 'smoke', 'alcohol', 'familyStatus', 'children', 'helpMoney', 'interests', 'age', 'targets', 'userSpeakLang',
+					'partnerBody', 'partnerLanguages', 'partnerAlcohol', 'partnerSmoke', 'partnerEducation', /*'partnerCountry',*/ 'partnerRegion', 'partnerCity'];
 	private static $user = null;
 
 	/**
@@ -128,5 +129,44 @@ class RegistrationField extends Field
 	public function userSpeakLang() :\Illuminate\Database\Eloquent\Collection
 	{
 		return $this->format->BlockSelect(SPEAK_LANG_CLASS, self::$user !== null ? self::$user->speak_lang : 0);
+	}
+
+	public function partnerBody() :\Illuminate\Database\Eloquent\Collection
+	{
+		return $this->format->BlockSelect(BODY_CLASS, self::$user !== null ? self::$user->partner_body : 0);
+	}
+
+	public function partnerLanguages() :\Illuminate\Database\Eloquent\Collection
+	{
+		return $this->format->BlockSelect(SPEAK_LANG_CLASS, self::$user !== null ? self::$user->partner_languages : 0);
+	}
+
+	public function partnerAlcohol() :\Illuminate\Database\Eloquent\Collection
+	{
+		return $this->format->BlockSelect(SPIRT_CLASS, self::$user !== null ? self::$user->partner_alcohol : 0);
+	}
+
+	public function partnerSmoke() :\Illuminate\Database\Eloquent\Collection
+	{
+		return $this->format->BlockSelect(SMOKE_CLASS, self::$user !== null ? self::$user->partner_smoke : 0);
+	}
+
+	public function partnerEducation() :\Illuminate\Database\Eloquent\Collection
+	{
+		return $this->format->BlockSelect(EDUCATION_CLASS, self::$user !== null ? self::$user->partner_education : 0);
+	}
+
+	public function partnerRegion() :\Illuminate\Database\Eloquent\Collection|array
+	{
+		$userCountryId = self::$user !== null ? self::$user->partner_country : null;
+		$countryId	= (int) old('partner_country_id', $userCountryId);
+		return $countryId > 0 ? $this->region->getByCountryId($countryId) : [];
+	}
+
+	public function partnerCity() :\Illuminate\Database\Eloquent\Collection|array
+	{
+		$userRegionId = self::$user !== null ? self::$user->partner_region : null;
+		$regionId = (int) old('partner_region_id', $userRegionId);
+		return $regionId > 0 ? $this->city->getByRegionId($regionId) : [];
 	}
 }

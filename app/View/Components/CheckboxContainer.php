@@ -8,20 +8,20 @@ use Illuminate\View\Component;
 
 class CheckboxContainer extends Component
 {
-	public $name, $obj, $containerTitle, $clearName, $colums, $colsClass;
+	public $name, $obj, $containerTitle, $clearName, $colums, $colsClass, $topClass;
 
 	/**
 	 * Create a new component instance.
 	 */
-	public function __construct($name, $obj, $title = '', $colums = 1)
+	public function __construct($name, $obj, $title = '', $colums = 1, $topClass = '')
 	{
-		$this->name             = $name;
-		$this->clearName		= $this->clear($name);
-		$this->obj              = $obj;
-		$this->containerTitle   = $title;
-		$this->colums           = $colums;
-		$this->colsClass		= $colums > 1 ? 'col-' . $colums : null;
-
+		$this->name             	= $name;
+		$this->clearName			= $this->clear($name);
+		$this->obj              	= $obj;
+		$this->containerTitle   	= $title;
+		$this->colums           	= $colums;
+		$this->colsClass			= $colums > 1 ? 'col-' . $colums : null;
+		$this->topClass	= $topClass;
 	}
 
 	/**
