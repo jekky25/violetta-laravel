@@ -77,13 +77,7 @@ class RegistrationController extends Controller
 	 */
 	public function edit(ProfileEditField $fields)
 	{
-		return response()->view(
-			'registration.edit',
-			[
-				'userData'		=> Auth::user(),
-				'fields'		=> $fields->get()
-			]
-		);
+		return response()->view('registration.edit', ['fields'	=> $fields]);
 	}
 
 	/**
@@ -92,13 +86,7 @@ class RegistrationController extends Controller
 	 */
 	public function second(ProfileSecondField $fields)
 	{
-		return response()->view(
-			'registration.second',
-			[
-				'userData'		=> Auth::user(),
-				'fields'		=> $fields->get()
-			]
-		);
+		return response()->view('registration.second', ['fields' => $fields]);
 	}
 
 	/**
@@ -107,13 +95,7 @@ class RegistrationController extends Controller
 	 */
 	public function partner(ProfilePartnerField $fields)
 	{
-		return response()->view(
-			'registration.partner',
-			[
-				'userData'			=> Auth::user(),
-				'fields'			=> $fields->get()
-			]
-		);
+		return response()->view('registration.partner', ['fields' => $fields]);
 	}
 
 	/**
@@ -414,9 +396,9 @@ class RegistrationController extends Controller
 	public function registration(RegistrationField $fields)
 	{
 		return response()->view(
-			session('success') ? 'registration.finish' : 'registration.registration',
-			['fields'		=> $fields->get()]
-		);
+			session('success') ? 'registration.finish' :
+								 'registration.registration',
+								 ['fields' => $fields]);
 	}
 
 	/**

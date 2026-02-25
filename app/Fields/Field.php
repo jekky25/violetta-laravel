@@ -9,6 +9,7 @@ use App\Repositories\HairTypeRepository;
 use App\Interfaces\CountryInterface;
 use App\Services\FormatService;
 use App\Services\DataService;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class Field
@@ -19,6 +20,7 @@ abstract class Field
 	private const WOMAN	= WOMEN;
 	public $names		= [];
 	private $fields		= [];
+	protected static $user = null;
 
 	/**
 	* Create a new controller instance.
@@ -34,6 +36,23 @@ abstract class Field
 	}
 
 	/**
+	* get an authorized user or null
+	* @return Auth|null
+	*/
+	public function user() {
+		if (self::$user === null) return Auth::user();
+		return self::$user;
+	}
+
+	/**
+	* check property on null
+	* @return bool
+	*/
+	protected function check($val) {
+		return $val !== null ? $val : 0;
+    }
+
+	/**
 	* get fields by field name
 	* @return array
 	*/
@@ -45,25 +64,34 @@ abstract class Field
 		return $this->fields;
     }
 
-	public function body() :\Illuminate\Database\Eloquent\Collection
+	public function body($val = null) :\Illuminate\Database\Eloquent\Collection
 	{
-		return BodyRepository::getAll();
+		return $this->check($val) ? $this->format->BlockSelect(BODY_CLASS, $val) : BodyRepository::getAll(); 
 	}
 
-
-	public function eyes() :\Illuminate\Database\Eloquent\Collection
+	public function eyes($val = null) :\Illuminate\Database\Eloquent\Collection
 	{
-		return EyesRepository::getAll();
+		return $this->check($val) ? $this->format->BlockSelect(EYES_CLASS, $val) : EyesRepository::getAll();
 	}
 
-	public function hairType() :\Illuminate\Database\Eloquent\Collection
+	public function hairType($val = null) :\Illuminate\Database\Eloquent\Collection
 	{
-		return HairTypeRepository::getAll();
+		return $this->check($val) ? $this->format->BlockSelect(HAIR_TYPE_CLASS, $val) : HairTypeRepository::getAll();
 	}
 
 	public function country() :\Illuminate\Database\Eloquent\Collection
 	{
 		return $this->country->getAll();
+	}
+
+	public function region(int $countryId = 0) :\Illuminate\Database\Eloquent\Collection|array
+	{
+		return $countryId > 0 ? $this->region->getByCountryId($countryId) : [];
+	}
+
+	public function city(int $regionId = 0) :\Illuminate\Database\Eloquent\Collection|array
+	{
+		return $regionId > 0 ? $this->city->getByRegionId($regionId) : [];
 	}
 
 	public function age() :array

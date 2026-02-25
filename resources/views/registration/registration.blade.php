@@ -52,9 +52,9 @@
 			<div class="form-main-data-block3">
 				<div>дата рождения</div>
 				<div class="form-row">
-					<x-select name="birth_day" :obj="$fields['day']" userProp="{{ old('birth_day') }}" fieldZero="---" />
-					<x-select name="birth_month" :obj="$fields['month']" userProp="{{ old('birth_month') }}" />
-					<x-select name="birth_year" :obj="$fields['year']" userProp="{{ old('birth_year') }}" fieldZero="---" />
+					<x-select name="birth_day" :obj="$fields->day()" userProp="{{ old('birth_day') }}" fieldZero="---" />
+					<x-select name="birth_month" :obj="$fields->month()" userProp="{{ old('birth_month') }}" />
+					<x-select name="birth_year" :obj="$fields->year()" userProp="{{ old('birth_year') }}" fieldZero="---" />
 				</div>
 			</div>
 		</div>		
@@ -68,20 +68,20 @@
 						<x-error errName=country />
 		<div class="form-row">
 			<label for="country">страна</label>
-			<x-select name="country_id" id="country" :obj="$fields['country']" userProp="{{ old('country_id') }}">
+			<x-select name="country_id" id="country" :obj="$fields->country()" userProp="{{ old('country_id') }}">
 				<x-slot:firstInList><option value="141">Россия</option></x-slot>
 				<x-slot:addition>onchange="updateSelect('region', this.value, 'reg');"</x-slot:addition>
 			</x-select>
 			</div>
 		<div class="form-row">
 			<label for="region">регион</label>
-			<x-select name="region_id" id="region" :obj="$fields['region']" userProp="{{ old('region_id') }}">
+			<x-select name="region_id" id="region" :obj="$fields->region(old('country_id', 0))" userProp="{{ old('region_id') }}">
 				<x-slot:addition>onchange="updateSelect('city', this.value, 'cities');"</x-slot:addition>
 			</x-select>
 		</div>
 		<div class="form-row">
 			<label for="city">город</label>
-			<x-select name="city_id" id="city" :obj="$fields['city']"  userProp="{{ old('city_id') }}" />
+			<x-select name="city_id" id="city" :obj="$fields->city(old('region_id', 0))"  userProp="{{ old('city_id') }}" />
 		</div>
 						<script type="text/javascript" src="{{ asset('js/functions_search.js') }}"></script>
 						<p class="pad2"></p>

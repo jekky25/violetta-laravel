@@ -21,24 +21,24 @@
 		<x-error errName=sex />
 		<div class="form-main-data-container pad2">
 			<div class="form-main-data-block1">
-				<x-input name="name" value="{{ old('name', $userData->name) }}" />
+				<x-input name="name" value="{{ old('name', $fields->user()->name) }}" />
 			</div>
 			<div class="form-main-data-block2">
 				<div class="form-row">
-					<input type="radio" id="sex-man" name="sex" value="1"@if (old('sex', $userData->sex) == 1) checked="checked"@endif />
+					<input type="radio" id="sex-man" name="sex" value="1"@if (old('sex', $fields->user()->sex) == 1) checked="checked"@endif />
 					<label class="string-man" for="sex-man">Я мужчина</label>
 				</div>
 				<div class="form-row">
-					<input type="radio" id="sex-woman" name="sex" value="2"@if (old('sex', $userData->sex) == 2) checked="checked"@endif />
+					<input type="radio" id="sex-woman" name="sex" value="2"@if (old('sex', $fields->user()->sex) == 2) checked="checked"@endif />
 					<label class="string-woman" for="sex-woman">Я женщина</label>
 				</div>
 			</div>
 			<div class="form-main-data-block3">
 				<div>дата рождения</div>
 				<div class="form-row">
-					<x-select name="birth_day" :obj="$fields['day']" userProp="{{ old('birth_day', $userData->birth_day) }}" fieldZero="---" />
-					<x-select name="birth_month" :obj="$fields['month']" userProp="{{ old('birth_month', $userData->birth_month) }}" />
-					<x-select name="birth_year" :obj="$fields['year']" userProp="{{ old('birth_year', $userData->birth_year) }}" fieldZero="---" />
+					<x-select name="birth_day" :obj="$fields->day()" userProp="{{ old('birth_day', $fields->user()->birth_day) }}" fieldZero="---" />
+					<x-select name="birth_month" :obj="$fields->month()" userProp="{{ old('birth_month', $fields->user()->birth_month) }}" />
+					<x-select name="birth_year" :obj="$fields->year()" userProp="{{ old('birth_year', $fields->user()->birth_year) }}" fieldZero="---" />
 				</div>
 			</div>
 		</div>
@@ -47,25 +47,24 @@
 		<x-error errName="city" />
 		<div class="form-row">
 			<label for="country">страна</label>
-			<x-select name="country_id" id="country" :obj="$fields['country']" userProp="{{ old('country_id', $userData->country_id) }}">
+			<x-select name="country_id" id="country" :obj="$fields->country()" userProp="{{ old('country_id', $fields->user()->country_id) }}">
 				<x-slot:firstInList><option value="141">Россия</option></x-slot>
 				<x-slot:addition>onchange="updateSelect('region', this.value, 'reg');"</x-slot:addition>
 			</x-select>
 			</div>
 		<div class="form-row">
 			<label for="region">регион</label>
-			<x-select name="region_id" id="region" :obj="$fields['region']" userProp="{{ old('region_id', $userData->region_id) }}">
+			<x-select name="region_id" id="region" :obj="$fields->region(old('country_id', $fields->user()->country_id))" userProp="{{ old('region_id', $fields->user()->region_id) }}">
 				<x-slot:addition>onchange="updateSelect('city', this.value, 'cities');"</x-slot:addition>
 			</x-select>
 		</div>
 		<div class="form-row">
 			<label for="city">город</label>
-			<x-select name="city_id" id="city" :obj="$fields['city']"  userProp="{{ old('city_id', $userData->city_id) }}" />
+			<x-select name="city_id" id="city" :obj="$fields->city(old('region_id', $fields->user()->region_id))" userProp="{{ old('city_id', $fields->user()->city_id) }}" />
 		</div>
 	<script type="text/javascript" src="{{ asset('js/functions_search.js') }}"></script>
 	<p class="pad2"></p>
 	<input type="hidden" name="otsil" value="1" />
-	<p class="pad2"></p>
 	<p class="pad3">
 		<x-submit name=sent value="изменить данные" />
 	</p>

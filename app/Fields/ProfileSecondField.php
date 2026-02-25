@@ -6,14 +6,9 @@ use App\Interfaces\CityInterface;
 use App\Interfaces\CountryInterface;
 use App\Services\FormatService;
 use App\Services\DataService;
-use Illuminate\Support\Facades\Auth;
 
 class ProfileSecondField extends Field
 {
-	public $names = ['sexOrient', 'targets', 'userSpeakLang', 'body', 'height', 'weight', 'hairColor', 'hairType', 'eyes', 'education', 'smoke', 'alcohol', 'familyStatus', 'children', 'helpMoney', 'interests'];
-    
-	private static $user = null;
-
 	/**
 	* Create a new controller instance.
 	*
@@ -27,77 +22,62 @@ class ProfileSecondField extends Field
 		protected CityInterface $city
 	)
 	{
-		if (self::$user === null) self::$user = Auth::user();
+		self::$user = $this->user();
 		parent::__construct($country, $data, $format);
 	}
 
-	public function sexOrient() :\Illuminate\Database\Eloquent\Collection
+	public function sexOrient($val) :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect(SEX_ORIENT_CLASS, self::$user !== null ? self::$user->sex_orient : 0);
+		return $this->format->BlockSelect(SEX_ORIENT_CLASS, $this->check($val));
 	}
 
-	public function body() :\Illuminate\Database\Eloquent\Collection
+	public function hairColor($val) :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect(BODY_CLASS, self::$user !== null ? self::$user->body : 0);
+		return	$this->format->BlockSelect(HAIR_COLOR_CLASS, $this->check($val));
 	}
 
-	public function hairColor() :\Illuminate\Database\Eloquent\Collection
+	public function education($val) :\Illuminate\Database\Eloquent\Collection
 	{
-		return	$this->format->BlockSelect(HAIR_COLOR_CLASS, self::$user !== null ? self::$user->hair_color : 0);
+		return $this->format->BlockSelect(EDUCATION_CLASS, $this->check($val));
 	}
 
-	public function hairType() :\Illuminate\Database\Eloquent\Collection
+	public function smoke($val) :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect(HAIR_TYPE_CLASS, self::$user !== null ? self::$user->hair_type : 0);
+		return $this->format->BlockSelect(SMOKE_CLASS, $this->check($val));
 	}
 
-	public function eyes() :\Illuminate\Database\Eloquent\Collection
+	public function alcohol($val) :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect(EYES_CLASS, self::$user !== null ? self::$user->eyes : 0);
+		return $this->format->BlockSelect(SPIRT_CLASS, $this->check($val));
 	}
 
-	public function education() :\Illuminate\Database\Eloquent\Collection
+	public function familyStatus($val) :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect(EDUCATION_CLASS, self::$user !== null ? self::$user->education : 0);
+		return $this->format->BlockSelect(FAMILY_STATUS_CLASS, $this->check($val));
 	}
 
-	public function smoke() :\Illuminate\Database\Eloquent\Collection
+	public function children($val) :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect(SMOKE_CLASS, self::$user !== null ? self::$user->smoke : 0);
+		return $this->format->BlockSelect(CHILDREN_CLASS, $this->check($val));
 	}
 
-	public function alcohol() :\Illuminate\Database\Eloquent\Collection
+	public function helpMoney($val) :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect(SPIRT_CLASS, self::$user !== null ? self::$user->alcohol : 0);
+		return $this->format->BlockSelect(HELP_MONEY_CLASS, $this->check($val));
 	}
 
-	public function familyStatus() :\Illuminate\Database\Eloquent\Collection
+	public function interests($val) :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect(FAMILY_STATUS_CLASS, self::$user !== null ? self::$user->family_status : 0);
+		return $this->format->BlockSelect(INTEREST_CLASS, $this->check($val));
 	}
 
-	public function children() :\Illuminate\Database\Eloquent\Collection
+	public function targets($val) :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect(CHILDREN_CLASS, self::$user !== null ? self::$user->children : 0);
+		return $this->format->BlockSelect(MEET_TARGET_CLASS, $this->check($val));
 	}
 
-	public function helpMoney() :\Illuminate\Database\Eloquent\Collection
+	public function languages($val) :\Illuminate\Database\Eloquent\Collection
 	{
-		return $this->format->BlockSelect(HELP_MONEY_CLASS, self::$user !== null ? self::$user->help_money : 0);
-	}
-
-	public function interests() :\Illuminate\Database\Eloquent\Collection
-	{
-		return $this->format->BlockSelect(INTEREST_CLASS, self::$user !== null ? self::$user->interests : 0);
-	}
-
-	public function targets() :\Illuminate\Database\Eloquent\Collection
-	{
-		return $this->format->BlockSelect(MEET_TARGET_CLASS, self::$user !== null ? self::$user->targets : 0);
-	}
-
-	public function userSpeakLang() :\Illuminate\Database\Eloquent\Collection
-	{
-		return $this->format->BlockSelect(SPEAK_LANG_CLASS, self::$user !== null ? self::$user->speak_lang : 0);
+		return $this->format->BlockSelect(SPEAK_LANG_CLASS, $this->check($val));
 	}
 }
