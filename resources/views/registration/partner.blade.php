@@ -3,7 +3,6 @@
 @section('main_body')
 <h1 class="mTit">Редактирование данных</h1>
 <x-menu />
-<p class="pad1"></p>
 <h4 class="reg_title">Введите пожалуйста свои данные</h4>
 @if(session('success'))
 <h4 class="reg_title2">информация сохранена</h4>
@@ -11,7 +10,6 @@
 @if (!empty ($errors->comment->all()))
 <h4 class="reg_title2">данные не сохранены, т. к. не все поля правильно заполнены</h4>
 @endif
-<p class="pad1"></p>
 <form name="anketa" action="{{route('registration.edit.partner')}}" method="post">
 @method('PUT')
 {{ csrf_field() }}

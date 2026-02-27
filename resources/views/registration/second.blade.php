@@ -3,12 +3,10 @@
 @section('main_body')
 <h1 class="mTit">Редактирование данных</h1>
 <x-menu />
-<p class="pad1"></p>
 <h4 class="reg_title">Введите пожалуйста свои данные</h4>
 @if(session('success'))
 <h4 class="reg_title2">информация сохранена</h4>
 @endif
-<p class="pad1"></p>
 <form name="anketa" class="pad2" action="{{route('registration.edit.second')}}" method="post">
 @method('PUT')
 {{ csrf_field() }}

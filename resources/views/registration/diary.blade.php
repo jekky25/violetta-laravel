@@ -2,10 +2,9 @@
 @section('title', $title)
 @section('main_body')
 <h1 class="mTit">Редактирование данных</h1>
-<ul id="menuReg" class="clear">
+<ul id="menuReg" class="clear mb-5">
 	<li class="menuRegAct">Дневник</li>
 </ul>
-<p class="pad1"></p>
 <h4 class="reg_title">Редактировать дневник</h4>
 <p class="pad3">Если у Вас есть чем поделиться с другими каким-либо событием, произошедшим в Вашей жизни, или просто интересными мыслями. Напишите здесь в <strong>Вашем дневнике</strong>.</p>
 @if (!empty($diaries))

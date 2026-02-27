@@ -36,6 +36,7 @@ class PassRequest extends FormRequest
 			'pass.required'			=> 'Новый пароль не заполнен',
 			'pass.max'		 		=> 'Новый пароль слишком длинный',
 			'pass.min'		 		=> 'Новый пароль слишком короткий',
+			'password.string'		=> 'Пароль не является строкой'
 		];
 	}
 

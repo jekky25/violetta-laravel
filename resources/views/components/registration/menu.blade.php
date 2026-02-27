@@ -1,4 +1,4 @@
-<ul id="menuReg" class="clear">
+<ul id="menuReg" class="clear mb-5">
 	@if (Route:: currentRouteName() == 'registration.edit')
 	<li class="menuRegAct">Основное</li>
 	@else

@@ -3,9 +3,7 @@
 @section('main_body')
 <h1 class="mTit">Редактирование данных</h1>
 <x-menu />
-<p class="pad1"></p>
 <h4 class="reg_title">Ваши фотографии</h4>
-<p class="pad1"></p>
 @if(session('success'))
 <h4 class="reg_title2">информация сохранена</h4>
 @endif

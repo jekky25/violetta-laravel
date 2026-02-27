@@ -31,6 +31,7 @@ use App\Fields\RegistrationField;
 use App\Fields\ProfileEditField;
 use App\Fields\ProfileSecondField;
 use App\Fields\ProfilePartnerField;
+use App\Fields\SettingsField;
 
 class RegistrationController extends Controller
 {
@@ -283,9 +284,9 @@ class RegistrationController extends Controller
 	 * Show a setting page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function settings()
+	public function settings(SettingsField $fields)
 	{
-		return response()->view('registration.settings');
+		return response()->view('registration.settings', ['fields'	=> $fields]);
 	}
 
 	/**

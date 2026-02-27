@@ -69,8 +69,16 @@ a:hover	{text-decoration:underline;}
 .pad13 td {padding-bottom:5px; padding-right:10px;}
 .pad13 td span {padding-right:20px;}
 
+.pt-20 {
+	padding-top:20px;
+}
+
 .mb-1 {
 	margin-bottom: 10px;
+}
+
+.mb-5 {
+	margin-bottom: 5px;
 }
 
 .mrg1 {margin-top:15px;}
@@ -864,7 +872,15 @@ div.messBody {padding-left:10px;}
 .mapSite span {margin-right:5px; margin-left:20px;}
 .mapSite2 a {margin-left:5px; margin-right:5px;}
 
-h4.reg_title {background-color:#ffd1d0; font-weight:bold; height:20px; line-height:20px; text-align:center; font-size:12px;}
+.reg_title {
+	background-color:#ffd1d0;
+	font-weight: bold;
+	height:20px;
+	line-height:20px;
+	text-align:center;
+	font-size: var(--main-text-size);
+	margin-bottom: 10px;
+}
 .reg_title2 {
 	background-color: #eaedfa; 
 	font-weight: bold;
@@ -873,8 +889,9 @@ h4.reg_title {background-color:#ffd1d0; font-weight:bold; height:20px; line-heig
 	text-align: center;
 	font-size: var(--main-text-size);
 	color: #f00;
-	margin-top: 10px;
+	margin-bottom: 10px;
 }
+
 h4.menu_registration {border-bottom:1px solid #ee514e; height:20px;}
 h4.menu_registration div {background-color:#ee514e; line-height:20px; height:20px; color:#fff; float:left; padding-left:20px; padding-right:20px; text-align:center; min-width:50px; font-size:11px; font-weight:bold;}
 
