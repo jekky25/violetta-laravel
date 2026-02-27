@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Profile\AuthProfileResource;
 use App\Requests\LoginApiRequest;
 use App\Interfaces\UserInterface;
+use App\Requests\LoginRequest;
 
 class AuthController extends Controller
 {
@@ -54,5 +55,34 @@ class AuthController extends Controller
 			$user = $this->userRepository->getById($user->id);
 			return new AuthProfileResource($user);
 		}
+	}
+
+	/**
+	 * logout
+	 * @return void
+	 */
+	public function logout()
+	{
+		Auth::logout();
+		return redirect()->route('home');
+	}
+
+	/**
+	 * login
+	 * @param LoginRequest $request
+	 * @return void
+	 */
+	public function login(LoginRequest $request)
+	{
+		$arParams		= $request->validated();
+		$remember		= true;
+		$user			= $this->userRepository->getByLoginAndPass($arParams['username_template'], $arParams['pass_template']);
+		if (empty($user)) {
+			$title			= 'Информация';
+			$text			= 'Неверно указаны имя пользователя или пароль!';
+			$this->messageService->outMessageDie($title, $text);
+		} else
+			Auth::login($user, $remember);
+		return redirect()->route('home');
 	}
 }

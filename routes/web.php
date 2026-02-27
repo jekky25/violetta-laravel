@@ -113,8 +113,8 @@ Route::middleware('slashes')->group(function () {
 
 	Route::get('search/', 'AnketController@getBySearch')																						->name('search');
 	
-	Route::get('logout/', 'RegistrationController@logout')																						->name('logout')->middleWare('auth');
-	Route::post('login/', 'RegistrationController@login')																						->name('login');
+	Route::get('logout/', 'AuthController@logout')																								->name('logout')->middleWare('auth');
+	Route::post('login/', 'AuthController@login')																								->name('login');
 	Route::get('login/', function () {
 		return redirect()->route('home');
 	});

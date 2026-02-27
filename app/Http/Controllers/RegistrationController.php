@@ -22,7 +22,6 @@ use App\Requests\ProfilePartnerRequest;
 use App\Requests\ForgetPasswordRequest;
 use App\Requests\RegistrationRequest;
 use App\Requests\SettingRequest;
-use App\Requests\LoginRequest;
 use App\Services\FormatService;
 use App\Services\MessageService;
 use App\Mail\RegistrationEmail;
@@ -332,35 +331,6 @@ class RegistrationController extends Controller
 		}
 		$this->userRepository->update($user, ['top100' => time()]);
 		return redirect()->route(Route::currentRouteName())->with('success', 'Информация сохранена.');
-	}
-
-	/**
-	 * logout
-	 * @return void
-	 */
-	public function logout()
-	{
-		Auth::logout();
-		return redirect()->route('home');
-	}
-
-	/**
-	 * login
-	 * @param LoginRequest $request
-	 * @return void
-	 */
-	public function login(LoginRequest $request)
-	{
-		$arParams		= $request->validated();
-		$remember		= true;
-		$user			= $this->userRepository->getByLoginAndPass($arParams['username_template'], $arParams['pass_template']);
-		if (empty($user)) {
-			$title			= 'Информация';
-			$text			= 'Неверно указаны имя пользователя или пароль!';
-			$this->messageService->outMessageDie($title, $text);
-		} else
-			Auth::login($user, $remember);
-		return redirect()->route('home');
 	}
 
 	/**
