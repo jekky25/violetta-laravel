@@ -34,13 +34,9 @@ class DiaryController extends Controller
 	 */
 	public function index()
 	{
-		$diaries		= $this->diaryRepository->getAll($this->countPerPage);
-		return response()->view(
-			'diaries',
-			[
-				'diaries'				=> $diaries
-			]
-		);
+		return response()->view('diaries', [ 
+			'diaries' => $this->diaryRepository->getAll($this->countPerPage)
+		]);
 	}
 
 	/**

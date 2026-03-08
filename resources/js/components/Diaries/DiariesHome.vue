@@ -4,20 +4,22 @@
 		<transition name="slide-fade">
 			<div v-if="diaries">
 				<div v-for="diary in diaries">
-					<div class="dnevnik">
-						<h4 :class="`${diary.name_class}`">
-							<a :href="`${getRoute('ank.id', {'id' : diary.user_id})}`">{{ diary.user.name }}</a>
-							<p>{{ diary.create_time }}</p>
-						</h4>
-						<h3>
-							<a :href="`${getRoute('ank.diary.id', {'id' : diary.user_id})}`" :class="`${diary.name_class}`" v-html="diary.title"></a>
-						</h3>
-						<div v-if="diary.picture_url" class="dnevPict">
-							<a :href="`${getRoute('ank.diary.id', {'id' : diary.user_id})}`"><img :src="`${asset(diary.picture_url)}`" alt="" /></a>
-						</div>
-						<p class="dnevText" v-html="diary.description_brief"></p>
+					<div class="active-item-container">
+							<div :class="`active-item-title line-${diary.name_class}`">
+								<a class="active-item-name" :href="`${getRoute('ank.id', {'id' : diary.user_id})}`">{{ diary.user.name }}</a>
+								<div class="active-item-right">
+									<span class="active-item-time">{{ diary.create_time }}</span>
+								</div>
+							</div>
+							<div class="active-item-body">
+								<div :class="`active-item-body-title ${diary.name_class}`"><a :href="`${getRoute('ank.id', {'id' : diary.user_id})}`" v-html="diary.title"></a></div>
+								<div class="active-item-content clear">
+									<a v-if="diary.picture_url" class="active-item-picture" :href="`${getRoute('ank.id', {'id' : diary.user_id})}`"><img :src="`${asset(diary.picture_url)}`" alt="" /></a>
+									<div v-html="diary.description_brief"></div>
+								</div>
+								<p class="comment"><a :href="`${getRoute('ank.diary.comments', {'id' : diary.id})}`">комментарии ({{ diary.comments_count }})</a></p>
+							</div>
 					</div>
-					<a :href="`${getRoute('ank.diary.comments', {'id' : diary.id})}`" class="comLink">комментарии ({{ diary.comments_count }})</a>
 				</div>
 				<a class="comLink left1 all-dnev-link" :href="`${getRoute('diaries')}`">все дневники >></a>
 			</div>

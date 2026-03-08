@@ -4,6 +4,7 @@
 }
 
 :root {
+	--sub-text-size: 11px;
 	--main-text-size: 12px;
 	--top-menu-height: 24px;
 	--top-menu-text-size: 12px;
@@ -493,8 +494,66 @@ table#hMenu {width:100%;}
 		div.dnevnik	{clear:both; height:1%; position:relative;}
 		div.dnevnik:after {content: '.'; display: block; clear: both; visibility: hidden; height: 0;}
 		.dnevnik h4 {height:20px; position:relative; margin-bottom:4px;}
-		.dnevnik h4.name_man {background-color:#ffd1d0;}
-		.dnevnik h4.name_woman {background-color:#eaedfa;}
+
+/*active item*/
+.active-item-container {
+	padding-bottom: 10px;
+}
+
+.active-item-title {
+	height: 20px;
+	margin-bottom: 10px;
+	font-size: var(--main-text-size);
+	line-height: 20px;
+	padding: 0 10px;
+	position: relative;
+}
+
+.line-name_man {
+	background-color:#ffd1d0;
+}
+
+.line-name_woman {
+	background-color:#eaedfa;
+}
+
+.line-name_man .active-item-name {
+	color: var(--man-color);
+}
+.line-name_woman .active-item-name {
+	color: var(--woman-color);
+}
+
+.active-item-right {
+	position: absolute;
+	right: 5px;
+	top: 1px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 5px;
+}
+
+.active-item-time {
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.active-item-body .name_man,
+.active-item-body .name_man a {
+	color: var(--man-color);
+}
+
+.active-item-body .name_woman,
+.active-item-body .name_woman a {
+	color: var(--woman-color);
+}
+
+.active-item-body-title {
+	text-align: center;
+	font-weight: 600;
+}
+
 		.dnevnik h4.name_woman a {font-size:11px; color:#f72d4e; font-weight:bold; text-decoration:underline;}
 		.dnevnik h4.name_woman a:hover {color:#fb6780;}
 		.dnevnik h4.name_man a {font-size:11px; color:#2d8cf7; font-weight:bold; text-decoration:underline;}
@@ -727,7 +786,10 @@ p.namesMW3 {text-align:center; padding-top:10px; padding-bottom:10px;}
 .namesMW4 li a {color:#211b92; text-decoration:underline;}
 .namesMW4 li a:hover {color:#5954b0;}
 
-ul#menuReg {border-bottom:#ee514e 1px solid;}
+ul#menuReg {
+	border-bottom:#ee514e 1px solid;
+	margin-bottom:10px;
+}
 #menuReg li {float:left; padding:2px 6px 2px 6px; font-weight:bold; font-size:12px;}
 #menuReg a {text-decoration:underline; color:#211b92;}
 #menuReg a:hover {color:#5954b0;}
@@ -811,7 +873,7 @@ table.ankDnevnik {width:100%; margin-top:10px;}
 	.ankDnevnik .dnevBody {padding-top:5px;}	
 	.ankDnevnik .dnevKomm {padding-top:5px; display:block; text-align:right; font-size:11px;}
 	.ankDnevnik .dnevKomm a {text-decoration:underline; color:#211b92;}
-	.ankDnevnik .dnevKomm a:hover {color:#5954b0;}	
+	.ankDnevnik .dnevKomm a:hover {color:#5954b0;}
 	.ankDnevnik .dnevBodyPic1 {display:block; float:left; position:relative; width:85px; height:85px; background-color:#878672; top:3px; left:3px; margin-right:10px;}
 	.ankDnevnik .dnevBodyPic1 img {width:85px; height:85px; top:-3px; left:-3px; position:relative;}
 	.ankDnevnik .dnevBodyPic2 {display:block; float:left; position:relative; width:85px; height:113px; background-color:#878672; top:3px; left:3px; margin-right:10px;}
@@ -1135,4 +1197,54 @@ h1.main_title, H1.main_t_up {
 
 .checkbox-container-body .form-row.col-2 {
 	flex: 0 1 50%;
+}
+
+.active-item-picture {
+	display:block;
+	float:left;
+	position:relative;
+	width:85px;
+	height:85px;
+	background-color:#878672;
+	top:3px;
+	left:3px;
+	margin-right:10px;
+}
+
+.active-item-picture img {
+	width:85px;
+	height:85px;
+	top:-3px;
+	left:-3px;
+	position:relative;
+}
+
+.edit {
+	display: inline-block;
+	width:15px;
+	height:13px;
+	background:url('../image/editbut.png') 0 0 no-repeat;
+	margin-top: -2px;
+}
+
+.delete {
+	display: inline-block;
+	width:15px;
+	height:13px;
+	background:url('../image/delbut.png') 0 0 no-repeat;
+}
+
+.comment {
+	padding-top:5px;
+	text-align: right;
+	font-size:var(--sub-text-size)
+}
+
+.comment a {
+	text-decoration:underline;
+	color:#211b92;
+}
+
+.comment a:hover {
+	color:#5954b0;
 }

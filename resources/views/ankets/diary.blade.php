@@ -4,11 +4,9 @@
 <h1 class="mTit">{{ $userData->name }}, {{ $userData->age_str }}, {{ $userData->city->name }}</h1>
 <x-ank-menu :user-data="$userData" />
 @if (!empty($diaries))
-<table class="ankDnevnik">
-@foreach ($diaries as $item)
-	<x-blocks-diary :item="$item" />
-@endforeach
-</table>
+	@foreach ($diaries as $item)
+	<x-activity-item :item="$item" type="diary" />
+	@endforeach
 @endif
 <x-pagination :items="$diaries" />
 @auth

@@ -25,27 +25,27 @@
 						<div>в возрасте от&nbsp;
 							<x-select name=age_min :obj="$fields['age']" :userProp="old('age_min')" />
 							до
-							<x-select name=age_max :obj="$fields['age']" :userProp="old('age_max')" />
+							<x-select name="age_max" :obj="$fields['age']" :userProp="old('age_max')" />
 						</div>
 						<div>страна</div>
 						<div>
-							<x-select name=country id="country" :obj="$fields['country']" :userProp="old('country')">
+							<x-select name="country" id="country" :obj="$fields['country']" :userProp="old('country')">
 								<x-slot:firstInList><option value="141">Россия</option></x-slot>
 								<x-slot:addition>onchange="updateSelect('region', this.value, 'reg');"</x-slot:addition>
 							</x-select>
 						</div>
 						<div>регион</div>
 						<div>
-							<x-select name=region id="region" :obj="[]" :userProp="old('region')">
+							<x-select name="region" id="region" :obj="[]" :userProp="old('region')">
 								<x-slot:addition>onchange="updateSelect('city', this.value, 'cities');"</x-slot:addition>
 							</x-select>
 						</div>
 						<div>город</div>
 						<div>
-							<x-select name=city id="city" :obj="[]" />
+							<x-select name="city" id="city" :obj="[]" />
 						</div>
 						<div>
-							<x-submit name=sent value="найти" />
+							<x-submit name="sent" value="найти" />
 						</div>
 					</form>
 					<script type="text/javascript" src="{{ asset('js/functions_search.js') }}"></script>

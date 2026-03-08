@@ -80,7 +80,7 @@ class Diary extends Model
 
 	public function getNameClassAttribute()
 	{
-		return  $this->sex == MEN ? 'name_man' : 'name_woman';
+		return  $this->user_sex == MEN ? 'name_man' : 'name_woman';
 	}
 
 	public function getPictureUrlAttribute()

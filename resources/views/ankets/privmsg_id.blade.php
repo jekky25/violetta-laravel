@@ -12,7 +12,7 @@ function vote(score)
 	return false;
 }
 </script>
-<ul id="ankFotos" class="clear">
+<ul id="ankFotos" class="clear pad2">
     @if ($anketUserData->photos_count > 0)
         @foreach ($anketUserData->photo as $item)
 		@if ($loop->iteration > 1) @continue @endif
@@ -50,24 +50,23 @@ function vote(score)
 			</table>
 		</li>
 	</ul>
-	<div class="pad2"></div>
 	@if (!empty($messages))
-	<table class="UsermessID">
-	@foreach ($messages as $item)
-		<tr>
-			<td>
-			@if ($item->sent_user_id == $userData->id)
-				<h4 class="outMeMess"><a href="{{route('ank.id', $userData->id)}}">{{ $userData->name }}</a>
-			@else
-				<h4 class="inMeMess"><a href="{{route('ank.id', $anketUserData->id)}}">{{ $anketUserData->name }}</a>
-			@endif
-					<p>{{ $item->last_date }}<a class="delBut2" title="удалить" href="{{route('privmsg.post.delete', $item->id)}}"></a></p>
-				</h4>
-				<div class="messBody clear">{!! $item->description !!}</div>
-			</td>
-		</tr>
-	@endforeach
-	</table>
+		@foreach ($messages as $item)
+		<div class="active-item-container">
+			<div class="active-item-title line-{{ $item->name_class }}">
+				<a class="active-item-name" href="{{route('ank.id', $item->user->id)}}">{{ $item->user->name }}</a>
+				<div class="active-item-right">
+					<a class="delete" title="удалить" href="{{route('privmsg.post.delete', $item->id)}}"></a>
+					<span class="active-item-time">{{ $item->add_time }}</span>
+				</div>
+			</div>
+			<div class="active-item-body">
+				<div class="active-item-content clear">
+					{!! $item->description !!}
+				</div>
+			</div>
+		</div>
+@endforeach
 	<x-pagination :items="$messages" />
 	@endif
 	<div class="pad2"></div>

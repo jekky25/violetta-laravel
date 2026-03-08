@@ -70,6 +70,16 @@ class DiaryComment extends Model
 		return stripslashes($val);
 	}
 
+	public function getUserSexAttribute()
+	{
+		return !empty($this->user) && isset($this->user->sex) ? $this->user->sex : null;
+	}
+
+	public function getNameClassAttribute()
+	{
+		return  $this->user_sex == MEN ? 'name_man' : 'name_woman';
+	}
+
 	/**
 	 * get user diary
 	 */

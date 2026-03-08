@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\SmileRepository;
@@ -12,7 +12,8 @@ class Message extends Model
 {
 	use HasFactory;
 	protected $table 		= 'user_messages';
-	protected $user, $smiles;
+	protected $smiles;
+	protected static $authUser = null;
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'id';
 
@@ -29,9 +30,16 @@ class Message extends Model
 	public function __construct(array $attributes = [])
 	{
 		parent::__construct($attributes);
-		if (empty($this->user))
-			$this->user	= Auth::user();
+		self::$authUser = self::AuthUser();
 		$this->smiles = new SmileRepository;
+	}
+
+	protected static function AuthUser()
+	{
+		if (self::$authUser === null) {
+			self::$authUser = Auth::user();
+		}
+		return self::$authUser;
 	}
 
 	public static function boot()
@@ -54,15 +62,19 @@ class Message extends Model
 		return $this->user->id == $this->sent_user_id ? $this->received_user_id : $this->sent_user_id;
 	}
 
-	public function getUserMesAttribute($val)
+	public function getNameClassAttribute()
 	{
-		if (!empty($val) or empty($this->user)) return $val;
-		return $this->user->id == $this->sent_user_id ? (new UserRepository())->getJustById($this->received_user_id, ['photo']) : (new UserRepository())->getJustById($this->sent_user_id, ['photo']);
+		return $this->sent_user_id == self::AuthUser()->id ? 'name_man' : 'name_woman';
 	}
 
-	public function getLastDateAttribute()
+	public function getAddTimeAttribute()
 	{
-		return date("d.m.y H:i", $this->create_time);
+		return $this->create_time;
+	}
+
+	public function getCreateTimeAttribute($val)
+	{
+		return date("d.m.y H:i", $val);
 	}
 
 	public function getPrivmessTextAttribute($val)
@@ -72,10 +84,15 @@ class Message extends Model
 
 	public function getPhotoMainAttribute()
 	{
-		if (count($this->user_mes->photo) > 0) {
-			$photo = $this->user_mes->photo[0];
+		if (count($this->user->photo) > 0) {
+			$photo = $this->user->photo[0];
 			return $photo->id;
 		}
 		return null;
+	}
+	
+	public function user(): HasOne
+	{
+		return $this->hasOne(User::class, 'id', 'sent_user_id');
 	}
 }

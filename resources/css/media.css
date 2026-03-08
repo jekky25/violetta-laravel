@@ -38,7 +38,10 @@
 	
 	#mDescr {display:none;}
 	
-	#mDnev {display:block; padding-left:10px; padding-right:10px; width:auto;}
+	#mDnev {
+		display:block;
+		width: auto;
+	}
 	.mDnevTr {display:block;}
 	.mDnevTd {display:block; width:100%;}
 	#mDnev .mDnevTd dl {width:50%; float:left; clear:none;}

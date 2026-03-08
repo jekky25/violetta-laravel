@@ -34,37 +34,9 @@
 </table>
 <div class="bord1"></div>
 @if (!empty($comments))
-<table class="ankDnevnik">
 @foreach ($comments as $item)
-	<tr>
-		<td>
-			<h4 class="@isset($item->user->class_a){{ $item->user->class_a }}@endisset"><a href="{{route('ank.id', $item->user->id)}}">{{ $item->user->name }}</a>@if (!empty($item->title)) - {{ $item->title }}@endif
-				<p>
-					@if (!empty($user) && $user->id == $item->user->id)
-					<a class="editBut" title="редактировать" href="{{route('ank.diary.comment.edit.id', $item->id)}}"></a>
-					<a class="delBut" title="удалить" href="{{route('ank.diary.comment.delete.id', $item->id)}}"></a>
-					@endif
-					{{ $item->add_time }}
-				</p>
-			</h4>
-			<div class="dnevBody clear">
-			@if (!empty($item->picture))
-				<a class="dnevBodyPic1" href="{{route('ank.id', $item->user->id)}}"><img src="{{ (new FileService)->outDiaryCommentPicture($item->picture, $item->user->sex) }}" /></a>
-			@elseif (!empty($item->foto_url))
-				<a class="dnevBodyPic2" href="{{route('ank.id', $item->user->id)}}"><img src="{{ (new FileService)->outPicture($item->foto_url, $item->user->sex) }}" /></a>
-			@endif
-			@if (!empty($item->picture))
-				<div class="mrg2">{!! $item->description !!}</div>
-			@elseif (!empty($item->foto_url))
-				<div class="mrg3">{!! $item->description !!}</div>
-			@else
-				{!! $item->description !!}
-			@endif
-			</div>
-		</td>
-	</tr>
+<x-activity-item :item="$item" type="comment" />
 @endforeach
-</table>
 @endif
 <x-pagination :items="$comments" />
 @auth
