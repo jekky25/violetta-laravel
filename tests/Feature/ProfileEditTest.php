@@ -12,6 +12,7 @@ use App\Http\Controllers\RegistrationController;
 use App\Services\DataService;
 use App\Services\FormatService;
 use App\Models\User;
+use App\Fields\ProfileEditField;
 
 class ProfileEditTest extends TestCase
 {
@@ -103,14 +104,31 @@ class ProfileEditTest extends TestCase
 		$regions	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: [];
 		$cities		= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
 
-		$response->assertViewHasAll([
-			'days'			=> $days,
-			'months'		=> $months,
-			'years'			=> $years,
-			'countries'		=> $countries,
-			'regions'		=> $regions,
-			'cities'		=> $cities
-		]);
+		$fields				= new ProfileEditField( $this->countryRepository,
+													$this->dataService, 
+													$this->formService, 
+													$this->regionRepository, 
+													$this->cityRepository );
+
+		$this->assertEquals($this->user->name, $fields->user()->name);
+		$this->assertEquals($this->user->sex, $fields->user()->sex);
+		$this->assertEquals($days, $fields->day());
+		$this->assertEquals($months, $fields->month());
+		$this->assertEquals($years, $fields->year());
+
+		$this->assertEquals($this->user->birth_day, $fields->user()->birth_day);
+		$this->assertEquals($this->user->birth_month, $fields->user()->birth_month);
+		$this->assertEquals($this->user->birth_year, $fields->user()->birth_year);
+
+		$this->assertEquals($countries, $fields->country());
+		$this->assertEquals($regions, $fields->region($fields->user()->country_id));
+		$this->assertEquals($cities, $fields->city($fields->user()->region_id));
+
+		$this->assertEquals($countryId, $fields->user()->country_id);
+		$this->assertEquals($regionId, $fields->user()->region_id);
+		$this->assertEquals($this->user->city_id, $fields->user()->city_id);
+		
+		$response->assertViewHasAll([ 'fields' => $fields ]);
 	}
 
 	public function test_check_profile_edit_second_page(): void
