@@ -8,4 +8,5 @@ class SpeakLang extends Model
 {
 	use HasFactory;
 	protected $table = 'speak_lang';
+	public $timestamps = false;
 }
