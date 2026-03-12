@@ -10,6 +10,7 @@ use App\Interfaces\CountryInterface;
 use App\Services\FormatService;
 use App\Services\DataService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class Field
@@ -84,14 +85,14 @@ abstract class Field
 		return $this->country->getAll();
 	}
 
-	public function region(int $countryId = 0) :\Illuminate\Database\Eloquent\Collection|array
+	public function region(?int $countryId = 0) :Collection
 	{
-		return $countryId > 0 ? $this->region->getByCountryId($countryId) : [];
+		return $countryId > 0 ? $this->region->getByCountryId($countryId) : new Collection();
 	}
 
-	public function city(int $regionId = 0) :\Illuminate\Database\Eloquent\Collection|array
+	public function city(?int $regionId = 0) :Collection
 	{
-		return $regionId > 0 ? $this->city->getByRegionId($regionId) : [];
+		return $regionId > 0 ? $this->city->getByRegionId($regionId) : new Collection();
 	}
 
 	public function age() :array

@@ -13,6 +13,8 @@ use App\Services\FormatService;
 use App\Models\User;
 use App\Fields\ProfileEditField;
 use App\Fields\ProfileSecondField;
+use App\Fields\ProfilePartnerField;
+use Illuminate\Database\Eloquent\Collection;
 
 class ProfileEditTest extends TestCase
 {
@@ -101,8 +103,8 @@ class ProfileEditTest extends TestCase
 		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old('country_id', $this->user->country_id);
 		$regionId	= (int) old('region_id', $this->user->region_id);
-		$regions	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: [];
-		$cities		= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: [];
+		$regions	= $countryId > 0 	? $this->regionRepository->getByCountryId($countryId) 	: new Collection();
+		$cities		= $regionId	> 0 	? $this->cityRepository->getByRegionId($regionId) 		: new Collection();
 
 		$fields				= new ProfileEditField( $this->countryRepository,
 													$this->dataService, 
@@ -198,34 +200,40 @@ class ProfileEditTest extends TestCase
 		$age				= $this->dataService->getAges();
 		$heights			= $this->formService->getHeights();
 		$weights			= $this->formService->getWeights();
-		$partnerBody		= $this->formService->BlockSelect("partner_body[]", BODY_CLASS, old('partner_body', $this->user->partner_body), 2);
-		$partnerLanguages	= $this->formService->BlockSelect("partner_languages[]", SPEAK_LANG_CLASS, old('partner_languages', $this->user->partner_languages), 2);
-		$partnerAlcohol		= $this->formService->BlockSelect("partner_alcohol[]", SPIRT_CLASS, old('partner_alcohol', $this->user->partner_alcohol), 2);
-		$partnerSmoke		= $this->formService->BlockSelect("partner_smoke[]", SMOKE_CLASS, old('partner_smoke', $this->user->partner_smoke), 2);
-		$partnerEducation	= $this->formService->BlockSelect("partner_education[]", EDUCATION_CLASS, old('partner_education', $this->user->partner_education), 2);
+		$partnerBody		= $this->formService->BlockSelect(BODY_CLASS, $this->user->partner_body);
+		$partnerLanguages	= $this->formService->BlockSelect(SPEAK_LANG_CLASS, $this->user->partner_languages);
+		$partnerAlcohol		= $this->formService->BlockSelect(SPIRT_CLASS, $this->user->partner_alcohol);
+		$partnerSmoke		= $this->formService->BlockSelect(SMOKE_CLASS, $this->user->partner_smoke);
+		$partnerEducation	= $this->formService->BlockSelect(EDUCATION_CLASS, $this->user->partner_education);
 
 		$countries	= $this->countryRepository->getAll();
 		$countryId	= (int) old('country', $this->user->partner_country);
 		$regionId	= (int) old('region', $this->user->partner_region);
-		$regions	= $countryId > 0	? $this->regionRepository->getByCountryId($countryId) 	: [];
-		$cities		= $regionId	> 0		? $this->cityRepository->getByRegionId($regionId) 		: [];
+		$regions	= $countryId > 0	? $this->regionRepository->getByCountryId($countryId) 	: new Collection();
+		$cities		= $regionId	> 0		? $this->cityRepository->getByRegionId($regionId) 		: new Collection();
 
-		$response->assertViewHasAll(
-			[
-				'userData'			=> $this->user,
-				'age'				=> $age,
-				'heights'			=> $heights,
-				'weights'			=> $weights,
-				'partnerBody'		=> $partnerBody,
-				'partnerLanguages'	=> $partnerLanguages,
-				'partnerAlcohol'	=> $partnerAlcohol,
-				'partnerSmoke'		=> $partnerSmoke,
-				'partnerEducation'	=> $partnerEducation,
-				'countries'			=> $countries,
-				'regions'			=> $regions,
-				'cities'			=> $cities,
-			]
-		);
+		$fields				= new ProfilePartnerField( $this->countryRepository,
+													$this->dataService, 
+													$this->formService, 
+													$this->regionRepository, 
+													$this->cityRepository );
+
+		$this->assertEquals($age, $fields->age());
+		$this->assertEquals($heights, $fields->height());
+		$this->assertEquals($weights, $fields->weight());
+		$this->assertEquals($partnerBody, $fields->body($fields->user()->partner_body));
+		$this->assertEquals($partnerLanguages, $fields->languages($fields->user()->partner_languages));
+		$this->assertEquals($partnerAlcohol, $fields->alcohol($fields->user()->partner_alcohol));
+		$this->assertEquals($partnerSmoke, $fields->smoke($fields->user()->partner_smoke));
+		$this->assertEquals($partnerEducation, $fields->education($fields->user()->partner_education));
+		$this->assertEquals($countries, $fields->country());
+		$this->assertEquals($regions, $fields->region($fields->user()->partner_country));
+		$this->assertEquals($cities, $fields->city($fields->user()->partner_region));
+		$this->assertEquals($countryId, $fields->user()->partner_country);
+		$this->assertEquals($regionId, $fields->user()->partner_region);
+		$this->assertEquals($this->user->partner_city, $fields->user()->partner_city);
+
+		$response->assertViewHasAll([ 'fields' => $fields ]);
 	}
 
 	public function test_check_profile_change_password_page(): void
