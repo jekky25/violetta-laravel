@@ -46,7 +46,7 @@ class Message extends Model
 	{
 		parent::boot();
 		self::creating(function ($model) {
-			$model->sent_user_id		= $model->user->id;
+			$model->sent_user_id		= self::AuthUser()->id;
 			$model->received_user_id	= request('id');
 			$model->sent_is_deleted		= 0;
 			$model->received_is_deleted	= 0;
