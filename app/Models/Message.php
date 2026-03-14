@@ -46,13 +46,15 @@ class Message extends Model
 	{
 		parent::boot();
 		self::creating(function ($model) {
+			$receivedUserId = request('id');
+			$description 	= request('description');
 			$model->sent_user_id		= self::AuthUser()->id;
-			$model->received_user_id	= request('id');
+			$model->received_user_id	= $receivedUserId !== null ? $receivedUserId : $model->received_user_id;
 			$model->sent_is_deleted		= 0;
 			$model->received_is_deleted	= 0;
 			$model->create_time			= time();
 			$model->is_new				= 1;
-			$model->description			= str_replace("\'", "''", request('description'));
+			$model->description			= $description !== null ? str_replace("\'", "''", request('description')) : $model->description;
 		});
 	}
 

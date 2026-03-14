@@ -9,7 +9,9 @@ use App\Models\Region;
 use App\Models\Photo;
 use App\Models\SexOrient;
 use App\Models\SpeakLang;
+use App\Models\Message;
 use Database\Factories\PhotoFactory;
+use Illuminate\Support\Facades\Auth;
 
 trait hasSetupPrepare
 {
@@ -55,7 +57,14 @@ trait hasSetupPrepare
 		$this->countries	= Country::factory(10)->create();
 		$this->regions		= Region::factory(20)->create();
 		$this->cities		= City::factory(30)->create();
-		$this->users		= User::factory(3)->create();
+		$this->users		= User::factory(5)->create();
 		$this->photos		= Photo::factory(5)->create();
+		$this->actingAs($this->users[0]);
+		$this->messages		= Message::factory(3)->create();
+		$this->actingAs($this->users[1]);
+		$this->messages		= Message::factory(2)->create();
+		$this->actingAs($this->users[2]);
+		$this->messages		= Message::factory(5)->create();
+		Auth::logout();
 	}
 }

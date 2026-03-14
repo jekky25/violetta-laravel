@@ -9,7 +9,7 @@ abstract class TestCase extends BaseTestCase
 {
 	use CreatesApplication;
 
-	private static bool $migrated = false;
+	protected static bool $migrated = false;
 
 	protected function setUp(): void
 	{
