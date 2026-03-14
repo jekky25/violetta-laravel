@@ -28,7 +28,6 @@ class MessageTest extends TestCase
 	 */
 	protected function setUp(): void
 	{
-		parent::$migrated = true;
 		parent::setUp();
 		
 		self::setUpPrepare();
