@@ -1,8 +1,23 @@
 <?
 namespace App\Services;
 
+use App\Interfaces\UserInterface;
+use App\Interfaces\MessageInterface;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewPrivMessageEmail;
+
 class MessageService
 {
+	/**
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
+	public function __construct(
+		protected UserInterface $userRepository,
+		protected MessageInterface $messageRepository
+	) {}
+
 	/**
 	* print information page with confirm or cancel
 	* @param string $title
@@ -42,4 +57,32 @@ class MessageService
 		])->send();
 	}
 
+	/**
+	 * create a private message and send info about it to the user
+	 * @param array $data
+	 * @param integer $senderId
+	 * @param integer $receiverId
+	 *
+	 * @return void
+	*/
+	public function create(array $data, int $senderId, int $receiverId)
+	{
+		$user = $this->userRepository->getJustById($senderId);
+		$receiver = $this->userRepository->getJustById($receiverId);
+
+		if (!$user || !$receiver) {
+			abort(404);
+		}
+
+		$data['sent_user_id'] = $senderId;
+		$data['received_user_id'] = $receiverId;
+
+		$this->messageRepository->store($data);
+
+		if ($receiver->dont_send_email != 1) {
+			Mail::mailer(config('mail.mail_mode'))
+				->to($receiver->email)
+				->send(new NewPrivMessageEmail($receiver));
+		}
+	}
 }

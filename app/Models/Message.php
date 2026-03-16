@@ -42,22 +42,6 @@ class Message extends Model
 		return self::$authUser;
 	}
 
-	public static function boot()
-	{
-		parent::boot();
-		self::creating(function ($model) {
-			$receivedUserId = request('id');
-			$description 	= request('description');
-			$model->sent_user_id		= self::AuthUser()->id;
-			$model->received_user_id	= $receivedUserId !== null ? $receivedUserId : $model->received_user_id;
-			$model->sent_is_deleted		= 0;
-			$model->received_is_deleted	= 0;
-			$model->create_time			= time();
-			$model->is_new				= 1;
-			$model->description			= $description !== null ? str_replace("\'", "''", request('description')) : $model->description;
-		});
-	}
-
 	public function getUserIdAttribute($val)
 	{
 		if (!empty($val) or empty($this->user)) return $val;
@@ -92,7 +76,17 @@ class Message extends Model
 		}
 		return null;
 	}
-	
+
+	public function setDescriptionAttribute($val)
+	{
+		$this->attributes['description'] = str_replace("\'", "''", $val);
+	}
+
+	public function setCreateTimeAttribute($val)
+	{
+		$this->attributes['create_time'] = $val == null ? time() : $val;
+	}
+
 	public function user(): HasOne
 	{
 		return $this->hasOne(User::class, 'id', 'sent_user_id');

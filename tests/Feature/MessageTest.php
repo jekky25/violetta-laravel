@@ -29,7 +29,7 @@ class MessageTest extends TestCase
 	protected function setUp(): void
 	{
 		parent::setUp();
-		
+
 		self::setUpPrepare();
 		$this->userRepository		= new UserRepository;
 		$this->dataService			= new DataService;

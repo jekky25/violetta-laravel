@@ -14,12 +14,9 @@ class MessageFactory extends Factory
 	 */
 	public function definition()
 	{
-		$userId = User::get()->random()->id;
-		$userReceivedId = User::get()->random()->id;
-
 		return [
-			'sent_user_id'			=> $userId,
-			'received_user_id'		=> $userReceivedId,
+			'sent_user_id' => User::factory(),
+            'received_user_id' => User::factory(),
 			'sent_is_deleted'		=> 0,
 			'received_is_deleted'	=> 0,
 			'create_time'			=> time(),

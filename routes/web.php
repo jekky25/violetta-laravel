@@ -47,7 +47,7 @@ Route::middleware('slashes')->group(function () {
 	Route::get('privmsg/post/{id}.html', 'PrivmsgController@getAnkMess')												->whereNumber('id')		->name('privmsg.post')						->middleWare('auth');
 	Route::get('privmsg/post/delete/{id}.html', 'PrivmsgController@destroy')											->whereNumber('id')		->name('privmsg.post.delete')				->middleWare('auth');
 	Route::delete('privmsg/post/delete/{id}.html', 'PrivmsgController@destroyAction')									->whereNumber('id')		->name('privmsg.post.delete.action')		->middleWare('auth');
-	Route::post('privmsg/post/add/{id}.html', 'PrivmsgController@store')												->whereNumber('id')		->name('privmsg.post.add');
+	Route::post('privmsg/post/add/{id}.html', 'PrivmsgController@store')												->whereNumber('id')		->name('privmsg.post.add')					->middleWare('auth');
 
 	Route::get('ank/diary/comments/{id}.html', 'DiaryCommentController@index')											->whereNumber('id')		->name('ank.diary.comments');
 	Route::get('ank/diary/comment/edit/{id}.html', 'DiaryCommentController@edit')										->whereNumber('id')		->name('ank.diary.comment.edit.id')			->middleWare('auth');

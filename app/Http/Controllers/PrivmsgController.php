@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\UserInterface;
 use App\Interfaces\MessageInterface;
@@ -13,7 +12,6 @@ use App\Interfaces\SmileInterface;
 use App\Requests\PrivmsgRequest;
 use App\Requests\PrivmsgSelectedRequest;
 use App\Services\MessageService;
-use App\Mail\NewPrivMessageEmail;
 
 class PrivmsgController extends Controller
 {
@@ -154,16 +152,7 @@ class PrivmsgController extends Controller
 	 */
 	public function store(PrivmsgRequest $request, $id)
 	{
-		$user 			= Auth::user();
-		$anket 			= $this->userRepository->getJustById($id);
-		if (empty($user) or empty($anket)) abort(404);
-
-		$this->messageRepository->store($request->validated());
-		if ($user->dont_send_email != 1) {
-			Mail::mailer(config('mail.mail_mode'))
-				->to($anket->email)
-				->send(new NewPrivMessageEmail($anket));
-		}
+		$this->messageService->create($request->validated(), auth()->id(), $id);
 		return redirect()->back()
 			->with('success', 'Сообщение успешно отправлено')
 			->withInput();
