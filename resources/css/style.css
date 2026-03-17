@@ -900,7 +900,11 @@ a.delFoto {color:#211b92;}
 
 .inTop {font-size:12px; font-weight:bold;}
 
-table.Usermess {width:100%;}
+table.Usermess {
+	width:100%; 
+	margin-bottom: 10px;
+}
+
 table.UsermessID {width:100%;}
 .UsermessID td {padding-bottom:10px;}
 	.Usermess thead td {background-color:#ffd1d0; vertical-align:middle; padding: 8px 3px 8px 3px; font-weight:bold; text-align:center;}
