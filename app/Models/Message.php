@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\SmileRepository;
+use App\Repositories\UserRepository;
 
 class Message extends Model
 {
 	use HasFactory;
 	protected $table 		= 'user_messages';
 	protected $smiles;
+	protected $userRepository;
 	protected static $authUser = null;
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'id';
@@ -32,6 +34,7 @@ class Message extends Model
 		parent::__construct($attributes);
 		self::$authUser = self::AuthUser();
 		$this->smiles = new SmileRepository;
+		$this->userRepository = new UserRepository;
 	}
 
 	protected static function AuthUser()
@@ -75,6 +78,16 @@ class Message extends Model
 			return $photo->id;
 		}
 		return null;
+	}
+
+	public function getUserCommunicatePhotoMainAttribute()
+	{
+		return $this->user_communicate->first_photo == null ? null : $this->user_communicate->first_photo->id;
+	}
+
+	public function getUserCommunicateAttribute()
+	{
+		return $this->userRepository->getJustById($this->user_id);
 	}
 
 	public function setDescriptionAttribute($val)

@@ -17,8 +17,8 @@
 		@if (!empty ($item->user))
 		<tr @if ($loop->index % 2 == 0)class="pinkRow"@endif>
 			<td class="UsermessCol1"><input type="checkbox" name="mark[]" value="{{ $item->user_id }}" /></td>
-			<td class="UsermessCol2"><a class="ankFotosPics" href="{{route('ank.id', $item->user_id)}}"><img alt="{{ $item->user->name }},{{ $item->user->age_str }},{{ $item->user->city->name }}" src="{{ (new FileService)->outPicture($item->photo_main, $item->user->sex) }}" /></a></td>
-			<td class="UsermessCol3"><a class="{{ $item->user->name_class }}" href="{{route('ank.id', $item->user_id)}}">{{ $item->user->name }}</a></td>
+			<td class="UsermessCol2"><a class="ankFotosPics" href="{{route('ank.id', $item->user_id)}}"><img alt="{{ $item->user_communicate->name }},{{ $item->user_communicate->age_str }},{{ $item->user_communicate->city->name }}" src="{{ (new FileService)->outPicture($item->user_communicate_photo_main, $item->user_communicate->sex) }}" /></a></td>
+			<td class="UsermessCol3"><a class="{{ $item->user_communicate->name_class }}" href="{{route('ank.id', $item->user_id)}}">{{ $item->user_communicate->name }}</a></td>
 			<td class="UsermessCol4"><img alt="Написать сообщение" src="{{ asset('image/mail.png') }}" /><a @if ($item->is_new > 0) class="newMessage"@endif href="{{route('privmsg.post', $item->user_id)}}">сообщений: {{ $item->count_messages }}</a></td>
 			<td class="UsermessCol5"><span>{{ $item->last_date }}</span></td>
 		</tr>

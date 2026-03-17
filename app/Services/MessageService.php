@@ -5,6 +5,7 @@ use App\Interfaces\UserInterface;
 use App\Interfaces\MessageInterface;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NewPrivMessageEmail;
+use App\Models\User;
 
 class MessageService
 {
@@ -55,6 +56,19 @@ class MessageService
 			'msgText'		=> $text,
 			'hidden'		=> $hidden
 		])->send();
+	}
+
+	/**
+	 * get messages sorted by user
+	 * @param User $user
+	 * @param int $perPage
+	 *
+	 * @return Collection
+	*/
+	public function getByUsers(User $user, int $perPage)
+	{
+		$messages 			= $this->messageRepository->getAll($user->id, $perPage);
+		return	$this->messageRepository->getNewsByUsers($messages, $user);
 	}
 
 	/**

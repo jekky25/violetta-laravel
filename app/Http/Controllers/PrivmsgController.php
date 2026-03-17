@@ -38,15 +38,8 @@ class PrivmsgController extends Controller
 	 */
 	public function index()
 	{
-		$user 			= Auth::user();
-		$messages 			= $this->messageRepository->getAll($user->id, self::$messagePerPage);
-		$messages			= $this->messageRepository->getNewsByUsers($messages, $user);
 		return response()->view(
-			'ankets.privmsg',
-			[
-				'messages' 		=> $messages
-			]
-		);
+			'ankets.privmsg', [	'messages' => $this->messageService->getByUsers(Auth::user(), self::$messagePerPage) ]);
 	}
 
 	/**
