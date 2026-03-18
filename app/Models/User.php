@@ -531,6 +531,30 @@ class User extends Authenticatable
 
 
 	/***********************************
+	 * SCOPES
+	***********************************/
+
+	public function scopeEmail($query, $email)
+	{
+	    return $query->where('email', $email);
+	}
+
+	public function scopeConfirmed($query)
+	{
+	    return $query->where('confirm_email', 1);
+	}
+
+	public function scopeLogin($query, $login)
+	{
+	    return $query->where('login', $login);
+	}
+
+	public function scopeActive($query)
+	{
+	    return $query->where('active', 1);
+	}
+
+	/***********************************
 	 * RELATIONS
 	 ***********************************/
 

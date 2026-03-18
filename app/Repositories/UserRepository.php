@@ -42,8 +42,8 @@ class UserRepository implements UserInterface
 		$items = User::select(['users_news.id', 'active', 'name', 'sex', 'birth_date', 'make_date_t', 'city_id', 'photos_count', 'sex_orient', 'partner_age_min', 'partner_age_max'])
 			->join('fotos', 'users_news.id', '=', 'fotos.user_id')
 			->where('photos_count', '>', 0)
-			->where('confirm_email', 1)
-			->where('active', 1)
+			->confirmed()
+			->active()
 			->where('main_picture', 1)
 			->with('city')
 			->with('photo')
@@ -64,9 +64,9 @@ class UserRepository implements UserInterface
 	{
 		$items = User::select(['id', 'rating', 'name', 'birth_date', 'city_id'])
 			->where('sex', $sex)
-			->where('active', 1)
+			->active()
 			->where('photos_count', '>', 0)
-			->where('confirm_email', 1)
+			->confirmed()
 			->with('city')
 			->with('photo')
 			->limit($count)
@@ -112,7 +112,7 @@ class UserRepository implements UserInterface
 	{
 		$count = User::select('id')
 			->where('sex', $sex)
-			->where('active', 1)
+			->active()
 			->count();
 		return $count > 0 ? $count : 0;
 	}
@@ -157,7 +157,7 @@ class UserRepository implements UserInterface
 	{
 		if (empty($login) or empty($pass)) return false;
 		return User::select(['id'])
-			->where('login', $login)
+			->login($login)
 			->where('hash', md5($pass))
 			->first();
 	}
@@ -185,7 +185,7 @@ class UserRepository implements UserInterface
 	public function getMaxRating($sex)
 	{
 		$item = User::select(['*'])
-			->where('active', 1)
+			->active()
 			->where('sex', $sex)
 			->max('rating');
 		return $item;
@@ -201,9 +201,9 @@ class UserRepository implements UserInterface
 		$user = Auth::user();
 		$item = User::select('*')
 			->where('id', $id)
-			->where('active', 1);
+			->active();
 		if (empty($user)) {
-			$item->where('confirm_email', 1);
+			$item->confirmed();
 		}
 		$item->with('diary')
 			->with('photo.comment.user.photo')
@@ -242,10 +242,7 @@ class UserRepository implements UserInterface
 	 */
 	public function getByEmail($email)
 	{
-		$item = User::select('*')
-			->where('email', $email)
-			->first();
-		return $item;
+		return User::select('*')->email($email)->first();
 	}
 
 	/**
@@ -255,10 +252,7 @@ class UserRepository implements UserInterface
 	 */
 	public function getByLogin($login)
 	{
-		$item = self::select('*')
-			->where('login', $login)
-			->first();
-		return $item;
+		return self::select('*')->login($login)->first();
 	}
 
 	/**
