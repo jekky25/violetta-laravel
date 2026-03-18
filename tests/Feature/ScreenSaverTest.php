@@ -57,8 +57,8 @@ class ScreenSaverTest extends TestCase
 	public function test_screen_saver_id_page(): void
 	{
 		$ar = [
-			'screensaver/' . $this->getRand() . '.html',
-			'screensaver/' . $this->getRand() . '.html'
+			'screensaver/' . $this->screenSavers[$this->getRand()]->id . '.html',
+			'screensaver/' . $this->screenSavers[$this->getRand()]->id . '.html'
 		];
 
 		foreach ($ar as $item)
