@@ -26,4 +26,23 @@ class AnketVisit extends Model
 			->with('city')
 			->with('photo');
 	}
+
+	/***********************************
+	 * SCOPES
+	***********************************/
+
+	public function scopeVisitedUserId($query, int $userId)
+	{
+	    return $query->where('user_id_prosm', $userId);
+	}
+
+	public function scopeCreatedFrom($query, int $timeStamp)
+	{
+	    return $query->where('create_time', '>', $timeStamp);
+	}
+
+	public function scopeUserId($query, $userId)
+	{
+	    return $query->where('user_id', $userId);
+	}
 }

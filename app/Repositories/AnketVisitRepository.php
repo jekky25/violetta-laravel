@@ -54,15 +54,9 @@ class AnketVisitRepository implements AnketVisitInterface
 	public function getVisitsByUserId($id, $days, $userId = 0)
 	{
 		$time = \Carbon\Carbon::now()->subDays($days)->toArray();
-		$items = AnketVisit::select('*')
-			->where('user_id_prosm', $id)
-			->where('create_time', '>', $time['timestamp']);
+		$items = AnketVisit::select('*')->visitedUserId($id)->createdFrom($time['timestamp']);
 
-		if ($userId > 0)
-			$items->where('user_id', $userId);
-
-		$items = $items->get();
-		return $items;
+		return $userId > 0 ? $items->userId('user_id', $userId)->get() : $items->get();
 	}
 
 	/**
