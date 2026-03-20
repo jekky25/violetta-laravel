@@ -554,6 +554,16 @@ class User extends Authenticatable
 	    return $query->where('active', 1);
 	}
 
+	public function scopeSex($query, $sex)
+	{
+	    return $query->where('sex', $sex);
+	}
+
+	public function scopeHash($query, $pass)
+	{
+	    return $query->where('hash', md5($pass));
+	}
+
 	/***********************************
 	 * RELATIONS
 	 ***********************************/

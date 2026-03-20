@@ -63,7 +63,7 @@ class UserRepository implements UserInterface
 	public function getTop100($sex, $count)
 	{
 		$items = User::select(['id', 'rating', 'name', 'birth_date', 'city_id'])
-			->where('sex', $sex)
+			->sex($sex)
 			->active()
 			->where('photos_count', '>', 0)
 			->confirmed()
@@ -110,10 +110,7 @@ class UserRepository implements UserInterface
 	 */
 	public function getCountAnkets($sex)
 	{
-		$count = User::select('id')
-			->where('sex', $sex)
-			->active()
-			->count();
+		$count = User::select('id')->sex($sex)->active()->count();
 		return $count > 0 ? $count : 0;
 	}
 
@@ -155,11 +152,7 @@ class UserRepository implements UserInterface
 	 */
 	public function getByLoginAndPass($login, $pass)
 	{
-		if (empty($login) or empty($pass)) return false;
-		return User::select(['id'])
-			->login($login)
-			->where('hash', md5($pass))
-			->first();
+		return !empty($login) && !empty($pass) ? User::select(['id'])->login($login)->hash($pass)->first() : false;
 	}
 
 	/**
@@ -171,10 +164,7 @@ class UserRepository implements UserInterface
 	public function getByIdAndConfirmCode($id, $code)
 	{
 		if ((int)($id) == 0 or empty($code)) return false;
-		return User::select(['*'])
-			->where('id', $id)
-			->where('submit_code', addslashes($code))
-			->firstOrFail();
+		return User::select(['*'])->whereKey($id)->where('submit_code', addslashes($code))->firstOrFail();
 	}
 
 	/**
@@ -184,11 +174,7 @@ class UserRepository implements UserInterface
 	 */
 	public function getMaxRating($sex)
 	{
-		$item = User::select(['*'])
-			->active()
-			->where('sex', $sex)
-			->max('rating');
-		return $item;
+		return User::select(['*'])->active()->sex($sex)->max('rating');
 	}
 
 	/**
@@ -199,9 +185,7 @@ class UserRepository implements UserInterface
 	public function getById($id)
 	{
 		$user = Auth::user();
-		$item = User::select('*')
-			->where('id', $id)
-			->active();
+		$item = User::select('*')->whereKey($id)->active();
 		if (empty($user)) {
 			$item->confirmed();
 		}
@@ -210,9 +194,7 @@ class UserRepository implements UserInterface
 			->with('city')
 			->with('region')
 			->with('country');
-
-		$item = $item->firstOrFail();
-		return $item;
+		return $item->firstOrFail();
 	}
 
 	/**
@@ -223,8 +205,7 @@ class UserRepository implements UserInterface
 	 */
 	public function getJustById($id, $width = [])
 	{
-		$item = User::select('*')
-			->where('id', $id);
+		$item = User::select('*')->whereKey($id);
 		if (!empty($width)) {
 			foreach ($width as $w) {
 				$item->with($w);
