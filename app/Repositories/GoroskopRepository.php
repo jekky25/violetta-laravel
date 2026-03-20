@@ -13,11 +13,7 @@ class GoroskopRepository implements GoroskopInterface {
 	*/
 	public function getByType($type)
 	{
-		$items = Goroskop::select('*')
-			->where('type', $type)
-			->orderBy('id', 'asc')
-			->get();
-		return $items;
+		return Goroskop::select('*')->type($type)->orderBy('id', 'asc')->get();
 	}
 
 	/**
@@ -27,9 +23,6 @@ class GoroskopRepository implements GoroskopInterface {
 	*/
 	public static function getById($id)
 	{
-		$item = Goroskop::select('*')
-		->where('id', $id)
-		->firstOrFail();
-		return $item;
+		return Goroskop::select('*')->whereHas($id)->firstOrFail();
 	}
 }

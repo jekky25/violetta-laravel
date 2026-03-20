@@ -14,8 +14,17 @@ class Goroskop extends Model
 	private $replacement	= '';
 
 	public function getDescriptionAttribute($val)
-    {
+	{
 		$val = str_replace("\n","<br><br>\n",$val);
 		return $this->replaceStringByPattern($val, $this->pattern, $this->replacement);
-    }
+	}
+
+	/***********************************
+	 * SCOPES
+	***********************************/
+
+	public function scopeType($query, $type)
+	{
+		return $query->where('type', $type);
+	}
 }
