@@ -27,12 +27,7 @@ class DiaryCommentRepository implements DiaryCommentInterface {
 	*/
 	public function getByDiary($count, $diaryId)
 	{
-		$items = DiaryComment::select('*')
-		->where('diary_id', $diaryId)
-		->with('user')
-		->orderBy('create_time', 'desc')
-		->paginate($count);
-		return $items;
+		return DiaryComment::select('*')->diaryId($diaryId)->with('user')->orderBy('create_time', 'desc')->paginate($count);
 	}
 
 	/**
@@ -43,11 +38,7 @@ class DiaryCommentRepository implements DiaryCommentInterface {
 	*/
 	public function getByUserAndId($id, $userId)
 	{
-		$item = DiaryComment::select('*')
-		->where('id', $id)
-		->where('user_id', $userId)
-		->firstOrFail();
-		return $item;
+		return DiaryComment::select('*')->whereKey($id)->userId('user_id', $userId)->firstOrFail();
 	}
 
 	/**

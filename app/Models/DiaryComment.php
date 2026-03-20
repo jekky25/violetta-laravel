@@ -80,6 +80,20 @@ class DiaryComment extends Model
 		return  $this->user_sex == MEN ? 'name_man' : 'name_woman';
 	}
 
+	/***********************************
+	 * SCOPES
+	***********************************/
+
+	public function scopeDiaryId($query, $id)
+	{
+		return $query->where('diary_id', $id);
+	}
+
+	public function scopeUserId($query, $userId)
+	{
+		return $query->where('user_id', $userId);
+	}
+
 	/**
 	 * get user diary
 	 */
