@@ -18,10 +18,7 @@ class AnketEvaluationRepository implements AnketEvaluationInterface
 	 */
 	public function getEvaluations($userIdAct, $userId)
 	{
-		$this->evaluations = AnketEvaluation::select('*')
-			->where('user_id', $userIdAct)
-			->where('user_id_ocenka', $userId)
-			->get();
+		$this->evaluations = AnketEvaluation::select('*')->UserId($userIdAct)->EvaluationUserId($userId)->get();
 		return $this->evaluations;
 	}
 
@@ -74,10 +71,7 @@ class AnketEvaluationRepository implements AnketEvaluationInterface
 	 */
 	public function getSum($id)
 	{
-		$item = AnketEvaluation::select(['*'])
-			->where('user_id_ocenka', $id)
-			->sum('ball', 'sum_ank');
-		return (int)$item;
+		return (int)AnketEvaluation::select(['*'])->EvaluationUserId($id)->sum('ball', 'sum_ank');
 	}
 
 	/**

@@ -17,4 +17,18 @@ class AnketEvaluation extends Model
 		'ball',
 		'time'
 	];
+
+	/***********************************
+	 * SCOPES
+	***********************************/
+
+	public function scopeUserId($query, $userId)
+	{
+	    return $query->where('user_id', $userId);
+	}
+
+	public function scopeEvaluationUserId($query, $userId)
+	{
+	    return $query->where('user_id_ocenka', $userId);
+	}
 }

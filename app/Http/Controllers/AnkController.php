@@ -48,10 +48,10 @@ class AnkController extends Controller
 
 		//making an ankets review and a count of views
 		if (!empty($user)) {
-			$anket->ankVisits	= $this->anketVisitRepository->update($id, self::$visitDays, $user->user_id);
+			$anket->ankVisits	= $this->anketVisitRepository->update($id, self::$visitDays, $user->id);
 
-			$this->anketEvaluationRepository->getEvaluations($user->user_id, $id);
-			$ankEvaluationed = $this->anketEvaluationRepository->getEvaluationWithUpdate($request, $user->user_id, $id);
+			$this->anketEvaluationRepository->getEvaluations($user->id, $id);
+			$ankEvaluationed = $this->anketEvaluationRepository->getEvaluationWithUpdate($request, $user->id, $id);
 			if (is_object($ankEvaluationed) && get_class($ankEvaluationed) == 'Illuminate\Http\RedirectResponse') return $ankEvaluationed;
 		}
 		//making a full anket
