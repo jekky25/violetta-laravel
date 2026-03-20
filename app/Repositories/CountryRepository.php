@@ -12,10 +12,7 @@ class CountryRepository implements CountryInterface {
 	*/
 	public static function getAll()
 	{
-		$items = Country::select('*')
-		->orderBy('name', 'asc')
-		->get();
-		return $items;
+		return Country::select('*')->orderBy('name', 'asc')->get();
 	}
 
 	/**
@@ -25,9 +22,6 @@ class CountryRepository implements CountryInterface {
 	*/
 	public static function getById($id)
 	{
-		$item = Country::select('*')
-		->where ('id', $id)
-		->first();
-		return $item;
+		return Country::select('*')->whereKey($id)->first();
 	}
 }
