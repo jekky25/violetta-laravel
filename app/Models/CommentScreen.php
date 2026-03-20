@@ -41,6 +41,16 @@ class CommentScreen extends Model
 		return date("d-m-Y", $val);
 	}
 
+	/***********************************
+	 * SCOPES
+	***********************************/
+
+	public function scopeScreenSaverId($query, int $id)
+	{
+		return $query->where('scr_id', $id);
+	}
+
+
 	/**
 	 * get user
 	 */

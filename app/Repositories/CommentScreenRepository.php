@@ -13,12 +13,7 @@ class CommentScreenRepository implements CommentScreenInterface {
 	*/
 	public static function getByScrId($id)
 	{
-		$items = CommentScreen::select('*')
-		->where('scr_id', $id)
-		->with ('user')
-		->orderBy('create_time', 'desc')
-		->get();
-		return $items;
+		return CommentScreen::select('*')->screenSaverId($id)->with ('user')->orderBy('create_time', 'desc')->get();
 	}
 
 	/**
