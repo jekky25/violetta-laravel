@@ -9,4 +9,13 @@ class DreamBook extends Model
 	use HasFactory;
 	protected $table 	= 'sonnik';
 	public $timestamps 		= false;
+
+	/***********************************
+	 * SCOPES
+	***********************************/
+
+	public function scopeDreamBookOptionId($query, $op)
+	{
+		return $query->where('sonnik_id', $op);
+	}
 }

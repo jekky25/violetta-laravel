@@ -13,10 +13,7 @@ class DreamBookRepository implements DreamBookInterface {
 	*/
 	public function getLiter()
 	{
-		$items = DreamBook::select('first_bukva', 'sonnik_id')
-		->groupBy('first_bukva', 'sonnik_id')
-		->get();
-		return $items;
+		return DreamBook::select('first_bukva', 'sonnik_id')->groupBy('first_bukva', 'sonnik_id')->get();
 	}
 
 	/**
@@ -27,11 +24,7 @@ class DreamBookRepository implements DreamBookInterface {
 	*/
 	public function get($count = 0, $op = 1)
 	{
-		$items = DreamBook::select('*')
-		->where('sonnik_id', $op)
-		->orderBy('name', 'asc')
-		->paginate($count);
-		return $items;
+		return DreamBook::select('*')->dreamBookOptionId($op)->orderBy('name', 'asc')->paginate($count);
 	}
 
 	/**
@@ -41,11 +34,7 @@ class DreamBookRepository implements DreamBookInterface {
 	*/
 	public function getById($id)
 	{
-		$item = DreamBook::select('*')
-		->where('id', $id)
-		->firstOrFail();
-
-		return $item;
+		return DreamBook::select('*')->whereHas($id)->firstOrFail();
 	}
 
 	/**
@@ -54,9 +43,6 @@ class DreamBookRepository implements DreamBookInterface {
 	*/
 	public function getAll()
 	{
-		$items = DreamBook::select('*')
-		->orderBy('name', 'asc')
-		->get();
-		return $items;
+		return DreamBook::select('*')->orderBy('name', 'asc')->get();
 	}
 }
