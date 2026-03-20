@@ -106,6 +106,22 @@ class Diary extends Model
 		return str_replace("\n", "\n<br />\n", $val);
 	}
 
+	/***********************************
+	 * SCOPES
+	***********************************/
+
+	public function scopeActiveUser($query)
+	{
+		return $query->whereHas('user', function ($query) {
+				$query->where('active', 1);
+			});
+	}
+
+	public function scopeUserId($query, $userId)
+	{
+		return $query->where('user_id', $userId);
+	}
+
 	/**
 	 * get user
 	 */

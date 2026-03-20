@@ -26,16 +26,7 @@ class DiaryRepository implements DiaryInterface
 	 */
 	public function get($count)
 	{
-		$items = Diary::select('*')
-			->whereHas('user', function ($query) {
-				$query->where('active', 1);
-			})
-			->with('user')
-			->with('comments')
-			->limit($count)
-			->orderBy('create_time', 'desc')
-			->get();
-		return $items;
+		return Diary::select('*')->activeUser()->with(['user', 'comments'])->limit($count)->orderBy('create_time', 'desc')->get();
 	}
 
 	/**
@@ -45,16 +36,7 @@ class DiaryRepository implements DiaryInterface
 	 */
 	public function getAll($count)
 	{
-		$items = Diary::select('*')
-			->whereHas('user', function ($query) {
-				$query->where('active', 1);
-			})
-			->with('user')
-			->with('comments')
-			->with('user_photo')
-			->orderBy('create_time', 'desc')
-			->paginate($count);
-		return $items;
+		return Diary::select('*')->activeUser()->with(['user', 'comments', 'user_photo'])->orderBy('create_time', 'desc')->paginate($count);
 	}
 
 	/**
@@ -65,15 +47,8 @@ class DiaryRepository implements DiaryInterface
 	 */
 	public function getByUser($count, $userId)
 	{
-		$items = Diary::select('*')
-			->where('user_id', $userId)
-			->with('user')
-			->with('comments')
-			->with('user_photo')
-			->orderBy('create_time', 'desc')
-			->paginate($count);
-		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
-		return $items;
+		$items = Diary::select('*')->userId($userId)->with(['user', 'comments', 'user_photo'])->orderBy('create_time', 'desc')->paginate($count);
+		return LengthPager::makeLengthAware($items, $items->total(), $count);
 	}
 
 	/**
@@ -84,12 +59,7 @@ class DiaryRepository implements DiaryInterface
 	 */
 	public function getByUserAndId($id, $userId)
 	{
-		$item = Diary::select('*')
-			->where('id', $id)
-			->where('user_id', $userId)
-			->with('comments')
-			->firstOrFail();
-		return $item;
+		return Diary::select('*')->whereKey($id)->userId($userId)->with('comments')->firstOrFail();
 	}
 
 	/**
@@ -99,11 +69,7 @@ class DiaryRepository implements DiaryInterface
 	 */
 	public static function getById($id)
 	{
-		$item = Diary::select('*')
-			->where('id', $id)
-			->with('user')
-			->firstOrFail();
-		return $item;
+		return Diary::select('*')->whereKey($id)->with('user')->firstOrFail();
 	}
 
 	/**
