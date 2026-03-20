@@ -8,4 +8,13 @@ class BanList extends Model
 {
 	use HasFactory;
 	protected $table = 'ban_list';
+
+	/***********************************
+	 * SCOPES
+	***********************************/
+
+	public function scopeIp($query, $ip)
+	{
+		return $query->where('ip', $ip);
+	}
 }

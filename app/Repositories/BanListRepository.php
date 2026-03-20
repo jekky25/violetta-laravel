@@ -14,9 +14,6 @@ class BanListRepository implements BanListInterface {
 	*/
 	public static function getByIP($ip)
 	{
-		$item = BanList::select('*')
-		->where('ip', $ip)
-		->first();
-		return $item;
+		return BanList::select('*')->ip($ip)->first();
 	}
 }

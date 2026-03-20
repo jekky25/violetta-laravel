@@ -441,7 +441,7 @@ class User extends Authenticatable
 
 	public function getMonthVisitsNewAttribute()
 	{
-		return count($this->anketVisitRepository->visitsNew($this));
+		return $this->anketVisitRepository->visitsNew($this)->count();
 	}
 
 	public function getMonthVisitsAttribute()
@@ -536,32 +536,32 @@ class User extends Authenticatable
 
 	public function scopeEmail($query, $email)
 	{
-	    return $query->where('email', $email);
+		return $query->where('email', $email);
 	}
 
 	public function scopeConfirmed($query)
 	{
-	    return $query->where('confirm_email', 1);
+		return $query->where('confirm_email', 1);
 	}
 
 	public function scopeLogin($query, $login)
 	{
-	    return $query->where('login', $login);
+		return $query->where('login', $login);
 	}
 
 	public function scopeActive($query)
 	{
-	    return $query->where('active', 1);
+		return $query->where('active', 1);
 	}
 
 	public function scopeSex($query, $sex)
 	{
-	    return $query->where('sex', $sex);
+		return $query->where('sex', $sex);
 	}
 
 	public function scopeHash($query, $pass)
 	{
-	    return $query->where('hash', md5($pass));
+		return $query->where('hash', md5($pass));
 	}
 
 	/***********************************
