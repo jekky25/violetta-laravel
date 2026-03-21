@@ -15,8 +15,6 @@ use App\Services\MessageService;
 
 class PrivmsgController extends Controller
 {
-	public static $messageAnkPerPage 	= 30;
-
 	/**
 	 * Create a new controller instance.
 	 *
@@ -119,7 +117,7 @@ class PrivmsgController extends Controller
 	{
 		$user 			= $request->user()->load(['visits']);
 		$anket 			= $this->userRepository->getById($id);
-		$messages 		= $this->messageRepository->getAllByUser($id, $user->id, self::$messageAnkPerPage);
+		$messages 		= $this->messageRepository->getAllByUser($id, $user->id, config('pagination.messages_profile'));
 		$smiles			= $this->smileRepository->getAll();
 		$this->anketEvaluationRepository->getEvaluations($user->id, $id);
 		$ankEvaluationed = $this->anketEvaluationRepository->getEvaluationWithUpdate($request, $user->id, $id);
