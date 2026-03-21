@@ -27,20 +27,19 @@ class MessageRepository implements MessageInterface
 			COUNT(sent_user_id) as count_messages'
 		)
 			->where(function ($query) use ($id) {
-				$query->where('sent_user_id', $id);
-				$query->where('sent_is_deleted', 0);
+				$query->senderId($id);
+				$query->sentNotDeleted();
 			})
 			->Orwhere(function ($query) use ($id) {
-				$query->where('received_user_id', $id);
-				$query->where('received_is_deleted', 0);
+				$query->receiverId($id);
+				$query->receiveNotDeleted();
 			})
 			->groupBy('user_id')
 			->orderBy('create_time', 'desc')
 			->paginate($count);
 
 		$items = LengthPager::makeLengthAware($items, $items->total(), $count);
-		if (empty($items)) return null;
-		return $items;
+		return !empty($items) ? $items : null;
 	}
 
 	/**
@@ -62,14 +61,14 @@ class MessageRepository implements MessageInterface
 					END as user_id'
 		)
 			->where(function ($query) use ($userAuthId, $userId) {
-				$query->where('sent_user_id', $userAuthId);
-				$query->where('received_user_id', $userId);
-				$query->where('sent_is_deleted', 0);
+				$query->senderId($userAuthId);
+				$query->receiverId($userId);
+				$query->sentNotDeleted();
 			})
 			->Orwhere(function ($query) use ($userAuthId, $userId) {
-				$query->where('received_user_id', $userAuthId);
-				$query->where('sent_user_id', $userId);
-				$query->where('received_is_deleted', 0);
+				$query->receiverId($userAuthId);
+				$query->senderId($userId);
+				$query->receiveNotDeleted();
 			})
 			->orderBy('create_time', 'asc')
 			->paginate($count);
@@ -105,17 +104,16 @@ class MessageRepository implements MessageInterface
 	 */
 	public function getForUser($userId, $userAuthId)
 	{
-		$items = Message::select('*')
+		return Message::select('*')
 			->where(function ($query) use ($userId, $userAuthId) {
-				$query->where('sent_user_id', $userId);
-				$query->where('received_user_id', $userAuthId);
+				$query->senderId($userId);
+				$query->receiverId($userAuthId);
 			})
 			->Orwhere(function ($query) use ($userId, $userAuthId) {
-				$query->where('received_user_id', $userId);
-				$query->where('sent_user_id', $userAuthId);
+				$query->receiverId($userId);
+				$query->senderId($userAuthId);
 			})
 			->get();
-		return $items;
 	}
 
 	/**
@@ -125,10 +123,7 @@ class MessageRepository implements MessageInterface
 	 */
 	public function getById($id)
 	{
-		$item = Message::select('*')
-			->where('id', $id)
-			->firstOrFail();
-		return $item;
+		return Message::select('*')->whereKey($id)->firstOrFail();
 	}
 
 	/**
@@ -147,9 +142,9 @@ class MessageRepository implements MessageInterface
 
 		if (!empty($users)) {
 			$items = Message::select('*')
-				->where('received_user_id', $user->id)
+				->receiverId($user->id)
 				->whereIn('sent_user_id', $users)
-				->where('is_new', 1)
+				->new()
 				->get();
 		}
 		foreach ($messages as &$_message) {
@@ -171,11 +166,7 @@ class MessageRepository implements MessageInterface
 	 */
 	public function getByTimeByUser($id)
 	{
-		$items = Message::select('*')
-			->where('sent_user_id', $id)
-			->where('create_time', '>', (time() - 5 * 60))
-			->get();
-		return $items;
+		return Message::select('*')->senderId($id)->createdFrom((time() - 5 * 60))->get();
 	}
 
 	/**

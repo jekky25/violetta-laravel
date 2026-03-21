@@ -100,6 +100,40 @@ class Message extends Model
 		$this->attributes['create_time'] = $val == null ? time() : $val;
 	}
 
+	/***********************************
+	 * SCOPES
+	***********************************/
+
+	public function scopeSenderId($query, $id)
+	{
+		return $query->where('sent_user_id', $id);
+	}
+
+	public function scopeReceiverId($query, $id)
+	{
+		return $query->where('received_user_id', $id);
+	}
+
+	public function scopeSentNotDeleted($query)
+	{
+		return $query->where('sent_is_deleted', 0);
+	}
+
+	public function scopeReceiveNotDeleted($query)
+	{
+		return $query->where('received_is_deleted', 0);
+	}
+
+	public function scopeNew($query)
+	{
+		return $query->where('is_new', 1);
+	}
+
+	public function scopeCreatedFrom($query, int $timeStamp)
+	{
+		return $query->where('create_time', '>', $timeStamp);
+	}
+
 	public function user(): HasOne
 	{
 		return $this->hasOne(User::class, 'id', 'sent_user_id');
