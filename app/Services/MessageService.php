@@ -61,14 +61,12 @@ class MessageService
 	/**
 	 * get messages sorted by user
 	 * @param User $user
-	 * @param int $perPage
 	 *
 	 * @return Collection
 	*/
-	public function getByUsers(User $user, int $perPage)
+	public function getByUsers(User $user)
 	{
-		$messages 			= $this->messageRepository->getAll($user->id, $perPage);
-		return	$this->messageRepository->getNewsByUsers($messages, $user);
+		return $this->messageRepository->getNewsByUsers($user, config('pagination.messages'));
 	}
 
 	/**

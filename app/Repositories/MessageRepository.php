@@ -128,12 +128,13 @@ class MessageRepository implements MessageInterface
 
 	/**
 	 * get all new messages for $user
-	 * @param  \Illuminate\Database\Eloquent\Collection $messages
 	 * @param  User $user
+	 * @param  int $count 
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
-	public function getNewsByUsers($messages, $user)
+	public function getNewsByUsers(User $user, int $count)
 	{
+		$messages 			= $this->getAll($user->id, $count);
 		if ($messages->count() == 0) return $messages;
 		$users = [];
 		foreach ($messages as $item) {

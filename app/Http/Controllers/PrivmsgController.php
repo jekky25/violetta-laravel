@@ -15,7 +15,6 @@ use App\Services\MessageService;
 
 class PrivmsgController extends Controller
 {
-	public static $messagePerPage 		= 10;
 	public static $messageAnkPerPage 	= 30;
 
 	/**
@@ -39,7 +38,7 @@ class PrivmsgController extends Controller
 	public function index()
 	{
 		return response()->view(
-			'ankets.privmsg', [	'messages' => $this->messageService->getByUsers(Auth::user(), self::$messagePerPage) ]);
+			'ankets.privmsg', [	'messages' => $this->messageService->getByUsers(Auth::user()) ]);
 	}
 
 	/**
