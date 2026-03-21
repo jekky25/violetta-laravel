@@ -14,14 +14,8 @@ class NameRepository implements NameInterface {
 	*/
 	public static function getPart($id, $sex)
 	{
-		$items = Name::select('*')
-		->where('gender', '=', $sex)
-		->where('name_id', '=', $id)
-		->limit(3)		
-		->get();
-
-		if (empty ($items)) return null;
-		return $items;
+		$items = Name::select('*')->gender($sex)->nameId($id)->limit(3)->get();
+		return !empty($items) ? $items : null;
 	}
 
 	/**
@@ -32,13 +26,9 @@ class NameRepository implements NameInterface {
 	*/
 	public static function getAllbySex($sex, $id)
 	{
-		$items = Name::select('*')
-		->where('gender', '=', $sex)
-		->where('name_id', '=', $id)
-		->get();
-
+		$items = Name::select('*')->gender($sex)->nameId($id)->get();
 		if (empty ($items)) return null;
-		return $items;
+		return !empty($items) ? $items : null;
 	}
 
 	/**
@@ -48,9 +38,6 @@ class NameRepository implements NameInterface {
 	*/
 	public static function getById($id)
 	{
-		$item = Name::select('*')
-		->where('id', $id)
-		->firstOrFail();
-		return $item;
+		return Name::select('*')->whereKey($id)->firstOrFail();
 	}
 }
