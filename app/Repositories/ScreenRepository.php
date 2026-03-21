@@ -13,10 +13,7 @@ class ScreenRepository implements ScreenInterface {
 	*/
 	public static function get($count = 0)
 	{
-		$items = Screen::select('*')
-		->orderBy('date', 'desc')
-		->paginate($count);
-		return $items;
+		return Screen::select('*')->orderBy('date', 'desc')->paginate($count);
 	}
 
 	/**
@@ -26,10 +23,7 @@ class ScreenRepository implements ScreenInterface {
 	*/
 	public static function getById($id)
 	{
-		$item = Screen::select('*')
-		->where('id', $id)
-		->firstOrFail();
-		return $item;
+		return Screen::select('*')->whereKey($id)->firstOrFail();
 	}
 
 	/**
@@ -39,7 +33,7 @@ class ScreenRepository implements ScreenInterface {
 	*/	
 	public function update($request) {
 		try {
-			Screen::where('id', $request->id)->update([
+			Screen::whereKey($request->id)->update([
 				'zakachka'   => $request->zakachka
 			]);
 		} catch (\Exception $e) {
