@@ -13,10 +13,7 @@ abstract class UserPropertyRepository implements UserPropertyInterface {
 	*/
 	public static function getById($id)
 	{
-		$item = self::getFullModelName()::select('*')
-		->where ('id', $id)
-		->first();
-		return $item;
+		return self::getFullModelName()::select('*')->whereKey($id)->first();
 	}
 	
 	/**
@@ -25,10 +22,7 @@ abstract class UserPropertyRepository implements UserPropertyInterface {
 	*/
 	public static function getAll()
 	{
-		$items = self::getFullModelName()::select('*')
-		->orderBy('name', 'asc')
-		->get();
-		return $items;
+		return self::getFullModelName()::select('*')->orderBy('name', 'asc')->get();
 	}
 
 	/**
