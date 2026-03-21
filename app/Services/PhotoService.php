@@ -23,14 +23,13 @@ class PhotoService
 	* Make preparation of the picture paraments
 	* @param  App\Models\User  $anket
 	* @param  int $photoId
-	* @param  int $perPage
 	* @return void
 	*/
-	public function prepare(&$anket, $photoId, $perPage)
+	public function prepare(&$anket, $photoId)
 	{
 		foreach ($anket->photo as &$item)
 		{
-			$item->comment	= $item->comment->slice(0, $perPage);
+			$item->comment	= $item->comment->slice(0, config('pagination.comments_photo'));
 			if ($photoId > 0 && $item->id == $photoId)
 				$anket->mainPhoto = $item;
 		}

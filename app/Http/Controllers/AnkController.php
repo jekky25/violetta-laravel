@@ -17,7 +17,6 @@ class AnkController extends Controller
 {
 	const IS_MAIN_PHOTO					= 1;
 	public static $visitDays 			= 30;
-	public $commentCountPerPage 		= 100;
 
 	/**
 	 * Create a new controller instance.
@@ -97,7 +96,7 @@ class AnkController extends Controller
 		$anket	= $this->userRepository->getById($photo->user_id);
 		if (!count($anket->photo)) abort(404);
 		$anket->ankVisits	= $this->anketVisitRepository->update($photo->user_id, self::$visitDays, $user->id);
-		$this->photoService->prepare($anket, $photo->id, $this->commentCountPerPage);
+		$this->photoService->prepare($anket, $photo->id);
 		return response()->view(
 			'ankets.photo',
 			[
