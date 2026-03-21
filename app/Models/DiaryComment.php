@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasUserId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class DiaryComment extends Model
 {
-	use HasFactory;
+	use HasFactory, HasUserId;
 	protected $table = 'dnevniki_comments';
 	protected $fillable = [
 		'id',
@@ -87,11 +88,6 @@ class DiaryComment extends Model
 	public function scopeDiaryId($query, $id)
 	{
 		return $query->where('diary_id', $id);
-	}
-
-	public function scopeUserId($query, $userId)
-	{
-		return $query->where('user_id', $userId);
 	}
 
 	/**

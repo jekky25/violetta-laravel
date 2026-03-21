@@ -1,12 +1,13 @@
 <?php
 namespace App\Models;
 
+use App\Traits\HasUserId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class AnketEvaluation extends Model
 {
-	use HasFactory;
+	use HasFactory, HasUserId;
 
 	protected $table = 'ocenka_anket';
 	public $timestamps 	= false;
@@ -21,11 +22,6 @@ class AnketEvaluation extends Model
 	/***********************************
 	 * SCOPES
 	***********************************/
-
-	public function scopeUserId($query, $userId)
-	{
-	    return $query->where('user_id', $userId);
-	}
 
 	public function scopeEvaluationUserId($query, $userId)
 	{

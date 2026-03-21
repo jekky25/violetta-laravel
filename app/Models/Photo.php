@@ -4,10 +4,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CommentPhoto;
+use App\Traits\HasUserId;
 
 class Photo extends Model
 {
-	use HasFactory;
+	use HasFactory, HasUserId;
 	protected $table 		= 'fotos';
 	protected $primaryKey 	= 'id';
 	public $timestamps 		= false;
@@ -16,15 +17,6 @@ class Photo extends Model
 		'main_picture',
 		'user_id'
 	];
-
-	/***********************************
-	 * SCOPES
-	***********************************/
-
-	public function scopeUserId($query, $userId)
-	{
-		return $query->where('user_id', $userId);
-	}
 
 	/**
 	* get comments

@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\SmileRepository;
 use App\Repositories\UserRepository;
+use App\Traits\HasCreatedFrom;
 
 class Message extends Model
 {
-	use HasFactory;
+	use HasFactory, HasCreatedFrom;
 	protected $table 		= 'user_messages';
 	protected $smiles;
 	protected $userRepository;
@@ -127,11 +128,6 @@ class Message extends Model
 	public function scopeNew($query)
 	{
 		return $query->where('is_new', 1);
-	}
-
-	public function scopeCreatedFrom($query, int $timeStamp)
-	{
-		return $query->where('create_time', '>', $timeStamp);
 	}
 
 	public function user(): HasOne

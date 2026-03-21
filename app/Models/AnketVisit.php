@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasUserId;
+use App\Traits\HasCreatedFrom;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class AnketVisit extends Model
 {
-	use HasFactory;
+	use HasFactory, HasUserId, HasCreatedFrom;
 
 	public $timestamps 	= false;
 	protected $table = 'anket_visit';
@@ -34,15 +36,5 @@ class AnketVisit extends Model
 	public function scopeVisitedUserId($query, int $userId)
 	{
 		return $query->where('user_id_prosm', $userId);
-	}
-
-	public function scopeCreatedFrom($query, int $timeStamp)
-	{
-		return $query->where('create_time', '>', $timeStamp);
-	}
-
-	public function scopeUserId($query, $userId)
-	{
-		return $query->where('user_id', $userId);
 	}
 }

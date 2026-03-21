@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasUserId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class Diary extends Model
 {
-	use HasFactory;
+	use HasFactory, HasUserId;
 	protected $table = 'dnevniki';
 	protected $fillable = [
 		'user_id',
@@ -115,11 +116,6 @@ class Diary extends Model
 		return $query->whereHas('user', function ($query) {
 				$query->where('active', 1);
 			});
-	}
-
-	public function scopeUserId($query, $userId)
-	{
-		return $query->where('user_id', $userId);
 	}
 
 	/**
