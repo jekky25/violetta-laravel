@@ -13,11 +13,7 @@ class RegionRepository implements RegionInterface {
 	*/
 	public function getByCountryId($id)
 	{
-		$items = Region::select('*')
-		->where ('country_id', $id)
-		->orderBy('name', 'asc')
-		->get();
-		return $items;
+		return Region::select('*')->countryId($id)->orderBy('name', 'asc')->get();
 	}
 
 	/**
@@ -27,9 +23,6 @@ class RegionRepository implements RegionInterface {
 	*/
 	public static function getById($id)
 	{
-		$item = Region::select('*')
-		->where ('id', $id)
-		->first();
-		return $item;
+		return Region::select('*')->whereKey($id)->first();
 	}
 }
