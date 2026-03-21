@@ -23,6 +23,6 @@ class GoroskopRepository implements GoroskopInterface {
 	*/
 	public static function getById($id)
 	{
-		return Goroskop::select('*')->whereHas($id)->firstOrFail();
+		return Goroskop::select('*')->whereKey($id)->firstOrFail();
 	}
 }

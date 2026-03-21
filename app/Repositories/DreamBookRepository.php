@@ -34,7 +34,7 @@ class DreamBookRepository implements DreamBookInterface {
 	*/
 	public function getById($id)
 	{
-		return DreamBook::select('*')->whereHas($id)->firstOrFail();
+		return DreamBook::select('*')->whereKey($id)->firstOrFail();
 	}
 
 	/**
