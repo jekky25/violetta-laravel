@@ -47,10 +47,7 @@ class PhotoRepository implements PhotoInterface
 	 */
 	public function getById($id)
 	{
-		$item = Photo::select('*')
-			->where('id', $id)
-			->firstOrFail();
-		return $item;
+		return Photo::select('*')->whereKey($id)->firstOrFail();
 	}
 
 	/**
@@ -61,11 +58,7 @@ class PhotoRepository implements PhotoInterface
 	 */
 	public function getByIdAndUserId($id, $userId)
 	{
-		$item = Photo::select('*')
-			->where('id', $id)
-			->where('user_id', $userId)
-			->firstOrFail();
-		return $item;
+		return Photo::select('*')->whereKey($id)->userId($userId)->firstOrFail();
 	}
 
 	/**
@@ -75,10 +68,7 @@ class PhotoRepository implements PhotoInterface
 	 */
 	public function getFirstByUserId($id)
 	{
-		$item = Photo::select('*')
-			->where('user_id', $id)
-			->first();
-		return $item;
+		return Photo::select('*')->userId($id)->first();
 	}
 
 	/**
@@ -88,10 +78,7 @@ class PhotoRepository implements PhotoInterface
 	 */
 	public function getAllByUserId($id)
 	{
-		$item = Photo::select('*')
-			->where('user_id', $id)
-			->get();
-		return $item;
+		return Photo::select('*')->userId($id)->get();
 	}
 
 	/**

@@ -17,6 +17,15 @@ class Photo extends Model
 		'user_id'
 	];
 
+	/***********************************
+	 * SCOPES
+	***********************************/
+
+	public function scopeUserId($query, $userId)
+	{
+		return $query->where('user_id', $userId);
+	}
+
 	/**
 	* get comments
 	*/
