@@ -28,10 +28,6 @@ use App\Http\Resources\Profile\ProfileShortResource;
 
 class AnketController extends Controller
 {
-	public $countPerPage 	= 20;
-	public $countNewFaces 	= 10;
-	public $countOne		= 1;
-
 	/**
 	 * Create a new controller instance.
 	 *
@@ -104,7 +100,7 @@ class AnketController extends Controller
 				'page'				=> $page,
 				'ankets'			=> $ankets,
 				'titleId'			=> $sex == 'men' ? 'Лучшие парни' : 'Лучшие девушки',
-				'countSearchAnkStr' => (new AnkService($ankets))->getFoundStr($this->countPerPage),
+				'countSearchAnkStr' => (new AnkService($ankets))->getFoundStr(),
 				'user'				=> $user
 			]
 		);
@@ -137,11 +133,11 @@ class AnketController extends Controller
 	{
 		$opt				= $formService->prepareAnketTitles($sex, $op);
 		if (empty($sex) && empty($op)) {
-			$ankets 			= $this->userRepository->newFaces($this->countNewFaces);
+			$ankets 			= $this->userRepository->newFaces(config('pagination.profiles_under_menu'));
 		} else {
 			$ankets				= $this->userRepository->getBySearch($filter, $request);
 			$page 				= $ankets->currentPage();
-			$countSearchAnkStr	= (new AnkService($ankets))->getFoundStr($this->countPerPage);
+			$countSearchAnkStr	= (new AnkService($ankets))->getFoundStr();
 		}
 		return response()->view(
 			'ankets.id',
@@ -168,7 +164,7 @@ class AnketController extends Controller
 	{
 		$ankets				= $this->userRepository->getBySearch($filter, $request);
 		$critsSearch		= $search->getSearchText($ankets, $request->validated());
-		$countSearchAnkStr	= (new AnkService($ankets))->getFoundStr($request->per_page);
+		$countSearchAnkStr	= (new AnkService($ankets))->getFoundStr();
 		return response()->view(
 			'ankets.search',
 			[
@@ -188,7 +184,7 @@ class AnketController extends Controller
 	 */
 	public function getTop100($sex = WOMEN)
 	{
-		$profiles = $this->userRepository->getTop100($sex, $this->countOne);
+		$profiles = $this->userRepository->getTop100($sex, config('pagination.profiles_VIP_one'));
 		return new ProfileShortResource($profiles);
 	}
 }

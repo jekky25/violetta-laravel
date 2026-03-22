@@ -223,7 +223,7 @@ class UserRepository implements UserInterface
 	 */
 	public function getByEmail($email)
 	{
-		return User::select('*')->email($email)->first();
+		return self::select('*')->email($email)->first();
 	}
 
 	/**
@@ -275,7 +275,7 @@ class UserRepository implements UserInterface
 	 */
 	public function getBySearch($filter, $request, $order = 'refresh_date_t')
 	{
-		return User::filter($filter, $request)->confirmed()->orderBy($order, 'desc')->paginate($request->get('per_page', User::COUNT_PER_PAGE));
+		return User::filter($filter, $request)->confirmed()->orderBy($order, 'desc')->paginate(config('pagination.profiles'));
 	}
 
 	/**
