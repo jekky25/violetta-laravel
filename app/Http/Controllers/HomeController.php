@@ -13,9 +13,6 @@ use App\Http\Resources\Diary\DiaryResource;
 
 class HomeController extends Controller
 {
-	public 	$countNewFaces 	= 5;
-	public 	$countDiaries 	= 5;
-
 	/**
 	 * Create a new controller instance.
 	 *
@@ -48,7 +45,7 @@ class HomeController extends Controller
 	 */
 	public function newFaces()
 	{
-		$profiles	= $this->userRepository->newFaces($this->countNewFaces);
+		$profiles	= $this->userRepository->newFaces();
 		return ProfileShortResource::collection($profiles);
 	}
 
@@ -58,7 +55,7 @@ class HomeController extends Controller
 	 */
 	public function diaries()
 	{
-		$diaries	= $this->diaryRepository->get($this->countDiaries);
+		$diaries	= $this->diaryRepository->get(config('pagination.diaries_home_page'));
 		return DiaryResource::collection($diaries);
 	}
 }
