@@ -13,8 +13,6 @@ use App\Services\FileService;
 
 class DiaryCommentController extends Controller
 {
-	public static $diaryCommentsPerPage	= 20;
-
 	/**
 	 * Create a new controller instance.
 	 *
@@ -34,7 +32,7 @@ class DiaryCommentController extends Controller
 	 */
 	public function index($id)
 	{
-		$comments 	= $this->diaryCommentRepository->getByDiary(self::$diaryCommentsPerPage, $id);
+		$comments 	= $this->diaryCommentRepository->getByDiary(config('pagination.comments_diary'), $id);
 		$diary 		= $this->diaryRepository->getById($id);
 		return response()->view(
 			'ankets.comments',
