@@ -13,9 +13,6 @@ use App\Services\FileService;
 
 class DiaryController extends Controller
 {
-	public $countPerPage		= 10;
-	public static $diaryPerPage	= 10;
-
 	/**
 	 * Create a new controller instance.
 	 *
@@ -35,7 +32,7 @@ class DiaryController extends Controller
 	public function index()
 	{
 		return response()->view('diaries', [ 
-			'diaries' => $this->diaryRepository->getAll($this->countPerPage)
+			'diaries' => $this->diaryRepository->getAll(config('pagination.diaries'))
 		]);
 	}
 
@@ -63,7 +60,7 @@ class DiaryController extends Controller
 		$anket 	= $this->userRepository->getById($id);
 		if (empty($anket->photo)) abort(404);
 
-		$diaries = $this->diaryRepository->getByUser(self::$diaryPerPage, $id);
+		$diaries = $this->diaryRepository->getByUser(config('pagination.diaries_user'), $id);
 		if (count($diaries) == 0) abort(404);
 		$page 				= $diaries->currentPage();
 		return response()->view(
