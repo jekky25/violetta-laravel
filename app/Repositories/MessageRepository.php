@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\MessageInterface;
 use App\Models\Message;
+use App\Models\User;
 use App\Services\LengthPager;
 
 class MessageRepository implements MessageInterface
