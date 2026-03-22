@@ -24,10 +24,6 @@ class SiteController extends Controller
 	*/
 	public function index()
 	{
-		$dreamBook = $this->dreamBookRepository->getAll();
-		return response()->view ('site_map', 
-		[
-			'dreamBook' => $dreamBook
-		]);
+		return response()->view ('site_map', [ 'dreamBook' => $this->dreamBookRepository->getAll() ]);
 	}
 }
