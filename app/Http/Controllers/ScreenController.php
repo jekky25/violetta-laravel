@@ -10,7 +10,6 @@ use App\Requests\ScreenDownloadRequest;
 
 class ScreenController extends Controller
 {
-	public $countPerPage 	= 6;
 	const VAR_SCR = 1;
 	const VAR_RAR = 2;
 
@@ -32,7 +31,7 @@ class ScreenController extends Controller
 	*/
 	public function index()
 	{
-		$screens			= $this->screenRepository->get($this->countPerPage);
+		$screens			= $this->screenRepository->get(config('pagination.screens'));
 		$page				= $screens->currentPage();
 		return response()->view ('screensavers', 
 		[

@@ -11,5 +11,6 @@ return [
 	'diaries'			=> 10,
 	'diaries_user'		=> 10,
 	'diaries_home_page'	=> 5,
-	'dream_books'		=> 30
+	'dream_books'		=> 30,
+	'screens'			=> 6
 ];
