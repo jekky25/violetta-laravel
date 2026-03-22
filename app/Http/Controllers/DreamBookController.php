@@ -9,7 +9,6 @@ use App\Traits\Tstr;
 class DreamBookController extends Controller
 {
 	use Tstr;
-	public $countPerPage 	= 30;
 	public $op				= 1;
 	private $pattern		= '/sonnik_id([0-9]+).html/i';
 	private $replacement 	= 'dreambook/$1.html';
@@ -34,7 +33,7 @@ class DreamBookController extends Controller
 	{
 		$dreamBookLiterals		= $this->dreamBookRepository->getLiter();
 		$op						= !empty ($id) ? $id : $this->op;
-		$words					= $this->dreamBookRepository->get($this->countPerPage, $op);
+		$words					= $this->dreamBookRepository->get(config('pagination.dream_books'), $op);
 		$page					= $words->currentPage();
 		return response()->view ('dreambooks', 
 		[
