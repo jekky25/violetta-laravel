@@ -45,7 +45,7 @@ class HomeController extends Controller
 	 */
 	public function newFaces()
 	{
-		$profiles	= $this->userRepository->newFaces();
+		$profiles	= $this->userRepository->newFaces(config('pagination.profiles_new_faces'));
 		return ProfileShortResource::collection($profiles);
 	}
 

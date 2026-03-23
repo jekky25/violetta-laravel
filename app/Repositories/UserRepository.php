@@ -34,9 +34,10 @@ class UserRepository implements UserInterface
 
 	/**
 	 * get new faces for the front page
+	 * @param int $count
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
-	public function newFaces()
+	public function newFaces(int $count)
 	{
 		$items = User::select(['users_news.id', 'active', 'name', 'sex', 'birth_date', 'make_date_t', 'city_id', 'photos_count', 'sex_orient', 'partner_age_min', 'partner_age_max'])
 			->join('fotos', 'users_news.id', '=', 'fotos.user_id')
@@ -46,7 +47,7 @@ class UserRepository implements UserInterface
 			->where('main_picture', 1)
 			->with('city')
 			->with('photo')
-			->limit(config('pagination.profiles_new_faces'))
+			->limit($count)
 			->orderBy('make_date_t', 'desc')
 			->get();
 		$items = self::addProps($items);
