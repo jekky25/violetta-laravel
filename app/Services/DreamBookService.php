@@ -1,9 +1,11 @@
-<?
+<?php
 
 namespace App\Services;
 
 use App\Interfaces\DreamBookInterface;
 use App\DTO\DreamBookDTO;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class DreamBookService
 {
@@ -13,12 +15,10 @@ class DreamBookService
 
 	/**
 	* get a list of a dreambook
-	* @param  int $id
-	* @return \Illuminate\Pagination\LengthAwarePaginator
 	*/
-	public function getList(int $id)
+	public function getList(int $literId, int $perPage): LengthAwarePaginator
 	{
-		$paginator = $this->repository->get(config('pagination.dream_books'), $id);
+		$paginator = $this->repository->get($perPage, $literId);
 		$paginator->getCollection()->transform(function ($item) {
 			return new DreamBookDTO(
 				$item->id,
@@ -31,13 +31,10 @@ class DreamBookService
 
 	/**
 	* get an item
-	* @param  int $id
-	* @return DreamBookDTO
 	*/
-	public function getItem(int $id)
+	public function getItem(int $id): DreamBookDTO
 	{
 		$item = $this->repository->getById($id);
-		$item->description = preg_replace('/sonnik_id([0-9]+).html/i', 'dreambook/$1.html',$item->description);
 		return new DreamBookDTO(
             $item->id,
             $item->name,
@@ -47,9 +44,8 @@ class DreamBookService
 
 	/**
 	* get a list of literals
-	* @return Collection
 	*/
-	public function getLiterals()
+	public function getLiterals(): Collection
 	{
 		return $this->repository->getLiter();
 	}
