@@ -4,22 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\DreamBookInterface;
-use App\Traits\Tstr;
+use App\Services\DreamBookService;
 
 class DreamBookController extends Controller
 {
-	use Tstr;
-	public $op				= 1;
-	private $pattern		= '/sonnik_id([0-9]+).html/i';
-	private $replacement 	= 'dreambook/$1.html';
-
 	/**
 	* Create a new controller instance.
 	*
 	* @return void
 	*/
 	public function __construct(
-		protected DreamBookInterface $dreamBookRepository
+		protected DreamBookInterface $dreamBookRepository,
+		private DreamBookService $service
 	)
 	{
 	}
@@ -29,17 +25,14 @@ class DreamBookController extends Controller
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function index($id = 1)
+	public function index(int $id = 1)
 	{
-		$dreamBookLiterals		= $this->dreamBookRepository->getLiter();
-		$op						= !empty ($id) ? $id : $this->op;
-		$words					= $this->dreamBookRepository->get(config('pagination.dream_books'), $op);
-		$page					= $words->currentPage();
-		return response()->view ('dreambooks', 
+		$words = $this->service->getList($id);
+		return view('dreambooks', 
 		[
-			'dreamBookLiterals'		=> $dreamBookLiterals,
+			'dreamBookLiterals'		=> $this->service->getLiterals(),
 			'words'					=> $words,
-			'page'					=> $page
+			'page'					=> $words->currentPage()
 		]);
 	}
 
@@ -49,16 +42,11 @@ class DreamBookController extends Controller
 	* @param  int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function getItem($id)
+	public function show(int $id)
 	{
-		$dreamBookLiterals		= $this->dreamBookRepository->getLiter();
-		$dreambook 				= $this->dreamBookRepository->getById($id);
-		$dreambook->description = $this->replaceStringByPattern ($dreambook->description, $this->pattern, $this->replacement);
-
-		return response()->view ('dreambooks_id', 
-		[
-			'dreamBookLiterals'		=> $dreamBookLiterals,
-			'dreambook'				=> $dreambook
-		]);
+		return view('dreambooks_id', [
+            'dreamBookLiterals' => $this->service->getLiterals(),
+            'dreambook' => $this->service->getItem($id)
+        ]);		
 	}
 }
