@@ -1,8 +1,7 @@
-<?
+<?php
 namespace App\Services;
 
 use App\Interfaces\NameInterface;
-use Illuminate\Support\Collection;
 
 class NameService
 {
@@ -24,46 +23,19 @@ class NameService
 	}
 
 	/**
-	* get literals string of alphabet
+	* map sex for DB request
 	*/
-	public function getLiteralString(string $sex): string
+	private function mapSexToDb(string $sex): string
 	{
-		$this->prepare($sex);
-		$str = '';
-		foreach ($this->alphabet as $id => $liter) 
-		{
-			$str .= '<a href="' . route('names.subop', [$sex, $id]) . '">' . $liter . '</a>';
-		}
-		return $str;
+    	return $sex === self::WOMEN ? self::FEMALE : self::MALE;
 	}
 
 	/**
-	* prepare an array of the alphabet
+	* map sex for view
 	*/
-	public function prepare(string $sex): array
+	private function mapSexToView(string $sex): string
 	{
-		if ($sex == self::MEN) {
-			unset($this->alphabet[7]);
-		}
-		return $this->alphabet;
-	}
-
-	/**
-	* add static links
-	*/
-	public function addLink($id): string | bool
-	{
-		switch ($id) {
-			case '8':
-				return '<a href="http://www.russiamore.ru" class="name">Знакомства с иностранцами</a> - Хотите завязать романтические отношения, выйти замуж за иностранца, жить в другой
-				стране? Тогда добро пожаловать на международный сайт знакомств Russiamore.';
-				break;
-			case '9':
-				return '<a href="http://www.lovevolna.ru" style="padding:0px;" class="name">Служба знакомств на сайте</a>. Приглашаем мужчин и женщин на наши популярные знакомства, ведь именно у нас вы можете общаться и
-				знакомиться быстро и бесплатно!';	
-				break;
-		}
-		return false;
+    	return $sex === self::MALE ? self::MEN : self::WOMEN;
 	}
 
 	/**
@@ -84,8 +56,8 @@ class NameService
 
 		for ($i = 1; $i <= count($this->alphabet); $i++)
 		{
-			$names['m'][$i] = !empty($namesGroupM[$i]) ? $namesGroupM[$i] : new Collection;
-			$names['f'][$i] = !empty($namesGroupF[$i]) ? $namesGroupF[$i] : new Collection;
+			$names['m'][$i] = !empty($namesGroupM[$i]) ? $namesGroupM[$i] : collect();
+			$names['f'][$i] = !empty($namesGroupF[$i]) ? $namesGroupF[$i] : collect();
 		}
 		return $names;
 	}
@@ -99,9 +71,8 @@ class NameService
 		[
 			'sex'				=> $sex,
 			'alphabet'			=> $this->getAlphabet(),
-			'names'				=> $this->nameRepository->getAllbySex($sex == self::WOMEN ? self::MALE	: self::FEMALE, $id),
-			'nameTitle'			=> $sex == self::MEN ? 'Значение мужского имени' : 'Значение женского имени',
-			'namesGender'		=> $this->getLiteralString($sex)
+			'names'				=> $this->nameRepository->getAllbySex($this->mapSexToDb($sex), $id),
+			'nameTitle'			=> $sex == self::MEN ? 'Значение мужского имени' : 'Значение женского имени'
 		];
 	}
 
@@ -113,13 +84,12 @@ class NameService
 		$name = $this->nameRepository->getById($id);
 		return
 		[
+			'sex'				=> $this->mapSexToView($name->gender),
 			'name'				=> $name,
 			'nameTitle'			=> 'Значение имени ' . $name->name,
 			'alphabet'			=> $this->getAlphabet(),
 			'nameText'			=> str_replace("\n","<br /><br />\n",$name->description),
-			'namesGender'		=> $this->getLiteralString($name->gender == self::MALE ? self::MEN	: self::WOMEN),
-			'nameTitleGender'	=> $name->gender == self::MALE ? 'Мужские имена по алфавиту' 	: 'Женские имена по алфавиту',
-			'bannerNames'		=> $this->addLink($id)
+			'nameTitleGender'	=> $name->gender == self::MALE ? 'Мужские имена по алфавиту' 	: 'Женские имена по алфавиту'
 		];
 	}
 }

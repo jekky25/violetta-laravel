@@ -3,20 +3,7 @@
 @section('main_body')
 <h1 class="mTit">{{$nameTitle}}</h1>
 @if (!empty($nameText))
-	<p class="namesMW3">{!!$namesGender!!}</p>
-<div class="google_banner">
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* 300X250 имена */
-google_ad_slot = "6112326239";
-google_ad_width = 300;
-google_ad_height = 250;
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
-</div>
+<x-liter-menu :alphabet="$alphabet" :sex="$sex"></x-liter-menu>
 <p class="pad8">
 {!!$nameText!!}
 </p>
@@ -42,9 +29,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 
 </td></tr></table>
 <h2 class="mTit pad5">{{$nameTitleGender}}</h2>
-@if (!empty($namesGender))
-	<p class="namesMW3">{!!$namesGender!!}</p>
-@endif
+<x-liter-menu :alphabet="$alphabet" :sex="$sex"></x-liter-menu>
 <ul class="namesMW">
 	<li><a href="{{route('names.sex','men')}}">Мужские имена</a></li>
 	<li><a href="{{route('names.sex','women')}}">Женские имена</a></li>
@@ -52,4 +37,8 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <div class="clear"></div>
 @endif
 @if (!empty($bannerNames))<p class="pad1 pad2">{!!$bannerNames!!}</p>@endif
+@if ($name->id == 8)<a href="http://www.russiamore.ru" class="name">Знакомства с иностранцами</a> - Хотите завязать романтические отношения, выйти замуж за иностранца, жить в другой стране? Тогда добро пожаловать на международный сайт знакомств Russiamore.
+@endif
+@if ($name->id == 9)<a href="http://www.lovevolna.ru" style="padding:0px;" class="name">Служба знакомств на сайте</a>. Приглашаем мужчин и женщин на наши популярные знакомства, ведь именно у нас вы можете общаться и
+	знакомиться быстро и бесплатно!@endif
 @overwrite

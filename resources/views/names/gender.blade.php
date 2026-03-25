@@ -9,20 +9,7 @@
 	<div class="clear"></div>
 
 @if (!empty($names))
-	<p class="namesMW3">{!!$namesGender!!}</p>
-<div class="google_banner">
-{{--
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-6379140164632940";
-/* 300X250 имена */
-google_ad_slot = "6112326239";
-google_ad_width = 300;
-google_ad_height = 250;
-//-->
-</script>
-<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>--}}
-</div>
+<x-liter-menu :alphabet="$alphabet" :sex="$sex"></x-liter-menu>
 <div>
 	<ul class="namesMW4">
 	@foreach ($names as $item)
@@ -34,7 +21,7 @@ google_ad_height = 250;
 	</ul>
 </div>
 @if (count($names) > 3)
-	<p class="namesMW3">{!!$namesGender!!}</p>
+<x-liter-menu :alphabet="$alphabet" :sex="$sex"></x-liter-menu>
 @endif
 <div class="pad2"></div>
 @else
