@@ -83,9 +83,9 @@ class NameTest extends TestCase
 	public function test_name_id_page(): void
 	{
 		$ar = [
-			'/names/' . $this->getRand() . '.html',
-			'/names/' . $this->getRand() . '.html',
-			'/names/' . $this->getRand() . '.html',
+			'/names/' . $this->names[$this->getRand()]->id . '.html',
+			'/names/' . $this->names[$this->getRand()]->id . '.html',
+			'/names/' . $this->names[$this->getRand()]->id . '.html',
 		];
 
 		foreach ($ar as $item)

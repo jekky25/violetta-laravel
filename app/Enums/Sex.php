@@ -6,6 +6,8 @@ enum Sex: string
 {
 	case MALE = 'm';
 	case FEMALE = 'f';
+	case MEN = 'men';
+	case WOMEN = 'women';
 
 	/**
 	* map sex for DB request

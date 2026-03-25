@@ -8,11 +8,6 @@ use App\Enums\Sex;
 
 class NameService
 {
-	const MALE = 'm';
-	const FEMALE = 'f';
-	const MEN = 'men';
-	const WOMEN = 'women';
-
 	/**
 	* Create a new service instance.
 	*
@@ -54,7 +49,7 @@ class NameService
 			sex: $sex,
 			alphabet: $this->alphabet(),
 			names: $this->repository->getAllbySex($sexEnum->value, $id),
-			title: $sex == self::MEN ? 'Значение мужского имени' : 'Значение женского имени'
+			title: $sex == Sex::MEN->value ? 'Значение мужского имени' : 'Значение женского имени'
 		);
 	}
 
@@ -71,7 +66,7 @@ class NameService
             alphabet: $this->alphabet(),
 			text: nl2br($name->description),
             sex: $sexEnum->toView(),
-            genderTitle: $name->gender === self::MALE
+            genderTitle: $name->gender === Sex::MALE->value
                 ? 'Мужские имена по алфавиту'
                 : 'Женские имена по алфавиту'
         );
