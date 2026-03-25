@@ -40,4 +40,21 @@ class NameRepository implements NameInterface {
 	{
 		return Name::select('*')->whereKey($id)->firstOrFail();
 	}
+
+	/**
+	* get a collect of treenames by first and sex for the ids
+	* @param  array<int> $ids
+	* @param  string $sex
+	* @return \Illuminate\Database\Eloquent\Collection
+	*/
+	public function getPartsByIds(array $ids, string $sex)
+	{
+		return Name::select('*')
+			->gender($sex)
+			->whereIn('name_id', $ids)
+			->orderBy('name_id')
+			->get()
+			->groupBy('name_id')
+			->map(fn($group) => $group->take(3)->values());
+	}
 }

@@ -90,7 +90,7 @@ Route::middleware('slashes')->group(function () {
 
 	Route::get('names/{sex}.html', 'NameController@getGender')															->where('sex', '(men|women)')
 																																				->name('names.sex');
-	Route::get('names/{id}.html', 'NameController@getName')																->whereNumber('id')		->name('names.id');
+	Route::get('names/{id}.html', 'NameController@show')																->whereNumber('id')		->name('names.id');
 	Route::get('names/{sex}/{id}.html', 'NameController@getGender')														->whereNumber('id')
 															   															->where('sex', '(men|women)')
 																																				->name('names.subop');
