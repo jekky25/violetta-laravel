@@ -1,12 +1,13 @@
 <?php
 namespace App\Services;
 
+use App\DTO\GenderPageDTO;
+use App\DTO\NamePageDTO;
 use App\Interfaces\NameInterface;
+use App\Enums\Sex;
 
 class NameService
 {
-	protected $alphabet = [];
-	
 	const MALE = 'm';
 	const FEMALE = 'f';
 	const MEN = 'men';
@@ -17,33 +18,14 @@ class NameService
 	*
 	* @return void
 	*/
-	public function __construct(private NameInterface $nameRepository)
-	{
-		$this->alphabet = config('names.alphabet');
-	}
-
-	/**
-	* map sex for DB request
-	*/
-	private function mapSexToDb(string $sex): string
-	{
-    	return $sex === self::WOMEN ? self::FEMALE : self::MALE;
-	}
-
-	/**
-	* map sex for view
-	*/
-	private function mapSexToView(string $sex): string
-	{
-    	return $sex === self::MALE ? self::MEN : self::WOMEN;
-	}
+	public function __construct(private NameInterface $repository) {}
 
 	/**
 	* get alphabet width indexes
 	*/
-	public function getAlphabet(): array
+	public function alphabet(): array
 	{
-		return $this->alphabet;
+		return config('names.alphabet');
 	}
 
 	/**
@@ -51,10 +33,10 @@ class NameService
 	*/
 	public function getGroupedNames(): array
 	{
-		$namesGroupF = $this->nameRepository->getPartsByIds(array_keys($this->alphabet), 'f');
-		$namesGroupM = $this->nameRepository->getPartsByIds(array_keys($this->alphabet), 'm');
+		$namesGroupF = $this->repository->getPartsByIds(array_keys($this->alphabet()), 'f');
+		$namesGroupM = $this->repository->getPartsByIds(array_keys($this->alphabet()), 'm');
 
-		for ($i = 1; $i <= count($this->alphabet); $i++)
+		for ($i = 1; $i <= count($this->alphabet()); $i++)
 		{
 			$names['m'][$i] = !empty($namesGroupM[$i]) ? $namesGroupM[$i] : collect();
 			$names['f'][$i] = !empty($namesGroupF[$i]) ? $namesGroupF[$i] : collect();
@@ -65,31 +47,33 @@ class NameService
 	/**
 	* get data for the gender page
 	*/
-	public function getGenderPageData(string $sex, int $id = 1): array
+	public function getGenderPageData(string $sex, int $id = 1): GenderPageDTO
 	{
-		return 
-		[
-			'sex'				=> $sex,
-			'alphabet'			=> $this->getAlphabet(),
-			'names'				=> $this->nameRepository->getAllbySex($this->mapSexToDb($sex), $id),
-			'nameTitle'			=> $sex == self::MEN ? 'Значение мужского имени' : 'Значение женского имени'
-		];
+		$sexEnum = Sex::fromView($sex);
+		return new GenderPageDTO(
+			sex: $sex,
+			alphabet: $this->alphabet(),
+			names: $this->repository->getAllbySex($sexEnum->value, $id),
+			title: $sex == self::MEN ? 'Значение мужского имени' : 'Значение женского имени'
+		);
 	}
 
 	/**
 	* get data for the name page
 	*/
-	public function getNamePageData(int $id): array
+	public function getNamePageData(int $id): NamePageDTO
 	{
-		$name = $this->nameRepository->getById($id);
-		return
-		[
-			'sex'				=> $this->mapSexToView($name->gender),
-			'name'				=> $name,
-			'nameTitle'			=> 'Значение имени ' . $name->name,
-			'alphabet'			=> $this->getAlphabet(),
-			'nameText'			=> str_replace("\n","<br /><br />\n",$name->description),
-			'nameTitleGender'	=> $name->gender == self::MALE ? 'Мужские имена по алфавиту' 	: 'Женские имена по алфавиту'
-		];
+		$name = $this->repository->getById($id);
+		$sexEnum = Sex::from($name->gender);
+		return new NamePageDTO(
+            name: $name,
+            title: 'Значение имени ' . $name->name,
+            alphabet: $this->alphabet(),
+			text: nl2br($name->description),
+            sex: $sexEnum->toView(),
+            genderTitle: $name->gender === self::MALE
+                ? 'Мужские имена по алфавиту'
+                : 'Женские имена по алфавиту'
+        );
 	}
 }

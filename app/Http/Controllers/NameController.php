@@ -24,7 +24,7 @@ class NameController extends Controller
 	{
 		return view('names', 
 		[
-			'alphabet'	=> $this->service->getAlphabet(),
+			'alphabet'	=> $this->service->alphabet(),
 			'names'		=> $this->service->getGroupedNames()
 		]);
     }
@@ -37,7 +37,7 @@ class NameController extends Controller
 	*/
 	public function getGender(string $sex, int $id = 1): View
 	{
-		return view('names.gender', $this->service->getGenderPageData($sex, $id));
+		return view('names.gender', ['data' => $this->service->getGenderPageData($sex, $id)]);
 	}
 
 	/**
@@ -47,6 +47,6 @@ class NameController extends Controller
 	*/
 	public function show(int $id): View
 	{
-		return view('names.id', $this->service->getNamePageData($id));
+		return view('names.id', ['data' => $this->service->getNamePageData($id)]);
 	}
 }
