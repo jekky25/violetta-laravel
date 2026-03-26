@@ -56,9 +56,8 @@ function disableSelect(fs)
 	}
 }
 
-function updateSelect (selectId, optValue, fs)
+function updateSelect(selectId, optValue, fs)
 {
-
   if (!xmlHttp)
     return false;
 
@@ -72,39 +71,60 @@ function updateSelect (selectId, optValue, fs)
   {
     disableSelect('cities');
   }
-
   sid = document.getElementById(selectId);
   sid.options.length = 0;
   sid.disabled = true;
   sid.options[sid.options.length] = new Option("Подождите, идет загрузка...", 0, false, false);
-  var url = '../../../ajax/geo.php?selectid=' + selectId + '&id=' + optValue;
-  xmlHttp.open("GET", url, true);
-  xmlHttp.onreadystatechange = function()
+  if (selectId == 'region') {
+	var url = '../../../api/regions/' + optValue + '/';
+	getRegions(url);
+  } else 
   {
-    if (xmlHttp.readyState == 4)
-    {
-      if (xmlHttp.status == 200)
-			{
-        var geo = xmlHttp.responseXML;
-        var georoot = geo.documentElement;
-        idArray = georoot.getElementsByTagName("countryid");
-				titleArray = georoot.getElementsByTagName ("countryname");
-				sid.options.length = 0;
-				sid.options[sid.options.length] = new Option("--- не имеет значения ---", 0, false, false);
-
-				for(var i=0; i<idArray.length; i++)
-				{
-					sid.options[sid.options.length] = new Option(titleArray.item(i).firstChild.data, idArray.item(i).firstChild.data, false, false);
-				}
-  			sid.disabled = false;
-      } else{
-        requestError (sid, 'Ошибка на сервере');
-        return false;
-			}
-    }
+  	var url = '../../../api/cities/' + optValue + '/';
+	getCities(url);
   }
-  xmlHttp.send(null);
+}
 
+async function getCities(url) {
+	try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Ошибка запроса');
+        }
+		
+		const data = await response.json();
+		sid.options.length = 0;
+		sid.options[sid.options.length] = new Option("--- не имеет значения ---", 0, false, false);
+		for(var i=0; i<data.length; i++)
+		{
+			sid.options[sid.options.length] = new Option(data[i].name, data[i].id, false, false);
+		}
+		sid.disabled = false;
+	} catch (error) {
+        console.error(error);
+    }
+}
+
+async function getRegions(url) {
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error('Ошибка запроса');
+        }
+
+        const data = await response.json();
+		sid.options.length = 0;
+		sid.options[sid.options.length] = new Option("--- не имеет значения ---", 0, false, false);
+		for(var i=0; i<data.length; i++)
+		{
+			sid.options[sid.options.length] = new Option(data[i].name, data[i].id, false, false);
+		}
+
+		sid.disabled = false;
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 function find_otsil()

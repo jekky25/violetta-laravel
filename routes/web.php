@@ -130,7 +130,6 @@ Route::middleware('slashes')->group(function () {
 });
 require_once __DIR__.'/WebRoutes/PhotoComment.php';
 /*ajax */
-Route::get('ajax/geo.php', 'AjaxController@getGeo');
 Route::get('/', 'HomeController@index')																											->name('home');
 
 Route::get('forum/', 'ForumController@index')																									->name('forum');

@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RegionController;
+use App\Http\Controllers\CityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +28,6 @@ Route::post('/login/', 'AuthController@loginApi')->name('login.api');
 Route::get('/new_faces/', 'HomeController@newFaces')->name('newfaces.get');
 
 Route::get('/home/diaries/', 'HomeController@diaries')->name('home.diaries');
+
+Route::get('/regions/{countryId}/', [RegionController::class, 'index'])->whereNumber('countryId')->name('regionsByCountry');
+Route::get('/cities/{regionId}/', [CityController::class, 'index'])->whereNumber('regionId')->name('citiesByCountry');
