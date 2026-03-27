@@ -17,7 +17,7 @@ class CityController extends Controller
 	) {}
 
 	/**
-	 * get cities of the country
+	 * get cities of the region
 	 * @param int $regionId
 	 * @return \Illuminate\Http\Response
 	 */
