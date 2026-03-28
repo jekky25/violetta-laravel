@@ -21,7 +21,7 @@ class HoroscopeService
 	*/
 	public function getIndexData(): HoroscopeIndexPageDTO
 	{
-		return $this->buildByType(1);
+		return $this->buildByType(HoroscopeType::DEFAULT);
 	}
 
 	/**
