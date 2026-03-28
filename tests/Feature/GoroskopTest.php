@@ -2,14 +2,14 @@
 
 namespace Tests\Feature;
 use Tests\TestCase;
-use App\Models\Goroskop;
+use App\Models\Horoscope;
 use Tests\Traits\hasSetupPrepare;
 
 class GoroskopTest extends TestCase
 {
 	use hasSetupPrepare;
 
-	protected $goroskops		= null;
+	protected $horoscopes		= null;
 
 	/**
 	 * Set up variables
@@ -18,43 +18,43 @@ class GoroskopTest extends TestCase
 	{
 		parent::setUp();
 		self::setUpPrepare();
-		$this->goroskops = Goroskop::factory(50)->create();
+		$this->horoscopes = Horoscope::factory(50)->create();
 	}
 
 	/**
-	* Test a goroskop main page
+	* Test a horoscope main page
 	*/
-	public function test_goroskop_main_page(): void
+	public function test_horoscope_main_page(): void
 	{
-		$_SERVER['REQUEST_URI'] = '/goroskop.html';
-		$response = $this->get($_SERVER['REQUEST_URI']);
-		$response->assertStatus(200);
-	}
-
-	/**
-	* Test goroskop id pages
-	*/
-	public function test_goroskop_id_page(): void
-	{
-		$_SERVER['REQUEST_URI'] = '/goroskop/2.html';
-		$response = $this->get($_SERVER['REQUEST_URI']);
-		$response->assertStatus(200);
-
-		$_SERVER['REQUEST_URI'] = '/goroskop/3.html';
+		$_SERVER['REQUEST_URI'] = route('horoscope');
 		$response = $this->get($_SERVER['REQUEST_URI']);
 		$response->assertStatus(200);
 	}
 
 	/**
-	* Test goroskop type pages
+	* Test horoscope id pages
 	*/
-	public function test_goroskop_type_page(): void
+	public function test_horoscope_id_page(): void
 	{
-		$_SERVER['REQUEST_URI'] = '/goroskop/op2.html';
+		$_SERVER['REQUEST_URI'] = route('horoscope.id', 2);
 		$response = $this->get($_SERVER['REQUEST_URI']);
 		$response->assertStatus(200);
 
-		$_SERVER['REQUEST_URI'] = '/goroskop/op3.html';
+		$_SERVER['REQUEST_URI'] = route('horoscope.id', 3);
+		$response = $this->get($_SERVER['REQUEST_URI']);
+		$response->assertStatus(200);
+	}
+
+	/**
+	* Test horoscope type pages
+	*/
+	public function test_horoscope_type_page(): void
+	{
+		$_SERVER['REQUEST_URI'] = route('horoscope.op', 2);
+		$response = $this->get($_SERVER['REQUEST_URI']);
+		$response->assertStatus(200);
+
+		$_SERVER['REQUEST_URI'] = route('horoscope.op', 3);
 		$response = $this->get($_SERVER['REQUEST_URI']);
 		$response->assertStatus(200);
 	}

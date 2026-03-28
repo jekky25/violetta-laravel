@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class GoroskopFactory extends Factory
+class HoroscopeFactory extends Factory
 {
 	/**
 	 * Define the model's default state.
