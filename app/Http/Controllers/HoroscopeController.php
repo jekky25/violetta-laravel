@@ -41,8 +41,8 @@ class HoroscopeController extends Controller
 	* @param  int $id
 	* @return View
 	*/
-	public function showType(int $id = 0)
+	public function showType(int $type = 0)
 	{
-		return view('horoscope', ['data' => $this->service->getTypeData($id)]);
+		return view('horoscope', ['data' => $this->service->getTypeData($type)]);
 	}
 }
