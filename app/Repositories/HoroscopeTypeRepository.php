@@ -2,18 +2,18 @@
 
 namespace App\Repositories;
 
-use App\Models\GoroskopType;
-use App\Interfaces\GoroskopTypeInterface;
+use App\Models\HoroscopeType;
+use App\Interfaces\HoroscopeTypeInterface;
 
-class GoroskopTypeRepository implements GoroskopTypeInterface {
+class HoroscopeTypeRepository implements HoroscopeTypeInterface {
 	/**
-	* get a type of goroskop by typeId
+	* get a type of horoscope by typeId
 	* @param  int $type
 	* @return \Illuminate\Database\Eloquent\Collection
 	*/
 	public static function getNotByType($type)
 	{
-		$items = GoroskopType::select('*')
+		$items = HoroscopeType::select('*')
 		->where('id', '!=' , $type)
 		->orderBy('name', 'asc')
 		->get();

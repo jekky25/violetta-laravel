@@ -1,25 +1,25 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
-<h1 class="mTit">{{ $goroskopsTitle }}</h1>
+<h1 class="mTit">{{ $data->horoscope_title }}</h1>
 <div id="partincut">
-@if ($goroskops)
+@if ($data->horoscopes)
 	<ul>
-	@foreach ($goroskops as $item)
-	<li><a href="{{route('goroskop.id', $item->id)}}">{{ $item->name }}</a></li>
+	@foreach ($data->horoscopes as $item)
+	<li><a href="{{route('horoscope.id', $item->id)}}">{{ $item->name }}</a></li>
 	@endforeach
 	</ul>
 	<h3>Другие гороскопы</h3>
 @endif
-@if ($goroskops_type)
+@if ($data->horoscopes_type)
 	<ul>
-  @foreach ($goroskops_type as $item)    
-<li><a href="{{route('goroskop.op', $item->id)}}">{{ $item->name }}</a></li>
+  @foreach ($data->horoscopes_type as $item)
+<li><a href="{{route('horoscope.op', $item->id)}}">{{ $item->name }}</a></li>
 @endforeach
 	</ul>
 @endif
 </div>
-<p class="pad2">{!! $zodiak_text !!}</p>
+<p class="pad2">{!! $data->zodiak_text !!}</p>
 <table>
 <tr>
 <td class="pad11">

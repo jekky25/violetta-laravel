@@ -2,5 +2,5 @@
 
 namespace App\Interfaces;
 
-interface GoroskopTypeInterface {
+interface HoroscopeInterface {
 }

@@ -3,9 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Repositories\GoroskopRepository;
+use App\Repositories\HoroscopeRepository;
 use App\Repositories\NameRepository;
-use App\Repositories\GoroskopTypeRepository;
+use App\Repositories\HoroscopeTypeRepository;
 use App\Repositories\ScreenRepository;
 use App\Repositories\AnketEvaluationRepository;
 use App\Repositories\AnketVisitRepository;
@@ -26,9 +26,9 @@ use App\Repositories\UserRepository;
 use App\Repositories\CommentPhotoRepository;
 use App\Repositories\ForumRepository;
 
-use App\Interfaces\GoroskopInterface;
+use App\Interfaces\HoroscopeInterface;
 use App\Interfaces\NameInterface;
-use App\Interfaces\GoroskopTypeInterface;
+use App\Interfaces\HoroscopeTypeInterface;
 use App\Interfaces\ScreenInterface;
 use App\Interfaces\AnketEvaluationInterface;
 use App\Interfaces\AnketVisitInterface;
@@ -58,8 +58,8 @@ class RepositoryServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-		$this->app->bind(GoroskopInterface::class, GoroskopRepository::class);
-		$this->app->bind(GoroskopTypeInterface::class, GoroskopTypeRepository::class);
+		$this->app->bind(HoroscopeInterface::class, HoroscopeRepository::class);
+		$this->app->bind(HoroscopeTypeInterface::class, HoroscopeTypeRepository::class);
 		$this->app->bind(NameInterface::class, NameRepository::class);
 		$this->app->bind(ScreenInterface::class, ScreenRepository::class);
 		$this->app->bind(AnketEvaluationInterface::class, AnketEvaluationRepository::class);

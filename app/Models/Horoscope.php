@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Tstr;
 
-class Goroskop extends Model
+class Horoscope extends Model
 {
 	use HasFactory, Tstr;
 	public $timestamps 		= false;

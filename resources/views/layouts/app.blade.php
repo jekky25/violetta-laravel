@@ -48,7 +48,7 @@
 			@endauth
 			<div class="mob-menu-second-block">
 				<ul>
-					<li><a href="{{route('goroskop')}}">Гороскопы</a></li>
+					<li><a href="{{route('horoscope')}}">Гороскопы</a></li>
 					<li><a href="{{route('names')}}">Значение имени</a></li>
 					<li><a href="{{route('population_search')}}">Популярные анкеты</a></li>
 					<li><a href="{{route('birthday_search')}}">Дни рождения</a></li>
@@ -84,7 +84,7 @@
 			<h2>Знакомства</h2>
 			<div class="bl">
 				<ul>
-					<li><a href="{{route('goroskop')}}">Гороскопы</a></li>
+					<li><a href="{{route('horoscope')}}">Гороскопы</a></li>
 					<li><a href="{{route('names')}}">Значение имени</a></li>
 					<li><a href="{{route('population_search')}}">Популярные анкеты</a></li>
 					<li><a href="{{route('birthday_search')}}">Дни рождения</a></li>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HoroscopeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -84,9 +85,9 @@ Route::middleware('slashes')->group(function () {
 	Route::get('bestankets/{sex}/', 'AnketController@getBestAnkets')													->where('sex', '(men|women)')
 																																				->name('bestankets.sex');
 
-	Route::get('goroskop/op{id}.html', 'GoroskopController@getType')													->whereNumber('id')		->name('goroskop.op');
-	Route::get('goroskop/{id}.html', 'GoroskopController@getItem')														->whereNumber('id')		->name('goroskop.id');
-	Route::get('goroskop.html', 'GoroskopController@index')																						->name('goroskop');
+	Route::get('goroskop/op{id}.html', [HoroscopeController::class, 'showType'])										->whereNumber('id')		->name('horoscope.op');
+	Route::get('goroskop/{id}.html', [HoroscopeController::class, 'show'])												->whereNumber('id')		->name('horoscope.id');
+	Route::get('goroskop.html', [HoroscopeController::class, 'index'])																			->name('horoscope');
 
 	Route::get('names/{sex}.html', 'NameController@getGender')															->where('sex', '(men|women)')
 																																				->name('names.sex');
