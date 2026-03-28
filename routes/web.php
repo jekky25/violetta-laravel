@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HoroscopeController;
+use App\Http\Controllers\ScreenController;
+use App\Http\Controllers\CommentScreenController;
+use App\Http\Controllers\ScreenDownloadController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -102,10 +105,10 @@ Route::middleware('slashes')->group(function () {
 	Route::get('population_search/', 'AnketController@getPopularAnkets')																		->name('population_search');
 	Route::get('birthday_search/', 'AnketController@getBirthdayAnkets')																			->name('birthday_search');
 
-	Route::post('screensaver/download/{id}.html', 'ScreenController@download')											->whereNumber('id')		->name('screensavers.id.download');
-	Route::post('screensaver/{id}.html', 'ScreenController@store')														->whereNumber('id')		->name('screensavers.id.store');
-	Route::get('screensaver/{id}.html', 'ScreenController@show')														->whereNumber('id')		->name('screensavers.id');
-	Route::get('screensavers.html', 'ScreenController@index')																					->name('screensavers');
+	Route::post('screensaver/download/{id}.html', [ScreenDownloadController::class, 'download'])							->whereNumber('id')		->name('screensavers.id.download');
+	Route::post('screensaver/{id}.html', [CommentScreenController::class, 'store'])										->whereNumber('id')		->name('screensavers.id.store');
+	Route::get('screensaver/{id}.html', [ScreenController::class, 'show'])												->whereNumber('id')		->name('screensavers.id');
+	Route::get('screensavers.html', [ScreenController::class, 'index'])																			->name('screensavers');
 
 	Route::get('dreambook/op{id}.html', 'DreamBookController@index')													->whereNumber('id')		->name('dreambook.literal');
 	Route::get('dreambook/{id}.html', 'DreamBookController@show')														->whereNumber('id')		->name('dreambook.id');
