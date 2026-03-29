@@ -3,25 +3,24 @@
 namespace App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
 use J25\GoogleCaptcha\GoogleCaptcha;
+use Illuminate\Contracts\Validation\Validator;
 
 class ScreenDownloadRequest extends FormRequest
 {
-
 	/**
 	* replace array errors from default to commit
-	* @param  Illuminate\Contracts\Validation\Validator  $validator
+	* @param  Validator  $validator
 	* @return void
 	*/
 	public function failedValidation(Validator $validator)
 	{
 		$exception = $validator->getException();
-		$this->errorBag = 'download';
         throw (new $exception($validator))
-                    ->errorBag($this->errorBag)
+                    ->errorBag('download')
                     ->redirectTo($this->getRedirectUrl());
 	}
+
 
 	/**
 	* messages for the request
@@ -31,7 +30,9 @@ class ScreenDownloadRequest extends FormRequest
 	{
 		return	[
 			'recaptcha_response.required'		=> 'Капча не пройдена',
-			'recaptcha_response.GoogleCaptcha'	=> 'Капча не пройдена'
+			'recaptcha_response.GoogleCaptcha'	=> 'Капча не пройдена',
+			'f_download.required'				=> 'Не введен тип закачки',
+			'f_download.integer'				=> 'Поле должно быть числом'
 		];
 	}
 
@@ -43,7 +44,8 @@ class ScreenDownloadRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'recaptcha_response'	=> ['required', new GoogleCaptcha]
+			'recaptcha_response'	=> ['required', new GoogleCaptcha],
+			'f_download'			=>	['required', 'integer']
 		];
 	}
 }
