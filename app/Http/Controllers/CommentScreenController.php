@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Interfaces\ScreenInterface;
-use App\Interfaces\CommentScreenInterface;
+use App\Services\CommentScreenService;
 use App\Requests\ScreenRequest;
+use App\DTO\CreateCommentScreenDTO;
 
 class CommentScreenController extends Controller
 {
@@ -14,12 +14,7 @@ class CommentScreenController extends Controller
 	*
 	* @return void
 	*/
-	public function __construct(
-		protected ScreenInterface $screenRepository,
-		protected CommentScreenInterface $commentScreenRepository
-	)
-	{
-	}
+	public function __construct(protected CommentScreenService $service) {}
 
 	/**
 	* Create a screensaver post
@@ -27,11 +22,14 @@ class CommentScreenController extends Controller
 	* @param int $id
 	* @return \Illuminate\Http\Response
 	*/
-	public function store(ScreenRequest $request, $id)
+	public function store(ScreenRequest $request, int $id)
 	{
-		$this->screenRepository->getById($id);
-		$arParams = $request->validated();
-		$this->commentScreenRepository->create($arParams);
+		$dto = CreateCommentScreenDTO::fromRequest(
+	        $id,
+    	    $request->user(),
+	        $request->validated()
+    	);
+		$this->service->store($dto);
 		return redirect()->back()
 						->with('success','Сообщение успешно отправлено')
 						->withInput();
