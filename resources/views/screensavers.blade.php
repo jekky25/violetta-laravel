@@ -4,8 +4,8 @@
 <h1 class="mTit">Хранители экрана (скринсейверы)</h1>
 <p class="pad2">В этом разделе собрана коллекция экранных заставок на водную тему. Которые порой радуют глаз и слух. Коллекция постоянно пополняется новыми скринсейверами.</p>
 <p class="pad3">Приятного вам просмотра!</p>
-<p class="pad3">Найдено заставок: <strong>{{$numScreens}}</strong></p>
 @if (!empty ($screens))
+<p class="pad3">Найдено заставок: <strong>{{$screens->total()}}</strong></p>
 <table id="mScreen">
 @foreach ($screens as $item)
 @if ($loop->index % 2 == 0)<tr>@endif

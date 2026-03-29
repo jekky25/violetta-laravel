@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Interfaces\ScreenInterface;
-use App\Interfaces\CommentScreenInterface;
+use App\Services\ScreenService;
+use Illuminate\View\View;
 
 class ScreenController extends Controller
 {
@@ -13,43 +13,24 @@ class ScreenController extends Controller
 	*
 	* @return void
 	*/
-	public function __construct(
-		protected ScreenInterface $screenRepository,
-		protected CommentScreenInterface $commentScreenRepository
-	)
-	{
-	}
+	public function __construct(protected ScreenService $service) {}
 
 	/**
 	* Show the application dashboard.
-	* @return \Illuminate\Http\Response
+	* @return View
 	*/
-	public function index()
+	public function index(): View
 	{
-		$screens			= $this->screenRepository->get(config('pagination.screens'));
-		$page				= $screens->currentPage();
-		return response()->view ('screensavers', 
-		[
-			'page'				=> $page,
-			'screens'			=> $screens,
-			'numScreens'		=> $screens->total()
-		]);
+		return view('screensavers', [ 'screens' => $this->service->getList(config('pagination.screens')) ]);
 	}
 
 	/**
 	* show a screensaver page and make download screensaver
 	* @param int $id
-	* @return \Illuminate\Http\Response
+	* @return View
 	*/
-	public function show($id)
+	public function show(int $id): View
 	{
-		$screen				= $this->screenRepository->getById($id);
-		$comments			= $this->commentScreenRepository->getByScrId($id);
-		return response()->view ('screensavers_id', 
-		[
-			'screen'			=> $screen,
-			'comments'			=> $comments
-		]);
-
+		return view('screensavers_id', ['data' => $this->service->showPage($id)]);
 	}
 }

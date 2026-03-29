@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
-<h1 class="mTit">{{ $screen->name }}</h1>
-<p class="pad3"><strong>Скачано раз: {{ $screen->zakachka }}</strong></p>
-<div class="scrPic2"><img alt="{{ $screen->name }}, хранитель экрана (скринсейвер)" src="{{ asset('screensavers/big_foto/' . $screen->path_jpg) }}" /></div>
+<h1 class="mTit">{{ $data->screen->name }}</h1>
+<p class="pad3"><strong>Скачано раз: {{ $data->screen->zakachka }}</strong></p>
+<div class="scrPic2"><img alt="{{ $data->screen->name }}, хранитель экрана (скринсейвер)" src="{{ asset('screensavers/big_foto/' . $data->screen->path_jpg) }}" /></div>
 <p class="pad4">Важно</p>
 <p>Если вы не знаете как установить хранитель экрана на ваш компьютер, то: <br />1. Скопируйте файл с заставкой в папку windows или windows/system32 <br />
 2. Кликните правой кнопкой мыши на рабочем столе и выберите меню "Свойства"<br />
@@ -13,7 +13,7 @@
 Вы можете отрегулировать в подменю "параметры" меню установки заставки. Там же регулируется и скорость
 проигрывания самой заставки.</p>
 <p class="pad3">Приятного вам просмотра</p>
-<form name="anketa" class="form-block" action="{{route('screensavers.id.download',$screen->id)}}" method="post">
+<form name="anketa" class="form-block" action="{{route('screensavers.id.download',$data->screen->id)}}" method="post">
 {{ csrf_field() }}
 @if (!empty ($errors->download->all()))
 <div class="error">
@@ -25,11 +25,11 @@
 <table class="scrDown">
 <tr>
 <td><input type="radio" name="f_download" value="1" id="scr" /></td>
-<td><label for="scr">скачать как есть {{ $screen->size_scr_format }}</label></td>
+<td><label for="scr">скачать как есть {{ $data->screen->size_scr_format }}</label></td>
 </tr>
 <tr>
 <td><input type="radio" name="f_download" value="2" id="scr_arch" /></td>
-<td><label for="scr_arch">скачать в rar архиве {{ $screen->size_rar_format }}</label></td>
+<td><label for="scr_arch">скачать в rar архиве {{ $data->screen->size_rar_format }}</label></td>
 </tr>
 </table>
 <x-google-captcha />
@@ -37,9 +37,9 @@
 </form>
 <table class="scrComments">
 <tr>
-<td @if (!empty($comments))class="valign1"@endif>
-@if (!empty($comments))
-@foreach ($comments as $item)
+<td @if (!empty($data->comments))class="valign1"@endif>
+@if (!empty($data->comments))
+@foreach ($data->comments as $item)
 <h3>{{ $item->name}}<p class="commTime">{{ $item->create_time }}</p></h3>
 <p class="commDescr">{{ $item->description }}</p>
 @endforeach
@@ -49,14 +49,14 @@
 </td>
 <td class="valign1">
 <h4>Оставить комментарий</h4>
-<form name="anketa2" action="{{route('screensavers.id.store',$screen->id)}}" method="post">
+<form name="anketa2" action="{{route('screensavers.id.store',$data->screen->id)}}" method="post">
 {{ csrf_field() }}
 @if(session('success'))
   <div class="success">{{session('success')}}</div>
 @else
-@if (!empty ($errors->comment->all()))
+@if (!empty ($errors->all()))
 <div class="error">
-@foreach ($errors->comment->all() as $message)
+@foreach ($errors->all() as $message)
 <p>{{ $message }}</p>
 @endforeach
 	</div>

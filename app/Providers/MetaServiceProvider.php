@@ -91,7 +91,7 @@ class MetaServiceProvider extends ServiceProvider
 					break;
 
 				case 'screensavers':
-					$page = $view->page;
+					$page = !empty($view->screens) ? $view->screens->currentPage() : null;
 					$pageOut 	= $page > 1 ? ' страница ' . $page : '';
 					$pageTitle = 'Хранители экрана, Скринсейверы, Screensaver, Скачать заставку, Сайт знакомств Виолетта' . $pageOut;
 					$pageMeta = '<meta name="Description" content="Хранители экрана. Большая коллекция экранных заставок на водную тему. Можно скачать прямо сейчас.">
