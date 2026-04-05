@@ -20,8 +20,7 @@ class Pagination extends Component
 		$this->items = $items instanceof LengthAwarePaginator 
 											?	LengthPager::makeLengthAware($items, $items->total(), $items->perPage())->appends(request()->query()) 
 											:	$items;
-
-		$this->pagination   = !empty($this->items->toArray()['links']) ? $this->preparePagination($this->items->toArray()['links']) : [];
+		$this->pagination   = !empty($this->items) && !empty($this->items->toArray()['links']) ? $this->preparePagination($this->items->toArray()['links']) : [];
 	}
 
 	/**
