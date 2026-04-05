@@ -38,6 +38,6 @@ class ScreenDownloadService
 			$fileName	= $screenSaver->name . ".rar";
 		}
 
-		return response()->download($path, $fileName);
+		return response()->download(public_path($path), $fileName);
 	}
 }
