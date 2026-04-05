@@ -37,6 +37,21 @@ class DiaryController extends Controller
 	}
 
 	/**
+	 * Show a user diary page
+	 * @return \Illuminate\Http\Response
+	 */
+	public function diary()
+	{
+		$diaries 		= $this->diaryRepository->getByUser(config('pagination.diaries_user'), Auth::id());
+		return response()->view(
+			'registration.diary',
+			[
+				'diaries' 		=> $diaries
+			]
+		);
+	}
+
+	/**
 	 * add an user diary
 	 * @param  DiaryRequest  $request
 	 * @return \Illuminate\Http\Response

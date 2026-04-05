@@ -1,10 +1,19 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HoroscopeController;
 use App\Http\Controllers\ScreenController;
 use App\Http\Controllers\CommentScreenController;
+use App\Http\Controllers\DiaryController;
 use App\Http\Controllers\ScreenDownloadController;
+use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TopController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,24 +26,24 @@ use App\Http\Controllers\ScreenDownloadController;
 */
 Route::middleware('slashes')->group(function () {
 	Route::middleware('auth')->group(function () {
-		Route::get('registration/edit/diary/', 'RegistrationController@diary')													->name('registration.edit.diary');
-		Route::get('registration/edit/settings/', 'RegistrationController@settings')											->name('registration.edit.settings');
-		Route::put('registration/edit/settings/', 'RegistrationController@settingsPost')										->name('registration.edit.settings.post');
-		Route::get('registration/edit/', 'RegistrationController@edit')															->name('registration.edit');
-		Route::put('registration/edit/', 'RegistrationController@post')															->name('registration.edit.post');
-		Route::get('registration/edit/second/', 'RegistrationController@second')												->name('registration.edit.second');
-		Route::put('registration/edit/second/', 'RegistrationController@secondPost')											->name('registration.edit.second.post');
-		Route::get('registration/edit/partner/', 'RegistrationController@partner')												->name('registration.edit.partner');
-		Route::put('registration/edit/partner/', 'RegistrationController@partnerPost')											->name('registration.edit.partner.post');
-		Route::get('registration/edit/photo/', 'RegistrationController@photo')													->name('registration.edit.photo');
-		Route::post('registration/edit/photo/', 'RegistrationController@photoStore')											->name('registration.edit.photo.post');
-		Route::get('registration/edit/photo/edit/{id}.html', 'RegistrationController@editPhoto')		->whereNumber('id')		->name('registration.edit.photo.edit');
-		Route::put('registration/edit/photo/edit/{id}.html', 'RegistrationController@editPhotoUpdate')	->whereNumber('id')		->name('registration.edit.photo.edit.post');
-		Route::get('registration/edit/photo/delete/{id}.html', 'RegistrationController@destroyPhoto')	->whereNumber('id')		->name('registration.edit.photo.delete');
-		Route::delete('registration/edit/photo/delete/{id}.html', 'RegistrationController@destroyPhotoAction')->whereNumber('id')->name('registration.edit.photo.delete.action');
-		Route::get('registration/edit/pass/', 'RegistrationController@pass')													->name('registration.edit.password');
-		Route::put('registration/edit/pass/', 'RegistrationController@passPost')												->name('registration.edit.password.post');
-		Route::get('registration/delete/confirm/', 'RegistrationController@destroyConfirm')										->name('registration.delete.confirm');
+		Route::get('registration/edit/diary/', [DiaryController::class, 'diary'])												->name('registration.edit.diary');
+		Route::get('registration/edit/settings/', [SettingsController::class, 'settings'])										->name('registration.edit.settings');
+		Route::put('registration/edit/settings/', [SettingsController::class, 'settingsPost'])									->name('registration.edit.settings.post');
+		Route::get('registration/edit/', [ProfileController::class, 'edit'])													->name('registration.edit');
+		Route::put('registration/edit/', [ProfileController::class, 'post'])													->name('registration.edit.post');
+		Route::get('registration/edit/second/', [ProfileController::class, 'second'])											->name('registration.edit.second');
+		Route::put('registration/edit/second/', [ProfileController::class, 'secondPost'])										->name('registration.edit.second.post');
+		Route::get('registration/edit/partner/', [ProfileController::class, 'partner'])											->name('registration.edit.partner');
+		Route::put('registration/edit/partner/', [ProfileController::class, 'partnerPost'])										->name('registration.edit.partner.post');
+		Route::get('registration/edit/photo/', [PhotoController::class, 'photo'])												->name('registration.edit.photo');
+		Route::post('registration/edit/photo/', [PhotoController::class, 'photoStore'])											->name('registration.edit.photo.post');
+		Route::get('registration/edit/photo/edit/{id}.html', [PhotoController::class, 'editPhoto'])		->whereNumber('id')		->name('registration.edit.photo.edit');
+		Route::put('registration/edit/photo/edit/{id}.html', [PhotoController::class, 'editPhotoUpdate'])	->whereNumber('id')	->name('registration.edit.photo.edit.post');
+		Route::get('registration/edit/photo/delete/{id}.html', [PhotoController::class, 'destroyPhoto'])	->whereNumber('id')	->name('registration.edit.photo.delete');
+		Route::delete('registration/edit/photo/delete/{id}.html', [PhotoController::class, 'destroyPhotoAction'])->whereNumber('id')->name('registration.edit.photo.delete.action');
+		Route::get('registration/edit/pass/', [PasswordController::class, 'pass'])												->name('registration.edit.password');
+		Route::put('registration/edit/pass/', [PasswordController::class, 'passPost'])											->name('registration.edit.password.post');
+		Route::get('registration/delete/confirm/', [AccountController::class, 'destroyConfirm'])								->name('registration.delete.confirm');
 		Route::get('registration/views/', 'AnketController@getViews')															->name('registration.views');
 
 		Route::get('privmsg/', 'PrivmsgController@index')																		->name('privmsg');
@@ -66,12 +75,12 @@ Route::middleware('slashes')->group(function () {
 		Route::get('logout/', 'AuthController@logout')													->name('logout');
 	});
 
-	Route::get('registration/top100/', 'RegistrationController@top100')															->name('registration.top100');
-	Route::post('registration/top100/', 'RegistrationController@top100Post')													->name('registration.top100.post');
-	Route::get('registration/delete/', 'RegistrationController@destroy')														->name('registration.delete');
-	Route::get('registration/', 'RegistrationController@registration')																			->name('registration')						->middleWare('guest');
-	Route::post('registration/', 'RegistrationController@registrationStore')																	->name('registration.post');
-	Route::get('registration/confirm/{id}/{code}/', 'RegistrationController@confirm')									->whereNumber('id')		->name('registration.confirm');
+	Route::get('registration/top100/', [TopController::class, 'top100'])														->name('registration.top100');
+	Route::post('registration/top100/', [TopController::class, 'top100Post'])													->name('registration.top100.post');
+	Route::get('registration/delete/', [AccountController::class, 'destroy'])													->name('registration.delete');
+	Route::get('registration/', [RegistrationController::class, 'registration'])												->name('registration')						->middleWare('guest');
+	Route::post('registration/', [RegistrationController::class, 'registrationStore'])											->name('registration.post');
+	Route::get('registration/confirm/{id}/{code}/', [RegistrationController::class, 'confirm'])			->whereNumber('id')		->name('registration.confirm');
 
 	Route::get('ank/diary/comments/{id}.html', 'DiaryCommentController@index')											->whereNumber('id')		->name('ank.diary.comments');
 	Route::get('ank/diary/{id}.html', 'DiaryController@show')															->whereNumber('id')		->name('ank.diary.id');
@@ -122,8 +131,8 @@ Route::middleware('slashes')->group(function () {
 	Route::get('login/', function () {
 		return redirect()->route('home');
 	});
-	Route::post('forget_pass/', 'RegistrationController@forgetPassPost')																		->name('forget_pass.post');
-	Route::get('forget_pass/', 'RegistrationController@forgetPass')																				->name('forget_pass');
+	Route::post('forget_pass/', [RegistrationController::class, 'forgetPassPost'])																->name('forget_pass.post');
+	Route::get('forget_pass/', [RegistrationController::class, 'forgetPass'])																	->name('forget_pass');
 	Route::get('sitemap/', 'SiteController@index')																								->name('sitemap');
 	Route::get('contacts/', 'ContactsController@index')																							->name('contacts');
 	Route::post('contacts/', 'ContactsController@post')																							->name('contacts.post');
