@@ -43,9 +43,8 @@ class ScreenDownloadRequest extends FormRequest
 	*/
 	public function rules(): array
 	{
-		return [
-			'recaptcha_response'	=> ['required', new GoogleCaptcha],
-			'f_download'			=>	['required', 'integer']
-		];
+		$rules = ['f_download' => ['required', 'integer']];
+		if (config('services.recaptcha.enabled')) $rules['recaptcha_response'] = ['required', new GoogleCaptcha];
+		return $rules;
 	}
 }
