@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Interfaces\UserInterface;
 use App\Requests\PhotoRequest;
+use App\Interfaces\PhotoInterface;
 use Illuminate\Support\Facades\Auth;
 
 class PhotoController extends Controller
