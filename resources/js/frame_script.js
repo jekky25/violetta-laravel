@@ -129,3 +129,17 @@ function getScrollY() {
 	}
 	return scrollY;
 }
+
+
+document.addEventListener('click', (e) => {
+    const el = e.target.closest('.open-frame');
+    if (!el) return;
+
+    e.preventDefault();
+
+    openFadeIFrame({
+        url: el.dataset.url,
+        winWidth: el.dataset.width,
+		winHeight: el.dataset.height,
+    });
+});

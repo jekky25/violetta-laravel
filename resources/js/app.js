@@ -1,5 +1,5 @@
-import '../js/jquery-1.9.0.min.js';
-import '../js/frame_script.js';
+import './jquery-1.9.0.min';
+import './frame_script';
 import './bootstrap';
 import '../css/reset.css';
 import '../css/style.css';
