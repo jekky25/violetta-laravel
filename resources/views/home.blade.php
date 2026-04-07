@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
+@if(session('success'))
+<p class="error pt-20">{{ session('success') }}</p>
+@endif
 <h1 class="mTit">Бесплатные знакомства с девушками и парнями на сайте знакомств Виолетта</h1>
 	<table id="mDescr">
 		<tr>

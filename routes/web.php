@@ -43,7 +43,6 @@ Route::middleware('slashes')->group(function () {
 		Route::delete('registration/edit/photo/delete/{id}.html', [PhotoController::class, 'destroyPhotoAction'])->whereNumber('id')->name('registration.edit.photo.delete.action');
 		Route::get('registration/edit/pass/', [PasswordController::class, 'pass'])												->name('registration.edit.password');
 		Route::put('registration/edit/pass/', [PasswordController::class, 'passPost'])											->name('registration.edit.password.post');
-		Route::get('registration/delete/confirm/', [AccountController::class, 'destroyConfirm'])								->name('registration.delete.confirm');
 		Route::get('registration/views/', 'AnketController@getViews')															->name('registration.views');
 
 		Route::get('privmsg/', 'PrivmsgController@index')																		->name('privmsg');
@@ -77,7 +76,7 @@ Route::middleware('slashes')->group(function () {
 
 	Route::get('registration/top100/', [TopController::class, 'top100'])														->name('registration.top100');
 	Route::post('registration/top100/', [TopController::class, 'top100Post'])													->name('registration.top100.post');
-	Route::get('registration/delete/', [AccountController::class, 'destroy'])													->name('registration.delete');
+	Route::delete('registration/delete/', [AccountController::class, 'destroy'])													->name('registration.delete');
 	Route::get('registration/', [RegistrationController::class, 'registration'])												->name('registration')						->middleWare('guest');
 	Route::post('registration/', [RegistrationController::class, 'registrationStore'])											->name('registration.post');
 	Route::get('registration/confirm/{id}/{code}/', [RegistrationController::class, 'confirm'])			->whereNumber('id')		->name('registration.confirm');

@@ -1,4 +1,8 @@
-import './jquery-1.9.0.min';
+import Alpine from 'alpinejs';
+window.Alpine = Alpine;
+Alpine.start();
+
+//import './jquery-1.9.0.min';
 import './frame_script';
 import './bootstrap';
 import '../css/reset.css';

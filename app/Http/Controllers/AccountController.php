@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\UserInterface;
+use Illuminate\Http\RedirectResponse;
 
 class AccountController extends Controller
 {
@@ -12,24 +13,16 @@ class AccountController extends Controller
 	 *
 	 * @return void
 	 */
-	public function __construct(protected UserInterface $userRepository) {}
-
-	/**
-	 * Show a delete profile page
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroy()
-	{
-		return response()->view('registration.delete');
-	}
+	public function __construct(protected UserInterface $repository) {}
 
 	/**
 	 * Delete profile
-	 * @return void
+	 * @return RedirectResponse
 	 */
-	public function destroyConfirm()
+	public function destroy(): RedirectResponse
 	{
-		$this->userRepository->destroy(Auth::user());
-		return redirect()->route('registration.delete')->with('success', 'Ваша анкета удалена. Но мы надеемся, что Вы еще вернетесь.');
+		$this->repository->destroy(request()->user());
+		Auth::logout();
+		return redirect()->route('home')->with('success', 'Ваша анкета удалена. Но мы надеемся, что Вы еще вернетесь.');
 	}
 }

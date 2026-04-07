@@ -218,6 +218,19 @@
 	.sexRegForm tr:nth-child(2) td:first-child input {
 		vertical-align: middle;
 	}
+
+	.modal .button {
+		width: calc(100% - 20px);
+	}
+
+	.modal .button:first-child {
+		margin-bottom: 10px;
+	}
+
+	.modal .ml-10, .modal .mr-10 {
+		margin-left: 0;
+		margin-right: 0;
+	}
 }
 
 @media screen and (max-width: 400px) {

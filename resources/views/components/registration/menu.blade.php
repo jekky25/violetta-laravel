@@ -25,12 +25,11 @@
 	<li><a href="{{route('registration.edit.password')}}">Смена пароля</a></li>
 	@endif
 	@if (Route:: currentRouteName() == 'registration.edit')
-	<!--<li><a href="javascript://" onclick="openFadeIFrame({url : '{{route('registration.delete')}}', winWidth : '491', winHeight : '201', width : '460', height : '170' }); return false;">Удалить анкету</a></li>-->
-	<li><a href="javascript://" 
-		class="open-frame"
-		data-url="{{route('registration.delete')}}"
-   		data-width="491"
-		data-height="201"
+	<li><a href="javascript:void(0);" 
+   		class="open-modal"
+   		data-url="{{route('registration.delete')}}"
+		data-title="Удаление анкеты"
+		data-text="Вы уверены, что хотите удалить анкету?"
 		>Удалить анкету</a></li>
 	@endif
 </ul>
