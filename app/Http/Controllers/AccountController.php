@@ -21,8 +21,9 @@ class AccountController extends Controller
 	 */
 	public function destroy(): RedirectResponse
 	{
-		$this->repository->destroy(request()->user());
+		$user = request()->user();
 		Auth::logout();
+		$this->repository->destroy($user);
 		return redirect()->route('home')->with('success', 'Ваша анкета удалена. Но мы надеемся, что Вы еще вернетесь.');
 	}
 }

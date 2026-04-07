@@ -75,9 +75,9 @@ class DreamBookTest extends TestCase
 	public function test_dream_book_id_page(): void
 	{
 		$ar = [
-			'/dreambook/' . $this->getRand() . '.html',
-			'/dreambook/' . $this->getRand() . '.html',
-			'/dreambook/' . $this->getRand() . '.html',
+			'/dreambook/' . $this->dreamBooks[$this->getRand()]->id . '.html',
+			'/dreambook/' . $this->dreamBooks[$this->getRand()]->id . '.html',
+			'/dreambook/' . $this->dreamBooks[$this->getRand()]->id . '.html',
 		];
 
 		foreach ($ar as $item)
