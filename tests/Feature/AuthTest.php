@@ -20,6 +20,8 @@ class AuthTest extends TestCase
 	 */
 	protected function setUp(): void
 	{
+		$this->testLogin .=  time();
+		$this->testPassword .=  time();
 		$this->userRepository		= new UserRepository;
 		parent::setUp();
 		self::setUpPrepare();

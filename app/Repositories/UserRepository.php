@@ -148,7 +148,7 @@ class UserRepository implements UserInterface
 	/**
 	 * get profile for auth
 	 */
-	public function getByLoginAndPass(string $login, string $pass): Collection|null
+	public function getByLoginAndPass(string $login, string $pass): ?User
 	{
 		if (empty($login) || empty($pass)) return null;
 		

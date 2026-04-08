@@ -50,12 +50,13 @@ class GoroskopTest extends TestCase
 	*/
 	public function test_horoscope_type_page(): void
 	{
-		$_SERVER['REQUEST_URI'] = route('horoscope.op', 2);
-		$response = $this->get($_SERVER['REQUEST_URI']);
-		$response->assertStatus(200);
+		$ar = [2,3,4,5];
 
-		$_SERVER['REQUEST_URI'] = route('horoscope.op', 3);
-		$response = $this->get($_SERVER['REQUEST_URI']);
-		$response->assertStatus(200);
+		foreach ($ar as $id)
+		{
+			$_SERVER['REQUEST_URI'] = route('horoscope.op', $id);
+			$response = $this->get($_SERVER['REQUEST_URI']);
+			$response->assertStatus(200);
+		}
 	}
 }
