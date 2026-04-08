@@ -3,26 +3,11 @@
 namespace App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
 use App\Rules\PassNotCorrect;
 use App\Rules\PassNotMatch;
 
 class PassRequest extends FormRequest
 {
-	/**
-	 * replace array errors from default to commit
-	 * @param  Illuminate\Contracts\Validation\Validator  $validator
-	 * @return void
-	 */
-	public function failedValidation(Validator $validator)
-	{
-		$exception = $validator->getException();
-		$this->errorBag = 'comment';
-		throw (new $exception($validator))
-			->errorBag($this->errorBag)
-			->redirectTo($this->getRedirectUrl());
-	}
-
 	/**
 	 * messages for the request
 	 * @return string array
@@ -38,21 +23,6 @@ class PassRequest extends FormRequest
 			'pass.min'		 		=> 'Новый пароль слишком короткий',
 			'password.string'		=> 'Пароль не является строкой'
 		];
-	}
-
-	/**
-	 * Prepare params for validation
-	 *
-	 * @return void
-	 */
-	protected function prepareForValidation()
-	{
-		$this->merge([
-			'password'				=> $this->pass,
-			'hash'					=> md5($this->pass),
-			'session_time'			=> time(),
-			'lastvisit'				=> time()
-		]);
 	}
 
 	/**

@@ -7,6 +7,7 @@ Use App\Interfaces\UserInterface;
 use App\Interfaces\AnketVisitInterface;
 use App\Models\User;
 use App\Repositories\PhotoRepository;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserInterface
 {
@@ -146,13 +147,22 @@ class UserRepository implements UserInterface
 
 	/**
 	 * get profile for auth
-	 * @param  string $login
-	 * @param  string $pass
-	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
-	public function getByLoginAndPass($login, $pass)
+	public function getByLoginAndPass(string $login, string $pass): Collection|null
 	{
-		return !empty($login) && !empty($pass) ? User::select(['id'])->login($login)->hash($pass)->first() : false;
+		if (empty($login) || empty($pass)) return null;
+		
+		$user = User::where('login', $login)->first();
+
+		if (!$user) return null;
+		if (Hash::check($pass, $user->hash)) return $user;
+
+    	if (md5($pass) === $user->hash) {
+			$user->hash = Hash::make($pass);
+			$user->save();
+			return $user;
+		}
+    	return null;
 	}
 
 	/**

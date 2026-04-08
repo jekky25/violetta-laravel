@@ -41,8 +41,8 @@ Route::middleware('slashes')->group(function () {
 		Route::put('registration/edit/photo/edit/{id}.html', [PhotoController::class, 'editPhotoUpdate'])	->whereNumber('id')	->name('registration.edit.photo.edit.post');
 		Route::get('registration/edit/photo/delete/{id}.html', [PhotoController::class, 'destroyPhoto'])	->whereNumber('id')	->name('registration.edit.photo.delete');
 		Route::delete('registration/edit/photo/delete/{id}.html', [PhotoController::class, 'destroyPhotoAction'])->whereNumber('id')->name('registration.edit.photo.delete.action');
-		Route::get('registration/edit/pass/', [PasswordController::class, 'pass'])												->name('registration.edit.password');
-		Route::put('registration/edit/pass/', [PasswordController::class, 'passPost'])											->name('registration.edit.password.post');
+		Route::get('registration/edit/pass/', [PasswordController::class, 'show'])												->name('registration.edit.password');
+		Route::put('registration/edit/pass/', [PasswordController::class, 'update'])											->name('registration.edit.password.post');
 		Route::get('registration/views/', 'AnketController@getViews')															->name('registration.views');
 
 		Route::get('privmsg/', 'PrivmsgController@index')																		->name('privmsg');

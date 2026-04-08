@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Requests\PassRequest;
-use App\Interfaces\UserInterface;
+use Illuminate\Http\RedirectResponse;
+use App\Services\PasswordService;
 
 class PasswordController extends Controller
 {
@@ -14,13 +14,13 @@ class PasswordController extends Controller
 	 *
 	 * @return void
 	 */
-	public function __construct(protected UserInterface $userRepository) {}
+	public function __construct(protected PasswordService $service) {}
 
 	/**
 	 * Show a change password page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function pass()
+	public function show()
 	{
 		return response()->view('registration.pass');
 	}
@@ -28,11 +28,11 @@ class PasswordController extends Controller
 	/**
 	 * Change user password
 	 * @param  PassRequest $request
-	 * @return void
+	 * @return RedirectResponse
 	 */
-	public function passPost(PassRequest $request)
+	public function update(PassRequest $request)
 	{
-		$this->userRepository->update(Auth::user(), $request->validated());
+		$this->service->update(request()->user(), $request->validated());
 		return redirect()->route(Route::currentRouteName())->with('success', 'Информация сохранена.');
 	}
 }

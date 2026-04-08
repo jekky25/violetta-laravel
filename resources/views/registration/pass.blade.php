@@ -14,8 +14,8 @@
 <form name="anketa" action="{{ route('registration.edit.password') }}" method="post">
 @method('PUT')
 {{ csrf_field() }}
-@if ($errors->comment->all())
-	@foreach ($errors->comment->all() as $item)
+@if ($errors->all())
+	@foreach ($errors->all() as $item)
 	<p class="blue2">{{ $item }}</p>
 	@endforeach
 @endif
