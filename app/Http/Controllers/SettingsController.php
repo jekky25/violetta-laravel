@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Fields\SettingsField;
 use App\Requests\SettingRequest;
-use App\Interfaces\UserInterface;
+use App\Services\SettingsService;
+use Illuminate\Http\RedirectResponse;
 
 class SettingsController extends Controller
 {
@@ -15,13 +15,13 @@ class SettingsController extends Controller
 	 *
 	 * @return void
 	 */
-	public function __construct(protected UserInterface $userRepository) {}
+	public function __construct(protected SettingsService $service) {}
 
 	/**
 	 * Show a setting page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function settings(SettingsField $fields)
+	public function index(SettingsField $fields)
 	{
 		return response()->view('registration.settings', ['fields'	=> $fields]);
 	}
@@ -29,11 +29,11 @@ class SettingsController extends Controller
 	/**
 	 * Update user settings
 	 * @param SettingRequest $request
-	 * @return void
+	 * @return RedirectResponse
 	 */
-	public function settingsPost(SettingRequest $request)
+	public function update(SettingRequest $request)
 	{
-		$this->userRepository->update(Auth::user(), $request->validated());
+		$this->service->update(request()->user(), $request->validated());
 		return redirect()->route(Route::currentRouteName())->with('success', 'Информация сохранена.');
 	}
 }

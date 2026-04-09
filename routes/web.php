@@ -27,8 +27,8 @@ use App\Http\Controllers\Top100Controller;
 Route::middleware('slashes')->group(function () {
 	Route::middleware('auth')->group(function () {
 		Route::get('registration/edit/diary/', [DiaryController::class, 'diary'])												->name('registration.edit.diary');
-		Route::get('registration/edit/settings/', [SettingsController::class, 'settings'])										->name('registration.edit.settings');
-		Route::put('registration/edit/settings/', [SettingsController::class, 'settingsPost'])									->name('registration.edit.settings.post');
+		Route::get('registration/edit/settings/', [SettingsController::class, 'index'])											->name('registration.edit.settings');
+		Route::put('registration/edit/settings/', [SettingsController::class, 'update'])										->name('registration.edit.settings.post');
 		Route::get('registration/edit/', [ProfileController::class, 'edit'])													->name('registration.edit');
 		Route::put('registration/edit/', [ProfileController::class, 'post'])													->name('registration.edit.post');
 		Route::get('registration/edit/second/', [ProfileController::class, 'second'])											->name('registration.edit.second');
