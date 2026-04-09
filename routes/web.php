@@ -12,7 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\TopController;
+use App\Http\Controllers\Top100Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,8 +74,8 @@ Route::middleware('slashes')->group(function () {
 		Route::get('logout/', 'AuthController@logout')													->name('logout');
 	});
 
-	Route::get('registration/top100/', [TopController::class, 'top100'])														->name('registration.top100');
-	Route::post('registration/top100/', [TopController::class, 'top100Post'])													->name('registration.top100.post');
+	Route::get('registration/top100/', [Top100Controller::class, 'show'])															->name('registration.top100');
+	Route::post('registration/top100/', [Top100Controller::class, 'update'])													->name('registration.top100.post');
 	Route::delete('registration/delete/', [AccountController::class, 'destroy'])													->name('registration.delete');
 	Route::get('registration/', [RegistrationController::class, 'registration'])												->name('registration')						->middleWare('guest');
 	Route::post('registration/', [RegistrationController::class, 'registrationStore'])											->name('registration.post');

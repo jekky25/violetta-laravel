@@ -86,7 +86,8 @@ class User extends Authenticatable
 		'partner_city',
 		'session_time',
 		'dont_send_email',
-		'remember_token'
+		'remember_token',
+		'top100'
 	];
 
 	/**
