@@ -21,7 +21,7 @@ class Top100Service
 	*/
 	public function update(User $user): array
 	{
-		if (count($user->photo) == 0) return ['conditions' => true];
+		if ($user->photo->isEmpty()) return ['conditions' => true];
 		$this->repository->update($user, ['top100' => time()]);
 		return ['success' => 'Информация сохранена.'];
 	}
