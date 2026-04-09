@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Route;
 use App\Fields\SettingsField;
 use App\Requests\SettingRequest;
 use App\Services\SettingsService;
@@ -34,6 +33,6 @@ class SettingsController extends Controller
 	public function update(SettingRequest $request)
 	{
 		$this->service->update(request()->user(), $request->validated());
-		return redirect()->route(Route::currentRouteName())->with('success', 'Информация сохранена.');
+		return redirect()->route('registration.edit.settings')->with('success', 'Информация сохранена.');
 	}
 }
