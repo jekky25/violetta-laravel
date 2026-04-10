@@ -95,26 +95,4 @@ class RegistrationController extends Controller
 			->send(new RegistrationEmail($user));
 		return redirect()->route(Route::currentRouteName())->with('success', 'Информация сохранена.');
 	}
-
-	/**
-	 * show confirm registration page and update data
-	 * @param int $id
-	 * @param string $code
-	 * @return \Illuminate\Http\Response
-	 */
-	public function confirm($id, $code)
-	{
-		if (empty($code)) abort(404);
-		$user 			= $this->userRepository->getByIdAndConfirmCode($id, $code);
-		$this->userRepository->update($user, [
-			'confirm_email'			=> 1,
-			'submit_code'			=> ''
-		]);
-		return response()->view(
-			'registration.confirm',
-			[
-				'isConfirmed'			=> true,
-			]
-		);
-	}
 }

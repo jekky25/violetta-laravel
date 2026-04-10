@@ -13,6 +13,7 @@ use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Top100Controller;
+use App\Http\Controllers\ConfirmController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,7 +80,7 @@ Route::middleware('slashes')->group(function () {
 	Route::delete('registration/delete/', [AccountController::class, 'destroy'])													->name('registration.delete');
 	Route::get('registration/', [RegistrationController::class, 'registration'])												->name('registration')						->middleWare('guest');
 	Route::post('registration/', [RegistrationController::class, 'registrationStore'])											->name('registration.post');
-	Route::get('registration/confirm/{id}/{code}/', [RegistrationController::class, 'confirm'])			->whereNumber('id')		->name('registration.confirm');
+	Route::get('registration/confirm/{id}/{code}/', [ConfirmController::class, 'confirm'])				->whereNumber('id')		->name('registration.confirm');
 
 	Route::get('ank/diary/comments/{id}.html', 'DiaryCommentController@index')											->whereNumber('id')		->name('ank.diary.comments');
 	Route::get('ank/diary/{id}.html', 'DiaryController@show')															->whereNumber('id')		->name('ank.diary.id');

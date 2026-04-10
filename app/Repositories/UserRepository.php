@@ -174,7 +174,7 @@ class UserRepository implements UserInterface
 	public function getByIdAndConfirmCode($id, $code)
 	{
 		if ((int)($id) == 0 or empty($code)) return false;
-		return User::select(['*'])->whereKey($id)->where('submit_code', addslashes($code))->firstOrFail();
+		return User::select(['*'])->whereKey($id)->where('submit_code', addslashes($code))->first();
 	}
 
 	/**
