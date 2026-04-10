@@ -76,11 +76,11 @@ Route::middleware('slashes')->group(function () {
 		Route::get('logout/', 'AuthController@logout')													->name('logout');
 	});
 
-	Route::get('registration/top100/', [Top100Controller::class, 'show'])															->name('registration.top100');
+	Route::get('registration/top100/', [Top100Controller::class, 'show'])														->name('registration.top100');
 	Route::post('registration/top100/', [Top100Controller::class, 'update'])													->name('registration.top100.post');
-	Route::delete('registration/delete/', [AccountController::class, 'destroy'])													->name('registration.delete');
-	Route::get('registration/', [RegistrationController::class, 'registration'])												->name('registration')						->middleWare('guest');
-	Route::post('registration/', [RegistrationController::class, 'registrationStore'])											->name('registration.post');
+	Route::delete('registration/delete/', [AccountController::class, 'destroy'])												->name('registration.delete');
+	Route::get('registration/', [RegistrationController::class, 'create'])														->name('registration')						->middleWare('guest');
+	Route::post('registration/', [RegistrationController::class, 'store'])														->name('registration.post');
 	Route::get('registration/confirm/{id}/{code}/', [ConfirmController::class, 'confirm'])				->whereNumber('id')		->name('registration.confirm');
 
 	Route::get('ank/diary/comments/{id}.html', 'DiaryCommentController@index')											->whereNumber('id')		->name('ank.diary.comments');

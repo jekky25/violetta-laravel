@@ -4,45 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use App\Interfaces\UserInterface;
 use App\Requests\RegistrationRequest;
-use App\Mail\RegistrationEmail;
 use App\Fields\RegistrationField;
+use App\DTO\RegistrationProfileDTO;
+use App\Services\RegistrationService;
+use Illuminate\Support\Facades\Auth;
 
 class RegistrationController extends Controller
 {
-	public static $siteUrl				= 'www.avioletta.ru';
-	public static $siteUrlWithProtocol	= 'http://www.avioletta.ru';
-	public static $languageCodes = [
-		'1' => 'rus',
-		'2' => 'ukr',
-		'3' => 'bel',
-		'4' => 'gru',
-		'5' => 'eng',
-		'6' => 'ger',
-		'7' => 'fra',
-		'8' => 'spa',
-		'9' => 'ita',
-		'10' => 'chi',
-		'11' => 'jap',
-		'12' => 'arm'
-	];
-
 	/**
 	 * Create a new controller instance.
 	 *
 	 * @return void
 	 */
 
-	public function __construct(protected UserInterface $userRepository) {}
+	public function __construct(protected RegistrationService $service) {}
 
 	/**
 	 * show a registration page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function registration(RegistrationField $fields)
+	public function create(RegistrationField $fields)
 	{
 		return response()->view(
 			session('success') ? 'registration.finish' :
@@ -55,15 +37,10 @@ class RegistrationController extends Controller
 	 * @param  RegistrationRequest $request
 	 * @return void
 	 */
-	public function registrationStore(RegistrationRequest $request)
+	public function store(RegistrationRequest $request)
 	{
-		$arParams = $request->validated();
-		$this->userRepository->create($arParams);
-		$user	= $this->userRepository->getByLogin($arParams['login']);
+		$user = $this->service->store(RegistrationProfileDTO::fromRequest($request));
 		Auth::login($user, true);
-		Mail::mailer(config('mail.mail_mode'))
-			->to($user->email)
-			->send(new RegistrationEmail($user));
 		return redirect()->route(Route::currentRouteName())->with('success', 'Информация сохранена.');
 	}
 }

@@ -259,6 +259,7 @@ class UserRepository implements UserInterface
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to create an User ' . $e->getMessage());
 		}
+		return $user;
 	}
 
 	/**
