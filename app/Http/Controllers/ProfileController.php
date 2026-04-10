@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\UpdateMainProfileDTO;
+use App\DTO\UpdateSecondProfileDTO;
+use App\DTO\UpdatePartnerProfileDTO;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Fields\ProfileEditField;
 use App\Requests\ProfileMainRequest;
-use App\Interfaces\UserInterface;
 use App\Fields\ProfileSecondField;
 use App\Requests\ProfileSecondRequest;
 use App\Fields\ProfilePartnerField;
 use App\Requests\ProfilePartnerRequest;
+use App\Services\ProfileService;
+use Illuminate\Http\RedirectResponse;
 
 class ProfileController extends Controller
 {
@@ -19,13 +23,13 @@ class ProfileController extends Controller
 	 *
 	 * @return void
 	 */
-	public function __construct(protected UserInterface $userRepository) {}
+	public function __construct(protected ProfileService $service) {}
 
 	/**
 	 * Show an edit short profile page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit(ProfileEditField $fields)
+	public function editMain(ProfileEditField $fields)
 	{
 		return response()->view('registration.edit', ['fields'	=> $fields]);
 	}
@@ -33,11 +37,11 @@ class ProfileController extends Controller
 	/**
 	 * Edit a short user profile
 	 * @param  ProfileMainRequest $request
-	 * @return void
+	 * @return RedirectResponse
 	 */
-	public function post(ProfileMainRequest $request)
+	public function updateMain(ProfileMainRequest $request)
 	{
-		$this->userRepository->update(Auth::user(), $request->validated());
+		$this->service->updateMain(Auth::user(), UpdateMainProfileDTO::fromRequest($request));
 		return redirect()->route(Route::currentRouteName())->with('success', 'Информация сохранена.');
 	}
 
@@ -45,7 +49,7 @@ class ProfileController extends Controller
 	 * Show an edit full profile page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function second(ProfileSecondField $fields)
+	public function editSecond(ProfileSecondField $fields)
 	{
 		return response()->view('registration.second', ['fields' => $fields]);
 	}
@@ -53,11 +57,11 @@ class ProfileController extends Controller
 	/**
 	 * Edit a full user profile
 	 * @param ProfileSecondRequest $request
-	 * @return void
+	 * @return RedirectResponse
 	 */
-	public function secondPost(ProfileSecondRequest $request)
+	public function updateSecond(ProfileSecondRequest $request)
 	{
-		$this->userRepository->update(Auth::user(), $request->validated());
+		$this->service->updateSecond(Auth::user(), UpdateSecondProfileDTO::fromRequest($request));
 		return redirect()->route(Route::currentRouteName())->with('success', 'Информация сохранена.');
 	}
 
@@ -65,7 +69,7 @@ class ProfileController extends Controller
 	 * Show an edit partner page
 	 * @return \Illuminate\Http\Response
 	 */
-	public function partner(ProfilePartnerField $fields)
+	public function editPartner(ProfilePartnerField $fields)
 	{
 		return response()->view('registration.partner', ['fields' => $fields]);
 	}
@@ -73,11 +77,11 @@ class ProfileController extends Controller
 	/**
 	 * Edit a partner profile
 	 * @param  ProfilePartnerRequest $request
-	 * @return void
+	 * @return RedirectResponse
 	 */
-	public function partnerPost(ProfilePartnerRequest $request)
+	public function updatePartner(ProfilePartnerRequest $request)
 	{
-		$this->userRepository->update(Auth::user(), $request->validated());
+		$this->service->updatePartner(Auth::user(), UpdatePartnerProfileDTO::fromRequest($request));
 		return redirect()->route(Route::currentRouteName())->with('success', 'Информация сохранена.');
 	}
 }

@@ -29,12 +29,12 @@ Route::middleware('slashes')->group(function () {
 		Route::get('registration/edit/diary/', [DiaryController::class, 'diary'])												->name('registration.edit.diary');
 		Route::get('registration/edit/settings/', [SettingsController::class, 'index'])											->name('registration.edit.settings');
 		Route::put('registration/edit/settings/', [SettingsController::class, 'update'])										->name('registration.edit.settings.post');
-		Route::get('registration/edit/', [ProfileController::class, 'edit'])													->name('registration.edit');
-		Route::put('registration/edit/', [ProfileController::class, 'post'])													->name('registration.edit.post');
-		Route::get('registration/edit/second/', [ProfileController::class, 'second'])											->name('registration.edit.second');
-		Route::put('registration/edit/second/', [ProfileController::class, 'secondPost'])										->name('registration.edit.second.post');
-		Route::get('registration/edit/partner/', [ProfileController::class, 'partner'])											->name('registration.edit.partner');
-		Route::put('registration/edit/partner/', [ProfileController::class, 'partnerPost'])										->name('registration.edit.partner.post');
+		Route::get('registration/edit/', [ProfileController::class, 'editMain'])												->name('registration.edit');
+		Route::put('registration/edit/', [ProfileController::class, 'updateMain'])												->name('registration.edit.post');
+		Route::get('registration/edit/second/', [ProfileController::class, 'editSecond'])										->name('registration.edit.second');
+		Route::put('registration/edit/second/', [ProfileController::class, 'updateSecond'])										->name('registration.edit.second.post');
+		Route::get('registration/edit/partner/', [ProfileController::class, 'editPartner'])										->name('registration.edit.partner');
+		Route::put('registration/edit/partner/', [ProfileController::class, 'updatePartner'])									->name('registration.edit.partner.post');
 		Route::get('registration/edit/photo/', [PhotoController::class, 'photo'])												->name('registration.edit.photo');
 		Route::post('registration/edit/photo/', [PhotoController::class, 'photoStore'])											->name('registration.edit.photo.post');
 		Route::get('registration/edit/photo/edit/{id}.html', [PhotoController::class, 'editPhoto'])		->whereNumber('id')		->name('registration.edit.photo.edit');
