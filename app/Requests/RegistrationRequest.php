@@ -106,7 +106,7 @@ class RegistrationRequest extends FormRequest
 		$password 				= !empty($arParams['password'])				? $arParams['password'] 			: '';
 		$passwordSecond 		= !empty($arParams['password_second'])		? $arParams['password_second']		: '';
 
-		return [
+		$rules = [
 			'login'						=> ['string', 'required', new CheckBan, 'max:20', 'min:4', "regex:/^[0-9a-zA-Z_]+$/", new CheckLogin],
 			'password'					=> ['required', 'max:20', 'min:4', "regex:/^[0-9a-zA-Z_]+$/", new CheckPassword($password, $passwordSecond)],
 			'name'						=> [
@@ -125,7 +125,6 @@ class RegistrationRequest extends FormRequest
 			],
 			'region_id'					=> ['integer'],
 			'city_id'					=> ['integer'],
-			'recaptcha_response'	 	=> ['required', new GoogleCaptcha],
 			'conditions'				=> ['required'],
 			'active'					=> ['integer'],
 			'approved'					=> ['integer'],
@@ -147,5 +146,7 @@ class RegistrationRequest extends FormRequest
 			'partner_description'		=> ['string'],
 			'confirm_email'		 		=> ['integer'],
 		];
+		if (config('services.recaptcha.enabled')) $rules['recaptcha_response'] = ['required', new GoogleCaptcha];
+		return $rules;
 	}
 }
