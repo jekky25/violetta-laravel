@@ -7,10 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Interfaces\UserInterface;
-use App\Requests\ForgetPasswordRequest;
 use App\Requests\RegistrationRequest;
 use App\Mail\RegistrationEmail;
-use App\Mail\ForgetPasswordEmail;
 use App\Fields\RegistrationField;
 
 class RegistrationController extends Controller
@@ -39,33 +37,6 @@ class RegistrationController extends Controller
 	 */
 
 	public function __construct(protected UserInterface $userRepository) {}
-
-	/**
-	 * show a forget password page
-	 * @return \Illuminate\Http\Response
-	 */
-	public function forgetPass()
-	{
-		return response()->view('registration.forget_pass');
-	}
-
-	/**
-	 * send email from the forget password page
-	 * @param  ForgetPasswordRequest $request
-	 * @return void
-	 */
-	public function forgetPassPost(ForgetPasswordRequest $request)
-	{
-		$arParams 		= $request->validated();
-		$email			= $arParams['email'];
-		$user	= $this->userRepository->getByEmail($email);
-		if (!empty($user)) {
-			Mail::mailer(config('mail.mail_mode'))
-				->to($email)
-				->send(new ForgetPasswordEmail($user));
-		}
-		return redirect()->route(Route::currentRouteName())->with('success', '<p>На адрес <strong>' . $email . '</strong> было выслано письмо с вашим паролем!');
-	}
 
 	/**
 	 * show a registration page

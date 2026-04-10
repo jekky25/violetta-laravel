@@ -14,6 +14,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Top100Controller;
 use App\Http\Controllers\ConfirmController;
+use App\Http\Controllers\ForgetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,8 +132,8 @@ Route::middleware('slashes')->group(function () {
 	Route::get('login/', function () {
 		return redirect()->route('home');
 	});
-	Route::post('forget_pass/', [RegistrationController::class, 'forgetPassPost'])																->name('forget_pass.post');
-	Route::get('forget_pass/', [RegistrationController::class, 'forgetPass'])																	->name('forget_pass');
+	Route::post('forget_pass/', [ForgetPasswordController::class, 'sendPassword'])																->name('forget_pass.post');
+	Route::get('forget_pass/', [ForgetPasswordController::class, 'show'])																		->name('forget_pass');
 	Route::get('sitemap/', 'SiteController@index')																								->name('sitemap');
 	Route::get('contacts/', 'ContactsController@index')																							->name('contacts');
 	Route::post('contacts/', 'ContactsController@post')																							->name('contacts.post');

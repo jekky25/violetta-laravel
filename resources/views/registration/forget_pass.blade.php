@@ -9,9 +9,9 @@
 		{!! session('success') !!}
 		@else
 			<p>Вы <strong>не помните свой пароль</strong>? Введите пожалуйста Е-майл, который вы оставили при регистрации. Если он в нашей базе, мы пришлем вам письмо с вашими данными для входа.</p>
-			@if (!empty ($errors->comment->all()))
+			@if (!empty ($errors->all()))
 				<p class="pad3 error left1">Ошибка: 
-				@foreach ($errors->comment->all() as $item)
+				@foreach ($errors->all() as $item)
 				<span>{{ $item }}</span>
 				@endforeach
 				</p>
