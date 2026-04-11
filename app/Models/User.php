@@ -170,7 +170,6 @@ class User extends Authenticatable
 			$model->make_date_t		= time();
 			$model->active 			= 1;
 			$model->approved		= 1;
-			$model->hash			= md5($model->password);
 			$model->ip				= request()->ip();
 			$model->submit_code 	= md5(time() . $model->login . rand(0, 1000));
 			$model->confirm_email	= isset($model->confirm_email) ?: 0;
