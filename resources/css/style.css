@@ -90,6 +90,10 @@ a:hover	{text-decoration:underline;}
 	margin-right: 10px;
 }
 
+.center {
+	text-align: center;
+}
+
 .mrg1 {margin-top:15px;}
 .mrg2 {margin-left:100px;}
 .mrg3 {margin-left:100px;}
@@ -172,6 +176,7 @@ a:hover.lColor2 {color:#5954b0; text-decoration:none;}
 	height: var(--button-height);
 	line-height: var(--button-height);
 	text-align: center;
+	text-decoration: none;
 	cursor: pointer;
 	border: none;
 	margin: 0 auto;
@@ -188,6 +193,10 @@ a:hover.lColor2 {color:#5954b0; text-decoration:none;}
 	box-shadow:
 		inset 0 1px 0 rgba(255, 255, 255, 0.6),
 		0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover {
+	text-decoration: none;
 }
 
 .button:hover {
@@ -851,8 +860,13 @@ div.ankData {padding-top:10px;}
 img.online1 {vertical-align:middle; margin-right:3px;}
 
 div#mainAnkFoto {text-align:center; padding-bottom:10px; padding-top:10px;}
-	#mainAnkFoto div {margin:0 auto; display:block; position:relative; background-color:#878672; top:3px; left:3px;}
-	#mainAnkFoto div img {top:-3px; left:-3px; position:relative;}
+#mainAnkFoto div {margin:0 auto; display:block; position:relative; background-color:#878672; top:3px; left:3px;}
+#mainAnkFoto div img {
+	top: -3px; 
+	left: -3px; 
+	position: relative;
+	max-width: 100%;
+}
 	
 table#mainSecondFoto {padding-bottom:10px; margin:0 auto;}
 #mainSecondFoto td {padding-right:5px; padding-left:5px;}
@@ -1055,6 +1069,7 @@ h1.main_title, H1.main_t_up {
 .photo-block-img {
 	width:100%; 
 	max-width:100%;
+	display: block;
 }
 
 .b-lazy {

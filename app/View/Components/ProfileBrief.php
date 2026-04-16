@@ -36,7 +36,9 @@ class ProfileBrief extends Component
 	 */
 	public function getFirstPhotoUrl()
 	{
-		return $this->file->outPicture($this->getFirstPhotoId(), $this->item->sex);
+		$url = !isset($this->item->firstPhoto->url) ? null : $this->item->firstPhoto->url;
+		if ($url === null) return $this->item->sex == MEN ? 'image/no_foto_m_vip4.jpg' : 'image/no_foto_w_vip4.jpg';
+		return $url;
 	}
 
 	/**

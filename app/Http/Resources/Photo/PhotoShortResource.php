@@ -18,7 +18,8 @@ class PhotoShortResource extends JsonResource
 			'id'			=> $this->id,
 			'user_id'	 	=> $this->user_id,
 			'main_mpicture'	=> $this->main_mpicture,
-			'create_time'	=> $this->create_time
+			'create_time'	=> $this->create_time,
+			'url'			=> $this->url
 		];
 	}
 }

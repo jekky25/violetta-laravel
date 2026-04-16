@@ -1,7 +1,14 @@
 <?
 namespace App\Services;
 
+use App\DTO\CreatePhotoDTO;
 use App\Interfaces\VarsInterface;
+use App\Interfaces\UserInterface;
+use Illuminate\Support\Collection;
+use App\Models\User;
+use App\Models\Photo;
+use App\Repositories\PhotoRepository;
+use App\DTO\UpdatePhotoDTO;
 
 class PhotoService
 {
@@ -13,19 +20,117 @@ class PhotoService
 	* @return void
 	*/
 	public function __construct(
-		protected VarsInterface $varsRepository
+		protected VarsInterface $varsRepository,
+		protected UserInterface $userRepository,
+		protected PhotoRepository $photoRepository,
+		protected FileService $fileService
 	)
 	{
 		$this->vars = $this->varsRepository->getAll();
 	}
 
 	/**
+	 * get all photos for the user
+	 */
+	public function allByUser(User $user): Collection|null
+	{
+		$user = $this->userRepository->getJustById($user->id, ['photo']);
+		return $user->photo->isEmpty() ? null : $user->photo;
+	}
+
+	/**
+	 * create a photo
+	 */
+	public function create(User $user, CreatePhotoDTO $dto): void
+	{
+		try {
+			$photo = $this->fileService->fotoUpload($dto->photo, 1000, config('photos.folder'));
+			$user->refresh_date		= date("Y-m-d");
+			$data = [
+				'main_picture'				=> count($user->photo) > 0 ? 0 : 1,
+				'create_time'				=> date("Y-m-d"),
+				'user_id'					=> $user->id,
+				'path'						=> $photo['unic_name']
+			];
+			$photo = $this->photoRepository->create($data);
+			if ($photo === null ) throw new \Exception('Failed to create a Photo ' . $e->getMessage());
+	
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to create a Photo ' . $e->getMessage());
+		}
+	}
+
+	/**
+	 * edit a photo
+	 */	
+	public function edit(int $id, User $user): Photo
+	{
+		return $this->photoRepository->getByIdAndUserId($id, $user->id);
+	}
+
+	/**
+	 * update a photo
+	 */
+	public function update(int $id, User $user, UpdatePhotoDTO $dto): void
+	{
+		try {
+			$photoModel	= $this->photoRepository->getByIdAndUserId($id, $user->id);
+
+			$this->fileService->fotoDelete($photoModel->public_path);
+
+			$photo = $this->fileService->fotoUpload($dto->photo, 1000, config('photos.folder'));
+			$user->refresh_date		= date("Y-m-d");
+			$data = [
+				'main_picture'				=> count($user->photo) > 0 ? 0 : 1,
+				'create_time'				=> date("Y-m-d"),
+				'user_id'					=> $user->id,
+				'path'						=> $photo['unic_name']
+			];
+			$this->photoRepository->update($photoModel, $data);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to update the Photo ' . $e->getMessage());
+		}
+	}
+
+	/**
+	 * destroy a photo
+	 */
+	public function destroy(int $id, User $user): void
+	{
+		try {
+			$photo	= $this->photoRepository->getByIdAndUserId($id, $user->id);
+			$isPortret = $photo->main_picture == 1 ? 1 : 0;
+			$this->photoRepository->destroyPhoto($photo);
+			$this->fileService->fotoDelete($photo->public_path);
+			if ($isPortret) {
+				$this->setMainPicture($user);
+			}
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to delete the Photo ' . $e->getMessage());
+		}
+	}
+
+	/**
+	 * set a main picture value in the DB
+	 */
+	public function setMainPicture(User $user): bool
+	{
+		$photo = $this->photoRepository->getFirstByUserId($user->id);
+		if (empty($photo)) return false;
+
+		$photo->main_picture = 1;
+		$photo->update();
+		
+		$user->refresh_date 		= date("Y-m-d");
+		$user->photos_count = $this->photoRepository->getAllByUserId($user->id)->count();
+		$user->update();
+		return true;
+	}
+
+	/**
 	* Make preparation of the picture paraments
-	* @param  App\Models\User  $anket
-	* @param  int $photoId
-	* @return void
 	*/
-	public function prepare(&$anket, $photoId)
+	public function prepare(User &$anket, int $photoId): void
 	{
 		foreach ($anket->photo as &$item)
 		{
@@ -39,20 +144,16 @@ class PhotoService
 
 	/**
 	* Check the main picture is it or not is it
-	* @param  App\Models\User  $anket
-	* @return bool
 	*/
-	public function checkMainPhoto($anket)
+	public function checkMainPhoto(User $anket): Photo
 	{
 		return !empty($anket->mainPhoto) ? $anket->mainPhoto : $anket->photo[0];
 	}
 
 	/**
 	* Add additioanl parameters to the pictures
-	* @param  App\Models\Photo  $photo
-	* @return App\Models\Photo
 	*/
-	public function addPictureParams($photo)
+	public function addPictureParams(Photo $photo): Photo
 	{
 		$img 				= "./fotos_new/".$photo->id.".jpg";
 		if (is_file($img))

@@ -3,28 +3,9 @@
 namespace App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Support\Facades\Route;
 
 class PhotoRequest extends FormRequest
 {
-	private $routeDelete		= 'registration.edit.photo.delete';
-	private $routeDeleteActive	= 'registration.edit.photo.delete.action';
-
-	/**
-	* replace array errors from default to commit
-	* @param  Illuminate\Contracts\Validation\Validator  $validator
-	* @return void
-	*/
-	public function failedValidation(Validator $validator)
-	{
-		$exception = $validator->getException();
-		$this->errorBag = 'comment';
-        throw (new $exception($validator))
-                    ->errorBag($this->errorBag)
-                    ->redirectTo($this->getRedirectUrl());
-	}
-
 	/**
 	* messages for the request
 	* @return string array
@@ -32,9 +13,9 @@ class PhotoRequest extends FormRequest
 	public function messages():array
 	{
 		return	[
-			'photo_link.image'		=> 'Файл не является изображением',
-			'photo_link.max'		=> 'Файл слишком большой',
-			'photo_link.required'	=> 'Файл не был загружен'
+			'photo.image'		=> 'Файл не является изображением',
+			'photo.max'			=> 'Файл слишком большой',
+			'photo.required'	=> 'Файл не был загружен'
 		];
 	}
 
@@ -45,16 +26,8 @@ class PhotoRequest extends FormRequest
 	*/
 	public function rules(): array
 	{
-		if ($this->cancelRules()) return [];
 		return [
-			'photo_link'	=> ['required','file', 'image', 'max:4048']
+			'photo'	=> ['required','file', 'image', 'max:4048']
 		];
-	}
-
-	private function cancelRules()
-	{
-		if (Route::currentRouteName() == $this->routeDelete) return true;
-		if (Route::currentRouteName() == $this->routeDeleteActive) return true;
-		return false;
 	}
 }

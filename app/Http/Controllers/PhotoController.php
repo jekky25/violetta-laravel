@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Interfaces\UserInterface;
+use Illuminate\Http\RedirectResponse;
 use App\Requests\PhotoRequest;
-use App\Interfaces\PhotoInterface;
-use Illuminate\Support\Facades\Auth;
+use App\Services\PhotoService;
+use App\DTO\CreatePhotoDTO;
+use App\DTO\UpdatePhotoDTO;
 
 class PhotoController extends Controller
 {
@@ -15,33 +16,28 @@ class PhotoController extends Controller
 	 * @return void
 	 */
 	public function __construct(
-		protected UserInterface $userRepository,
-		protected PhotoInterface $photoRepository
+		protected PhotoService $service
 	) {}
 
 	/**
 	 * Show an edit page with the user pictures
 	 * @return \Illuminate\Http\Response
 	 */
-	public function photo()
+	public function index()
 	{
-		$user = $this->userRepository->getJustById(Auth::id(), ['photo']);
-		return response()->view(
-			'registration.photo',
-			[
-				'photos' => $user->photo
-			]
-		);
+		return response()->view('registration.photo', [
+			'photos' => $this->service->allByUser(request()->user())
+		]);
 	}
 
 	/**
 	 * Add an user picture
 	 * @param PhotoRequest $request
-	 * @return void
+	 * @return RedirectResponse
 	 */
-	public function photoStore(PhotoRequest $request)
+	public function store(PhotoRequest $request)
 	{
-		$this->photoRepository->store(Auth::user(), $request->validated());
+		$this->service->create(request()->user(), CreatePhotoDTO::fromRequest($request));
 		return redirect()->back()
 			->with('success', 'Фото успешно добавлено')
 			->withInput();
@@ -52,13 +48,12 @@ class PhotoController extends Controller
 	 * @param int $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function editPhoto($id)
+	public function edit($id)
 	{
-		$photo			= $this->photoRepository->getByIdAndUserId($id, Auth::id());
 		return response()->view(
 			'registration.photo_edit',
 			[
-				'photo' => $photo
+				'photo' => $this->service->edit($id, request()->user())
 			]
 		);
 	}
@@ -67,12 +62,11 @@ class PhotoController extends Controller
 	 * Reupload an user picture
 	 * @param  PhotoRequest  $request
 	 * @param int $id
-	 * @return void
+	 * @return RedirectResponse
 	 */
-	public function editPhotoUpdate(PhotoRequest $request, $id)
+	public function update(PhotoRequest $request, $id)
 	{
-		$photo			= $this->photoRepository->getByIdAndUserId($id, Auth::id());
-		$this->photoRepository->update($photo, $request->validated());
+		$this->service->update($id, request()->user(), UpdatePhotoDTO::fromRequest($request));
 		return redirect()->back()
 			->with('success', 'Фото успешно добавлено')
 			->withInput();
@@ -81,30 +75,12 @@ class PhotoController extends Controller
 	/**
 	 * Delete an user picture
 	 * @param int $id
-	 * @return void
+	 * @return RedirectResponse
 	 */
-	public function destroyPhoto($id)
+	public function destroy($id)
 	{
-		$title			= 'Информация';
-		$text			= 'Вы уверены, что хотите удалить это фото<br /><br />';
-		$confirmAction	= route('registration.edit.photo.delete', $id);
-		$this->messageService->outMessageInfo($title, $text, $confirmAction, method_field('DELETE'));
-	}
-
-	/**
-	 * Delete an user picture
-	 * @param  PhotoRequest $request
-	 * @param int $id
-	 * @return void
-	 */
-	public function destroyPhotoAction(PhotoRequest $request, $id)
-	{
-		$photo			= $this->photoRepository->getByIdAndUserId($id, Auth::id());
-		$arParams 		= $request->post();
-		if (!empty($arParams['cancel'])) return redirect()->route('registration.edit.photo');
-		if (!empty($arParams['confirm'])) {
-			$this->photoRepository->destroyPhoto($photo);
-			return redirect()->route('registration.edit.photo')->with('success', 'Информация сохранена.');
-		}
+		$this->service->destroy($id, request()->user());
+		return redirect()->route('registration.edit.photo')->with('success', 'Информация сохранена.');
+		
 	}
 }

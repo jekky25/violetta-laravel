@@ -29,13 +29,8 @@ class FileService
 
 	/**
 	 * adding pictures
-	 * @param object $picture
-	 * @param integer $foto
-	 * @param string $path_foto
-	 *
-	 * @return mixed
 	*/
-	public function fotoUpload($picture, $width = 0, $path_foto = '') 
+	public function fotoUpload(object $picture, int $width = 0, string $path_foto = ''): array|bool
 	{
 		$photo['link']		= !empty($picture->getPathName())					? $picture->getPathName() 								: false;
 		$photo['name']		= !empty($picture->getClientOriginalName())			? $picture->getClientOriginalName()						: '';
@@ -49,7 +44,7 @@ class FileService
 		$res				= $this->moveUploadedFile($photo['link'], $photoLinkTmp);
 		$res				= $this->resize($photoLinkTmp, $width, $photoLink);
 		unlink($photoLinkTmp);
-		return isset($res ['success']) ? $photo['unic_name'] : false;
+		return isset($res ['success']) ? $photo : false;
 	}
 
 	/**
@@ -191,14 +186,10 @@ class FileService
 
 	/**
 	* out picture to template
-	* @param integer $picture
-	* @param string $sex
-	*
-	* @return string
 	*/
-	public function outPicture($picture, $sex = 0)
+	public function outPicture(int $picture, int $sex = 0): string
 	{
-		return $this->getPicture($picture, $sex, 'fotos_new/', '.jpg');
+		return $this->getPicture($picture, $sex, config('photos.folder'), '.jpg');
 	}
 
 	/**
@@ -227,40 +218,31 @@ class FileService
 
 	/**
 	* out picture with storage path
-	* @param integer $picture
-	* @param string $sex
-	* @param string $path
-	* @param string $ext
-	*
-	* @return string
 	*/
-	public function getPicture($picture, $sex, $path, $ext)
+	public function getPicture(int $picture, int $sex, string $path, string $ext): string
 	{
 		$ext			= !empty($ext) ? $ext : '';
-		$file 			= $_SERVER['DOCUMENT_ROOT'] . '/public/' . $path . $picture . $ext;
-		$fileTimeStr 	= !empty($this->getFileChangeTime($file)) 	? $this->getFileChangeTime($file) . '/'		: '';
-		if (!empty($picture) && !empty($path)) return asset($path . $fileTimeStr . $picture . $ext);
+		$pic = is_numeric($picture) ? $picture . $ext : $picture;
+		if (!empty($picture) && !empty($path)) return asset($path . $pic);
 		$fotoUrl = $sex == MEN ? 'image/no_foto_m_vip4.jpg' : 'image/no_foto_w_vip4.jpg';
 		return asset($fotoUrl);
 	}
 
 	/**
 	* getting file changins time
-	* @param string $file
-	*
-	* @return string
 	*/
-	public function getFileChangeTime(string $file)
+	public function getFileChangeTime(string $file): string
 	{
 		return file_exists($file) ? filemtime($file)	: '';
 	}
 
-	public function fotoDelete($id)
+	/**
+	 * delete a picture
+	 */
+	public function fotoDelete(string $path): bool
 	{
-		if (file_exists("fotos_new/".$id.".jpg")) {
-			unlink("fotos_new/".$id.".jpg");
-			return true;
-		}
-		return false;
+		if (!file_exists($path)) return false;
+		unlink($path);
+		return true;
 	}
 }

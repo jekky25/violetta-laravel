@@ -19,10 +19,10 @@ function vote(score)
     @if ($userData->photos_count > 0)
         @foreach ($userData->photo as $item)
 		@if ($loop->iteration > 3) @continue @endif
-		<li><a class="ankFotosPics" href="{{route('ank.photo.photo_id', $item->id)}}"><img src="{{ (new FileService)->outPicture($item->id, $userData->sex) }}" /></a></li>
+		<li><a class="ankFotosPics" href="{{route('ank.photo.photo_id', $item->id)}}"><img src="{{ $item->url }}" /></a></li>
         @endforeach
 	@else
-		<li><p class="ankFotosPics">@if ($userData->sex == MEN)<img src="{{ asset('image/no_foto_m_vip.jpg') }}" />@else<img src="{{ asset('image/no_foto_w_vip.jpg') }}" />@endif</p></li>
+		<li><p class="ankFotosPics">@if ($userData->sex == MEN)<img src="{{ asset('image/no_foto_m_vip4.jpg') }}" />@else<img src="{{ asset('image/no_foto_w_vip4.jpg') }}" />@endif</p></li>
 	@endif
 		<li>
 			<p><strong>Город:</strong> {{ $userData->city->name }} ({{ $userData->country->name }})</p>

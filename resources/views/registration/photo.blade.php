@@ -7,7 +7,7 @@
 @if(session('success'))
 <h4 class="reg_title2">информация сохранена</h4>
 @endif
-@if (!empty ($errors->comment->all()))
+@if (!empty ($errors->all()))
 <h4 class="reg_title2">данные не сохранены, т. к. не все поля правильно заполнены</h4>
 @endif
 <form name="anketa" action="{{ route('registration.edit.photo') }}" enctype="multipart/form-data" method="post">
@@ -21,7 +21,7 @@
 	@endif
 	@endforeach
 @endif
-@if (count($photos) > 1)
+@if ($photos !== null)
 	<h4 class="menu_registration"><div>Дополнительные фото</div></h4>
 	<p class="pad1 pad2">Кроме главной фотографии вы можете закачать на сайт еще <strong>{{(5-count($photos))}} дополнительных фото</strong>.</p>
 	@foreach ($photos as $item)
@@ -31,14 +31,12 @@
 	@endforeach
 @endif
 	<p class="pad2"></p>
-	@if (count($photos) < 5)
+	@if ($photos === null || count($photos) < 5)
 	<div class="bord1"></div>
 	<p class="pad1 pad2">Мы принимаем фотографии только <strong>jpg</strong>, <strong>gif</strong> и <strong>png</strong> форматов размером не более <strong>500 кб</strong>. 
 	Убедительная просьба <strong>размещать только свои фотографии</strong>, а также <strong>не размещать порно фото (половые органы крупным планом)</strong>. Все фотографии модерируются и нарушители безжалостно удаляются.</p>
-	<x-error errName=photo_link />
-	<p class="pad3"><input type="file" size="25" name="photo_link"></p>
-	<input type="hidden" name="otsil" value="1" />
-	<p class="pad2"></p>
+	<x-error errName="photo" />
+	<p class="pad2 center"><input type="file" size="25" name="photo"></p>
 	<p class="pad3"><x-submit name="sent" onclick="find_otsil()" value="добавить фото" /></p>
 	@endif
 </form>

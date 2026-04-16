@@ -37,12 +37,12 @@ Route::middleware('slashes')->group(function () {
 		Route::put('registration/edit/second/', [ProfileController::class, 'updateSecond'])										->name('registration.edit.second.post');
 		Route::get('registration/edit/partner/', [ProfileController::class, 'editPartner'])										->name('registration.edit.partner');
 		Route::put('registration/edit/partner/', [ProfileController::class, 'updatePartner'])									->name('registration.edit.partner.post');
-		Route::get('registration/edit/photo/', [PhotoController::class, 'photo'])												->name('registration.edit.photo');
-		Route::post('registration/edit/photo/', [PhotoController::class, 'photoStore'])											->name('registration.edit.photo.post');
-		Route::get('registration/edit/photo/edit/{id}.html', [PhotoController::class, 'editPhoto'])		->whereNumber('id')		->name('registration.edit.photo.edit');
-		Route::put('registration/edit/photo/edit/{id}.html', [PhotoController::class, 'editPhotoUpdate'])	->whereNumber('id')	->name('registration.edit.photo.edit.post');
+		Route::get('registration/edit/photo/', [PhotoController::class, 'index'])												->name('registration.edit.photo');
+		Route::post('registration/edit/photo/', [PhotoController::class, 'store'])												->name('registration.edit.photo.post');
+		Route::get('registration/edit/photo/{id}.html', [PhotoController::class, 'edit'])					->whereNumber('id')	->name('registration.edit.photo.edit');
+		Route::put('registration/edit/photo/{id}.html', [PhotoController::class, 'update'])					->whereNumber('id')	->name('registration.edit.photo.edit.post');
 		Route::get('registration/edit/photo/delete/{id}.html', [PhotoController::class, 'destroyPhoto'])	->whereNumber('id')	->name('registration.edit.photo.delete');
-		Route::delete('registration/edit/photo/delete/{id}.html', [PhotoController::class, 'destroyPhotoAction'])->whereNumber('id')->name('registration.edit.photo.delete.action');
+		Route::delete('registration/edit/photo/{id}.html', [PhotoController::class, 'destroy'])				->whereNumber('id')->name('registration.edit.photo.delete.action');
 		Route::get('registration/edit/pass/', [PasswordController::class, 'show'])												->name('registration.edit.password');
 		Route::put('registration/edit/pass/', [PasswordController::class, 'update'])											->name('registration.edit.password.post');
 		Route::get('registration/views/', 'AnketController@getViews')															->name('registration.views');

@@ -63,7 +63,7 @@ class UserRepository implements UserInterface
 	 */
 	public function getTop100($sex, $count)
 	{
-		$items = User::select(['id', 'rating', 'name', 'birth_date', 'city_id'])
+		$items = User::select(['id', 'rating', 'name', 'birth_date', 'city_id', 'sex'])
 			->sex($sex)
 			->active()
 			->where('photos_count', '>', 0)

@@ -15,8 +15,22 @@ class Photo extends Model
 
 	protected $fillable = [
 		'main_picture',
-		'user_id'
+		'user_id',
+		'path',
+		'public_path'
 	];
+
+	public function getUrlAttribute()
+	{
+		$photoName = !empty($this->path) ? $this->path : $this->id . '.jpg';
+		return asset(config('photos.folder') . $photoName);
+	}
+
+	public function getPublicPathAttribute()
+	{
+		$photoName = !empty($this->path) ? $this->path : $this->id . '.jpg';
+		return public_path(config('photos.folder') . $photoName);
+	}
 
 	/**
 	* get comments

@@ -5,8 +5,8 @@ namespace App\Repositories;
 use App\Interfaces\PhotoInterface;
 use App\Models\Photo;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use App\Services\FileService;
+use \Illuminate\Database\Eloquent\Collection;
 
 class PhotoRepository implements PhotoInterface
 {
@@ -24,109 +24,60 @@ class PhotoRepository implements PhotoInterface
 
 	/**
 	 * get id
-	 * @return integer;
 	 */
-	public function getId()
+	public function getId(): int
 	{
 		return ($this->id > 0 ? $this->id : 0);
 	}
 
 	/**
 	 * get count all user pictures
-	 * @return int
 	 */
-	public function getCount()
+	public function getCount(): int
 	{
 		return Photo::select('id')->count();
 	}
 
 	/**
 	 * get pucture by id
-	 * @param  int $id
-	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
-	public function getById($id)
+	public function getById(int $id): Photo
 	{
 		return Photo::select('*')->whereKey($id)->firstOrFail();
 	}
 
 	/**
 	 * get pucture by id and user_id
-	 * @param  int $id
-	 * @param  int $userId
-	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
-	public function getByIdAndUserId($id, $userId)
+	public function getByIdAndUserId(int $id, int $userId): Photo
 	{
 		return Photo::select('*')->whereKey($id)->userId($userId)->firstOrFail();
 	}
 
 	/**
 	 * get the first pucture by userId
-	 * @param  int $id
-	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
-	public function getFirstByUserId($id)
+	public function getFirstByUserId(int $id): Photo
 	{
 		return Photo::select('*')->userId($id)->first();
 	}
 
 	/**
 	 * get all puctures by userId
-	 * @param  int $id
-	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
-	public function getAllByUserId($id)
+	public function getAllByUserId(int $id): Collection
 	{
 		return Photo::select('*')->userId($id)->get();
 	}
 
 	/**
 	 * create a photo
-	 * @param  array $request
-	 * @return void
 	 */
-	public function create($request)
+	public function create(array $data): Photo
 	{
 		try {
-			$photo = Photo::create($request);
-			$this->id = $photo->getKey();
-		} catch (\Exception $e) {
-			throw new \Exception('Failed to create a Photo ' . $e->getMessage());
-		}
-	}
-
-	/**
-	 * create a photo by user
-	 * @param  User $user
-	 * @param  array $params
-	 * @return void
-	 */
-	public function store($user, $params)
-	{
-		try {
-			$user->refresh_date				= date("Y-m-d");
-			$countPhoto						= count($user->photo);
-			$aFields = [
-				'main_picture'				=> $countPhoto > 0 ? 0 : 1,
-				'create_time'				=> 0,
-				'user_id'					=> $user->id
-			];
-			$this->create($aFields);
-			$photoId = $this->getId();
-			$params['photo_link']->nameForInsert = $photoId . '.' . $params['photo_link']->extension();
-			$this->fileService->fotoUpload($params['photo_link'], 1000, 'fotos_new/');
-			$countPhoto++;
-			$countPhoto = $countPhoto > 5 ? 5 : $countPhoto;
-			User::find($user->id)->update(
-				[
-					'photos_count'			=> $countPhoto,
-					'refresh_date'			=> date("Y-m-d"),
-					'refresh_date_t'		=> time(),
-					'session_time'			=> time(),
-					'lastvisit'				=> time()
-				]
-			);
+			$photo = Photo::create($data);
+			return $photo;
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to create a Photo ' . $e->getMessage());
 		}
@@ -134,25 +85,11 @@ class PhotoRepository implements PhotoInterface
 
 	/**
 	 * update a photo
-	 * @param  Photo $photo
-	 * @param  array $params
-	 * @return void
 	 */
-	public function update($photo, $params)
+	public function update(Photo $photo, array $params): void
 	{
 		try {
-			$photo->create_time = time();
-			$photo->update();
-			$params['photo_link']->nameForInsert = $photo->id . '.' . $params['photo_link']->extension();
-			$this->fileService->fotoUpload($params['photo_link'], 1000, 'fotos_new/');
-			User::find($photo->user_id)->update(
-				[
-					'refresh_date'		 	=> date("Y-m-d"),
-					'refresh_date_t'	 	=> time(),
-					'session_time' 			=> time(),
-					'lastvisit' 			=> time()
-				]
-			);
+			Photo::find($photo->id)->update($params);
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to update a Photo ' . $e->getMessage());
 		}
@@ -160,15 +97,14 @@ class PhotoRepository implements PhotoInterface
 
 	/**
 	 * destroy all pictures by userId
-	 * @param  User $user
-	 * @return void
 	 */
-	public function destroyAllByUser(User $user)
+	public function destroyAllByUser(User $user): bool
 	{
 		if (count($user->photo) == 0) return false;
 		foreach ($user->photo as $item) {
 			$this->destroyPhoto($item);
 		}
+		return true;
 	}
 
 	/**
@@ -178,25 +114,7 @@ class PhotoRepository implements PhotoInterface
 	 */
 	public function destroyPhoto(Photo $photo)
 	{
-		$user 			= Auth::user();
-		$id 			= $photo->id;
-		$this->fileService->fotoDelete($id);
-		$isPortret = $photo->main_picture == 1 ? 1 : 0;
 		$photo->delete();
-		if ($isPortret) {
-			$photo = $this->getFirstByUserId($user->id);
-			if (!empty($photo)) {
-				$photo->main_picture = 1;
-				$photo->update();
-			}
-		}
-		$user->refresh_date 		= date("Y-m-d");
-		$user->refresh_date_t 		= time();
-		$user->session_time 		= time();
-		$user->lastvisit	 		= time();
-		$user->photos_count 		= $this->getAllByUserId($user->id)->count();
-		$user->update();
-
 		return true;
 	}
 }

@@ -2,7 +2,7 @@
 	<div class="profile-brief-container">
 		<div class="profile-brief-image">
 			<a href="{{route('ank.id', $item->id)}}">
-				<img alt="{{$item->name}},{{$item->age}}{{$item->age_type}},{{$item->city->name}}" data-src="{{ $photoUrl }}" src="{{ asset('image/zero.gif') }}" />
+				<img alt="{{$item->name}},{{$item->age}}{{$item->age_type}},{{$item->city->name}}" data-src="{{ asset($photoUrl) }}" src="{{ asset('image/zero.gif') }}" />
 			</a>
 		</div>
 		<div class="profile-brief-content">

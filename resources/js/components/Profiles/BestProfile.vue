@@ -7,7 +7,7 @@
 				<h3>{{ profile.name }}, {{ profile.age }} {{ profile.age_type }}</h3>
 				<div class="foto">
 					<a :href="`${getRoute('ank.id', {'id' : profile.id} )}`" rel="nofollow">
-						<img :alt="`${profile.name}, ${profile.age} ${profile.age_type}, ${profile.city ? profile.city.name : ''}`" class="b-lazy loaded" :src="`${profile.photo ? asset('fotos_new/' + profile.photo.id ) : ''}.jpg`"></a></div>
+						<img :alt="`${profile.name}, ${profile.age} ${profile.age_type}, ${profile.city ? profile.city.name : ''}`" class="b-lazy loaded" :src="`${profile.photo ? profile.photo.url : ''}`"></a></div>
 				<p class="links1"><a :href="`${getRoute('ank.id', {'id' : profile.id} )}`" rel="nofollow">смотреть анкету</a></p>
 				<p class="links1"><a v-if="sex == 2" :href="`${getRoute('bestankets.sex', {'sex' : 'women'} )}`">лучшие девушки</a>
 				<a v-else :href="`${getRoute('bestankets.sex', {'sex' : 'men'} )}`">лучшие парни</a>
