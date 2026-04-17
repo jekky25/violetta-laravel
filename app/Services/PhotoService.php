@@ -44,16 +44,17 @@ class PhotoService
 	public function create(User $user, CreatePhotoDTO $dto): void
 	{
 		try {
-			$photo = $this->fileService->fotoUpload($dto->photo, 1000, config('photos.folder'));
-			$user->refresh_date		= date("Y-m-d");
+			$uploaded = $this->fileService->fotoUpload($dto->photo, 1000, config('photos.folder'));
+			$user->refresh_date		= now()->toDateString();
+			$user->save();
 			$data = [
-				'main_picture'				=> count($user->photo) > 0 ? 0 : 1,
-				'create_time'				=> date("Y-m-d"),
+				'main_picture'				=> $user->photo->count() > 0 ? 0 : 1,
+				'create_time'				=> now()->toDateString(),
 				'user_id'					=> $user->id,
-				'path'						=> $photo['unic_name']
+				'path'						=> $uploaded['unic_name']
 			];
 			$photo = $this->photoRepository->create($data);
-			if ($photo === null ) throw new \Exception('Failed to create a Photo ' . $e->getMessage());
+			if ($photo === null ) throw new \Exception('Failed to create a Photo');
 	
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to create a Photo ' . $e->getMessage());
@@ -75,15 +76,13 @@ class PhotoService
 	{
 		try {
 			$photoModel	= $this->photoRepository->getByIdAndUserId($id, $user->id);
-
+			$photo = $this->fileService->fotoUpload($dto->photo, 1000, config('photos.folder'));
 			$this->fileService->fotoDelete($photoModel->full_path);
 
-			$photo = $this->fileService->fotoUpload($dto->photo, 1000, config('photos.folder'));
-			$user->refresh_date		= date("Y-m-d");
+			$user->refresh_date		= now()->toDateString();
+			$user->update();
 			$data = [
-				'main_picture'				=> count($user->photo) > 0 ? 0 : 1,
-				'create_time'				=> date("Y-m-d"),
-				'user_id'					=> $user->id,
+				'create_time'				=> now()->toDateString(),
 				'path'						=> $photo['unic_name']
 			];
 			$this->photoRepository->update($photoModel, $data);
@@ -121,7 +120,7 @@ class PhotoService
 		$photo->main_picture = 1;
 		$photo->update();
 		
-		$user->refresh_date 		= date("Y-m-d");
+		$user->refresh_date 		= now()->toDateString();
 		$user->photos_count = $this->photoRepository->getAllByUserId($user->id)->count();
 		$user->update();
 		return true;
@@ -144,8 +143,8 @@ class PhotoService
 	/**
 	* Get the main picture is it or not is it
 	*/
-	public function getMainPhoto(User $anket): Photo
+	public function getMainPhoto(User $anket): ?Photo
 	{
-		return !empty($anket->mainPhoto) ? $anket->mainPhoto : $anket->photo[0];
+		return $anket->mainPhoto ?? $anket->photo->first();
 	}
 }
