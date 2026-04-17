@@ -76,7 +76,7 @@ class PhotoService
 		try {
 			$photoModel	= $this->photoRepository->getByIdAndUserId($id, $user->id);
 
-			$this->fileService->fotoDelete($photoModel->public_path);
+			$this->fileService->fotoDelete($photoModel->full_path);
 
 			$photo = $this->fileService->fotoUpload($dto->photo, 1000, config('photos.folder'));
 			$user->refresh_date		= date("Y-m-d");
@@ -100,8 +100,8 @@ class PhotoService
 		try {
 			$photo	= $this->photoRepository->getByIdAndUserId($id, $user->id);
 			$isPortret = $photo->main_picture == 1 ? 1 : 0;
+			$this->fileService->fotoDelete($photo->full_path);
 			$this->photoRepository->destroyPhoto($photo);
-			$this->fileService->fotoDelete($photo->public_path);
 			if ($isPortret) {
 				$this->setMainPicture($user);
 			}
@@ -138,30 +138,14 @@ class PhotoService
 			if ($photoId > 0 && $item->id == $photoId)
 				$anket->mainPhoto = $item;
 		}
-		$anket->mainPhoto			= $this->checkMainPhoto($anket);
-		$anket->mainPhoto			= $this->addPictureParams($anket->mainPhoto);
+		$anket->mainPhoto			= $this->getMainPhoto($anket);
 	}
 
 	/**
-	* Check the main picture is it or not is it
+	* Get the main picture is it or not is it
 	*/
-	public function checkMainPhoto(User $anket): Photo
+	public function getMainPhoto(User $anket): Photo
 	{
 		return !empty($anket->mainPhoto) ? $anket->mainPhoto : $anket->photo[0];
-	}
-
-	/**
-	* Add additioanl parameters to the pictures
-	*/
-	public function addPictureParams(Photo $photo): Photo
-	{
-		$img 				= "./fotos_new/".$photo->id.".jpg";
-		if (is_file($img))
-		{
-			$size = getimagesize($img);
-			$photo->width	= $size [0] > $this->vars['max_foto_width_big'] ? $this->vars['max_foto_width_big'] : $size [0];
-			$photo->url		= $img;
-		}
-		return $photo;
 	}
 }

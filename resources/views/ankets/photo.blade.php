@@ -5,7 +5,7 @@
 <x-ank-menu :user-data="$userData" />
 @if (!empty($userData->mainPhoto->id))
 <div id="mainAnkFoto">
-	<div style="width:{{ $userData->mainPhoto->width }}px;"><img width="{{ $userData->mainPhoto->width }}px" src="{{ $userData->mainPhoto->url }}" /></div>
+	<div><img src="{{ $userData->mainPhoto->url }}" /></div>
 </div>
 @endif
 @if (count ($userData->photo) > 1)

@@ -105,6 +105,10 @@
 	.form-main-data-block3 .form-row .select {
 		width:auto;
 	}
+
+	#mainAnkFoto div img {
+		max-width: 100%;
+	}
 }
 
 @media screen and (max-width: 500px) {
