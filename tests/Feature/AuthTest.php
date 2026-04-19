@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Tests\Traits\hasSetupPrepare;
 use App\Repositories\UserRepository;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthTest extends TestCase
 {
@@ -20,6 +21,7 @@ class AuthTest extends TestCase
 	 */
 	protected function setUp(): void
 	{
+		parent::$migrated = true;
 		$this->testLogin .=  time();
 		$this->testPassword .=  time();
 		$this->userRepository		= new UserRepository;
@@ -35,11 +37,12 @@ class AuthTest extends TestCase
 				'confirm_email'		=> 1,
 				'sex'				=> WOMEN,
 				'login'				=> $this->testLogin,
-				'password'			=> $this->testPassword
+				'password'			=> $this->testPassword,
+				'hash'				=> Hash::make($this->testPassword)
 			]
 		)->create();
 
-		$user2			= $this->userRepository->getByLoginAndPass($this->testLogin, $this->testPassword);
+		$user2			= $this->userRepository->getByLoginAndPass($user->login, $user->password);
 		$this->assertInstanceOf(User::class, $user2);
 		$this->assertSame($user->id, $user2->id);
 	}

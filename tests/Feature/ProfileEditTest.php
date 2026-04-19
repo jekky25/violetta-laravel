@@ -11,6 +11,7 @@ use App\Repositories\CityRepository;
 use App\Services\DataService;
 use App\Services\FormatService;
 use App\Models\User;
+use App\Models\Photo;
 use App\Fields\ProfileEditField;
 use App\Fields\ProfileSecondField;
 use App\Fields\ProfilePartnerField;
@@ -70,6 +71,12 @@ class ProfileEditTest extends TestCase
 		$this->cityRepository		= new CityRepository;
 
 		$user = User::factory()->create();
+		$data = [
+				'user_id'					=> $user->id,
+				'main_picture'				=> 1,
+				'create_time'				=> time()
+			];
+		Photo::factory($data)->create();
 		$this->user = $user;
 	}
 

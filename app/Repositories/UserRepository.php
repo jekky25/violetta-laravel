@@ -151,9 +151,8 @@ class UserRepository implements UserInterface
 	public function getByLoginAndPass(string $login, string $pass): ?User
 	{
 		if (empty($login) || empty($pass)) return null;
-		
-		$user = User::where('login', $login)->first();
 
+		$user = User::where('login', $login)->first();
 		if (!$user) return null;
 		if (Hash::check($pass, $user->hash)) return $user;
 

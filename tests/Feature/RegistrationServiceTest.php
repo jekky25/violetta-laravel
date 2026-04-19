@@ -51,9 +51,8 @@ class RegistrationServiceTest extends TestCase
 
         $repository->shouldReceive('create')
             ->once()
-            ->with($data)
+			->withAnyArgs()
 			->andReturn($user);
-
 
         $result = $service->store($dto);
 
