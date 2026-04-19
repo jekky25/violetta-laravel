@@ -28,12 +28,15 @@ class ProfileBrowseController extends Controller
 
 	/**
 	 * show the page with profiles
-	 * @param  string  $sex
-	 * @param  int  $op
+	 * @param  ?string  $sex
+	 * @param  ?int  $op
 	 * @return \Illuminate\Http\Response
 	 */
-	public function getList(AnketsRequest $request, AnketsFilter $filter, FormatService $formService, $sex = '', $op = '')
+	public function getList(AnketsRequest $request, AnketsFilter $filter, FormatService $formService, ?string $sex = null, ?int $op = null)
 	{
+	    $sex = $sex ?? 'women';
+    	$age = $age ?? null;
+
 		$opt				= $formService->prepareAnketTitles($sex, $op);
 		if (empty($sex) && empty($op)) {
 			$ankets 			= $this->userRepository->newFaces(config('pagination.profiles_under_menu'));

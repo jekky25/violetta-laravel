@@ -90,13 +90,11 @@ Route::middleware('slashes')->group(function () {
 	Route::get('ank/diary/{id}.html', 'DiaryController@show')															->whereNumber('id')		->name('ank.diary.id');
 	Route::get('ank/f/{id}/', 'AnkController@getAnk')																	->whereNumber('id')		->name('ank.full.id');
 	Route::get('ank/{id}/', 'AnkController@getAnk')																		->whereNumber('id')		->name('ank.id');
-	Route::get('ankets/{sex}/{age}/', [ProfileBrowseController::class, 'getList'])										->where('sex', '(men|women)')
-                                                     																	->where('age', '(20|2025|2535|3550|50)')
-																																				->name('ankets.sex.age');
 
-	Route::get('ankets/{sex}/', [ProfileBrowseController::class, 'getList'])															->where('sex', '(men|women)')
-																																				->name('ankets.sex');
-	Route::get('ankets/', [ProfileBrowseController::class, 'getList'])																							->name('ankets');
+	Route::get('ankets/{sex?}/{age?}', [ProfileBrowseController::class, 'getList'])
+    ->where('sex', 'men|women')
+    ->where('age', '20|2025|2535|3550|50')
+    ->name('ankets');
 													 
 	Route::get('bestankets/{sex}/',  [ProfileBrowseController::class, 'best'])											->where('sex', '(men|women)')
 																																				->name('bestankets.sex');
@@ -113,9 +111,8 @@ Route::middleware('slashes')->group(function () {
 																																				->name('names.subop');
 	Route::get('names.html', 'NameController@index')																							->name('names');
 
-	Route::get('population_search/{sex}/', [ProfileBrowseController::class, 'popular'])								->where('sex', '(men|women)')
-																																				->name('population_search.sex');
-	Route::get('population_search/', [ProfileBrowseController::class, 'popular'])																->name('population_search');
+	Route::get('population_search/{sex?}/', [ProfileBrowseController::class, 'popular'])								->where('sex', '(men|women)')
+																																				->name('population_search');
 	Route::get('birthday_search/', [ProfileFeedController::class, 'birthday'])																	->name('birthday_search');
 
 	Route::post('screensaver/download/{id}.html', [ScreenDownloadController::class, 'download'])							->whereNumber('id')		->name('screensavers.id.download');

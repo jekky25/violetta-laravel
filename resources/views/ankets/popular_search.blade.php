@@ -4,8 +4,8 @@
 <h1 class="mTit">Самые популярные участники -- <strong>{{$popSex}}</strong></h1>
 <div class="ankets">
 	<ul>
-		<li><a href="{{route('population_search.sex','men')}}">Мужчины</a></li>
-		<li><a href="{{route('population_search.sex','women')}}">Женщины</a></li>
+		<li><a href="{{route('population_search','men')}}">Мужчины</a></li>
+		<li><a href="{{route('population_search','women')}}">Женщины</a></li>
 	</ul>
 	<div class="clear"></div>
 </div>
