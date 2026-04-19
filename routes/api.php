@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\ProfileBrowseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/top100/{sex}', 'AnketController@getTop100')->whereNumber('sex')->name('profile.get.top100');
+Route::get('/top100/{sex}', [ProfileBrowseController::class, 'top100'])->whereNumber('sex')->name('profile.get.top100');
 Route::get('/forum/top', 'ForumController@getTop')->name('forum.get.top');
 Route::get('/statistics/', 'StatisticsController@get')->name('statistics.get');
 Route::get('/auth/', 'AuthController@getAuth')->name('auth.get');

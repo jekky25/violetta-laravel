@@ -15,6 +15,9 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Top100Controller;
 use App\Http\Controllers\ConfirmController;
 use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\ProfileBrowseController;
+use App\Http\Controllers\ProfileFeedController;
+use App\Http\Controllers\ProfileSearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +48,7 @@ Route::middleware('slashes')->group(function () {
 		Route::delete('registration/edit/photo/{id}.html', [PhotoController::class, 'destroy'])				->whereNumber('id')->name('registration.edit.photo.delete.action');
 		Route::get('registration/edit/pass/', [PasswordController::class, 'show'])												->name('registration.edit.password');
 		Route::put('registration/edit/pass/', [PasswordController::class, 'update'])											->name('registration.edit.password.post');
-		Route::get('registration/views/', 'AnketController@getViews')															->name('registration.views');
+		Route::get('registration/views/', [ProfileFeedController::class, 'views'])												->name('registration.views');
 
 		Route::get('privmsg/', 'PrivmsgController@index')																		->name('privmsg');
 		Route::post('privmsg/delete.html', 'PrivmsgController@destroySelected')													->name('privmsg.delete');
@@ -87,15 +90,15 @@ Route::middleware('slashes')->group(function () {
 	Route::get('ank/diary/{id}.html', 'DiaryController@show')															->whereNumber('id')		->name('ank.diary.id');
 	Route::get('ank/f/{id}/', 'AnkController@getAnk')																	->whereNumber('id')		->name('ank.full.id');
 	Route::get('ank/{id}/', 'AnkController@getAnk')																		->whereNumber('id')		->name('ank.id');
-	Route::get('ankets/{sex}/{age}/', 'AnketController@getAnkets')														->where('sex', '(men|women)')
+	Route::get('ankets/{sex}/{age}/', [ProfileBrowseController::class, 'getList'])										->where('sex', '(men|women)')
                                                      																	->where('age', '(20|2025|2535|3550|50)')
 																																				->name('ankets.sex.age');
 
-	Route::get('ankets/{sex}/', 'AnketController@getAnkets')															->where('sex', '(men|women)')
+	Route::get('ankets/{sex}/', [ProfileBrowseController::class, 'getList'])															->where('sex', '(men|women)')
 																																				->name('ankets.sex');
-	Route::get('ankets/', 'AnketController@getAnkets')																							->name('ankets');
+	Route::get('ankets/', [ProfileBrowseController::class, 'getList'])																							->name('ankets');
 													 
-	Route::get('bestankets/{sex}/', 'AnketController@getBestAnkets')													->where('sex', '(men|women)')
+	Route::get('bestankets/{sex}/',  [ProfileBrowseController::class, 'best'])											->where('sex', '(men|women)')
 																																				->name('bestankets.sex');
 
 	Route::get('goroskop/op{id}.html', [HoroscopeController::class, 'showType'])										->whereNumber('id')		->name('horoscope.op');
@@ -110,10 +113,10 @@ Route::middleware('slashes')->group(function () {
 																																				->name('names.subop');
 	Route::get('names.html', 'NameController@index')																							->name('names');
 
-	Route::get('population_search/{sex}/', 'AnketController@getPopularAnkets')											->where('sex', '(men|women)')
+	Route::get('population_search/{sex}/', [ProfileBrowseController::class, 'popular'])								->where('sex', '(men|women)')
 																																				->name('population_search.sex');
-	Route::get('population_search/', 'AnketController@getPopularAnkets')																		->name('population_search');
-	Route::get('birthday_search/', 'AnketController@getBirthdayAnkets')																			->name('birthday_search');
+	Route::get('population_search/', [ProfileBrowseController::class, 'popular'])																->name('population_search');
+	Route::get('birthday_search/', [ProfileFeedController::class, 'birthday'])																	->name('birthday_search');
 
 	Route::post('screensaver/download/{id}.html', [ScreenDownloadController::class, 'download'])							->whereNumber('id')		->name('screensavers.id.download');
 	Route::post('screensaver/{id}.html', [CommentScreenController::class, 'store'])										->whereNumber('id')		->name('screensavers.id.store');
@@ -126,7 +129,7 @@ Route::middleware('slashes')->group(function () {
 	Route::get('ank/diaries.html', 'DiaryController@index')																						->name('diaries');
 	Route::get('review/', 'ReviewController@index')																								->name('review');
 
-	Route::get('search/', 'AnketController@getBySearch')																						->name('search');
+	Route::get('search/', [ProfileSearchController::class, 'search'])																			->name('search');
 	
 	Route::post('login/', 'AuthController@login')																								->name('login');
 	Route::get('login/', function () {
