@@ -53,11 +53,11 @@
 			<td><span>Узнай свою популярность</span></td>
 		</tr>
 		<tr valign="middle">
-			<td><span>&gt;&gt;</span><a href="{{route('population_search.sex','men')}}">Мужчины</a></td>
+			<td><span>&gt;&gt;</span><a href="{{route('population_search','men')}}">Мужчины</a></td>
 			<td><span>&nbsp;</span></td>
 		</tr>
 		<tr>
-			<td><span>&gt;&gt;</span><a href="{{route('population_search.sex','women')}}">Женщины</a></td>
+			<td><span>&gt;&gt;</span><a href="{{route('population_search','women')}}">Женщины</a></td>
 			<td><span>&nbsp;</span></td>
 		</tr>
 		<tr><td colspan="2">&nbsp;</td></tr>
@@ -92,41 +92,41 @@
 		<tr><td><a href="{{route('ankets')}}">Анкеты</a></td>
 			<td><span>Поиск анкет</span></td>
 		</tr>
-		<tr><td><span>&gt;&gt;</span><a href="{{route('ankets.sex','men')}}">Мужские анкеты</a></td>
+		<tr><td><span>&gt;&gt;</span><a href="{{route('ankets','men')}}">Мужские анкеты</a></td>
 			<td><span>&nbsp;</span></td>
 		</tr>
 		<tr><td><span>&gt;&gt;&gt;
-			<a href="{{route('ankets.sex.age',['men',20])}}">до 20 лет</a></span></td>
+			<a href="{{route('ankets',['men',20])}}">до 20 лет</a></span></td>
 			<td><span>&nbsp;</span></td>
 		</tr>
 		<tr><td><span>&gt;&gt;&gt;
-			<a href="{{route('ankets.sex.age',['men',2025])}}">20 - 25 лет</a></span></td>
+			<a href="{{route('ankets',['men',2025])}}">20 - 25 лет</a></span></td>
 			<td><span>&nbsp;</span></td></tr>
 		<tr><td><span>&gt;&gt;&gt;
-			<a href="{{route('ankets.sex.age',['men',2535])}}">25 - 35 лет</a></span></td>
+			<a href="{{route('ankets',['men',2535])}}">25 - 35 лет</a></span></td>
 			<td><span>&nbsp;</span></td></tr>
 		<tr><td><span>&gt;&gt;&gt;
-			<a href="{{route('ankets.sex.age',['men',3550])}}">35 - 50 лет</a></span></td>
+			<a href="{{route('ankets',['men',3550])}}">35 - 50 лет</a></span></td>
 			<td><span>&nbsp;</span></td></tr>
 		<tr><td><span>&gt;&gt;&gt;
-			<a href="{{route('ankets.sex.age',['men',50])}}">от 50 лет</a></span></td>
+			<a href="{{route('ankets',['men',50])}}">от 50 лет</a></span></td>
 			<td><span>&nbsp;</span></td></tr>
-		<tr><td><span>&gt;&gt;</span><a href="{{route('ankets.sex','women')}}">Женские анкеты</a></td>
-			<td><span>&nbsp;</span></td></tr>
-		<tr><td><span>&gt;&gt;&gt;
-			<a href="{{route('ankets.sex.age',['women',20])}}">до 20 лет</a></span></td>
+		<tr><td><span>&gt;&gt;</span><a href="{{route('ankets','women')}}">Женские анкеты</a></td>
 			<td><span>&nbsp;</span></td></tr>
 		<tr><td><span>&gt;&gt;&gt;
-			<a href="{{route('ankets.sex.age',['women',2025])}}">20 - 25 лет</a></span></td>
+			<a href="{{route('ankets',['women',20])}}">до 20 лет</a></span></td>
 			<td><span>&nbsp;</span></td></tr>
 		<tr><td><span>&gt;&gt;&gt;
-			<a href="{{route('ankets.sex.age',['women',2535])}}">25 - 35 лет</a></span></td>
+			<a href="{{route('ankets',['women',2025])}}">20 - 25 лет</a></span></td>
 			<td><span>&nbsp;</span></td></tr>
 		<tr><td><span>&gt;&gt;&gt;
-			<a href="{{route('ankets.sex.age',['women',3550])}}">35 - 50 лет</a></span></td>
+			<a href="{{route('ankets',['women',2535])}}">25 - 35 лет</a></span></td>
 			<td><span>&nbsp;</span></td></tr>
 		<tr><td><span>&gt;&gt;&gt;
-			<a href="{{route('ankets.sex.age',['women',50])}}">от 50 лет</a></span></td>
+			<a href="{{route('ankets',['women',3550])}}">35 - 50 лет</a></span></td>
+			<td><span>&nbsp;</span></td></tr>
+		<tr><td><span>&gt;&gt;&gt;
+			<a href="{{route('ankets',['women',50])}}">от 50 лет</a></span></td>
 			<td><span>&nbsp;</span></td></tr>
 		<tr><td colspan="2">&nbsp;</td></tr>
 		<tr><td><a href="{{route('search',['foto' => 1, 'send' => 1])}}">Анкеты с фото</a></td>
