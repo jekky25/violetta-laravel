@@ -26,12 +26,12 @@ class ProfileBrowseService
 	/**
 	 * get profiles from the repository
 	 */
-	public function getList(AnketsRequest $request, AnketsFilter $filter, ?string $sex, ?int $age): array
+	public function getList(AnketsRequest $request, AnketsFilter $filter, ?string $sex, ?string $age): array
 	{
 		return [
 				'popSex'			=> AgeRange::title($sex, $age),
 				'sex'				=> $sex,
-				'ankets'			=> empty($sex) && empty($op) ? $this->repository->newFaces(config('pagination.profiles_under_menu'))
+				'ankets'			=> empty($sex) && empty($age) ? $this->repository->newFaces(config('pagination.profiles_under_menu'))
 					                                             : $this->repository->getBySearch($filter, $request)
 			];
 	}
@@ -58,10 +58,8 @@ class ProfileBrowseService
 	/**
 	 * get the best profile from the women or men profiles
 	 */
-	public function getBest(UserBestRequest $request, UserBestFilter $filter, string $sex): array
+	public function getBest(UserBestRequest $request, UserBestFilter $filter, string $sex, ?User $user): array
 	{
-		$user = $request->user();
-		$user = !empty($user) ? $user->load(['visits']) : null;
 		return [
 			'ankets'			=> $this->repository->getBySearch($filter, $request, 'top100'),
 			'titleId'			=> $sex == 'men' ? 'Лучшие парни' : 'Лучшие девушки',

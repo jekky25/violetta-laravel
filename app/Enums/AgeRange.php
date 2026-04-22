@@ -34,7 +34,7 @@ enum AgeRange: string
     ],
 	];
 
-	public static function title(?string $sex, ?int $age): string 
+	public static function title(?string $sex, ?string $age): string 
 	{ 
 		$str = 'Анкеты';
 		if($sex === null) return $str;
@@ -46,7 +46,7 @@ enum AgeRange: string
 		return $str . ', ' . $opStr;
 	}
 
-	public static function titleForMeta(?string $sex, ?int $age): string 
+	public static function titleForMeta(?string $sex, ?string $age): string 
 	{
 		if($sex === null && $age === null) return 'Поиск анкет';
 		return str_replace(

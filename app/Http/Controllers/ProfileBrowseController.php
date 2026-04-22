@@ -29,9 +29,9 @@ class ProfileBrowseController extends Controller
 	 * @param  ?int  $age
 	 * @return \Illuminate\Http\Response
 	 */
-	public function getList(AnketsRequest $request, AnketsFilter $filter, ?string $sex = null, ?int $age = null)
+	public function getList(AnketsRequest $request, AnketsFilter $filter, ?string $sex = null, ?string $age = null)
 	{
-		return response()->view('ankets.id', $this->service->getList($request, $filter, $sex, $age));
+		return view('ankets.id', $this->service->getList($request, $filter, $sex, $age));
 	}
 
 	/**
@@ -43,7 +43,7 @@ class ProfileBrowseController extends Controller
 	 */
 	public function popular(UserPopularRequest $request, UserPopularFilter $filter, string $sex = 'women')
 	{
-		return response()->view('ankets.popular_search', $this->service->getPopular($request, $filter, $sex));
+		return view('ankets.popular_search', $this->service->getPopular($request, $filter, $sex));
 	}
 
 	/**
@@ -55,7 +55,8 @@ class ProfileBrowseController extends Controller
 	 */
 	public function best(UserBestRequest $request, UserBestFilter $filter, string $sex)
 	{
-		return response()->view('ankets.best', $this->service->getBest($request, $filter, $sex));
+		$user = $request->user()?->load('visits');
+		return view('ankets.best', $this->service->getBest($request, $filter, $sex, $user));
 	}
 
 	/**
