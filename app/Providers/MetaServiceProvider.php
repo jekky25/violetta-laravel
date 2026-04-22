@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use App\Enums\AgeRange;
 
 class MetaServiceProvider extends ServiceProvider
 {
@@ -117,9 +118,8 @@ class MetaServiceProvider extends ServiceProvider
 						<meta name="Keywords" content="сонник ' . $this->getDreambookName() . ' толкование снов сновидения">';
 					break;
 
-				case 'ankets.sex.age':
-				case 'ankets.sex':
-					$ankTitleId = $view->ankTitleId;
+				case 'ankets':
+					$ankTitleId = AgeRange::titleForMeta(request()->route('sex'), request()->route('age'));
 					$pageTitle = $ankTitleId . ' на сайте знакомств, сайт знакомств, Бесплатный сайт знакомств Виолетта';
 					$pageMeta = '<meta name="Description" content="' . $ankTitleId . ' на сайте знакомств. Тысячи анкет с фото, бесплатная регистрация.">
 								<meta name="Keywords" content="' . $ankTitleId . ' на сайте знакомств, бесплатные знакомства, знакомства в Москве, найти любовь">';
@@ -137,12 +137,6 @@ class MetaServiceProvider extends ServiceProvider
 						$pageMeta = '<meta name="Description" content="Поиск анкет с фотографиями. Тысячи анкет с фото, бесплатная регистрация.">
 		    				<meta name="Keywords" content="поиск анкет с фото, анкеты с фотографиями, сайт знакомств, бесплатные знакомства, знакомства в Москве">';
 					}
-					break;
-
-				case 'ankets':
-					$pageTitle = 'Поиск анкет на сайте знакомств, сайт знакомств, Бесплатный сайт знакомств Виолетта';
-					$pageMeta = '<meta name="Description" content="Поиск анкет на сайте знакомств. Тысячи анкет с фото, бесплатная регистрация.">
-						<meta name="Keywords" content="поиск анкет на сайте знакомств, бесплатные знакомства, знакомства в Москве, найти любовь">';
 					break;
 
 				case 'diaries':

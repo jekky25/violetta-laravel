@@ -21,7 +21,12 @@
 	</ul>
 </div>
 <div class="clear"></div>
-<h3 class="titleSAnkets">{{ $countSearchAnkStr }}</h3>
+<h3 class="titleSAnkets">
+@if ($ankets->isEmpty())
+	Найдено анкет: 0
+@else
+	Найдено анкет: {{ $ankets->firstItem() }} - {{ $ankets->lastItem() }} из {{ $ankets->total() }}
+@endif</h3>
 @if (!empty($ankets))
 					<div class="profile-list-container">
     @foreach ($ankets as $item)

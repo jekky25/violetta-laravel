@@ -2,7 +2,13 @@
 @section('title', $title)
 @section('main_body')
 <h1 class="mTit">{{ $titleId }} сайта знакомств "Виолетта"</h1>
-<h3 class="titleSAnkets mrg4">{{ $countSearchAnkStr }}</h3>
+<h3 class="titleSAnkets mrg4">
+	@if (empty($ankets))
+	Найдено анкет: 0
+	@else
+	Найдено анкет: {{ $ankets->firstItem() }} - {{ $ankets->lastItem() }} из {{ $ankets->total() }}
+	@endif
+</h3>
 @auth
 	@if ($user->top100 > 0 && $user->photos_count > 0)
 	@elseif ($user->top100 == 0 && $user->photos_count > 0)
