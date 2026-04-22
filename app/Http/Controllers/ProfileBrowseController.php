@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Filters\AnketsFilter;
-use App\Services\FormatService;
 use App\Requests\AnketsRequest;
 use App\Requests\UserPopularRequest;
 use App\Filters\UserPopularFilter;
