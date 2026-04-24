@@ -47,6 +47,7 @@ class UserFactory extends Factory
 			'confirm_email'				=> 1,
 			'lastvisit_views'			=> rand(0, 10),
 			'birth_date'				=> $dateStr,
+			'lastvisit'					=> time()
 		];
 	}
 }

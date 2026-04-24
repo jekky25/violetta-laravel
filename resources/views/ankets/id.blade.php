@@ -24,7 +24,7 @@
 <h3 class="titleSAnkets">
 @if ($ankets->isEmpty())
 	Найдено анкет: 0
-@else
+@elseif ($ankets instanceof \Illuminate\Pagination\LengthAwarePaginator)
 	Найдено анкет: {{ $ankets->firstItem() }} - {{ $ankets->lastItem() }} из {{ $ankets->total() }}
 @endif</h3>
 @if (!empty($ankets))

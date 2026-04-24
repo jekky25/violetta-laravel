@@ -2,7 +2,7 @@
 	<div class="profile-brief-container">
 		<div class="profile-brief-image">
 			<a href="{{route('ank.id', $item->id)}}">
-				<img alt="{{$item->name}},{{$item->age}}{{$item->age_type}},{{$item->city->name}}" data-src="{{ asset($photoUrl) }}" src="{{ asset('image/zero.gif') }}" />
+				<img alt="{{$item->name}},{{$item->age}}{{$item->age_type}},{{$item->city?->name}}" data-src="{{ asset($photoUrl) }}" src="{{ asset('image/zero.gif') }}" />
 			</a>
 		</div>
 		<div class="profile-brief-content">
@@ -11,7 +11,7 @@
 				@if ($item->sex == MEN)<img alt="Мужчина" src="{{ asset('image/sex_men.jpg') }}" />@else<img alt="Женщина" src="{{ asset('image/sex_women.jpg') }}" />@endif
 				<span>({{$item->photos_count}} фото)</span>
 			</p>
-			<p><strong>{{$item->age}} {{$item->age_type}}</strong>, {{$item->city->name}}</p>
+			<p><strong>{{$item->age}} {{$item->age_type}}</strong>, {{$item->city?->name}}</p>
 		@if (!empty ($best))
 		@if (isset($item->rating_str))
 		<div class="topReit">
