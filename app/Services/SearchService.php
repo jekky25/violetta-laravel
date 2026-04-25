@@ -36,7 +36,7 @@ class SearchService
 	/**
 	* get the description of the searching parameters
 	*/
-	public function getSearchText(array $params): string
+	public function getSearchText(array $params): null|string
 	{
 		$this->countryRepository	= new CountryRepository();
 		$this->regionRepository		= new RegionRepository();
