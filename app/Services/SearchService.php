@@ -31,22 +31,17 @@ class SearchService
 	protected $cityRepository;
 	protected $regionRepository;
 	protected $formatService;
-	protected $ankets;
 	protected $params;
 
 	/**
 	* get the description of the searching parameters
-	* @param  \Illuminate\Database\Eloquent\Collection $ankets 
-	* @param  array $params
-	* @return string
 	*/
-	public function getSearchText($ankets, $params)
+	public function getSearchText(array $params): string
 	{
 		$this->countryRepository	= new CountryRepository();
 		$this->regionRepository		= new RegionRepository();
 		$this->cityRepository		= new CityRepository();
 		$this->formatService		= new FormatService();
-		$this->ankets = $ankets;
 		$this->params = $params;
 		$this->setTxtBySex($this->params['find_sex'], $this->params['sex']);
 		$this->setTxtAgeMin();

@@ -110,18 +110,4 @@ class AnkService
 		}
 		return false;
 	}
-
-	/**
-	 * make found string
-	 * @return string
-	 */
-	public function getFoundStr()
-	{
-		if (empty($this->anket)) return 'Найдено анкет: 0';
-		$count = config('pagination.profiles');
-		$start 		= (($this->anket->currentPage() - 1) * $count) + 1;
-		$end		= $this->anket->currentPage() * $count;
-		$end		= $end < $this->anket->total() ? $end : $this->anket->total();
-		return 'Найдено анкет: (' . $start . '-' . $end . ') из ' . $this->anket->total();
-	}
 }

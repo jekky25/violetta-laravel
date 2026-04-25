@@ -1,11 +1,17 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
-@if ($isSend == 'Y')
+@if ($isSearch == 'Y')
 <h1 class="mTit">Результаты поиска</h1>
 					<p>{!! $critsSearch !!}</p>
 					<p><a class="lColor1" href="{{route('search')}}">изменить критерии поиска</a></p>
-					<h3 class="titleSAnkets">{{ $countSearchAnkStr }}</h3>
+					<h3 class="titleSAnkets">
+@if ($ankets->isEmpty())
+	Найдено анкет: 0
+@elseif ($ankets instanceof \Illuminate\Pagination\LengthAwarePaginator)
+	Найдено анкет: {{ $ankets->firstItem() }} - {{ $ankets->lastItem() }} из {{ $ankets->total() }}
+@endif
+</h3>
 @if (!empty($ankets))
 	<div class="profile-list-container">
     @foreach ($ankets as $item)
@@ -98,7 +104,7 @@
 		<x-select id="per_page" name="per_page" :obj="$fields['perPage']" :userProp="old('per_page')"  />
 	</div>
 	<div class="form-row">
-		<x-submit name=sent value="найти" />
+		<x-submit name="send" value="найти" />
 	</div>
 </form>
 <script type="text/javascript" src="{{ asset('js/functions_search.js') }}"></script>

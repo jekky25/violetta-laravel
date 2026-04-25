@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Requests\SearchRequest;
 use App\Filters\UserFilter;
-use App\Services\SearchService;
 use App\Fields\SearchField;
-use App\Interfaces\UserInterface;
-use App\Services\AnkService;
+use App\Services\ProfileSearchService;
+use Illuminate\View\View;
 
 class ProfileSearchController extends Controller
 {
@@ -17,31 +16,22 @@ class ProfileSearchController extends Controller
 	 * @return void
 	 */
 	public function __construct(
-		protected UserInterface $userRepository
+		protected ProfileSearchService $service
 	) {}
 
 	/**
 	 * show the page with profiles by filter
 	 * @param  SearchRequest  $request
 	 * @param  UserFilter  $filter
-	 * @param  SearchService  $search
 	 * @param  SearchField $fields
-	 * @return \Illuminate\Http\Response
+	 * @return View
 	 */
-	public function search(SearchRequest $request, UserFilter $filter, SearchService $search, SearchField $fields): \Illuminate\Http\Response
+	public function search(SearchRequest $request, UserFilter $filter, SearchField $fields): View
 	{
-		$ankets				= $this->userRepository->getBySearch($filter, $request);
-		$critsSearch		= $search->getSearchText($ankets, $request->validated());
-		$countSearchAnkStr	= (new AnkService($ankets))->getFoundStr();
-		return response()->view(
-			'ankets.search',
-			[
-				'fields'			=> $fields->get(),
-				'isSend'			=> isset($request->send) ? 'Y' : 'N',
-				'critsSearch'		=> $critsSearch,
-				'ankets'			=> $ankets,
-				'countSearchAnkStr'	=> $countSearchAnkStr
-			]
-		);
+		$data = $this->service->search($request->validated(), $filter, $fields);
+		$data['isSearch'] = collect(request()->query())
+    		->except(['page'])
+		    ->isNotEmpty();
+		return view('ankets.search', $data);
 	}
 }
