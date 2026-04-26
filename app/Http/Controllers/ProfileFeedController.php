@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Requests\UserBirthdayRequest;
 use App\Filters\UserBirthdayFilter;
-use App\Interfaces\UserInterface;
 use App\Requests\UserViewsRequest;
 use App\Filters\UserViewsFilter;
-use Illuminate\Support\Facades\Auth;
+use App\Services\ProfileFeedService;
 
 class ProfileFeedController extends Controller
 {
@@ -16,9 +15,7 @@ class ProfileFeedController extends Controller
 	 *
 	 * @return void
 	 */
-	public function __construct(
-		protected UserInterface $userRepository
-	) {}
+	public function __construct(protected ProfileFeedService $service) {}
 
 	/**
 	 * show the page with profiles who celebrates a birthday today
@@ -28,15 +25,7 @@ class ProfileFeedController extends Controller
 	 */
 	public function birthday(UserBirthdayRequest $request, UserBirthdayFilter $filter)
 	{
-		$ankets				= $this->userRepository->getBySearch($filter, $request);
-
-		return response()->view(
-			'ankets.birthday_search',
-			[
-				'page'			=> $ankets->currentPage(),
-				'ankets'		=> $ankets
-			]
-		);
+		return view('ankets.birthday_search', ['ankets'	=> $this->service->getBirthday($filter, $request)]);
 	}
 
 	/**
@@ -45,14 +34,7 @@ class ProfileFeedController extends Controller
 	 */
 	public function views(UserViewsRequest $request, UserViewsFilter $filter)
 	{
-		$ankets						= $this->userRepository->getBySearch($filter, $request);
-		$this->userRepository->update(Auth::user(), ['lastvisit_views' => time()]);
-		return response()->view(
-			'ankets.views',
-			[
-				'page'			=> $ankets->currentPage(),
-				'ankets'		=> $ankets
-			]
-		);
+		$user = request()->user();
+		return view('ankets.views',['ankets' => $this->service->getViews($filter, $request, $user)]);
 	}
 }
