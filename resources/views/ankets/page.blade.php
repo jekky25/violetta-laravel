@@ -61,7 +61,7 @@ function vote(score)
 							<ul class="div-rating">
 								<li class="current-rating" style="width:{{ $userData->rating_str }}px;">&nbsp;</li>
 								@auth
-									@if ($user->id != $userData->id && !$ankEvaluationed)
+									@if ($user->id != $userData->id && !$evaluationed)
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("1");' title='Очень плохо' class="r1-unit rater">Очень плохо</a></li>
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("2");' title='Плохо' class="r2-unit rater">Плохо</a></li>
 										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("3");' title='Средне' class="r3-unit rater">Средне</a></li>
@@ -142,14 +142,14 @@ function vote(score)
 		@endif
 		@if (Route:: currentRouteName() == 'ank.full.id')
 			@if (!empty($userData->sex_orient))
-				<dl><dt>Ориентация:</dt><dd>{{ $userData->sex_orient }}</dd></dl>
+				<dl><dt>Ориентация:</dt><dd>{{ $userData->sex_orient_str }}</dd></dl>
 			@endif
 			@if (!empty($userData->speak_lang_str))
 				<dl><dt>Говорю на языках:</dt><dd>{{ $userData->speak_lang_str }}</dd></dl>
 			@endif
 			<dl>
 				<dt>Дата создания:</dt>
-				<dd>{{$userData->date_make }}</dd>
+				<dd>{{$userData->date_make_str }}</dd>
 			</dl>
 			@if (!empty($userData->date_refresh))
 				<dl>
@@ -174,18 +174,17 @@ function vote(score)
 	</fieldset>
 	@endif
 	<div class="clear"></div>
-	
-	@if (!empty($userData->targets_out))
-	<fieldset class="mono mar1"><dl><dt>Цели знакомства:</dt><dd>{{ $userData->targets_out }}</dd></dl></fieldset>
+	@if (!empty($userData->targets_str))
+	<fieldset class="mono mar1"><dl><dt>Цели знакомства:</dt><dd>{{ $userData->targets_str }}</dd></dl></fieldset>
 	@endif
-	@if (!empty($userData->interests_out))
-	<fieldset class="mono"><dl><dt>Интересы:</dt><dd>{{ $userData->interests_out }}</dd></dl></fieldset>
+	@if (!empty($userData->interests_str))
+	<fieldset class="mono"><dl><dt>Интересы:</dt><dd>{{ $userData->interests_str }}</dd></dl></fieldset>
 	@endif
 	@if (!empty($userData->partner_description))
 	<fieldset class="mono"><dl><dt>Хочу найти:</dt><dd>{!! $userData->partner_description !!}</dd></dl></fieldset>
 	@endif
 	<div class="clear"></div>
-	@if ($isAboutPartner === true)
+	@if ($userData->isAboutPartner === true)
 		<fieldset class="mono txt1"><dl><dt>О партнере:</dt></dl></fieldset>
 		<fieldset>
 			@if (!empty($userData->partner_sex))
@@ -209,22 +208,22 @@ function vote(score)
 			@if (!empty($userData->partner_city))
 				<dl><dt>Из города:</dt><dd>{{ $userData->partner_city }}</dd></dl>
 			@endif
-			@if (!empty($userData->partner_body))
-				<dl><dt>Телосложение:</dt><dd>{{ $userData->partner_body }}</dd></dl>
+			@if (!empty($userData->partner_body_str))
+				<dl><dt>Телосложение:</dt><dd>{{ $userData->partner_body_str }}</dd></dl>
 			@endif
 		</fieldset>
 		<fieldset>
-			@if (!empty($userData->partner_languages))
-				<dl><dt>Говорит на языках:</dt><dd>{{ $userData->partner_languages }}</dd></dl>
+			@if (!empty($userData->partner_languages_str))
+				<dl><dt>Говорит на языках:</dt><dd>{{ $userData->partner_languages_str }}</dd></dl>
 			@endif
-			@if (!empty($userData->partner_education))
-				<dl><dt>Образование:</dt><dd>{{ $userData->partner_education }}</dd></dl>
+			@if (!empty($userData->partner_education_str))
+				<dl><dt>Образование:</dt><dd>{{ $userData->partner_education_str }}</dd></dl>
 			@endif
-			@if (!empty($userData->partner_smoke))
-				<dl><dt>Отношение к сигаретам:</dt><dd>{{ $userData->partner_smoke }}</dd></dl>
+			@if (!empty($userData->partner_smoke_str))
+				<dl><dt>Отношение к сигаретам:</dt><dd>{{ $userData->partner_smoke_str }}</dd></dl>
 			@endif
-			@if (!empty($userData->partner_alcohol))
-				<dl><dt>Отношение к спиртному:</dt><dd>{{ $userData->partner_alcohol }}</dd></dl>
+			@if (!empty($userData->partner_alcohol_str))
+				<dl><dt>Отношение к спиртному:</dt><dd>{{ $userData->partner_alcohol_str }}</dd></dl>
 			@endif
 		</fieldset>
 		<div class="clear pad2"></div>
@@ -237,16 +236,5 @@ function vote(score)
 	</fieldset>
 	<div class="clear"></div>
 	@endif
-</div>
-<div class="pad5">
-<script type="text/javascript"><!--
-	google_ad_client = "ca-pub-6379140164632940";
-	/* Анкета Внизу */
-	google_ad_slot = "2723724227";
-	google_ad_width = 468;
-	google_ad_height = 60;
-	//-->
-	</script>
-	<script type="text/javascript" async src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 </div>
 @overwrite

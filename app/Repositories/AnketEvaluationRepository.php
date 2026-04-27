@@ -9,7 +9,7 @@ use App\Models\AnketEvaluation;
 
 class AnketEvaluationRepository implements AnketEvaluationInterface
 {
-	private $evaluations;
+	private $evaluations = null;
 	/**
 	 * get evaluation
 	 * @param  int  $userIdAct
@@ -31,6 +31,7 @@ class AnketEvaluationRepository implements AnketEvaluationInterface
 	 */
 	public function getEvaluationWithUpdate(Request $request, $userActiveId, $id)
 	{
+		if ($this->evaluations === null) $this->evaluations = $this->getEvaluations($userActiveId, $id);
 		if ($this->evaluations->count() > 0) return true;
 		$vote 	= isset($request->golos) ? (int)$request->golos : 0;
 		$vote 	= $vote > 5 ? 5 : $vote;

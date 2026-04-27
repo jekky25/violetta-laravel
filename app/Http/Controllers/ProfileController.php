@@ -15,6 +15,7 @@ use App\Fields\ProfilePartnerField;
 use App\Requests\ProfilePartnerRequest;
 use App\Services\ProfileService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
@@ -24,6 +25,41 @@ class ProfileController extends Controller
 	 * @return void
 	 */
 	public function __construct(protected ProfileService $service) {}
+
+	/**
+	 * Show a profile page
+	 * @param  Request  $request
+	 * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */
+
+	public function show(Request $request, int $id)
+	{
+		return $this->handle($request, $id, 'short');
+	}
+
+	/**
+	 * Show a full profile page
+	 * @param  Request  $request
+	 * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */	
+	public function showFull(Request $request, int $id)
+	{
+		return $this->handle($request, $id, 'full');
+	}
+
+	/**
+	 * hangle (show a page and a full page)
+	 * @param  Request  $request
+	 * @param  int $id
+	 * @param  string $mode
+	 * @return \Illuminate\Http\Response
+	 */	
+	private function handle(Request $request, int $id, string $mode)
+	{
+		return view('ankets.page', $this->service->show($request, $id, $mode));
+	}
 
 	/**
 	 * Show an edit short profile page

@@ -88,8 +88,8 @@ Route::middleware('slashes')->group(function () {
 
 	Route::get('ank/diary/comments/{id}.html', 'DiaryCommentController@index')											->whereNumber('id')		->name('ank.diary.comments');
 	Route::get('ank/diary/{id}.html', 'DiaryController@show')															->whereNumber('id')		->name('ank.diary.id');
-	Route::get('ank/f/{id}/', 'AnkController@getAnk')																	->whereNumber('id')		->name('ank.full.id');
-	Route::get('ank/{id}/', 'AnkController@getAnk')																		->whereNumber('id')		->name('ank.id');
+	Route::get('ank/f/{id}/', [ProfileController::class, 'showFull'])													->whereNumber('id')		->name('ank.full.id');
+	Route::get('ank/{id}/', [ProfileController::class, 'show'])															->whereNumber('id')		->name('ank.id');
 
 	Route::get('ankets/{sex?}/{age?}', [ProfileBrowseController::class, 'getList'])
     ->where('sex', 'men|women')

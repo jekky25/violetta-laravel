@@ -32,43 +32,6 @@ class AnkController extends Controller
 	) {}
 
 	/**
-	 * Show a profile page
-	 * @param  Request  $request
-	 * @param  int $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function getAnk(Request $request, $id)
-	{
-		$user				= Auth::user();
-		$mode				= Route::currentRouteName() == 'ank.full.id' ? 'full' : '';
-		$anket 				= $this->userRepository->getById($id);
-		$this->ankService	= new AnkService($anket);
-		$this->ankService->prepare();
-
-		//making an ankets review and a count of views
-		if (!empty($user)) {
-			$anket->ankVisits	= $this->anketVisitRepository->update($id, self::$visitDays, $user->id);
-
-			$this->anketEvaluationRepository->getEvaluations($user->id, $id);
-			$ankEvaluationed = $this->anketEvaluationRepository->getEvaluationWithUpdate($request, $user->id, $id);
-			if (is_object($ankEvaluationed) && get_class($ankEvaluationed) == 'Illuminate\Http\RedirectResponse') return $ankEvaluationed;
-		}
-		//making a full anket
-		if ($mode == 'full') {
-			$this->ankService->prepareFull();
-			$isAboutPartner = $this->ankService->isAboutPartner();
-		}
-		return response()->view(
-			'ankets.page',
-			[
-				'userData'			=> $anket,
-				'ankEvaluationed' 	=> isset($ankEvaluationed)	? $ankEvaluationed	: false,
-				'isAboutPartner' 	=> isset($isAboutPartner)	? $isAboutPartner	: false
-			]
-		);
-	}
-
-	/**
 	 * Show a page with user pictures
 	 * @param  int $id
 	 * @return \Illuminate\Http\Response
