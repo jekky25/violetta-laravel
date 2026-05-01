@@ -127,8 +127,9 @@ trait HasUserModelAttributes
 		return (int)$val > 0 ? $val : '';
 	}
 
-	public function getPartnerDescriptionAttribute($val)
+	public function getPartnerDescriptionAttribute(?string $val): string
 	{
+		if ($val === null) return '';
 		$val = stripslashes(trim($val));
 		return str_replace("\n", "\n<br />\n", $val);
 	}
@@ -337,14 +338,14 @@ trait HasUserModelAttributes
 		$this->attributes['icq'] = (string)$val;
 	}
 
-	public function setUrlAttribute($val)
+	public function setUrlAttribute(?string $val)
 	{
-		$this->attributes['url'] = addslashes($val);
+		$this->attributes['url'] = $val ? addslashes($val) : '';
 	}
 
-	public function setPhoneAttribute($val)
+	public function setPhoneAttribute(?string $val)
 	{
-		$this->attributes['phone'] = addslashes($val);
+		$this->attributes['phone'] = $val ? addslashes($val) : '';
 	}
 
 	public function setDescriptionAttribute($val)

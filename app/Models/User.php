@@ -199,7 +199,7 @@ class User extends Authenticatable
 	/**
 	 * Get user multiple property from the model
 	 */
-	public function getPropertyFew(string|object $class, array|integer|string $prop): string
+	public function getPropertyFew(string|object $class, mixed $prop): string
 	{
 		$unserProp = is_string($prop) ? unserialize($prop) : $prop;
 

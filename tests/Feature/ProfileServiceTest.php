@@ -4,7 +4,10 @@ namespace Tests\Unit\Services;
 
 use Tests\TestCase;
 use App\Services\ProfileService;
+use App\Services\AnkService;
 use App\Interfaces\UserInterface;
+use App\Interfaces\AnketVisitInterface;
+use App\Interfaces\AnketEvaluationInterface;
 use App\Models\User;
 use Tests\Traits\hasSetupPrepare;
 use App\DTO\UpdateMainProfileDTO;
@@ -16,60 +19,70 @@ class ProfileServiceTest extends TestCase
 {
 	use hasSetupPrepare;
 
+	protected UserInterface $repository;
+	protected AnkService $ankService;
+	protected AnketVisitInterface $anketVisitRepository;
+	protected AnketEvaluationInterface $anketEvaluationRepository;
+
 	protected function setUp(): void
 	{
 		parent::setUp();
 		self::setUpPrepare();
+
+		$this->repository = Mockery::mock(UserInterface::class);
+		$this->ankService = Mockery::mock(AnkService::class);
+		$this->anketVisitRepository = Mockery::mock(AnketVisitInterface::class);
+		$this->anketEvaluationRepository = Mockery::mock(AnketEvaluationInterface::class);
 	}
 
-    public function test_update_main_calls_repository(): void
-    {
-        $repository = Mockery::mock(UserInterface::class);
-        $service = new ProfileService($repository);
+	public function test_update_main_calls_repository(): void
+	{
 
-        $user = User::factory()->make();
+		$service = new ProfileService($this->repository, $this->ankService, $this->anketVisitRepository, $this->anketEvaluationRepository);
 
-        $dto = Mockery::mock(UpdateMainProfileDTO::class);
-        $dto->shouldReceive('toArray')->once()->andReturn(['name' => 'John']);
+		$user = User::factory()->make();
 
-        $repository->shouldReceive('update')
-            ->once()
-            ->with($user, ['name' => 'John']);
+		$dto = Mockery::mock(UpdateMainProfileDTO::class);
+		$dto->shouldReceive('toArray')->once()->andReturn(['name' => 'John']);
 
-        $service->updateMain($user, $dto);
-    }
+		$this->repository->shouldReceive('update')
+			->once()
+			->with($user, ['name' => 'John']);
 
-    public function test_update_second_calls_repository(): void
-    {
-        $repository = Mockery::mock(UserInterface::class);
-        $service = new ProfileService($repository);
+		$service->updateMain($user, $dto);
+	}
 
-        $user = User::factory()->make();
+	public function test_update_second_calls_repository(): void
+	{
+		$this->repository = Mockery::mock(UserInterface::class);
+		$service = new ProfileService($this->repository, $this->ankService, $this->anketVisitRepository, $this->anketEvaluationRepository);
 
-        $dto = Mockery::mock(UpdateSecondProfileDTO::class);
-        $dto->shouldReceive('toArray')->once()->andReturn(['age' => 25]);
+		$user = User::factory()->make();
 
-        $repository->shouldReceive('update')
-            ->once()
-            ->with($user, ['age' => 25]);
+		$dto = Mockery::mock(UpdateSecondProfileDTO::class);
+		$dto->shouldReceive('toArray')->once()->andReturn(['age' => 25]);
 
-        $service->updateSecond($user, $dto);
-    }
+		$this->repository->shouldReceive('update')
+			->once()
+			->with($user, ['age' => 25]);
 
-    public function test_update_partner_calls_repository(): void
-    {
-        $repository = Mockery::mock(UserInterface::class);
-        $service = new ProfileService($repository);
+		$service->updateSecond($user, $dto);
+	}
 
-        $user = User::factory()->make();
+	public function test_update_partner_calls_repository(): void
+	{
+		$this->repository = Mockery::mock(UserInterface::class);
+		$service = new ProfileService($this->repository, $this->ankService, $this->anketVisitRepository, $this->anketEvaluationRepository);
 
-        $dto = Mockery::mock(UpdatePartnerProfileDTO::class);
-        $dto->shouldReceive('toArray')->once()->andReturn(['partner_age' => 30]);
+		$user = User::factory()->make();
 
-        $repository->shouldReceive('update')
-            ->once()
-            ->with($user, ['partner_age' => 30]);
+		$dto = Mockery::mock(UpdatePartnerProfileDTO::class);
+		$dto->shouldReceive('toArray')->once()->andReturn(['partner_age' => 30]);
 
-        $service->updatePartner($user, $dto);
-    }
+		$this->repository->shouldReceive('update')
+			->once()
+			->with($user, ['partner_age' => 30]);
+
+		$service->updatePartner($user, $dto);
+	}
 }

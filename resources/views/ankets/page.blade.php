@@ -4,7 +4,7 @@
 <script language="JavaScript" type="text/javascript">
 function vote(score)
 {
-	var url = '{{route(Route:: currentRouteName(), [$userData->id, 'send_golos' => 1 ])}}';
+	var url = '{{route(Route:: currentRouteName(), [$userData?->id, 'send_golos' => 1 ])}}';
 	url += '&golos='+score;
 	window.location = url;
 	return false;
@@ -25,7 +25,7 @@ function vote(score)
 		<li><p class="ankFotosPics">@if ($userData->sex == MEN)<img src="{{ asset('image/no_foto_m_vip4.jpg') }}" />@else<img src="{{ asset('image/no_foto_w_vip4.jpg') }}" />@endif</p></li>
 	@endif
 		<li>
-			<p><strong>Город:</strong> {{ $userData->city->name }} ({{ $userData->country->name }})</p>
+			<p><strong>Город:</strong> {{ $userData->city?->name }} ({{ $userData->country?->name }})</p>
 			<p><strong>Возраст:</strong> {{ $userData->age_str }}</p>
 			<p><strong>Знак зодиака:</strong> <a href="{{route('horoscope.id', $userData->zodiac['zodiac_id'])}}" title="Узнайте свой Зодиак">{{$userData->zodiac['zodiac_text']}}</a></p>
 			<table>
@@ -88,9 +88,9 @@ function vote(score)
 	@endif
 	@if (Route:: currentRouteName() == 'ank.full.id')
 		<fieldset>
-			<dl><dt>Страна:</dt><dd>{{ $userData->country->name }}</dd></dl>
-			<dl><dt>Регион:</dt><dd>{{ $userData->region->name }}</dd></dl>
-			<dl><dt>Город:</dt><dd>{{ $userData->city->name }}</dd></dl>
+			<dl><dt>Страна:</dt><dd>{{ $userData->country?->name }}</dd></dl>
+			<dl><dt>Регион:</dt><dd>{{ $userData->region?->name }}</dd></dl>
+			<dl><dt>Город:</dt><dd>{{ $userData->city?->name }}</dd></dl>
 			@if (!empty($userData->body))
 				<dl><dt>Телосложение:</dt><dd>{{ $userData->body }}</dd></dl>
 			@endif

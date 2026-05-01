@@ -21,8 +21,8 @@ class ProfileService
 	public function __construct(
 		private UserInterface $repository,
 		private AnkService $ankService,
-		protected AnketVisitInterface $anketVisitRepository,
-		protected AnketEvaluationInterface $anketEvaluationRepository
+		private AnketVisitInterface $anketVisitRepository,
+		private AnketEvaluationInterface $anketEvaluationRepository
 	) {}
 
 	/**

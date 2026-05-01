@@ -3,10 +3,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
-use App\Services\RegistrationService;
-use App\Models\User;
 use Tests\Traits\hasSetupPrepare;
-use Mockery;
 
 class RegistrationControllerTest extends TestCase
 {
