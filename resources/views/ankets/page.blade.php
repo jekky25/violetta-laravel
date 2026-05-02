@@ -53,27 +53,7 @@ function vote(score)
 			</table>
 			<p>{{ $userData->user_last_visit }}</p>
 			<p>Просмотров за месяц: {{ $userData->ankVisits }}</p>
-			<table>
-				<tr>
-					<td><p>Рейтинг:</p></td>
-					<td class="wth4">
-						<div class="div-rating2">
-							<ul class="div-rating">
-								<li class="current-rating" style="width:{{ $userData->rating_str }}px;">&nbsp;</li>
-								@auth
-									@if ($user->id != $userData->id && !$evaluationed)
-										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("1");' title='Очень плохо' class="r1-unit rater">Очень плохо</a></li>
-										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("2");' title='Плохо' class="r2-unit rater">Плохо</a></li>
-										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("3");' title='Средне' class="r3-unit rater">Средне</a></li>
-										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("4");' title='Хорошо' class="r4-unit rater">Хорошо</a></li>
-										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("5");' title='Отлично' class="r5-unit rater">Отлично</a></li>
-									@endif
-								@endauth
-							</ul>
-						</div>
-					</td>
-				</tr>
-			</table>
+			<rating :user='@json($userData)' :auth-user='@json(auth()->check() ? auth()->user() : null)' :evaluationed='@json($evaluationed)'></rating>
 		</li>
 </ul>
 <div class="ankData">

@@ -89,6 +89,10 @@ class User extends Authenticatable
 		'top100'
 	];
 
+	protected $appends = [
+		'rating_str'
+	];
+
 	/**
 	 * The attributes that should be hidden for serialization.
 	 *

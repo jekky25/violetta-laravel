@@ -16,6 +16,7 @@ import Statistics from './components/Blocks/Statistics.vue';
 import LoginProfile from './components/Profiles/LoginProfile.vue';
 import NewFaces from './components/Profiles/NewFaces.vue';
 import DiariesHome from './components/Diaries/DiariesHome.vue';
+import Rating from './components/Profiles/Rating.vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -30,7 +31,8 @@ const app = createApp({
         Statistics,
         LoginProfile,
         NewFaces,
-        DiariesHome
+        DiariesHome,
+        Rating
     },
 });
 

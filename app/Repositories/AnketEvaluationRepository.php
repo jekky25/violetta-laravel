@@ -88,4 +88,19 @@ class AnketEvaluationRepository implements AnketEvaluationInterface
 			throw new \Exception('Failed to create an Profile Evaluation ' . $e->getMessage());
 		}
 	}
+
+	/**
+	 * update or create an evaluation
+	 * @param  array $dataFix
+	 * @param  array $data
+	 * @return void
+	 */
+	public function updateOrCreate($dataFix, $data)
+	{
+		try {
+			AnketEvaluation::updateOrCreate($dataFix, $data);
+		} catch (\Exception $e) {
+			throw new \Exception('Failed to create an evaluation ' . $e->getMessage());
+		}
+	}
 }

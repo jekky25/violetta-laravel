@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ProfileBrowseController;
+use App\Http\Controllers\EvaulationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,5 @@ Route::get('/home/diaries/', 'HomeController@diaries')->name('home.diaries');
 
 Route::get('/regions/{countryId}/', [RegionController::class, 'index'])->whereNumber('countryId')->name('regionsByCountry');
 Route::get('/cities/{regionId}/', [CityController::class, 'index'])->whereNumber('regionId')->name('citiesByCountry');
+
+Route::post('/users/{id}/vote/', [EvaulationController::class, 'store'])->whereNumber('id')->middleware('web')->name('evaulation.store');

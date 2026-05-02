@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\AnketEvaluationInterface;
@@ -11,7 +9,6 @@ use App\Interfaces\AnketVisitInterface;
 use App\Interfaces\PhotoInterface;
 use App\Interfaces\UserInterface;
 use App\Services\PhotoService;
-use App\Services\AnkService;
 
 class AnkController extends Controller
 {
