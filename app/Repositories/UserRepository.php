@@ -8,6 +8,7 @@ use App\Interfaces\AnketVisitInterface;
 use App\Models\User;
 use App\Repositories\PhotoRepository;
 use Illuminate\Support\Facades\Hash;
+use \Illuminate\Database\Eloquent\Collection;
 
 class UserRepository implements UserInterface
 {
@@ -36,7 +37,7 @@ class UserRepository implements UserInterface
 	/**
 	 * get new faces for the front page
 	 * @param int $count
-	 * @return \Illuminate\Database\Eloquent\Collection
+	 * @return Collection
 	 */
 	public function newFaces(int $count)
 	{
@@ -59,7 +60,7 @@ class UserRepository implements UserInterface
 	 * get profile from the top100 rating
 	 * @param  int $sex
 	 * @param  int $count
-	 * @return \Illuminate\Database\Eloquent\Collection
+	 * @return Collection
 	 */
 	public function getTop100($sex, $count)
 	{
@@ -78,8 +79,8 @@ class UserRepository implements UserInterface
 
 	/**
 	 * add params to the user profiles
-	 * @param \Illuminate\Database\Eloquent\Collection $items
-	 * @return \Illuminate\Database\Eloquent\Collection
+	 * @param Collection $items
+	 * @return Collection
 	 */
 	private function addParams($items)
 	{
@@ -87,13 +88,13 @@ class UserRepository implements UserInterface
 		foreach ($items as &$_item) {
 			$_item->photo = $_item->photo[0];
 		}
-		return ($items->count() > 1 ? $items : $items[0]);
+		return ($items->count() > 1 ? $items : $items->first());
 	}
 
 	/**
 	 * add properties to this repository
-	 * @param  \Illuminate\Database\Eloquent\Collection $items
-	 * @return \Illuminate\Database\Eloquent\Collection
+	 * @param  Collection $items
+	 * @return Collection
 	 */
 	public static function addProps($items)
 	{
@@ -210,7 +211,7 @@ class UserRepository implements UserInterface
 	 * get a profile by id without relations
 	 * @param  int $id
 	 * @param  array $width
-	 * @return \Illuminate\Database\Eloquent\Collection
+	 * @return ?Collection
 	 */
 	public function getJustById($id, $width = [])
 	{
