@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use App\Models\User;
 use App\Models\Photo;
 use App\Repositories\PhotoRepository;
+use App\Interfaces\AnketVisitInterface;
 use App\DTO\UpdatePhotoDTO;
 
 class PhotoService
@@ -23,6 +24,7 @@ class PhotoService
 		protected VarsInterface $varsRepository,
 		protected UserInterface $userRepository,
 		protected PhotoRepository $photoRepository,
+		protected AnketVisitInterface $anketVisitRepository,
 		protected FileService $fileService
 	)
 	{
@@ -36,6 +38,30 @@ class PhotoService
 	{
 		$user = $this->userRepository->getJustById($user->id, ['photo']);
 		return $user->photo->isEmpty() ? null : $user->photo;
+	}
+
+	/**
+	* Get the main picture is it or not is it
+	*/
+	public function getMainPhoto(int $userId): ?Photo
+	{
+		return $this->photoRepository->getMainPhotoByUserId($userId);
+	}
+
+	/**
+	 * get data for the Photo Page
+	 */
+	public function getPhotoPageData(int $id, User $authUser): array
+	{
+
+		$photo	= $this->photoRepository->getById($id);
+		if (!$photo) abort(404);
+		$user = $this->userRepository->getById($photo->user_id);
+		$user->ankVisits	= $this->anketVisitRepository->update($id, config('profile.visit_days'), $authUser->id);
+		return [
+			'photo' => $photo,
+			'userData' => $user
+			];
 	}
 
 	/**
@@ -137,14 +163,6 @@ class PhotoService
 			if ($photoId > 0 && $item->id == $photoId)
 				$anket->mainPhoto = $item;
 		}
-		$anket->mainPhoto			= $this->getMainPhoto($anket);
-	}
-
-	/**
-	* Get the main picture is it or not is it
-	*/
-	public function getMainPhoto(User $anket): ?Photo
-	{
-		return $anket->mainPhoto ?? $anket->photo->first();
+		$anket->mainPhoto			= $this->getMainPhoto($anket->id);
 	}
 }

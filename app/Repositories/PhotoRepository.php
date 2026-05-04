@@ -71,6 +71,14 @@ class PhotoRepository implements PhotoInterface
 	}
 
 	/**
+	 * get main photo of the user
+	 */
+	public function getMainPhotoByUserId(int $userId): ?Photo
+	{
+		return Photo::select('*')->userId($userId)->orderBy('main_picture', 'desc')->first();
+	}
+
+	/**
 	 * create a photo
 	 */
 	public function create(array $data): Photo

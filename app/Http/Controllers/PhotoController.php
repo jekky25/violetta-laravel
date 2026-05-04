@@ -31,6 +31,28 @@ class PhotoController extends Controller
 	}
 
 	/**
+	 * Show a page with user pictures
+	 * @param  int $userId
+	 * @return \Illuminate\Http\Response
+	 */
+	public function showMain($userId)
+	{
+    	$photo = $this->service->getMainPhoto($userId);
+	    if (!$photo) abort(404);
+		return redirect()->route('ank.photo.photo_id', $photo->id);
+	}
+
+	/**
+	 * Show a user photo
+	 * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show(int $id)
+	{
+		return view('ankets.photo', $this->service->getPhotoPageData($id, Auth()->user()));
+	}
+
+	/**
 	 * Add an user picture
 	 * @param PhotoRequest $request
 	 * @return RedirectResponse

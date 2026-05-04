@@ -3,9 +3,9 @@
 @section('main_body')
 <h1 class="mTit">{{ $userData->name }}, {{ $userData->age_str }}, {{ $userData->city->name }}</h1>
 <x-ank-menu :user-data="$userData" />
-@if (!empty($userData->mainPhoto->id))
+@if (!empty($photo))
 <div id="mainAnkFoto">
-	<div><img src="{{ $userData->mainPhoto->url }}" /></div>
+	<div><img src="{{ $photo->url }}" /></div>
 </div>
 @endif
 @if (count ($userData->photo) > 1)
@@ -19,10 +19,10 @@
 	</tr>
 </table>
 @endif
-@if (!empty ($userData->mainPhoto->comment))
+@if (!empty ($photo->comment))
 <h2 class="mTit">Комментарии</h2>
 <table class="fotoComments">
-	@foreach ($userData->mainPhoto->comment as $item)
+	@foreach ($photo->comment as $item)
 	<tr>
 		<td class="fotoCommPics"><a href="{{route('ank.id', $item->user_id)}}">
 			<img alt="{{ $item->user->name }},{{ $item->user->age }} {{ $item->user->age_type }},{{ $item->user->city->name }}" src="{{ (new FileService)->outPicture($item->user_photo_id, $item->user->sex) }}" /></a></td>
@@ -35,9 +35,9 @@
 	@endforeach
 </table>
 @endif
-@if (!empty ($userData->mainPhoto))
+@if (!empty ($photo))
 <h2 class="mTit">Оставить комментарий</h2>
-<form name="anketa" action="{{route('ank.photo.id', $userData->mainPhoto->id)}}" method="post">
+<form name="anketa" action="{{route('ank.photo.id', $photo->id)}}" method="post">
 @if(session('success'))
   <div class="success">{{session('success')}}</div>
 @else

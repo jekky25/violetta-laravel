@@ -73,8 +73,8 @@ Route::middleware('slashes')->group(function () {
 		Route::get('ank/diary/delete/{id}.html', 'DiaryController@destroy')								->whereNumber('id')		->name('ank.diary.delete.id');
 		Route::delete('ank/diary/delete/{id}.html', 'DiaryController@destroyAction')					->whereNumber('id')		->name('ank.diary.delete.action.id');
 		Route::post('ank/diary/add.html', 'DiaryController@store')																->name('ank.diary.add');
-		Route::get('ank/photo/{id}.html', 'AnkController@getMainPhoto')									->whereNumber('id')		->name('ank.photo.id');
-		Route::get('ank/f/photo_{id}/', 'AnkController@getPhoto')										->whereNumber('id')		->name('ank.photo.photo_id');
+		Route::get('ank/photo/{userId}.html', [PhotoController::class, 'showMain'])						->whereNumber('userId')		->name('ank.photo.id');
+		Route::get('ank/f/photo_{id}/', [PhotoController::class, 'show'])								->whereNumber('id')		->name('ank.photo.photo_id');
 
 		Route::get('logout/', 'AuthController@logout')													->name('logout');
 	});
