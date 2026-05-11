@@ -53,11 +53,11 @@ class PhotoService
 	 */
 	public function getPhotoPageData(int $id, User $authUser): array
 	{
-
 		$photo	= $this->photoRepository->getById($id);
+
 		if (!$photo) abort(404);
 		$user = $this->userRepository->getById($photo->user_id);
-		$user->ankVisits	= $this->anketVisitRepository->update($id, config('profile.visit_days'), $authUser->id);
+		$user->ankVisits	= $this->anketVisitRepository->update($user->id, config('profile.visit_days'), $authUser->id);
 		return [
 			'photo' => $photo,
 			'userData' => $user

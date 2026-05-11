@@ -5,6 +5,7 @@ namespace Tests\Feature\Controllers;
 use Tests\TestCase;
 use Mockery;
 use App\Models\User;
+use App\Models\Photo;
 use App\Services\PhotoService;
 use Tests\Traits\hasSetupPrepare;
 use Illuminate\Http\UploadedFile;
@@ -95,5 +96,61 @@ class PhotoControllerTest extends TestCase
         $response = $this->delete($_SERVER['REQUEST_URI']);
 
         $response->assertRedirect();
+    }
+
+    public function test_show_main_redirects_to_photo()
+    {
+        $user = User::factory()->create();
+        $photo = Photo::factory()->create(['user_id' => $user->id, 'main_picture' => 1]);
+        $this->actingAs($user);
+        $this->service->shouldReceive('getMainPhoto')
+            ->once()
+            ->with($user->id)
+            ->andReturn($photo);
+
+        $_SERVER['REQUEST_URI'] = route('ank.photo.id', $user->id);
+        $response = $this->get($_SERVER['REQUEST_URI']);
+
+        $response->assertRedirect(route('ank.photo.photo_id', $photo->id));
+    }
+
+    public function test_show_main_returns_404_if_not_found()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $this->service->shouldReceive('getMainPhoto')
+            ->with(10000)
+            ->once()
+            ->andReturn(null);
+
+        $_SERVER['REQUEST_URI'] = route('ank.photo.id', 10000);
+        $response = $this->get($_SERVER['REQUEST_URI']);
+        $response->assertStatus(404);
+    }
+
+    public function test_show_returns_view()
+    {
+        $user = User::factory()->create();
+        $photo = Photo::factory()->create(['user_id' => $user->id, 'main_picture' => 1]);
+
+        $data = [
+            'photo' => $photo,
+            'userData' => $user
+        ];
+
+        $this->service->shouldReceive('getPhotoPageData')
+            ->once()
+            ->andReturn($data);
+
+        $this->actingAs($user);
+
+        $_SERVER['REQUEST_URI'] = route('ank.photo.photo_id', $photo->id);
+        $response = $this->get($_SERVER['REQUEST_URI']);
+
+        $response->assertStatus(200)
+            ->assertViewIs('ankets.photo')
+            ->assertViewHas('photo')
+            ->assertViewHas('userData');
     }
 }

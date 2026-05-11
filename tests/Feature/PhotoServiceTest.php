@@ -11,11 +11,13 @@ use App\Models\Photo;
 use App\Repositories\PhotoRepository;
 use App\Interfaces\UserInterface;
 use App\Interfaces\VarsInterface;
+use App\Interfaces\AnketVisitInterface;
 use App\DTO\CreatePhotoDTO;
 use App\DTO\UpdatePhotoDTO;
 use Tests\Traits\hasSetupPrepare;
 use \Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PhotoServiceTest extends TestCase
 {
@@ -37,6 +39,7 @@ class PhotoServiceTest extends TestCase
         $this->fileService = Mockery::mock(FileService::class);
         $this->userRepository = Mockery::mock(UserInterface::class);
         $this->varsRepository = Mockery::mock(VarsInterface::class);
+        $this->anketVisitRepository = Mockery::mock(AnketVisitInterface::class);
 
         $this->varsRepository
             ->shouldReceive('getAll')
@@ -46,6 +49,7 @@ class PhotoServiceTest extends TestCase
             $this->varsRepository,
             $this->userRepository,
             $this->photoRepository,
+            $this->anketVisitRepository,
             $this->fileService
         );
     }
@@ -167,5 +171,67 @@ class PhotoServiceTest extends TestCase
         $result = $this->service->setMainPicture($user);
 
         $this->assertTrue($result);
+    }
+
+    public function test_it_returns_main_photo()
+    {
+        $photo = new \App\Models\Photo(['id' => 10]);
+
+        $this->photoRepository->shouldReceive('getMainPhotoByUserId')
+            ->once()
+            ->with(5)
+            ->andReturn($photo);
+
+        $result = $this->service->getMainPhoto(5);
+
+        $this->assertEquals($photo, $result);
+    }
+
+    public function test_it_returns_null_if_no_main_photo()
+    {
+        $this->photoRepository->shouldReceive('getMainPhotoByUserId')
+            ->once()
+            ->andReturn(null);
+
+        $result = $this->service->getMainPhoto(5);
+        $this->assertNull($result);
+    }
+
+    public function test_it_returns_photo_page_data()
+    {
+        $user = User::factory()->create();
+        $photo = Photo::factory()->create(['user_id' => $user->id]);
+        $authUser = User::factory()->create();
+
+        $this->photoRepository->shouldReceive('getById')
+            ->once()
+            ->with($photo->id)
+            ->andReturn($photo);
+
+        $this->userRepository->shouldReceive('getById')
+            ->once()
+            ->with($user->id)
+            ->andReturn($user);
+
+        $this->anketVisitRepository->shouldReceive('update')
+            ->once()
+            ->with($user->id, config('profile.visit_days'), $authUser->id)
+            ->andReturn($user->ankVisits);
+
+        $result = $this->service->getPhotoPageData($photo->id, $authUser);
+
+        $this->assertEquals($photo, $result['photo']);
+        $this->assertEquals($user, $result['userData']);
+    }
+
+    public function test_it_aborts_if_photo_not_found()
+    {
+        $user = User::factory()->create();
+        $this->photoRepository->shouldReceive('getById')
+            ->once()
+            ->andThrow(new ModelNotFoundException());
+
+        $this->expectException(ModelNotFoundException::class);            
+        $this->service->getPhotoPageData(1, $user);
     }
 }
