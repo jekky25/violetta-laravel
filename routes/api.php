@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegionController;
@@ -25,8 +26,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/top100/{sex}', [ProfileBrowseController::class, 'top100'])->whereNumber('sex')->name('profile.get.top100');
 Route::get('/forum/top', 'ForumController@getTop')->name('forum.get.top');
 Route::get('/statistics/', 'StatisticsController@get')->name('statistics.get');
-Route::get('/auth/', 'AuthController@getAuth')->name('auth.get');
-Route::post('/login/', 'AuthController@loginApi')->name('login.api');
+Route::get('/auth/', [ApiAuthController::class, 'me'])->middleware('web')->name('auth.get');
+Route::post('/login/', [ApiAuthController::class, 'login'])->middleware('web')->name('login.api');
 Route::get('/new_faces/', 'HomeController@newFaces')->name('newfaces.get');
 
 Route::get('/home/diaries/', 'HomeController@diaries')->name('home.diaries');
