@@ -1034,13 +1034,26 @@ table.voprTabl {margin:0 auto;}
 
 .mob-copyrights {display:none;}
 
-
 .for-mob, .logo-face-mob, .logo-mob, .mob-menu-icon {display:none;}
-
 
 .vrem-displ-none {display:none;}
 
-.mob-menu {position:fixed; top:0; left:0; width:100%; border-bottom: 2px solid #7e2f2f; z-index: 9999; background-color: #fcf5f4; box-shadow: 0 6px 4px -4px rgba(0, 0, 0, .2); display:none;}
+.mob-menu {
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	border-bottom: 2px solid #7e2f2f;
+	z-index: 9999;
+	background-color: #fcf5f4;
+	box-shadow: 0 6px 4px -4px rgba(0, 0, 0, .2);
+	display:none;
+}
+
+.mob-menu.active {
+	display: block;
+}
+
 .mob-menu h3 {color:#757171; font-size: 18px; font-weight: normal; line-height:36px; text-transform:uppercase; border-bottom:1px solid #757171; padding: 0 10px;}
 .mob-menu h4 {font-size: 16px; padding-bottom:10px;}
 .mob-menu-first-block {border-bottom:1px solid #757171; padding: 20px 10px;}

@@ -42,27 +42,7 @@ function getWindowSize(wnd) {
 	return [windowWidth, windowHeight];
 }
 
-function closeButfunk () {
-	$('#mask').hide();
-	$('#prodblock').hide();
-}
-
 $(document).ready(function() {
-	$('#mask').click(function () {
-		$(this).hide();
-		$('#prodblock').hide();
-	});
-	
-	//открываем мобильное меню
-	$('.mob-menu-icon').click(function () {
-		$('.mob-menu').show();
-	});
-
-	//закрываем мобильное меню	
-	$('.close-menu').click(function () {
-		$('.mob-menu').hide();
-	});
-
 
 	//подключаем лезилоад
 //	let images = document.querySelectorAll("img");
@@ -100,6 +80,44 @@ document.addEventListener('click', (e) => {
 });
 
 */
+/*
+function closeButfunk () {
+	$('#mask').hide();
+	$('#prodblock').hide();
+}
+
+$(document).ready(function() {
+	$('#mask').click(function () {
+		$(this).hide();
+		$('#prodblock').hide();
+	});
+});
+*/
+/*
+document.addEventListener('click', (e) => {
+    const el = e.target.closest('.open-modal');
+    if (!el) return;
+    e.preventDefault();
+*/
+
+document.addEventListener('DOMContentLoaded', () => {
+	const menuIcon = document.querySelector('.mob-menu-icon');
+	const closeMenuIcon = document.querySelector('.close-menu');
+	const mobileMenu = document.querySelector('.mob-menu');
+
+	if (menuIcon && mobileMenu) {
+		//open a mobile menu
+		menuIcon.addEventListener('click', () => {
+			mobileMenu.classList.add('active');
+		});
+
+		//close a mobile menu
+		closeMenuIcon.addEventListener('click', () => {
+			mobileMenu.classList.remove('active');
+		});
+	}
+});
+
 
 class WModal{
 

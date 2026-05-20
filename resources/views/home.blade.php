@@ -4,6 +4,9 @@
 @if(session('success'))
 <p class="error pt-20">{{ session('success') }}</p>
 @endif
+@if (session('error'))
+	<p class="pad3 error pt-20">Ошибка: <span>{{ session('message') }}</span></p>
+@endif
 <h1 class="mTit">Бесплатные знакомства с девушками и парнями на сайте знакомств Виолетта</h1>
 	<table id="mDescr">
 		<tr>

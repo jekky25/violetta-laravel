@@ -18,6 +18,7 @@ use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\ProfileBrowseController;
 use App\Http\Controllers\ProfileFeedController;
 use App\Http\Controllers\ProfileSearchController;
+use App\Http\Controllers\WebAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,7 +77,7 @@ Route::middleware('slashes')->group(function () {
 		Route::get('ank/photo/{userId}.html', [PhotoController::class, 'showMain'])						->whereNumber('userId')		->name('ank.photo.id');
 		Route::get('ank/f/photo_{id}/', [PhotoController::class, 'show'])								->whereNumber('id')		->name('ank.photo.photo_id');
 
-		Route::get('logout/', 'AuthController@logout')													->name('logout');
+		Route::get('logout/', [WebAuthController::class, 'logout'])																->name('logout');
 	});
 
 	Route::get('registration/top100/', [Top100Controller::class, 'show'])														->name('registration.top100');
@@ -128,7 +129,7 @@ Route::middleware('slashes')->group(function () {
 
 	Route::get('search/', [ProfileSearchController::class, 'search'])																			->name('search');
 	
-	Route::post('login/', 'AuthController@login')																								->name('login');
+	Route::post('login/', [WebAuthController::class, 'login'])																					->name('login');
 	Route::get('login/', function () {
 		return redirect()->route('home');
 	});

@@ -32,14 +32,14 @@
 					{{ csrf_field() }}
 					<dl>
 						<dt>Ваш логин:</dt>
-						<dd><x-input name="username_template" /></dd>
+						<dd><x-input name="login" /></dd>
 					</dl>
 					<dl>
 						<dt>Пароль:</dt>
-						<dd><x-input type="password" name="pass_template" /></dd>
+						<dd><x-input type="password" name="password" /></dd>
 					</dl>					
 					<p class="pad1 mob-menu-subm">
-						<x-submit name=sent value="войти" />
+						<x-submit name="send" value="войти" />
 					</p>
 				</form>
 				<p class="mob-menu-p-name"><a class="name" href="{{route('forget_pass')}}">Забыли пароль?</a></p>
