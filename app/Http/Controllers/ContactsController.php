@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Requests\ContactsRequest;
 use App\Services\ContactsService;
 use App\DTO\ContactsDTO;
+use Illuminate\View\View;
 
 class ContactsController extends Controller
 {
@@ -19,11 +19,11 @@ class ContactsController extends Controller
 
 	/**
 	* show the feedback page
-	* @return \Illuminate\Http\Response
+	* @return View
 	*/
 	public function index()
 	{
-		return response()->view('contacts');
+		return view('contacts');
 	}
 
 	/**
@@ -34,6 +34,6 @@ class ContactsController extends Controller
 	public function store(ContactsRequest $request)
 	{
 		$this->service->store(ContactsDTO::fromRequest($request));
-		return redirect()->route(Route::currentRouteName())->with('success','Ваше сообщение было отослано в службу поддержки. Спасибо!');
+		return redirect()->route('contacts')->with('success', 'Ваше сообщение было отослано в службу поддержки. Спасибо!');
 	}
 }
