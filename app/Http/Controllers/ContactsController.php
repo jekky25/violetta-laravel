@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
 use App\Requests\ContactsRequest;
-use App\Mail\ContactsEmail;
+use App\Services\ContactsService;
+use App\DTO\ContactsDTO;
 
 class ContactsController extends Controller
 {
@@ -15,9 +15,7 @@ class ContactsController extends Controller
 	*
 	* @return void
 	*/
-	public function __construct()
-	{
-	}
+	public function __construct(protected ContactsService $service) {}
 
 	/**
 	* show the feedback page
@@ -33,12 +31,9 @@ class ContactsController extends Controller
 	* @param  ContactsRequest $request
 	* @return \Illuminate\Http\Response
 	*/
-	public function post(ContactsRequest $request)
+	public function store(ContactsRequest $request)
 	{
-		$arParams 				= $request->validated();
-		Mail::mailer(config('mail.mail_mode'))
-		->to(config('mail.email_main'))
-		->send(new ContactsEmail($arParams));
+		$this->service->store(ContactsDTO::fromRequest($request));
 		return redirect()->route(Route::currentRouteName())->with('success','Ваше сообщение было отослано в службу поддержки. Спасибо!');
 	}
 }

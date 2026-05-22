@@ -9,9 +9,9 @@
 <form name="anketa" action="{{ route ('contacts.post') }}" method="post" class="formSearch">
 <x-google-captcha />
 {{ csrf_field() }}
-@if (!empty ($errors->comment->all()))
+@if (!empty ($errors->all()))
 	<div class="pad3 error">
-@foreach ($errors->comment->all() as $message)
+@foreach ($errors->all() as $message)
 	<p>{{ $message }}</p>
 @endforeach
 	</div>
@@ -40,8 +40,7 @@ function find_otsil()
 }
 </script>
 	<p class="pad4">
-		<input type="hidden" name="otsil" value="1" />
-		<input type="submit" name="sent" onclick="find_otsil()" value="Отправить" />
+		<x-submit name="sent" onclick="find_otsil()" value="Отправить" />
 	</p>
 </form>
 @endif

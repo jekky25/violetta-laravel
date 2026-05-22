@@ -14,6 +14,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Top100Controller;
 use App\Http\Controllers\ConfirmController;
+use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\ProfileBrowseController;
 use App\Http\Controllers\ProfileFeedController;
@@ -136,8 +137,8 @@ Route::middleware('slashes')->group(function () {
 	Route::post('forget_pass/', [ForgetPasswordController::class, 'sendPassword'])																->name('forget_pass.post');
 	Route::get('forget_pass/', [ForgetPasswordController::class, 'show'])																		->name('forget_pass');
 	Route::get('sitemap/', 'SiteController@index')																								->name('sitemap');
-	Route::get('contacts/', 'ContactsController@index')																							->name('contacts');
-	Route::post('contacts/', 'ContactsController@post')																							->name('contacts.post');
+	Route::get('contacts/', [ContactsController::class, 'index'])																				->name('contacts');
+	Route::post('contacts/', [ContactsController::class, 'store'])																				->name('contacts.post');
 	Route::get('conditions/', function () 
 	{
 		return response()->view ('conditions'); 
