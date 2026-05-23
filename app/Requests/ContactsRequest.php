@@ -22,6 +22,7 @@ class ContactsRequest extends FormRequest
 			'recaptcha_response.required'		=> 'Капча не пройдена',
 			'recaptcha_response.GoogleCaptcha'	=> 'Капча не пройдена',
 			'organization.string'				=> 'Поле: организация должно быть строкой',
+			'organization.max'					=> 'Слишком длинное название организации',
 			'description.string'				=> 'Поле: описание должно быть строкой'
 		];
 	}
@@ -33,12 +34,15 @@ class ContactsRequest extends FormRequest
 	 */
 	public function rules(): array
 	{
-		return [
+		$rules =  [
 			'name'					=> ['required', 'max:30', 'min:2'],
 			'email'					=> ['required', 'email'],
-			'organization'			=> ['string'],
-			'description'			=> ['string'],
-			'recaptcha_response'	=> ['required', new GoogleCaptcha]
+			'organization'			=> ['nullable', 'string', 'max:255'],
+			'description'			=> ['string']
 		];
+
+		if (config('services.recaptcha.enabled')) $rules['recaptcha_response'] = ['required', new GoogleCaptcha];
+		
+		return $rules;
 	}
 }

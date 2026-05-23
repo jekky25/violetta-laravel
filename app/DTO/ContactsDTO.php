@@ -6,9 +6,9 @@ class ContactsDTO
 {
 	public function __construct(
 		public readonly string $name,
-		public readonly string $organization,
+		public readonly ?string $organization,
 		public readonly string $email,
-		public readonly string $description
+		public readonly ?string $description
 	) {}
 
 	public static function fromRequest($request): self
