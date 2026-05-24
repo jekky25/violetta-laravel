@@ -1,25 +1,32 @@
 @extends('layouts.app')
 @section('title', $title)
 @section('main_body')
-<h1 class="mTit">{{ $userData->name }}, {{ $userData->age_str }}, {{ $userData->city->name }}</h1>
-<x-ank-menu :user-data="$userData" />
+<h1 class="mTit">{{ $diary->user->name }}, {{ $diary->user->age_str }}, {{ $diary->user->city->name }}</h1>
+<x-ank-menu :user-data="$diary->user" />
 <h3 class="kommentTitle">{{ $diary->title }}@if ($comments->total() > 0) - комментарии ({{ $comments->total() }})@else - комментарии (нет)@endif</h3>
 <table class="ankDnevnik">
 	<tr>
 		<td>
-			<h4 class="@isset($userData->class_a){{ $userData->class_a }}@endisset"><a href="{{route('ank.id', $userData->id)}}">{{ $userData->name }}</a>
+			<h4 class="@isset($diary->user->class_a){{ $diary->user->class_a }}@endisset"><a href="{{route('ank.id', $diary->user->id)}}">{{ $diary->user->name }}</a>
 				<p>
 				@if (!empty($user) && $user->id == $diary->user_id)
 					<a class="editBut" title="редактировать" href="{{route('ank.diary.edit.id', $diary->id)}}"></a>
-					<a class="delBut" title="удалить" href="{{route('ank.diary.delete.id', $diary->id)}}"></a>
+					<a 
+						class="delBut open-modal"
+						title="удалить"
+						href="javascript:void(0);"
+						data-url="{{route('ank.diary.delete.id', $diary->id)}}"
+						data-title="Удаление записи"
+						data-text="Вы уверены, что хотите удалить запись?"
+						></a>
 				@endif
 				{{ $diary->add_time }}</p>
 			</h4>
 			<div class="dnevBody clear">
 			@if (!empty($diary->picture))
-				<a class="dnevBodyPic1" href="{{route('ank.id', $userData->id)}}"><img src="{{ (new FileService)->outDiaryPicture($diary->picture, $userData->sex) }}" /></a>
-			@elseif (!empty($userData->foto_user_id))
-				<a class="dnevBodyPic2" href="{{route('ank.id', $userData->id)}}"><img src="{{ (new FileService)->outPicture($diary->foto_user_id, $userData->sex) }}" /></a>
+				<a class="dnevBodyPic1" href="{{route('ank.id', $diary->user->id)}}"><img src="{{ (new FileService)->outDiaryPicture($diary->picture, $diary->user->sex) }}" /></a>
+			@elseif (!empty($diary->user->foto_user_id))
+				<a class="dnevBodyPic2" href="{{route('ank.id', $diary->user->id)}}"><img src="{{ (new FileService)->outPicture($diary->foto_user_id, $diary->user->sex) }}" /></a>
 			@endif
 			@if (!empty($diary->picture))
 				<div class="mrg2">{{ $diary->description }}</div>
@@ -60,9 +67,9 @@
 @if(session('success'))
 <p class="mess">{{session('success')}}</p>
 @endif
-@if (!empty ($errors->comment->all()))
+@if (!empty ($errors->all()))
 <div class="pad3 error">
-@foreach ($errors->comment->all() as $message)
+@foreach ($errors->all() as $message)
 <p>{{ $message }}</p>
 @endforeach
 	</div>
@@ -84,7 +91,7 @@
 		<tr>
 			<td width="50%" align="right">
 				<a class="screpka" href="javascript:addfile('file')"></a></td>
-			<td width="50%"><input type="hidden" name="otsil" value="1" />
+			<td width="50%">
 				<input type="hidden" name="add" value="1" />
 				<input type="hidden" name="start" value="{{ old('start') }}" />
 				<x-submit name="send" onclick="find_otsil()" value="добавить запись" />
@@ -92,7 +99,7 @@
 		</tr>
 	</table>	
 	<div id="file">
-		<input type="file" class="login" size="45" name="photo_link" />
+		<input type="file" class="login" size="45" name="photo" />
 	</div>
 </form>
 @endauth

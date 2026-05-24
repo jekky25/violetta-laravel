@@ -19,9 +19,9 @@
 @if(session('success'))
 <p class="mess">{{session('success')}}</p>
 @endif
-@if (!empty ($errors->comment->all()))
+@if (!empty ($errors->all()))
 <div class="pad3 error">
-@foreach ($errors->comment->all() as $message)
+@foreach ($errors->all() as $message)
 <p>{{ $message }}</p>
 @endforeach
 	</div>
@@ -45,19 +45,18 @@
 				<a class="delFoto" href="{{route('ank.diary.comment.delete.photo.id', $comment->id)}}">удалить</a>
 			</td>
 			<td>
-				<input type="file" class="login" size="25" name="photo_link"  />
+				<input type="file" class="login" size="25" name="photo"  />
 			</td>
 		</tr>
 		@else
 		<tr>
 			<td cplspan="2">
-				<input type="file" class="login" size="25" name="photo_link"  />
+				<input type="file" class="login" size="25" name="photo"  />
 			</td>
 		</tr>														
 		@endif
 		<tr>
 			<td colspan="2" align="center">
-				<input type="hidden" name="otsil" value="1" />
 				<x-submit name="send" onclick="find_otsil()" value="обновить запись" />
 			</td>
 		</tr>

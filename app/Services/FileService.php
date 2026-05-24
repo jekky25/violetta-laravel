@@ -213,13 +213,13 @@ class FileService
 	*/
 	public function outDiaryCommentPicture(string $picture, $sex)
 	{
-		return $this->getPicture($picture, $sex, 'img/dnev_comment/', '');
+		return $this->getPicture($picture, $sex, config('photos.diary_comment_folder'), '');
 	}
 
 	/**
 	* out picture with storage path
 	*/
-	public function getPicture(int $picture, int $sex, string $path, string $ext): string
+	public function getPicture(int|string $picture, int $sex, string $path, string $ext): string
 	{
 		$ext			= !empty($ext) ? $ext : '';
 		$pic = is_numeric($picture) ? $picture . $ext : $picture;

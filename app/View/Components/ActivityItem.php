@@ -59,7 +59,10 @@ class ActivityItem extends Component
 	 */
 	private function getPictureSrc($item)
 	{
-		if (!empty($item->picture)) return $this->service->outDiaryPicture($item->picture, $item->user->sex);
+		if (!empty($item->picture)) 
+			return $this->type == 'comment' 
+				? $this->service->outDiaryCommentPicture($item->picture, $item->user->sex) 
+				: $this->service->outDiaryPicture($item->picture, $item->user->sex);
 		if (!empty($item->foto_user_id)) return $this->service->outPicture($item->foto_user_id, $item->user->sex);
 		return null;
 	}

@@ -1,4 +1,5 @@
 <?php
 return [
-	'folder' => 'fotos_new/'
+	'folder' => 'fotos_new/',
+	'diary_comment_folder' => 'img/dnev_comment/'
 ];

@@ -15,6 +15,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Top100Controller;
 use App\Http\Controllers\ConfirmController;
 use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\DiaryCommentController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\ProfileBrowseController;
 use App\Http\Controllers\ProfileFeedController;
@@ -60,14 +61,13 @@ Route::middleware('slashes')->group(function () {
 		Route::delete('privmsg/post/delete/{id}.html', 'PrivmsgController@destroyAction')				->whereNumber('id')		->name('privmsg.post.delete.action');
 		Route::post('privmsg/post/add/{id}.html', 'PrivmsgController@store')							->whereNumber('id')		->name('privmsg.post.add');
 
-		Route::get('ank/diary/comment/edit/{id}.html', 'DiaryCommentController@edit')					->whereNumber('id')		->name('ank.diary.comment.edit.id');
-		Route::put('ank/diary/comment/edit/{id}.html', 'DiaryCommentController@update')					->whereNumber('id')		->name('ank.diary.comment.update.id');
-		Route::get('ank/diary/comment/delete/photo/{id}.html', 'DiaryCommentController@destroyPhoto')	->whereNumber('id')		->name('ank.diary.comment.delete.photo.id');
+		Route::get('ank/diary/comment/edit/{id}.html', [DiaryCommentController::class, 'edit'])			->whereNumber('id')		->name('ank.diary.comment.edit.id');
+		Route::put('ank/diary/comment/edit/{id}.html', [DiaryCommentController::class, 'update'])		->whereNumber('id')		->name('ank.diary.comment.update.id');
+		Route::get('ank/diary/comment/delete/photo/{id}.html', 'PhotoDiaryCommentController@destroyPhoto')	->whereNumber('id')		->name('ank.diary.comment.delete.photo.id');
 
-		Route::delete('ank/diary/comment/delete/photo/{id}.html', 'DiaryCommentController@destroyPhotoAction')->whereNumber('id')->name('ank.diary.comment.delete.photo.action.id');
-		Route::get('ank/diary/comment/delete/{id}.html', 'DiaryCommentController@destroy')				->whereNumber('id')		->name('ank.diary.comment.delete.id');
-		Route::delete('ank/diary/comment/delete/{id}.html', 'DiaryCommentController@destroyAction')		->whereNumber('id')		->name('ank.diary.comment.delete.action.id');
-		Route::post('ank/diary/comment/{id}/add.html', 'DiaryCommentController@store')					->whereNumber('id')		->name('ank.diary.comment.add');
+		Route::delete('ank/diary/comment/delete/photo/{id}.html', 'PhotoDiaryCommentController@destroyPhotoAction')->whereNumber('id')->name('ank.diary.comment.delete.photo.action.id');
+		Route::delete('ank/diary/comment/delete/{id}.html', [DiaryCommentController::class, 'destroy'])	->whereNumber('id')		->name('ank.diary.comment.delete.id');
+		Route::post('ank/diary/comment/{id}/add.html', [DiaryCommentController::class, 'store'])		->whereNumber('id')		->name('ank.diary.comment.add');
 		Route::get('ank/diary/edit/{id}.html', 'DiaryController@edit')									->whereNumber('id')		->name('ank.diary.edit.id');
 		Route::put('ank/diary/edit/{id}.html', 'DiaryController@update')								->whereNumber('id')		->name('ank.diary.edit.update.id');
 		Route::get('ank/diary/delete/photo/{id}.html', 'DiaryController@destroyPhoto')					->whereNumber('id')		->name('ank.diary.delete.photo.id');
@@ -88,7 +88,7 @@ Route::middleware('slashes')->group(function () {
 	Route::post('registration/', [RegistrationController::class, 'store'])														->name('registration.post');
 	Route::get('registration/confirm/{id}/{code}/', [ConfirmController::class, 'confirm'])				->whereNumber('id')		->name('registration.confirm');
 
-	Route::get('ank/diary/comments/{id}.html', 'DiaryCommentController@index')											->whereNumber('id')		->name('ank.diary.comments');
+	Route::get('ank/diary/comments/{id}.html', [DiaryCommentController::class, 'index'])								->whereNumber('id')		->name('ank.diary.comments');
 	Route::get('ank/diary/{id}.html', 'DiaryController@show')															->whereNumber('id')		->name('ank.diary.id');
 	Route::get('ank/f/{id}/', [ProfileController::class, 'showFull'])													->whereNumber('id')		->name('ank.full.id');
 	Route::get('ank/{id}/', [ProfileController::class, 'show'])															->whereNumber('id')		->name('ank.id');

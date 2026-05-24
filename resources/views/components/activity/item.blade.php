@@ -4,7 +4,14 @@
 		<div class="active-item-right">
 			@if (!empty($user) && $user->id == $item->user_id)
 			<a class="edit" title="редактировать" href="{{route($routeEdit, $item->id)}}"></a>
-			<a class="delete" title="удалить" href="{{route($routeDelete, $item->id)}}"></a>
+			<a 
+						class="delete open-modal"
+						title="удалить"
+						href="javascript:void(0);"
+						data-url="{{route($routeDelete, $item->id)}}"
+						data-title="Удаление записи"
+						data-text="Вы уверены, что хотите удалить запись?"
+						></a>
 			@endif
 			<span class="active-item-time">{{ $item->add_time }}</span>
 		</div>

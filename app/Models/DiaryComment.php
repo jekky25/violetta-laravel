@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Traits\HasUserId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 class DiaryComment extends Model
 {
@@ -23,33 +22,6 @@ class DiaryComment extends Model
 
 	public $timestamps 		= false;
 	protected $primaryKey 	= 'id';
-
-	public static function boot()
-	{
-		parent::boot();
-		self::creating(function ($model) {
-			self::prepare($model);
-			$model->diary_id	= request('id');
-		});
-		self::updating(function ($model) {
-			self::prepare($model);
-		});
-	}
-
-	/**
-	 * Preparating params before create or update this model
-	 *
-	 * @param  DiaryComment $model
-	 * @return void
-	 */
-	protected static function prepare($model)
-	{
-		$model->create_time		= time();
-		$model->title			= strip_tags($model->title, "<b><strong><i>");
-		$model->description		= strip_tags($model->description, "<b><strong><i>");
-		$user					= Auth::user();
-		$model->user_id			= $user->id;
-	}
 
 	public function getAddTimeAttribute()
 	{
@@ -79,6 +51,16 @@ class DiaryComment extends Model
 	public function getNameClassAttribute()
 	{
 		return  $this->user_sex == MEN ? 'name_man' : 'name_woman';
+	}
+
+	public function setTitleAttribute($val)
+	{
+		$this->attributes['title'] = strip_tags($val, "<b><strong><i>");
+	}
+
+	public function setDescriptionAttribute($val)
+	{
+		$this->attributes['description'] = strip_tags($val, "<b><strong><i>");
 	}
 
 	/***********************************
