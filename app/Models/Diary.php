@@ -45,7 +45,7 @@ class Diary extends Model
 		$model->description		= strip_tags($model->description, "<b><strong><i>");
 		$model->create_time		= time();
 		$user					= Auth::user();
-		$model->user_id			= $user->id;
+		if($user !== null) $model->user_id = $user->id;
 	}
 
 	public function getDiaryImgAttribute()

@@ -11,7 +11,6 @@ class DiaryComment extends Model
 	use HasFactory, HasUserId;
 	protected $table = 'dnevniki_comments';
 	protected $fillable = [
-		'id',
 		'diary_id',
 		'user_id',
 		'title',

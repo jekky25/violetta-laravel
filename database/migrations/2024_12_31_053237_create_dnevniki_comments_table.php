@@ -13,7 +13,7 @@ return new class extends Migration
 	{
 		if (!Schema::hasTable('dnevniki_comments')) {
 			Schema::create('dnevniki_comments', function (Blueprint $table) {
-				$table->integer('comment_id');
+				$table->integer('comment_id')->autoIncrement();
 				$table->integer('comment_dnevnik_id');
 				$table->integer('comment_dnevnik_user_id');
 				$table->string('comment_title');
@@ -22,10 +22,6 @@ return new class extends Migration
 				$table->integer('comment_time');
 			});
 		}
-
-		Schema::table('dnevniki_comments', function (Blueprint $table) {
-            $table->primary('comment_id');
-        });
 	}
 
 	/**
@@ -33,9 +29,6 @@ return new class extends Migration
 	 */
 	public function down(): void
 	{
-		Schema::table('dnevniki_comments', function (Blueprint $table) {
-			$table->dropPrimary('comment_id');
-		});
 		Schema::dropIfExists('dnevniki_comments');
 	}
 };
