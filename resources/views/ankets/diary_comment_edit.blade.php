@@ -42,7 +42,14 @@
 		<tr>
 			<td>
 				<img width="100" src="{{ (new FileService)->outDiaryCommentPicture($comment->picture, $userData->sex) }}" alt="" style="vertical-align:middle; margin-right:20px;" />
-				<a class="delFoto" href="{{route('ank.diary.comment.delete.photo.id', $comment->id)}}">удалить</a>
+				<a 
+					class="delFoto open-modal"
+					title="удалить"
+					href="javascript:void(0);"
+					data-url="{{route('ank.diary.comment.delete.photo.id', $comment->id)}}"
+					data-title="Удаление фото"
+					data-text="Вы уверены, что хотите удалить фото?"
+				>удалить</a>
 			</td>
 			<td>
 				<input type="file" class="login" size="25" name="photo"  />

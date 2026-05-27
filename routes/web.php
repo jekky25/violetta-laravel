@@ -17,6 +17,7 @@ use App\Http\Controllers\ConfirmController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\DiaryCommentController;
 use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\PhotoDiaryCommentController;
 use App\Http\Controllers\ProfileBrowseController;
 use App\Http\Controllers\ProfileFeedController;
 use App\Http\Controllers\ProfileSearchController;
@@ -63,9 +64,8 @@ Route::middleware('slashes')->group(function () {
 
 		Route::get('ank/diary/comment/edit/{id}.html', [DiaryCommentController::class, 'edit'])			->whereNumber('id')		->name('ank.diary.comment.edit.id');
 		Route::put('ank/diary/comment/edit/{id}.html', [DiaryCommentController::class, 'update'])		->whereNumber('id')		->name('ank.diary.comment.update.id');
-		Route::get('ank/diary/comment/delete/photo/{id}.html', 'PhotoDiaryCommentController@destroyPhoto')	->whereNumber('id')		->name('ank.diary.comment.delete.photo.id');
+		Route::delete('ank/diary/comment/delete/photo/{id}.html', [PhotoDiaryCommentController::class, 'destroy'])	->whereNumber('id')		->name('ank.diary.comment.delete.photo.id');
 
-		Route::delete('ank/diary/comment/delete/photo/{id}.html', 'PhotoDiaryCommentController@destroyPhotoAction')->whereNumber('id')->name('ank.diary.comment.delete.photo.action.id');
 		Route::delete('ank/diary/comment/delete/{id}.html', [DiaryCommentController::class, 'destroy'])	->whereNumber('id')		->name('ank.diary.comment.delete.id');
 		Route::post('ank/diary/comment/{id}/add.html', [DiaryCommentController::class, 'store'])		->whereNumber('id')		->name('ank.diary.comment.add');
 		Route::get('ank/diary/edit/{id}.html', 'DiaryController@edit')									->whereNumber('id')		->name('ank.diary.edit.id');
