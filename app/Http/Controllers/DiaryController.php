@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Interfaces\DiaryInterface;
-use App\Interfaces\UserInterface;
+use Illuminate\View\View;
 use App\Requests\DiaryRequest;
-use App\Services\MessageService;
-use App\Services\FileService;
+use App\Services\DiaryService;
+use App\DTO\DiaryDTO;
 
 class DiaryController extends Controller
 {
@@ -20,35 +19,25 @@ class DiaryController extends Controller
 	 */
 
 	public function __construct(
-		protected DiaryInterface $diaryRepository,
-		protected UserInterface $userRepository,
-		protected MessageService $messageService,
-		protected FileService $fileService
+		protected DiaryService $service
 	) {}
 
 	/**
 	 * show the page with diaries
+	 * @return View
 	 */
 	public function index()
 	{
-		return response()->view('diaries', [ 
-			'diaries' => $this->diaryRepository->getAll(config('pagination.diaries'))
-		]);
+		return view('diaries', ['diaries' => $this->service->index(config('pagination.diaries'))]);
 	}
 
 	/**
-	 * Show a user diary page
-	 * @return \Illuminate\Http\Response
+	 * Show an auth user diary page
+	 * @return View
 	 */
-	public function diary()
+	public function myDiaries()
 	{
-		$diaries 		= $this->diaryRepository->getByUser(config('pagination.diaries_user'), Auth::id());
-		return response()->view(
-			'registration.diary',
-			[
-				'diaries' 		=> $diaries
-			]
-		);
+		return view('registration.diary', ['diaries' => $this->service->myDiaries(config('pagination.diaries_user'), Auth()->user())]);
 	}
 
 	/**
@@ -58,8 +47,8 @@ class DiaryController extends Controller
 	 */
 	public function store(DiaryRequest $request)
 	{
-		$user 			= Auth::user();
-		$this->diaryRepository->store($request->validated());
+		$dto = DiaryDTO::fromRequest($request->validated());
+		$this->service->create($dto, auth()->user());
 		return redirect()->back()
 			->with('success', 'Дневник успешно добавлен')
 			->withInput();
@@ -68,40 +57,25 @@ class DiaryController extends Controller
 	/**
 	 * show an user diary page
 	 * @param  int $id
-	 * @return \Illuminate\Http\Response
+	 * @return View
 	 */
-	public function show($id)
+	public function show(int $id)
 	{
-		$anket 	= $this->userRepository->getById($id);
-		if (empty($anket->photo)) abort(404);
-
-		$diaries = $this->diaryRepository->getByUser(config('pagination.diaries_user'), $id);
-		if (count($diaries) == 0) abort(404);
-		$page 				= $diaries->currentPage();
-		return response()->view(
-			'ankets.diary',
-			[
-				'userData'		=> $anket,
-				'diaries'		=> $diaries,
-				'page'			=> $page
-			]
-		);
+		return view('ankets.diary', $this->service->getShowData(config('pagination.diaries_user'), $id));
 	}
 
 	/**
 	 * show edit diary page
 	 * @param  int $id
-	 * @return \Illuminate\Http\Response
+	 * @return View
 	 */
-	public function edit($id)
+	public function edit(int $id)
 	{
-		$user			= Auth::user();
-		$diary			= $this->diaryRepository->getByUserAndId($id, $user->id);
-		return response()->view(
-			'ankets.diary_edit',
+		$user = Auth()->user();
+		return view('ankets.diary_edit',
 			[
 				'userData'		=> $user,
-				'diary'			=> $diary,
+				'diary'			=> $this->service->edit($id, $user)
 			]
 		);
 	}
@@ -112,12 +86,11 @@ class DiaryController extends Controller
 	 * @param  int $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(DiaryRequest $request, $id)
+	public function update(DiaryRequest $request, int $id)
 	{
-		$user			= Auth::user();
-		$diary			= $this->diaryRepository->getByUserAndId($id, $user->id);
-		$this->diaryRepository->update($diary, $request);
-		return redirect()->route('ank.diary.id', $user->id)
+		$dto = DiaryDTO::fromRequest($request->validated());
+		$diary = $this->service->update($id, auth()->user(), $dto);
+		return redirect()->route('ank.diary.id', $diary->user_id)
 			->with('success', 'Дневник был обновлен')
 			->withInput();
 	}
@@ -125,70 +98,11 @@ class DiaryController extends Controller
 	/**
 	 * delete the user diary
 	 * @param  int $id
-	 * @return void
+	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($id)
+	public function destroy(int $id)
 	{
-		$user			= Auth::user();
-		$this->diaryRepository->getByUserAndId($id, $user->id);
-		$title			= 'Информация';
-		$text			= 'Вы уверены, что хотите удалить эту запись<br /><br />';
-		$confirmAction	= route('ank.diary.delete.id', $id);
-		$this->messageService->outMessageInfo($title, $text, $confirmAction, method_field('DELETE'));
-	}
-
-	/**
-	 * delete the user diary confirm or cansel
-	 * @param  DiaryRequest  $request
-	 * @param  int $id
-	 * @return void
-	 */
-	public function destroyAction(DiaryRequest $request, $id)
-	{
-		$user			= Auth::user();
-		$diary			= $this->diaryRepository->getByUserAndId($id, $user->id);
-		$arParams		= $request->post();
-		if (!empty($arParams['cancel'])) return redirect()->route('ank.diary.id', $user->id);
-		if (!empty($arParams['confirm'])) {
-			$this->diaryRepository->delete($diary);
-			return redirect()->route('ank.diary.id', $user->id);
-		}
-	}
-
-	/**
-	 * delete the picture of the diary
-	 * @param  int $id
-	 * @return void
-	 */
-	public function destroyPhoto($id)
-	{
-		$user			= Auth::user();
-		$this->diaryRepository->getByUserAndId($id, $user->id);
-		$title			= 'Информация';
-		$text			= 'Вы уверены, что хотите удалить это фото<br /><br />';
-		$confirmAction	= route('ank.diary.delete.photo.id', $id);
-		$this->messageService->outMessageInfo($title, $text, $confirmAction, method_field('DELETE'));
-	}
-
-	/**
-	 * delete the picture of the diary confirm or cansel
-	 * @param  Illuminate\Http\Request $request
-	 * @param  int $id
-	 * @return void
-	 */
-	public function destroyPhotoAction(Request $request, $id)
-	{
-		$user			= Auth::user();
-		$diary			= $this->diaryRepository->getByUserAndId($id, $user->id);
-		$arParams		= $request->post();
-		if (!empty($arParams['cancel'])) return redirect()->route('ank.diary.edit.id', $id);
-		if (!empty($arParams['confirm'])) {
-			$this->fileService->remove($diary->picture_url);
-			$diary->picture = 0;
-			$request->title				= $diary->title;
-			$request->description		= $diary->description;
-			$this->diaryRepository->update($diary, $request);
-			return redirect()->route('ank.diary.edit.id', $id);
-		}
+		$diary = $this->service->destroy($id, request()->user());
+		return redirect()->route('ank.diary.id', $diary->user_id);
 	}
 }

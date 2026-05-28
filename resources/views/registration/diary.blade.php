@@ -35,9 +35,9 @@ function addfile(id)
 @if(session('success'))
 <p class="mess">{{session('success')}}</p>
 @endif
-@if (!empty ($errors->comment->all()))
+@if (!empty ($errors->all()))
 <p class="pad3 error">Ошибка:
-@foreach ($errors->comment->all() as $item)
+@foreach ($errors->all() as $item)
 {{ $item }}
 @endforeach
 </p>
@@ -67,7 +67,7 @@ function addfile(id)
 		</tr>
 	</table>
 	<div id="file">
-		<input type="file" class="login" size="45" name="photo_link" />
+		<input type="file" class="login" size="45" name="photo" />
 	</div>
 </form>
 @overwrite

@@ -106,21 +106,11 @@ class DiaryRepository implements DiaryInterface
 
 	/**
 	 * update a diary
-	 * @param  Diary $comment
-	 * @param  DiaryRequest $request
-	 * @return void
 	 */
-	public function update($diary, $request)
+	public function update(int $diaryId, array $data): void
 	{
 		try {
-			if (!empty($request->photo_link)) {
-				$picture = $this->fileService->fotoUpload($request->photo_link, 0, 'img/dnevnik/');
-			}
-			Diary::find($diary->id)->update([
-				'title'			=> $request->title,
-				'description'	=> $request->description,
-				'picture'		=> !empty($picture) ? $picture : $diary->picture
-			]);
+			Diary::find($diaryId)->update($data);
 		} catch (\Exception $e) {
 			throw new \Exception('Failed to update Diary. ' . $e->getMessage());
 		}
@@ -134,7 +124,6 @@ class DiaryRepository implements DiaryInterface
 	public function delete($diary)
 	{
 		try {
-			$this->fileService->remove($diary->picture_url);
 			$diary->comments()->delete();
 			$diary->delete();
 		} catch (\Exception $e) {

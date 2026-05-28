@@ -3,7 +3,6 @@
 namespace App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Route;
 
 class DiaryRequest extends FormRequest
@@ -11,20 +10,6 @@ class DiaryRequest extends FormRequest
 	private $routeDelete		= 'ank.diary.delete.id';
 	private $routeDeleteActive	= 'ank.diary.delete.action.id';
 	private $routeEdit			= 'ank.diary.edit.id';
-
-	/**
-	* replace array errors from default to commit
-	* @param  Illuminate\Contracts\Validation\Validator  $validator
-	* @return void
-	*/
-	public function failedValidation(Validator $validator)
-	{
-		$exception = $validator->getException();
-		$this->errorBag = 'comment';
-		throw (new $exception($validator))
-					->errorBag($this->errorBag)
-					->redirectTo($this->getRedirectUrl());
-	}
 
 	/**
 	* messages for the request
@@ -39,8 +24,8 @@ class DiaryRequest extends FormRequest
 			'title.required'		=> 'Заголовок не заполнен',
 			'title.max'				=> 'Заголовок слишком длинный',
 			'title.min'				=> 'Заголовок слишком короткий',
-			'photo_link.image'		=> 'Файл не является изображением',
-			'photo_link.max'		=> 'Файл слишком большой',
+			'photo.image'			=> 'Файл не является изображением',
+			'photo.max'				=> 'Файл слишком большой',
 		];
 	}
 
@@ -54,7 +39,7 @@ class DiaryRequest extends FormRequest
 		return [
 			'description'	=> ['required', 'max:3000', 'min:2'],
 			'title'			=> ['required', 'max:255', 'min:2'],
-			'photo_link'	=> ['file', 'image', 'max:4048'],
+			'photo'			=> ['file', 'image', 'max:4048'],
 		];
 	}
 

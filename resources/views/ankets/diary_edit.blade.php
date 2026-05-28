@@ -16,9 +16,9 @@ function find_otsil()
 @if(session('success'))
 <p class="mess">{{session('success')}}</p>
 @endif
-@if (!empty ($errors->comment->all()))
+@if (!empty ($errors->all()))
 <div class="pad3 error">
-@foreach ($errors->comment->all() as $message)
+@foreach ($errors->all() as $message)
 <p>{{ $message }}</p>
 @endforeach
 	</div>
@@ -45,13 +45,13 @@ function find_otsil()
 				<a class="delFoto" href="{{route('ank.diary.delete.photo.id', $diary->id)}}">удалить</a>
 			</td>
 			<td>
-				<input type="file" class="login" size="25" name="photo_link"  />
+				<input type="file" class="login" size="25" name="photo"  />
 			</td>
 		</tr>
 		@else
 		<tr>
 			<td cplspan="2">
-				<input type="file" class="login" size="25" name="photo_link"  />
+				<input type="file" class="login" size="25" name="photo"  />
 			</td>
 		</tr>														
 		@endif

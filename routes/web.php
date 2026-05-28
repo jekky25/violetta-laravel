@@ -35,7 +35,7 @@ use App\Http\Controllers\WebAuthController;
 */
 Route::middleware('slashes')->group(function () {
 	Route::middleware('auth')->group(function () {
-		Route::get('registration/edit/diary/', [DiaryController::class, 'diary'])												->name('registration.edit.diary');
+		Route::get('registration/edit/diary/', [DiaryController::class, 'myDiaries'])												->name('registration.edit.diary');
 		Route::get('registration/edit/settings/', [SettingsController::class, 'index'])											->name('registration.edit.settings');
 		Route::put('registration/edit/settings/', [SettingsController::class, 'update'])										->name('registration.edit.settings.post');
 		Route::get('registration/edit/', [ProfileController::class, 'editMain'])												->name('registration.edit');
@@ -68,13 +68,12 @@ Route::middleware('slashes')->group(function () {
 
 		Route::delete('ank/diary/comment/delete/{id}.html', [DiaryCommentController::class, 'destroy'])	->whereNumber('id')		->name('ank.diary.comment.delete.id');
 		Route::post('ank/diary/comment/{id}/add.html', [DiaryCommentController::class, 'store'])		->whereNumber('id')		->name('ank.diary.comment.add');
-		Route::get('ank/diary/edit/{id}.html', 'DiaryController@edit')									->whereNumber('id')		->name('ank.diary.edit.id');
-		Route::put('ank/diary/edit/{id}.html', 'DiaryController@update')								->whereNumber('id')		->name('ank.diary.edit.update.id');
-		Route::get('ank/diary/delete/photo/{id}.html', 'DiaryController@destroyPhoto')					->whereNumber('id')		->name('ank.diary.delete.photo.id');
-		Route::delete('ank/diary/delete/photo/{id}.html', 'DiaryController@destroyPhotoAction')			->whereNumber('id')		->name('ank.diary.delete.photo.action.id');
-		Route::get('ank/diary/delete/{id}.html', 'DiaryController@destroy')								->whereNumber('id')		->name('ank.diary.delete.id');
-		Route::delete('ank/diary/delete/{id}.html', 'DiaryController@destroyAction')					->whereNumber('id')		->name('ank.diary.delete.action.id');
-		Route::post('ank/diary/add.html', 'DiaryController@store')																->name('ank.diary.add');
+		Route::get('ank/diary/edit/{id}.html', [DiaryController::class, 'edit'])						->whereNumber('id')		->name('ank.diary.edit.id');
+		Route::put('ank/diary/edit/{id}.html', [DiaryController::class, 'update'])						->whereNumber('id')		->name('ank.diary.edit.update.id');
+		Route::get('ank/diary/delete/photo/{id}.html', 'PhotoDiaryController@destroyPhoto')					->whereNumber('id')		->name('ank.diary.delete.photo.id');
+		Route::delete('ank/diary/delete/photo/{id}.html', 'PhotoDiaryController@destroyPhotoAction')			->whereNumber('id')		->name('ank.diary.delete.photo.action.id');
+		Route::delete('ank/diary/delete/{id}.html', [DiaryController::class, 'destroy'])					->whereNumber('id')		->name('ank.diary.delete.id');
+		Route::post('ank/diary/add.html', [DiaryController::class, 'store'])													->name('ank.diary.add');
 		Route::get('ank/photo/{userId}.html', [PhotoController::class, 'showMain'])						->whereNumber('userId')		->name('ank.photo.id');
 		Route::get('ank/f/photo_{id}/', [PhotoController::class, 'show'])								->whereNumber('id')		->name('ank.photo.photo_id');
 
@@ -89,7 +88,7 @@ Route::middleware('slashes')->group(function () {
 	Route::get('registration/confirm/{id}/{code}/', [ConfirmController::class, 'confirm'])				->whereNumber('id')		->name('registration.confirm');
 
 	Route::get('ank/diary/comments/{id}.html', [DiaryCommentController::class, 'index'])								->whereNumber('id')		->name('ank.diary.comments');
-	Route::get('ank/diary/{id}.html', 'DiaryController@show')															->whereNumber('id')		->name('ank.diary.id');
+	Route::get('ank/diary/{id}.html', [DiaryController::class, 'show'])													->whereNumber('id')		->name('ank.diary.id');
 	Route::get('ank/f/{id}/', [ProfileController::class, 'showFull'])													->whereNumber('id')		->name('ank.full.id');
 	Route::get('ank/{id}/', [ProfileController::class, 'show'])															->whereNumber('id')		->name('ank.id');
 
@@ -125,7 +124,7 @@ Route::middleware('slashes')->group(function () {
 	Route::get('dreambook/op{id}.html', 'DreamBookController@index')													->whereNumber('id')		->name('dreambook.literal');
 	Route::get('dreambook/{id}.html', 'DreamBookController@show')														->whereNumber('id')		->name('dreambook.id');
 	Route::get('dreambook.html', 'DreamBookController@index')																					->name('dreambook');
-	Route::get('ank/diaries.html', 'DiaryController@index')																						->name('diaries');
+	Route::get('ank/diaries.html', [DiaryController::class, 'index'])																			->name('diaries');
 	Route::get('review/', 'ReviewController@index')																								->name('review');
 
 	Route::get('search/', [ProfileSearchController::class, 'search'])																			->name('search');
