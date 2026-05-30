@@ -20,7 +20,9 @@ class PhotoDiaryService
 	{
 		$diary			= $this->diaryRepository->getByUserAndId($id, $user->id);
 		try {
-			$data['picture'] = 0;
+			$data = [
+				'picture' => 0
+			];
 			$this->fileService->remove($diary->picture_url);
 			$this->diaryRepository->update($id, $data);
 		} catch (\Exception $e) {
