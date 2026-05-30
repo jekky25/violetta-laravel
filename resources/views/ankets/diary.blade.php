@@ -55,14 +55,13 @@ function addfile(id)
 		<tr>
 			<td width="50%" align="right">
 				<a class="screpka" href="javascript:addfile('file')"></a></td>
-			<td width="50%"><input type="hidden" name="otsil" value="1" />
-				<input type="hidden" name="add" value="1" />
+			<td width="50%">
 				<x-submit name="send" onclick="find_otsil()" value="добавить запись" />
 			</td>
 		</tr>
 	</table>	
 	<div id="file">
-		<input type="file" class="login" size="45" name="photo_link" />
+		<input type="file" class="login" size="45" name="photo" />
 	</div>
 </form>
 @endif
