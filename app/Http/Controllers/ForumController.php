@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Interfaces\ForumInterface;
 use App\Http\Resources\Forum\ForumShortResource;
+use App\Services\ForumService;
 
 class ForumController extends Controller
 {
@@ -15,7 +15,7 @@ class ForumController extends Controller
 	 * @return void
 	 */
 	public function __construct(
-		protected ForumInterface $forumRepository
+		protected ForumService $service
 	) {}
 
 	/**
@@ -27,9 +27,13 @@ class ForumController extends Controller
 		return false;
 	}
 
+	/**
+	 * get a top block with the latest topics
+	 * 
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getTop()
 	{
-		$forums = $this->forumRepository->getTop();
-		return ForumShortResource::collection($forums);
+		return ForumShortResource::collection($this->service->getTop());
 	}
 }

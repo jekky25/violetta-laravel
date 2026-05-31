@@ -16,7 +16,9 @@ use App\Http\Controllers\Top100Controller;
 use App\Http\Controllers\ConfirmController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\DiaryCommentController;
+use App\Http\Controllers\DreamBookController;
 use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\ForumController;
 use App\Http\Controllers\PhotoDiaryCommentController;
 use App\Http\Controllers\PhotoDiaryController;
 use App\Http\Controllers\ProfileBrowseController;
@@ -116,14 +118,14 @@ Route::middleware('slashes')->group(function () {
 																																				->name('population_search');
 	Route::get('birthday_search/', [ProfileFeedController::class, 'birthday'])																	->name('birthday_search');
 
-	Route::post('screensaver/download/{id}.html', [ScreenDownloadController::class, 'download'])							->whereNumber('id')		->name('screensavers.id.download');
+	Route::post('screensaver/download/{id}.html', [ScreenDownloadController::class, 'download'])						->whereNumber('id')		->name('screensavers.id.download');
 	Route::post('screensaver/{id}.html', [CommentScreenController::class, 'store'])										->whereNumber('id')		->name('screensavers.id.store');
 	Route::get('screensaver/{id}.html', [ScreenController::class, 'show'])												->whereNumber('id')		->name('screensavers.id');
 	Route::get('screensavers.html', [ScreenController::class, 'index'])																			->name('screensavers');
 
-	Route::get('dreambook/op{id}.html', 'DreamBookController@index')													->whereNumber('id')		->name('dreambook.literal');
-	Route::get('dreambook/{id}.html', 'DreamBookController@show')														->whereNumber('id')		->name('dreambook.id');
-	Route::get('dreambook.html', 'DreamBookController@index')																					->name('dreambook');
+	Route::get('dreambook/op{id}.html', [DreamBookController::class, 'index'])											->whereNumber('id')		->name('dreambook.literal');
+	Route::get('dreambook/{id}.html', [DreamBookController::class, 'show'])												->whereNumber('id')		->name('dreambook.id');
+	Route::get('dreambook.html', [DreamBookController::class, 'index'])																					->name('dreambook');
 	Route::get('ank/diaries.html', [DiaryController::class, 'index'])																			->name('diaries');
 	Route::get('review/', 'ReviewController@index')																								->name('review');
 
@@ -147,7 +149,7 @@ require_once __DIR__.'/WebRoutes/PhotoComment.php';
 /*ajax */
 Route::get('/', 'HomeController@index')																											->name('home');
 
-Route::get('forum/', 'ForumController@index')																									->name('forum');
+Route::get('forum/', [ForumController::class, 'index'])																							->name('forum');
 Route::get('forum/topic_{$forum_id}_{$topic_id}.html', 'ForumController@index')																	->name('forum.topic');
 
 Route::get('/migr', function () {

@@ -7,6 +7,7 @@ use App\Http\Controllers\RegionController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ProfileBrowseController;
 use App\Http\Controllers\EvaulationController;
+use App\Http\Controllers\ForumController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/top100/{sex}', [ProfileBrowseController::class, 'top100'])->whereNumber('sex')->name('profile.get.top100');
-Route::get('/forum/top', 'ForumController@getTop')->name('forum.get.top');
+Route::get('/forum/top', [ForumController::class, 'getTop'])->name('forum.get.top');
 Route::get('/statistics/', 'StatisticsController@get')->name('statistics.get');
 Route::get('/auth/', [ApiAuthController::class, 'me'])->middleware('web')->name('auth.get');
 Route::post('/login/', [ApiAuthController::class, 'login'])->middleware('web')->name('login.api');
