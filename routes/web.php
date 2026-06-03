@@ -147,7 +147,7 @@ Route::middleware('slashes')->group(function () {
 		return response()->view ('conditions'); 
 	})																																			->name('conditions');
 });
-require_once __DIR__.'/WebRoutes/PhotoComment.php';
+require __DIR__.'/WebRoutes/PhotoComment.php';
 /*ajax */
 Route::get('/', [HomeController::class, 'index'])																											->name('home');
 
