@@ -41,9 +41,9 @@
 @if(session('success'))
   <div class="success">{{session('success')}}</div>
 @else
-@if (!empty ($errors->comment->all()))
+@if (!empty ($errors->all()))
 <div class="error">
-@foreach ($errors->comment->all() as $message)
+@foreach ($errors->all() as $message)
 <p>{{ $message }}</p>
 @endforeach
 	</div>

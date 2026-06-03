@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PhotoCommentController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -13,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['slashes', 'auth'])->group(function () {
-	Route::post('ank/photo/{id}.html', 'PhotoCommentController@store')->whereNumber('id')->name('ank.photo.id.post.comment');
+	Route::post('ank/photo/{id}.html', [PhotoCommentController::class, 'store'])->whereNumber('id')->name('ank.photo.id.post.comment');
 });

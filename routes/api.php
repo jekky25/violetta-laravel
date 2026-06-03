@@ -8,6 +8,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\ProfileBrowseController;
 use App\Http\Controllers\EvaulationController;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,9 +30,9 @@ Route::get('/forum/top', [ForumController::class, 'getTop'])->name('forum.get.to
 Route::get('/statistics/', 'StatisticsController@get')->name('statistics.get');
 Route::get('/auth/', [ApiAuthController::class, 'me'])->middleware('web')->name('auth.get');
 Route::post('/login/', [ApiAuthController::class, 'login'])->middleware('web')->name('login.api');
-Route::get('/new_faces/', 'HomeController@newFaces')->name('newfaces.get');
+Route::get('/new_faces/', [HomeController::class, 'newFaces'])->name('newfaces.get');
 
-Route::get('/home/diaries/', 'HomeController@diaries')->name('home.diaries');
+Route::get('/home/diaries/', [HomeController::class, 'diaries'])->name('home.diaries');
 
 Route::get('/regions/{countryId}/', [RegionController::class, 'index'])->whereNumber('countryId')->name('regionsByCountry');
 Route::get('/cities/{regionId}/', [CityController::class, 'index'])->whereNumber('regionId')->name('citiesByCountry');

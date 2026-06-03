@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Interfaces\CommentPhotoInterface;
 use App\Requests\PhotoCommentRequest;
+use App\Services\PhotoCommentService;
+use App\DTO\PhotoCommentDTO;
+
 
 class PhotoCommentController extends Controller
 {
@@ -15,7 +17,7 @@ class PhotoCommentController extends Controller
 	 * @return void
 	 */
 	public function __construct(
-		protected CommentPhotoInterface $commentPhotoRepository
+		protected PhotoCommentService $service
 	) {}
 
 	/**
@@ -26,7 +28,8 @@ class PhotoCommentController extends Controller
 	 */
 	public function store(PhotoCommentRequest $request, $id)
 	{
-		$this->commentPhotoRepository->store($request->validated());
+		$dto = PhotoCommentDTO::fromRequest($request->validated());
+		$this->service->create($id, auth()->user(), $dto);
 		return redirect()->back()
 			->with('success', 'Сообщение успешно отправлено')
 			->withInput();

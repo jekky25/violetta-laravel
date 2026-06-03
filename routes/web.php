@@ -19,6 +19,8 @@ use App\Http\Controllers\DiaryCommentController;
 use App\Http\Controllers\DreamBookController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NameController;
 use App\Http\Controllers\PhotoDiaryCommentController;
 use App\Http\Controllers\PhotoDiaryController;
 use App\Http\Controllers\ProfileBrowseController;
@@ -106,13 +108,13 @@ Route::middleware('slashes')->group(function () {
 	Route::get('goroskop/{id}.html', [HoroscopeController::class, 'show'])												->whereNumber('id')		->name('horoscope.id');
 	Route::get('goroskop.html', [HoroscopeController::class, 'index'])																			->name('horoscope');
 
-	Route::get('names/{sex}.html', 'NameController@getGender')															->where('sex', '(men|women)')
+	Route::get('names/{sex}.html', [NameController::class, 'getGender'])															->where('sex', '(men|women)')
 																																				->name('names.sex');
-	Route::get('names/{id}.html', 'NameController@show')																->whereNumber('id')		->name('names.id');
-	Route::get('names/{sex}/{id}.html', 'NameController@getGender')														->whereNumber('id')
+	Route::get('names/{id}.html', [NameController::class, 'show'])																->whereNumber('id')		->name('names.id');
+	Route::get('names/{sex}/{id}.html', [NameController::class, 'getGender'])														->whereNumber('id')
 															   															->where('sex', '(men|women)')
 																																				->name('names.subop');
-	Route::get('names.html', 'NameController@index')																							->name('names');
+	Route::get('names.html', [NameController::class, 'index'])																							->name('names');
 
 	Route::get('population_search/{sex?}/', [ProfileBrowseController::class, 'popular'])								->where('sex', '(men|women)')
 																																				->name('population_search');
@@ -147,7 +149,7 @@ Route::middleware('slashes')->group(function () {
 });
 require_once __DIR__.'/WebRoutes/PhotoComment.php';
 /*ajax */
-Route::get('/', 'HomeController@index')																											->name('home');
+Route::get('/', [HomeController::class, 'index'])																											->name('home');
 
 Route::get('forum/', [ForumController::class, 'index'])																							->name('forum');
 Route::get('forum/topic_{$forum_id}_{$topic_id}.html', 'ForumController@index')																	->name('forum.topic');

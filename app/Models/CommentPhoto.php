@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 class CommentPhoto extends Model
 {
@@ -18,18 +17,6 @@ class CommentPhoto extends Model
 		'time',
 		'description',
 	];
-
-	public static function boot()
-	{
-		parent::boot();
-		self::creating(function ($model) {
-			$model->time			= time();
-			$model->description		= str_replace("\'", "''", $model->description);
-			$user 					= Auth::user();
-			$model->user_id			= $user->id;
-			$model->foto_id			= request('id');
-		});
-	}
 
 	public function getAddTimeAttribute()
 	{
