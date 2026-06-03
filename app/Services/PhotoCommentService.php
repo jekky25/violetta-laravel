@@ -7,8 +7,6 @@ use App\Models\User;
 
 class PhotoCommentService
 {
-	protected $vars;
-
 	/**
 	* Create a new controller instance.
 	*
