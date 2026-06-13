@@ -158,7 +158,7 @@ Route::get('/migr', function () {
 	//	Artisan::call('make:migration create_users_table');
 	//    return "Миграция выполнена!";
 });
-	
+
 Route::get('/artis', function () {
 	//		Artisan::call('make:provider SapeServiceProvider');
 			//Artisan::call('make:model Hotel');

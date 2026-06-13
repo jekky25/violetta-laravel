@@ -4,6 +4,8 @@ namespace App\Services;
 use App\Interfaces\ScreenInterface;
 use App\Interfaces\CommentScreenInterface;
 use App\DTO\ScreenSaverPageDTO;
+use Illuminate\Support\Facades\Cache;
+use App\Helpers\CacheKeys;
 
 class ScreenService
 {
@@ -20,10 +22,14 @@ class ScreenService
 	/**
 	* get list of the screensavers
 	*/
-	public function getList(int $perPage)
-	{
-		return $this->repository->get($perPage);
-	}
+    public function getList(int $perPage)
+    {
+        return Cache::remember(
+			CacheKeys::screensList($perPage, request('page', 1)),
+			config('cache_ttl.screens.all'),
+            fn() => $this->repository->get($perPage)
+        );
+    }	
 
 	/**
 	* get data for the screensaver page

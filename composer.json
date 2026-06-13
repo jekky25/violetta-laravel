@@ -10,7 +10,8 @@
         "j25/google-captcha": "^2.0",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "predis/predis": "*"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^2.0",

@@ -11,13 +11,18 @@ class Screen extends Model
 	protected $table 	= 'screensavers';
 	public $timestamps 	= false;
 
-	public function getSizeScrFormatAttribute ()
+	public function getSizeScrFormatAttribute()
 	{
 		return FileService::formatFileSize($this->size_scr);
 	}
 
-	public function getSizeRarFormatAttribute ()
+	public function getSizeRarFormatAttribute()
 	{
 		return FileService::formatFileSize($this->size_rar);
+	}
+
+	public function getAddDateAttribute(): string
+	{
+		return date('d.m.y', strtotime($this->date));
 	}
 }
