@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait TStr {
+trait Tstr {
 
 	/**
 	* replace string by pattern
