@@ -1,11 +1,10 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
 use Tests\TestCase;
 use Tests\Traits\hasSetupPrepare;
 use App\Repositories\UserRepository;
-use Mockery;
 
 class ProfileBrowseControllerTest extends TestCase
 {

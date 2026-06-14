@@ -1,16 +1,14 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
 use Tests\TestCase;
 use Tests\Traits\hasSetupPrepare;
 use App\Repositories\UserRepository;
 use App\Fields\SearchField;
-use App\Interfaces\CountryInterface;
 use App\Services\DataService;
 use App\Services\FormatService;
 use App\Models\Country;
-use Mockery;
 
 class ProfileSearchControllerTest extends TestCase
 {

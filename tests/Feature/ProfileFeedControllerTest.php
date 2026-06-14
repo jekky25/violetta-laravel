@@ -1,12 +1,10 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
 use Tests\TestCase;
 use Tests\Traits\hasSetupPrepare;
 use App\Models\User;
-
-use Mockery;
 
 class ProfileFeedControllerTest extends TestCase
 {

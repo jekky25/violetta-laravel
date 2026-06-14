@@ -1,9 +1,8 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Feature;
 
 use Tests\TestCase;
-use Mockery;
 use Tests\Traits\hasSetupPrepare;
 
 class ProfileBrowseServiceTest extends TestCase
