@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Services\ScreenService;

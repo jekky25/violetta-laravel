@@ -1,6 +1,7 @@
 <?php
 
 namespace Tests\Feature;
+
 use Tests\TestCase;
 use Tests\Traits\hasSetupPrepare;
 use App\Models\City;
