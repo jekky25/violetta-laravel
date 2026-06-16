@@ -3,8 +3,7 @@
 namespace App\Services;
 
 use App\DTO\ContactsDTO;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ContactsEmail;
+use App\Jobs\SendFeedBackJob;
 
 class ContactsService
 {
@@ -13,9 +12,6 @@ class ContactsService
 	 */
 	public function store(ContactsDTO $dto): void
 	{
-		$data = $dto->toArray();
-		Mail::mailer(config('mail.mail_mode'))
-			->to(config('mail.email_main'))
-			->send(new ContactsEmail($data));
+		SendFeedBackJob::dispatch($dto->toArray());
 	}
 }
