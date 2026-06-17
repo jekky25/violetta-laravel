@@ -29,7 +29,7 @@
 			<td class="right1">е-майл</td>
 			<td><input class="login" type="text" name="email" value="{{ old('email') }}" /></td>
 		</tr>
-		<tr><td colspan="2" align="center"><textarea cols="60" rows="10" class="login" name="description">{{ old('description', 'Оставьте здесь Ваше сообщение и мы обязательно с Вами свяжемся') }}</textarea></td></tr>
+		<tr><td colspan="2" align="center"><textarea cols="60" rows="10" class="login" placeholder="Оставьте здесь Ваше сообщение и мы обязательно с Вами свяжемся" name="description">{{ old('description', '') }}</textarea></td></tr>
 	</table>
 <script language=JavaScript>
 function find_otsil()

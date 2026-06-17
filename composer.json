@@ -11,7 +11,8 @@
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.5",
-        "predis/predis": "*"
+        "predis/predis": "*",
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^15.0"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^2.0",
