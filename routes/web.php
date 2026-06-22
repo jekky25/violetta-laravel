@@ -23,6 +23,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NameController;
 use App\Http\Controllers\PhotoDiaryCommentController;
 use App\Http\Controllers\PhotoDiaryController;
+use App\Http\Controllers\PrivmsgController;
 use App\Http\Controllers\ProfileBrowseController;
 use App\Http\Controllers\ProfileFeedController;
 use App\Http\Controllers\ProfileSearchController;
@@ -59,13 +60,12 @@ Route::middleware('slashes')->group(function () {
 		Route::put('registration/edit/pass/', [PasswordController::class, 'update'])											->name('registration.edit.password.post');
 		Route::get('registration/views/', [ProfileFeedController::class, 'views'])												->name('registration.views');
 
-		Route::get('privmsg/', 'PrivmsgController@index')																		->name('privmsg');
+		Route::get('privmsg/', [PrivmsgController::class, 'index'])																->name('privmsg');
 		Route::post('privmsg/delete.html', 'PrivmsgController@destroySelected')													->name('privmsg.delete');
-		Route::delete('privmsg/delete.html', 'PrivmsgController@destroySelectedAction')											->name('privmsg.delete.action');
-		Route::get('privmsg/post/{id}.html', 'PrivmsgController@getAnkMess')							->whereNumber('id')		->name('privmsg.post');
-		Route::get('privmsg/post/delete/{id}.html', 'PrivmsgController@destroy')						->whereNumber('id')		->name('privmsg.post.delete');
-		Route::delete('privmsg/post/delete/{id}.html', 'PrivmsgController@destroyAction')				->whereNumber('id')		->name('privmsg.post.delete.action');
-		Route::post('privmsg/post/add/{id}.html', 'PrivmsgController@store')							->whereNumber('id')		->name('privmsg.post.add');
+		Route::delete('privmsg/delete.html', [PrivmsgController::class, 'destroyMany'])											->name('privmsg.delete.action');
+		Route::get('privmsg/post/{id}.html', [PrivmsgController::class, 'show'])						->whereNumber('id')		->name('privmsg.post');
+		Route::delete('privmsg/post/delete/{id}.html', [PrivmsgController::class, 'destroy'])			->whereNumber('id')		->name('privmsg.post.delete');
+		Route::post('privmsg/{userId}', [PrivmsgController::class, 'store'])							->whereNumber('userId')	->name('privmsg.post.add');
 
 		Route::get('ank/diary/comment/edit/{id}.html', [DiaryCommentController::class, 'edit'])			->whereNumber('id')		->name('ank.diary.comment.edit.id');
 		Route::put('ank/diary/comment/edit/{id}.html', [DiaryCommentController::class, 'update'])		->whereNumber('id')		->name('ank.diary.comment.update.id');

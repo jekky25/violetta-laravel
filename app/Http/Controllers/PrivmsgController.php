@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Interfaces\AnketEvaluationInterface;
-use App\Interfaces\UserInterface;
-use App\Interfaces\MessageInterface;
-use App\Interfaces\SmileInterface;
 use App\Requests\PrivmsgRequest;
 use App\Requests\PrivmsgSelectedRequest;
 use App\Services\MessageService;
+use Illuminate\View\View;
 
 class PrivmsgController extends Controller
 {
@@ -21,130 +16,65 @@ class PrivmsgController extends Controller
 	 * @return void
 	 */
 	public function __construct(
-		protected AnketEvaluationInterface $anketEvaluationRepository,
-		protected MessageInterface $messageRepository,
-		protected SmileInterface $smileRepository,
-		protected MessageService $messageService,
-		protected UserInterface $userRepository
+		protected MessageService $service
 	) {}
 
 	/**
 	 * Show the application dashboard.
-	 *
-	 * @return \Illuminate\Http\Response
+	 * @return View
 	 */
 	public function index()
 	{
-		return response()->view(
-			'ankets.privmsg', [	'messages' => $this->messageService->getByUsers(Auth::user()) ]);
+		return view('ankets.privmsg', [	'messages' => $this->service->getList(auth()->user()) ]);
 	}
 
 	/**
-	 * Delete user messages
-	 * @param PrivmsgSelectedRequest $request
-	 * @return void
-	 */
-	public function destroySelected(PrivmsgSelectedRequest $request)
-	{
-		$arParams 		= $request->post();
-		$title 			= 'Информация';
-		$text 			= 'Вы уверены, что хотите удалить сообщения этих пользователей?<br /><br />';
-		$confirmAction 	= route('privmsg.delete');
-		$hidden			= method_field('DELETE');
-
-		foreach ($arParams['mark'] as $item) {
-			$hidden .= '<input type="hidden" name="mark[]" value="' . intval($item) . '" />';
-		}
-		$this->messageService->outMessageInfo($title, $text, $confirmAction, $hidden);
-	}
-
-	/**
-	 * Delete user messages
-	 * @param PrivmsgSelectedRequest $request
-	 * @return void
-	 */
-	public function destroySelectedAction(PrivmsgSelectedRequest $request)
-	{
-		$user 			= Auth::user();
-		$arParams 		= $request->post();
-		if (!empty($arParams['cancel'])) return redirect()->route('privmsg');
-		if (!empty($arParams['confirm'])) {
-			$this->messageRepository->deleteSelected($arParams['mark'], $user->id);
-			return redirect()->route('privmsg');
-		}
-	}
-
-	/**
-	 * Delete an user message
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroy($id)
-	{
-		$this->messageRepository->getById($id);
-		$title 			= 'Информация';
-		$text 			= 'Вы уверены, что хотите удалить это сообщение?<br /><br />';
-		$confirmAction 	= route('privmsg.post.delete', $id);
-		$this->messageService->outMessageInfo($title, $text, $confirmAction, method_field('DELETE'));
-	}
-
-	/**
-	 * Delete an user message
-	 * @param  PrivmsgRequest $request
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroyAction(PrivmsgRequest $request, $id)
-	{
-		$user 			= Auth::user();
-		$message 		= $this->messageRepository->getById($id);
-		$arParams 		= $request->post();
-		$userId 		= $message->sent_user_id == $user->id ? $message->received_user_id : $message->sent_user_id;
-		if (!empty($arParams['cancel'])) return redirect()->route('privmsg.post', $userId);
-		if (!empty($arParams['confirm'])) {
-			$this->messageRepository->delete($message, $user->id);
-			return redirect()->route('privmsg.post', $userId);
-		}
-	}
-
-	/**
-	 * Show a page with the user messages
-	 * @param  Request $request
+	 * Show a page with user messages
 	 * @param  int $id
-	 * @return \Illuminate\Http\Response
+	 * @return View
 	 */
-	public function getAnkMess(Request $request, $id)
+	public function show(int $id)
 	{
-		$user 			= $request->user()->load(['visits']);
-		$anket 			= $this->userRepository->getById($id);
-		$messages 		= $this->messageRepository->getAllByUser($id, $user->id, config('pagination.messages_profile'));
-		$smiles			= $this->smileRepository->getAll();
-		$this->anketEvaluationRepository->getEvaluations($user->id, $id);
-		$ankEvaluationed = $this->anketEvaluationRepository->getEvaluationWithUpdate($request, $user->id, $id);
-		if (is_object($ankEvaluationed) && get_class($ankEvaluationed) == 'Illuminate\Http\RedirectResponse') return $ankEvaluationed;
-		return response()->view(
-			'ankets.privmsg_id',
-			[
-				'userData'			=> $user,
-				'anketUserData'		=> $anket,
-				'ankEvaluationed' 	=> isset($ankEvaluationed) ? $ankEvaluationed : false,
-				'messages'			=> $messages,
-				'smiles'			=> $smiles
-			]
-		);
+		return view('ankets.privmsg_id', $this->service->getShowData(
+				$id, 
+				request()->user()->load(['visits']),
+				config('pagination.messages_profile')
+				));
 	}
 
 	/**
 	 * Add an user message
 	 * @param  PrivmsgRequest $request
 	 * @param  int $id
-	 * @return void
+	 * @return \Illuminate\Http\Response
 	 */
 	public function store(PrivmsgRequest $request, $id)
 	{
-		$this->messageService->create($request->validated(), auth()->id(), $id);
+		$this->service->create($request->validated(), auth()->id(), $id);
 		return redirect()->back()
 			->with('success', 'Сообщение успешно отправлено')
 			->withInput();
+	}
+
+	/**
+	 * Delete an user message
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy(int $id)
+	{
+		$this->service->destroy($id, request()->user());
+		return redirect()->back();
+	}
+
+	/**
+	 * Delete user messages
+	 * @param PrivmsgSelectedRequest $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroyMany(PrivmsgSelectedRequest $request)
+	{
+		$this->service->destroyMany($request->post(), request()->user());
+		return redirect()->route('privmsg');
 	}
 }

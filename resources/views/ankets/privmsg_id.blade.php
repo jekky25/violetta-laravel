@@ -24,30 +24,10 @@ function vote(score)
 		<li>
 			<p><strong>Город:</strong> {{ $anketUserData->city->name }} ({{ $anketUserData->country->name }})</p>
 			<p><strong>Возраст:</strong> {{ $anketUserData->age_str }}</p>
-			<p><strong>Знак зодиака:</strong> <a href="{{route('goroskop.id', $anketUserData->zodiac['zodiac_id'])}}" title="Узнайте свой Зодиак">{{$anketUserData->zodiac['zodiac_text']}}</a></p>
+			<p><strong>Знак зодиака:</strong> <a href="{{route('horoscope.id', $anketUserData->zodiac['zodiac_id'])}}" title="Узнайте свой Зодиак">{{$anketUserData->zodiac['zodiac_text']}}</a></p>
 			<p>{{ $anketUserData->user_last_visit }}</p>
 			<p>Просмотров за месяц: {{ $anketUserData->ankVisits }}</p>
-			<table>
-				<tr>
-					<td><p>Рейтинг:</p></td>
-					<td class="wth4">
-						<div class="div-rating2">
-							<ul class="div-rating">
-								<li class="current-rating" style="width:{{ $anketUserData->rating_str }}px;">&nbsp;</li>
-								@auth
-									@if ($userData->id != $anketUserData->id && !$ankEvaluationed)
-										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("1");' title='Очень плохо' class="r1-unit rater">Очень плохо</a></li>
-										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("2");' title='Плохо' class="r2-unit rater">Плохо</a></li>
-										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("3");' title='Средне' class="r3-unit rater">Средне</a></li>
-										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("4");' title='Хорошо' class="r4-unit rater">Хорошо</a></li>
-										<li><a rel="nofollow" href='javascript:void(0)' onclick='javascript:vote("5");' title='Отлично' class="r5-unit rater">Отлично</a></li>
-									@endif
-								@endauth
-							</ul>
-						</div>
-					</td>
-				</tr>
-			</table>
+			<rating :user='@json($anketUserData)' :auth-user='@json(auth()->check() ? auth()->user() : null)' :evaluationed='@json($ankEvaluationed)'></rating>
 		</li>
 	</ul>
 	@if (!empty($messages))
@@ -56,7 +36,14 @@ function vote(score)
 			<div class="active-item-title line-{{ $item->name_class }}">
 				<a class="active-item-name" href="{{route('ank.id', $item->user->id)}}">{{ $item->user->name }}</a>
 				<div class="active-item-right">
-					<a class="delete" title="удалить" href="{{route('privmsg.post.delete', $item->id)}}"></a>
+					<a 
+						class="delete open-modal"
+						title="удалить"
+						href="javascript:void(0);"
+						data-url="{{route('privmsg.post.delete', $item->id)}}"
+						data-title="Удаление сообщения"
+						data-text="Вы уверены, что хотите удалить сообщение?"
+					></a>
 					<span class="active-item-time">{{ $item->add_time }}</span>
 				</div>
 			</div>
@@ -74,9 +61,9 @@ function vote(score)
 	@if(session('success'))
 	<p class="mess">{{session('success')}}</p>
 @endif
-@if (!empty ($errors->comment->all()))
+@if (!empty ($errors->all()))
 	<div class="error">
-@foreach ($errors->comment->all() as $message)
+@foreach ($errors->all() as $message)
 		<p>{!! $message !!}</p>
 @endforeach
 	</div>
@@ -86,7 +73,7 @@ function vote(score)
 		<table id="smilesTable">
 		@foreach ($smiles as $item)
 		@if ($loop->index % 10 == 0)<tr>@endif
-			<td><a href="javascript://" onClick="checkSmile('{{ $item->code }}'); return false;"><img src="{{ asset('image/smiles/' . $item->img) }}" alt="" /></a></td>
+			<td><a href="javascript://" class="icon-smile" data-code="{{ $item->code }}"><img src="{{ asset('image/smiles/' . $item->img) }}" alt="" /></a></td>
 		@if (($loop->index + 1) % 10 == 0 or $loop->last)</tr>@endif
 		@endforeach
 		</table>
@@ -104,19 +91,15 @@ function vote(score)
 				<td>
 					<div class="pad7 pos1">
 						<x-submit name=send value="отправить сообщение" />
-						<a href="javascript://" class="smileIcon" onClick="openFrame1({idFrame : 'smileBox', winWidth : '500', winHeight : '300'}); return false;"></a></div>
+						<a href="javascript://" 
+						class="smileIcon smile-modal"
+						data-title="Смайлы"
+						data-content-id="smileBox"
+						></a></div>
 				</td>
 			</tr>
 		</table>
 	</form>
-<script type="text/javascript">
-function checkSmile (x) 
-{
-	e = $('.textMessage').val();
-	$('#textMessage').val(e + x);
-	closeButfunk();
-}
-</script>
 @else
 <p>Пользователь не найден</p>
 @endif

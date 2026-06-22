@@ -6,6 +6,9 @@ use App\Interfaces\MessageInterface;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NewPrivMessageEmail;
 use App\Models\User;
+use App\Services\LengthPaginator;
+use App\Interfaces\AnketEvaluationInterface;
+use App\Interfaces\SmileInterface;
 
 class MessageService
 {
@@ -16,8 +19,33 @@ class MessageService
 	 */
 	public function __construct(
 		protected UserInterface $userRepository,
-		protected MessageInterface $messageRepository
+		protected MessageInterface $repository,
+		protected AnketEvaluationInterface $anketEvaluationRepository,
+		protected SmileInterface $smileRepository
 	) {}
+
+	/**
+	 * get messages sorted by user
+	*/
+	public function getList(User $user): LengthPaginator
+	{
+		return $this->repository->getNewsByUsers($user, config('pagination.messages'));
+	}
+
+	/**
+	 * get data for the show page
+	 */
+	public function getShowData(int $id, User $user, int $perPage)
+	{
+		$ankEvaluationed = $this->anketEvaluationRepository->getEvaluations($user->id, $id);
+		return [
+			'userData'			=> $user,
+			'anketUserData'		=> $this->userRepository->getById($id),
+			'ankEvaluationed' 	=> $ankEvaluationed->count() > 0 ? true : false,
+			'messages'			=> $this->repository->getAllByUser($id, $user->id, $perPage),
+			'smiles'			=> $this->smileRepository->getAll()
+		];
+	}
 
 	/**
 	* print information page with confirm or cancel
@@ -25,7 +53,6 @@ class MessageService
 	* @param string $text
 	* @param string $confirmAction 
 	* @param string $hidden
-	*
 	* @return \Illuminate\Http\Response
 	*/
 	public function outMessageInfo($title, $text, $confirmAction, $hidden = '')
@@ -45,7 +72,6 @@ class MessageService
 	 * @param string $text
 	 * @param string $confirmAction 
 	 * @param string $hidden
-	 *
 	 * @return \Illuminate\Http\Response
 	*/
 	public function outMessageDie($title, $text, $hidden = '')
@@ -59,22 +85,10 @@ class MessageService
 	}
 
 	/**
-	 * get messages sorted by user
-	 * @param User $user
-	 *
-	 * @return Collection
-	*/
-	public function getByUsers(User $user)
-	{
-		return $this->messageRepository->getNewsByUsers($user, config('pagination.messages'));
-	}
-
-	/**
 	 * create a private message and send info about it to the user
 	 * @param array $data
 	 * @param integer $senderId
 	 * @param integer $receiverId
-	 *
 	 * @return void
 	*/
 	public function create(array $data, int $senderId, int $receiverId)
@@ -86,15 +100,35 @@ class MessageService
 			abort(404);
 		}
 
-		$data['sent_user_id'] = $senderId;
-		$data['received_user_id'] = $receiverId;
-
-		$this->messageRepository->store($data);
+		$this->repository->store([
+			'sent_user_id'		=> $senderId,
+			'received_user_id'	=> $receiverId,
+			'description'		=> $data['description'],
+			'create_time'		=> now()->timestamp
+		]);
 
 		if ($receiver->dont_send_email != 1) {
 			Mail::mailer(config('mail.mail_mode'))
 				->to($receiver->email)
 				->send(new NewPrivMessageEmail($receiver));
 		}
+	}
+
+	/**
+	 * remove a private message 
+	*/
+	public function destroy(int $id, User $user): void
+	{
+		$message = $this->repository->getByIdAndSenderOrReceiverId($id, $user->id);
+		if (!$message) abort(404);
+		$this->repository->delete($message, $user->id);
+	}
+
+	/**
+	 * remove a few of private messages 
+	*/
+	public function destroyMany(array $data, User $user): void
+	{
+		$this->repository->deleteSelected($data['mark'], $user->id);
 	}
 }

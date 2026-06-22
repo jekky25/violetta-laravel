@@ -8,16 +8,15 @@ use Illuminate\View\Component;
 
 class Textarea extends Component
 {
-	public $name, $class, $value;
+	public $name, $value;
 
 	/**
 	 * Create a new component instance.
 	 */
-	public function __construct($name, $class = '', $value = '')
+	public function __construct($name, $value = '')
 	{
 		$this->name     = $name;
 		$this->value    = $value;
-		$this->class    = $class;
 	}
 
 	/**

@@ -93,12 +93,6 @@ $(document).ready(function() {
 	});
 });
 */
-/*
-document.addEventListener('click', (e) => {
-    const el = e.target.closest('.open-modal');
-    if (!el) return;
-    e.preventDefault();
-*/
 
 document.addEventListener('DOMContentLoaded', () => {
 	const menuIcon = document.querySelector('.mob-menu-icon');
@@ -118,8 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 });
 
-
-class WModal{
+class WModal {
 
 	constructor(props) {
 		this.config = props;
@@ -170,11 +163,14 @@ class WModal{
 
 		const modalContainer = document.createElement('div');
 		modalContainer.setAttribute('class', this.modalContainerClassName);
+
+		let hidden = `<input type="hidden" name="_token" autocomplete="off" value="` + this.сsrfToken + `">
+			<input type="hidden" name="_method" value="DELETE"></input>`;
+		hidden += this.config.func !== 'underfined' ? getCheckedMessages() : '';
+
 		modalContainer.innerHTML = `<h3 class="title">` + this.config.title + `</h3>
 							<p class="pad3">` + this.config.text + `</p>
-							<form class="modal-form" method="POST" action="` + this.config.url + `">
-								<input type="hidden" name="_token" autocomplete="off" value="` + this.сsrfToken + `">
-								<input type="hidden" name="_method" value="DELETE">
+							<form class="modal-form" method="POST" action="` + this.config.url + `">` + hidden + `
 								<div class="pad3">
 				            		<button type="submit" class="button mr-10">Да</button>
 	            					<button type="button" class="button ml-10 cancel">Нет</button>
@@ -198,16 +194,109 @@ class WModal{
 	}
 }
 
+class SmileModal extends WModal{
+	make(){
+		const modal = document.createElement('div');
+		modal.setAttribute('class', this.modalClassName);
+
+		modal.addEventListener('click', (e) => {
+    		if (e.target === modalWrap) {
+		    	this.remove();
+    		}
+		});
+
+		const modalWrap = document.createElement('div');
+		modalWrap.setAttribute('class', this.modalWrapClassName);
+
+		const modalContainer = document.createElement('div');
+		modalContainer.setAttribute('class', this.modalContainerClassName);
+
+		const  contentId = '#' + this.config.contentId;
+		let Frame = document.querySelector(contentId).innerHTML;
+
+		let text = `<h3 class="title">` + this.config.title + `</h3>`
+							+ Frame;
+
+		modalContainer.innerHTML = text;
+		modalWrap.append(modalContainer);
+
+		modal.append(modalWrap);
+
+		this.body.append(modal);
+	}
+}
+
+class SmileCheck {
+
+	constructor(props) {
+		this.config = props;
+		this.init();
+	}
+
+	init(){
+		this.messageContainer = document.querySelector('.textMessage');
+		this.backgroundClassName = 'modal-background';
+		this.modalClassName = 'modal';
+	}
+
+	execute(){
+		let message = this.messageContainer.value;
+		message = message + this.config.code;
+		this.messageContainer.value = message;
+		this.close();
+	}
+
+	close(){
+		document.querySelector(`.${this.backgroundClassName}`).remove();
+		document.querySelector(`.${this.modalClassName}`).remove();
+	}
+}
+
 document.addEventListener('click', (e) => {
     const el = e.target.closest('.open-modal');
     if (!el) return;
     e.preventDefault();
-	console.log(el.dataset);
+
 	const myModal = new WModal({
 		url: el.dataset.url,
 		title: el.dataset.title,
-		text: el.dataset.text
+		text: el.dataset.text,
+		func: el.dataset.func
 	});
 
 	myModal.open();
 });
+
+document.addEventListener('click', (e) => {
+    const el = e.target.closest('.smile-modal');
+    if (!el) return;
+    e.preventDefault();
+	const myModal = new SmileModal({
+		url: el.dataset.url,
+		title: el.dataset.title,
+		text: el.dataset.text,
+		contentId: el.dataset.contentId
+	});
+
+	myModal.open();
+});
+
+document.addEventListener('click', (e) => {
+    const el = e.target.closest('.icon-smile');
+    if (!el) return;
+    e.preventDefault();
+	console.log(el.dataset);
+	const smile = new SmileCheck({
+		code: el.dataset.code
+	});
+	smile.execute();
+});
+
+function getCheckedMessages() {
+    let messages = document.querySelectorAll('[name="mark[]"]:checked');
+	let html = '';
+	messages.forEach(item => {
+    	html += `<input type="hidden" name="mark[]" value="${item.value}">`;
+	});
+	return html;
+}

@@ -27,7 +27,15 @@
 	</table>
 	<x-pagination :items="$messages" />
 	<div class="right1 clear">
-		<x-submit name=delete value="удалить отмеченные" />
+		<a 
+						class="button open-modal" 
+						title="удалить отмеченные" 
+						href="javascript:void(0);"
+						data-url="{{route('privmsg.delete')}}"
+						data-title="удалить фото"
+						data-text="Вы уверены, что хотите удалить сообщения?"
+						data-func="getCheckedMessages"
+					>удалить отмеченные</a>
 	</div>
 </form>
 <script language="Javascript" type="text/javascript">

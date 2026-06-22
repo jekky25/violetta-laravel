@@ -128,6 +128,23 @@ class MessageRepository implements MessageInterface
 	}
 
 	/**
+	 * get a message by id and sender or receiver id
+	 */
+	public function getByIdAndSenderOrReceiverId(int $id, int $userId): Message
+	{
+		return Message::select('*')
+			->whereKey($id)
+			->where(function ($query) use ($userId) {
+				$query->where(function ($query) use ($userId) {
+					$query->senderId($userId);
+				});
+				$query->Orwhere(function ($query) use ($userId) {
+					$query->receiverId($userId);
+				});
+			})->firstOrFail();
+	}
+
+	/**
 	 * get all new messages for $user
 	 * @param  User $user
 	 * @param  int $count 
